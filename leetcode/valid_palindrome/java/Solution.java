@@ -38,16 +38,14 @@ class Solution {
       return !(Character.isDigit(chr) ||
             Character.isLetter(chr));
    }
-}
 
-
-class Solution {
+   
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
     * Tags: regex
     */
-   boolean isPalindrome(String text) {
+   boolean isPalindromeUsingRegex(String text) {
       String cleaned_text = text.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
       String reversed_text = new StringBuilder(cleaned_text).reverse().toString();
       return cleaned_text.equals(reversed_text);
