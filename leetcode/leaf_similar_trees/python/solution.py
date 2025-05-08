@@ -29,7 +29,7 @@ class Solution:
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
         Tags: binary tree, dfs, recursion
-        functional (no side effects),  concatenation overhead
+        functional (no side effects), concatenation overhead
         """
         def get_leaf_sequence(node):
             if not node:
