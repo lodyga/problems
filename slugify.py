@@ -7,4 +7,4 @@ def slugify(text):
             letter_list.append(letter.lower())
     return "".join(letter_list)
 
-print(slugify("Arranging Coins"))
+print(slugify(""))
