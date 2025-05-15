@@ -1,7 +1,7 @@
 class Solution {
    /**
-    * Time complexity: O(n)
-    * Auxiliary space complexity: O(n)
+    * Time complexity: O(n2)
+    * Auxiliary space complexity: O(n2)
     * Tags: dfs, matrix, graph, pure functional 
     * @param {number[][]} grid
     * @return {number}
@@ -49,8 +49,8 @@ const islandPerimeter = new Solution().islandPerimeter;
 
 class Solution {
    /**
-    * Time complexity: O(n)
-    * Auxiliary space complexity: O(n)
+    * Time complexity: O(n2)
+    * Auxiliary space complexity: O(n2)
     * Tags: dfs, matrix, graph, outer variable
     * Imperative style with side effects
     * @param {number[][]} grid

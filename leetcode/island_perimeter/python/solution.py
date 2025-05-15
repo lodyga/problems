@@ -1,8 +1,8 @@
 class Solution:
     def islandPerimeter(self, grid: list[list[int]]) -> int:
         """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(n)
+        Time complexity: O(n2)
+        Auxiliary space complexity: O(n2)
         Tags: dfs, matrix, graph, pure functional 
         """
         rows = len(grid)
@@ -37,8 +37,8 @@ class Solution:
 
     def islandPerimeter(self, grid: list[list[int]]) -> int:
         """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(n)
+        Time complexity: O(n2)
+        Auxiliary space complexity: O(n2)
         Tags: dfs, matrix, graph, class variable
         Imperative style with side effects
         """
