@@ -24,7 +24,7 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: binary tree, dfs, iterative, stack
+        Tags: binary tree, dfs, iteration, stack
         """
         node_list = []
         stack = []
