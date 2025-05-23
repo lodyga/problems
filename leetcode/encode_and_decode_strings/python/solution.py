@@ -1,7 +1,8 @@
 class Solution:
     """
-    Time complexity: O(n)
-    Auxiliary space complexity: O(1)
+    Time complexity: O(n):
+        n: all chars count
+    Auxiliary space complexity: O(n)
     Tags: string
     """
 
