@@ -3,7 +3,7 @@ class Solution:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n2)
-        Tags: dfs, matrix, graph, pure functional 
+        Tags: dfs, matrix, graph, pure functional
         """
         rows = len(grid)
         cols = len(grid[0])
