@@ -11,10 +11,10 @@ class Solution {
       let prev = null;
 
       while (node) {
-         const nextNode = node.next;
+         const nodeNext = node.next;
          node.next = prev;
          prev = node;
-         node = nextNode;
+         node = nodeNext;
       }
       return prev
    };

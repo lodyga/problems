@@ -26,10 +26,10 @@ class Solution:
         # reverse the right portion
         prev = None
         while node:
-            next_node = node.next
+            node_next = node.next
             node.next = prev
             prev = node
-            node = next_node
+            node = node_next
 
         # compare both portions
         left_node = head
