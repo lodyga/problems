@@ -69,7 +69,7 @@ class Solution2 {
       let highCap = weights.reduce((total, current) => total + current);
 
       while (lowCap < highCap) {
-         const capacity = (lowCap + highCap) / 2 | 0
+         const capacity = (lowCap + highCap) >> 1
 
          if (daysToShip(capacity) > days) {
             lowCap = capacity + 1;

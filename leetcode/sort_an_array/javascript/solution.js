@@ -39,13 +39,13 @@ class Solution {
     }
 
     function divide(left, right) {
-      const middle = (left + right) / 2 | 0;
+      const middle = (left + right) >> 1;
       mergeSort(left, middle);
       mergeSort(middle + 1, right);
     }
 
     function merge(left, right) {
-      const middle = (left + right) / 2 | 0;
+      const middle = (left + right) >> 1;
       const leftChunk = numbers.slice(left, middle + 1);
       const rightChunk = numbers.slice(middle + 1, right + 1);
       let index = left;

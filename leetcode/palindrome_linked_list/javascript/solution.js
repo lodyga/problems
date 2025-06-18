@@ -14,7 +14,7 @@ class Solution {
          palindrmeLength++;
          node = node.next;
       }
-      let middle = palindrmeLength / 2 | 0;
+      let middle = palindrmeLength >> 1;
 
       // find the end of the left potrion
       node = head;

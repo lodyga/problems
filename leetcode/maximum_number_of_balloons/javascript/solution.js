@@ -24,7 +24,7 @@ class Solution {
 
       for (const [key, val] of letterFrequency.entries()) {
          if ('ol'.includes(key)) {
-            balloonCount = Math.min(balloonCount, val / 2 | 0);
+            balloonCount = Math.min(balloonCount, val >> 1);
          } else {
             balloonCount = Math.min(balloonCount, val)
          }

@@ -1,12 +1,13 @@
-# draft
-# if middle < right: right portion is contiguous
-# [1, 2, 3, 4, 5]
-# [4, 5, 1, 2, 3]
-# [5, 1, 2, 3, 4]
+r"""
+draft
+if middle < right: right portion is contiguous
+[1, 2, 3, 4, 5]
+[4, 5, 1, 2, 3]
+[5, 1, 2, 3, 4]
 
-# [2, 3, 4, 5, 1]
-# [3, 4, 5, 1, 2]
-
+[2, 3, 4, 5, 1]
+[3, 4, 5, 1, 2]
+"""
 
 class Solution:
     def search(self, numbers: list[int], target: int) -> int:

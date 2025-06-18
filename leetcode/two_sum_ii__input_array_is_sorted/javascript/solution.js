@@ -44,7 +44,7 @@ class Solution {
          let right = numbers.length - 1;
          
          while (left <= right) {
-            let middle = (left + right) / 2 | 0;
+            let middle = (left + right) >> 1;
 
             if (complement === numbers[middle]) {
                return [index + 1, middle + 1]

@@ -12,7 +12,7 @@ class Solution {
       let right = numbers.length - 1;
 
       while (left <= right) {
-         const middle = (left + right) / 2 | 0;
+         const middle = (left + right) >> 1;
          const middleNumber = numbers[middle];
 
          if (target === middleNumber) {

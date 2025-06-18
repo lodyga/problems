@@ -18,7 +18,7 @@ class Solution {
          if (plots[index]) {
             if (contiguousEmptyPlots > 2) {
                // 1->0; 2->0; 3->1; 4->1; 5->2; 6->2; 7->3; 8->3; 9->4; 10->4
-               flowerPlots += (contiguousEmptyPlots - 1) / 2 | 0;
+               flowerPlots += (contiguousEmptyPlots - 1) >> 1;
                if (flowerPlots >= flowersToPlant) {
                   return true
                }

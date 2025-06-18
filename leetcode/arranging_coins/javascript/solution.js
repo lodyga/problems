@@ -11,7 +11,7 @@ class Solution {
       let right = coins;
 
       while (left <= right) {
-         const middle = (left + right) / 2 | 0;
+         const middle = (left + right) >> 1;
          const coinCount = (1 + middle) * middle / 2;
 
          if (coins === coinCount) {

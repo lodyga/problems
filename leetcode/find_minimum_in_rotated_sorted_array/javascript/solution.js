@@ -17,7 +17,7 @@ class Solution {
             return Math.min(numbers[left], minNumber)
          }
 
-         const middle = (left + right) / 2 | 0;
+         const middle = (left + right) >> 1;
          const middleNumber = numbers[middle];
          minNumber = Math.min(minNumber, middleNumber);
 

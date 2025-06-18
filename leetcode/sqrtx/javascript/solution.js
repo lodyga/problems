@@ -11,7 +11,7 @@ class Solution {
       let right = square;
 
       while (left <= right) {
-         const middle = (left + right) / 2 | 0;
+         const middle = (left + right) >> 1;
          const currentSquare = middle ** 2;
 
          if (currentSquare === square)

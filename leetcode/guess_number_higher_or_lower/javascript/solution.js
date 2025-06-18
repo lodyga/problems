@@ -20,7 +20,7 @@ class Solution {
       let right = n;
 
       while (left <= right) {
-         const middle_number = (left + right) / 2 | 0;
+         const middle_number = (left + right) >> 1;
          const guessVal = this.guess(middle_number);
 
          if (guessVal === 0)

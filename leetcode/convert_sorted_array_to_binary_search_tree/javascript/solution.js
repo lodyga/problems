@@ -11,7 +11,7 @@ class Solution {
          if (left > right) {
             return null
          }
-         const middle = (left + right) / 2 | 0;
+         const middle = (left + right) >> 1;
 
          let node = new TreeNode(numbers[middle]);
          node.left = dfs(left, middle - 1);
