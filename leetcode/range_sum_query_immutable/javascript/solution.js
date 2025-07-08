@@ -7,9 +7,9 @@
  */
 class NumArray {
    constructor(numbers) {
-      this.values = Array(numbers.length).fill(0);
+      this.prefixes = Array(numbers.length).fill(0);
       for (let index = 1; index <= numbers.length; index++) {
-         this.values[index] = this.values[index - 1] + numbers[index - 1]
+         this.prefixes[index] = this.prefixes[index - 1] + numbers[index - 1]
       }
    }
 
@@ -20,7 +20,7 @@ class NumArray {
     * @returns {number}
     */
    sumRange(left, right) {
-      return this.values[right + 1] - this.values[left]
+      return this.prefixes[right + 1] - this.prefixes[left]
    };
 }
 

@@ -1,4 +1,4 @@
-"""
+r"""
 draft
 [10, 9, 2, 5, 3, 7, 101, 18]
 [1, 1, 1, 2, 2, max(2,2)+1=3, 4, 1]
@@ -30,8 +30,7 @@ class Solution:
         for right in range(len(numbers)):
             for left in range(right):
                 if numbers[left] < numbers[right]:
-                    cache[right] = max(cache[right],
-                                       cache[left] + 1)
+                    cache[right] = max(cache[right], cache[left] + 1)
 
         return max(cache)
 
@@ -51,8 +50,7 @@ class Solution:
 
             for left_number in cache.keys():
                 if left_number < number:
-                    cache[number] = max(cache[number],
-                                        cache[left_number] + 1)
+                    cache[number] = max(cache[number], cache[left_number] + 1)
 
         return max(cache.values())
 
@@ -64,6 +62,7 @@ class Solution:
         Auxiliary space complexity: O(n)
         Tags: dp, top-down with memoization as hash map, mle
         """
+        # LIS lengths
         memo = {}
 
         def dfs(index, prev_index):
@@ -72,19 +71,22 @@ class Solution:
             elif (index, prev_index) in memo:
                 return memo[(index, prev_index)]
 
-            # try when current number is skipped
-            longest_sub = dfs(index + 1, prev_index)
+            # when current number is skipped
+            lis = dfs(index + 1, prev_index)
 
-            # try when current number is greater than previous one
-            if (prev_index == -1 or
-                    numbers[index] > numbers[prev_index]):
-                longest_sub = max(longest_sub, 1 + dfs(index + 1, index))
+            # when current number is greater than previous one
+            if (
+                prev_index == -1 or
+                numbers[index] > numbers[prev_index]
+            ):
+                lis = max(lis, dfs(index + 1, index) + 1)
 
-            memo[(index, prev_index)] = longest_sub
-            return longest_sub
+            memo[(index, prev_index)] = lis
+            return lis
 
-        return dfs(0, -1)
-
+        dfs(0, -1)
+        return memo
+print(Solution().lengthOfLIS([5, 4]) , 1)
 
 class Solution:
     def lengthOfLIS(self, numbers: list[int]) -> int:
