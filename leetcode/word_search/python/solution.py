@@ -8,10 +8,10 @@ class Solution:
         """
         rows = len(board)
         cols = len(board[0])
-        unique_cells = set()
         directions = ((-1, 0), (1, 0), (0, -1), (0, 1))
+        visited_cells = set()
 
-        def dfs(index, row, col):
+        def dfs(row, col, index):
             if index == len(word):
                 return True
             elif (
@@ -20,20 +20,21 @@ class Solution:
                 row == rows or
                 col == cols or
                 board[row][col] != word[index] or
-                (row, col) in unique_cells
+                (row, col) in visited_cells
             ):
-                return
+                return False
 
-            unique_cells.add((row, col))
-            is_path_right = any(dfs(index + 1, row + r, col + c)
-                                for r, c in directions)
-            
-            unique_cells.pop()
-            return is_path_right
+            visited_cells.add((row, col))
+            for r, c in directions:
+                if dfs(row + r, col + c, index + 1):
+                    return True
+            visited_cells.discard((row, col))
+
+            return False
 
         for row in range(rows):
             for col in range(cols):
-                if dfs(0, row, col):
+                if dfs(row, col, 0):
                     return True
 
         return False
@@ -51,7 +52,7 @@ class Solution:
         cols = len(board[0])
         directions = ((-1, 0), (1, 0), (0, -1), (0, 1))
 
-        def dfs(index, row, col):
+        def dfs(row, col, index):
             if index == len(word):
                 return True
             elif (
@@ -60,20 +61,21 @@ class Solution:
                 row == rows or
                 col == cols or
                 board[row][col] != word[index] or
-                [row, col] == "#"
+                board[row][col] == "#"
             ):
-                return
+                return False
 
             board[row][col] = "#"
-            is_path_right = any(dfs(index + 1, row + r, col + c)
-                                for r, c in directions)
-
+            for r, c in directions:
+                if dfs(row + r, col + c, index + 1):
+                    return True
             board[row][col] = word[index]
-            return is_path_right
+
+            return False
 
         for row in range(rows):
             for col in range(cols):
-                if dfs(0, row, col):
+                if dfs(row, col, 0):
                     return True
 
         return False

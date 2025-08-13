@@ -5,24 +5,25 @@ class Solution:
         Auxiliary space complexity: O(n)
         Tags: stack
         """
-        stack = []
-        counter = 0
+        multiplier = 0
         word = ""
-
+        stack = []
+        
         for char in text:
             if char.isdigit():
-                counter = 10 * counter + int(char)
+                multiplier = 10 * multiplier + int(char)
             elif char == "[":
                 stack.append(word)
                 word = ""
-                stack.append(counter)
-                counter = 0
+                stack.append(multiplier)
+                multiplier = 0
             elif char == "]":
-                word = stack.pop() * word
-                word = stack.pop() + word
+                stack_multipilier = stack.pop()
+                stack_word = stack.pop()
+                word = stack_word + stack_multipilier * word
             else:
                 word += char
-
+        
         return word
 
 

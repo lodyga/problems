@@ -1,22 +1,24 @@
 class Solution:
-    def mergeTwoLists(self, node_1: ListNode, node_2: ListNode) -> ListNode:
+    def mergeTwoLists(self, head1: ListNode, head2: ListNode) -> ListNode:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
         Tags: linked list
         """
         anchor = node = ListNode()
+        node1 = head1
+        node2 = head2
 
-        while node_1 and node_2:
-            if node_1.val <= node_2.val:
-                node.next = node_1
-                node_1 = node_1.next
+        while node1 and node2:
+            if node1.val < node2.val:
+                node.next = node1
+                node1 = node1.next
             else:
-                node.next = node_2
-                node_2 = node_2.next
+                node.next = node2
+                node2 = node2.next
             node = node.next
-
-        node.next = node_1 or node_2
+        
+        node.next = node1 or node2
         return anchor.next
 
 

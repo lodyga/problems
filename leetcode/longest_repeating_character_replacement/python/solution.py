@@ -2,7 +2,7 @@ class Solution:
     def characterReplacement(self, word: str, joker: int) -> int:
         """
         Time complexity: O(n)
-        Auxiliary space complexity: O(n)
+        Auxiliary space complexity: O(1)
         Tags: sliding window as hash map
         """
         window = {}
@@ -28,24 +28,26 @@ class Solution:
     def characterReplacement(self, word: str, joker: int) -> int:
         """
         Time complexity: O(n2)
-        Auxiliary space complexity: O(n)
+        Auxiliary space complexity: O(1)
         Tags: brute-force
         """
         longest = 0
 
         for left in range(len(word)):
-            counter = {}
+            letter_frequency = {}
             most_frequent = 0
 
             for right in range(left, len(word)):
                 letter = word[right]
-                counter[letter] = counter.get(letter, 0) + 1
-                most_frequent = max(most_frequent, counter[letter])
+                letter_frequency[letter] = letter_frequency.get(letter, 0) + 1
+                most_frequent = max(most_frequent, letter_frequency[letter])
                 if (right - left + 1) - most_frequent > joker:
                     break
 
-                longest = max(longest,
-                              min(most_frequent + joker, right - left + 1))
+                longest = max(
+                    longest,
+                    min(most_frequent + joker, right - left + 1)
+                )
 
         return longest
 

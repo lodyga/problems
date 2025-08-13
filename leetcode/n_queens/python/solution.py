@@ -25,8 +25,8 @@ class Solution:
         cols = n
         board_list = []
         visited_cols = set()
-        visited_diags = set()  # set((row + col), ...)
-        visited_adiags = set()  # set((row - col), ...)
+        visited_diags = set()  # set(row + col, ...)
+        visited_adiags = set()  # set(row - col, ...)
         board = [["."] * cols for _ in range(rows)]
 
         def dfs(row):
@@ -37,8 +37,8 @@ class Solution:
             for col in range(cols):
                 if (
                     col in visited_cols or
-                    row - col in visited_diags or
-                    row + col in visited_adiags
+                    row + col in visited_diags or
+                    row - col in visited_adiags
                 ):
                     continue
 

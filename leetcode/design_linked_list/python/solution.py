@@ -73,7 +73,7 @@ print(myLinkedList.get(1))  # return 3
 
 def test_input(operations: list[str], arguments: list[list[int | None]]) -> list[int | None]:
     """
-    Test imput provided in two separate lists: operations and arguments
+    Test input provided in two separate lists: operations and arguments
     """
     cls = None
     output = []

@@ -20,7 +20,7 @@ class LRUCache {
       const value = this.cache.get(key);
       this.cache.delete(key);
       this.cache.set(key, value);
-      return this.cache.get(key)
+      return value
    };
 
    /**

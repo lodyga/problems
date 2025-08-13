@@ -1,7 +1,7 @@
 class Solution {
    /**
     * Time complexity: O(n)
-    * Auxiliary space complexity: O(n)
+    * Auxiliary space complexity: O(1)
     * Tags: sliding window as hash map
     * @param {string} word
     * @param {number} joker

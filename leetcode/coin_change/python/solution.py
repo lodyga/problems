@@ -74,13 +74,8 @@ class Solution:
 
 class Solution:
     def coinChange(self, coins: list[int], amount: int) -> int:
-        """
-        Time complexity: O(n2)
-        Auxiliary space complexity: O(n)
-        Tags: dp, top-down with memoization as hash map
-        """
+        memo = {0: 0}  # memo = {0: 0}  # {ammont: min coins to get target amount}
         base_amount = amount
-        memo = {0: 0}  # {ammont: min coins to get that amount}
 
         def dfs(amount):
             if amount < 0:
@@ -88,14 +83,19 @@ class Solution:
             elif amount in memo:
                 return memo[amount]
 
-            memo[amount] = min(1 + dfs(amount - coin)
-                               for coin in coins)
+            memo[amount] = base_amount + 1
+            for coin in coins:
+                memo[amount] = min(memo[amount], 
+                                   dfs(amount - coin) + 1)
+            
+            # memo[amount] = min(1 + dfs(amount - coin)
+            #                    for coin in coins)
 
             return memo[amount]
 
         coin_count = dfs(amount)
         return (coin_count
-                if coin_count <= amount
+                if coin_count <= base_amount
                 else -1)
 
 

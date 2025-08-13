@@ -2,7 +2,7 @@ class Solution:
     def minWindow(self, text: str, word: str) -> str:
         """
         Time complexity: O(n)
-        Auxiliary space complexity: O(n)
+        Auxiliary space complexity: O(1)
         Tags: sliding window
         """
         # stores the frequency of characters

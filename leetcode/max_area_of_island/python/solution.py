@@ -38,7 +38,7 @@ class Solution:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n2)
-        Tags: dfs, iteration, queue, matrix, graph
+        Tags: bfs, iteration, queue, matrix, graph
         """
         rows = len(grid)
         cols = len(grid[0])
@@ -56,18 +56,22 @@ class Solution:
                 current_area += 1
 
                 for r, c in directions:
-                    if (0 <= row + r < rows and
+                    if (
+                        0 <= row + r < rows and
                         0 <= col + c < cols and
                         grid[row + r][col + c] == "1" and
-                            (col, row) not in visited_cells):
+                        (col, row) not in visited_cells
+                    ):
                         queue.append((row + r, col + c))
 
             return current_area
         
         for row in range(rows):
             for col in range(cols):
-                if (grid[row][col] == 1 and 
-                        (row, col) not in visited_cells):
+                if (
+                    grid[row][col] == 1 and 
+                    (row, col) not in visited_cells
+                ):
                     max_area = max(max_area, bfs(row, col))
         
         return max_area

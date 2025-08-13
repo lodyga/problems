@@ -12,11 +12,29 @@ class Solution:
                 most_frequent_number = number
                 most_frequency += 1
             else:
-                if number == most_frequent_number:
-                    most_frequency += 1
-                else:
-                    most_frequency -= 1
+                most_frequency += number == most_frequent_number
 
+        return most_frequent_number
+
+
+class Solution:
+    def majorityElement(self, numbers: list[int]) -> list[int]:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(1)
+        """
+        most_frequent_number = None
+        most_frequency = 0
+
+        for number in numbers:
+            if number == most_frequent_number:
+                most_frequency += 1
+            else:
+                most_frequency -= 1
+                if most_frequency == -1:
+                    most_frequent_number = number
+                    most_frequency = 1
+        
         return most_frequent_number
 
 

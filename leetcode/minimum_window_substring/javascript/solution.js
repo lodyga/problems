@@ -1,7 +1,7 @@
 class Solution {
    /**
     * Time complexity: O(n)
-    * Auxiliary space complexity: O(n)
+    * Auxiliary space complexity: O(1)
     * Tags: sliding window
     * @param {string} text
     * @param {string} word

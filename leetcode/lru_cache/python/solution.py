@@ -14,9 +14,9 @@ class LRUCache:
         if key not in self.cache:
             return -1
 
-        value = self.cache.pop(key)
-        self.cache[key] = value
-        return self.cache[key]
+        val = self.cache.pop(key)
+        self.cache[key] = val
+        return val
 
     def put(self, key: int, value: int) -> None:
         if key in self.cache:
@@ -46,30 +46,29 @@ class LRUCache:
     """
 
     def __init__(self, capacity: int) -> None:
-        self.capacity = capacity
         self.cache = {}  # {key: node}
+        self.capacity = capacity
         self.first = ListNode()
-        self.last = ListNode()
+        self.last = ListNode(None, None, None, self.first)
         self.first.next = self.last
-        self.last.prev = self.first
 
     def get(self, key: int) -> int:
         if key not in self.cache:
-            return - 1
+            return -1
         
         node = self.cache[key]
-        self.pop_node(node)
+        self.delete_node(node)
         self.push_node(node)
         return node.val
 
     def put(self, key: int, val: int) -> None:
         if key in self.cache:
             node = self.cache[key]
-            self.pop_node(node)
-        elif self.capacity == len(self.cache):
-            lru = self.first.next
-            del self.cache[lru.key]
-            self.pop_node(lru)
+            self.delete_node(node)
+        elif len(self.cache) == self.capacity:
+            lru_node = self.first.next
+            del self.cache[lru_node.key]
+            self.delete_node(lru_node)
         
         node = ListNode(key, val)
         self.push_node(node)
@@ -84,15 +83,15 @@ class LRUCache:
         next.prev = node
         prev.next = node
     
-    def pop_node(self, node):
+    def delete_node(self, node: ListNode):
         node.prev.next, node.next.prev = node.next, node.prev
 
 
 
 
-def test_input(operations: list[str], arguments: list[list[int | None]]) -> list[int | None]:
+def test_input(operations: list[str], arguments: list[list[int]]) -> list[int | None]:
     """
-    Test imput provided in two separate lists: operations and arguments
+    Test input provided in two separate lists: operations and arguments
     """
     cls = None
     output = []

@@ -138,7 +138,7 @@ class Twitter:
 
 def test_input(operations: list[str], arguments: list[list[int | None]]) -> list[list[int] | None]:
     """
-    Test imput provided in two separate lists: operations and arguments
+    Test input provided in two separate lists: operations and arguments
     """
     twitter = None
     result = []

@@ -14,10 +14,8 @@ class Solution {
       const visitedCols = new Set();
       const visitedDiag = new Set();
       const visitedADiag = new Set();
-      dfs(0);
-      return boardList
 
-      function dfs(row) {
+      const dfs = (row) => {
          if (row === rows) {
             boardList.push(board.map(row => row.join('')));  // ['.', 'Q', '.', '.'] => ['.Q..']
             return
@@ -42,6 +40,8 @@ class Solution {
             board[row][col] = '.';
          }
       }
+      dfs(0);
+      return boardList
    };
 }
 
