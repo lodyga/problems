@@ -22,6 +22,25 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
+        Tags: greedy
+        """
+        max_number = numbers[0]
+        current_max = 0
+        prev_max = 0
+        
+        for index in range(len(numbers)):
+            current_max = max(prev_max + numbers[index], numbers[index])
+            prev_max = current_max
+            max_number = max(max_number, current_max)
+        
+        return max_number
+
+
+class Solution:
+    def maxSubArray(self, numbers: list[int]) -> int:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(1)
         Tags: dp, bottom-up
         """
         cache = numbers[0]

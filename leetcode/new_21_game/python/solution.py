@@ -4,7 +4,7 @@ class Solution:
         Time complexity: O(n2)
             O(maxPts*threshold)
         Auxiliary space complexity: O(n)
-        Tags: top-down with memoization as hash map
+        Tags: dp, top-down with memoization as hash map
         """
         # the probability that Alice has upper_bound or fewer score after drawing a card if she had `threshold` or less score
         memo = {}

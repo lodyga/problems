@@ -8,4 +8,4 @@ class Solution:
 
 
 
-print(Solution(). == )
+print(Solution()., )

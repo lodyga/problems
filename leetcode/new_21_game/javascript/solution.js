@@ -3,7 +3,7 @@ class Solution {
     * Time complexity: O(n2)
     *     O(maxPts*threshold)
     * Auxiliary space complexity: O(n)
-    * Tags: top-down with memoization as hash map
+    * Tags: dp, top-down with memoization as hash map
     * @param {number} upper_bound
     * @param {number} threshold
     * @param {number} maxPts

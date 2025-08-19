@@ -12,4 +12,4 @@ class Solution {
 }
 
 
-console.log(new Solution()., )
+console.log(new Solution().)

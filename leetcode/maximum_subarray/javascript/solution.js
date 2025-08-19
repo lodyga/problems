@@ -2,24 +2,25 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: dp, bottom-up
+    * Tags: greedy
     * @param {number[]} numbers
     * @return {number}
     */
    maxSubArray(numbers) {
-      let cache = numbers[0];
       let largestSum = numbers[0];
+      let prevMax = 0;
 
-      for (const number of numbers.slice(1,)) {
-         cache = Math.max(number, number + cache);
-         largestSum = Math.max(largestSum, cache);
+      for (const number of numbers) {
+         const currentMax = Math.max(prevMax + number, number);
+         prevMax = currentMax;
+         largestSum = Math.max(largestSum, currentMax);
       }
       return largestSum
    };
 }
 
 
-class Solution {
+class Solution5 {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
@@ -41,7 +42,7 @@ class Solution {
 }
 
 
-class Solution {
+class Solution3 {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)

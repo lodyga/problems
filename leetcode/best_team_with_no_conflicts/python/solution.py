@@ -64,7 +64,7 @@ class Solution:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n)
-        Tags: dp, top-down with memoization
+        Tags: dp, top-down with memoization as hash map
         """
         stats = list(zip(ages, scores))
         stats.sort(key=lambda x: (x[0], x[1]))
