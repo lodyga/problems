@@ -3,14 +3,14 @@ class Solution {
     * Time complexity: O(n4)
     *     may vistit the same land more than once
     * Auxiliary space complexity: O(n2)
-    * Tags: dfs, recursion, matrix, graph
+    * Tags: dfs, recursion, graph, matrix
     * @param {number[][]} grid
     * @return {number[][]}
     */
    islandsAndTreasure(grid) {
       const rows = grid.length;
       const cols = grid[0].length;
-      const directions = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+      const DIRECTIONS = [[-1, 0], [1, 0], [0, -1], [0, 1]];
 
       for (let row = 0; row < rows; row++) {
          for (let col = 0; col < cols; col++) {
@@ -32,7 +32,7 @@ class Solution {
          ) return
 
          grid[row][col] = Math.min(grid[row][col], distance);
-         directions.map(([r, c]) => dfs(row + r, col + c, distance + 1))
+         DIRECTIONS.map(([r, c]) => dfs(row + r, col + c, distance + 1))
       }
    };
 }
@@ -52,7 +52,7 @@ class Solution {
    islandsAndTreasure(grid) {
       const rows = grid.length;
       const cols = grid[0].length;
-      const directions = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+      const DIRECTIONS = [[-1, 0], [1, 0], [0, -1], [0, 1]];
 
       for (let row = 0; row < rows; row++) {
          for (let col = 0; col < cols; col++) {
@@ -71,7 +71,7 @@ class Solution {
             const [row, col, distance] = queue.pop();
             grid[row][col] = Math.min(grid[row][col], distance);
 
-            for (const [r, c] of directions) {
+            for (const [r, c] of DIRECTIONS) {
                if (
                   0 <= row + r &&
                   0 <= col + c &&

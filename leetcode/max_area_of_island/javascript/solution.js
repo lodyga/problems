@@ -2,7 +2,7 @@ class Solution {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(n2)
-    * Tags: dfs, recursion, matrix, graph
+    * Tags: dfs, recursion, graph, matrix
     * @param {number[][]} grid
     * @return {number}
     */
@@ -11,7 +11,7 @@ class Solution {
       const cols = grid[0].length;
       const visitedCells = new Set();
       let maxArea = 0;
-      const directions = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+      const DIRECTIONS = [[-1, 0], [1, 0], [0, -1], [0, 1]];
 
 
       for (let row = 0; row < rows; row++) {
@@ -36,7 +36,7 @@ class Solution {
 
          return (
             1 +
-            directions
+            DIRECTIONS
                .map(([r, c]) => dfs(row + r, col + c))
                .reduce((total, value) => total + value, 0)
          )

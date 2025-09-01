@@ -43,7 +43,7 @@ class Solution {
       let prevVisit = [0, 0];
       let nextVisit = [0, 0];
 
-      const directions = new Map([
+      const DIRECTIONS = new Map([
          ['E', [1, 0]],
          ['W', [-1, 0]],
          ['N', [0, 1]],
@@ -52,8 +52,8 @@ class Solution {
 
       for (const direction of path) {
          nextVisit = [
-            prevVisit[0] + directions.get(direction)[0],
-            prevVisit[1] + directions.get(direction)[1]
+            prevVisit[0] + DIRECTIONS.get(direction)[0],
+            prevVisit[1] + DIRECTIONS.get(direction)[1]
          ]
 
          if (visited.has(`${nextVisit[0]},${nextVisit[1]}`))

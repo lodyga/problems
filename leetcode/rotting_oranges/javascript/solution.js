@@ -2,7 +2,7 @@ class Solution {
    /**
     * Time complexity: O(n4)
     * Auxiliary space complexity: O(n2)
-    * Tags: dfs, recursion, matrix, graph
+    * Tags: dfs, recursion, graph, matrix
     * @param {number[][]} grid
     * @return {number}
     */
@@ -10,7 +10,7 @@ class Solution {
       const rows = grid.length;
       const cols = grid[0].length;
       const visitedCells = new Set();
-      const directions = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+      const DIRECTIONS = [[-1, 0], [1, 0], [0, -1], [0, 1]];
       const gridCopy = Array.from({ length: rows }, () => Array(cols).fill(Infinity))
 
       for (let row = 0; row < rows; row++) {
@@ -52,7 +52,7 @@ class Solution {
 
          gridCopy[row][col] = Math.min(gridCopy[row][col], distance);
          visitedCells.add(`${row},${col}`);
-         directions.map(([r, c]) => dfs(row + r, col + c, distance + 1));
+         DIRECTIONS.map(([r, c]) => dfs(row + r, col + c, distance + 1));
          visitedCells.delete(`${row},${col}`);
       }
    };

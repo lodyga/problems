@@ -33,7 +33,7 @@ class Solution:
                 elif not dfs(child, parent):
                     return False        
             
-            return True 
+            return True
 
         # no cycles and connected
         return dfs(0, -1) and len(visited) == n

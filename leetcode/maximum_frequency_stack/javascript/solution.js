@@ -60,15 +60,16 @@ console.log(freqStack.pop());  // return 4, as 4, 5 and 7 is the most frequent, 
  * @param {number[][]} args
  * @return {number[][]}
  */
-const test_input = function (operations, args) {
+const testInput = function (operations, args) {
    const result = []
+   let freqStack;
 
    for (let index = 0; index < operations.length; index++) {
       const operation = operations[index];
       const argument = args[index];
 
       if (operation === 'FreqStack') {
-         const freqStack = new FreqStack();
+         freqStack = new FreqStack();
          result.push(null);
       } else if (operation === 'push') {
          freqStack.push(...argument);
@@ -91,6 +92,6 @@ const expected_output = [null, null, null, null, null, null, null, 5, 7, 5, 4]
 // const expected_output = [null, null, null, null, null, 1, 1, null, null, null, 2, 1, 2]
 
 // Run tests
-const test_output = test_input(operations, args)
+const test_output = testInput(operations, args)
 console.log(JSON.stringify(test_output) === JSON.stringify(expected_output))
 // console.log(test_output)

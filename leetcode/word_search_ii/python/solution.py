@@ -9,7 +9,7 @@ class Solution:
         """
         rows = len(board)
         cols = len(board[0])
-        directions = ((-1, 0), (1, 0), (0, -1), (0, 1))
+        DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
         visited_cells = set()
         words_found = set()
 
@@ -27,7 +27,7 @@ class Solution:
                 return False
 
             visited_cells.add((row, col))
-            for r, c in directions:
+            for r, c in DIRECTIONS:
                 if dfs(row + r, col + c, index + 1):
                     return True
             visited_cells.remove((row, col))
@@ -80,7 +80,7 @@ class Solution:
         """
         rows = len(board)
         cols = len(board[0])
-        directions = ((-1, 0), (1, 0), (0, -1), (0, 1))
+        DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
         visited_cells = set()
         words_found = set()
 
@@ -104,7 +104,7 @@ class Solution:
             if node.letters[board[row][col]].is_word:
                 words_found.add(word)
             
-            for r, c in directions:
+            for r, c in DIRECTIONS:
                 dfs(row + r, col + c, node.letters[board[row][col]], word)
             visited_cells.remove((row, col))
             return False
@@ -157,7 +157,7 @@ class Solution:
         """
         rows = len(board)
         cols = len(board[0])
-        directions = ((-1, 0), (1, 0), (0, -1), (0, 1))
+        DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
         visited_cells = set()
         words_found = set()
 
@@ -184,7 +184,7 @@ class Solution:
             if node.letters[board[row][col]].is_word:
                 words_found.add(word_index_map[node.letters[board[row][col]].word_index])
             
-            for r, c in directions:
+            for r, c in DIRECTIONS:
                 dfs(row + r, col + c, node.letters[board[row][col]])
             visited_cells.remove((row, col))
             return False

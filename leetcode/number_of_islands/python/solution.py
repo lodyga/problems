@@ -3,13 +3,13 @@ class Solution:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n2)
-        Tags: dfs, recursion, matrix, graph
+        Tags: dfs, recursion, graph, matrix
         """
         rows = len(grid)
         cols = len(grid[0])
         island_counter = 0
         visited_cells = set()
-        directions = ((-1, 0), (1, 0), (0, -1), (0, 1))
+        DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
 
         def dfs(row, col):
             if (row < 0 or
@@ -21,7 +21,7 @@ class Solution:
                 return 0
 
             visited_cells.add((row, col))
-            for r, c in directions:
+            for r, c in DIRECTIONS:
                 dfs(row + r, col + c)
             
             return 1
@@ -46,7 +46,7 @@ class Solution:
         cols = len(grid[0])
         island_counter = 0
         visited_cells = set()
-        directions = ((-1, 0), (1, 0), (0, -1), (0, 1))
+        DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
 
         def bfs(row, col):
             queue = deque([(row, col)])
@@ -55,7 +55,7 @@ class Solution:
                 row, col = queue.pop()
                 visited_cells.add((row, col))
 
-                for r, c in directions:
+                for r, c in DIRECTIONS:
                     if (0 <= row + r < rows and
                         0 <= col + c < cols and
                         grid[row + r][col + c] == "1" and

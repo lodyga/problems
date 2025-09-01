@@ -8,7 +8,7 @@ class Solution:
         rows = len(grid)
         cols = len(grid[0])
         visited_cells = set()
-        directions = ((-1, 0), (1, 0), (0, -1), (0, 1))
+        DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
 
         def get_perimeter(row, col):
             if (row < 0 or
@@ -23,7 +23,7 @@ class Solution:
             visited_cells.add((row, col))
 
             return sum(get_perimeter(row + r, col + c)
-                       for r, c in directions)
+                       for r, c in DIRECTIONS)
 
         for row in range(rows):
             for col in range(cols):
@@ -45,7 +45,7 @@ class Solution:
         rows = len(grid)
         cols = len(grid[0])
         visited_cells = set()
-        directions = ((-1, 0), (1, 0), (0, -1), (0, 1))
+        DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
 
         def get_perimeter(row, col):
             if (row < 0 or
@@ -60,7 +60,7 @@ class Solution:
 
             visited_cells.add((row, col))
             
-            for r, c in directions:
+            for r, c in DIRECTIONS:
                 get_perimeter(row + r, col + c) 
 
         for row in range(rows):

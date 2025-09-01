@@ -6,7 +6,7 @@ class Solution:
         Tags: stack
         """
         visited_directions = []
-        oppotise_direction = {
+        OPPOSITE_DIRECTIONS = {
             "NORTH": "SOUTH",
             "SOUTH": "NORTH",
             "EAST": "WEST",
@@ -14,11 +14,14 @@ class Solution:
         }
 
         for direction in direction_list:
-            if (visited_directions and
-                    visited_directions[-1] == oppotise_direction[direction]):
+            if (
+                visited_directions and
+                visited_directions[-1] == OPPOSITE_DIRECTIONS[direction]
+            ):
                 visited_directions.pop()
             else:
                 visited_directions.append(direction)
+        
         return visited_directions
 
 

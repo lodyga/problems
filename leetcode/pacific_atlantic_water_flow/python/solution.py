@@ -37,7 +37,7 @@ class Solution:
         cols = len(heights[0])
         pacific = set()
         atlantic = set()
-        directions = ((-1, 0), (1, 0), (0, -1), (0, 1))
+        DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
 
         def dfs(row, col, ocean, prev_height):
             if (
@@ -74,7 +74,7 @@ class Solution2:
         """
         rows = len(heights)
         cols = len(heights[0])
-        directions = ((-1, 0), (1, 0), (0, -1), (0, 1))
+        DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
         both_oceans = set()
         # visited_cells = set()
 
@@ -126,7 +126,7 @@ class Solution2:
         """
         rows = len(heights)
         cols = len(heights[0])
-        directions = ((-1, 0), (1, 0), (0, -1), (0, 1))
+        DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
         both_oceans = []
 
         def bfs(row, col):

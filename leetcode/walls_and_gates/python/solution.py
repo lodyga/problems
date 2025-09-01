@@ -4,11 +4,11 @@ class Solution:
         Time complexity: O(n4)
             may vistit the same land more than once
         Auxiliary space complexity: O(n2)
-        Tags: dfs, recursion, matrix, graph
+        Tags: dfs, recursion, graph, matrix
         """
         rows = len(grid)
         cols = len(grid[0])
-        directions = ((-1, 0), (1, 0), (0, -1), (0, 1))
+        DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
 
         def dfs(row, col, distance):
             if (row < 0 or
@@ -21,7 +21,7 @@ class Solution:
 
             grid[row][col] = min(grid[row][col], distance)
 
-            for r, c in directions:
+            for r, c in DIRECTIONS:
                 dfs(row + r, col + c, distance + 1)
 
         for row in range(rows):
@@ -44,7 +44,7 @@ class Solution:
         """
         rows = len(grid)
         cols = len(grid[0])
-        directions = ((-1, 0), (1, 0), (0, -1), (0, 1))
+        DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
 
         def bfs(row, col, distance):
             queue = deque([(row, col, distance)])
@@ -53,7 +53,7 @@ class Solution:
                 row, col, distance = queue.pop()
                 grid[row][col] = min(grid[row][col], distance)
 
-                for r, c in directions:
+                for r, c in DIRECTIONS:
                     if (0 <= row + r < rows and
                         0 <= col + c < cols and
                             grid[row + r][col + c] > distance):

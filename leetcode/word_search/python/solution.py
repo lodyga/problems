@@ -8,7 +8,7 @@ class Solution:
         """
         rows = len(board)
         cols = len(board[0])
-        directions = ((-1, 0), (1, 0), (0, -1), (0, 1))
+        DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
         visited_cells = set()
 
         def dfs(row, col, index):
@@ -25,7 +25,7 @@ class Solution:
                 return False
 
             visited_cells.add((row, col))
-            for r, c in directions:
+            for r, c in DIRECTIONS:
                 if dfs(row + r, col + c, index + 1):
                     return True
             visited_cells.discard((row, col))
@@ -50,7 +50,7 @@ class Solution:
         """
         rows = len(board)
         cols = len(board[0])
-        directions = ((-1, 0), (1, 0), (0, -1), (0, 1))
+        DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
 
         def dfs(row, col, index):
             if index == len(word):
@@ -66,7 +66,7 @@ class Solution:
                 return False
 
             board[row][col] = "#"
-            for r, c in directions:
+            for r, c in DIRECTIONS:
                 if dfs(row + r, col + c, index + 1):
                     return True
             board[row][col] = word[index]

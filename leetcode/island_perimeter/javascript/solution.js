@@ -24,7 +24,7 @@ class Solution {
          visitedCells.add(`${row},${col}`)
 
          let perimeter = 0;
-         for (const [r, c] of directions) {
+         for (const [r, c] of DIRECTIONS) {
             perimeter += getPerimeter(row + r, col + c)
          }
          return perimeter
@@ -33,7 +33,7 @@ class Solution {
       const rows = grid.length;
       const cols = grid[0].length;
       const visitedCells = new Set();
-      const directions = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+      const DIRECTIONS = [[-1, 0], [1, 0], [0, -1], [0, 1]];
 
       for (let row = 0; row < rows; row++) {
          for (let col = 0; col < cols; col++) {
@@ -74,7 +74,7 @@ class Solution {
 
          visitedCells.add(`${row},${col}`)
 
-         for (const [r, c] of directions) {
+         for (const [r, c] of DIRECTIONS) {
             getPerimeter(row + r, col + c)
          }
       }
@@ -82,7 +82,7 @@ class Solution {
       const rows = grid.length;
       const cols = grid[0].length;
       const visitedCells = new Set();
-      const directions = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+      const DIRECTIONS = [[-1, 0], [1, 0], [0, -1], [0, 1]];
       let perimeter = 0
 
       for (let row = 0; row < rows; row++) {

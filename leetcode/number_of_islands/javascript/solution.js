@@ -2,7 +2,7 @@ class Solution {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(n2)
-    * Tags: dfs, recursion, matrix, graph
+    * Tags: dfs, recursion, graph, matrix
     * @param {string[][]} grid
     * @return {number}
     */
@@ -11,7 +11,7 @@ class Solution {
       const cols = grid[0].length;
       const visitedCells = new Set();
       let islandCounter = 0;
-      const directions = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+      const DIRECTIONS = [[-1, 0], [1, 0], [0, -1], [0, 1]];
 
       for (let row = 0; row < rows; row++) {
          for (let col = 0; col < cols; col++) {
@@ -31,7 +31,7 @@ class Solution {
          ) return 0
          
          visitedCells.add(`${row},${col}`)
-         directions.map(([r, c]) => dfs(row + r, col + c));
+         DIRECTIONS.map(([r, c]) => dfs(row + r, col + c));
          return 1
       }
    };

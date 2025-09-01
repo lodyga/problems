@@ -9,7 +9,7 @@ class Solution:
         """
         rows = len(grid)
         cols = len(grid[0])
-        directions = ((-1, 0), (1, 0), (0, -1), (0, 1))
+        DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
         self.fresh_counter = 0
         self.max_distance = 0
 
@@ -60,12 +60,12 @@ class Solution:
         """
         Time complexity: O(n4)
         Auxiliary space complexity: O(n2)
-        Tags: dfs, recursion, matrix, graph
+        Tags: dfs, recursion, graph, matrix
         """
         rows = len(grid)
         cols = len(grid[0])
         grid_copy = [[float("inf")] * cols for _ in range(rows)]
-        directions = ((-1, 0), (1, 0), (0, -1), (0, 1))
+        DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
         visited_cells = set()
 
         def dfs(row, col, distance):

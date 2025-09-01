@@ -74,16 +74,19 @@ def test_input(operations: list[str], arguments: list[list[int]]) -> list[int | 
 operations_list = [
     ["MedianFinder", "addNum", "addNum", "findMedian", "addNum", "findMedian"],
     ["MedianFinder", "addNum", "findMedian", "addNum", "findMedian", "addNum", "findMedian", "addNum", "findMedian", "addNum", "findMedian", "addNum", "findMedian", "addNum", "findMedian", "addNum", "findMedian", "addNum", "findMedian", "addNum", "findMedian", "addNum", "findMedian"],
+    ["MedianFinder", "addNum", "findMedian", "addNum", "findMedian", "addNum", "findMedian", "addNum", "findMedian", "addNum", "findMedian"]
 ]
 
 arguments_list = [
     [[], [1], [2], [], [3], []],
-    [[], [6], [], [10], [], [2], [], [6], [], [5], [], [0], [], [6], [], [3], [], [1], [], [0], [], [0], []]
+    [[], [6], [], [10], [], [2], [], [6], [], [5], [], [0], [], [6], [], [3], [], [1], [], [0], [], [0], []],
+    [[], [-1], [], [-2], [], [-3], [], [-4], [], [-5], []]
 ]
 
 expected_output_list = [
     [None, None, None, 1.5, None, 2.0],
-    [None, None, 6.00000, None, 8.00000, None, 6.00000, None, 6.00000, None, 6.00000, None, 5.50000, None, 6.00000, None, 5.50000, None, 5.00000, None, 4.00000, None, 3.00000]
+    [None, None, 6.00000, None, 8.00000, None, 6.00000, None, 6.00000, None, 6.00000, None, 5.50000, None, 6.00000, None, 5.50000, None, 5.00000, None, 4.00000, None, 3.00000],
+    [None, None, -1.00000, None, -1.50000, None, -2.00000, None, -2.50000, None, -3.00000]
 ]
 
 
@@ -95,7 +98,7 @@ def run_tests(
         show_output: bool = False
 ) -> list[bool]:
     """
-    Run a batch of LFUCache tests and compare outputs with expected results.
+    Run a batch of MedianFinder tests and compare outputs with expected results.
     If show_output is True, returns [(actual, expected), ...] instead of booleans.
     """
     output = []
@@ -111,5 +114,4 @@ def run_tests(
             output.append(test_input(operations, arguments) == expected_output)
     return output
 
-
-print(run_tests(operations_list, arguments_list, expected_output_list, show_output=False))
+print(run_tests(operations_list, arguments_list, expected_output_list, show_output=False))1

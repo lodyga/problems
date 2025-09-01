@@ -35,7 +35,7 @@ class Solution:
         prev_visit = (0, 0)
         visited = {prev_visit}
 
-        directions = {
+        DIRECTIONS = {
             "E": (0, 1),
             "W": (0, -1),
             "N": (1, 0),
@@ -43,8 +43,8 @@ class Solution:
         }
 
         for direction in path:
-            next_visit = (prev_visit[0] + directions[direction][0], 
-                          prev_visit[1] + directions[direction][1])
+            next_visit = (prev_visit[0] + DIRECTIONS[direction][0], 
+                          prev_visit[1] + DIRECTIONS[direction][1])
 
             if next_visit in visited:
                 return True

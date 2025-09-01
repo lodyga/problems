@@ -8,7 +8,7 @@ class Solution:
         ROWS = len(board)
         COLS = len(board[0])
         o_cells = set()
-        directions = ((-1, 0), (1, 0), (0, -1), (0, 1))
+        DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
 
         def dfs(row, col):
             if (
@@ -22,7 +22,7 @@ class Solution:
                 return 
             
             o_cells.add((row, col))
-            for r, c in directions:
+            for r, c in DIRECTIONS:
                 dfs(row + r, col + c)
                 
         # check only the edges for border regions and mark them in o_colls
@@ -60,7 +60,7 @@ class Solution:
         """
         ROWS = len(board)
         COLS = len(board[0])
-        directions = ((-1, 0), (1, 0), (0, -1), (0, 1))
+        DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
 
         def bfs(row, col):
             if board[row][col] != 'O':
@@ -72,7 +72,7 @@ class Solution:
             while queue:
                 row, col = queue.popleft()
 
-                for r, c in directions:
+                for r, c in DIRECTIONS:
                     if (
                         0 <= row + r < ROWS and
                         0 <= col + c < COLS and

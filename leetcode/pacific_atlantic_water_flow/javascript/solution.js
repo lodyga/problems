@@ -11,7 +11,7 @@ class Solution {
       const cols = heights[0].length;
       const pacific = new Set();
       const atlantic = new Set();
-      const directions = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+      const DIRECTIONS = [[-1, 0], [1, 0], [0, -1], [0, 1]];
 
       const dfs = (row, col, ocean, prevHeight) => {
          if (
@@ -24,7 +24,7 @@ class Solution {
          ) return
 
          ocean.add(`${row},${col}`);
-         for (const [r, c] of directions) {
+         for (const [r, c] of DIRECTIONS) {
             dfs(row + r, col + c, ocean, heights[row][col]);
          }
       }

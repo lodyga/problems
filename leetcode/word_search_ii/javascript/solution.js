@@ -42,7 +42,7 @@ class Solution {
       const rows = board.length;
       const cols = board[0].length;
       const visitedCells = new Set();
-      const directions = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+      const DIRECTIONS = [[-1, 0], [1, 0], [0, -1], [0, 1]];
       const wordsFound = new Set();
 
       const wordTrie = new Trie();
@@ -68,7 +68,7 @@ class Solution {
             wordsFound.add(word);
          }
 
-         for (const [r, c] of directions) {
+         for (const [r, c] of DIRECTIONS) {
             dfs(row + r, col + c, node.letters.get(board[row][col]), word)
          }
 

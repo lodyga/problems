@@ -3,13 +3,13 @@ class Solution:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n2)
-        Tags: dfs, recursion, matrix, graph
+        Tags: dfs, recursion, graph, matrix
         """
         rows = len(grid)
         cols = len(grid[0])
         visited_cells = set()
         max_area = 0
-        directions = ((-1, 0), (1, 0), (0, -1), (0, 1))
+        DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
 
         def dfs(row: int, col: int) -> int:
             if (row < 0 or
@@ -23,7 +23,7 @@ class Solution:
             visited_cells.add((row, col))
 
             return 1 + sum(dfs(row + r, col + c) 
-                           for r, c in directions)
+                           for r, c in DIRECTIONS)
         
         for row in range(rows):
             for col in range(cols):
@@ -44,7 +44,7 @@ class Solution:
         cols = len(grid[0])
         visited_cells = set()
         max_area = 0
-        directions = ((-1, 0), (1, 0), (0, -1), (0, 1))
+        DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
 
         def bfs(row: int, col: int) -> int:
             queue = deque([(row, col)])
@@ -55,10 +55,10 @@ class Solution:
                 visited_cells.add((row, col))
                 current_area += 1
 
-                for r, c in directions:
+                for r, c in DIRECTIONS:
                     if (
                         0 <= row + r < rows and
-                        0 <= col + c < cols and
+                        0 <= col + c < cols DIRECTIONS
                         grid[row + r][col + c] == "1" and
                         (col, row) not in visited_cells
                     ):
@@ -69,7 +69,7 @@ class Solution:
         for row in range(rows):
             for col in range(cols):
                 if (
-                    grid[row][col] == 1 and 
+                    grid[row][col] == 1 DIRECTIONS 
                     (row, col) not in visited_cells
                 ):
                     max_area = max(max_area, bfs(row, col))
