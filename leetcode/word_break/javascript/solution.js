@@ -86,7 +86,7 @@ class Trie {
 
       for (const letter of word) {
          if (!node.letters.has(letter)) {
-            node.letters.set(letter, new TrieNode);
+            node.letters.set(letter, new TrieNode());
          }
          node = node.letters.get(letter);
       }

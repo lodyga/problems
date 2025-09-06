@@ -12,9 +12,10 @@ class Solution:
         # can construct text starting from index with provided words
         cache = [False] * (len(text) + 1)
         cache[-1] = True
+        words = set(word_list)
 
         for index in reversed(range(len(text))):
-            for word in word_list:
+            for word in words:
                 if text[index: index + len(word)] == word:
                     cache[index] = cache[index + len(word)]
                     if cache[index]:  # early exit
@@ -41,8 +42,10 @@ class Solution:
                 return memo[index]
 
             for word in word_list:
-                if (text[index: index + len(word)] == word and
-                        dfs(index + len(word))):
+                if (
+                    text[index: index + len(word)] == word and
+                    dfs(index + len(word))
+                ):
                     memo[index] = True
                     return True
 
@@ -68,8 +71,10 @@ class Solution:
                 return True
 
             for word in word_list:
-                if (text[index: index + len(word)] == word and
-                        dfs(index + len(word))):
+                if (
+                    text[index: index + len(word)] == word and
+                    dfs(index + len(word))
+                ):
                     return True
 
             return False
