@@ -1,10 +1,15 @@
 from collections import deque
+from binary_tree_utils import *
 
-class TreeNode:
-    def __init__(self, val=None, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
+
+# class TreeNode:
+#     """
+#     Definition for a binary tree node.
+#     """
+#     def __init__(self, val=None, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
 
 
 class Solution:

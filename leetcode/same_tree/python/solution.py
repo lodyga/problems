@@ -1,3 +1,16 @@
+from binary_tree_utils import *
+
+
+# class TreeNode:
+#     """
+#     Definition for a binary tree node.
+#     """
+#     def __init__(self, val=None, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+
 class Solution:
     def isSameTree(self, root_1: TreeNode | None, root_2: TreeNode | None) -> bool:
         """
@@ -77,9 +90,9 @@ class Solution:
         return True
 
 
-print(Solution().isSameTree(build_tree([]), build_tree([5])), False)
-print(Solution().isSameTree(build_tree([1, 2, 3]), build_tree([1, 2, 3])), True)
-print(Solution().isSameTree(build_tree([1, 2]), build_tree([1, None, 2])), False)
-print(Solution().isSameTree(build_tree([1, 2, 1]), build_tree([1, 1, 2])), False)
-print(Solution().isSameTree(build_tree([10, 5, 15]), build_tree([10, 5, None, None, 15])), False)
-print(Solution().isSameTree(build_tree([1, None, 2, 3]), build_tree([1, None, 2, None, 3])), False)
+print(Solution().isSameTree(build_tree([]), build_tree([5])) == False)
+print(Solution().isSameTree(build_tree([1, 2, 3]), build_tree([1, 2, 3])) == True)
+print(Solution().isSameTree(build_tree([1, 2]), build_tree([1, None, 2])) == False)
+print(Solution().isSameTree(build_tree([1, 2, 1]), build_tree([1, 1, 2])) == False)
+print(Solution().isSameTree(build_tree([10, 5, 15]), build_tree([10, 5, None, None, 15])) == False)
+print(Solution().isSameTree(build_tree([1, None, 2, 3]), build_tree([1, None, 2, None, 3])) == False)

@@ -1,3 +1,16 @@
+from binary_tree_utils import *
+
+
+# class TreeNode:
+#     """
+#     Definition for a binary tree node.
+#     """
+#     def __init__(self, val=None, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+
 class Solution:
     def rangeSumBST(self, root: TreeNode, low: int, high: int) -> int:
         """
@@ -22,5 +35,5 @@ class Solution:
         return self.range_sum
 
 
-print(Solution().rangeSumBST(build_tree([10, 5, 15, 3, 7, None, 18]), 7, 15), 32)
-print(Solution().rangeSumBST(build_tree([10, 5, 15, 3, 7, 13, 18, 1, None, 6]), 6, 10), 23)
+print(Solution().rangeSumBST(build_tree([10, 5, 15, 3, 7, None, 18]), 7, 15) == 32)
+print(Solution().rangeSumBST(build_tree([10, 5, 15, 3, 7, 13, 18, 1, None, 6]), 6, 10) == 23)

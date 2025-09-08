@@ -1,3 +1,16 @@
+from binary_tree_utils import *
+
+
+# class TreeNode:
+#     """
+#     Definition for a binary tree node.
+#     """
+#     def __init__(self, val=None, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+
 class Solution:
     def lowestCommonAncestor(self, root: TreeNode, p: TreeNode, q: TreeNode) -> TreeNode:
         """
@@ -30,7 +43,7 @@ class Solution:
             return root
 
 
-print((Solution().lowestCommonAncestor(build_tree([2, 1]), build_tree([2]), build_tree([1]))).val,  2)
-print((Solution().lowestCommonAncestor(build_tree([6, 2, 8, 0, 4, 7, 9, None, None, 3, 5]), build_tree([2]), build_tree([8]))).val, 6)
-print((Solution().lowestCommonAncestor(build_tree([6, 2, 8, 0, 4, 7, 9, None, None, 3, 5]), build_tree([2]), build_tree([4]))).val, 2)
-print((Solution().lowestCommonAncestor(build_tree([6, 2, 8, 0, 4, 7, 9, None, None, 3, 5]), build_tree([3]), build_tree([5]))).val, 4)
+print((Solution().lowestCommonAncestor(build_tree([2, 1]), build_tree([2]), build_tree([1]))).val ==  2)
+print((Solution().lowestCommonAncestor(build_tree([6, 2, 8, 0, 4, 7, 9, None, None, 3, 5]), build_tree([2]), build_tree([8]))).val == 6)
+print((Solution().lowestCommonAncestor(build_tree([6, 2, 8, 0, 4, 7, 9, None, None, 3, 5]), build_tree([2]), build_tree([4]))).val == 2)
+print((Solution().lowestCommonAncestor(build_tree([6, 2, 8, 0, 4, 7, 9, None, None, 3, 5]), build_tree([3]), build_tree([5]))).val == 4)

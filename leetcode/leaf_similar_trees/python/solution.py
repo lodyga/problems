@@ -1,3 +1,16 @@
+from binary_tree_utils import *
+
+
+# class TreeNode:
+#     """
+#     Definition for a binary tree node.
+#     """
+#     def __init__(self, val=None, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+
 class Solution:
     def leafSimilar(self, root_1: TreeNode, root_2: TreeNode) -> bool:
         """
@@ -41,8 +54,8 @@ class Solution:
         return get_leaf_sequence(root_1) == get_leaf_sequence(root_2)
 
 
-print(Solution().leafSimilar(build_tree([1, 2]), build_tree([2, 2])), True)
-print(Solution().leafSimilar(build_tree([1, 2, 3]), build_tree([1, 3, 2])), False)
-print(Solution().leafSimilar(build_tree([3, 5, 1, 6, 2, 9, 8, None, None, 7, 4]), build_tree([3, 5, 1, 6, 7, 4, 2, None, None, None, None, None, None, 9, 8])), True)
-print(Solution().leafSimilar(build_tree([3, 5, 1, 6, 7, 4, 2, None, None, None, None, None,None, 9, 11, None, None, 8, 10]), build_tree([3, 5, 1, 6, 2, 9, 8, None, None, 7, 4])), False)
-print(Solution().leafSimilar(build_tree([3, 5, 1, 6, 2, 9, 8, None, None, 7, 4]), build_tree([3, 5, 1, 6, 7, 4, 2, None, None, None, None, None, None, 9, 11, None, None, 8, 10])), False)
+print(Solution().leafSimilar(build_tree([1, 2]), build_tree([2, 2])) == True)
+print(Solution().leafSimilar(build_tree([1, 2, 3]), build_tree([1, 3, 2])) == False)
+print(Solution().leafSimilar(build_tree([3, 5, 1, 6, 2, 9, 8, None, None, 7, 4]), build_tree([3, 5, 1, 6, 7, 4, 2, None, None, None, None, None, None, 9, 8])) == True)
+print(Solution().leafSimilar(build_tree([3, 5, 1, 6, 7, 4, 2, None, None, None, None, None,None, 9, 11, None, None, 8, 10]), build_tree([3, 5, 1, 6, 2, 9, 8, None, None, 7, 4])) == False)
+print(Solution().leafSimilar(build_tree([3, 5, 1, 6, 2, 9, 8, None, None, 7, 4]), build_tree([3, 5, 1, 6, 7, 4, 2, None, None, None, None, None, None, 9, 11, None, None, 8, 10])) == False)

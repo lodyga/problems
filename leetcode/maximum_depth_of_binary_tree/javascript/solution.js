@@ -1,10 +1,16 @@
-class TreeNode {
-   constructor(val = null, left = null, right = null) {
-      this.val = val;
-      this.left = left;
-      this.right = right;
-   }
-}
+import { TreeNode, buildTree, getTreeValues } from '../../../../JS/binary-tree.js';
+
+
+/**
+ * class TreeNode {
+ *    constructor(val = null, left = null, right = null) {
+ *       this.val = val
+ *       this.left = left
+ *       this.right = right
+ *    };
+ * }
+ */
+
 
 class Solution {
    /**
