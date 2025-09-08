@@ -1,11 +1,26 @@
-# 1, 2, 3, 4, 5, None
-# sf
-#    s  f
-#       s     f 
-# 1, 2, 3, 4, None
-# sf 
-#    s  f
-#       s     f
+r"""
+draft
+1, 2, 3, 4, 5, None
+sf
+   s  f
+      s     f 
+1, 2, 3, 4, None
+sf 
+   s  f
+      s     f
+"""
+
+
+from linked_list_utils import *
+
+
+# class ListNode:
+#     """
+#     Definition for singly-linked list.
+#     """
+#     def __init__(self, val=None, next=None):
+#         self.val = val
+#         self.next = next
 
 
 class Solution:

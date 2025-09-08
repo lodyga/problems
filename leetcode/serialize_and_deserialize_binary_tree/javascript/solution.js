@@ -1,4 +1,3 @@
-// import { buildTree, getTreeValues, TreeNode } from 'file:///home/ukasz/Documents/IT/JS/binary-tree.js';
 import { buildTree, getTreeValues, TreeNode } from '../../../../JS/binary-tree.js';
 
 

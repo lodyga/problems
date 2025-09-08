@@ -1,5 +1,17 @@
+from linked_list_utils import *
+
+
+# class ListNode:
+#     """
+#     Definition for singly-linked list.
+#     """
+#     def __init__(self, val=None, next=None):
+#         self.val = val
+#         self.next = next
+
+
 class Solution:
-    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+    def reverseList(self, head: ListNode) -> ListNode:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
@@ -16,7 +28,7 @@ class Solution:
 
 
 class Solution:
-    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+    def reverseList(self, head: ListNode) -> ListNode:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)

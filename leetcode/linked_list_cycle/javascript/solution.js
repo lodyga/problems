@@ -1,3 +1,17 @@
+import {ListNode, buildLinkedList, getLinkedListValues} from '../../../../JS/linked-list-utils.js'
+
+
+/**
+ * Represents a node in a singly-linked list.
+ * class ListNode {
+ *    constructor(val = null, next = null) {
+ *       this.val = val;
+ *       this.next = next;
+ *    }
+ * }
+ */
+
+
 class Solution {
    /**
     * Time complexity: O(n)

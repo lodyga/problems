@@ -1,5 +1,17 @@
+from linked_list_utils import *
+
+
+# class ListNode:
+#     """
+#     Definition for singly-linked list.
+#     """
+#     def __init__(self, val=None, next=None):
+#         self.val = val
+#         self.next = next
+
+
 class Solution:
-    def isPalindrome(self, head: Optional[ListNode]) -> bool:
+    def isPalindrome(self, head: ListNode) -> bool:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)

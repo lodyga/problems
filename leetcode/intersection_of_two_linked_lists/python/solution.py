@@ -1,3 +1,15 @@
+from linked_list_utils import *
+
+
+# class ListNode:
+#     """
+#     Definition for singly-linked list.
+#     """
+#     def __init__(self, val=None, next=None):
+#         self.val = val
+#         self.next = next
+
+
 class Solution:
     def getIntersectionNode(self, head_a: ListNode, head_b: ListNode) -> Optional[ListNode]:
         """

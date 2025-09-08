@@ -1,3 +1,15 @@
+from linked_list_utils import *
+
+
+# class ListNode:
+#     """
+#     Definition for singly-linked list.
+#     """
+#     def __init__(self, val=None, next=None):
+#         self.val = val
+#         self.next = next
+
+
 class Solution:
     def mergeInBetween(self, head1: ListNode, a: int, b: int, head2: ListNode) -> ListNode:
         """
