@@ -9,19 +9,45 @@ class Solution:
             if index >= len(piles):
                 return 0
 
-            # result max wihile Alice, min while Bob
-            result = 0 if alice_to_move else float("inf")
+            score = 0 if alice_to_move else 10**6
+            subpile_sum = 0
+            # for x in range(1, 2*m + 1):
+            for j in range(index, min(index + 2*m, len(piles))):
+                subpile_sum += piles[j]
+                if alice_to_move:
+                    ponits = subpile_sum + dfs(j + 1, not alice_to_move, max(m, j - index + 1))
+                    score = max(score, ponits)
+                else:
+                    ponits = dfs(j + 1, not alice_to_move, max(m, j - index + 1))
+                    score = min(score, ponits)
+            return score
+        return dfs(0, True, 1)
 
+
+class Solution:
+    def stoneGameII(self, piles: list[int]) -> int:
+        """
+        Time complexity: O(2^n)
+        Auxiliary space complexity: O(n)
+        Tags: brute-force
+        """
+        def dfs(index, alice_to_move, m):
+            if index >= len(piles):
+                return 0
+
+            score = 0 if alice_to_move else 10**6
+            subpile_sum = 0
             for x in range(1, 2*m + 1):
-                score = (sum(piles[index: index + x]) if alice_to_move else 0) + \
-                    dfs(index + x, not alice_to_move, max(m, x))
-                result = (
-                    max(result, score) if alice_to_move else
-                    min(result, score)
-                )
-
-            return result
-
+                if index + x > len(piles):
+                    break
+                subpile_sum += piles[index + x - 1]
+                if alice_to_move:
+                    ponits = subpile_sum + dfs(index + x, not alice_to_move, max(m, x))
+                    score = max(score, ponits)
+                else:
+                    ponits = dfs(index + x, not alice_to_move, max(m, x))
+                    score = min(score, ponits)
+            return score
         return dfs(0, True, 1)
 
 
@@ -29,6 +55,7 @@ class Solution:
     def stoneGameII(self, piles: list[int]) -> int:
         """
         Time complexity: O(n3)
+
         Auxiliary space complexity: O(n2)
         Tags: dp, top-down with memoization as hash map
         """
@@ -41,7 +68,7 @@ class Solution:
                 return memo[(index, alice_to_move, m)]
 
             # result max wihile Alice, min while Bob
-            memo[(index, alice_to_move, m)] = 0 if alice_to_move else float("inf")
+            memo[(index, alice_to_move, m)] = 0 if alice_to_move else 10**6
             part_sum = 0
 
             for x in range(1, 2*m + 1):

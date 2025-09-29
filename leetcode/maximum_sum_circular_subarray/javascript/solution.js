@@ -2,28 +2,34 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: greedy
+    * Tags: Kadane's Algorithm
     * @param {number[]} numbers
     * @return {number}
     */
    maxSubarraySumCircular(numbers) {
+      let currentMax = 0;
+      let currentMin = 0;
       let largestSum = numbers[0];
       let smallestSum = numbers[0];
-      let currentMax = numbers[0];
-      let currentMin = numbers[0];
-      let prevMax = -Infinity;
-      let prevMin = Infinity;
+      let number_sum = 0;
 
       for (const number of numbers) {
-         const currentMax = Math.max(prevMax + number, number);
-         prevMax = currentMax;
+         if (currentMax < 0)
+            currentMax = 0
+         currentMax += number;
          largestSum = Math.max(largestSum, currentMax);
 
-         const currentMin = Math.min(prevMin + number, number);
-         prevMin = currentMin;
+         if (currentMin > 0)
+            currentMin = 0
+         currentMin += number;
          smallestSum = Math.min(smallestSum, currentMin);
+
+         number_sum += number;
       }
-      return largestSum > 0 ? Math.max(largestSum, numbers.reduce((number, total) => total + number, 0) - smallestSum) : largestSum
+      if (largestSum <= 0)
+         return largestSum
+      else
+         return Math.max(largestSum, number_sum - smallestSum)
    };
 }
 const maxSubarraySumCircular = new Solution().maxSubarraySumCircular;

@@ -8,18 +8,14 @@ class Solution:
         if len(numbers) <= 3:
                 return max(numbers)
         
-        def rob_inner(numbers: list[int]) -> int:
-            if len(numbers) <= 2:
-                return max(numbers)
-
-            cache = (numbers[0], max(numbers[:2]))
-
-            for number in numbers[2:]:
-                cache = (cache[1], max(cache[0] + number, cache[1]))
-
-            return cache[1]
-        
-        return max(rob_inner(numbers[:-1]), rob_inner(numbers[1:]))
+        def rob2(numbers):
+            cache = [0, 0]
+            for index in reversed(range(len(numbers))):
+                rob_house = numbers[index] + cache[1]
+                skip_house = cache[0]
+                cache[0], cache[1] = max(rob_house, skip_house), cache[0]
+            return cache[0]
+        return max(rob2(numbers[1:]), rob2(numbers[:-1]))
 
 
 print(Solution().rob([2, 3, 2]) == 3)

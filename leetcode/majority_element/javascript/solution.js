@@ -2,26 +2,23 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
+    * Boyer-Moore Voting Algorithm
     * @param {number[]} numbers
     * @return {number}
     */
    majorityElement(numbers) {
-      let mostFrequentNumber = null;
-      let mostFrequency = 0;
+      let major = null;
+      let frequency = 0;
 
       for (const number of numbers) {
-         if (mostFrequency === 0) {
-            mostFrequentNumber = number;
-            mostFrequency = 1;
+         if (frequency === 0) {
+            major = number;
+            frequency = 1;
          } else {
-            if (number === mostFrequentNumber) {
-               mostFrequency++;
-            } else {
-               mostFrequency--;
-            }
+            frequency += number === major ? 1 : -1
          }
       }
-      return mostFrequentNumber
+      return major
    };
 }
 const majorityElement = new Solution().majorityElement;

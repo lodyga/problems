@@ -41,7 +41,7 @@ class Solution:
         Auxiliary space complexity: O(n)
         Tags: backtracking
         """
-         total = sum(numbers)
+        total = sum(numbers)
         if total % k:
             return False
         target = total // k

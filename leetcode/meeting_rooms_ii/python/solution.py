@@ -1,3 +1,6 @@
+import heapq
+
+
 class Interval(object):
     """
     Definition of Interval:
@@ -7,8 +10,6 @@ class Interval(object):
         self.end = end
 
 
-import heapq
-
 class Solution:
     def minMeetingRooms(self, intervals):
         """
@@ -16,15 +17,17 @@ class Solution:
         Auxiliary space complexity: O(n)
         Tags: intervals, heap
         """
-        intervals.sort(key=lambda x: x.start)
-        room_heap = []  # [end, ...]
+        intervals.sort(key=lambda interval: interval.start)
+        rooms = []  # [interval.end, ...]
+        min_rooms = 0
 
         for interval in intervals:
-            if room_heap and room_heap[0] <= interval.start:
-                heapq.heappop(room_heap)
-            heapq.heappush(room_heap, interval.end)
+            while rooms and rooms[0] <= interval.start:
+                heapq.heappop(rooms)
+            heapq.heappush(rooms, interval.end)
+            min_rooms = max(min_rooms, len(rooms))
 
-        return len(room_heap)
+        return min_rooms
 
 
 class Solution:
@@ -48,3 +51,4 @@ class Solution:
 
 print(Solution().minMeetingRooms([Interval(0, 30), Interval(5, 10), Interval(15, 20)]) == 2)
 print(Solution().minMeetingRooms([Interval(5, 10), Interval(15, 20)]) == 1)
+print(Solution().minMeetingRooms([Interval(0, 10), Interval(5, 10), Interval(5, 10), Interval(15, 25), Interval(20, 25)]) == 3)

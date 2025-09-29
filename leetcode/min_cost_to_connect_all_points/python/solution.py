@@ -6,39 +6,38 @@ class Solution:
         """
         Time complexity: O(n2logn)
         Auxiliary space complexity: O(n2)
-        Tags: MSP
+        Tags: bfs, iteration, graph, msp
         Minimum Spanning Tree, Prim's alg
         """
-        adjs = {point: set() for point in range(len(points))}  # {point: (distance, adj_point)}
-        for i in range(len(points)):
-            xa, ya = points[i]
-            
-            for i2 in range(len(points)):
-                if i == i2:
-                    continue
-                
-                xb, yb = points[i2]
-                x = abs(xa - xb)
-                y = abs(ya - yb)
-                adjs[i].add((x + y, i2))
-                
+        vertex_size = len(points)
+        # frontier map
+        adjs = {vertex: set() for vertex in range(vertex_size)}  # {vertex: {(adjacent vertex, distance), ...}, ...}
+        for index in range(vertex_size):
+            xa, ya = points[index]
+            for index2 in range(vertex_size):
+                if index2 < index:
+                    xb, yb = points[index2]
+                    distance = abs(xa - xb) + abs(ya - yb)
+                    adjs[index].add((index2, distance))
+                    adjs[index2].add((index, distance))
+
+        closest_vertex = [(0, 0)]  # heap((distance, point))
+        total_distance = 0
         visited = set()
-        min_heap = [(0, 0)]  # heap((distance, point), )
-        min_distance = 0
 
-        while len(visited) < len(points):
-            while min_heap[0][1] in visited:
-                heapq.heappop(min_heap)
-            distance, point = heapq.heappop(min_heap)
-            visited.add(point)
-            min_distance += distance
+        while len(visited) < vertex_size:
+            distance, vertex = heapq.heappop(closest_vertex)
+            if vertex in visited:
+                continue
+            visited.add(vertex)
+            total_distance += distance
 
-            for adj in adjs[point]:
-                if adj[1] not in visited:
-                    heapq.heappush(min_heap, adj)
-
-        return min_distance
+            for adj_vertex, adj_distance in adjs[vertex]:
+                if adj_vertex not in visited:
+                    heapq.heappush(closest_vertex, (adj_distance, adj_vertex))
+        
+        return total_distance
 
 
-print(Solution().minCostConnectPoints([[0, 0], [2, 2], [3, 10], [5, 2], [7, 0]]), 20)
-print(Solution().minCostConnectPoints([[3, 12], [-2, 5], [-4, 1]]), 18)
+print(Solution().minCostConnectPoints([[0, 0], [2, 2], [3, 10], [5, 2], [7, 0]]) == 20)
+print(Solution().minCostConnectPoints([[3, 12], [-2, 5], [-4, 1]]) == 18)

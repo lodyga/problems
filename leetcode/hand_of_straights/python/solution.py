@@ -1,3 +1,39 @@
+import heapq
+
+
+class Solution:
+    def isNStraightHand(self, hand: list[int], group_size: int) -> bool:
+        """
+        Time complexity: O(nlogn)
+        Auxiliary space complexity: O(n)
+        Tags: sorting, heap
+        """
+        if len(hand) % group_size:
+            return False
+        
+        card_frequency = {}
+        for card in hand:
+            card_frequency[card] = card_frequency.get(card, 0) + 1
+
+        heapq.heapify(hand)
+
+        while card_frequency:
+            while hand[0] not in card_frequency:
+                heapq.heappop(hand)
+            card = hand[0]
+            
+            for _ in range(group_size):
+                if card in card_frequency:
+                    card_frequency[card] -= 1
+                    if card_frequency[card] == 0:
+                        del card_frequency[card]
+                    card += 1
+                else:
+                    return False
+
+        return True
+
+
 class Solution:
     def isNStraightHand(self, hand: list[int], groupSize: int) -> bool:
         """
@@ -12,8 +48,6 @@ class Solution:
         
         card_frequency = {}
         for card in hand:
-            if card not in card_frequency:
-                card_frequency[card] = 0
             card_frequency[card] = card_frequency.get(card, 0) + 1
 
         for base_card in hand:
@@ -31,43 +65,6 @@ class Solution:
         return True
 
 
-import heapq
-
-
-class Solution:
-    def isNStraightHand(self, hand: list[int], groupSize: int) -> bool:
-        """
-        Time complexity: O(nlogn)
-        Auxiliary space complexity: O(n)
-        Tags: sorting, heap
-        """
-        if len(hand) % groupSize:
-            return False
-        
-        heapq.heapify(hand)
-        
-        card_frequency = {}
-        for card in hand:
-            if card not in card_frequency:
-                card_frequency[card] = 0
-            card_frequency[card] = card_frequency.get(card, 0) + 1
-
-        while hand:
-            base_card = heapq.heappop(hand)
-            if base_card not in card_frequency:
-                continue
-            
-            for card in range(base_card, base_card + groupSize):
-                if card in card_frequency:
-                    card_frequency[card] -= 1
-                    if card_frequency[card] == 0:
-                        del card_frequency[card]
-                else:
-                    return False
-
-        return True
-
-
-print(Solution().isNStraightHand([1, 2, 3, 6, 2, 3, 4, 7, 8], 3), True)
-print(Solution().isNStraightHand([1, 2, 3, 4, 5], 4), False)
-print(Solution().isNStraightHand([1], 1), True)
+print(Solution().isNStraightHand([1, 2, 3, 6, 2, 3, 4, 7, 8], 3) == True)
+print(Solution().isNStraightHand([1, 2, 3, 4, 5], 4) == False)
+print(Solution().isNStraightHand([1], 1) == True)

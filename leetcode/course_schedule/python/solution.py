@@ -1,8 +1,57 @@
 class Solution:
     def canFinish(self, course_count: int, prerequisites: list[list[int]]) -> bool:
         """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(n)
+        Time complexity: O(V + E)
+        Auxiliary space complexity: O(V + E)
+        Tags: dfs, recursion, graph, topological sort
+        Mark visited courses in visited
+        One array for visited / path: None: not visited, False: visited, True: in current path
+        """
+        if course_count == 0:
+            return True
+        
+        prereqs = {course: set() for course in range(course_count)}
+        for course, prereq in prerequisites:
+            # course requires itself (a, a)
+            if course == prereq:
+                return False
+            # early cycle detect: (a, b), (b, a)
+            elif course in prereqs[prereq]:
+                return False
+            prereqs[course].add(prereq)
+
+        # None: not visited, False: visited, True: on current path
+        visited = [None] * course_count
+        
+        def dfs(course):
+            # True: cycle detected
+            # False: visited
+            if visited[course] != None:
+                return visited[course]
+
+            # mark as 'in path'
+            visited[course] = True
+
+            for prereq in prereqs[course]:
+                if dfs(prereq) == True:
+                    return True
+            
+            # mark as 'visited'
+            visited[course] = False
+            # return False
+
+        for course in prereqs:
+            if dfs(course) == True:
+                return False
+
+        return True
+
+
+class Solution:
+    def canFinish(self, course_count: int, prerequisites: list[list[int]]) -> bool:
+        """
+        Time complexity: O(V + E)
+        Auxiliary space complexity: O(V + E)
         Tags: dfs, recursion, graph, topological sort
         Mark visited courses in visited
         """
@@ -13,10 +62,10 @@ class Solution:
         path = [False] * course_count
 
         prereqs = {course: set() for course in range(course_count)}
-        for course, preq_course in prerequisites:
-            if course == preq_course:
+        for course, prereq in prerequisites:
+            if course == prereq:
                 return False
-            prereqs[course].add(preq_course)
+            prereqs[course].add(prereq)
 
         def dfs(course):
             # detect cycle
@@ -28,8 +77,8 @@ class Solution:
             
             path[course] = True
 
-            for preq_course in prereqs[course]:
-                if dfs(preq_course) == False:
+            for prereq in prereqs[course]:
+                if dfs(prereq) == False:
                     return False
 
             path[course] = False
@@ -46,62 +95,16 @@ class Solution:
 class Solution:
     def canFinish(self, course_count: int, prerequisites: list[list[int]]) -> bool:
         """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(n)
-        Tags: dfs, recursion, graph, topological sort
-        Mark visited courses in visited
-        One array for visited / path: None: not visited, False: visited, True: in current path
-        """
-        if course_count == 0:
-            return True
-        
-        visited = [None] * course_count
-        # path = [False] * course_count
-
-        prereqs = {course: set() for course in range(course_count)}
-        for course, preq_course in prerequisites:
-            if course == preq_course:
-                return False
-            prereqs[course].add(preq_course)
-
-        def dfs(course):
-            # detect cycle
-            if visited[course] != None:
-                return visited[course]
-            # if already visited
-            # elif visited[course]:
-            #     return True
-            
-            visited[course] = True
-
-            for preq_course in prereqs[course]:
-                if dfs(preq_course) == True:
-                    return True
-
-            visited[course] = False
-            # visited[course] = True
-            return False
-
-        for course in prereqs:
-            if dfs(course) == True:
-                return False
-
-        return True
-
-
-class Solution2:
-    def canFinish(self, numCourses: int, prerequisites: list[list[int]]) -> bool:
-        """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(n)
+        Time complexity: O(V + E)
+        Auxiliary space complexity: O(V + E)
         Tags: dfs, recursion, graph, topological sort
         Mark visited courses with no prerequisites
         """
-        if numCourses == 0:
+        if course_count == 0:
             return True
 
         # empty prerequisities        
-        prereqs = {index: set() for index in range(numCourses)}
+        prereqs = {index: set() for index in range(course_count)}
         for course, prereq in prerequisites:
             # course requires itself as a preqreuire
             if course == prereq:
@@ -110,7 +113,7 @@ class Solution2:
 
 
         # check visited path for cycles
-        visited = [False] * numCourses
+        visited = [False] * course_count
         def dfs(course):
             # course with no prerequisities
             if course not in prereqs or not prereqs[course]:
@@ -138,6 +141,7 @@ class Solution2:
 print(Solution().canFinish(2, [[1, 0]]) == True)
 print(Solution().canFinish(2, [[0, 1], [1, 0]]) == False)
 print(Solution().canFinish(3, [[0, 1], [1, 2], [2, 0]]) == False)
+print(Solution().canFinish(3, [[1, 0], [0, 2], [2, 1]]) == False)
 print(Solution().canFinish(5, [[0, 1], [0, 2], [1, 3], [3, 4], [1, 4]]) == True)
 print(Solution().canFinish(4, [[0, 1], [2, 3]]) == True)
 print(Solution().canFinish(0, []) == True)

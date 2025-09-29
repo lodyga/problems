@@ -1,5 +1,102 @@
 class Solution {
    /**
+    * Time complexity: O(2^n)
+    * Auxiliary space complexity: O(n)
+    * Tags: brute-force, tle
+    * @param {number[]} houses
+    * @return {number}
+    */
+   rob(houses) {
+      const dfs = (index) => {
+         if (index >= houses.length)
+            return 0
+
+         const robHouse = houses[index] + dfs(index + 2);
+         const skipHouse = dfs(index + 1);
+         return Math.max(robHouse, skipHouse)
+      }
+      return dfs(0)
+   };
+}
+
+
+class Solution {
+   /**
+    * Time complexity: O(n)
+    * Auxiliary space complexity: O(n)
+    * Tags: dp, top-down with memoization as hash map
+    * @param {number[]} houses
+    * @return {number}
+    */
+   rob(houses) {
+      const memo = new Map();
+      
+      const dfs = (index) => {
+         if (index >= houses.length)
+            return 0
+         else if (memo.has(index))
+            return memo.get(index)
+
+         const robHouse = houses[index] + dfs(index + 2);
+         const skipHouse = dfs(index + 1);
+         memo.set(index, Math.max(robHouse, skipHouse));
+         return memo.get(index)
+      }
+      return dfs(0)
+   };
+}
+
+
+class Solution {
+   /**
+    * Time complexity: O(n)
+    * Auxiliary space complexity: O(n)
+    * Tags: dp, top-down with memoization as array
+    * @param {number[]} houses
+    * @return {number}
+    */
+   rob(houses) {
+      const memo = Array(houses.length).fill(-1);
+      
+      const dfs = (index) => {
+         if (index >= houses.length)
+            return 0
+         else if (memo[index] !== -1)
+            return memo[index]
+
+         const robHouse = houses[index] + dfs(index + 2);
+         const skipHouse = dfs(index + 1);
+         memo[index] = Math.max(robHouse, skipHouse);
+         return memo[index]
+      }
+      return dfs(0)
+   };
+}
+
+
+class Solution {
+   /**
+    * Time complexity: O(n)
+    * Auxiliary space complexity: O(n)
+    * Tags: dp, bottom-up
+    * @param {number[]} houses
+    * @return {number}
+    */
+   rob(houses) {
+      const cache = Array(houses.length + 2).fill(0);
+      
+      for (let index = houses.length - 1; index > -1; index--) {
+         const robHouse = houses[index] + cache[index + 2];
+         const skipHouse = cache[index + 1]
+         cache[index] = Math.max(robHouse, skipHouse);
+      }
+      return cache[0]
+   };
+}
+
+
+class Solution {
+   /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
     * Tags: dp, bottom-up
@@ -26,131 +123,25 @@ class Solution {
 class Solution {
    /**
     * Time complexity: O(n)
-    * Auxiliary space complexity: O(n)
+    * Auxiliary space complexity: O(1)
     * Tags: dp, bottom-up
-    * mutate input list
-    * @param {number[]} numbers
+    * @param {number[]} houses
     * @return {number}
     */
-   rob(numbers) {
-      if (numbers.length <= 2) {
-         return Math.max(...numbers)
+   rob(houses) {
+      const cache = [0, 0];
+      
+      for (let index = houses.length - 1; index > -1; index--) {
+         const robHouse = houses[index] + cache[1];
+         const skipHouse = cache[0];
+         [cache[0], cache[1]] = [Math.max(robHouse, skipHouse), cache[0]];
       }
-      numbers[1] = Math.max(...numbers.slice(0, 2));
-
-      for (let index = 2; index < numbers.length; index++) {
-         numbers[index] = Math.max(
-            numbers[index] + numbers[index - 2],
-            numbers[index - 1]);
-      }
-      return numbers[numbers.length - 1]
+      return cache[0]
    };
 }
 
 
-class Solution {
-   /**
-    * Time complexity: O(n)
-    * Auxiliary space complexity: O(n)
-    * Tags: dp, bottom-up
-    * @param {number[]} numbers
-    * @return {number}
-    */
-   rob(numbers) {
-      if (numbers.length <= 2) {
-         return Math.max(...numbers)
-      }
-      const cache = Array(numbers.length);
-      cache[0] = numbers[0];
-      cache[1] = Math.max(...numbers.slice(0, 2));
-
-      for (let index = 2; index < numbers.length; index++) {
-         cache[index] = Math.max(
-            numbers[index] + cache[index - 2],
-            cache[index - 1]);
-      }
-      return cache[cache.length - 1]
-   };
-}
-
-
-class Solution {
-   /**
-    * Time complexity: O(n)
-    * Auxiliary space complexity: O(n)
-    * Tags: dp, top-down with memoization as hash map
-    * @param {number[]} numbers
-    * @return {number}
-    */
-   rob(numbers) {
-      const memo = new Map();
-      memo.set(numbers.length, 0);
-      memo.set(numbers.length + 1, 0);
-
-      function dfs(index) {
-         if (memo.get(index) !== undefined)
-            return memo.get(index)
-
-         return Math.max(
-            numbers[index] + dfs(index + 2),
-            dfs(index + 1)
-         )
-      }
-      return dfs(0)
-   };
-}
-
-
-class Solution {
-   /**
-    * Time complexity: O(n)
-    * Auxiliary space complexity: O(n)
-    * Tags: dp, top-down with memoization as list
-    * @param {number[]} numbers
-    * @return {number}
-    */
-   rob(numbers) {
-      const memo = Array(numbers.length + 1).fill(null);
-      memo[numbers.length] = 0;
-      memo[numbers.length + 1] = 0;
-
-      function dfs(index) {
-         if (memo[index] !== null)
-            return memo[index]
-
-         return Math.max(
-            numbers[index] + dfs(index + 2),
-            dfs(index + 1)
-         )
-      }
-      return dfs(0)
-   };
-}
-
-
-class Solution {
-   /**
-    * Time complexity: O(2^n)
-    * Auxiliary space complexity: O(n)
-    * Tags: brute-force, tle
-    * @param {number[]} numbers
-    * @return {number}
-    */
-   rob(numbers) {
-      function dfs(index) {
-         if (index >= numbers.length)
-            return 0
-
-         return Math.max(
-            numbers[index] + dfs(index + 2),
-            dfs(index + 1)
-         )
-      }
-      return dfs(0)
-   };
-}
-
-
+const rob = new Solution().rob;
 console.log(new Solution().rob([2]) === 2)
 console.log(new Solution().rob([0]) === 0)
 console.log(new Solution().rob([2, 1]) === 2)

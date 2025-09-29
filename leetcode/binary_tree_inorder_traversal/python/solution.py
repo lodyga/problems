@@ -18,18 +18,18 @@ class Solution:
         Auxiliary space complexity: O(n)
         Tags: binary tree, dfs, recursion
         """
-        node_list = []
+        values = []
 
         def dfs(node):
             if not node:
                 return
         
             dfs(node.left)
-            node_list.append(node.val)
+            values.append(node.val)
             dfs(node.right)
 
         dfs(root)
-        return node_list
+        return values
 
 
 class Solution:
@@ -39,7 +39,7 @@ class Solution:
         Auxiliary space complexity: O(n)
         Tags: binary tree, dfs, iteration, stack
         """
-        node_list = []
+        values = []
         stack = []
         node = root
 
@@ -49,10 +49,10 @@ class Solution:
                 node = node.left
             else:
                 node = stack.pop()
-                node_list.append(node.val)
+                values.append(node.val)
                 node = node.right
         
-        return node_list
+        return values
 
 
 print(Solution().inorderTraversal(build_tree([])), [])

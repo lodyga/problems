@@ -12,25 +12,28 @@ class Solution:
         ROWS = len(grid)
         COLS = len(grid[0])
         DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
-        path = [(grid[0][0], 0, 0)]  # height, row, col
+        water_heap = [(grid[0][0], 0, 0)]  # min water level cell
         visited = [[False] * COLS for _ in range(ROWS)]
-        min_height = 0
+        visited[0][0] = True
 
-        while path:
-            height, row, col = heapq.heappop(path)
-            min_height = max(min_height, height)
+        # bfs()
+        while water_heap:
+            water_level, row, col = heapq.heappop(water_heap)
 
             if (row, col) == (ROWS - 1, COLS - 1):
-                return min_height
+                return water_level
             
             for r, c in DIRECTIONS:
+                side_row = row + r
+                side_col = col + c
                 if (
-                    0 <= row + r < ROWS and
-                    0 <= col + c < COLS and
-                    not visited[row + r][col + c]
+                    -1 < side_row < ROWS and
+                    -1 < side_col < COLS and
+                    not visited[side_row][side_col]
                 ):
-                    heapq.heappush(path, (grid[row + r][col + c], row + r, col + c))
-                    visited[row][col] = True
+                    reachable_water_level = max(water_level, grid[side_row][side_col])
+                    heapq.heappush(water_heap, (reachable_water_level, side_row, side_col))
+                    visited[side_row][side_col] = True
 
 
 print(Solution().swimInWater([[0, 2], [1, 3]]) == 3)

@@ -1,13 +1,19 @@
 class Solution:
     def findOrder(self, course_count: int, prerequisites: list[list[int]]) -> list[int]:
         """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(n)
+        Time complexity: O(V + E)
+        Auxiliary space complexity: O(V + E)
         Tags: dfs, recursion, graph, topological sort
         """
         prereqs = {course: set() for course in range(course_count)}
-        for course, preq_course in prerequisites:
-            prereqs[course].add(preq_course)
+        for course, prereq in prerequisites:
+            # course requires itself (a, a)
+            if course == prereq:
+                return []
+            # early cycle detect: (a, b), (b, a)
+            elif course in prereqs[prereq]:
+                return []
+            prereqs[course].add(prereq)
         
         course_order = []
         # calculate order for each course only once
@@ -25,8 +31,8 @@ class Solution:
             
             path[course] = True
 
-            for preq_course in prereqs[course]:
-                if dfs(preq_course) == False:
+            for prereq in prereqs[course]:
+                if dfs(prereq) == False:
                     return False
             
             path[course] = False

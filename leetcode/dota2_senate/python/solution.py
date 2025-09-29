@@ -8,27 +8,27 @@ class Solution:
         Auxiliary space complexity: O(n)
         Tags: greedy
         """
-        r_votes = deque()  # (index)
-        d_votes = deque()  # (index)
+        radiant_votes = deque()  # (index)
+        dire_votes = deque()  # (index)
 
         for index, vote in enumerate(senate):
             if vote == "R":
-                r_votes.append(index)
+                radiant_votes.append(index)
             else:
-                d_votes.append(index)
+                dire_votes.append(index)
             
-        while r_votes and d_votes:
-            if r_votes[0] < d_votes[0]:
-                d_votes.popleft()
-                r_votes.append(r_votes.popleft() + len(senate))
+        while radiant_votes and dire_votes:
+            if radiant_votes[0] < dire_votes[0]:
+                dire_votes.popleft()
+                radiant_votes.append(radiant_votes.popleft() + len(senate))
             else:
-                r_votes.popleft()
-                d_votes.append(d_votes.popleft() + len(senate))
+                radiant_votes.popleft()
+                dire_votes.append(dire_votes.popleft() + len(senate))
             
-        return "Radiant" if r_votes else "Dire"
+        return "Radiant" if radiant_votes else "Dire"
 
 
-class Solution2:
+class Solution:
     def predictPartyVictory(self, senate: str) -> str:
         """
         Time complexity: O(n)

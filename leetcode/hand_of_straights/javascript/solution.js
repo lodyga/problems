@@ -40,6 +40,6 @@ class Solution {
 const isNStraightHand = new Solution().isNStraightHand;
 
 
-console.log(new Solution().isNStraightHand([1, 2, 3, 6, 2, 3, 4, 7, 8], 3), true)
-console.log(new Solution().isNStraightHand([1, 2, 3, 4, 5], 4), false)
-console.log(new Solution().isNStraightHand([1], 1), true)
+console.log(new Solution().isNStraightHand([1, 2, 3, 6, 2, 3, 4, 7, 8], 3) === true)
+console.log(new Solution().isNStraightHand([1, 2, 3, 4, 5], 4) === false)
+console.log(new Solution().isNStraightHand([1], 1) === true)

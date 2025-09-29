@@ -20,10 +20,11 @@ class DetectSquares:
         
         for x, y in self.points:
             if (
-                (x != nx or y != ny) and
-                abs(x - nx) == abs(y - ny) and
-                (x, ny) in self.points and 
-                (nx, y) in self.points
+                    x != nx 
+                and y != ny
+                and abs(x - nx) == abs(y - ny)
+                and (x, ny) in self.points
+                and (nx, y) in self.points
             ):
                 square_count += self.points[(x, y)] * self.points[(x, ny)] * self.points[(nx, y)]
         

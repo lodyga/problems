@@ -5,25 +5,28 @@ class Solution:
             O(coin_length * amount)
         Auxiliary space complexity: O(n2)
         Tags: dp, top-down with memoization as hash map
+        For Loop Approach 
         """
-        memo = {}  # {amount:  ways to make it up}
         coins.sort()
+        # The number of ways to make remaining amount using coins starting from coins[index:].
+        memo = {}
 
-        def dfs(amount, lowest_coin):
-            if amount == 0:
+        def dfs(index, remaining):
+            if remaining == 0:
                 return 1
-            elif amount < 0:
+            elif remaining < 0:
                 return 0
-            elif (amount, lowest_coin) in memo:
-                return memo[(amount, lowest_coin)]
+            elif (index, remaining) in memo:
+                return memo[(index, remaining)]
 
-            memo[(amount, lowest_coin)] = 0
-            for coin in coins:
-                if coin >= lowest_coin:
-                    memo[(amount, lowest_coin)] += dfs(amount - coin, coin)
-            return memo[(amount, lowest_coin)]
+            memo[(index, remaining)] = 0
+            for index2 in range(index, len(coins)):
+                coin = coins[index2]
+                memo[(index, remaining)] += dfs(index2, remaining - coin)
 
-        return dfs(amount, coins[0])
+            return memo[(index, remaining)]
+
+        return dfs(0, amount)
 
 
 class Solution:
@@ -33,15 +36,80 @@ class Solution:
             O(coin_length * amount)
         Auxiliary space complexity: O(n2)
         Tags: dp, top-down with memoization as hash map
+        For Loop Approach 
         """
-        # coins.sort(reverse=True)
+        coins.sort()
+        # The number of ways to reach amount with already accumulated current_sum, unsing coinst strating from coins[index:].
+        memo = {}
+
+        def dfs(index, current_sum):
+            if current_sum == amount:
+                return 1
+            elif current_sum > amount:
+                return 0
+            elif (index, current_sum) in memo:
+                return memo[(index, current_sum)]
+
+            memo[(index, current_sum)] = 0
+            for index2 in range(index, len(coins)):
+                coin = coins[index2]
+                memo[(index, current_sum)] += dfs(index2, current_sum + coin)
+                
+            return memo[(index, current_sum)]
+
+        return dfs(0, 0)
+
+
+class Solution:
+    def change(self, amount: int, coins: list[int]) -> int:
+        """
+        Time complexity: O(n2)
+            O(coin_length * amount)
+        Auxiliary space complexity: O(n2)
+        Tags: dp, top-down with memoization as hash map
+        Binary Decision Approach
+        """
+        coins.sort()
+        # The number of ways to reach amount with already accumulated current_sum, unsing coinst strating from coins[index:].
+        memo = {}
+
+        def dfs(index, current_sum):
+            if current_sum == amount:
+                return 1
+            elif (
+                index == len(coins) or
+                current_sum > amount
+            ):
+                return 0
+            elif (index, current_sum) in memo:
+                return memo[(index, current_sum)]
+
+            taken = dfs(index, current_sum + coins[index])
+            skipped = dfs(index + 1, current_sum)
+            memo[(index, current_sum)] = taken + skipped
+            return memo[(index, current_sum)]
+
+        return dfs(0, 0)
+
+
+class Solution:
+    def change(self, amount: int, coins: list[int]) -> int:
+        """
+        Time complexity: O(n2)
+            O(coin_length * amount)
+        Auxiliary space complexity: O(n2)
+        Tags: dp, top-down with memoization as hash map
+        Binary Decision Approach
+        """
+        coins.sort()
+        # The number of ways to make remaining amount using coins starting from coins[index:].
         memo = {}
 
         def dfs(index, remaining):
             if remaining == 0:
                 return 1
             elif (
-                index >= len(coins) or
+                index == len(coins) or
                 remaining < 0
             ):
                 return 0
@@ -56,40 +124,7 @@ class Solution:
         return dfs(0, amount)
 
 
-class Solution:
-    def change(self, amount: int, coins: list[int]) -> int:
-        """
-        Time complexity: O(n2)
-            O(coin_length * amount)
-        Auxiliary space complexity: O(n2)
-        Tags: dp, top-down with memoization as hash map
-        """
-        # coins.sort(reverse=True)
-        memo = {}
-
-        def dfs(index, remaining):
-            if remaining == 0:
-                return 1
-            elif (
-                index >= len(coins) or
-                remaining < 0
-            ):
-                return 0
-            elif (index, remaining) in memo:
-                return memo[(index, remaining)]
-
-            memo[(index, remaining)] = 0
-            for i in range(index, len(coins)):
-                memo[(index, remaining)] += dfs(i, remaining - coins[i])
-
-            # taken = dfs(index, remaining - coins[index])
-            # skipped = dfs(index + 1, remaining)
-            # memo[(index, remaining)] = taken + skipped
-            return memo[(index, remaining)]
-
-        return dfs(0, amount)
-
-
+# memo = {}  # {amount: ways to make it up}
 print(Solution().change(2, [1, 2]), 2)
 print(Solution().change(3, [1, 2, 3]), 3)
 print(Solution().change(5, [1, 2, 5]), 4)

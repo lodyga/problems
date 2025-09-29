@@ -16,7 +16,7 @@ class Solution:
         Time complexity: O(nlogk)
         Auxiliary space complexity: O(k)
         Tags: linked list
-        Merge sort
+        merge sort
         """
         if len(lists) == 0:
             return

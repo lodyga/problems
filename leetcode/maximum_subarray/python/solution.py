@@ -22,18 +22,37 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
+        Tags: Kadane's Algorithm
+        """
+        total = 0
+        max_sum = numbers[0]
+
+        for number in numbers:
+            if total < 0:
+                total = 0
+            total += number
+            max_sum = max(max_sum, total)
+
+        return max_sum
+
+
+class Solution:
+    def maxSubArray(self, numbers: list[int]) -> int:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(1)
         Tags: greedy
         """
-        max_number = numbers[0]
-        current_max = 0
+        max_sum = numbers[0]
+        total = 0
         prev_max = 0
         
         for index in range(len(numbers)):
-            current_max = max(prev_max + numbers[index], numbers[index])
-            prev_max = current_max
-            max_number = max(max_number, current_max)
+            total = max(prev_max + numbers[index], numbers[index])
+            prev_max = total
+            max_sum = max(max_sum, total)
         
-        return max_number
+        return max_sum
 
 
 class Solution:
@@ -81,7 +100,7 @@ class Solution:
             numbers[index] += max(numbers[index - 1], 0)
 
         return max(numbers)
-
+    
 
 print(Solution().maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]) == 6)
 print(Solution().maxSubArray([1]) == 1)

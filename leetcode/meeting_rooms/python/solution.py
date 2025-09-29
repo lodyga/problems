@@ -5,7 +5,7 @@ class Interval(object):
     def __init__(self, start, end):
         self.start = start
         self.end = end
-
+    
 
 class Solution:
     def canAttendMeetings(self, intervals: list[Interval]) -> bool:
@@ -14,15 +14,37 @@ class Solution:
         Auxiliary space complexity: O(n)
         Tags: intervals, sorting
         """
-        intervals.sort(key=lambda x: x.start)
-
-        for index in range(1, len(intervals)):
-            prev_end = intervals[index - 1].end
-            current_start = intervals[index].start
-
-            if prev_end > current_start:
+        intervals.sort(key=lambda interval: interval.start)
+        for index in range(len(intervals) - 1):
+            if intervals[index].end > intervals[index + 1].start:
                 return False
+        return True
 
+
+class Interval(object):
+    """
+    Definition of Interval:
+    """
+    def __init__(self, start, end):
+        self.start = start
+        self.end = end
+    
+    def __lt__(self, other):
+        return self.start < other.start
+
+
+import heapq
+
+
+class Solution:
+    def canAttendMeetings(self, intervals: list[Interval]) -> bool:
+        heapq.heapify(intervals)
+        
+        while len(intervals) > 1:
+            interval = heapq.heappop(intervals)
+            if interval.end > intervals[0].start:
+                return False
+        
         return True
 
 

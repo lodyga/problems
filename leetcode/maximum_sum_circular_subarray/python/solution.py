@@ -1,22 +1,36 @@
 class Solution:
-    def maxSubarraySumCircular(self, numbers: list[int]) -> int:
-        """
-        Time complexity: O(n2)
+    """
+        Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: brute-froce
+        Tags: Kadane's Algorithm
         """
-        global_max = numbers[0]
+    def maxSubarraySumCircular(self, numbers: list[int]) -> int:
+        max_current = 0
+        min_current = 0
+        max_sum = numbers[0]
+        min_sum = numbers[0]
+        number_sum = 0
 
-        for left in range(len(numbers)):
-            current_max = 0
             
-            for right in range(left, len(numbers) + left):
-                right = right % len(numbers)
-                prev_max = current_max + numbers[right]
-                current_max = max(prev_max, numbers[right])
-                global_max = max(global_max, current_max)
+        for number in numbers:
+            if max_current < 0:
+                max_current = 0
+            max_current += number
+            
+            if min_current > 0:
+                min_current = 0
+            min_current += number
 
-        return global_max
+            number_sum += number
+
+            max_sum = max(max_sum, max_current)
+            min_sum = min(min_sum, min_current)
+        
+        # if no positive values
+        if max_sum <= 0:
+            return max_sum
+        else:
+            return max(max_sum, number_sum - min_sum)
 
 
 class Solution:
@@ -43,6 +57,52 @@ class Solution:
             global_min = min(global_min, current_min)
 
         return max(global_max, sum(numbers) - global_min) if global_max > 0 else global_max
+
+
+class Solution:
+    """
+    Time complexity: O(n2)
+    Auxiliary space complexity: O(1)
+    Tags: brute-froce
+    """
+    def maxSubarraySumCircular(self, numbers: list[int]) -> int:
+        max_sum = numbers[0]
+        number_len = len(numbers)
+
+        for left in range(number_len - 1):
+            total = 0
+            
+            for right in range(left, number_len + left):
+                number = numbers[right % number_len]
+
+                if total < 0:
+                    total = 0
+                total += number
+                
+                max_sum = max(max_sum, total)
+
+        return max_sum
+
+
+class Solution:
+    def maxSubarraySumCircular(self, numbers: list[int]) -> int:
+        """
+        Time complexity: O(n2)
+        Auxiliary space complexity: O(1)
+        Tags: brute-froce
+        """
+        global_max = numbers[0]
+
+        for left in range(len(numbers)):
+            current_max = 0
+            
+            for right in range(left, len(numbers) + left):
+                right = right % len(numbers)
+                prev_max = current_max + numbers[right]
+                current_max = max(prev_max, numbers[right])
+                global_max = max(global_max, current_max)
+
+        return global_max
 
 
 print(Solution().maxSubarraySumCircular([1, -2, 3, -2]), 3)

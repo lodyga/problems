@@ -9,7 +9,7 @@ class Solution:
         a &= mask
         b &= mask
 
-        while b != 0:
+        while b:
             carry = (a & b) << 1
             a = (a ^ b) & mask
             b = carry & mask
@@ -17,7 +17,7 @@ class Solution:
         return a if a <= 0x7FFFFFFF else ~(a ^ mask)
 
 
-print(Solution().getSum(1, 2), 3)
-print(Solution().getSum(2, 3), 5)
-print(Solution().getSum(-1, 1), 0)
-print(Solution().getSum(-12, -8), -20)
+print(Solution().getSum(1, 2) == 3)
+print(Solution().getSum(2, 3) == 5)
+print(Solution().getSum(-1, 1) == 0)
+print(Solution().getSum(-12, -8) == -20)

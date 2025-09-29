@@ -1,4 +1,102 @@
+from collections import defaultdict
+
+
+class DoublyListNode:
+    def __init__(self, value=None, next=None, prev=None) -> None:
+        self.value = value
+        self.next = next
+        self.prev = prev
+
+class DoublyLinkedList:
+    def __init__(self) -> None:
+        self.first = DoublyListNode()
+        self.last = DoublyListNode(None, None, self.first)
+        self.first.next = self.last
+        self.len = 0
+
+    def push(self, node) -> None:
+        last = self.last
+        prev_last = last.prev
+        node.prev, node.next = prev_last, last
+        prev_last.next, last.prev = node, node
+        self.len += 1
+
+    def pop(self) -> None:
+        node = self.last.prev
+        self.delete(node)
+
+    def pop_left(self) -> None:
+        node = self.first.next
+        self.delete(node)
+    
+    def delete(self, node) -> None:
+        prev, next = node.prev, node.next
+        prev.next, next.prev = next, prev
+        del node
+        self.len -= 1
+    
+    def peak(self) -> int | None:
+        return self.first.next.value if self.len > 0 else None
+    
+
 class LFUCache:
+    def __init__(self, capacity: int):
+        self.capacity = capacity
+        self.key_value = defaultdict(int)  # {key: value, }
+        self.key_frequency = defaultdict(int)  # {key: frequency, }
+        self.key_node = defaultdict(DoublyListNode)  # {key: DoublyListNode(), }
+        self.frequency_bucket = defaultdict(DoublyLinkedList)  # {frequency: DoublyLinkedList(DoublyListNode(), ), }
+        self.min_frequency = 0
+
+    def _update_frequency(self, key) -> None:
+        frequency = self.key_frequency[key]
+        node = self.key_node[key]
+        bucket = self.frequency_bucket[frequency]
+        bucket.delete(node)
+        if (
+            frequency == self.min_frequency and 
+            bucket.len == 0
+        ):
+            self.min_frequency += 1
+        self.key_frequency[key] += 1
+        frequency += 1
+        self.frequency_bucket[frequency].push(node)
+
+    def get(self, key: int) -> int:
+        if key not in self.key_value:
+            return -1
+        self._update_frequency(key)
+        return self.key_value[key]
+        
+
+    def put(self, key: int, value: int) -> None:
+        # Update existing key
+        if key in self.key_value:
+            self.key_value[key] = value
+            self._update_frequency(key)
+            return
+        
+        # Capacity reached, pop LFU key
+        if len(self.key_value) == self.capacity:
+            lfu_bucket = self.frequency_bucket[self.min_frequency]
+            lfu_key = lfu_bucket.peak()
+            del self.key_value[lfu_key]
+            del self.key_frequency[lfu_key]
+            del self.key_node[lfu_key]
+            lfu_bucket.pop_left()
+
+            if lfu_bucket.len == 0:
+                del self.frequency_bucket[self.min_frequency] 
+
+        # Put new key
+        self.key_value[key] = value
+        self.key_frequency[key] = 1
+        self.key_node[key] = DoublyListNode(key)
+        self.frequency_bucket[1].push(self.key_node[key])
+        self.min_frequency = 1
+
+
+class LFUCache2:
     """
     Time complexity: O(n)
     Auxiliary space complexity: O(n)

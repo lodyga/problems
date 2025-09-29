@@ -1,11 +1,5 @@
 class Solution:
     def multiply(self, number1: str, number2: str) -> str:
-        """
-        Time complexity: O(n2)
-            n: number length
-        Auxiliary space complexity: O(n)
-        Tags: iteration
-        """
         if number1 == "0" or number2 == "0":
             return "0"
         
@@ -13,19 +7,18 @@ class Solution:
         for index1, digit1 in enumerate(reversed(number1)):
             for index2, digit2 in enumerate(reversed(number2)):
                 number_list[index1 + index2] += int(digit1) * int(digit2)
-                pass
 
         carry = 0
-        index = 0
-        while index < len(number_list) or carry:
-            number = number_list[index] + carry
+        for index, number in enumerate(number_list):
+            number += carry
             carry = number // 10
-            number_list[index] = number % 10
-            index += 1
-
+            number %= 10
+            number_list[index] = number
+        
         while number_list[-1] == 0:
             number_list.pop()
         
+        # return "".join(str(char) for char in reversed(number_list))
         return "".join(reversed(list(map(str, number_list))))
 
 

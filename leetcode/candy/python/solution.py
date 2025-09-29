@@ -6,19 +6,19 @@ class Solution:
         Tags: greedy
         """
         candy_length = len(ratings)
-        candy_list = [1] * candy_length
-        candy_sum = 0
+        candies = [1] * candy_length
 
         for index in range(candy_length - 1):
             if ratings[index] < ratings[index + 1]:
-                candy_list[index + 1] = candy_list[index] + 1
+                candies[index + 1] = candies[index] + 1
         
+        total_candies = candies[-1]
         for index in reversed(range(candy_length - 1)):
             if ratings[index] > ratings[index + 1]:
-                candy_list[index] = max(candy_list[index], candy_list[index + 1] + 1)
-            candy_sum += candy_list[index]
+                candies[index] = max(candies[index], candies[index + 1] + 1)
+            total_candies += candies[index]
         
-        return candy_sum + candy_list[-1]
+        return total_candies
 
 
 print(Solution().candy([1, 0, 2]) == 5)

@@ -1,73 +1,113 @@
+class DSU:
+    def __init__(self, node_count) -> None:
+        self.rank = [1] * node_count
+        self.parents = list(range(node_count))
+        self.size = node_count
+    
+    def find(self, node):
+        while node != self.parents[node]:
+            self.parents[node] = self.parents[self.parents[node]]
+            node = self.parents[node]
+        return node
+    
+    def union(self, u, v):
+        pu = self.find(u)
+        pv = self.find(v)
+
+        if pu == pv:
+            return
+        elif self.rank[pv] > self.rank[pu]:
+            self.rank[pv] += self.rank[pu]
+            self.parents[pu] = pv
+        else:
+            self.rank[pu] += self.rank[pv]
+            self.parents[pv] = pu
+        self.size -= 1
+
+
 class Solution:
-    def countComponents(self, n: int, edges: list[list[int]]) -> int:
+    def countComponents(self, node_count: int, edges: list[list[int]]) -> int:
         """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(n)
+        Time complexity: O(V + E)
+        Auxiliary space complexity: O(V + E)
         Tags: dfs, recursion, graph, dsu
         DSU
         """
-
-        component_count = n
-        parents = list(range(n))
-        rank = [1] * n
+        dsu = DSU(node_count)
+        for u, v in edges:
+            dsu.union(u, v)
         
-        def find(vertex):
-            if vertex != parents[vertex]:
-                parents[vertex] = parents[parents[vertex]]
-                vertex = parents[vertex]
-            return vertex
-        
-        def union(vertex1, vertex2):
-            parent1 = find(vertex1)
-            parent2 = find(vertex2)
-
-            if parent1 == parent2:
-                return 0
-            elif rank[parent2] > rank[parent1]:
-                parents[parent1] = parent2
-                rank[vertex2] += rank[vertex1]
-            else:
-                parents[parent2] = parent1
-                rank[vertex1] += rank[vertex2]
-            return 1
-
-        for vertex1, vertex2 in edges:
-            component_count -= union(vertex1, vertex2)
-
-        return component_count
+        return dsu.size
 
 
-class Solution2:
-    def countComponents(self, n: int, edges: list[list[int]]) -> int:
+class Solution:
+    def countComponents(self, node_count: int, edges: list[list[int]]) -> int:
         """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(n)
+        Time complexity: O(V + E)
+        Auxiliary space complexity: O(V + E)
         Tags: dfs, recursion, graph, dsu
         DFS
         """
+        adjs = {node: set() for node in range(node_count)}
+        for u, v in edges:
+            if u != v:
+                adjs[u].add(v)
+                adjs[v].add(u)
+        
+        visited = [False] * node_count
         component_count = 0
-        visited = [False] * n
 
-        # adjacencies
-        adjs = {component: set() for component in range(n)}
-        for vertex1, vertex2 in edges:
-            adjs[vertex1].add(vertex2)
-            adjs[vertex2].add(vertex1)
-
-        def dfs(vertex):
-            if visited[vertex]:
+        def dfs(node):
+            if visited[node]:
                 return
             
-            visited[vertex] = True
-            
-            for adj_vertex in adjs[vertex]:
-                dfs(adj_vertex)
-            
-            
-        for vertex in adjs:
-            if not visited[vertex]:
+            visited[node] = True
+
+            for adj_node in adjs[node]:
+                dfs(adj_node)
+
+        for node in range(node_count):
+            if not visited[node]:
+                dfs(node)
                 component_count += 1
-                dfs(vertex)
+        
+        return component_count
+
+
+from collections import deque
+
+
+class Solution:
+    def countComponents(self, node_count: int, edges: list[list[int]]) -> int:
+        """
+        Time complexity: O(V + E)
+        Auxiliary space complexity: O(V + E)
+        Tags: dfs, recursion, graph, dsu
+        BFS
+        """
+        adjs = {node: set() for node in range(node_count)}
+        for u, v in edges:
+            if u != v:
+                adjs[u].add(v)
+                adjs[v].add(u)
+        
+        visited = [False] * node_count
+        component_count = 0
+
+        def bfs(node):
+            queue = deque([node])
+            while queue:
+                node = queue.popleft()
+                visited[node] = True
+
+                for adj_node in adjs[node]:
+                    if not visited[adj_node]:
+                        queue.append(adj_node)
+
+        for node in range(node_count):
+            if not visited[node]:
+                bfs(node)
+                component_count += 1
         
         return component_count
 

@@ -25,7 +25,7 @@ class Solution:
                 node = node.next
                 k -= 1
             return node
-
+            
         def reverse_k_nodes(node, k):
             prev = None
             while node and k:
@@ -35,22 +35,23 @@ class Solution:
                 node = node_next
                 k -= 1
             return node
-
-        anchor = ListNode(None, head) 
+        
+        anchor = ListNode(None, head)
         prev = anchor
-        node = anchor.next
+        node = head
 
         while True:
-            kth_node = find_kth_node(node, k - 1) 
+            kth_node = find_kth_node(node, k - 1)
             if kth_node:
                 prev.next = kth_node
             else:
                 prev.next = node
                 break
+
             next_start_node = reverse_k_nodes(node, k)
             prev = node
             node = next_start_node
-
+        
         return anchor.next
 
 

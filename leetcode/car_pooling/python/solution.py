@@ -9,18 +9,39 @@ class Solution:
         Tags: heap
         """
         trips.sort(key=lambda x: x[1])
-        min_heap = []  # heap((end, passengers), )
+        passanger_heap = []  # heap((end, passengers), )
 
         for passengers, start, end in trips:
-            while min_heap and min_heap[0][0] <= start:
-                _, prev_passengers = heapq.heappop(min_heap)
+            while passanger_heap and passanger_heap[0][0] <= start:
+                _, prev_passengers = heapq.heappop(passanger_heap)
                 capacity += prev_passengers
 
-            heapq.heappush(min_heap, (end, passengers))
+            heapq.heappush(passanger_heap, (end, passengers))
             capacity -= passengers
             if capacity < 0:
                 return False
 
+        return True
+
+
+class Solution:
+    def carPooling(self, trips: list[list[int]], capacity: int) -> bool:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(n)
+        Tags: iteration, brute-force
+        """
+        time_line = [0] * 1001
+
+        for passengers, start, end in trips:
+            time_line[start] += passengers
+            time_line[end] -= passengers
+
+        for index in range(1001):
+            capacity -= time_line[index]
+            if capacity < 0:
+                return False
+    
         return True
 
 

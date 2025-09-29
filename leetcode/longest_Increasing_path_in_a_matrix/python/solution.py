@@ -1,55 +1,20 @@
 class Solution:
     def longestIncreasingPath(self, matrix: list[list[int]]) -> int:
         """
-        Time complexity: O(4^n)
-        Auxiliary space complexity: O(n2)
-        Tags: brute-force, tle
-        """
-        ROWS = len(matrix)
-        COLS = len(matrix[0])
-        DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
-
-        def dfs(row, col, prev_val):
-            if (
-                row < 0 or
-                col < 0 or
-                row == ROWS or
-                col == COLS or
-                matrix[row][col] <= prev_val
-            ):
-                return 0
-
-            path_length = 1 + max(
-                dfs(row + r, col + c, matrix[row][col])
-                for r, c in DIRECTIONS
-            )
-
-            return path_length
-
-        return max(
-            dfs(row, col, -1)
-            for row in range(ROWS)
-            for col in range(COLS)
-        )
-
-
-class Solution:
-    def longestIncreasingPath(self, matrix: list[list[int]]) -> int:
-        """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n2)
-        Tags: dfs, recursion, graph, matrix, dp, top-down with memoization as hash map
+        Tags: dfs, recursion, graph, matrix, dp, top-down with memoization as array
         """
         ROWS = len(matrix)
         COLS = len(matrix[0])
         DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
         # memoization for longest increating path values
-        memo = [[None] * COLS for _ in range(ROWS)]
+        memo = [[0] * COLS for _ in range(ROWS)]
 
         def dfs(row, col, prev_val):
             if (
-                row < 0 or
-                col < 0 or
+                row == -1 or
+                col == -1 or
                 row == ROWS or
                 col == COLS or
                 matrix[row][col] <= prev_val
@@ -65,11 +30,87 @@ class Solution:
 
             return memo[row][col]
 
-        return max(
-            dfs(row, col, -1)
-            for row in range(ROWS)
-            for col in range(COLS)
-        )
+        longest_path = 1
+        for row in range(ROWS):
+            for col in range(COLS):
+                longest_path = max(longest_path, dfs(row, col, -1))
+
+        return longest_path
+
+
+class Solution:
+    def longestIncreasingPath(self, matrix: list[list[int]]) -> int:
+        """
+        Time complexity: O(n2)
+        Auxiliary space complexity: O(n2)
+        Tags: dfs, recursion, graph, matrix, dp, top-down with memoization as hash map
+        """
+        ROWS = len(matrix)
+        COLS = len(matrix[0])
+        DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
+        # memoization for longest increating path values
+        memo = {}
+
+        def dfs(row, col, prev_cell):
+            if (
+                row == -1 or
+                col == - 1 or
+                row == ROWS or
+                col == COLS or
+                matrix[row][col] <= prev_cell
+            ):
+                return 0
+            elif (row, col) in memo:
+                return memo[(row, col)]
+
+            path = 1
+            for r, c in DIRECTIONS:
+                path = max(path, 1 + dfs(row + r, col + c, matrix[row][col]))
+
+            memo[(row, col)] = path
+            return path
+
+        longest_path = 1
+        for row in range(ROWS):
+            for col in range(COLS):
+                longest_path = max(longest_path, dfs(row, col, -1))
+
+        return longest_path
+
+
+class Solution:
+    def longestIncreasingPath(self, matrix: list[list[int]]) -> int:
+        """
+        Time complexity: O(4^n)
+        Auxiliary space complexity: O(n2)
+        Tags: brute-force, tle
+        """
+        ROWS = len(matrix)
+        COLS = len(matrix[0])
+        DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
+
+        def dfs(row, col, prev_cell):
+            if (
+                row == -1 or
+                col == -1 or
+                row == ROWS or
+                col == COLS or
+                matrix[row][col] <= prev_cell
+            ):
+                return 0
+
+            path = 1
+            for r, c in DIRECTIONS:
+                path = max(path, 1 + dfs(row + r, col + c, matrix[row][col]))
+
+            return path
+
+        longest_path = 1
+        for row in range(ROWS):
+            for col in range(COLS):
+                longest_path = max(longest_path, dfs(row, col, -1))
+
+        return longest_path
 
 
 print(Solution().longestIncreasingPath([[1]]) == 1)
