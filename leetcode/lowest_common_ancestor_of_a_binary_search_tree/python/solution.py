@@ -16,7 +16,7 @@ class Solution:
         """
         Time complexity: O(logn)
         Auxiliary space complexity: O(1)
-        Tags: binary tree, iteration
+        Tags: binary tree, dfs, iteration
         """
         node = root
         while root:
@@ -33,7 +33,7 @@ class Solution:
         """
         Time complexity: O(logn)
         Auxiliary space complexity: O(logn)
-        Tags: binary tree, recursion
+        Tags: binary tree, dfs, recursion
         """
         if p.val < root.val and q.val < root.val:
             return self.lowestCommonAncestor(root.left, p, q)

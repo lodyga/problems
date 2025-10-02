@@ -1,31 +1,31 @@
 class Solution {
    /**
     * Time complexity: O(n)
-    * Auxiliary space complexity: O(n)
+    * Auxiliary space complexity: O(1)
     * Tags: two pointers
     * @param {number[]} numbers
     * @return {number[]}
     */
    sortedSquares(numbers) {
-      const squaredList = [];
+      const squares = [];
       let left = 0;
       let right = numbers.length - 1;
 
       while (left <= right) {
          if (Math.abs(numbers[left]) > Math.abs(numbers[right])) {
-            squaredList.push(numbers[left] ** 2);
+            squares.push(numbers[left] ** 2);
             left++;
          } else {
-            squaredList.push(numbers[right] ** 2);
+            squares.push(numbers[right] ** 2);
             right--;
          }
       }
-      return squaredList.reverse();
+      return squares.reverse();
    };
 }
+
+
 const sortedSquares = new Solution().sortedSquares;
-
-
 console.log(new Solution().sortedSquares([-4, -1, 0, 3, 10]), [0, 1, 9, 16, 100])
 console.log(new Solution().sortedSquares([-7, -3, 2, 3, 11]), [4, 9, 9, 49, 121])
 console.log(new Solution().sortedSquares([1, 2, 3]), [1, 4, 9])

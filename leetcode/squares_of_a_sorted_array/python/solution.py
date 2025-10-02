@@ -2,23 +2,25 @@ class Solution:
     def sortedSquares(self, numbers: list[int]) -> list[int]:
         """
         Time complexity: O(n)
-        Auxiliary space complexity: O(n)
+        Auxiliary space complexity: O(1)
         Tags: two pointers
         """
-        squared_list = []
         left = 0
         right = len(numbers) - 1
+        squares = []
 
         while left <= right:
-            if abs(numbers[left]) > abs(numbers[right]):
-                squared_list.append(numbers[left] ** 2)
+            left_number = numbers[left]
+            right_number = numbers[right]
+            if abs(left_number) > abs(right_number):
+                squares.append(left_number**2)
                 left += 1
             else:
-                squared_list.append(numbers[right] ** 2)
+                squares.append(right_number**2)
                 right -= 1
-        
-        squared_list.reverse()
-        return squared_list
+
+        squares.reverse()
+        return squares
 
 
 print(Solution().sortedSquares([-4, -1, 0, 3, 10]) == [0, 1, 9, 16, 100])
