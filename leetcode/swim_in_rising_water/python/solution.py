@@ -6,7 +6,7 @@ class Solution:
         """
         Time complexity: O(n2logn)
         Auxiliary space complexity: O(n2)
-        Tags: bfs, iteration, heap, matrix, graph
+        Tags: bfs, iteration, heap, graph, matrix
         Dijkstra's alg
         """
         ROWS = len(grid)

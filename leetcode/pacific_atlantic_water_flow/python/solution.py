@@ -88,7 +88,7 @@ class Solution2:
 
             visited_cells.add((row, col))
 
-            for r, c in directions:
+            for r, c in DIRECTIONS:
                 if (
                     0 <= row + r < rows and
                     0 <= col + c < cols and
