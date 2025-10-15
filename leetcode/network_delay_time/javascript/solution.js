@@ -5,7 +5,7 @@ class Solution {
    /**
     * Time complexity: O(ElogV)
     * Auxiliary space complexity: O(V + E)
-    * Tags: bfs, iteration, graph
+    * Tags: bfs, iteration, heap, graph
     * Dijkstra
     * @param {number[][]} times
     * @param {number} n

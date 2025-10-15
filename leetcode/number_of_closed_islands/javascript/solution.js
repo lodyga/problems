@@ -47,7 +47,7 @@ class Solution {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(n2)
-    * Tags: bfs, iteration, queue, matrix, graph
+    * Tags: bfs, iteration, queue, graph, matrix
     * @param {number[][]} grid
     * @return {number}
     */

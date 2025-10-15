@@ -48,7 +48,7 @@ class Solution:
         Time complexity: O((V + E) * q)
             q: query length
         Auxiliary space complexity: O(V + E)
-        Tags: dfs, recursion, graph
+        Tags: bfs, iteration, graph
         """
         adjs = {}
         for (src, dst), val in zip(equations, values):

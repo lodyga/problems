@@ -46,7 +46,7 @@ class Solution:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n2)
-        Tags: bfs, iteration, queue, matrix, graph
+        Tags: bfs, iteration, queue, graph, matrix
         """
         ROWS = len(grid)
         COLS = len(grid[0])
