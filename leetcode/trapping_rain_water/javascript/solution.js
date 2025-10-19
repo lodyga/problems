@@ -9,9 +9,9 @@ class Solution {
    trap(heights) {
       let left = 0;
       let right = heights.length - 1;
+      let maxLeftHeight = heights[left];
+      let maxRightHeight = heights[right];
       let trappedWater = 0;
-      let maxLeftHeight = 0;
-      let maxRightHeight = 0;
 
       while (left < right) {
          const leftHeight = heights[left];
@@ -32,6 +32,7 @@ class Solution {
 }
 
 
+const trap = new Solution().trap;
 console.log(new Solution().trap([3, 1, 2]) === 1)
 console.log(new Solution().trap([5, 8]) === 0)
 console.log(new Solution().trap([1, 3, 2, 1, 2, 1, 5, 3, 3, 4, 2]) === 8)

@@ -1,3 +1,60 @@
+import { Queue } from "@datastructures-js/queue";
+
+
+class Solution {
+   /**
+    * Time complexity: O(n2)
+    * Auxiliary space complexity: O(n2)
+    * Tags: bfs, iteration, queue, graph, matrix
+    * @param {number[][]} grid
+    * @return {number}
+    */
+   maxAreaOfIsland(grid) {
+      const ROWS = grid.length;
+      const COLS = grid[0].length;
+      const DIRECTIONS = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+      const visited = Array.from({ length: ROWS }, () => Array(COLS).fill(false));
+      let maxArea = 0;
+
+      const bfs = (row, col) => {
+         visited[row][col] = true;
+         let area = 1
+         const queue = new Queue([[row, col]]);
+
+         while (!queue.isEmpty()) {
+            const [row, col] = queue.dequeue();
+
+            for (const [r, c] of DIRECTIONS.map(([r, c]) => [r + row, c + col])) {
+               if (
+                  r === -1 ||
+                  c === -1 ||
+                  r === ROWS ||
+                  c === COLS ||
+                  grid[r][c] === 0 ||
+                  visited[r][c]
+               ) continue
+               
+               queue.enqueue([r, c]);
+               visited[r][c] = true;
+               area++;
+            }
+         }
+         return area
+      }
+
+      for (let row = 0; row < ROWS; row++)
+         for (let col = 0; col < COLS; col++)
+            if (
+               grid[row][col] &&
+               !visited[row][col]
+            )
+               maxArea = Math.max(maxArea, bfs(row, col));
+
+      return maxArea
+   }
+};
+
+
 class Solution {
    /**
     * Time complexity: O(n2)
@@ -7,44 +64,43 @@ class Solution {
     * @return {number}
     */
    maxAreaOfIsland(grid) {
-      const rows = grid.length;
-      const cols = grid[0].length;
-      const visitedCells = new Set();
-      let maxArea = 0;
+      const ROWS = grid.length;
+      const COLS = grid[0].length;
       const DIRECTIONS = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+      const visited = Array.from({ length: ROWS }, () => Array(COLS).fill(false));
+      let maxArea = 0;
 
+      const dfs = (row, col) => {
+         if (
+            row === -1 ||
+            col === -1 ||
+            row === ROWS ||
+            col === COLS ||
+            grid[row][col] === 0 ||
+            visited[row][col]
+         ) return 0
 
-      for (let row = 0; row < rows; row++) {
-         for (let col = 0; col < cols; col++) {
+         visited[row][col] = true;
+
+         let area = 1
+         for (const [r, c] of DIRECTIONS.map(([r, c]) => [r + row, c + col])) {
+            area += dfs(r, c)
+         }
+         return area
+      }
+
+      for (let row = 0; row < ROWS; row++) {
+         for (let col = 0; col < COLS; col++) {
             maxArea = Math.max(maxArea, dfs(row, col));
          }
       }
 
       return maxArea
-
-      function dfs(row, col) {
-         if (
-            row < 0 ||
-            col < 0 ||
-            row === rows ||
-            col === cols ||
-            grid[row][col] === 0 ||
-            visitedCells.has(`${row},${col}`)
-         ) return 0
-
-         visitedCells.add(`${row},${col}`);
-
-         return (
-            1 +
-            DIRECTIONS
-               .map(([r, c]) => dfs(row + r, col + c))
-               .reduce((total, value) => total + value, 0)
-         )
-      }
    };
 }
 
 
+const maxAreaOfIsland = new Solution().maxAreaOfIsland;
 console.log(new Solution().maxAreaOfIsland([[0]]) === 0)
 console.log(new Solution().maxAreaOfIsland([[1]]) === 1)
 console.log(new Solution().maxAreaOfIsland([[0, 0], [0, 1]]) === 1)

@@ -7,9 +7,9 @@ class Solution:
         """
         left = 0
         right = len(heights) - 1
+        max_left_height = heights[left]
+        max_right_height = heights[right]
         trapped_water = 0
-        max_left_height = 0
-        max_right_height = 0
 
         while left < right:
             left_height = heights[left]

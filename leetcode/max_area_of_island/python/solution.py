@@ -1,38 +1,6 @@
-class Solution:
-    def maxAreaOfIsland(self, grid: list[list[int]]) -> int:
-        """
-        Time complexity: O(n2)
-        Auxiliary space complexity: O(n2)
-        Tags: dfs, recursion, graph, matrix
-        """
-        rows = len(grid)
-        cols = len(grid[0])
-        visited_cells = set()
-        max_area = 0
-        DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
-
-        def dfs(row: int, col: int) -> int:
-            if (row < 0 or
-                col < 0 or
-                row == rows or
-                col == cols or
-                grid[row][col] == 0 or
-                    (row, col) in visited_cells):
-                return 0
-            
-            visited_cells.add((row, col))
-
-            return 1 + sum(dfs(row + r, col + c) 
-                           for r, c in DIRECTIONS)
-        
-        for row in range(rows):
-            for col in range(cols):
-                max_area = max(max_area, dfs(row, col))
-        
-        return max_area
-
-
 from collections import deque
+
+
 class Solution:
     def maxAreaOfIsland(self, grid: list[list[int]]) -> int:
         """
@@ -40,39 +8,72 @@ class Solution:
         Auxiliary space complexity: O(n2)
         Tags: bfs, iteration, queue, graph, matrix
         """
-        rows = len(grid)
-        cols = len(grid[0])
-        visited_cells = set()
-        max_area = 0
+        ROWS = len(grid)
+        COLS = len(grid[0])
         DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
+        max_area = 0
 
         def bfs(row: int, col: int) -> int:
+            grid[row][col] = 0
+            area = 1
             queue = deque([(row, col)])
-            current_area = 0
 
             while queue:
-                row, col = queue.pop()
-                visited_cells.add((row, col))
-                current_area += 1
+                row, col = queue.popleft()
 
-                for r, c in DIRECTIONS:
+                for r, c in ((r + row, c + col) for r, c in DIRECTIONS):
                     if (
-                        0 <= row + r < rows and
-                        0 <= col + c < cols DIRECTIONS
-                        grid[row + r][col + c] == "1" and
-                        (col, row) not in visited_cells
+                        r == -1 or r == ROWS or
+                        c == -1 or c == COLS or
+                        grid[r][c] == 0
                     ):
-                        queue.append((row + r, col + c))
+                        continue
 
-            return current_area
+                    queue.append((r, c))
+                    grid[r][c] = 0
+                    area += 1
+            return area
         
-        for row in range(rows):
-            for col in range(cols):
-                if (
-                    grid[row][col] == 1 DIRECTIONS 
-                    (row, col) not in visited_cells
-                ):
+        for row in range(ROWS):
+            for col in range(COLS):
+                if grid[row][col]:
                     max_area = max(max_area, bfs(row, col))
+
+        return max_area
+
+
+class Solution2:
+    def maxAreaOfIsland(self, grid: list[list[int]]) -> int:
+        """
+        Time complexity: O(n2)
+        Auxiliary space complexity: O(n2)
+        Tags: dfs, recursion, graph, matrix
+        """
+        ROWS = len(grid)
+        COLS = len(grid[0])
+        DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
+        max_area = 0
+
+        def dfs(row: int, col: int) -> int:
+            if (
+                row == -1 or
+                col == -1 or
+                row == ROWS or
+                col == COLS or
+                grid[row][col] == 0
+            ):
+                return 0
+            
+            grid[row][col] = 0
+
+            area = 1
+            for r, c in DIRECTIONS:
+                area += dfs(r + row, c + col)
+            return area
+        
+        for row in range(ROWS):
+            for col in range(COLS):
+                max_area = max(max_area, dfs(row, col))
         
         return max_area
 

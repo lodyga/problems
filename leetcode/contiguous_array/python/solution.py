@@ -28,7 +28,7 @@ class Solution:
         return max_len
 
 
-class Solution2:
+class Solution:
     def findMaxLength(self, numbers: list[int]) -> int:
         """
         Time complexity: O(n2)
