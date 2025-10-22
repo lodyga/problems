@@ -16,7 +16,7 @@ According to the definition of LCA on Wikipedia: “The lowest common ancestor i
      / \
     7   4
 </pre>
-Input: root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 1k
+Input: root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 1\
 Output: 3\
 Explanation: The LCA of nodes 5 and 1 is 3.
 
