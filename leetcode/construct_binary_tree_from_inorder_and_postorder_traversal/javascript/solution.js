@@ -1,4 +1,3 @@
-// import { TreeNode, bt.buildTree, getTreeValues, isSameTree } from '../../../../JS/binary-tree.js';
 import * as bt from '../../../../JS/binary-tree.js';
 
 /**
@@ -16,27 +15,27 @@ class Solution {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(n)
-    * Tags: binary tree, dfs, recursion, in-order traversal, pre-order traversal
-    * @param {number[]} preorder
+    * Tags: binary tree, dfs, recursion, in-order traversal, post-order traversal
     * @param {number[]} inorder
+    * @param {number[]} postorder
     * @return {bt.TreeNode}
     */
-   static buildTree(preorder, inorder) {
+   static buildTree(inorder, postorder) {
       if (
-         preorder.length === 0 ||
-         preorder.length === 1 && preorder[0] === null
+         postorder.length === 0 ||
+         postorder.length === 1 && postorder[0] === null
       )
          return null
 
-      const nodeValue = preorder[0];
+      const nodeValue = postorder[postorder.length - 1];
       const nodeIndex = inorder.indexOf(nodeValue);
       const node = new bt.TreeNode(nodeValue);
       node.left = buildTree(
-         preorder.slice(1, nodeIndex + 1), 
-         inorder.slice(0, nodeIndex));
+         inorder.slice(0, nodeIndex),
+         postorder.slice(0, nodeIndex));
       node.right = buildTree(
-         preorder.slice(nodeIndex + 1,), 
-         inorder.slice(nodeIndex + 1,));
+         inorder.slice(nodeIndex + 1,),
+         postorder.slice(nodeIndex, postorder.length - 1));
       return node
    };
 }
@@ -46,43 +45,43 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: binary tree, dfs, recursion, in-order traversal, pre-order traversal
-    * @param {number[]} preorder
+    * Tags: binary tree, dfs, recursion, in-order traversal, post-order traversal
     * @param {number[]} inorder
+    * @param {number[]} postorder
     * @return {bt.TreeNode}
     */
-   static buildTree(preorder, inorder) {
+   static buildTree(inorder, postorder) {
       const inorderIndex = new Map(inorder.map((value, index) => [value, index]));
 
-      const dfs = (preStart, preEnd, inStart, inEnd) => {
+      const dfs = (inStart, inEnd, postStart, postEnd) => {
          if (
-            preStart > preEnd ||
             inStart > inEnd ||
+            postStart > postEnd ||
             // Leetcode tests never have None in input.
-            preStart === preEnd && preorder[preStart] === null
+            inStart === inEnd && postorder[inStart] === null
          )
             return null
 
-         const nodeValue = preorder[preStart];
+         const nodeValue = postorder[postEnd];
          const nodeIndex = inorderIndex.get(nodeValue);
          const leftSubtreeSize = nodeIndex - inStart;
          const node = new bt.TreeNode(nodeValue);
          node.left = dfs(
-            preStart + 1, preStart + leftSubtreeSize,
-            inStart, nodeIndex - 1)
+            inStart, nodeIndex - 1,
+            postStart, postStart + leftSubtreeSize - 1)
          node.right = dfs(
-            preStart + 1 + leftSubtreeSize, preEnd,
-            nodeIndex + 1, inEnd)
+            nodeIndex + 1, inEnd,
+            postStart + leftSubtreeSize, postEnd - 1)
          return node
       };
-      return dfs(0, preorder.length - 1, 0, inorder.length - 1)
+      return dfs(0, inorder.length - 1, 0, postorder.length - 1)
    };
 }
 
 
 // static method
 const buildTree = Solution.buildTree;
-console.log(bt.isSameTree(buildTree([3, 9, 20, 15, 7], [9, 3, 15, 20, 7]), bt.buildTree([3, 9, 20, null, null, 15, 7])))
+console.log(bt.isSameTree(buildTree([9, 3, 15, 20, 7], [9, 15, 7, 20, 3]), bt.buildTree([3, 9, 20, null, null, 15, 7])))
 console.log(bt.isSameTree(buildTree([-1], [-1]), bt.buildTree([-1])))
 console.log(bt.isSameTree(buildTree([], []), bt.buildTree([])))
-console.log(bt.isSameTree(buildTree([1, null, 3], [null, 1, 3]), bt.buildTree([1, null, 3])))
+console.log(bt.isSameTree(buildTree([null, 1, 3], [null, 3, 1]), bt.buildTree([1, null, 3])))

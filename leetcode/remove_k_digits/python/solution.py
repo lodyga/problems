@@ -4,7 +4,7 @@ class Solution:
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
         Tags: stack, monotonic stack
-        monotonically increasing stack
+        monotonic increasing stack
         """
         if len(numbers) == k:
             return "0"

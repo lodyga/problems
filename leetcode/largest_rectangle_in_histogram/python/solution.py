@@ -4,7 +4,7 @@ class Solution:
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
         Tags: stack
-        monotonically increasing stack
+        monotonic increasing stack
         """
         stack = []  # [(index, height), ]
         area = 0

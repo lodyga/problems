@@ -8,7 +8,7 @@ class Solution:
             m: numbers_1 length
             n: numbers_2 length (n >= m)
         Auxiliary space complexity: O(n)
-        Tags: stack, monotonic stack, monotonically decreasing stack
+        Tags: stack, monotonic stack, monotonic decreasing stack
         """
         next_greater = [-1] * len(numbers_2)
         stack = []

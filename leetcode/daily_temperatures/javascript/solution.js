@@ -3,7 +3,7 @@ class Solution {
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
     * Tags: stack, monotonic stack
-    * monotonically decreasing stack
+    * monotonic decreasing stack
     * @param {number[]} temperatures
     * @return {number}
     */

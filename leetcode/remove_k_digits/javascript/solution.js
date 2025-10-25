@@ -3,7 +3,7 @@ class Solution {
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
     * Tags: stack, monotonic stack
-    * monotonically increasing stack
+    * monotonic increasing stack
     * @param {string} numbers
     * @param {number} k
     * @return {string}

@@ -4,7 +4,7 @@ class Solution {
     *     m: numbers_1 length
     *     n: numbers_2 length (n >= m)
     * Auxiliary space complexity: O(n)
-    * Tags: stack, monotonic stack, monotonically decreasing stack
+    * Tags: stack, monotonic stack, monotonic decreasing stack
     * @param {number[]} numbers1
     * @param {number[]} numbers2
     * @return {number[]}
