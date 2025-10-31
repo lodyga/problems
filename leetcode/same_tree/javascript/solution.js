@@ -80,7 +80,7 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: binary tree, dfs, iteration, stack
+    * Tags: binary tree, bfs, iteration, queue
     * @param {TreeNode} root1
     * @param {TreeNode} root2
     * @return {boolean}
