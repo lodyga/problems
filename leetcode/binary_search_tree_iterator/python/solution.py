@@ -17,25 +17,31 @@ class BSTIterator:
     Auxiliary space complexity: O(n)
     Tags: binary tree, dfs, iteration, stack
     """
+
     def __init__(self, root: TreeNode):
-        self.node = root
+        self.node_right = root
         self.stack = []
 
     def next(self) -> int:
-        node = self.node
-        stack = self.stack
-        
-        while node:
-            stack.append(node)
-            node = node.left
-            
-        node = stack.pop()
-        self.node = node.right
-        
-        return node.val
+        if not self.hasNext():
+            return False
+        return self._get_next()
 
     def hasNext(self) -> bool:
-        return bool(self.node or self.stack)
+        return bool(self.node_right or self.stack)
+
+    def _get_next(self) -> int:
+        stack = self.stack
+        node_left = self.node_right
+        
+        while node_left:
+            stack.append(node_left)
+            node_left = node_left.left
+        
+        node = stack.pop()
+        self.node_right = node.right
+
+        return node.val
 
 
 class BSTIterator:
@@ -68,7 +74,7 @@ class BSTIterator:
         return bool(self.stack)
 
 
-bstIterator = BSTIterator(build_tree([5, 6, 7]))
+bstIterator = BSTIterator(build_tree([6, 5, 7]))
 print(bstIterator.hasNext())  # return True
 print(bstIterator.next())  # return 5
 print(bstIterator.hasNext())  # return True

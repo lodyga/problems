@@ -11,6 +11,7 @@ For example, nums = [4, 2, 5, 3] is continuous, but nums = [1, 2, 3, 5, 6] is no
 
 Return the minimum number of operations to make nums continuous.
 
+
 <b>Example 1:</b>\
 Input: nums = [4,2,5,3]\
 Output: 0\

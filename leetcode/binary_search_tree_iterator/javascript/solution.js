@@ -25,26 +25,35 @@ class BSTIterator {
    };
 
    /**
-   * @return {boolean}
-   */
+    * @return {number}
+    */
    next() {
+      if (!this.hasNext())
+         return null
+      return this._getNext()
+   };
+
+   /**
+    * @return {boolean}
+    */
+   hasNext() {
+      return Boolean(this.node || this.stack.length)
+   };
+
+   /**
+    * @return {number}
+    */
+   _getNext() {
       let node = this.node;
-      let stack = this.stack;
+      const stack = this.stack;
 
       while (node) {
          stack.push(node);
          node = node.left;
       }
       node = stack.pop();
-      this.node = node.right;1
+      this.node = node.right;
       return node.val
-   };
-
-   /**
-    * @return {boolean}
-   */
-   hasNext() {
-      return Boolean(this.node || this.stack.length)
    };
 }
 
@@ -73,7 +82,7 @@ class BSTIterator {
       let node = this.stack.pop();
       const val = node.val
       node = node.right;
-      
+
       while (node) {
          this.stack.push(node);
          node = node.left;

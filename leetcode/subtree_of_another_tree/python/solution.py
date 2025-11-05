@@ -12,33 +12,37 @@ from binary_tree_utils import *
 
 
 class Solution:
-    def isSubtree(self, root_1: TreeNode | None, root_2: TreeNode | None) -> bool:
+    def isSubtree(self, root1: TreeNode, root2: TreeNode) -> bool:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n)
         Tags: binary tree, dfs, recursion
         """
-        if not root_2:
-            return True
-        elif not root_1:
-            return False
-        elif self.is_same_tree(root_1, root_2):
-            return True
+        def is_same_tree(root1, root2):
+            if root1 is None and root2 is None:
+                return True
+            elif root1 is None or root2 is None:
+                return False
+            elif root1.val != root2.val:
+                return False
+            
+            return (
+                is_same_tree(root1.left, root2.left) and
+                is_same_tree(root1.right, root2.right)
+            )
         
-        return (self.isSubtree(root_1.left, root_2) or 
-                self.isSubtree(root_1.right, root_2))
-    
-    def is_same_tree(self, root_1, root_2):
-        if not root_1 and not root_2:
+        if root2 is None:
             return True
-        elif (not root_1 or 
-              not root_2 or
-              root_1.val != root_2.val):
+        elif root1 is None:
             return False
-        
-        return (self.is_same_tree(root_1.left, root_2.left) and
-                self.is_same_tree(root_1.right, root_2.right))
+        elif is_same_tree(root1, root2):
+            return True
+            
+        return (
+            self.isSubtree(root1.left, root2) or
+            self.isSubtree(root1.right, root2)
+        )
 
 
-print(Solution().isSubtree(build_tree([3, 4, 5, 1, 2]), build_tree([4, 1, 2])), True)
-print(Solution().isSubtree(build_tree([3, 4, 5, 1, 2, None, None, None, None, 0]), build_tree([4, 1, 2])), False)
+print(Solution().isSubtree(build_tree([3, 4, 5, 1, 2]), build_tree([4, 1, 2])) == True)
+print(Solution().isSubtree(build_tree([3, 4, 5, 1, 2, None, None, None, None, 0]), build_tree([4, 1, 2])) == False)

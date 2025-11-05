@@ -5,6 +5,7 @@ Given an integer array nums, return the number of longest increasing subsequence
 
 Notice that the sequence has to be strictly increasing.
 
+
 <b>Example 1:</b>\
 Input: nums = [1,3,5,4,7]\
 Output: 2\
