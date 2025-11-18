@@ -16,7 +16,7 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: binary tree, bfs, iteration, level order traversal
+    * Tags: binary tree, bfs, iteration, queue, level order traversal
     * @param {TreeNode} root
     * @return {number[]}
     */

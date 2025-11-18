@@ -6,7 +6,7 @@ class Solution:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n2)
-        Tags: bfs, iteration, heap, graph, matrix
+        Tags: bfs, iteration, queue, graph, matrix
         """
         ROWS = len(board)
         COLS = len(board[0])

@@ -24,7 +24,7 @@ class Solution:
                     grid[row][col] = min(grid[row][col], distance)
                     self.max_distance = max(self.max_distance, grid[row][col])
 
-                    for r, c in directions:
+                    for r, c in DIRECTIONS:
                         if (0 <= row + r < rows and
                             0 <= col + c < cols and
                                 grid[row + r][col + c] > distance):
@@ -81,7 +81,7 @@ class Solution:
             grid_copy[row][col] = min(grid_copy[row][col], distance)
             visited_cells.add((row, col))
 
-            for r, c in directions:
+            for r, c in DIRECTIONS:
                 dfs(row + r, col + c, distance + 1)
 
             visited_cells.remove((row, col))
