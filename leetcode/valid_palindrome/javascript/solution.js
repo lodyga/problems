@@ -2,23 +2,24 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: two pointers
+    * Tags:
+    *     A: two pointers
     * @param {string} text
     * @return {boolean}
     */
-   isPalindrome(text) {
+   static isPalindrome(text) {
       let left = 0;
       let right = text.length - 1;
       while (left < right) {
          while (
             left < right &&
-            this.isPunctuation(text[left])
+            !isAlnum(text[left])
          ) {
             left++;
          }
          while (
             left < right &&
-            this.isPunctuation(text[right])
+            !isAlnum(text[right])
          ) {
             right--;
          }
@@ -30,29 +31,27 @@ class Solution {
          }
       }
       return true
-   }
+   };
 
    /**
-    * Check if character is a punctuation.
+    * Check if character is a alpha-numeric.
     * @param {string} char
     * @return {boolean}
     */
-   isPunctuation(char) {
-      return !(
-         (char >= '0' &&
-            char <= '9') ||
-         (char.toLowerCase() >= 'a' &&
-            char.toLowerCase() <= 'z')
-      )
-   }
+   static isAlnum(char) {
+      const isLower = (char >= 'a' && char <= 'z');
+      const isUpper = (char >= 'A' && char <= 'Z');
+      const isNumber = (char >= '0' && char <= '9');
+      return (isLower || isUpper || isNumber)
+   };
 }
 
 
-class Solution {
+class Solution2 {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: two pointers, regex
+    * Tags: two pointers, build-in function
     * @param {string} text
     * @return {boolean}
     */
@@ -84,8 +83,11 @@ class Solution {
 }
 
 
-console.log(new Solution().isPalindrome('A man, a plan, a canal: Panama'), true)
-console.log(new Solution().isPalindrome('race a car'), false)
-console.log(new Solution().isPalindrome(' '), true)
-console.log(new Solution().isPalindrome('0P'), false)
-console.log(new Solution().isPalindrome('ab_a'), true)
+const isPalindrome = Solution.isPalindrome;
+const isAlnum = Solution.isAlnum;
+console.log(new Solution().isPalindrome('A man, a plan, a canal: Panama') === true)
+console.log(new Solution().isPalindrome('race a car') === false)
+console.log(new Solution().isPalindrome(' ') === true)
+console.log(new Solution().isPalindrome('0P') === false)
+console.log(new Solution().isPalindrome('ab_a') === true)
+console.log(new Solution().isPalindrome('a,,') === true)

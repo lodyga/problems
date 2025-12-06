@@ -20,7 +20,7 @@ class Solution:
         mutable list-passing (side effects)
         """
         def get_tree_leafs(node, leaf_list):
-            if not node:
+            if node is None:
                 return
             elif not node.left and not node.right:
                 leaf_list.append(node.val)
@@ -45,7 +45,7 @@ class Solution:
         functional (no side effects), concatenation overhead
         """
         def get_leaf_sequence(node):
-            if not node:
+            if node is None:
                 return []
             elif not node.left and not node.right:
                 return [node.val]

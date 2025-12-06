@@ -3,27 +3,30 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: stack
+        Tags:
+            DS: stack
+            A: iteration
         """
-        if len(bracket_list) % 2 != 0:
+        if len(bracket_list) % 2:
             return False
 
-        stacked_brackets = []
-        closing_bracket = {
+        bracket_stack = []
+        CLOSING_BRACKET = {
             ")": "(",
             "]": "[",
-            "}": "{",
+            "}": "{"
         }
+
         for bracket in bracket_list:
-            if bracket in closing_bracket:
-                if (stacked_brackets and
-                        stacked_brackets[-1] == closing_bracket[bracket]):
-                    stacked_brackets.pop()
+            if bracket in CLOSING_BRACKET:
+                if bracket_stack and bracket_stack[-1] == CLOSING_BRACKET[bracket]:
+                    bracket_stack.pop()
                 else:
                     return False
             else:
-                stacked_brackets.append(bracket)
-        return not stacked_brackets
+                bracket_stack.append(bracket)
+
+        return len(bracket_stack) == 0
 
 
 print(Solution().isValid("()") == True)

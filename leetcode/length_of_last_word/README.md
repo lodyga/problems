@@ -1,15 +1,17 @@
 # Length of Last Word
 https://leetcode.com/problems/length-of-last-word/description/
 
+
 Given a string s consisting of words and spaces, return the length of the last word in the string.
 
 A word is a maximal 
 substring
  consisting of non-space characters only.
 
+
 <b>Example 1:</b>\
 Input: s = "Hello World"\
-Output: 5
+Output: 5\
 Explanation: The last word is "World" with length 5.
 
 <b>Example 2:</b>\

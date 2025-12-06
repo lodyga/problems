@@ -4,7 +4,8 @@ class Solution {
     *     n: pile length 
     *     m: highest pile stack
     * Auxiliary space complexity: O(1)
-    * Tags: binary search
+    * Tags: 
+    *     A: binary search
     * @param {number[]} piles
     * @param {number} houns
     * @return {number}
@@ -12,25 +13,26 @@ class Solution {
    minEatingSpeed(piles, hours) {
       let left = 1;
       let right = Math.max(...piles);
-      let minBananaPerHour = right;
+      let minTime = right;
 
       while (left <= right) {
          const middle = (left + right) >> 1;
-         let timeToEat = 0;
+         let hoursToEat = 0;
+
          for (const pile of piles) {
-            timeToEat += Math.ceil(pile / middle)
-            if (timeToEat > hours)
+            hoursToEat += Math.ceil(pile / middle)
+            if (hoursToEat > hours)
                break
          }
 
-         if (timeToEat <= hours) {
-            minBananaPerHour = middle;
+         if (hoursToEat <= hours) {
+            minTime = middle;
             right = middle - 1;
          } else {
             left = middle + 1;
          }
       }
-      return minBananaPerHour
+      return minTime
    };
 }
 

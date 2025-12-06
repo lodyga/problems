@@ -32,7 +32,7 @@ class Solution:
             n: text length
             s: shifts length
         Auxiliary space complexity: O(n)
-        Tags: brute force
+        Tags: brute-force
         """
         def shift_letter(letter, shift):
             letter_index = ord(letter) - ord("a")

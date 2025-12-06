@@ -1,4 +1,5 @@
 from binary_tree_utils import *
+from collections import deque
 
 
 # class TreeNode:
@@ -12,21 +13,22 @@ from binary_tree_utils import *
 
 
 class Solution:
-    def isSameTree(self, root1: TreeNode | None, root2: TreeNode | None) -> bool:
+    def isSameTree(self, root1: TreeNode, root2: TreeNode) -> bool:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: binary tree, dfs, recursion
+        Tags: 
+            DS: binary tree
+            A: dfs, recursion, pre-order traversal
         """
         def dfs(node1, node2):
             if node1 is None and node2 is None:
                 return True
             elif node1 is None or node2 is None:
                 return False
-            
-            if node1.val != node2.val:
+            elif node1.val != node2.val:
                 return False
-            
+
             left = dfs(node1.left, node2.left)
             right = dfs(node1.right, node2.right)
 
@@ -34,21 +36,19 @@ class Solution:
 
         return dfs(root1, root2)
 
-
-class Solution:
-    def isSameTree(self, root1: TreeNode | None, root2: TreeNode | None) -> bool:
+    def isSameTree(self, root1: TreeNode, root2: TreeNode) -> bool:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: binary tree, dfs, iteration, stack
+        Tags: 
+            DS: binary tree, stack
+            A: dfs, recursion, pre-order traversal
         """
-        stack1 = [root1]
-        stack2 = [root2]
+        stack = [(root1, root2)]
 
-        while stack1 or stack2:
-            node1 = stack1.pop()
-            node2 = stack2.pop()
-
+        while stack:
+            node1, node2 = stack.pop()
+            
             if node1 is None and node2 is None:
                 continue
             elif node1 is None or node2 is None:
@@ -56,28 +56,25 @@ class Solution:
             elif node1.val != node2.val:
                 return False
 
-            stack1.append(node1.right)
-            stack2.append(node2.right)
-            stack1.append(node1.left)
-            stack2.append(node2.left)
-
+            stack.append((node1.right, node2.right))
+            stack.append((node1.left, node2.left))
+        
         return True
 
 
-class Solution:
-    def isSameTree(self, root1: TreeNode | None, root2: TreeNode | None) -> bool:
+    def isSameTree(self, root1: TreeNode, root2: TreeNode) -> bool:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: binary tree, bfs, iteration, queue
+        Tags: 
+            DS: binary tree, queue
+            A: bfs, iteration, level-order traversal
         """
-        queue_1 = deque([root1])
-        queue_2 = deque([root2])
+        queue = deque([(root1, root2)])
 
-        while queue_1 or queue_2:
-            node1 = queue_1.popleft()
-            node2 = queue_2.popleft()
-
+        while queue:
+            node1, node2 = queue.popleft()
+            
             if node1 is None and node2 is None:
                 continue
             elif node1 is None or node2 is None:
@@ -85,11 +82,9 @@ class Solution:
             elif node1.val != node2.val:
                 return False
 
-            queue_1.append(node1.left)
-            queue_2.append(node2.left)
-            queue_1.append(node1.right)
-            queue_2.append(node2.right)
-
+            queue.append((node1.left, node2.left))
+            queue.append((node1.right, node2.right))
+        
         return True
 
 
@@ -99,3 +94,4 @@ print(Solution().isSameTree(build_tree([1, 2]), build_tree([1, None, 2])) == Fal
 print(Solution().isSameTree(build_tree([1, 2, 1]), build_tree([1, 1, 2])) == False)
 print(Solution().isSameTree(build_tree([10, 5, 15]), build_tree([10, 5, None, None, 15])) == False)
 print(Solution().isSameTree(build_tree([1, None, 2, 3]), build_tree([1, None, 2, None, 3])) == False)
+print(Solution().isSameTree(build_tree([4, 2, 7, 1, 3, 6, 9]), build_tree([4, 2, 7, 1, 3, 6, 9])) == True)

@@ -2,32 +2,35 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: two pointers
+    * Tags: 
+    *    A: two pointers
     * @param {number[]} heights
     * @return {number}
     */
    trap(heights) {
       let left = 0;
       let right = heights.length - 1;
-      let maxLeftHeight = heights[left];
+      let maxLeftHeight = heights[0];
       let maxRightHeight = heights[right];
-      let trappedWater = 0;
+      let waterVolume = 0;
 
       while (left < right) {
          const leftHeight = heights[left];
          const rightHeight = heights[right];
+         let waterHeight = 0;
 
          if (leftHeight < rightHeight) {
             maxLeftHeight = Math.max(maxLeftHeight, leftHeight);
-            trappedWater += maxLeftHeight - leftHeight;
+            waterHeight = maxLeftHeight - leftHeight;
             left++;
          } else {
             maxRightHeight = Math.max(maxRightHeight, rightHeight);
-            trappedWater += maxRightHeight - rightHeight;
+            waterHeight = maxRightHeight - rightHeight;
             right--;
          }
+         waterVolume += waterHeight;
       }
-      return trappedWater
+      return waterVolume
    };
 }
 

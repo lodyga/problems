@@ -21,33 +21,19 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: greedy
-        Kadane's Algorithm
+        Tags: 
+            A: greedy (Kadane)
         """
-        total = 0
+        subarray_sum = 0
         max_sum = numbers[0]
 
         for number in numbers:
-            total = total + number if total > 0 else number
-            # total = max(total + number, number)
-            # if total < 0:
-            #     total = 0
-            max_sum = max(max_sum, total)
+            subarray_sum = subarray_sum + number if subarray_sum > 0 else number
+            # subarray_sum = max(subarray_sum + number, number)
+            # if subarray_sum < 0:
+            #     subarray_sum = 0
+            max_sum = max(max_sum, subarray_sum)
         return max_sum
-
-
-class Solution:
-    def maxSubArray(self, numbers: list[int]) -> int:
-        """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(1)
-        Tags: greedy
-        Kadane's Algorithm, mutate imput list
-        """
-        for index in range(1, len(numbers)):
-            numbers[index] += max(numbers[index - 1], 0)
-
-        return max(numbers)
 
 
 print(Solution().maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]) == 6)

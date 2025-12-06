@@ -2,31 +2,38 @@ class Solution:
     def combinationSum2(self, candidates: list[int], target: int) -> list[list[int]]:
         """
         Time complexity: O(n2^n)
-        Auxiliary space complexity: O(n)
             n: candidates length
-        Tags: backtracking
+        Auxiliary space complexity: O(n)
+        Tags: 
+            DS: list
+            A: DFS with backtracking
         """
-        candidates.sort()
         combination = []
         combination_list = []
+        candidates.sort()
 
-        def dfs(index):
-            combination_sum = sum(combination)
-            if combination_sum == target:
+        def backtrack(index: int, total: int) -> None:
+            if total == target:
                 combination_list.append(combination.copy())
                 return
-            elif combination_sum > target or index == len(candidates):
+            elif (
+                total > target or
+                index == len(candidates)
+            ):
                 return
 
-            combination.append(candidates[index])
-            dfs(index + 1)
+            candidate = candidates[index]
+            combination.append(candidate)
+            backtrack(index + 1, total + candidate)
             combination.pop()
-            while (index + 1 < len(candidates) and 
-                   candidates[index] == candidates[index + 1]):
+            while (
+                index + 1 < len(candidates) and
+                candidates[index] == candidates[index + 1]
+            ):
                 index += 1
-            dfs(index + 1)
+            backtrack(index + 1, total)
 
-        dfs(0)
+        backtrack(0, 0)
         return combination_list
 
 
@@ -34,31 +41,35 @@ class Solution:
     def combinationSum2(self, candidates: list[int], target: int) -> list[list[int]]:
         """
         Time complexity: O(n2^n)
-        Auxiliary space complexity: O(n)
             n: candidates length
-        Tags: iterative dfs with backtracking
+        Auxiliary space complexity: O(n)
+        Tags: 
+            DS: list
+            A: DFS with backtracking
         """
         candidates.sort()
         combination = []
         combination_list = []
 
-        def dfs(start):
-            combination_sum = sum(combination)
-            if combination_sum == target:
+        def backtrack(start: int, total: int) -> None:
+            if total == target:
                 combination_list.append(combination.copy())
                 return
-            elif combination_sum > target:
+            elif total > target:
                 return
 
             for index in range(start, len(candidates)):
-                if (index > start and 
-                        candidates[index] == candidates[index - 1]):
+                if (
+                    index > start and 
+                    candidates[index] == candidates[index - 1]
+                ):
                     continue
-                combination.append(candidates[index])
-                dfs(index + 1)
+                candidate = candidates[index]
+                combination.append(candidate)
+                backtrack(index + 1, total + candidate)
                 combination.pop()
 
-        dfs(0)
+        backtrack(0, 0)
         return combination_list
 
 

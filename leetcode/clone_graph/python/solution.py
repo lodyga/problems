@@ -1,7 +1,7 @@
 class Node:
-    def __init__(self, val=None, neighbors=None) -> None:
+    def __init__(self, val: int = 0, neighbors: list['Node'] | None = None):
         self.val = val
-        self.neighbors = neighbors or []
+        self.neighbors = neighbors if neighbors is not None else []
 
 
 class Solution:
@@ -11,14 +11,14 @@ class Solution:
         Auxiliary space complexity: O(n)
         Tags: dfs, recursion, graph
         """
-        original_to_copy = {}
+        copy_map = {}
 
         def dfs(node):
-            if node in original_to_copy:
-                return original_to_copy[node]
+            if node in copy_map:
+                return copy_map[node]
 
             node_copy = Node(node.val)
-            original_to_copy[node] = node_copy
+            copy_map[node] = node_copy
 
             for neighbor in node.neighbors:
                 node_copy.neighbors.append(dfs(neighbor))

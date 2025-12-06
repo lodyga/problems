@@ -3,20 +3,16 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
+        Tags:
+            A: greedy
         """
-        if not prices:
-            return 0
-
         min_price = prices[0]
         max_profit = 0
 
         for price in prices:
-            if price < min_price:
-                min_price = price
-
+            min_price = min(min_price, price)
             profit = price - min_price
-            if profit > max_profit:
-                max_profit = profit
+            max_profit = max(max_profit, profit)
 
         return max_profit
 
@@ -24,12 +20,13 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: two pointers
+        Tags: 
+            A: two pointers
         """
         max_profit = 0
         left = 0
 
-        for right in range(1, len(prices)):
+        for right in range(len(prices)):
             if prices[left] > prices[right]:  # if price is lower buy
                 left = right
             else:  # if price is higher calculate revenue

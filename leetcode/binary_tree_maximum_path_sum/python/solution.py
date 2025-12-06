@@ -21,7 +21,7 @@ class Solution:
         self.max_path_sum = root.val
 
         def dfs(node):
-            if not node:
+            if node is None:
                 return 0
 
             left = max(dfs(node.left), 0)

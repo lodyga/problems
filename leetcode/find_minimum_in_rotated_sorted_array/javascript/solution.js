@@ -2,36 +2,38 @@ class Solution {
    /**
     * Time complexity: O(logn)
     * Auxiliary space complexity: O(1)
-    * Tags: binary search
-    * @param {number[]} numbers
+    * Tags: 
+    *     A: binary search
+    * @param {number[]} nums
     * @return {number}
     */
-   findMin(numbers) {
+   findMin(nums) {
       let left = 0;
-      let right = numbers.length - 1;
-      let minNumber = numbers[0];
+      let right = nums.length - 1;
+      let minNum = nums[0];
 
       while (left <= right) {
          // early exit
-         if (numbers[left] < numbers[right]) {
-            return Math.min(numbers[left], minNumber)
+         if (nums[left] < nums[right]) {
+            return Math.min(nums[left], minNum)
          }
 
          const middle = (left + right) >> 1;
-         const middleNumber = numbers[middle];
-         minNumber = Math.min(minNumber, middleNumber);
+         const middleNum = nums[middle];
+         minNum = Math.min(minNum, middleNum);
 
-         if (middleNumber < numbers[right]) {
+         if (middleNum < nums[right]) {
             right = middle - 1;
          } else {
             left = middle + 1;
          }
       }
-      return minNumber
+      return minNum
    };
 }
 
 
+const findMin = new Solution().findMin;
 console.log(new Solution().findMin([1, 2, 3, 4]) === 1)
 console.log(new Solution().findMin([4, 1, 2, 3]) === 1)
 console.log(new Solution().findMin([2, 3, 4, 1]) === 1)

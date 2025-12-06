@@ -1,11 +1,13 @@
 class Solution {
    /**
     * Time complexity: O(n2^(t/m))
+    *     n: candidates length
     *     t: target
     *     m: min from candidates
     * Auxiliary space complexity: O(n)
-    *     n: candidates length
-    * Tags: backtracking
+    * Tags: 
+    *     DS: list
+    *     A: DFS with backtracking
     * @param {number[]} candidates
     * @param {number} target
     * @return {number[][]}
@@ -14,35 +16,34 @@ class Solution {
       const combination = [];
       const combinationList = [];
 
-      function dfs(index) {
-         const combinationSum = combination.reduce((sum, value) => sum + value, 0);
-         if (combinationSum === target) {
+      backtrack = (index, total) => {
+         if (total === target) {
             combinationList.push(combination.slice());
             return
          } else if (
-            combinationSum > target ||
+            total > target ||
             index === candidates.length
          ) return
 
-         combination.push(candidates[index]);
-         dfs(index);
+         const candidate = candidates[index];
+         combination.push(candidate);
+         backtrack(index, total + candidate);
          combination.pop();
-         dfs(index + 1);
+         backtrack(index + 1, total);
       }
-      dfs(0);
+      backtrack(0, 0);
       return combinationList
    };
-}
 
-
-class Solution {
    /**
     * Time complexity: O(n2^(t/m))
+    *     n: candidates length
     *     t: target
     *     m: min from candidates
     * Auxiliary space complexity: O(n)
-    *     n: candidates length
-    * Tags: iterative dfs with backtracking
+    * Tags: 
+    *     DS: list
+    *     A: DFS with backtracking
     * @param {number[]} candidates
     * @param {number} target
     * @return {number[][]}
@@ -51,26 +52,27 @@ class Solution {
       const combination = [];
       const combinationList = [];
 
-      function dfs(start) {
-         const combinationSum = combination.reduce((sum, value) => sum + value, 0);
-         if (combinationSum === target) {
+      const backtrack = (index, total) => {
+         if (total === target) {
             combinationList.push(combination.slice());
             return
-         } else if (combinationSum > target) 
+         } else if (total > target)
             return
 
-         for (let index = start; index < candidates.length; index++) {
-            combination.push(candidates[index]);
-            dfs(index);
+         for (let i2 = index; i2 < candidates.length; i2++) {
+            const candidate = candidates[i2];
+            combination.push(candidate);
+            backtrack(i2, total + candidate);
             combination.pop();
          }
       }
-      dfs(0);
+      backtrack(0, 0);
       return combinationList
    };
 }
 
 
+const combinationSum = new Solution().combinationSum;
 console.log(new Solution().combinationSum([2, 3, 6, 7], 7), [[2, 2, 3], [7]])
 console.log(new Solution().combinationSum([2, 3, 5], 8), [[2, 2, 2, 2], [2, 3, 3], [3, 5]])
 console.log(new Solution().combinationSum([2], 1), [])

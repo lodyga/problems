@@ -1,3 +1,6 @@
+from binary_tree_utils import *
+
+
 r"""
 draft
 preorder: [1, None, 3]
@@ -27,9 +30,6 @@ inorder: [9, 3, 15, 20, 7]
 """
 
 
-from binary_tree_utils import *
-
-
 # class TreeNode:
 #     """
 #     Definition for a binary tree node.
@@ -45,20 +45,23 @@ class Solution:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n)
-        Tags: binary tree, dfs, recursion, in-order traversal, pre-order traversal
+        Tags:
+            DS: binary tree
+            A: dfs, recursion, in-order traversal, pre-order traversal
         """
-        if preorder == [] or preorder == [None]:
+        if preorder in ([], [None]):
             return None
 
         node_value = preorder[0]
         node_index = inorder.index(node_value)
         node = TreeNode(node_value)
         node.left = self.buildTree(
-            preorder[1: 1 + node_index], 
+            preorder[1: node_index + 1],
             inorder[: node_index])
         node.right = self.buildTree(
-            preorder[1 + node_index: ], 
-            inorder[node_index + 1: ])
+            preorder[node_index + 1:],
+            inorder[node_index + 1:])
+
         return node
 
 
@@ -67,15 +70,15 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: binary tree, dfs, recursion, in-order traversal, pre-order traversal
+        Tags: 
+            DS: binary tree
+            A: dfs, recursion, in-order traversal, pre-order traversal
         """
-        inorder_index = {value: index 
-                         for index, value in enumerate(inorder)}
-        
+        inorder_index = {val: index for index, val in enumerate(inorder)}
+
         def dfs(pre_start, pre_end, in_start, in_end):
             if (
                 pre_start > pre_end or
-                in_start > in_end or
                 # Leetcode tests never have None in input.
                 pre_start == pre_end and preorder[pre_start] is None
             ):
@@ -86,7 +89,7 @@ class Solution:
             left_subtree_size = node_index - in_start
             node = TreeNode(node_value)
             node.left = dfs(
-                pre_start + 1, pre_start + left_subtree_size, 
+                pre_start + 1, pre_start + left_subtree_size,
                 in_start, node_index - 1)
             node.right = dfs(
                 pre_start + 1 + left_subtree_size, pre_end,

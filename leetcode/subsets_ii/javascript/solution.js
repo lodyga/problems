@@ -2,70 +2,73 @@ class Solution {
    /**
     * Time complexity: O(n2^n)
     * Auxiliary space complexity: O(n)
-    * Tags: Iterative DFS with Backtracking
-    * Smallest → Largest
-    * @param {number[]} numbers
+    * Tags: 
+    *     DS: list
+    *     A: backtracking
+    * Largest → Smallest
+    * @param {number[]} nums
     * @return {number[][]}
     */
-   subsetsWithDup(numbers) {
+   subsetsWithDup(nums) {
       const subset = [];
       const subsetList = [];
+      nums.sort((a, b) => a - b);
 
-      function dfs(start) {
+      const backtrack = (index) => {
+         if (index === nums.length) {
+            subsetList.push(subset.slice());
+            return
+         }
+         subset.push(nums[index]);
+         backtrack(index + 1);
+         subset.pop();
+         while (
+            index + 1 < nums.length &&
+            nums[index] === nums[index + 1]
+         ) index++;
+
+         backtrack(index + 1);
+      }
+      backtrack(0);
+      return subsetList
+   };
+
+   /**
+    * Time complexity: O(n2^n)
+    * Auxiliary space complexity: O(n)
+    * Tags: 
+    *     DS: list
+    *     A: backtracking
+    * Largest → Smallest
+    * @param {number[]} nums
+    * @return {number[][]}
+    */
+   subsetsWithDup(nums) {
+      const subset = [];
+      const subsetList = [];
+      nums.sort((a, b) => a - b);
+
+      const backtrack = (start) => {
          subsetList.push(subset.slice());
-         
-         for (let index = start; index < numbers.length; index++) {
+
+         for (let index = start; index < nums.length; index++) {
             if (
                index > start &&
-               numbers[index] === numbers[index - 1]
+               nums[index] === nums[index - 1]
             ) continue
-            subset.push(numbers[index]);
-            dfs(index + 1);
+            subset.push(nums[index]);
+            backtrack(index + 1);
             subset.pop();
          }
       }
 
-      dfs(0)
+      backtrack(0)
       return subsetList
    };
 }
 
 
-class Solution {
-   /**
-    * Time complexity: O(n2^n)
-    * Auxiliary space complexity: O(n)
-    * Tags: backtracking
-    * Largest → Smallest
-    * @param {number[]} numbers
-    * @return {number[][]}
-    */
-   subsetsWithDup(numbers) {
-      const subset = [];
-      const subsetList = [];
-   
-      function dfs(index) {
-         if (index === numbers.length) {
-            subsetList.push(subset.slice());
-            return
-         }
-         subset.push(numbers[index]);
-         dfs(index + 1);
-         subset.pop();
-         if (
-            index + 1 < numbers.length && 
-            numbers[index] === numbers[index + 1]
-         ) {
-            index++;
-         }
-         dfs(index + 1);
-      }
-      dfs(0);
-      return subsetList
-   };
-}
-
-
+const subsetsWithDup = new Solution().subsetsWithDup;
 console.log(new Solution().subsetsWithDup([0]), [[], [0]])
 console.log(new Solution().subsetsWithDup([5, 5]), [[], [5], [5, 5]])
 console.log(new Solution().subsetsWithDup([1, 2, 2]), [[], [1], [1, 2], [1, 2, 2], [2], [2, 2]])

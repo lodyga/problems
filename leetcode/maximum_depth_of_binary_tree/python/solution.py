@@ -12,64 +12,69 @@ from binary_tree_utils import *
 
 
 class Solution:
-    def maxDepth(self, root: TreeNode | None) -> int:
+    def maxDepth(self, root: TreeNode) -> int:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: binary tree, dfs, recursion
+        Tags: 
+            DS: binary tree
+            A: dfs, recursion, post-order traversal
         """
-        if not root:
-            return 0
+        def dfs(node):
+            if node is None:
+                return 0
 
-        left_depth = self.maxDepth(root.left)
-        right_depth = self.maxDepth(root.right)
+            left = dfs(node.left)
+            right = dfs(node.right)
+            return 1 + max(left, right)
 
-        return 1 + max(left_depth,
-                       right_depth)
+        return dfs(root)
 
-
-class Solution:
-    def maxDepth(self, root: TreeNode | None) -> int:
+    def maxDepth(self, root: TreeNode) -> int:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: binary tree, dfs, stack, iteration, pre-order traversal
+        Tags: 
+            DS: binary tree, stack
+            A: dfs, iteration, pre-order traversal
         """
-        if not root:
+        if root is None:
             return 0
-        
+
         max_depth = 1
-        stack = [(root, max_depth)]
+        stack = [(max_depth, root)]
 
         while stack:
-            node, depth = stack.pop()
+            depth, node = stack.pop()
             max_depth = max(max_depth, depth)
 
             if node.right:
-                stack.append((node.right, depth + 1))
+                stack.append((depth + 1, node.right))
             if node.left:
-                stack.append((node.left, depth + 1))
+                stack.append((depth + 1, node.left))
 
         return max_depth
 
-
-class Solution:
-    def maxDepth(self, root: TreeNode | None) -> int:
+    def maxDepth(self, root: TreeNode) -> int:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: binary tree, bfs, deque, iteration, level-order traversal
+        Tags: 
+            DS: binary tree, queue
+            A: bfs, iteration, level-order traversal
         """
-        if not root:
+        if root is None:
             return 0
-        
+
         max_depth = 0
         queue = deque([root])
 
         while queue:
             max_depth += 1
+
             for _ in range(len(queue)):
                 node = queue.popleft()
+
                 if node.left:
                     queue.append(node.left)
                 if node.right:
@@ -82,3 +87,4 @@ print(Solution().maxDepth(build_tree([])) == 0)
 print(Solution().maxDepth(build_tree([5])) == 1)
 print(Solution().maxDepth(build_tree([1, None, 2])) == 2)
 print(Solution().maxDepth(build_tree([3, 9, 20, None, None, 15, 7])) == 3)
+print(Solution().maxDepth(build_tree([4, 2, 7, 1, 3, 6, 9])) == 3)

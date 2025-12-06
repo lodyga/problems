@@ -1,39 +1,41 @@
 class Solution:
-    def partition(self, word: str) -> list[list[str]]:
+    def partition(self, text: str) -> list[list[str]]:
         """
         Time complexity: O(n2^n)
-        Auxiliary space complexity: O(2^n)
-            Every dfs call contains new string
-        Tags: iterative dfs with backtracking
+        Auxiliary space complexity: O(n)
+            Output: O(2^n)
+        Tags: 
+            DS: list
+            A: DFS with backtracking
         """
-        partition = []
-        partition_list = []
-
-        def is_palindrome(left, right):
+        def is_palindromes(left: int, right: int) -> bool:
             while left < right:
-                if word[left] != word[right]:
+                if text[left] != text[right]:
                     return False
                 left += 1
                 right -= 1
             return True
 
-        def dfs(start):
-            if start == len(word):
-                partition_list.append(partition.copy())
+        palindrome = []
+        palindrome_list = []
+
+        def backtrack(index: int) -> None:
+            if index == len(text):
+                palindrome_list.append(palindrome.copy())
                 return
 
-            for index in range(start, len(word)):
-                if is_palindrome(start, index):
-                    partition.append(word[start: index + 1])
-                    dfs(index + 1)
-                    partition.pop()
+            for right in range(index, len(text)):
+                if is_palindromes(index, right):
+                    palindrome.append(text[index: right + 1])
+                    backtrack(right + 1)
+                    palindrome.pop()
 
-        dfs(0)
-        return partition_list
+        backtrack(0)
+        return palindrome_list
 
 
 print(Solution().partition("a") == [["a"]])
-print(Solution().partition("aa") ==  [['a', 'a'], ['aa']])
+print(Solution().partition("aa") == [['a', 'a'], ['aa']])
 print(Solution().partition("ab") == [["a", "b"]])
 print(Solution().partition("aaa") == [['a', 'a', 'a'], ['a', 'aa'], ['aa', 'a'], ['aaa']])
 print(Solution().partition("aab") == [["a", "a", "b"], ["aa", "b"]])

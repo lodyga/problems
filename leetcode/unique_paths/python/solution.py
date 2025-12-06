@@ -1,43 +1,69 @@
 class Solution:
-    def uniquePaths(self, rows: int, cols: int) -> int:
+    def uniquePaths(self, ROWS: int, COLS: int) -> int:
         """
-        Time complexity: O(m*n)
-            m: number of rows
-            n: number of coulmns
-        Auxiliary space complexity: O(n)
-        Tags: dp, bottom-up
+        Time complexity: O(n2)
+        Auxiliary space complexity: O(n2)
+        Tags:
+            DS: array
+            A: top-down 
         """
-        current_row = [1] * cols  # cache
-
-        for _ in range(rows - 1):
-            for col in reversed(range(cols - 1)):
-                current_row[col] = current_row[col + 1] + current_row[col]
-
-        return current_row[0]
-
-
-class Solution:
-    def uniquePaths(self, rows: int, cols: int) -> int:
-        """
-        Time complexity: O(m*n)
-            m: number of rows
-            n: number of coulmns
-        Auxiliary space complexity: O(m*n)
-        Tags: dp, top-down with memoization as list
-        """
-        memo = [[1] * cols for _ in range(rows)]
+        memo = [[-1] * COLS for _ in range(ROWS)]
+        memo[ROWS - 1][COLS - 1] = 1
 
         def dfs(row, col):
-            if row == rows - 1 or col == cols - 1:
-                pass
-            else:
-                memo[row][col] = dfs(row + 1, col) + dfs(row, col + 1)
+            if row == ROWS or col == COLS:
+                return 0
+            elif memo[row][col] != -1:
+                return memo[row][col]
+
+            memo[row][col] = dfs(row + 1, col) + dfs(row, col + 1)
             return memo[row][col]
 
         return dfs(0, 0)
 
 
-print(Solution().uniquePaths(1, 2), 1)
-print(Solution().uniquePaths(2, 3), 3)
-print(Solution().uniquePaths(3, 2), 3)
-print(Solution().uniquePaths(3, 7), 28)
+class Solution:
+    def uniquePaths(self, ROWS: int, COLS: int) -> int:
+        """
+        Time complexity: O(n2)
+        Auxiliary space complexity: O(n2)
+        Tags:
+            DS: array
+            A: bottom-up
+        """
+        cache = [[0] * (COLS + 1) for _ in range(ROWS)]
+        for col in range(COLS):
+            cache[-1][col] = 1
+
+        for row in range(ROWS - 2, -1, -1):
+            for col in range(COLS - 1, -1, -1):
+                cache[row][col] = cache[row + 1][col] + cache[row][col + 1]
+
+        return cache[0][0]
+
+
+class Solution:
+    def uniquePaths(self, ROWS: int, COLS: int) -> int:
+        """
+        Time complexity: O(n2)
+        Auxiliary space complexity: O(n)
+        Tags:
+            DS: array
+            A: bottom-up
+        """
+        cache = [1] * (COLS + 1)
+        cache[-1] = 0
+
+        for _ in range(ROWS - 2, -1, -1):
+            for col in range(COLS - 1, -1, -1):
+                cache[col] += cache[col + 1]
+
+        return cache[0]
+
+
+print(Solution().uniquePaths(2, 1) == 1)
+print(Solution().uniquePaths(1, 2) == 1)
+print(Solution().uniquePaths(2, 2) == 2)
+print(Solution().uniquePaths(2, 3) == 3)
+print(Solution().uniquePaths(3, 2) == 3)
+print(Solution().uniquePaths(3, 7) == 28)

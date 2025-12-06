@@ -1,109 +1,97 @@
 from collections import deque
 
+
 class Solution:
     def orangesRotting(self, grid: list[list[int]]) -> int:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n2)
-        Tags: bfs, iteration, queue, graph, matrix
+        Tags: 
+            DS: array (matrix), queue
+            A: bfs, iteration
         """
-        rows = len(grid)
-        cols = len(grid[0])
+        ROWS = len(grid)
+        COLS = len(grid[0])
         DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
-        self.fresh_counter = 0
-        self.max_distance = 0
 
-        def bfs(queue):
-            distance = 0
-            while queue and self.fresh_counter:
-                distance += 1
-                for _ in range(len(queue)):
-                    row, col, distance = queue.popleft()
-                    if grid[row][col] == float("inf"):
-                        self.fresh_counter -= 1
-                    grid[row][col] = min(grid[row][col], distance)
-                    self.max_distance = max(self.max_distance, grid[row][col])
+        def bfs() -> int:
+            max_distance = 0
+            
+            while queue:
+                (row, col, distance) = queue.popleft()
+                max_distance = max(max_distance, distance)
 
-                    for r, c in DIRECTIONS:
-                        if (0 <= row + r < rows and
-                            0 <= col + c < cols and
-                                grid[row + r][col + c] > distance):
-                            queue.append((row + r, col + c, distance + 1))
+                for dr, dc in DIRECTIONS:
+                    (r, c) = (row + dr, col + dc)
+                    if (
+                        -1 < r < ROWS and
+                        -1 < c < COLS and
+                        grid[r][c] == -1
+                    ):
+                        queue.append((r, c, distance + 1))
+                        grid[r][c] = distance + 1
+            return max_distance
 
         queue = deque()
-        for row in range(rows):
-            for col in range(cols):
+        max_distance = 0
+        for row in range(ROWS):
+            for col in range(COLS):
                 if grid[row][col] == 2:
-                    # queue rotten oranges and treat those cells as water
                     queue.append((row, col, 0))
                     grid[row][col] = 0
+                elif grid[row][col] == 1:
+                    grid[row][col] = -1
 
-                if grid[row][col] == 1:
-                    # change fresh oranges from 1 to inf
-                    grid[row][col] = float("inf")
-                    self.fresh_counter += 1
-
-        # no fresh oranges
-        if self.fresh_counter == 0:
-            return 0
-
-        bfs(queue)
-        # if at least one unreachable orange exists
-        if self.fresh_counter:
-            return -1
-        else:
-            return self.max_distance
+        max_distance = bfs()
+        is_unreachable = any(True for row in grid for cell in row if cell == -1)
+        return -1 if is_unreachable else max_distance
 
 
 class Solution:
     def orangesRotting(self, grid: list[list[int]]) -> int:
         """
-        Time complexity: O(n4)
+        Time complexity: O(n2)
         Auxiliary space complexity: O(n2)
-        Tags: dfs, recursion, graph, matrix
+        Tags: 
+            DS: array (matrix), queue
+            A: bfs, iteration
         """
-        rows = len(grid)
-        cols = len(grid[0])
-        grid_copy = [[float("inf")] * cols for _ in range(rows)]
+        ROWS = len(grid)
+        COLS = len(grid[0])
         DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
-        visited_cells = set()
 
-        def dfs(row, col, distance):
-            if (row < 0 or
-                col < 0 or
-                row == rows or
-                col == cols or
-                grid[row][col] == 0 or
-                grid_copy[row][col] <= distance or
-                    (row, col) in visited_cells):
-                return
+        def bfs() -> int:
+            max_distance = -1
+            
+            while queue:
+                for index in range(len(queue)):
+                    (row, col) = queue.popleft()
+                    if index == 0:
+                        max_distance += 1
+                    
+                    for dr, dc in DIRECTIONS:
+                        (r, c) = (row + dr, col + dc)
+                        if (
+                            -1 < r < ROWS and
+                            -1 < c < COLS and
+                            grid[r][c] == 1
+                        ):
+                            queue.append((r, c))
+                            grid[r][c] = 0
+            
+            return max(max_distance, 0)
 
-            grid_copy[row][col] = min(grid_copy[row][col], distance)
-            visited_cells.add((row, col))
-
-            for r, c in DIRECTIONS:
-                dfs(row + r, col + c, distance + 1)
-
-            visited_cells.remove((row, col))
-
-        # replace water 0 wtith -1
-        for row in range(rows):
-            for col in range(cols):
-                if grid[row][col] == 0:
-                    grid_copy[row][col] = -1
-
-        for row in range(rows):
-            for col in range(cols):
+        queue = deque()
+        max_distance = 0
+        for row in range(ROWS):
+            for col in range(COLS):
                 if grid[row][col] == 2:
-                    dfs(row, col, 0)
+                    queue.append((row, col))
+                    grid[row][col] = 0
 
-        # if at least one unreachable orange exists
-        if any(float("inf") in row for row in grid_copy):
-            return -1
-        else:
-            ans = max(max(row) for row in grid_copy)
-            # only water cells
-            return 0 if ans == -1 else ans
+        max_distance = bfs()
+        is_unreachable = any(True for row in grid for cell in row if cell == 1)
+        return -1 if is_unreachable else max_distance
 
 
 print(Solution().orangesRotting([[2, 1, 1], [1, 1, 0], [0, 1, 1]]) == 4)

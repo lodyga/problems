@@ -26,7 +26,7 @@ class Codec {
       const values = [];
 
       const dfs = (node) => {
-         if (!node) {
+         if (node === null) {
             values.push('null')
             return
          }

@@ -1,40 +1,46 @@
 class Solution {
    /**
     * Time complexity: O(n)
-    * Auxiliary space complexity: O(1)
-    * Tags: dp, bottom-up
+    * Auxiliary space complexity: O(n)
+    * Tags: dp, top-down with memoization as hash map
     * @param {string} text
     * @return {number}
     */
    numDecodings(text) {
-      const cache = [1, 1];
+      const memo = Array(text.length + 1).fill(-1);
+      memo[memo.length - 1] = 1;
 
-      for (let index = text.length - 1; index >= 0; index--) {
-         if (text[index] === '0') {
-            [cache[0], cache[1]] = [0, cache[0]];
-            continue
+      const dfs = (index) => {
+         if (memo[index] !== -1) {
+            return memo[index]
          }
 
-         let currentCache = cache[0];
-
+         const num = text[index];
+         // (0-9)
+         let oneDigitNum = 0;
+         if (num !== '0')
+            oneDigitNum = dfs(index + 1);
+         // (10-26)
+         let twoDigitNum = 0;
          if (
             index + 1 < text.length &&
-            text.slice(index, index + 2) <= '26'
-         ) {
-            currentCache += cache[1]
-         }
-         [cache[0], cache[1]] = [currentCache, cache[0]];
+            (num === '1' ||
+               (num === '2' && text[index + 1] >= '0' && text[index + 1] <= '6'))
+         )
+            twoDigitNum = dfs(index + 2);
+
+         memo[index] = oneDigitNum + twoDigitNum;
+         return memo[index]
       }
-      return cache[0]
+      return dfs(0)
    };
-}
 
-
-class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: dp, bottom-up with cache as list
+    * Tags: 
+    *     DS: array
+    *     A: bottom-up
     * @param {string} text
     * @return {number}
     */
@@ -42,57 +48,62 @@ class Solution {
       const cache = Array(text.length + 1).fill(0);
       cache[cache.length - 1] = 1;
 
-      for (let index = text.length - 1; index >= 0; index--) {
-         if (text[index] === '0')
+      for (let index = text.length - 1; index > -1; index--) {
+         const num = text[index];
+         if (num === '0')
             continue
 
          cache[index] = cache[index + 1];
 
          if (
             index + 1 < text.length &&
-            text.slice(index, index + 2) <= '26'
+            (num === '1' ||
+               (num === '2' && text[index + 1] >= '0' && text[index + 1] <= '6'))
          ) {
-            cache[index] += cache[index + 2]
+            cache[index] += cache[index + 2];
          }
+      }
+      return cache[0]
+   };
+
+   /**
+    * Time complexity: O(n)
+    * Auxiliary space complexity: O(1)
+    * Tags: 
+    *     DS: array
+    *     A: bottom-up
+    * @param {string} text
+    * @return {number}
+    */
+   numDecodings(text) {
+      const cache = Array(2).fill(1);
+
+      for (let index = text.length - 1; index > -1; index--) {
+         const num = text[index];
+         if (num === '0') {
+            cache[1] = cache[0];
+            cache[0] = 0;
+            continue
+         }
+
+         let cacheAtIndex = cache[0];
+
+         if (
+            index + 1 < text.length &&
+            (num === '1' ||
+               (num === '2' && text[index + 1] >= '0' && text[index + 1] <= '6'))
+         ) {
+            cacheAtIndex += cache[1];
+         }
+         cache[1] = cache[0];
+         cache[0] = cacheAtIndex;
       }
       return cache[0]
    };
 }
 
 
-class Solution {
-   /**
-    * Time complexity: O(n)
-    * Auxiliary space complexity: O(n)
-    * Tags: dp, top-down with memoization as hash map
-    * @param {string} text
-    * @return {number}
-    */
-   numDecodings(text) {
-      const memo = new Map([[text.length, 1]]);
-      return dfs(0)
-
-      function dfs(index) {
-         if (memo.has(index)) {
-            return memo.get(index)
-         } else if (text[index] === '0') {
-            return 0
-         }
-         
-         memo.set(index, dfs(index + 1));
-         if (
-            index + 1 < text.length &&
-            text.slice(index, index + 2) <= '26'
-         ) {
-            memo.set(index, memo.get(index) + dfs(index + 2));
-         }
-         
-         return memo.get(index)
-      }  
-   };
-}
-
-
+const numDecodings = new Solution().numDecodings;
 console.log(new Solution().numDecodings('5') === 1)
 console.log(new Solution().numDecodings('23') === 2)
 console.log(new Solution().numDecodings('226') === 3)
@@ -101,4 +112,5 @@ console.log(new Solution().numDecodings('12') === 2)
 console.log(new Solution().numDecodings('2101') === 1)
 console.log(new Solution().numDecodings('06') === 0)
 console.log(new Solution().numDecodings('0') === 0)
+console.log(new Solution().numDecodings('2617') == 4)
 console.log(new Solution().numDecodings('111111111111111111111111111111111111111111111') === 1836311903)

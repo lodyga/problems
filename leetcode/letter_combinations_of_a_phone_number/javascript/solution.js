@@ -1,15 +1,14 @@
 class Solution {
    /**
     * Time complexity: O(n4^n)
-    *     Up to 4 letters in one digit
     * Auxiliary space complexity: O(n)
-    * Tags: iteration dfs with backtracking
+    * Tags: 
+    *     DS: list
+    *     A: DFS with backtracking
     * @param {string} digits
-    * @return {}
+    * @return {string[]}
     */
    letterCombinations(digits) {
-      if (digits.length === 0)
-         return []
       const combination = [];
       const combinationList = [];
       const digitToLetter = new Map([
@@ -23,26 +22,25 @@ class Solution {
          ['9', 'wxyz']
       ]);
 
-      dfs(0);
-      return combinationList
-
-      function dfs(index) {
+      const backtrack = (index) => {
          if (index === digits.length) {
-            combinationList.push(combination.join(''))
+            combinationList.push(combination.join(''));
             return
          }
 
          const digit = digits[index];
          for (const letter of digitToLetter.get(digit)) {
             combination.push(letter);
-            dfs(index + 1)
+            backtrack(index + 1);
             combination.pop();
          }
       }
+      backtrack(0);
+      return combinationList
    };
 }
 
 
-console.log(new Solution().letterCombinations('2'), ['a', 'b', 'c'])
-console.log(new Solution().letterCombinations('23'), ['ad', 'ae', 'af', 'bd', 'be', 'bf', 'cd', 'ce', 'cf'])
-console.log(new Solution().letterCombinations(''), [])
+const letterCombinations = new Solution().letterCombinations;
+print(Solution().letterCombinations('2') == ['a', 'b', 'c'])
+print(Solution().letterCombinations('23') == ['ad', 'ae', 'af', 'bd', 'be', 'bf', 'cd', 'ce', 'cf'])

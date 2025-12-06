@@ -4,30 +4,29 @@ class Solution:
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
         """
-        password_length = 0
+        def has_even_letters(word: str) -> bool:
+            return sum(True for char in word if char.isalpha()) % 2 == 0
 
+        def has_odd_digits(word: str) -> bool:
+            return sum(True for char in word if char.isdigit()) % 2 == 1
+
+        def is_alnum(word: str) -> bool:
+            for char in word:
+                if not char.isalnum():
+                    return False
+            return True
+
+
+        password_length = -1
         for password in passwords.split(" "):
-            if (password.isalnum() and
-                self.has_even_letters(password) and
-                self.has_odd_digits(password) and
-                    len(password) > password_length):
-                password_length = len(password)
+            if (
+                is_alnum(password) and
+                has_even_letters(password) and
+                has_odd_digits(password)
+            ):
+                password_length = max(password_length, len(password))
 
         return password_length
 
-    def has_even_letters(self, password):
-        letter_counter = 0
-        for char in password:
-            if char.isalpha():
-                letter_counter += 1
-        return not (letter_counter % 2)
 
-    def has_odd_digits(self, password):
-        digit_counter = 0
-        for char in password:
-            if char.isdigit():
-                digit_counter += 1
-        return digit_counter % 2
-
-
-print(Solution().longest_password("test 5 a0A pass007 ?xy1"), 7)
+print(Solution().longest_password("test 5 a0A pass007 ?xy1") == 7)

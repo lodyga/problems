@@ -19,7 +19,7 @@ class Solution:
         Tags: binary tree, dfs, recursion
         """
         def dfs(node):
-            if not node:
+            if node is None:
                 return (0, 0)
 
             node_left = dfs(node.left)

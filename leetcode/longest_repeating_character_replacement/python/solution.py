@@ -1,22 +1,27 @@
 class Solution:
-    def characterReplacement(self, word: str, joker: int) -> int:
+    def characterReplacement(self, text: str, k: int) -> int:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: sliding window as hash map
+        Tags: 
+            DS: array
+            A: sliding window
         """
-        window = {}
+        window = [0] * 26
         left = 0
-        longest = 0
-        most_frequent = 0  # lazy upper bound
+        # lazy upper bound
+        most_frequent = 1
+        longest = 1
 
-        for right, letter in enumerate(word):
-            window[letter] = window.get(letter, 0) + 1
-            most_frequent = max(most_frequent, window[letter])
+        for right, letter in enumerate(text):
+            index = ord(letter) - ord("A")
+            window[index] += 1
+            most_frequent = max(most_frequent, window[index])
 
-            while (right - left + 1) - most_frequent > joker:
-                left_letter = word[left]
-                window[left_letter] -= 1
+            while (right - left + 1) - most_frequent > k:
+                left_letter = text[left]
+                left_index = ord(left_letter) - ord("A")
+                window[left_index] -= 1
                 left += 1
 
             longest = max(longest, right - left + 1)
@@ -29,7 +34,9 @@ class Solution:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(1)
-        Tags: brute-force
+        Tags: 
+            DS: hash map
+            A: brute-force
         """
         longest = 0
 

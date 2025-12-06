@@ -1,5 +1,5 @@
-import { Queue } from '@datastructures-js/queue';
 import { TreeNode, buildTree, getTreeValues } from '../../../../JS/binary-tree.js';
+import { Queue } from '@datastructures-js/queue';
 
 
 /**
@@ -17,42 +17,49 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: binary tree, dfs, recursion
+    * Tags: 
+    *     DS: binary tree
+    *     A: dfs, recursion, pre-order traversal
     * @param {TreeNode} root
     * @return {TreeNode}
     */
    invertTree(root) {
-      if (!root) {
-         return null  // return, returns undefined
+      const dfs = (node) => {
+         if (node === null) {
+            return
+         }
+         [node.left, node.right] = [node.right, node.left];
+         dfs(node.right);
+         dfs(node.left);
       }
-      [root.left, root.right] = [root.right, root.left];
-      this.invertTree(root.left);
-      this.invertTree(root.right);
-
+      dfs(root)
       return root
    };
 
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: binary tree, dfs, stack, iteration
+    * Tags: 
+    *     DS: binary tree, stack
+    *     A: dfs, iteration, pre-order traversal
     * @param {TreeNode} root
     * @return {TreeNode}
     */
    invertTree(root) {
-      if (!root) {
+      if (root === null) {
          return null
       }
 
       const stack = [root];
+
       while (stack.length) {
          const node = stack.pop();
          [node.left, node.right] = [node.right, node.left];
-         if (node.right) {
-            stack.push(node.right);
-         }
          if (node.left) {
             stack.push(node.left);
+         }
+         if (node.right) {
+            stack.push(node.right);
          }
       }
       return root
@@ -61,12 +68,14 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: binary tree, bfs, deque, iteration
+    * Tags: 
+    *     DS: binary tree, queue
+    *     A: bfs, iteration, level-order traversal
     * @param {TreeNode} root
     * @return {TreeNode}
     */
    invertTree(root) {
-      if (!root) {
+      if (root === null) {
          return null
       }
 
@@ -86,7 +95,8 @@ class Solution {
 }
 
 
-console.log(getTreeValues(new Solution().invertTree(buildTree([2, 1, 3]))), [2, 3, 1])
-console.log(getTreeValues(new Solution().invertTree(buildTree([4, 2, 7, 1, 3, 6, 9]))), [4, 7, 2, 9, 6, 3, 1])
-console.log(getTreeValues(new Solution().invertTree(buildTree([7, 3, 15, null, null, 9, 20]))), [7, 15, 3, 20, 9])
-console.log(getTreeValues(new Solution().invertTree(buildTree([]))), [])
+const invertTree = new Solution().invertTree;
+console.log(JSON.stringify(getTreeValues(new Solution().invertTree(buildTree([2, 1, 3])))) === JSON.stringify([2, 3, 1]))
+console.log(JSON.stringify(getTreeValues(new Solution().invertTree(buildTree([4, 2, 7, 1, 3, 6, 9])))) === JSON.stringify([4, 7, 2, 9, 6, 3, 1]))
+console.log(JSON.stringify(getTreeValues(new Solution().invertTree(buildTree([7, 3, 15, null, null, 9, 20])))) === JSON.stringify([7, 15, 3, 20, 9]))
+console.log(JSON.stringify(getTreeValues(new Solution().invertTree(buildTree([])))) === JSON.stringify([]))

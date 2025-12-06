@@ -3,26 +3,25 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: stack
+        Tags:
+            DS: stack
+            A: iteration
         """
-        visited_directions = []
-        OPPOSITE_DIRECTIONS = {
-            "NORTH": "SOUTH",
+        direction_stack = []
+        OPPOSITE_DIRECTION = {
             "SOUTH": "NORTH",
+            "NORTH": "SOUTH",
             "EAST": "WEST",
-            "WEST": "EAST",
+            "WEST": "EAST"
         }
 
         for direction in direction_list:
-            if (
-                visited_directions and
-                visited_directions[-1] == OPPOSITE_DIRECTIONS[direction]
-            ):
-                visited_directions.pop()
+            if direction_stack and direction_stack[-1] == OPPOSITE_DIRECTION[direction]:
+                direction_stack.pop()
             else:
-                visited_directions.append(direction)
+                direction_stack.append(direction)
         
-        return visited_directions
+        return direction_stack
 
 
 print(Solution().dir_reduc(["NORTH", "SOUTH", "SOUTH", "EAST", "WEST", "NORTH", "WEST"]) == ["WEST"])

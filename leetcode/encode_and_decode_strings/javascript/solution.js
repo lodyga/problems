@@ -1,16 +1,18 @@
 /**
- * Time complexity: O(n)
- *    n: all chars count
+ * Time complexity: O(n):
+ *     n: char count
  * Auxiliary space complexity: O(n)
- * Tags: string
+ * Tags:
+ *     DS: list
+ *     A: iteration
  */
 class Solution {
    /**
-    * @param {string[]} wordList
+    * @param {string[]} words
     * @return {string}
     */
-   encode(wordList) {
-      return wordList.map(word => word.length + '#' + word).join('')
+   encode(words) {
+      return words.map(word => word.length + '#' + word).join('')
    };
 
    /**
@@ -18,7 +20,7 @@ class Solution {
     * @return {string[]}
     */
    decode(text) {
-      const wordList = [];
+      const words = [];
       let index = 0;
 
       while (index < text.length) {
@@ -29,14 +31,12 @@ class Solution {
             index++;
          }
 
-         if (text[index] === "#") {
-            index++;
-         }
-         wordList.push(text.slice(index, index + wordLength));
+         index++;
+         words.push(text.slice(index, index + wordLength));
          index += wordLength;
       }
-      return wordList
-   }
+      return words
+   };
 }
 
 

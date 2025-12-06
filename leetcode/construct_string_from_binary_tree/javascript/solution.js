@@ -26,7 +26,7 @@ class Solution {
       return values.join('')
 
       function dfs(node) {
-         if (!node) {
+         if (node === null) {
             return
          }
          

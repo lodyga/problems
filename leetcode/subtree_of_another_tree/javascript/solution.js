@@ -16,42 +16,53 @@ class Solution {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(n)
-    * Tags: binary tree, dfs, recursion
-    * @param {TreeNode} root1
-    * @param {TreeNode} root2
+    * Tags: 
+    *     DS: binary tree
+    *     A: dfs, recursion, pre-order traversal
+    * @param {TreeNode} root
+    * @param {TreeNode} subRoot
     * @return {boolean}
     */
-   static isSubtree(root1, root2) {
-      const isSameTree = (root1, root2) => {
-         if (root1 === null && root2 === null) {
+   isSubtree(root, subRoot) {
+      const isSameTree = (node1, node2) => {
+         if (node1 === null && node2 === null) {
             return true
-         } else if (root1 === null || root2 === null) {
+         } else if (node1 === null || node2 === null) {
             return false
-         } else if (root1.val !== root2.val) {
+         } else if (node1.val !== node2.val) {
             return false
          }
-         return (
-            isSameTree(root1.left, root2.left) &&
-            isSameTree(root1.right, root2.right)
-         )
+         const left = isSameTree(node1.left, node2.left);
+         const right = isSameTree(node1.right, node2.right);
+
+         return left && right
       }
 
-      if (root2 === null) {
+      if (subRoot === null) {
          return true
-      } else if (root1 === null) {
+      } else if (root === null) {
          return false
-      } else if (isSameTree(root1, root2)) {
-         return true
       }
-      return (
-         isSubtree(root1.left, root2) ||
-         isSubtree(root1.right, root2)
-      )
-   };
 
+      const dfs = (node) => {
+         if (node === null) {
+            return false
+         }
+         else if (isSameTree(node, subRoot)) {
+            return true
+         }
+
+         const left = dfs(node.left);
+         const right = dfs(node.right);
+
+         return left || right
+      }
+      return dfs(root)
+   };
 }
 
 
-const isSubtree = Solution.isSubtree;
-console.log(Solution.isSubtree(buildTree([3, 4, 5, 1, 2]), buildTree([4, 1, 2])) === true)
-console.log(Solution.isSubtree(buildTree([3, 4, 5, 1, 2, null, null, null, null, 0]), buildTree([4, 1, 2])) === false)
+const isSubtree = new Solution().isSubtree;
+console.log(new Solution().isSubtree(buildTree([3, 4, 5, 1, 2]), buildTree([4, 1, 2])) === true)
+console.log(new Solution().isSubtree(buildTree([3, 4, 5, 1, 2, null, null, null, null, 0]), buildTree([4, 1, 2])) === false)
+console.log(new Solution().isSubtree(buildTree([1, null, 1, null, 1, null, 1, null, 1, null, 1, null, 1, null, 1, null, 1, null, 1, null, 1, 2]), buildTree([1, null, 1, null, 1, null, 1, null, 1, null, 1, 2])) == true)

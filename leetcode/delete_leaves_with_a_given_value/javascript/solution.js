@@ -22,7 +22,7 @@ class Solution {
     * @returns {TreeNode}
     */
    removeLeafNodes(root, target) {
-      if (!root) {
+      if (root === null) {
          return null
       }
       root.left = removeLeafNodes(root.left, target);

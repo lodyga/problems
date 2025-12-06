@@ -6,40 +6,41 @@ Binary Decision Tree
                  /      \              /     \
            [1, 2]       [1]         [2]       []
           /     \          \      /    \         \
-  [1,2,3]   [1,2]         [1]  [2,3]  [2]         []
+  [1,2,3]     [1,2]       [1]  [2,3]  [2]         []
 """
 
 
 class Solution:
-    def subsetsWithDup(self, numbers: list[int]) -> list[list[int]]:
+    def subsetsWithDup(self, nums: list[int]) -> list[list[int]]:
         """
         Time complexity: O(n2^n)
         Auxiliary space complexity: O(n)
-        Tags: backtracking
+        Tags: 
+            DS: list
+            A: DFS with backtracking
         Largest → Smallest
         """
-        numbers.sort()
         subset = []
-        subset_list = []  # 5,5 5, 5, 0
+        subset_list = []
+        nums.sort()
 
-        def dfs(index):
-            if index == len(numbers):
+        def backtrack(index: int) -> None:
+            if index == len(nums):
                 subset_list.append(subset.copy())
                 return
 
-            subset.append(numbers[index])
-            dfs(index + 1) # 1,0[5], 2,1[5,5] 5,1[5]
+            subset.append(nums[index])
+            backtrack(index + 1)
             subset.pop()
-            # Skip over duplicate elements to avoid generating duplicate subsets
-            # If the next number at the `index + 1` is the same as 
-            # the number at the current `index` (that was popped) skip it.
-            while (index + 1 < len(numbers) and
-                    numbers[index] == numbers[index + 1]):
+            while (
+                index + 1 < len(nums) and
+                nums[index] == nums[index + 1]
+            ):
                 index += 1
-            dfs(index + 1)  # 3,1[5] 4,0[] 6,1[]
-            return
-        
-        dfs(0)
+
+            backtrack(index + 1)
+
+        backtrack(0)
         return subset_list
 
 
@@ -59,24 +60,26 @@ class Solution:
         """
         Time complexity: O(n2^n)
         Auxiliary space complexity: O(n)
-        Tags: Iterative DFS with Backtracking
+        Tags: 
+            DS: list
+            A: DFS with backtracking
         Smallest → Largest
         """
         numbers.sort()
         subset_list = []
         subset = []
 
-        def dfs(start):
+        def backtrack(start):
             subset_list.append(subset.copy())
-            
+
             for index in range(start, len(numbers)):
                 if index > start and numbers[index] == numbers[index - 1]:
                     continue  # Skip duplicates
                 subset.append(numbers[index])
-                dfs(index + 1)
+                backtrack(index + 1)
                 subset.pop()
 
-        dfs(0)
+        backtrack(0)
         return subset_list
 
 

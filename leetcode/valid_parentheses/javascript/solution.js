@@ -2,39 +2,42 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: stack
+    * Tags:
+    *     DS: stack
+    *     A: iteration
     * @param {string} bracketList
     * @return {boolean}
    */
    isValid(bracketList) {
       if (bracketList.length % 2 != 0) return false
 
-      const stackedBrackets = [];
+      const bracketStack = [];
       const closingBracket = {
-         ")": "(",
-         "]": "[",
-         "}": "{",
+         ')': '(',
+         ']': '[',
+         '}': '{'
       };
       for (const bracket of bracketList) {
          if (bracket in closingBracket) {
-            if (stackedBrackets[stackedBrackets.length - 1] === closingBracket[bracket]) {
-               stackedBrackets.pop();
+            if (bracketStack[bracketStack.length - 1] === closingBracket[bracket]) {
+               bracketStack.pop();
             } else {
                return false
             }
          } else {
-            stackedBrackets.push(bracket);
+            bracketStack.push(bracket);
          }
       }
-      return !Boolean(stackedBrackets.length)
+      return bracketStack.length === 0
    }
 }
 
 
-console.log(new Solution().isValid("()") === true)
-console.log(new Solution().isValid("({})") === true)
-console.log(new Solution().isValid("(})") === false)
-console.log(new Solution().isValid("([)") === false)
-console.log(new Solution().isValid("(]") === false)
-console.log(new Solution().isValid("") === true)
-console.log(new Solution().isValid("[") === false)
+const isValid = new Solution().isValid;
+console.log(new Solution().isValid('()') === true)
+console.log(new Solution().isValid('({})') === true)
+console.log(new Solution().isValid('(})') === false)
+console.log(new Solution().isValid('([)') === false)
+console.log(new Solution().isValid('(]') === false)
+console.log(new Solution().isValid('') === true)
+console.log(new Solution().isValid('[') === false)

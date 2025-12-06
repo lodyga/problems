@@ -1,23 +1,24 @@
 # Balanced Binary Tree
 https://leetcode.com/problems/balanced-binary-tree/description/
 
-Given a binary tree, determine if it is 
-height-balanced
 
+Given a binary tree, determine if it is height-balanced. A height-balanced binary tree is a binary tree in which the depth of the two subtrees of every node never differs by more than one.
+
+
+<b>Example 1:</b>\
+Input: root = [3,9,20,null,null,15,7]
 <pre>
-Example 1:
-
   3___
  /    \
 9     _20
      /   \
     15    7
-
-Input: root = [3,9,20,null,null,15,7]
+</pre>
 Output: true
 
-Example 2:
-
+<b>Example 2:</b>\
+Input: root = [1,2,2,3,3,null,null,4,4]
+<pre>
         __1
        /   \
     __2     2
@@ -25,12 +26,9 @@ Example 2:
   3     3
  / \
 4   4
-
-Input: root = [1,2,2,3,3,null,null,4,4]
+</pre>
 Output: false
 
-Example 3:
-
-Input: root = []
+<b>Example 3:</b>\
+Input: root = []\
 Output: true
-</pre>

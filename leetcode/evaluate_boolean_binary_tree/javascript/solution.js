@@ -21,7 +21,7 @@ class Solution {
     * @return {boolean}
     */
    evaluateTree = (root) => {
-      if (!root) return false
+      if (root === null) return false
       else if (root.val === 0) {return false}
       else if (root.val === 1) {return true}
       else if (root.val === 2) {

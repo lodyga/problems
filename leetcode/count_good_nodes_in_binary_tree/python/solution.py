@@ -1,4 +1,5 @@
 from binary_tree_utils import *
+from collections import deque
 
 
 # class TreeNode:
@@ -16,95 +17,92 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: binary tree, dfs, recursion
-        pure function
+        Tags: 
+            DS: binary tree
+            A: dfs, recursion, pre-order traversal
+            side effect
         """
-        def dfs(node, max_val):
-            if not node:
+        counter = 0
+
+        def dfs(node, prev_max):
+            nonlocal counter
+            if node is None:
+                return
+
+            counter += 1 if node.val >= prev_max else 0
+            prev_max = max(prev_max, node.val)
+            dfs(node.left, prev_max)
+            dfs(node.right, prev_max)
+
+        dfs(root, root.val)
+        return counter
+
+    def goodNodes(self, root: TreeNode) -> int:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(n)
+        Tags: 
+            DS: binary tree
+            A: dfs, recursion, pre-order traversal
+            pure function
+        """
+        def dfs(node, prev_max):
+            if node is None:
                 return 0
-            
-            max_val = max(max_val, node.val)
-            good_nodes = 1 if node.val >= max_val else 0
-            good_nodes += dfs(node.left, node.val)
-            good_nodes += dfs(node.right, node.val)
-            return good_nodes
+
+            prev_max = max(prev_max, node.val)
+            is_good = True if node.val >= prev_max else False
+            left = dfs(node.left, prev_max)
+            right = dfs(node.right, prev_max)
+            return is_good + left + right
 
         return dfs(root, root.val)
 
-
-class Solution:
     def goodNodes(self, root: TreeNode) -> int:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: binary tree, dfs, recursion
-        side effect
+        Tags: 
+            DS: binary tree, stack
+            A: dfs, iteration, pre-order traversal
         """
-        self.good_nodes = 0
-        
-        def dfs(node, max_val):
-            if not node:
-                return
-            
-            max_val = max(max_val, node.val)
-            if node.val >= max_val:
-                self.good_nodes += 1
-            
-            dfs(node.left, node.val)
-            dfs(node.right, node.val)
-
-        dfs(root, root.val)
-        return self.good_nodes
-
-
-class Solution:
-    def goodNodes(self, root: TreeNode) -> int:
-        """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(n)
-        Tags: binary tree, bfs, iteration, queue
-        """
-        node = root
-        queue = deque([(root, root.val)])
-        good_nodes = 0
-
-        while queue:
-            for _ in range(len(queue)):
-                node, max_val = queue.popleft()
-                max_val = max(max_val, node.val)
-                good_nodes += 1 if node.val >= max_val else 0
-
-                if node.left:
-                    queue.append((node.left, max_val))
-                if node.right:
-                    queue.append((node.right, max_val))
-        
-        return good_nodes
-
-
-class Solution:
-    def goodNodes(self, root: TreeNode) -> int:
-        """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(n)
-        Tags: binary tree, dfs, iteration, stack
-        """
-        node = root
         stack = [(root, root.val)]
-        good_nodes = 0
+        counter = 0
 
         while stack:
-            for _ in range(len(stack)):
-                node, max_val = stack.pop()
-                max_val = max(max_val, node.val)
-                good_nodes += 1 if node.val >= max_val else 0
+            node, prev_max = stack.pop()
+            prev_max = max(prev_max, node.val)
+            counter += 1 if node.val >= prev_max else 0
 
-                if node.left:
-                    stack.append((node.left, max_val))
-                if node.right:
-                    stack.append((node.right, max_val))
-        
-        return good_nodes
+            if node.left:
+                stack.append((node.left, prev_max))
+            if node.right:
+                stack.append((node.right, prev_max))
+
+        return counter
+
+    def goodNodes(self, root: TreeNode) -> int:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(n)
+        Tags: 
+            DS: binary tree, queue
+            A: bfs, iteration, level-order traversal
+        """
+        queue = deque([(root, root.val)])
+        counter = 0
+
+        while queue:
+            node, prev_max = queue.pop()
+            prev_max = max(prev_max, node.val)
+            counter += 1 if node.val >= prev_max else 0
+
+            if node.left:
+                queue.append((node.left, prev_max))
+            if node.right:
+                queue.append((node.right, prev_max))
+
+        return counter
 
 
 print(Solution().goodNodes(build_tree([1])) == 1)

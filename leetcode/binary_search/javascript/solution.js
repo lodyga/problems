@@ -2,22 +2,23 @@ class Solution {
    /**
     * Time complexity: O(logn)
     * Auxiliary space complexity: O(1)
-    * Tags: binary search
-    * @param {number[]} numbers
+    * Tags: 
+    *     A: binary search
+    * @param {number[]} nums
     * @param {number} target
     * @return {number}
     */
-   search(numbers, target) {
+   search(nums, target) {
       let left = 0;
-      let right = numbers.length - 1;
+      let right = nums.length - 1;
 
       while (left <= right) {
          const middle = (left + right) >> 1;
-         const middleNumber = numbers[middle];
+         const middleNum = nums[middle];
 
-         if (target === middleNumber) {
+         if (target === middleNum) {
             return middle
-         } else if (target < middleNumber) {
+         } else if (target < middleNum) {
             right = middle - 1;
          } else {
             left = middle + 1;
@@ -28,6 +29,7 @@ class Solution {
 }
 
 
+const search = new Solution().search;
 console.log(new Solution().search([-1, 0, 3, 5, 9, 12], -1) === 0)
 console.log(new Solution().search([-1, 0, 3, 5, 9, 12], 0) === 1)
 console.log(new Solution().search([-1, 0, 3, 5, 9, 12], 3) === 2)

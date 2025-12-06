@@ -2,33 +2,35 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: stack
+    * Tags: 
+    *     DS: stack
+    *     A: iteration
     * @param {string[]} tokens
     * @return {number}
     */
    evalRPN(tokens) {
-      const digitStack = [];
+      const numStack = [];
 
       for (let token of tokens) {
          if (token === '+') {
-            digitStack.push(digitStack.pop() + digitStack.pop());
+            numStack.push(numStack.pop() + numStack.pop());
          } else if (token === '*') {
-            digitStack.push(digitStack.pop() * digitStack.pop());
+            numStack.push(numStack.pop() * numStack.pop());
          } else if (token === '-') {
-            digitStack.push(-digitStack.pop() + digitStack.pop());
+            numStack.push(-numStack.pop() + numStack.pop());
          } else if (token === '/') {
-            digitStack.push(Math.trunc((1/digitStack.pop()) * digitStack.pop()));
+            numStack.push(Math.trunc((1 / numStack.pop()) * numStack.pop()));
          } else {
-            digitStack.push(Number(token));
+            numStack.push(Number(token));
          }
       }
-      return digitStack[0]
+      return numStack[0]
    };
 }
+
+
 const evalRPN = new Solution().evalRPN;
-
-
-console.log(new Solution().evalRPN(['2', '1', '+', '3', '*']), 9)
-console.log(new Solution().evalRPN(['4', '13', '5', '/', '+']), 6)
-console.log(new Solution().evalRPN(['10', '6', '9', '3', '+', '-11', '*', '/', '*', '17', '+', '5', '+']), 22)
-console.log(new Solution().evalRPN(['18']), 18)
+console.log(new Solution().evalRPN(['2', '1', '+', '3', '*']) === 9)
+console.log(new Solution().evalRPN(['4', '13', '5', '/', '+']) === 6)
+console.log(new Solution().evalRPN(['10', '6', '9', '3', '+', '-11', '*', '/', '*', '17', '+', '5', '+']) === 22)
+console.log(new Solution().evalRPN(['18']) === 18)

@@ -38,7 +38,7 @@ var postorder = function (root) {
  * @return {number[]}
  */
 var postorder = function (root) {
-   if (!root)
+   if (root === null)
       return []
    const values = [];
    const stack = [[root, false]];

@@ -1,4 +1,4 @@
-import {ListNode, buildLinkedList, getLinkedListValues} from '../../../../JS/linked-list-utils.js'
+import { ListNode, buildLinkedList, getLinkedListValues } from '../../../../JS/linked-list-utils.js'
 
 
 /**
@@ -16,6 +16,9 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
+    * Tags: 
+    *     DS: linked list
+    *     A: iteration
     * Reverse a singly-linked list.
     * @param {ListNode} head
     * @return {ListNode}
@@ -32,13 +35,13 @@ class Solution {
       }
       return prev
    };
-}
 
-
-class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
+    * Tags: 
+    *     DS: linked list
+    *     A: iteration
     * Reverse a singly-linked list.
     * One-liner
     * @param {ListNode} head
@@ -56,6 +59,7 @@ class Solution {
 }
 
 
-console.log(getLinkedListValues(new Solution().reverseList(buildLinkedList([]))), [])
-console.log(getLinkedListValues(new Solution().reverseList(buildLinkedList([1, 2]))), [2, 1])
-console.log(getLinkedListValues(new Solution().reverseList(buildLinkedList([1, 2, 3, 4, 5]))), [5, 4, 3, 2, 1])
+const reverseList = new Solution().reverseList;
+console.log(JSON.stringify(getLinkedListValues(new Solution().reverseList(buildLinkedList([])))) === JSON.stringify([]))
+console.log(JSON.stringify(getLinkedListValues(new Solution().reverseList(buildLinkedList([1, 2])))) === JSON.stringify([2, 1]))
+console.log(JSON.stringify(getLinkedListValues(new Solution().reverseList(buildLinkedList([1, 2, 3, 4, 5])))) === JSON.stringify([5, 4, 3, 2, 1]))

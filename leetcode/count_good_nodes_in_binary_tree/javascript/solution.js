@@ -1,4 +1,5 @@
 import { TreeNode, buildTree, getTreeValues } from '../../../../JS/binary-tree.js';
+import { Queue } from '@datastructures-js/queue';
 
 
 /**
@@ -16,88 +17,108 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: binary tree, dfs, recursion
-    * pure function
+    * Tags: 
+    *     DS: binary tree
+    *     A: dfs, recursion, pre-order traversal
+    *     side effect
     * @param {TreeNode} root
     * @return {number[]}
     */
    goodNodes(root) {
-      return dfs(root, root.val)
+      let counter = 0;
 
-      function dfs(node, maxVal) {
-         if (!node) 
-            return 0
+      const dfs = (node, prevMax) => {
+         if (node === null)
+            return
 
-         maxVal = Math.max(maxVal, node.val);
-         let goodNodesCount = node.val >= maxVal ? 1 : 0;
-         goodNodesCount += dfs(node.left, maxVal);
-         goodNodesCount += dfs(node.right, maxVal);
-         return goodNodesCount
+         prevMax = Math.max(prevMax, node.val);
+         counter += node.val >= prevMax ? 1 : 0;
+         dfs(node.left, prevMax);
+         dfs(node.right, prevMax);
       }
-   };
-}
-
-
-class Solution {
-   /**
-    * Time complexity: O(n)
-    * Auxiliary space complexity: O(n)
-    * Tags: binary tree, dfs, recursion
-    * side effect
-    * @param {TreeNode} root
-    * @return {number[]}
-    */
-   goodNodes(root) {
-      let goodNodesCount = 0; 
       dfs(root, root.val)
-      return goodNodesCount
-
-      function dfs(node, maxVal) {
-         if (!node) 
-            return 
-
-         maxVal = Math.max(maxVal, node.val);
-         goodNodesCount += node.val >= maxVal ? 1 : 0;
-         dfs(node.left, maxVal);
-         dfs(node.right, maxVal);
-      }
+      return counter
    };
-}
 
-
-class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: binary tree, dfs, iteration, stack
+    * Tags: 
+    *     DS: binary tree
+    *     A: dfs, recursion, pre-order traversal
+    *     pure function
     * @param {TreeNode} root
     * @return {number[]}
     */
    goodNodes(root) {
-      let node = root;
+      const dfs = (node, prevMax) => {
+         if (node === null) {
+            return 0
+         }
+         prevMax = Math.max(prevMax, node.val);
+         const isGood = node.val >= prevMax ? true : false;
+         const left = dfs(node.left, prevMax);
+         const right = dfs(node.right, prevMax);
+         return isGood + left + right
+      }
+      return dfs(root, root.val)
+   };
+
+   /**
+    * Time complexity: O(n)
+    * Auxiliary space complexity: O(n)
+    * Tags: 
+    *     DS: binary tree, stack
+    *     A: dfs, iteration, pre-order traversal
+    * @param {TreeNode} root
+    * @return {number[]}
+    */
+   goodNodes(root) {
       const stack = [[root, root.val]];
-      let goodNodesCount = 0;
+      let counter = 0;
 
       while (stack.length) {
-         const stackLength = stack.length;
+         let [node, prevMax] = stack.pop();
+         prevMax = Math.max(prevMax, node.val);
+         counter += node.val >= prevMax ? 1 : 0;
 
-         for (let index = 0; index < stackLength; index++) {
-            let [node, maxValue] = stack.pop();
-            maxValue = Math.max(maxValue, node.val);
-            goodNodesCount += node.val >= maxValue ? 1 : 0;
-
-            if (node.left) 
-               stack.push([node.left, maxValue]);
-            if (node.right) 
-               stack.push([node.right, maxValue]);
-         }
+         if (node.left)
+            stack.push([node.left, prevMax]);
+         if (node.right)
+            stack.push([node.right, prevMax]);
       }
-      return goodNodesCount
+      return counter
+   };
+
+   /**
+    * Time complexity: O(n)
+    * Auxiliary space complexity: O(n)
+    * Tags: 
+    *     DS: binary tree, queue
+    *     A: bfs, iteration, level-order traversal
+    * @param {TreeNode} root
+    * @return {number[]}
+    */
+   goodNodes(root) {
+      const queue = new Queue([[root, root.val]]);
+      let counter = 0;
+
+      while (queue.size()) {
+         let [node, prevMax] = queue.pop();
+         prevMax = Math.max(prevMax, node.val);
+         counter += node.val >= prevMax ? 1 : 0;
+
+         if (node.left)
+            queue.push([node.left, prevMax]);
+         if (node.right)
+            queue.push([node.right, prevMax]);
+      }
+      return counter
    };
 }
+
+
 const goodNodes = new Solution().goodNodes;
-
-
 console.log(new Solution().goodNodes(buildTree([1])) === 1)
 console.log(new Solution().goodNodes(buildTree([1, 2, 3])) === 3)
 console.log(new Solution().goodNodes(buildTree([3, 1, 4, 3, null, 1, 5])) === 4)

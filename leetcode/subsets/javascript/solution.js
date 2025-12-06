@@ -2,58 +2,61 @@ class Solution {
    /**
     * Time complexity: O(n2^n)
     * Auxiliary space complexity: O(n)
-    * Tags: backtracking
-    * @param {number[]} numbers
+    * Tags: 
+    *     DS: list
+    *     A: DFS with backtracking
+    * @param {number[]} nums
     * @return {number[][]}
     */
-   subsets(numbers) {
+   subsets(nums) {
       const subset = [];
       const subsetList = [];
 
-      function dfs(index) {
-         if (index === numbers.length) {
+      const backtrack = (index) => {
+         if (index === nums.length) {
             subsetList.push(subset.slice());
             return
          }
-         subset.push(numbers[index]);
-         dfs(index + 1);
+         subset.push(nums[index]);
+         backtrack(index + 1);
          subset.pop();
-         dfs(index + 1);
+         backtrack(index + 1);
       }
-      
-      dfs(0);
+
+      backtrack(0);
       return subsetList
    };
-}
-const subsets = new Solution().subsets;
 
-
-class Solution {
    /**
     * Time complexity: O(n2^n)
     * Auxiliary space complexity: O(n)
-    * Tags: Iterative DFS with Backtracking
-    * @param {number[]} numbers
+    * A: DFS with backtracking
+    * @param {number[]} nums
     * @return {number[][]}
     */
-   subsets(numbers) {
+   subsets(nums) {
       const subset = [];
       const subsetList = [];
 
-      function dfs(start) {
+      function backtrack(start) {
          subsetList.push(subset.slice());
-         for (let index = start; index < numbers.length; index++) {
-            subset.push(numbers[index]);
-            dfs(index + 1);
+         for (let index = start; index < nums.length; index++) {
+            subset.push(nums[index]);
+            backtrack(index + 1);
             subset.pop();
          }
       }
-      dfs(0);
+      backtrack(0);
       return subsetList
    };
 }
 
 
+const subsets = new Solution().subsets;
 console.log(new Solution().subsets([0]), [[], [0]])
 console.log(new Solution().subsets([1, 2]), [[], [1], [2], [1, 2]])
 console.log(new Solution().subsets([1, 2, 3]), [[], [1], [2], [1, 2], [3], [1, 3], [2, 3], [1, 2, 3]])
+
+console.log(JSON.stringify((new Solution().subsets([0])).sort()) === JSON.stringify(([[], [0]]).sort()))
+console.log(JSON.stringify((new Solution().subsets([1, 2])).sort()) === JSON.stringify([[], [1], [2], [1, 2]].sort()))
+console.log(JSON.stringify((new Solution().subsets([1, 2, 3])).sort()) === JSON.stringify([[], [1], [2], [1, 2], [3], [1, 3], [2, 3], [1, 2, 3]].sort()))

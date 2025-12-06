@@ -4,56 +4,55 @@ class Solution {
     *     n: numbers length
     *     t: target
     * Auxiliary space complexity: O(t)
-    * Tags: dp, top-down with memoization as list
-    * @param {number[]} numbers
+    * Tags: 
+    *     DS: array
+    *     A: top-down
+    * @param {number[]} nums
     * @param {number} target
     * @return {number}
     */
-   combinationSum4(numbers, target) {
-      const memo = Array(target + 1);
+   combinationSum4(nums, target) {
+      const memo = Array(target + 1).fill(-1);
       memo[memo.length - 1] = 1;
-      dfs(0)
-      return memo[0]
 
-      function dfs(current) {
+      const dfs = (current) => {
          if (current > target) {
             return 0
-         } else if (memo[current]) {
+         } else if (memo[current] !== -1) {
             return memo[current]
          }
-
          //memo[current] = (
-         //   numbers
+         //   nums
          //      .map(number => dfs(current + number))
          //      .reduce((total, value) => total + value, 0)
          //)
          memo[current] = 0;
-         for (const number of numbers) {
+         for (const number of nums) {
             memo[current] += dfs(current + number)
          }
          return memo[current]
       }
+      return dfs(0)
    };
-}
 
-
-class Solution {
    /**
     * Time complexity: O(n*t)
     *     n: numbers length
     *     t: target
     * Auxiliary space complexity: O(t)
-    * Tags: dp, bottom-up
-    * @param {number[]} numbers
+    * Tags: 
+    *     DS: array
+    *     A: bottom-up
+    * @param {number[]} nums
     * @param {number} target
     * @return {number}
     */
-   combinationSum4(numbers, target) {
+   combinationSum4(nums, target) {
       const cache = Array(target + 1).fill(0);
       cache[0] = 1;
 
       for (let index = 0; index < target + 1; index++) {
-         for (const number of numbers) {
+         for (const number of nums) {
             if (index - number >= 0) {
                cache[index] += cache[index - number]
             }
@@ -64,6 +63,7 @@ class Solution {
 }
 
 
+const combinationSum4 = new Solution().combinationSum4;
 console.log(new Solution().combinationSum4([5], 5) === 1)
 console.log(new Solution().combinationSum4([2, 3], 7) === 3)
 console.log(new Solution().combinationSum4([1, 2, 3], 4) === 7)

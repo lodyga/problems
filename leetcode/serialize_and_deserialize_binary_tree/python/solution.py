@@ -23,7 +23,7 @@ class Codec:
         values = []
         
         def dfs(node):
-            if not node:
+            if node is None:
                 values.append("None")
                 return
             

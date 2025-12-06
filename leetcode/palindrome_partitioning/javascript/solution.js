@@ -1,19 +1,18 @@
 class Solution {
    /**
     * Time complexity: O(n2^n)
-    * Auxiliary space complexity: O(2^n)
-    *     Every dfs call contains new string
-    * Tags: iterative dfs with backtracking
-    * @param {string} word
+    * Auxiliary space complexity: O(n)
+    *     Output: O(2^n)
+    * Tags: 
+    *     DS: list
+    *     A: DFS with backtracking
+    * @param {string} text
     * @return {string[][]}
     */
-   partition(word) {
-      const partition = [];
-      const partitionList = [];
-
-      function isPalindrome(left, right) {
+   partition(text) {
+      const isPalindrome = (left, right) => {
          while (left < right) {
-            if (word[left] !== word[right])
+            if (text[left] !== text[right])
                return false
             left++;
             right--;
@@ -21,26 +20,29 @@ class Solution {
          return true
       }
 
-      function dfs(start) {
-         if (start === word.length) {
+      const partition = [];
+      const partitionList = [];
+
+      const backtrack = (index) => {
+         if (index === text.length) {
             partitionList.push(partition.slice());
             return
          }
-         for (let index = start; index < word.length; index++) {
-            if (isPalindrome(start, index)) {
-               partition.push(word.slice(start, index + 1));
-               dfs(index + 1)
+         for (let right = index; right < text.length; right++) {
+            if (isPalindrome(index, right)) {
+               partition.push(text.slice(index, right + 1));
+               backtrack(right + 1);
                partition.pop();
             }
          }
       }
-
-      dfs(0);
+      backtrack(0);
       return partitionList
    };
 }
 
 
+const partition = new Solution().partition;
 console.log(new Solution().partition('aa'), [['a', 'a'], ['aa']])
 console.log(new Solution().partition('a'), [['a']])
 console.log(new Solution().partition('ab'), [['a', 'b']])

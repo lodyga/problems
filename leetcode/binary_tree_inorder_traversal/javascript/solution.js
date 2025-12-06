@@ -16,55 +16,59 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: binary tree, dfs, recursion
+    * Tags: 
+    *     DS: binary tree
+    *     A: dfs, recursion, pre-order traversal
     * @param {TreeNode} root
     * @return {number[]}
     */
    inorderTraversal(root) {
-      const nodeList = [];
+      const values = [];
 
-      function dfs(node) {
-         if (!node) {
+      const dfs = (node) => {
+         if (node === null) {
             return
          }
          dfs(node.left);
-         nodeList.push(node.val);
+         values.push(node.val);
          dfs(node.right);
       }
       dfs(root);
-      return nodeList
+      return values
    };
-}
 
 
-class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: binary tree, dfs, iteration, stack
+    * Tags: 
+    *     DS: binary tree, stack, list
+    *     A: dfs, iteration, pre-order traversal
     * @param {TreeNode} root
     * @return {number[]}
     */
    inorderTraversal(root) {
-      const nodeList = [];
+      const values = [];
       const stack = [];
       let node = root;
 
       while (node || stack.length) {
-         while (node) {
+         if (node) {
             stack.push(node);
             node = node.left;
+         } else {
+            node = stack.pop();
+            values.push(node.val);
+            node = node.right;
          }
-         node = stack.pop();
-         nodeList.push(node.val);
-         node = node.right;
       }
-      return nodeList
+      return values
    };
 }
 
-   
-console.log(new Solution().inorderTraversal(buildTree([])), [])
-console.log(new Solution().inorderTraversal(buildTree([1])), [1])
-console.log(new Solution().inorderTraversal(buildTree([1, null, 2, 3])), [1, 3, 2])
-console.log(new Solution().inorderTraversal(buildTree([1, 2, 3, 4, 5, null, 8, null, null, 6, 7, 9])), [4, 2, 6, 5, 7, 1, 3, 9, 8])
+
+const inorderTraversal = new Solution().inorderTraversal;
+console.log(JSON.stringify(new Solution().inorderTraversal(buildTree([]))) === JSON.stringify([]))
+console.log(JSON.stringify(new Solution().inorderTraversal(buildTree([1]))) === JSON.stringify([1]))
+console.log(JSON.stringify(new Solution().inorderTraversal(buildTree([1, null, 2, 3]))) === JSON.stringify([1, 3, 2]))
+console.log(JSON.stringify(new Solution().inorderTraversal(buildTree([1, 2, 3, 4, 5, null, 8, null, null, 6, 7, 9]))) === JSON.stringify([4, 2, 6, 5, 7, 1, 3, 9, 8]))

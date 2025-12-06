@@ -1,4 +1,5 @@
 import { TreeNode, buildTree, getTreeValues } from '../../../../JS/binary-tree.js';
+import { Queue } from '@datastructures-js/queue';
 
 
 /**
@@ -16,67 +17,69 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: binary tree, bfs, iteration, queue, level order traversal
+    * Tags: 
+    *     DS: binary tree, queue, list
+    *     A: bfs, iteration, level-order traversal
     * @param {TreeNode} root
     * @return {number[]}
     */
    rightSideView(root) {
+      if (root === null) {
+         return []
+      }
+      const rightSideVals = [];
       const queue = new Queue([root]);
-      const rightSideViewValues = [];
 
-      while (!queue.isEmpty()) {
-         let levelView = null;
+      while (queue.size()) {
          const queueLength = queue.size();
 
          for (let index = 0; index < queueLength; index++) {
-            let node = queue.pop();
+            const node = queue.pop();
 
-            if (node) {
-               if (!levelView) {
-                  levelView = node.val;
-               }
+            if (index === 0) {
+               rightSideVals.push(node.val);
+            }
+            if (node.right) {
                queue.push(node.right);
+            }
+            if (node.left) {
                queue.push(node.left);
             }
          }
-         if (levelView) {
-            rightSideViewValues.push(levelView);
-         }
       }
-      return rightSideViewValues
+      return rightSideVals
    };
-}
 
-
-class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: binary tree, dfs, recursion, level order traversal
+    * Tags: 
+    *     DS: binary tree, list
+    *     A: dfs, recursion, pre-order traversal
     * @param {TreeNode} root
     * @return {number[]}
     */
    rightSideView(root) {
-      const rightSideViewValues = [];
-      dfs(0, root);
-      return rightSideViewValues
+      const rightSideVals = [];
 
-      function dfs(index, node) {
-         if (!node) 
+      const dfs = (index, node) => {
+         if (node === null)
             return
-         else if (index === rightSideViewValues.length)
-            rightSideViewValues.push(node.val)
+         
+         if (index === rightSideVals.length)
+            rightSideVals.push(node.val)
 
          dfs(index + 1, node.right);
          dfs(index + 1, node.left);
       }
-
+      dfs(0, root);
+      return rightSideVals
    };
 }
+
+
 const rightSideView = new Solution().rightSideView;
-
-
-console.log(new Solution().rightSideView(buildTree([1, 2, 3])), [1, 3])
-console.log(new Solution().rightSideView(buildTree([1, null, 3])), [1, 3])
-console.log(new Solution().rightSideView(buildTree([1, 2, 3, null, 5, null, 4])), [1, 3, 4])
-console.log(new Solution().rightSideView(buildTree([])), []
+console.log(JSON.stringify(new Solution().rightSideView(buildTree([1, 2, 3]))) === JSON.stringify([1, 3]))
+console.log(JSON.stringify(new Solution().rightSideView(buildTree([1, null, 3]))) === JSON.stringify([1, 3]))
+console.log(JSON.stringify(new Solution().rightSideView(buildTree([1, 2, 3, null, 5, null, 4]))) === JSON.stringify([1, 3, 4]))
+console.log(JSON.stringify(new Solution().rightSideView(buildTree([]))) === JSON.stringify([]))

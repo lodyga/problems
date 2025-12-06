@@ -2,65 +2,69 @@ from collections import Counter
 
 
 class Solution:
-    def is_anagram_using_count_array(self, text_1: str, text_2: str) -> bool:
+    def isAnagram(self, text1: str, text2: str) -> bool:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Algorithm: Hash Table Frequency Counter
+        Tags:
+            DS: array
+            A: iteration
         """
-        if len(text_1) != len(text_2):
+        if len(text1) != len(text2):
             return False
-        frequencies = [0] * 26
+        
+        letter_frequency = [0] * 26
+        for letter in text1:
+            index = ord(letter) - ord("a")
+            letter_frequency[index] += 1
+        for letter in text2:
+            index = ord(letter) - ord("a")
+            if letter_frequency[index] == 0:
+                return False
+            else:
+                letter_frequency[index] -= 1
+        return True
 
-        for index in range(len(text_1)):
-            frequencies[ord(text_1[index]) - ord("a")] += 1
-            frequencies[ord(text_2[index]) - ord("a")] -= 1
-        for frequency in frequencies:
-            if frequency:
+
+class Solution:
+    def isAnagram(self, text1: str, text2: str) -> bool:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(1)
+        Tags:
+            DS: hash map
+            A: iteration
+        """
+        if len(text1) != len(text2):
+            return False
+        
+        letter_frequency = {}
+        for letter in text1:
+            letter_frequency[letter] = letter_frequency.get(letter, 0) + 1
+        for letter in text2:
+            if letter in letter_frequency:
+                letter_frequency[letter] -= 1
+                if letter_frequency[letter] == 0:
+                    letter_frequency.pop(letter)
+            else:
                 return False
         return True
 
-    def is_anagram_using_dict(self, text_1: str, text_2: str) -> bool:
-        """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(1) | (lowercase English letters)
-        Algorithm: Dictionary Frequency Counter
-        """
-        if len(text_1) != len(text_2):
-            return False
-        text_1_letter_counter = self.counter(text_1)
-        text_2_letter_counter = self.counter(text_2)
-        return text_1_letter_counter == text_2_letter_counter
 
-    def counter(self, text: str) -> dict:
-        letter_counter = {}
-        for letter in text:
-            letter_counter[letter] = letter_counter.get(letter, 0) + 1
-        return letter_counter
-
-    def is_anagram_using_collections_counter(self, text_1: str, text_2: str) -> bool:
-        """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(1) | (lowercase English letters)
-        Algorithm: Dictionary Frequency Counter with collections counter
-        """
-        if len(text_1) != len(text_2):
-            return False
-        return Counter(text_1) == Counter(text_2)
-
-    def is_anagram_using_sorting(self, text_1: str, text_2: str) -> bool:
-        """
-        Time complexity: O(nlogn)
-        Auxiliary space complexity: O(n)
-        Algorithm: Sorting Comparison
-        """
-        if len(text_1) != len(text_2):
-            return False
-        text_1_letter_counter = sorted(text_1)
-        text_2_letter_counter = sorted(text_2)
-        return text_1_letter_counter == text_2_letter_counter
+class Solution:
+        def isAnagram(self, text_1: str, text_2: str) -> bool:
+            """
+            Time complexity: O(n)
+            Auxiliary space complexity: O(1)
+            Tags:
+                DS: hash map
+                A: build-in function
+            """
+            if len(text_1) != len(text_2):
+                return False
+            return Counter(text_1) == Counter(text_2)
 
 
-print(Solution().is_anagram_using_count_array("anagram", "nagaram") == True)
-print(Solution().is_anagram_using_count_array("rat", "car") == False)
-print(Solution().is_anagram_using_count_array("", "") == True)
+print(Solution().isAnagram("anagram", "nagaram") == True)
+print(Solution().isAnagram("rat", "car") == False)
+print(Solution().isAnagram("", "") == True)

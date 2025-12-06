@@ -2,10 +2,51 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-         Since word1 and word2 consist of lowercase English letters
-    * Tags: sliding window as hash map
-    * @param {string} word1
-    * @param {string} word2
+    * Tags: 
+          DS: hash map
+    *     A: sliding window 
+    * @param {string} word
+    * @param {string} text
+    * @return {boolean}
+    */
+   checkInclusion(word, text) {
+      const pattern = new Map();
+      for (const letter of word) {
+         pattern.set(letter, (pattern.get(letter) || 0) - 1);
+      }
+
+      let left = 0;
+      for (let right = 0; right < text.length; right++) {
+         const letter = text[right];
+         pattern.set(letter, (pattern.get(letter) || 0) + 1);
+         if (pattern.get(letter) === 0)
+            pattern.delete(letter);
+
+         if (right + 1 < word.length)
+            continue
+
+         if (pattern.size == 0)
+            return true
+
+         const left_letter = text[left];
+         pattern.set(left_letter, (pattern.get(left_letter) || 0) - 1);
+         if (pattern.get(left_letter) === 0)
+            pattern.delete(left_letter);
+         left += 1;
+      }
+      return false
+   };
+}
+
+class Solution2 {
+   /**
+    * Time complexity: O(n)
+    * Auxiliary space complexity: O(1)
+    * Tags: 
+          DS: hash map
+    *     A: sliding window 
+    * @param {string} word
+    * @param {string} text
     * @return {boolean}
     */
    checkInclusion(word1, word2) {
@@ -48,16 +89,16 @@ class Solution {
       return false
    };
 }
+
+
 const checkInclusion = new Solution().checkInclusion;
-
-
-console.log(new Solution().checkInclusion('ab', 'cba'), true)
-console.log(new Solution().checkInclusion('ab', 'eidbaooo'), true)
-console.log(new Solution().checkInclusion('ab', 'eidboaoo'), false)
-console.log(new Solution().checkInclusion('ccc', 'cbac'), false)
-console.log(new Solution().checkInclusion('ab', 'a'), false)
-console.log(new Solution().checkInclusion('abcdxabcde', 'abcdeabcdx'), true)
-console.log(new Solution().checkInclusion('adc', 'dcda'), true)
-console.log(new Solution().checkInclusion('hello', 'ooolleoooleh'), false)
-console.log(new Solution().checkInclusion('mart', 'karma'), false)
-console.log(new Solution().checkInclusion('abc', 'ccccbbbbaaaa'), false)
+console.log(new Solution().checkInclusion('ab', 'cba') === true)
+console.log(new Solution().checkInclusion('ab', 'eidbaooo') === true)
+console.log(new Solution().checkInclusion('ab', 'eidboaoo') === false)
+console.log(new Solution().checkInclusion('ccc', 'cbac') === false)
+console.log(new Solution().checkInclusion('ab', 'a') === false)
+console.log(new Solution().checkInclusion('abcdxabcde', 'abcdeabcdx') === true)
+console.log(new Solution().checkInclusion('adc', 'dcda') === true)
+console.log(new Solution().checkInclusion('hello', 'ooolleoooleh') === false)
+console.log(new Solution().checkInclusion('mart', 'karma') === false)
+console.log(new Solution().checkInclusion('abc', 'ccccbbbbaaaa') === false)

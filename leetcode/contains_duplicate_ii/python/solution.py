@@ -52,7 +52,7 @@ class Solution:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n)
-        Tags: brute force
+        Tags: brute-force
         """
         window_length = window_length if window_length < len(
             numbers) - 1 else len(numbers) - 1

@@ -2,36 +2,37 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: stack
-    * monotonic increasing stack
+    * Tags:
+    *     DS: monotonic increasing stack
+    *     A: iteration
     * @param {number[]} heights
     * @return {number}
     */
    largestRectangleArea(heights) {
-      const stack = [];  // [[index, height], ...]
-      let area = 0;
+      const heightStack = [];  // [[index, height], ...]
+      let maxArea = heights[0];
 
       for (let index = 0; index < heights.length; index++) {
          const height = heights[index];
-         let prevIndex = index;
-         while (stack.length && stack[stack.length - 1][1] > height) {
-            const [poppedIndex, prevHeight] = stack.pop();
-            prevIndex = poppedIndex;
-            area = Math.max(area, prevHeight * (index - prevIndex));
+         let start = index;
+
+         while (heightStack.length && heightStack[heightStack.length - 1][1] > height) {
+            const [poppedIndex, prevHeight] = heightStack.pop();
+            start = poppedIndex;
+            maxArea = Math.max(maxArea, prevHeight * (index - start));
          }
-         stack.push([prevIndex, height])
+         heightStack.push([start, height]);
 
       }
-      for (let index = stack.length - 1; index >= 0; index--) {
-         const [prevIndex, prevHeight] = stack[index];
-         area = Math.max(area, prevHeight * (heights.length - prevIndex));
+      for (const [index, height] of heightStack) {
+         maxArea = Math.max(maxArea, height * (heights.length - index));
       }
-      return area
+      return maxArea
    };
 }
+
+
 const largestRectangleArea = new Solution().largestRectangleArea;
-
-
 console.log(new Solution().largestRectangleArea([2, 1, 5, 6, 2, 3]) === 10)
 console.log(new Solution().largestRectangleArea([2, 4]) === 4)
 console.log(new Solution().largestRectangleArea([2, 1, 2]) === 3)

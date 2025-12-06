@@ -1,74 +1,92 @@
+from collections import deque
+
+
 class Solution:
     def numIslands(self, grid: list[list[str]]) -> int:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n2)
-        Tags: dfs, recursion, graph, matrix
+        Tags: 
+            DS: array (matrix)
+            A: dfs, recursion 
         """
-        rows = len(grid)
-        cols = len(grid[0])
-        island_counter = 0
-        visited_cells = set()
+        ROWS = len(grid)
+        COLS = len(grid[0])
         DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
+        visited = [[False] * COLS for _ in range(ROWS)]
 
-        def dfs(row, col):
-            if (row < 0 or
-                col < 0 or
-                row == rows or
-                col == cols or
+        def dfs(row: int, col: int) -> int:
+            if (
+                row == -1 or
+                col == -1 or
+                row == ROWS or
+                col == COLS or
                 grid[row][col] == "0" or
-                    (row, col) in visited_cells):
+                visited[row][col]
+            ):
                 return 0
 
-            visited_cells.add((row, col))
-            for r, c in DIRECTIONS:
-                dfs(row + r, col + c)
-            
+            visited[row][col] = True
+
+            for dr, dc in DIRECTIONS:
+                dfs(row + dr, col + dc)
+
             return 1
 
-        for row in range(rows):
-            for col in range(cols):
+        island_counter = 0
+        for row in range(ROWS):
+            for col in range(COLS):
                 island_counter += dfs(row, col)
-        
         return island_counter
 
 
-from collections import deque
-
 class Solution:
     def numIslands(self, grid: list[list[str]]) -> int:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n2)
-        Tags: bfs, iteration, queue, graph, matrix
+        Tags: 
+            DS: array (matrix), queue
+            A: bfs, iteration
         """
-        rows = len(grid)
-        cols = len(grid[0])
-        island_counter = 0
-        visited_cells = set()
+        ROWS = len(grid)
+        COLS = len(grid[0])
         DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
+        visited = [[False] * COLS for _ in range(ROWS)]
 
-        def bfs(row, col):
+        def bfs(row: int, col: int) -> int:
+            if (
+                grid[row][col] == "0" or
+                visited[row][col]
+            ):
+                return 0
+
             queue = deque([(row, col)])
+            visited[row][col] = True
 
             while queue:
-                row, col = queue.pop()
-                visited_cells.add((row, col))
+                (row, col) = queue.popleft()
 
-                for r, c in DIRECTIONS:
-                    if (0 <= row + r < rows and
-                        0 <= col + c < cols and
-                        grid[row + r][col + c] == "1" and
-                            (row + r, col + c) not in visited_cells):
-                        queue.append((row + r, col + c))
-                        
-        for row in range(rows):
-            for col in range(cols):
-                if (grid[row][col] == "1" and 
-                        (row, col) not in visited_cells):
-                    island_counter += 1
-                    bfs(row, col)
-        
+                for dr, dc in DIRECTIONS:
+                    (r, c) = (row + dr, col + dc)
+                    if (
+                        r == -1 or
+                        c == -1 or
+                        r == ROWS or
+                        c == COLS or
+                        grid[r][c] == "0" or
+                        visited[r][c]
+                    ):
+                        continue
+                    queue.append((r, c))
+                    visited[r][c] = True
+
+            return 1
+
+        island_counter = 0
+        for row in range(ROWS):
+            for col in range(COLS):
+                island_counter += bfs(row, col)
         return island_counter
 
 

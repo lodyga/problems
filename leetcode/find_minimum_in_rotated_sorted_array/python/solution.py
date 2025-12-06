@@ -1,64 +1,64 @@
-# draft
-# if middle < right: search left (or is min)
+"""
+draft
+1, 2, 3, 4, 5
+4, 5, 1, 2, 3
+5, 1, 2, 3, 4
 
-# 1, 2, 3, 4, 5
-# 4, 5, 1, 2, 3
-# 5, 1, 2, 3, 4
-
-# 2, 3, 4, 5, 1
-# 3, 4, 5, 1, 2
+2, 3, 4, 5, 1
+3, 4, 5, 1, 2
+"""
 
 
 class Solution:
-    def findMin(self, numbers: list[int]) -> int:
+    def findMin(self, nums: list[int]) -> int:
         """
         Time complexity: O(logn)
         Auxiliary space complexity: O(1)
-        Tags: binary search
+        Tags: 
+            A: binary search
         """
         left = 0
-        right = len(numbers) - 1
-        min_number = numbers[0]
+        right = len(nums) - 1
+        min_num = nums[0]
 
         while left <= right:
             # early exit
-            if numbers[left] < numbers[right]:
-                return min(min_number, numbers[left])
+            if nums[left] < nums[right]:
+                return min(min_num, nums[left])
 
-            middle = (left + right) // 2
-            middle_number = numbers[middle]
-            min_number = min(min_number, middle_number)
+            middle = (left + right) >> 1
+            middle_num = nums[middle]
+            min_num = min(min_num, middle_num)
 
-            if middle_number < numbers[right]:
+            if middle_num < nums[right]:
                 right = middle - 1
             else:
                 left = middle + 1
-            
-        return min_number
 
+        return min_num
 
-class Solution:
-    def findMin(self, numbers: list[int]) -> int:
+    def findMin(self, nums: list[int]) -> int:
         """
         Time complexity: O(logn)
         Auxiliary space complexity: O(1)
-        Tags: binary search (lower bound)
+        Tags: 
+            A: binary search (lower bound)
         """
         left = 0
-        right = len(numbers) - 1
-        min_number = numbers[0]
+        right = len(nums) - 1
+        min_num = nums[0]
 
         while left <= right:
-            middle = (left + right) // 2
-            middle_number = numbers[middle]
-            min_number = min(min_number, middle_number)
+            middle = (left + right) >> 1
+            middle_num = nums[middle]
+            min_num = min(min_num, middle_num)
 
-            if middle_number < numbers[right]:
+            if middle_num < nums[right]:
                 right = middle
             else:
                 left = middle + 1
-            
-        return min_number
+
+        return min_num
 
 
 print(Solution().findMin([1, 2, 3, 4]) == 1)

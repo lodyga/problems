@@ -1,81 +1,43 @@
 class Solution:
     def exist(self, board: list[list[str]], word: str) -> bool:
         """
-        Time complexity: O(nm*3^k)
+        Time complexity: O(n2*3^k)
             k: word length
-        Auxiliary space complexity: O(nm)
-        Tags: backtracking
+        Auxiliary space complexity: O(n2)
+        Tags: 
+            DS: array (matrix)
+            A: backtracking
         """
-        rows = len(board)
-        cols = len(board[0])
+        ROWS = len(board)
+        COLS = len(board[0])
         DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
-        visited_cells = set()
+        visited = [[False] * COLS for _ in range(ROWS)]
 
-        def dfs(row, col, index):
+        def dfs(index, row, col):
             if index == len(word):
                 return True
             elif (
-                row < 0 or
-                col < 0 or
-                row == rows or
-                col == cols or
+                row == -1 or
+                col == -1 or
+                row == ROWS or
+                col == COLS or
                 board[row][col] != word[index] or
-                (row, col) in visited_cells
+                visited[row][col] is True
             ):
                 return False
 
-            visited_cells.add((row, col))
-            for r, c in DIRECTIONS:
-                if dfs(row + r, col + c, index + 1):
+            visited[row][col] = True
+            for dr, dc in DIRECTIONS:
+                (r, c) = (row + dr, col + dc)
+                if dfs(index + 1, r, c):
                     return True
-            visited_cells.discard((row, col))
 
+            visited[row][col] = False
             return False
 
-        for row in range(rows):
-            for col in range(cols):
-                if dfs(row, col, 0):
-                    return True
-
-        return False
-
-
-class Solution:
-    def exist(self, board: list[list[str]], word: str) -> bool:
-        """
-        Time complexity: O(nm*3^k)
-            k: word length
-        Auxiliary space complexity: O(nm)
-        Tags: backtracking
-        """
-        rows = len(board)
-        cols = len(board[0])
-        DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
-
-        def dfs(row, col, index):
-            if index == len(word):
-                return True
-            elif (
-                row < 0 or
-                col < 0 or
-                row == rows or
-                col == cols or
-                board[row][col] != word[index] or
-                board[row][col] == "#"
-            ):
-                return False
-
-            board[row][col] = "#"
-            for r, c in DIRECTIONS:
-                if dfs(row + r, col + c, index + 1):
-                    return True
-            board[row][col] = word[index]
-
-            return False
-
-        for row in range(rows):
-            for col in range(cols):
-                if dfs(row, col, 0):
+        for row in range(ROWS):
+            for col in range(COLS):
+                if dfs(0, row, col):
                     return True
 
         return False

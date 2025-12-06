@@ -2,30 +2,34 @@ class Solution:
     def combinationSum(self, candidates: list[int], target: int) -> list[list[int]]:
         """
         Time complexity: O(n2^(t/m))
+            n: candidates length
             t: target
             m: min from candidates
         Auxiliary space complexity: O(n)
-            n: candidates length
-        Tags: backtracking
+        Tags: 
+            DS: list
+            A: DFS with backtracking
         """
         combination = []
         combination_list = []
 
-        def dfs(index):
-            combination_sum = sum(combination)
-            if combination_sum == target:
+        def backtrack(index: int, total: int) -> None:
+            if total == target:
                 combination_list.append(combination.copy())
                 return
-            elif combination_sum > target or index == len(candidates):
+            elif (
+                total > target or
+                index == len(candidates)
+            ):
                 return
-        
-        
-            combination.append(candidates[index])
-            dfs(index)
-            combination.pop()
-            dfs(index + 1)
 
-        dfs(0)
+            candidate = candidates[index]
+            combination.append(candidate)
+            backtrack(index, total + candidate)
+            combination.pop()
+            backtrack(index + 1, total)
+
+        backtrack(0, 0)
         return combination_list
 
 
@@ -33,29 +37,31 @@ class Solution:
     def combinationSum(self, candidates: list[int], target: int) -> list[list[int]]:
         """
         Time complexity: O(n2^(t/m))
+            n: candidates length
             t: target
             m: min from candidates
         Auxiliary space complexity: O(n)
-            n: candidates length
-        Tags: iterative dfs with backtracking
+        Tags: 
+            DS: list
+            A: DFS with backtracking
         """
         combination = []
         combination_list = []
 
-        def dfs(start):
-            combination_sum = sum(combination)
-            if combination_sum == target:
+        def backtrack(index: int, total: int) -> None:
+            if total == target:
                 combination_list.append(combination.copy())
                 return
-            elif combination_sum > target:
-                return 
+            elif total > target:
+                return
 
-            for index in range(start, len(candidates)):
-                combination.append(candidates[index])
-                dfs(index)
+            for i2 in range(index, len(candidates)):
+                candidate = candidates[i2]
+                combination.append(candidate)
+                backtrack(i2, total + candidate)
                 combination.pop()
 
-        dfs(0)
+        backtrack(0, 0)
         return combination_list
 
 

@@ -1,28 +1,30 @@
 class Solution:
-    def __init__(self):
-        self.palindrome_counter = 0
-
-    def countSubstrings(self, word: str) -> int:
+    def countSubstrings(self, text: str) -> int:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(1)
-        Tags: two pointers
+        Tags: 
+            A: two pointers
         """
-        def countPalindromes(left, right):
-            while (left >= 0 and
-                right < len(word) and
-                    word[left] == word[right]):
-                self.palindrome_counter += 1
+        def count_palindromes(left, right):
+            nonlocal counter
+            while (
+                left > -1 and
+                right < len(text) and
+                text[left] == text[right]
+            ):
+                counter += 1
                 left -= 1
                 right += 1
 
-        for index in range(len(word)):
+        counter = 0
+        for index in range(len(text)):
             # check for odd length palindromes
-            countPalindromes(index, index)
+            count_palindromes(index, index)
             # check for even length palindromes
-            countPalindromes(index, index + 1)
+            count_palindromes(index, index + 1)
 
-        return self.palindrome_counter
+        return counter
 
 
 print(Solution().countSubstrings("abc") == 3)

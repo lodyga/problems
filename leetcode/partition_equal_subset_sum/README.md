@@ -1,7 +1,9 @@
 # Partition Equal Subset Sum
 https://leetcode.com/problems/partition-equal-subset-sum
 
+
 Given an integer array nums, return true if you can partition the array into two subsets such that the sum of the elements in both subsets is equal or false otherwise.
+
 
 <b>Example 1:</b>\
 Input: nums = [1,5,11,5]\

@@ -6,53 +6,14 @@ class Solution:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n2)
-        Tags: bfs, iteration, queue, graph, matrix
+        Tags: 
+            DS: array (matrix)
+            A: dfs, recursion 
         """
         ROWS = len(grid)
         COLS = len(grid[0])
         DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
-        max_area = 0
-
-        def bfs(row: int, col: int) -> int:
-            grid[row][col] = 0
-            area = 1
-            queue = deque([(row, col)])
-
-            while queue:
-                row, col = queue.popleft()
-
-                for r, c in ((r + row, c + col) for r, c in DIRECTIONS):
-                    if (
-                        r == -1 or r == ROWS or
-                        c == -1 or c == COLS or
-                        grid[r][c] == 0
-                    ):
-                        continue
-
-                    queue.append((r, c))
-                    grid[r][c] = 0
-                    area += 1
-            return area
-        
-        for row in range(ROWS):
-            for col in range(COLS):
-                if grid[row][col]:
-                    max_area = max(max_area, bfs(row, col))
-
-        return max_area
-
-
-class Solution2:
-    def maxAreaOfIsland(self, grid: list[list[int]]) -> int:
-        """
-        Time complexity: O(n2)
-        Auxiliary space complexity: O(n2)
-        Tags: dfs, recursion, graph, matrix
-        """
-        ROWS = len(grid)
-        COLS = len(grid[0])
-        DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
-        max_area = 0
+        visited = [[False] * COLS for _ in range(ROWS)]
 
         def dfs(row: int, col: int) -> int:
             if (
@@ -60,21 +21,74 @@ class Solution2:
                 col == -1 or
                 row == ROWS or
                 col == COLS or
-                grid[row][col] == 0
+                grid[row][col] == 0 or
+                visited[row][col]
             ):
                 return 0
-            
-            grid[row][col] = 0
+
+            visited[row][col] = True
 
             area = 1
-            for r, c in DIRECTIONS:
-                area += dfs(r + row, c + col)
+            for dr, dc in DIRECTIONS:
+                area += dfs(row + dr, col + dc)
             return area
-        
+
+        max_area = 0
         for row in range(ROWS):
             for col in range(COLS):
                 max_area = max(max_area, dfs(row, col))
-        
+        return max_area
+
+
+class Solution:
+    def maxAreaOfIsland(self, grid: list[list[int]]) -> int:
+        """
+        Time complexity: O(n2)
+        Auxiliary space complexity: O(n2)
+        Tags: 
+            DS: array (matrix), queue
+            A: bfs, iteration
+        """
+        ROWS = len(grid)
+        COLS = len(grid[0])
+        DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
+        visited = [[False] * COLS for _ in range(ROWS)]
+
+        def bfs(row: int, col: int) -> int:
+            if (
+                grid[row][col] == 0 or
+                visited[row][col]
+            ):
+                return 0
+
+            queue = deque([(row, col)])
+            visited[row][col] = True
+            area = 1
+
+            while queue:
+                (row, col) = queue.popleft()
+
+                for dr, dc in DIRECTIONS:
+                    (r, c) = (row + dr, col + dc)
+                    if (
+                        r == -1 or
+                        c == -1 or
+                        r == ROWS or
+                        c == COLS or
+                        grid[r][c] == 0 or
+                        visited[r][c]
+                    ):
+                        continue
+                    queue.append((r, c))
+                    visited[r][c] = True
+                    area += 1
+
+            return area
+
+        max_area = 0
+        for row in range(ROWS):
+            for col in range(COLS):
+                max_area = max(max_area, bfs(row, col))
         return max_area
 
 

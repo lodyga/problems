@@ -9,36 +9,38 @@ if middle < right: right portion is contiguous
 [3, 4, 5, 1, 2]
 """
 
+
 class Solution:
-    def search(self, numbers: list[int], target: int) -> int:
+    def search(self, nums: list[int], target: int) -> int:
         """
         Time complexity: O(logn)
         Auxiliary space complexity: O(1)
-        Tags: binary search
+        Tags: 
+            A: binary search
         """
         left = 0
-        right = len(numbers) - 1
+        right = len(nums) - 1
 
         while left <= right:
-            middle = (left + right) // 2
-            middle_number = numbers[middle]
+            middle = (left + right) >> 1
+            middle_num = nums[middle]
 
-            if target == middle_number:
+            if target == middle_num:
                 return middle
             # right side portion is contiguous
-            elif middle_number < numbers[right]:
-                if middle_number < target <= numbers[right]:
+            elif middle_num < nums[right]:
+                if middle_num < target <= nums[right]:
                     left = middle + 1
                 else:
                     right = middle - 1
             # left side portion is contiguous
             else:
-                if numbers[left] <= target < middle_number:
+                if nums[left] <= target < middle_num:
                     right = middle - 1
                 else:
                     left = middle + 1
-        
-        return - 1
+
+        return -1
 
 
 print(Solution().search([1, 3, 5], 5) == 2)

@@ -1,28 +1,32 @@
 class Solution:
-    def containsDuplicate(self, numbers: list[int]) -> bool:
+    def containsDuplicate(self, nums: list[int]) -> bool:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
+        Tags:
+            DS: hash set
+            A: iteration
         """
-        unique_numbers = set()
-        for number in numbers:
-            if number in unique_numbers:
+        num_set = set()
+        for num in nums:
+            if num in num_set:
                 return True
             else:
-                unique_numbers.add(number)
+                num_set.add(num)
         return False
 
 
 class Solution:
-    def containsDuplicate(self, numbers: list[int]) -> bool:
+    def containsDuplicate(self, nums: list[int]) -> bool:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
         Tags: One-liner
         """
-        return len(numbers) != len(set(numbers))
+        return len(nums) != len(set(nums))
 
 
 print(Solution().containsDuplicate([1, 2, 3]) == False)
 print(Solution().containsDuplicate([1, 2, 3, 4]) == False)
+print(Solution().containsDuplicate([1, 2, 3, 1]) == True)
 print(Solution().containsDuplicate([1, 1, 1, 3, 3, 4, 3, 2, 4, 2]) == True)

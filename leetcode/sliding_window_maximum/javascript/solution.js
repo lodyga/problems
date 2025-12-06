@@ -1,42 +1,37 @@
 class Solution {
    /**
-    * Time complexity: O(nlogn)
+    * Time complexity: O(n2)
     * Auxiliary space complexity: O(n)
-    * Tags: sliding window, deque, monotonic queue
-    * monotonically decreasing queue
-    * @param {number[]} numbers
-    * @param {number} windowSize
+    * Tags:
+    *     DS: monotonic decreasing queue
+    *     A: sliding window
+    * @param {number[]} nums
+    * @param {number} k
     * @return {number[]}
     */
-   maxSlidingWindow(numbers, windowSize) {
-      let left = 0;
-      const window = [];  // [[number, index], ...]
-      const maxArray = Array(numbers.length - windowSize + 1).fill(0);
+   maxSlidingWindow(nums, k) {
+      const window = []  // [(index, num), ...]
+      const maxWindowList = [];
 
-      for (let right = 0; right < numbers.length; right++) {
-         const number = numbers[right];
-
-         while (window.length && window[0][1] < left) {
+      for (let index = 0; index < nums.length; index++) {
+         const num = nums[index];
+         while (window.length && window[0][0] < index - k + 1)
             window.shift();
-         }
 
-         while (window.length && window[window.length - 1][0] <= number) {
+         while (window.length && window[window.length - 1][1] <= num)
             window.pop();
-         }
 
-         window.push([number, right]);
+         window.push([index, num]);
 
-         if (right - left + 1 == windowSize) {
-            maxArray[left] = window[0][0];
-            left++;
-         }
+         if (index >= k - 1)
+            maxWindowList.push(window[0][1]);
       }
-      return maxArray
+      return maxWindowList
    };
 }
+
+
 const maxSlidingWindow = new Solution().maxSlidingWindow;
-
-
 console.log(new Solution().maxSlidingWindow([1, 3, -1, -3, 5, 3, 6, 7], 3), [3, 3, 5, 5, 6, 7])
 console.log(new Solution().maxSlidingWindow([1], 1), [1])
 console.log(new Solution().maxSlidingWindow([7, 2, 4], 2), [7, 4])

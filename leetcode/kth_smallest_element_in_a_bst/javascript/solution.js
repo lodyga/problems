@@ -16,38 +16,39 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: binary tree, dfs, recursion, in-order traversal
+    * Tags: 
+    *     DS: binary tree
+    *     A: dfs, recursion, in-order traversal
     * @param {TreeNode} root
     * @param {number} k
     * @return {number}
     */
    kthSmallest(root, k) {
       const values = [];
-      dfs(root);
-      return values[k - 1]
-
-      function dfs(node, k) {
-         if (!node) {
+      
+      const dfs = (node, k) => {
+         if (node === null) {
             return
          }
 
          dfs(node.left);
 
          values.push(node.val);
-         if (values.length === k) 
+         if (values.length === k)
             return
 
          dfs(node.right);
       }
+      dfs(root);
+      return values[k - 1]
    };
-}
 
-
-class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: binary tree, dfs, iteration, stack, in-order traversal
+    * Tags: 
+    *     DS: binary tree, stack, list
+    *     A: dfs, iteration, in-order traversal
     * @param {TreeNode} root
     * @param {number} k
     * @return {number}
@@ -71,11 +72,12 @@ class Solution {
       }
    };
 }
+
+
 const kthSmallest = new Solution().kthSmallest;
-
-
 console.log(new Solution().kthSmallest(buildTree([1]), 1) === 1)
 console.log(new Solution().kthSmallest(buildTree([2, 1, 3]), 1) === 1)
+console.log(new Solution().kthSmallest(buildTree([1, null, 2]), 2) === 2)
 console.log(new Solution().kthSmallest(buildTree([5, 3, 6, 2, 4, null, null, 1]), 3) === 3)
 console.log(new Solution().kthSmallest(buildTree([5, 3, 7, 2, 4, null, 8]), 3) === 4)
 console.log(new Solution().kthSmallest(buildTree([3, 1, 4, null, 2]), 1) === 1)

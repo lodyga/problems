@@ -1,48 +1,58 @@
 class Solution {
    /**
-    * Time complexity: O(nm*3^k)
+    * Time complexity: O(n2*3^k)
     *     k: word length
-    * Auxiliary space complexity: O(nm)
-    * Tags: backtracking
+    * Auxiliary space complexity: O(n2)
+    * Tags: 
+    *     DS: array (matrix)
+    *     A: backtracking
     * @param {string[][]} board
     * @param {string} word
     * @return {boolean}
     */
    exist(board, word) {
-      const rows = board.length;
-      const cols = board[0].length;
-      const directoins = [[-1, 0], [1, 0], [0, -1], [0, 1]]
+      const ROWS = board.length;
+      const COLS = board[0].length;
+      const DIRECTIONS = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+      const visited = Array.from({ length: ROWS }, () => Array(COLS).fill(false));
 
-      for (let row = 0; row < rows; row++) {
-         for (let col = 0; col < cols; col++) {
+      const dfs = (index, row, col) => {
+         if (index === word.length) {
+            return true
+         } else if (
+            row < 0 ||
+            col < 0 ||
+            row === ROWS ||
+            col === COLS ||
+            board[row][col] !== word[index] ||
+            visited[row][col]
+         )
+            return false
+
+         visited[row][col] = true;
+
+         for (const [dr, dc] of DIRECTIONS) {
+            const [r, c] = [row + dr, col + dc];
+            if (dfs(index + 1, r, c)) {
+               return true
+            }
+         }
+         visited[row][col] = false;
+         return false
+      }
+
+      for (let row = 0; row < ROWS; row++) {
+         for (let col = 0; col < COLS; col++) {
             if (dfs(0, row, col))
                return true
          }
       }
       return false
-
-      function dfs(index, row, col) {
-         if (index === word.length)
-            return true
-         else if (
-            row < 0 ||
-            col < 0 ||
-            row === rows ||
-            col === cols ||
-            board[row][col] !== word[index]
-         )
-            return
-
-         board[row][col] = '#';
-         let isPathRight = directoins.some(([r, c]) => dfs(index + 1, row + r, col + c))
-
-         board[row][col] = word[index];
-         return isPathRight
-      }
    };
 }
 
 
+const exist = new Solution().exist;
 console.log(new Solution().exist([['C', 'A', 'A']], 'AA') === true)
 console.log(new Solution().exist([['C', 'A', 'A'], ['C', 'C', 'B']], 'AAB') === true)
 console.log(new Solution().exist([['C', 'A', 'A'], ['A', 'A', 'A'], ['B', 'C', 'D']], 'AAB') === true)

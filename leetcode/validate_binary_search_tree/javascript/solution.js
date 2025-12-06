@@ -1,4 +1,5 @@
 import { TreeNode, buildTree, getTreeValues } from '../../../../JS/binary-tree.js';
+import { Queue } from '@datastructures-js/queue';
 
 
 /**
@@ -16,69 +17,64 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: binary tree, dfs, recursion
+    * Tags: 
+    *     DS: binary tree
+    *     A: dfs, recursion, pre-order traversal
     * @param {TreeNode} root
     * @return {number[]}
     */
    isValidBST(root) {
-      return dfs(root, -Infinity, Infinity)
-
-      function dfs(node, lowerBound, upperBound) {
-         if (!node) {
+      const dfs = (node, lowerBound, upperBound) => {
+         if (node === null) {
             return true
          } else if (
             node.val >= upperBound ||
             node.val <= lowerBound
          ) {
             return false
-         } else {
-            return (
-               dfs(node.left, lowerBound, node.val) &&
-               dfs(node.right, node.val, upperBound)
-            )
          }
+         const left = dfs(node.left, lowerBound, node.val);
+         const right = dfs(node.right, node.val, upperBound);
+
+         return left && right
       }
+      return dfs(root, -(2 ** 31) - 1, 2 ** 31)
    };
-}
 
-
-class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: binary tree, bfs, iteration, queue
+    * Tags: 
+    *     DS: binary tree, queue
+    *     A: bfs, iteration, level-order traversal
     * @param {TreeNode} root
     * @return {number[]}
     */
    isValidBST(root) {
       const queue = new Queue([[root, -Infinity, Infinity]]);
 
-      while (!queue.isEmpty()) {
-         const queueSize = queue.size();
+      while (queue.size()) {
+         const [node, lowerBound, upperBound] = queue.pop();
 
-         for (let index = 0; index < queueSize; index++) {
-            let [node, lowerBound, upperBound] = queue.pop();
-
-            if (
-               node.val <= lowerBound ||
-               node.val >= upperBound
-            ) {
-               return false
-            }
-            if (node.left) {
-               queue.push([node.left, lowerBound, Math.max(node.val, upperBound)]);
-            }
-            if (node.right) {
-               queue.push([node.right, Math.max(node.val, lowerBound), upperBound]);
-            }
+         if (
+            node.val <= lowerBound ||
+            node.val >= upperBound
+         ) {
+            return false
+         }
+         if (node.left) {
+            queue.push([node.left, lowerBound, node.val]);
+         }
+         if (node.right) {
+            queue.push([node.right, node.val, upperBound]);
          }
       }
       return true
    };
 }
+
+
 const isValidBST = new Solution().isValidBST;
-
-
 console.log(new Solution().isValidBST(buildTree([2, 1, 3])) === true)
 console.log(new Solution().isValidBST(buildTree([5, 1, 4, null, null, 3, 6])) === false)
 console.log(new Solution().isValidBST(buildTree([2, 2, 2])) === false)

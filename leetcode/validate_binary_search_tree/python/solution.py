@@ -1,4 +1,5 @@
 from binary_tree_utils import *
+from collections import deque
 
 
 # class TreeNode:
@@ -16,47 +17,44 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: binary tree, dfs, recursion
+        Tags: 
+            DS: binary tree
+            A: dfs, recursion, pre-order traversal
         """
         def dfs(node, lower_bound, upper_bound):
-            if not node:
+            if node is None:
                 return True
-            elif (node.val >= upper_bound or
-                    node.val <= lower_bound):
+            elif not (lower_bound < node.val < upper_bound):
                 return False
-            else:
-                return (
-                    dfs(node.left, lower_bound, node.val) and
-                    dfs(node.right, node.val, upper_bound))
-            
-        return dfs(root, float("-inf"), float("inf"))
+        
+            left = dfs(node.left, lower_bound, node.val)
+            right = dfs(node.right, node.val, upper_bound)
 
+            return left and right
 
-class Solution:
+        return dfs(root, -(2**31) - 1, 2**31)
+
     def isValidBST(self, root: TreeNode) -> bool:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: binary tree, bfs, iteration, queue
+        Tags: 
+            DS: binary tree, queue
+            A: bfs, iteration, level-order traversal
         """
-        node = root
-        lower_bound = float("-inf")
-        upper_bound = float("inf")
-        queue = deque([(node, lower_bound, upper_bound)])
+        queue = deque([(root, -(2**31) - 1, 2**31)])
 
         while queue:
-            for _ in range(len(queue)):
-                node, lower_bound, upper_bound = queue.popleft()
+            node, lower_bound, upper_bound = queue.popleft()
 
-                if (node.val <= lower_bound or 
-                        node.val >= upper_bound):
-                    return False
+            if not (lower_bound < node.val < upper_bound):
+                return False
+            
+            if node.left:
+                queue.append((node.left, lower_bound, node.val))
+            if node.right:
+                queue.append((node.right, node.val, upper_bound))
 
-                if node.left:
-                    queue.append((node.left, lower_bound, min(node.val, upper_bound)))
-                if node.right:
-                    queue.append((node.right, max(node.val, lower_bound), upper_bound))
-        
         return True
 
 

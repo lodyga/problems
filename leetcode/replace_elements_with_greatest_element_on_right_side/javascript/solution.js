@@ -1,57 +1,26 @@
 class Solution {
    /**
     * Time complexity: O(n)
-    * Auxiliary space complexity: O(n)
-    * @param {number[]} numbers
+    * Auxiliary space complexity: O(1)
+    * Tags:
+    *     DS: array
+    *     A: iteration
+    * @param {number[]} nums
     * @return {number[]}
     */
-   replaceElements(numbers) {
-      const numberList = [-1];
-      let maxNumber = -1;
-
-      for (const number of numbers.slice(1,).reverse()) {
-         maxNumber = maxNumber > number ? maxNumber : number;
-         numberList.push(maxNumber);
+   replaceElements(nums) {
+      let prev = -1;
+      for (let index = nums.length - 1; index > -1; index--) {
+         const num = nums[index];
+         const next = Math.max(prev, num);
+         nums[index] = prev;
+         prev = next;
       }
-      return numberList.reverse()
+      return nums
    };
 }
 
 
-const replaceElements = function (numbers) {
-   const greatestRight = Array(numbers.length).fill(-1);
-   const numbersReversed = numbers.reverse()
-
-   for (let index = 0; index < numbers.length - 1; index++) {
-      greatestRight[index + 1] = Math.max(greatestRight[index], numbersReversed[index]);
-   }
-
-   return greatestRight.reverse()
-}
-
-
-const replaceElements = function (numbers) {
-   const greatestRight = Array(numbers.length).fill(-1);
-
-   for (let index = numbers.length - 2; index >= 0; index--) {
-      greatestRight[index] = Math.max(greatestRight[index + 1], numbers[index + 1]);
-   }
-
-   return greatestRight
-}
-
-
-const replaceElements = function (numbers) {
-   numbers.shift();
-   numbers.push(-1)
-
-   for (let index = numbers.length - 2; index >= 0; index--) {
-      numbers[index] = Math.max(numbers[index], numbers[index + 1]);
-   }
-
-   return numbers
-}
-
-
-console.log(new Solution().replaceElements([17, 18, 5, 4, 6, 1]), [18, 6, 6, 6, 1, -1])
-console.log(new Solution().replaceElements([400]), [-1])
+const replaceElements = new Solution().replaceElements;
+console.log(JSON.stringify(new Solution().replaceElements([17, 18, 5, 4, 6, 1])) === JSON.stringify([18, 6, 6, 6, 1, -1]))
+console.log(JSON.stringify(new Solution().replaceElements([400])) === JSON.stringify([-1]))

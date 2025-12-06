@@ -1,26 +1,29 @@
-class Solution2 {
-   /**
-    * Time complexity: O(n)
-    * Auxiliary space complexity: O(1)
-    * @param {number[]} numbers
-    * @return {number[]}
-    */
-   getConcatenation(numbers) {
-      const concatenatedArray = Array(numbers.length * 2);
-
-      for (let index = 0; index < numbers.length; index++) {
-         concatenatedArray[index] = numbers[index];
-         concatenatedArray[index + numbers.length] = numbers[index];
-      }
-      return concatenatedArray
-   };
-}
-
-
 class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
+    * Tags:
+    *     DS: array
+    *     A: iteration
+    * @param {number[]} numbers
+    * @return {number[]}
+    */
+   getConcatenation(numbers) {
+      const concated = Array(numbers.length * 2).fill(0);
+
+      for (let index = 0; index < numbers.length; index++) {
+         concated[index] = numbers[index];
+         concated[index + numbers.length] = numbers[index];
+      }
+      return concated
+   };
+
+   /**
+    * Time complexity: O(n)
+    * Auxiliary space complexity: O(1)
+    * Tags:
+    *     DS: array
+    *     A: build-in function
     * @param {number[]} numbers
     * @return {number[]}
     */
@@ -30,5 +33,6 @@ class Solution {
 }
 
 
-console.log(new Solution().getConcatenation([1, 2, 1]), [1, 2, 1, 1, 2, 1])
-console.log(new Solution().getConcatenation([1, 3, 2, 1]), [1, 3, 2, 1, 1, 3, 2, 1])
+const getConcatenation = new Solution().getConcatenation;
+console.log(JSON.stringify(new Solution().getConcatenation([1, 2, 1])) === JSON.stringify([1, 2, 1, 1, 2, 1]))
+console.log(JSON.stringify(new Solution().getConcatenation([1, 3, 2, 1])) === JSON.stringify([1, 3, 2, 1, 1, 3, 2, 1]))

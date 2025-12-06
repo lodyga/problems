@@ -1,89 +1,196 @@
+from collections import deque
+
+
 class TimeMap:
     """
     Time complexity: 
        set(): O(1)
-       get(): O(logn)
-       n: max `values assigned to a key` count
+       get(): O(n)
+       n: `values assigned to a key` count
     Auxiliary space complexity: O(n*m)
         m: key count
-    Tags: binary search
+    Tags:
+        DS: queue, hash map
+        A: iteration
     """
 
     def __init__(self):
         self.store = {}
 
     def set(self, key: str, value: str, timestamp: int) -> None:
-        if key not in self.store:
-            self.store[key] = []
+        store = self.store
+        if key not in store:
+            store[key] = deque([(0, "")])
 
-        self.store[key].append((timestamp, value))
+        queue = store[key]
+        queue.appendleft((timestamp, value))
 
     def get(self, key: str, timestamp: int) -> str:
-        if (not key in self.store or
-                timestamp < self.store[key][0][0]):
+        store = self.store
+        if key not in store:
             return ""
 
-        store_values = self.store[key]
-        if (timestamp > store_values[-1][0]):
-            return store_values[-1][1]
+        queue = store[key]
+        index = 0
+        while timestamp < queue[index][0]:
+            index += 1
 
-        left = 0
-        right = len(store_values) - 1
-
-        while left <= right:
-            middle = (left + right) // 2
-            middle_stamp = store_values[middle][0]
-
-            if timestamp == middle_stamp:
-                return store_values[middle][1]
-            elif timestamp < middle_stamp:
-                right = middle - 1
-            else:
-                left = middle + 1
-
-        return store_values[right][1]
+        return queue[index][1]
 
 
 class ListNode:
-    def __init__(self, val=(None, None), next=None) -> None:
+    def __init__(self, val=(0, ""), next=None) -> None:
         self.val = val  # (timestamp, value)
         self.next = next
 
 
 class TimeMap:
     """
-    Time complexity: O(n)
-    Auxiliary space complexity: O(n)
-        n: max `values assigned to a key` count
+    Time complexity: 
+       set(): O(1)
+       get(): O(n)
+       n: `values assigned to a key` count
     Auxiliary space complexity: O(n*m)
         m: key count
-    Tags: linked list
+    Tags:
+        DS: linked list, hash map
+        A: iteration
     """
 
     def __init__(self):
         self.store = {}
 
     def set(self, key: str, value: str, timestamp: int) -> None:
-        if key not in self.store:
-            self.store[key] = ListNode()
+        store = self.store
+        if key not in store:
+            store[key] = ListNode((0, ""))
 
-        node = self.store[key]
-
-        while node.next and timestamp < node.next.val[0]:
-            node = node.next
-
-        node.next = ListNode((timestamp, value), node.next)
+        head = store[key]
+        node = ListNode((timestamp, value), head)
+        store[key] = node
 
     def get(self, key: str, timestamp: int) -> str:
-        if not key in self.store:
+        store = self.store
+        if key not in store:
             return ""
 
-        node = self.store[key]
-
-        while node.next and timestamp < node.next.val[0]:
+        node = store[key]
+        while timestamp < node.val[0]:
             node = node.next
 
-        return node.next.val[1] if node.next else ""
+        return node.val[1]
+
+
+class TimeMap:
+    """
+    Time complexity: 
+       set(): O(1)
+       get(): O(logn)
+       n: `values assigned to a key` count
+    Auxiliary space complexity: O(n*m)
+        m: key count
+    Tags:
+        DS: list, hash map
+        A: binary search
+    """
+    def __init__(self):
+        self.store = {}
+
+    def set(self, key: str, value: str, timestamp: int) -> None:
+        store = self.store
+        if key not in store:
+            store[key] = [(0, "")]
+        
+        store[key].append((timestamp, value))
+
+    def get(self, key: str, timestamp: int) -> str:
+        store = self.store
+        if key not in store:
+            return ""
+
+        key_vals = store[key]
+        left = 0
+        right = len(key_vals) - 1
+        res = key_vals[right][1]
+
+        while left <= right:
+            middle = (left + right) >> 1
+            middle_val = key_vals[middle]
+
+            if timestamp == middle_val[0]:
+                return middle_val[1]
+            elif timestamp > middle_val[0]:
+                res = middle_val[1]
+                left = middle + 1
+            else:
+                right = middle - 1
+        
+        return res
+
+
+def test_input(operations: list[str], arguments: list[list[int]]) -> list[int | None]:
+    """
+    Test input provided in two separate lists: operations and arguments
+    """
+    cls = None
+    output = []
+
+    for operation, argument in zip(operations, arguments):
+        if operation == "TimeMap":
+            cls = TimeMap(*argument)
+            output.append(None)
+        elif operation == "set":
+            cls.set(*argument)
+            output.append(None)
+        elif operation == "get":
+            output.append(cls.get(*argument))
+        else:
+            raise ValueError(f"Unknown operation: {operation}")
+
+    return output
+
+
+# Example Input
+operations_list = [
+    ["TimeMap","set","get","get","set","get","get"],
+    ["TimeMap","set","set","get","get","get","get","get"],
+    ["TimeMap","set","set","get","set","get","get"]
+]
+
+arguments_list = [
+    [[],["foo","bar",1],["foo",1],["foo",3],["foo","bar2",4],["foo",4],["foo",5]],
+    [[],["love","high",10],["love","low",20],["love",5],["love",10],["love",15],["love",20],["love",25]],
+    [[],["a","bar",1],["x","b",3],["b",3],["foo","bar2",4],["foo",4],["foo",5]]
+]
+
+expected_output_list = [
+    [None,None,"bar","bar",None,"bar2","bar2"],
+    [None,None,None,"","high","high","low","low"],
+    [None,None,None,"",None,"bar2","bar2"]
+]
+
+
+# Run tests
+def run_tests(
+        operations_list: list[list[str]],
+        arguments_list: list[list[list[int]]],
+        expected_output_list: list[list[int | None]],
+        show_output: bool = False
+) -> list[bool]:
+    """
+    Run a batch of TimeMap tests and compare outputs with expected results.
+    If show_output is True, returns [(actual, expected), ...] instead of booleans.
+    """
+    output = []
+    for operations, arguments, expected_output in zip(operations_list, arguments_list, expected_output_list):
+        if show_output:
+            output.append((test_input(operations, arguments), expected_output))
+        else:
+            output.append(test_input(operations, arguments) == expected_output)
+    return output
+
+
+print(run_tests(operations_list, arguments_list, expected_output_list))
 
 
 # Example 1

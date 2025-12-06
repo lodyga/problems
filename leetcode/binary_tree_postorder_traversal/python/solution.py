@@ -12,48 +12,72 @@ from binary_tree_utils import *
 
 
 class Solution:
-    def postorderTraversal(self, root: TreeNode | None) -> list[int]:
-        """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(n)
-        Tags: binary tree, dfs, recursion
-        """
-        node_list = []
-
-        def dfs(node):
-            if not node:
-                return
-
-            dfs(node.left)
-            dfs(node.right)
-            node_list.append(node.val)
-
-        dfs(root)
-        return node_list
-
-
-class Solution:
     def postorderTraversal(self, root: TreeNode) -> list[int]:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: binary tree, dfs, iteration, stack
+        Tags: 
+            DS: binary tree
+            A: dfs, recursion, pre-order traversal
         """
-        node_list = []
+        values = []
+        
+        def dfs(node):
+            if node is None:
+                return
+            
+            dfs(node.left)
+            dfs(node.right)
+            values.append(node.val)
+
+        dfs(root)
+        return values
+
+    def postorderTraversal(self, root: TreeNode) -> list[int]:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(n)
+        Tags: 
+            DS: binary tree, stack, list
+            A: dfs, iteration, pre-order traversal
+        """
+        values = []
         stack = []
         node = root
 
         while node or stack:
             if node:
-                node_list.append(node.val)
-                stack.append(node)
+                values.append(node.val)
+                stack.append(node.left)
                 node = node.right
             else:
                 node = stack.pop()
-                node = node.left
 
-        node_list.reverse()
-        return node_list
+        values.reverse()
+        return values
+
+    def postorderTraversal(self, root: TreeNode) -> list[int]:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(n)
+        Tags: 
+            DS: binary tree, stack, list
+            A: dfs, iteration, pre-order traversal
+        """
+        values = []
+        stack = [root] if root else []
+
+        while stack:
+            node = stack.pop()
+            values.append(node.val)
+
+            if node.left:
+                stack.append(node.left)
+            if node.right:
+                stack.append(node.right)
+
+        values.reverse()
+        return values
 
 
 print(Solution().postorderTraversal(build_tree([])) == [])

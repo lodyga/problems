@@ -1,25 +1,50 @@
 class Solution:
-    def groupAnagrams(self, word_list: list[str]) -> list[list[str]]:
+    def groupAnagrams(self, words: list[str]) -> list[list[str]]:
         """
         Time complexity: O(n*k)
-            n: list length
+            n: words length
             k: avg word length
         Auxiliary space complexity: O(n*k)
-        Tags: hash map
+        Tags: 
+            DS: hash map
+            A: iteration
         """
-        grouped_anagrams = {}
-
-        for word in word_list:
-            letter_bucket = [0] * 26
+        def get_hash(word):
+            hash = [0] * 26
             for letter in word:
-                letter_bucket[ord(letter) - ord("a")] += 1
-            key = tuple(letter_bucket)
+                index = ord(letter) - ord("a")
+                hash[index] += 1
+            return tuple(hash)
 
-            if key not in grouped_anagrams:
-                grouped_anagrams[key] = []
-            grouped_anagrams[key].append(word)
+        anagram_frequency = {}
+        for word in words:
+            key = get_hash(word)
+            if key not in anagram_frequency:
+                anagram_frequency[key] = []
+            anagram_frequency[key].append(word)
 
-        return list(grouped_anagrams.values())
+        return list(anagram_frequency.values())
+
+
+class Solution:
+    def groupAnagrams(self, words: list[str]) -> list[list[str]]:
+        """
+        Time complexity: O(n*klogk)
+            n: words length
+            k: avg word length
+        Auxiliary space complexity: O(n*k)
+        Tags: 
+            DS: hash map
+            A: sorting
+        """
+        anagram_frequency = {}
+        for word in words:
+            key = tuple(sorted(word))
+            if key not in anagram_frequency:
+                anagram_frequency[key] = []
+            anagram_frequency[key].append(word)
+
+        return list(anagram_frequency.values())
 
 
 print(Solution().groupAnagrams(["eat", "tea", "tan", "ate", "nat", "bat"]) == [['eat', 'tea', 'ate'], ['tan', 'nat'], ['bat']])

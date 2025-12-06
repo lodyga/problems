@@ -19,7 +19,7 @@ class Solution:
         Tags: binary tree, dfs, recursion
         """
         def dfs(node, targetSum):
-            if not node:
+            if node is None:
                 return False
             elif not node.left and not node.right:
                 return targetSum - node.val == 0

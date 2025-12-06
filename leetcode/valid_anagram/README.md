@@ -1,15 +1,16 @@
 # Valid Anagram
 https://leetcode.com/problems/valid-anagram/description/
 
-Given two strings s and t, return true if t is an anagram of s, and false otherwise.
+
+Given two strings s and t, return true if t is an anagraim of s, and false otherwise.
 
 An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.
 
-Example 1:
 
-Input: s = "anagram", t = "nagaram"
+<b>Example 1:</b>\
+Input: s = "anagram", t = "nagaram"\
 Output: true
-Example 2:
 
-Input: s = "rat", t = "car"
+<b>Example 2:</b>\
+Input: s = "rat", t = "car"\
 Output: false

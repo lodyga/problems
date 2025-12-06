@@ -16,7 +16,9 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: binary tree, dfs, recursion
+    * Tags: 
+    *     DS: binary tree
+    *     A: dfs, recursion
     * @param {TreeNode} root
     * @return {number}
     */
@@ -24,14 +26,14 @@ class Solution {
       let diameter = 0;
 
       const dfs = (node) => {
-         if (!node) {
+         if (node === null) {
             return 0
          }
-         const leftPath = dfs(node.left);
-         const rightPath = dfs(node.right);
-         diameter = Math.max(diameter, leftPath + rightPath);
+         const left = dfs(node.left);
+         const right = dfs(node.right);
+         diameter = Math.max(diameter, left + right);
 
-         return 1 + Math.max(leftPath, rightPath)
+         return 1 + Math.max(left, right)
       }
 
       dfs(root);
@@ -40,8 +42,8 @@ class Solution {
 }
 
 
-console.log(new Solution().diameterOfBinaryTree(buildTree([])), 0)
-console.log(new Solution().diameterOfBinaryTree(buildTree([5])), 0)
-console.log(new Solution().diameterOfBinaryTree(buildTree([1, 2])), 1)
-console.log(new Solution().diameterOfBinaryTree(buildTree([1, 2, 3])), 2)
-console.log(new Solution().diameterOfBinaryTree(buildTree([1, 2, 3, 4, 5])), 3)
+const diameterOfBinaryTree = new Solution().diameterOfBinaryTree;
+console.log(new Solution().diameterOfBinaryTree(buildTree([5])) === 0)
+console.log(new Solution().diameterOfBinaryTree(buildTree([1, 2])) === 1)
+console.log(new Solution().diameterOfBinaryTree(buildTree([1, 2, 3])) === 2)
+console.log(new Solution().diameterOfBinaryTree(buildTree([1, 2, 3, 4, 5])) === 3)

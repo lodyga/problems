@@ -25,7 +25,7 @@ class Solution {
       return dfs(root, targetSum)
 
       function dfs(node, targetSum) {
-         if (!node) {
+         if (node === null) {
             return false
          } else if (
             !node.left && !node.right
@@ -52,7 +52,7 @@ class Solution {
     * @return {boolean}
     */
    hasPathSum(root, targetSum) {
-      if (!root) return false
+      if (root === null) return false
       const stack = [[root, targetSum]];
 
       while (stack.length) {
@@ -82,7 +82,7 @@ class Solution {
     * @return {boolean}
     */
    hasPathSum(root, targetSum) {
-      if (!root) return false
+      if (root === null) return false
       const queue = new Queue([[root, targetSum]])
 
 

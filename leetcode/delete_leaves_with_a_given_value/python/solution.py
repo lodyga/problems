@@ -19,7 +19,7 @@ class Solution:
         Tags: binary tree, dfs, recursion, post-order traversal
         """
         def dfs(node):
-            if not node:
+            if node is None:
                 return
             
             node.left = self.removeLeafNodes(node.left, target)
@@ -45,7 +45,7 @@ class Solution:
         Tags: binary tree, dfs, recursion, post-order traversal
         """
         def dfs(node):
-            if not node:
+            if node is None:
                 return
             
             node.left = self.removeLeafNodes(node.left, target)

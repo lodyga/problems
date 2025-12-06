@@ -36,7 +36,7 @@ class Solution:
         """
         Time complexity: O(2^n)
         Auxiliary space complexity: O(1)
-        Tags: brute force, tle
+        Tags: brute-force, tle
         """
         def dfs(level: int, index: int) -> int:
             if level == len(triangle):

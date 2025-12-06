@@ -2,7 +2,8 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: two pointers
+    * Tags: 
+    *     A: two pointers
     * @param {number[]} heights
     * @return {number}
     */
@@ -14,18 +15,14 @@ class Solution {
       while (left < right) {
          let area = (right - left) * Math.min(heights[left], heights[right]);
          maxWaterArea = Math.max(maxWaterArea, area);
-
-         if (heights[left] < heights[right]) {
-            left++;
-         } else {
-            right--;
-         }
+         heights[left] < heights[right] ? left++ : right--;
       }
       return maxWaterArea
    };
 }
 
 
+const maxArea = new Solution().maxArea;
 console.log(new Solution().maxArea([1, 8, 6, 2, 5, 4, 8, 3, 7]) === 49)
 console.log(new Solution().maxArea([1, 1]) === 1)
 console.log(new Solution().maxArea([2, 3, 4, 5, 18, 17, 6]) === 17)

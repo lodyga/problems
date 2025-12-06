@@ -3,29 +3,34 @@ class Solution:
         """
         Time complexity: O(n2^n)
         Auxiliary space complexity: O(n)
-        Tags: backtracking
+        Tags: 
+            DS: list
+            A: backtracking
         """
         parenthesis = []
-        parenthesisList = []
-        
-        def dfs(open, close):
-            if open == 0 and close == 0:
-                parenthesisList.append("".join(parenthesis))
+        parenthesis_list = []
+
+        def backtrack(opened: int, closed: int) -> None:
+            if opened + closed == 2*n:
+                parenthesis_list.append("".join(parenthesis))
                 return
-            
-            if open:
+
+            # open parenthesis
+            if opened < n:
                 parenthesis.append("(")
-                dfs(open - 1, close)
+                backtrack(opened + 1, closed)
                 parenthesis.pop()
-            if close > open:
+
+            # close parenthesis
+            if opened != closed:
                 parenthesis.append(")")
-                dfs(open, close - 1)
+                backtrack(opened, closed + 1)
                 parenthesis.pop()
-        
-        dfs(n, n)
-        return parenthesisList
+
+        backtrack(0, 0)
+        return parenthesis_list
 
 
-print(Solution().generateParenthesis(1), ["()"])
-print(Solution().generateParenthesis(2), ["(())", "()()"])
-print(Solution().generateParenthesis(3), ["((()))", "(()())", "(())()", "()(())", "()()()"])
+print(Solution().generateParenthesis(1) == ["()"])
+print(Solution().generateParenthesis(2) == ["(())", "()()"])
+print(Solution().generateParenthesis(3) == ["((()))", "(()())", "(())()", "()(())", "()()()"])

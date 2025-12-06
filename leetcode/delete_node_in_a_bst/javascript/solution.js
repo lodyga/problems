@@ -23,7 +23,7 @@ class Solution {
    */
    deleteNode(root, key) {
       const dfs = (node) => {
-         if (!node) {
+         if (node === null) {
             return node
          }
          else if (key == node.val) {

@@ -2,56 +2,65 @@ class Solution {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(n)
-    * Tags: two pointers
-    * @param {number[]} numbers
+    * Tags:
+    *     DS: list
+    *     A: two pointers, sorting
+    * @param {number[]} nums
     * @return {number[][]}
     */
-   threeSum(numbers) {
-      numbers.sort((a, b) => a - b);
-      const tripletList = [];
+   threeSum(nums) {
+      nums.sort((a, b) => a - b);
+      const triplets = [];
 
-      for (let index = 0; index < numbers.length - 2; index++) {
-         const number = numbers[index];
+      let left = 0;
+      while (left < nums.length - 2) {
+         const leftNum = nums[left];
 
-         // Skip positive numbers
-         if (number > 0) {
+         // If left number is > 0 then triplet sum is > 0
+         if (leftNum > 0) {
             break
-         } else if (index && number === numbers[index - 1]) {
-            // Skip same number values
+         }
+         // Skip duplicate left values.
+         if (left && nums[left - 1] === leftNum) {
+            left++;
             continue
          }
 
-         let left = index + 1;
-         let right = numbers.length - 1;
+         let middle = left + 1;
+         let right = nums.length - 1;
 
-         while (left < right) {
-            const triplet = number + numbers[left] + numbers[right];
+         while (middle < right) {
+            const triplet = leftNum + nums[middle] + nums[right];
 
             if (triplet === 0) {
-               tripletList.push([number, numbers[left], numbers[right]]);
-               left++;
+               triplets.push([leftNum, nums[middle], nums[right]]);
+               middle++;
                right--;
-               // skip same left pointer values
+               // Skip duplicate middle values.
                while (
-                  left < right &&
-                  numbers[left] === numbers[left - 1]) {
-                  left++;
+                  middle < right &&
+                  nums[middle - 1] === nums[middle]
+               ) {
+                  middle++;
                }
             } else if (triplet > 0) {
                right--;
             } else {
-               left++;
+               middle++;
             }
          }
+         left++;
       }
-      return tripletList
+      return triplets
    };
 }
 
 
+const threeSum = new Solution().threeSum;
 console.log(new Solution().threeSum([-1, 0, 1, 2, -1, -4]), [[-1, -1, 2], [-1, 0, 1]])
 console.log(new Solution().threeSum([3, 0, -2, -1, 1, 2]), [[-2, -1, 3], [-2, 0, 2], [-1, 0, 1]])
 console.log(new Solution().threeSum([1, 1, -2]), [[-2, 1, 1]])
 console.log(new Solution().threeSum([-1, 1, 1]), [])
 console.log(new Solution().threeSum([-2, 0, 0, 2, 2]), [[-2, 0, 2]])
 console.log(new Solution().threeSum([0, 0, 0]), [[0, 0, 0]])
+console.log(new Solution().threeSum([0, 0, 0, 0]), [[0, 0, 0]])

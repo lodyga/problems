@@ -1,21 +1,22 @@
 class Solution:
-    def balancedStringSplit(self, sides: str) -> int:
+    def balancedStringSplit(self, text: str) -> int:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
+        Tags:
+            A: iteration
         """
-        side_counter = 0
-        balanced_string_counter = 0
-        
-        for side in sides:
-            if side == "R":
-                side_counter += 1
+        surplus = 0
+        counter = 0
+        for letter in text:
+            if letter == "R":
+                surplus += 1
             else:
-                side_counter -= 1
-            if not side_counter:
-                balanced_string_counter += 1
-        
-        return balanced_string_counter
+                surplus -= 1
+            if surplus == 0:
+                counter += 1
+        return counter
+
 
 print(Solution().balancedStringSplit("RLRRLLRLRL") == 4)
 print(Solution().balancedStringSplit("RLRRRLLRLL") == 2)

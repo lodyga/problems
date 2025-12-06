@@ -1,4 +1,5 @@
 import { TreeNode, buildTree, getTreeValues } from '../../../../JS/binary-tree.js';
+import { Queue } from '@datastructures-js/queue';
 
 
 /**
@@ -16,76 +17,77 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: binary tree, dfs, recursion
+    * Tags: 
+    *     DS: binary tree
+    *     A: dfs, recursion, post-order traversal
     * @param {TreeNode} root
     * @return {number}
     */
    maxDepth(root) {
-      if (!root) {
-         return 0
+      const dfs = (node) => {
+         if (node === null) {
+            return 0
+         }
+         const left = dfs(node.left);
+         const right = dfs(node.right);
+         return 1 + Math.max(left, right)
       }
-      return (
-         1 + Math.max(
-            this.maxDepth(root.left),
-            this.maxDepth(root.right)
-         )
-      )
+      return dfs(root)
    };
-}
 
-
-class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: binary tree, dfs, stack, iteration, pre-order traversal
+    * Tags: 
+    *     DS: binary tree, stack
+    *     A: dfs, iteration, pre-order traversal
     * @param {TreeNode} root
     * @return {number}
     */
    maxDepth(root) {
-      if (!root) {
+      if (root === null) {
          return 0
       }
-      let maxTreeDepth = 1;
-      const stack = [[root, maxTreeDepth]];
+      let mDepth = 1;
+      const stack = [[mDepth, root]];
 
       while (stack.length) {
-         let [node, depth] = stack.pop();
-         maxTreeDepth = Math.max(maxTreeDepth, depth);
+         const [depth, node] = stack.pop();
+         mDepth = Math.max(mDepth, depth);
 
          if (node.right) {
-            stack.push([node.right, depth + 1])
+            stack.push([depth + 1, node.right])
          }
          if (node.left) {
-            stack.push([node.left, depth + 1])
+            stack.push([depth + 1, node.left])
          }
       }
-      return maxTreeDepth
+      return mDepth
    };
-}
 
-
-class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: binary tree, bfs, deque, iteration, level-order traversal
+    * Tags: 
+    *     DS: binary tree, queue
+    *     A: bfs, iteration, level-order traversal
     * @param {TreeNode} root
     * @return {number}
     */
    maxDepth(root) {
-      if (!root) {
+      if (root === null) {
          return 0
       }
-      let maxTreeDepth = 0;
+      let depth = 0;
       const queue = new Queue([root]);
 
-      while (!queue.isEmpty()) {
-         maxTreeDepth++;
+      while (queue.size()) {
+         depth++;
          const queueSize = queue.size();
 
          for (let index = 0; index < queueSize; index++) {
             const node = queue.pop();
+            
             if (node.left) {
                queue.push(node.left);
             }
@@ -94,12 +96,14 @@ class Solution {
             }
          }
       }
-      return maxTreeDepth
+      return depth
    };
 }
 
 
-console.log(new Solution().maxDepth(buildTree([])), 0)
-console.log(new Solution().maxDepth(buildTree([5])), 1)
-console.log(new Solution().maxDepth(buildTree([1, null, 2])), 2)
-console.log(new Solution().maxDepth(buildTree([3, 9, 20, null, null, 15, 7])), 3)
+const maxDepth = new Solution().maxDepth;
+console.log(new Solution().maxDepth(buildTree([])) === 0)
+console.log(new Solution().maxDepth(buildTree([5])) === 1)
+console.log(new Solution().maxDepth(buildTree([1, null, 2])) === 2)
+console.log(new Solution().maxDepth(buildTree([3, 9, 20, null, null, 15, 7])) === 3)
+console.log(new Solution().maxDepth(buildTree([4, 2, 7, 1, 3, 6, 9])) === 3)

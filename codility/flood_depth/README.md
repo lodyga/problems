@@ -20,7 +20,15 @@ For example, consider array A such that:
     A[10] = 2
 The following picture illustrates the landscape after it has flooded:
 
-
+<pre>
+                     __
+5                   |  |      __
+4     __            |  |_____|  |
+3    |  |__    __   |           |__
+2  __|     |__|  |__|              |
+1 |________________________________|
+   0  1  2  3  4  5  6  7  8  9  10
+</pre>
 
 The gray area is the rock floor described by the array A above and the blue area with dashed lines represents the water filling the low-lying areas with maximum possible volume. Thus, blocks 3 and 5 have a water depth of 2 while blocks 2, 4, 7 and 8 have a water depth of 1. Therefore, the maximum water depth of this area is 2.
 

@@ -2,52 +2,55 @@ class Solution {
    /**
     * Time complexity: O(n!)
     * Auxiliary space complexity: O(n2)
-    * Tags: backtracking
+    * Tags: 
+    *     DS: array (matrix), hash set
+    *     A: DFS with backtracking
     * @param {number} n
     * @return {string[][]}
     */
    solveNQueens(n) {
-      const rows = n;
-      const cols = n;
-      const board = Array.from({ length: rows }, () => Array(cols).fill('.'));
+      const ROWS = n;
+      const COLS = n;
+      const board = Array.from({ length: ROWS }, () => Array(COLS).fill('.'));
       const boardList = [];
-      const visitedCols = new Set();
-      const visitedDiag = new Set();
-      const visitedADiag = new Set();
+      const visitedCols = Array(COLS).fill(false);
+      const visitedDiags = new Set();
+      const visitedADiags = new Set();
 
-      const dfs = (row) => {
-         if (row === rows) {
-            boardList.push(board.map(row => row.join('')));  // ['.', 'Q', '.', '.'] => ['.Q..']
+      const backtrack = (row) => {
+         if (row === ROWS) {
+            boardList.push(board.map(row => row.join('')));
             return
          }
 
-         for (let col = 0; col < cols; col++) {
+         for (let col = 0; col < COLS; col++) {
             if (
-               visitedCols.has(col) ||
-               visitedDiag.has(row + col) ||
-               visitedADiag.has(row - col)
+               visitedCols[col] ||
+               visitedDiags.has(row + col) ||
+               visitedADiags.has(row - col)
             ) {
                continue
             }
-            visitedCols.add(col);
-            visitedDiag.add(row + col);
-            visitedADiag.add(row - col);
+            visitedCols[col] = true;
+            visitedDiags.add(row + col);
+            visitedADiags.add(row - col);
             board[row][col] = 'Q';
-            dfs(row + 1);
-            visitedCols.delete(col);
-            visitedDiag.delete(row + col);
-            visitedADiag.delete(row - col);
+            backtrack(row + 1);
+            visitedCols[col] = false;
+            visitedDiags.delete(row + col);
+            visitedADiags.delete(row - col);
             board[row][col] = '.';
          }
       }
-      dfs(0);
+      backtrack(0);
       return boardList
    };
 }
 
 
-console.log(new Solution().solveNQueens(1), [["Q"]])
+const solveNQueens = new Solution().solveNQueens;
+console.log(new Solution().solveNQueens(1), [['Q']])
 console.log(new Solution().solveNQueens(2), [])
 console.log(new Solution().solveNQueens(3), [])
-console.log(new Solution().solveNQueens(4), [[".Q..", "...Q", "Q...", "..Q."], ["..Q.", "Q...", "...Q", ".Q.."]])
-console.log(new Solution().solveNQueens(5), [["Q....", "..Q..", "....Q", ".Q...", "...Q."], ["Q....", "...Q.", ".Q...", "....Q", "..Q.."], [".Q...", "...Q.", "Q....", "..Q..", "....Q"], [".Q...", "....Q", "..Q..", "Q....", "...Q."], ["..Q..", "Q....", "...Q.", ".Q...", "....Q"], ["..Q..", "....Q", ".Q...", "...Q.", "Q...."], ["...Q.", "Q....", "..Q..", "....Q", ".Q..."], ["...Q.", ".Q...", "....Q", "..Q..", "Q...."], ["....Q", ".Q...", "...Q.", "Q....", "..Q.."], ["....Q", "..Q..", "Q....", "...Q.", ".Q..."]])
+console.log(new Solution().solveNQueens(4), [['.Q..', '...Q', 'Q...', '..Q.'], ['..Q.', 'Q...', '...Q', '.Q..']])
+console.log(new Solution().solveNQueens(5), [['Q....', '..Q..', '....Q', '.Q...', '...Q.'], ['Q....', '...Q.', '.Q...', '....Q', '..Q..'], ['.Q...', '...Q.', 'Q....', '..Q..', '....Q'], ['.Q...', '....Q', '..Q..', 'Q....', '...Q.'], ['..Q..', 'Q....', '...Q.', '.Q...', '....Q'], ['..Q..', '....Q', '.Q...', '...Q.', 'Q....'], ['...Q.', 'Q....', '..Q..', '....Q', '.Q...'], ['...Q.', '.Q...', '....Q', '..Q..', 'Q....'], ['....Q', '.Q...', '...Q.', 'Q....', '..Q..'], ['....Q', '..Q..', 'Q....', '...Q.', '.Q...']])

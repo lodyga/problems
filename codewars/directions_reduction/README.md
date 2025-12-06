@@ -1,6 +1,7 @@
 # Directions Reduction
 https://www.codewars.com/kata/550f22f4d758534c1100025a
 
+
 Once upon a time, on a way through the old wild mountainous west,…
 … a man was given directions to go from one point to another. The directions were "NORTH", "SOUTH", "WEST", "EAST". Clearly "NORTH" and "SOUTH" are opposite, "WEST" and "EAST" too.
 

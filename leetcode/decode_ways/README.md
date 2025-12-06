@@ -1,6 +1,7 @@
 # Decode Ways
 https://leetcode.com/problems/decode-ways/description/
 
+
 You have intercepted a secret message encoded as a string of numbers. The message is decoded via the following mapping:
 
 "1" -> 'A'
@@ -23,6 +24,7 @@ The grouping (1, 11, 06) is invalid because "06" is not a valid code (only "6" i
 Note: there may be strings that are impossible to decode.
 
 Given a string s containing only digits, return the number of ways to decode it. If the entire string cannot be decoded in any valid way, return 0.
+
 
 <b>Example 1:</b>\
 Input: s = "12"\

@@ -6,7 +6,7 @@ class Solution:
         """
         Time complexity: O(2^n)
         Auxiliary space complexity: O(n)
-        Tags: brute force
+        Tags: brute-force
         failed
         """
         quad = []

@@ -1,32 +1,36 @@
 class Solution:
     """
     Time complexity: O(n):
-        n: all chars count
+        n: char count
     Auxiliary space complexity: O(n)
-    Tags: string
+    Tags:
+        DS: list
+        A: iteration
     """
-
-    def encode(self, word_list: list[str]) -> str:
-        return "".join(str(len(word)) + "#" + word
-                       for word in word_list)
+    
+    def encode(self, words: list[str]) -> str:
+        encoded = []
+        for word in words:
+            encoded.append(str(len(word)))
+            encoded.append("#")
+            encoded.append(word)
+        return "".join(encoded)
 
     def decode(self, text: str) -> list[str]:
-        word_list = []
+        words = []
         index = 0
 
         while index < len(text):
             word_length = 0
-            while text[index].isdigit():
-                word_length = 10*word_length + int(text[index])
+            while text[index] != "#":
+                word_length = word_length * 10 + int(text[index])
                 index += 1
-            
-            if text[index] == "#":
-                index += 1
-
-            word_list.append(text[index: index + word_length])
+        
+            index += 1
+            words.append(text[index: index + word_length])
             index += word_length
 
-        return word_list
+        return words
 
 
 print(Solution().encode(["code", "site", "love", "you"]) == "4#code4#site4#love3#you")

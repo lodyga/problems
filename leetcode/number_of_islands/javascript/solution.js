@@ -1,43 +1,104 @@
+import { Queue } from "@datastructures-js/queue";
+
+
 class Solution {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(n2)
-    * Tags: dfs, recursion, graph, matrix
+    * Tags: 
+    *     DS: array (matrix)
+    *     A: dfs, recursion 
     * @param {string[][]} grid
     * @return {number}
     */
    numIslands(grid) {
-      const rows = grid.length;
-      const cols = grid[0].length;
-      const visitedCells = new Set();
-      let islandCounter = 0;
+      const ROWS = grid.length;
+      const COLS = grid[0].length;
       const DIRECTIONS = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+      const visited = Array.from({ length: ROWS }, () => Array(COLS).fill(false));
 
-      for (let row = 0; row < rows; row++) {
-         for (let col = 0; col < cols; col++) {
+      const dfs = (row, col) => {
+         if (
+            row == -1 ||
+            col == -1 ||
+            row === ROWS ||
+            col === COLS ||
+            grid[row][col] === '0' ||
+            visited[row][col]
+         ) return 0
+
+         visited[row][col] = true;
+         DIRECTIONS.map(([r, c]) => dfs(row + r, col + c));
+         return 1
+      }
+
+      let islandCounter = 0;
+      for (let row = 0; row < ROWS; row++) {
+         for (let col = 0; col < COLS; col++) {
             islandCounter += dfs(row, col)
          }
       }
       return islandCounter
+   };
 
-      function dfs(row, col) {
+   /**
+    * Time complexity: O(n2)
+    * Auxiliary space complexity: O(n2)
+    * Tags: 
+    *     DS: array (matrix)
+    *     A: bfs, recursion 
+    * @param {string[][]} grid
+    * @return {number}
+    */
+   numIslands(grid) {
+      const ROWS = grid.length;
+      const COLS = grid[0].length;
+      const DIRECTIONS = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+      const visited = Array.from({ length: ROWS }, () => Array(COLS).fill(false));
+
+      const bfs = (row, col) => {
          if (
-            row < 0 ||
-            col < 0 ||
-            row === rows ||
-            col === cols ||
-            grid[row][col] === '0' ||
-            visitedCells.has(`${row},${col}`)
+            grid[row][col] == "0" ||
+            visited[row][col]
          ) return 0
-         
-         visitedCells.add(`${row},${col}`)
-         DIRECTIONS.map(([r, c]) => dfs(row + r, col + c));
+
+         const queue = new Queue([[row, col]]);
+         visited[row][col] = true;
+
+         while (queue.size()) {
+            const [row, col] = queue.pop();
+
+            for (const [dr, dc] of DIRECTIONS) {
+               const [r, c] = [row + dr, col + dc];
+
+               if (
+                  r == -1 ||
+                  c == -1 ||
+                  r === ROWS ||
+                  c === COLS ||
+                  grid[r][c] === '0' ||
+                  visited[r][c]
+               ) continue
+
+               queue.push([r, c]);
+               visited[r][c] = true;
+            }
+         }
          return 1
+      };
+
+      let islandCounter = 0;
+      for (let row = 0; row < ROWS; row++) {
+         for (let col = 0; col < COLS; col++) {
+            islandCounter += bfs(row, col)
+         }
       }
+      return islandCounter
    };
 }
 
 
+const numIslands = new Solution().numIslands;
 console.log(new Solution().numIslands([['0']]) === 0)
 console.log(new Solution().numIslands([['1']]) === 1)
 console.log(new Solution().numIslands([['0', '0'], ['0', '1']]) === 1)

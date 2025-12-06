@@ -2,47 +2,50 @@ class Solution {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(1)
-    * Tags: two pointers
-    * @param {string[]} word
+    * Tags: 
+    *     A: two pointers
+    * @param {string[]} text
     * @return {string[]}
     */
-   longestPalindrome(word) {
+   longestPalindrome(text) {
       let palindromeLength = 0;
+      let longestPalindromeLength = 0;
       let start = 0;
 
-      for (let index = 0; index < word.length; index++) {
+      const checkForPalindrome = (left, right) => {
+         while (
+            left > -1 &&
+            right < text.length &&
+            text[left] === text[right]
+         ) {
+            palindromeLength = right - left + 1;
+            if (palindromeLength > longestPalindromeLength) {
+               longestPalindromeLength = palindromeLength;
+               start = left;
+            }
+            left--;
+            right++;
+         }
+      }
+
+      for (let index = 0; index < text.length; index++) {
          // check for odd length palindrome
          checkForPalindrome(index, index)
          // check for even length palindrome
          checkForPalindrome(index, index + 1)
       }
-
-      function checkForPalindrome(left, right) {
-         while (
-            left >= 0 &&
-            right < word.length &&
-            word[left] === word[right]
-         ) {
-            left--;
-            right++;
-         }
-         if (right - left - 1 > palindromeLength) {
-            palindromeLength = right - left - 1;
-            start = left + 1
-         }
-      }
-
-      return word.slice(start, start + palindromeLength)
+      return text.slice(start, start + longestPalindromeLength)
    };
 }
 
 
-console.log(new Solution().longestPalindrome('babad'), 'bab')
-console.log(new Solution().longestPalindrome('a'), 'a')
-console.log(new Solution().longestPalindrome('cbbd'), 'bb')
-console.log(new Solution().longestPalindrome(''), '')
-console.log(new Solution().longestPalindrome('bb'), 'bb')
-console.log(new Solution().longestPalindrome('ab'), 'a')
-console.log(new Solution().longestPalindrome('aacabdkacaa'), 'aca')
-console.log(new Solution().longestPalindrome('abdka'), 'a')
-console.log(new Solution().longestPalindrome('aaaa'), 'aaaa')
+const longestPalindrome = new Solution().longestPalindrome
+console.log(new Solution().longestPalindrome('babad') === 'bab')
+console.log(new Solution().longestPalindrome('cbbd') === 'bb')
+console.log(new Solution().longestPalindrome('a') === 'a')
+console.log(new Solution().longestPalindrome('') === '')
+console.log(new Solution().longestPalindrome('bb') === 'bb')
+console.log(new Solution().longestPalindrome('ab') === 'a')
+console.log(new Solution().longestPalindrome('aacabdkacaa') === 'aca')
+console.log(new Solution().longestPalindrome('abdka') === 'a')
+console.log(new Solution().longestPalindrome('aaaa') === 'aaaa')

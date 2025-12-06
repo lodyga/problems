@@ -3,7 +3,8 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: two pointers
+        Tags: 
+            A: two pointers
         """
         left = 0
         right = len(heights) - 1

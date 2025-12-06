@@ -22,7 +22,7 @@ class Solution {
     */
    rob(root) {
       const dfs = (node) => {
-         if (!node) {
+         if (node === null) {
             return [0, 0]
          }
          const nodeLeft = dfs(node.left);

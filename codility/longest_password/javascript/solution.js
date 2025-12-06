@@ -6,37 +6,52 @@ class Solution {
     * @return {number}
     */
    longestPassword(passwords) {
-      let passwordLength = 0;
+      const hasEvenLetters = (word) => {
+         let counter = 0;
+         for (const char of word) {
+            if (
+               (char >= 'a' && char <= 'z') ||
+               (char >= 'A' && char <= 'Z')
+            ) counter++;
+         }
+         return counter % 2 === 0
+      };
 
+      const hasOddDigits = (word) => {
+         let counter = 0;
+         for (const char of word) {
+            if (char >= '0' && char <= '9')
+               counter++;
+         }
+         return counter % 2 === 1
+      };
+
+      const isAlnum = (word) => {
+         let counter = 0;
+         for (const char of word) {
+            if (
+               (char >= 'a' && char <= 'z') ||
+               (char >= 'A' && char <= 'Z') ||
+               (char >= '0' && char <= '9')
+            ) counter++;
+         }
+         return counter === word.length
+      };
+
+      let passwordLength = -1;
       for (const password of passwords.split(' ')) {
          if (
-            this.isAlnum(password) &&
-            this.hasEvenLetters(password) &&
-            this.hasOddDigits(password) &&
-            password.length > passwordLength
+            isAlnum(password) &&
+            hasEvenLetters(password) &&
+            hasOddDigits(password)
          ) {
-            passwordLength = password.length;
+            passwordLength = Math.max(passwordLength, password.length);
          }
       }
       return passwordLength
    };
-
-   isAlnum(password) {
-      return password.match(/\W/) === null
-   };
-
-   hasEvenLetters(password) {
-      const passwordMatch = password.match(/[a-zA-Z]/ig);
-      const numberOfLetters = passwordMatch === null ? 0 : passwordMatch.length;
-      return numberOfLetters % 2 === 0
-   };
-
-   hasOddDigits(password) {
-      const passwordMatch = password.match(/\d/g);
-      const numberOfDigits = passwordMatch === null ? 0 : passwordMatch.length;
-      return numberOfDigits % 2 === 1
-   };
 }
 
 
-console.log(new Solution().longestPassword("test 5 a0A pass007 ?xy1"), 7)
+const longestPassword = new Solution().longestPassword;
+console.log(new Solution().longestPassword("test 5 a0A pass007 ?xy1") === 7);

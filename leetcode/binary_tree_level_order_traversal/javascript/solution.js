@@ -1,5 +1,5 @@
 import { TreeNode, buildTree, getTreeValues } from '../../../../JS/binary-tree.js';
-
+import { Queue } from '@datastructures-js/queue';
 
 /**
  * class TreeNode {
@@ -16,51 +16,51 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: binary tree, bfs, iteration, queue, level order traversal
+    * Tags: 
+    *     DS: binary tree, queue
+    *     A: bfs, iteration, level-order traversal
     * @param {TreeNode} root
     * @return {number[][]}
     */
    levelOrder(root) {
+      if (root === null) {
+         return []
+      }
       const queue = new Queue([root]);
       const nodes = [];
-      
+
       while (queue.size()) {
          const queueLength = queue.size();
-         const nodeLevel = [];
-         
+         const level = [];
+
          for (let index = 0; index < queueLength; index++) {
             const node = queue.pop();
+            level.push(node.val);
 
-            if (node) {
-               nodeLevel.push(node.val);
+            if (node.left)
                queue.push(node.left);
+            if (node.right)
                queue.push(node.right);
-            }
          }
-         if (nodeLevel.length) {
-            nodes.push(nodeLevel);
-         }
+         nodes.push(level);
       }
       return nodes
    };
-}
 
-
-class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: binary tree, dfs, recursion, level order traversal
+    * Tags: 
+    *     DS: binary tree, list
+    *     A: dfs, recursion, pre-order traversal
     * @param {TreeNode} root
     * @return {number[][]}
     */
    levelOrder(root) {
       const nodes = [];
-      dfs(0, root);
-      return nodes
 
-      function dfs(index, node) {
-         if (!node) {
+      const dfs = (index, node) => {
+         if (node === null) {
             return
          } else if (index === nodes.length) {
             nodes.push([]);
@@ -70,12 +70,15 @@ class Solution {
          dfs(index + 1, node.left);
          dfs(index + 1, node.right);
       }
+      dfs(0, root);
+      return nodes
    };
 }
+
+
 const levelOrder = new Solution().levelOrder;
-
-
-console.log(new Solution().levelOrder(buildTree([1, 2, 3])), [[1], [2, 3]])
-console.log(new Solution().levelOrder(buildTree([3, 9, 20, null, null, 15, 7])), [[3], [9, 20], [15, 7]])
-console.log(new Solution().levelOrder(buildTree([1])), [[1]])
-console.log(new Solution().levelOrder(buildTree([])), [])
+console.log(JSON.stringify(new Solution().levelOrder(buildTree([1, 2, 3]))) === JSON.stringify([[1], [2, 3]]))
+console.log(JSON.stringify(new Solution().levelOrder(buildTree([3, 9, 20, null, null, 15, 7]))) === JSON.stringify([[3], [9, 20], [15, 7]]))
+console.log(JSON.stringify(new Solution().levelOrder(buildTree([1]))) === JSON.stringify([[1]]))
+console.log(JSON.stringify(new Solution().levelOrder(buildTree([]))) === JSON.stringify([]))
+console.log(JSON.stringify(new Solution().levelOrder(buildTree([4, 2, 7, 1, 3, 6, 9]))) == JSON.stringify([[4], [2, 7], [1, 3, 6, 9]]))

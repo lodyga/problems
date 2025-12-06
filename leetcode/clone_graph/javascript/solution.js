@@ -1,8 +1,10 @@
-// Definition for a _Node.
+/**
+ * Definition for a _Node.
+ */
 class _Node {
-   constructor(val = null, neighbors = []) {
-      this.val = val;
-      this.neighbors = neighbors;
+   constructor(val, neighbors) {
+      this.val = val === undefined ? null : val;
+      this.neighbors = neighbors === undefined ? [] : neighbors;
    };
 }
 

@@ -19,40 +19,42 @@ class Solution:
         """
         Time complexity: O(n!)
         Auxiliary space complexity: O(n2)
-        Tags: backtracking
+        Tags: 
+            DS: array (matrix), hash set
+            A: DFS with backtracking
         """
-        rows = n
-        cols = n
-        board_list = []
-        visited_cols = set()
+        ROWS = n
+        COLS = n
+        visited_cols = [False] * COLS
         visited_diags = set()  # set(row + col, ...)
         visited_adiags = set()  # set(row - col, ...)
-        board = [["."] * cols for _ in range(rows)]
+        board = [["."] * COLS for _ in range(ROWS)]
+        board_list = []
 
-        def dfs(row):
-            if row == rows:
+        def backtrack(row):
+            if row == ROWS:
                 board_list.append(["".join(row) for row in board])
                 return
 
-            for col in range(cols):
+            for col in range(COLS):
                 if (
-                    col in visited_cols or
+                    visited_cols[col] or
                     row + col in visited_diags or
                     row - col in visited_adiags
                 ):
                     continue
-
-                visited_cols.add(col)
+                
+                board[row][col] = "Q"
+                visited_cols[col] = True
                 visited_diags.add(row + col)
                 visited_adiags.add(row - col)
-                board[row][col] = "Q"
-                dfs(row + 1)
-                visited_cols.remove(col)
-                visited_diags.remove(row + col)
-                visited_adiags.remove(row - col)
+                backtrack(row + 1)
                 board[row][col] = "."
+                visited_cols[col] = False
+                visited_diags.discard(row + col)
+                visited_adiags.discard(row - col)
 
-        dfs(0)
+        backtrack(0)
         return board_list
 
 

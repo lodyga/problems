@@ -1,24 +1,25 @@
 class Solution:
-    def isSubsequence(self, word_1: str, word_2: str) -> bool:
+    def isSubsequence(self, sub_seq: str, text: str) -> bool:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: two pointers
+        Tags:
+            A: two pointers
         """
-        if not word_1:
+        if sub_seq == "":
             return True
-
+        
         index = 0
-        for letter in word_2:
-            if letter == word_1[index]:
+        for letter in text:
+            if letter == sub_seq[index]:
                 index += 1
-            if index == len(word_1):
-                return True
-
+                if index == len(sub_seq):
+                    return True
+        
         return False
 
 
-print(Solution().isSubsequence("", ""), True)
-print(Solution().isSubsequence("", "ahbgdc"), True)
-print(Solution().isSubsequence("abc", "ahbgdc"), True)
-print(Solution().isSubsequence("axc", "ahbgdc"), False)
+print(Solution().isSubsequence("abc", "ahbgdc") == True)
+print(Solution().isSubsequence("axc", "ahbgdc") == False)
+print(Solution().isSubsequence("", "ahbgdc") == True)
+print(Solution().isSubsequence("", "") == True)

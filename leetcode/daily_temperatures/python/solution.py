@@ -3,40 +3,41 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: stack, monotonic stack
-        monotonic decreasing stack
+        Tags: 
+            DS: monotonic decreasing stack
+            A: iteration
         """
-        # [(day, temperature), ]
-        temperature_stack = []
-        # number of days needed to wait after day ith for a warmer day to arrive
-        days_to_get_warmer = [0] * len(temperatures)
-
-        for day, temperature in enumerate(temperatures):
-            while temperature_stack and temperature_stack[-1][1] < temperature:
-                prev_day, _ = temperature_stack.pop()
-                days_to_get_warmer[prev_day] = day - prev_day
-            
-            temperature_stack.append((day, temperature))
+        # decreasing temperature day stack
+        day_stack = []
+        wait_days = [0] * len(temperatures)
         
-        return days_to_get_warmer
+        for day, temp in enumerate(temperatures):
+            while day_stack and temperatures[day_stack[-1]] < temp:
+                prev_day = day_stack.pop()
+                wait_days[prev_day] = day - prev_day
+            else:
+                day_stack.append(day)
+        
+        return wait_days
 
 
-class Solution:
+class Solution2:
     def dailyTemperatures(self, temps: list[int]) -> list[int]:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(1)
-        Tags: brute-force
+        Tags: 
+            A: brute-force
         """
-        days_to_get_warmer = [0] * len(temps)
+        wait_days = [0] * len(temps)
 
         for left in range(len(temps)):
             for right in range(left + 1, len(temps)):
                 if temps[left] < temps[right]:
-                    days_to_get_warmer[left] = right - left
+                    wait_days[left] = right - left
                     break
         
-        return days_to_get_warmer
+        return wait_days
 
 
 print(Solution().dailyTemperatures([73, 74, 75, 71, 69, 72, 76, 73]) == [1, 1, 4, 2, 1, 1, 0, 0])

@@ -1,23 +1,26 @@
 class Solution:
-    def lengthOfLongestSubstring(self, word: str) -> int:
+    def lengthOfLongestSubstring(self, text: str) -> int:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: sliding window as hash set
+        Tags: 
+            DS: hash set
+            A: sliding window
         """
-        window = set()
-        longest_substring = 1
+        window_letters = set()
+        substring_lenght = 0
         left = 0
 
-        for right, letter in enumerate(word):
-            while letter in window:
-                window.remove(word[left])
+        for right, letter in enumerate(text):
+            while letter in window_letters:
+                left_letter = text[left]
+                window_letters.discard(left_letter)
                 left += 1
-            else:
-                window.add(letter)
-                longest_substring = max(longest_substring, right - left + 1)
 
-        return longest_substring
+            window_letters.add(letter)
+            substring_lenght = max(substring_lenght, right - left + 1)
+
+        return substring_lenght
 
 
 class Solution:
@@ -35,14 +38,14 @@ class Solution:
 
                 if len(substring) == len(set(substring)):
                     longest_substring = max(
-                        longest_substring, 
+                        longest_substring,
                         right - left + 1)
 
         return longest_substring
 
 
-print(Solution().lengthOfLongestSubstring("abcabcbb"), 3)
-print(Solution().lengthOfLongestSubstring("bbbbb"), 1)
-print(Solution().lengthOfLongestSubstring("pwwkew"), 3)
-print(Solution().lengthOfLongestSubstring("aabaab!bb"), 3)
-print(Solution().lengthOfLongestSubstring("aab"), 2)
+print(Solution().lengthOfLongestSubstring("abcabcbb") == 3)
+print(Solution().lengthOfLongestSubstring("bbbbb") == 1)
+print(Solution().lengthOfLongestSubstring("pwwkew") == 3)
+print(Solution().lengthOfLongestSubstring("aabaab!bb") == 3)
+print(Solution().lengthOfLongestSubstring("aab") == 2)

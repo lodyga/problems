@@ -1,17 +1,20 @@
 class Solution:
-    def arithmeticTriplets(self, numbers: list[int], delta: int) -> int:
+    def arithmeticTriplets(self, nums: list[int], diff: int) -> int:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
+        Tags:
+            DS: hash set
+            A: iteration
         """
-        unique_numbers = set(numbers)
+        num_set = set(nums)
         counter = 0
-
-        for number in unique_numbers:
-            if (number + delta in unique_numbers and
-                    number + 2*delta in unique_numbers):
+        for num in nums:
+            if (
+                num + diff in num_set and
+                num + 2*diff in num_set
+            ):
                 counter += 1
-
         return counter
 
 

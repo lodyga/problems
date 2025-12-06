@@ -25,7 +25,7 @@ class Solution {
       return dfs(root)
 
       function dfs(node) {
-         if (!node) {
+         if (node === null) {
             node = new TreeNode(val)
          } else if (node.val < val) {
             node.right = dfs(node.right);
@@ -48,7 +48,7 @@ class Solution {
     * @return {TreeNode}
     */
    insertIntoBST(root, val) {
-      if (!root) {
+      if (root === null) {
          return new TreeNode(val)
       }
       let node = root;

@@ -2,164 +2,152 @@ class Solution {
    /**
     * Time complexity: O(2^n)
     * Auxiliary space complexity: O(n)
-    * Tags: brute force, pure recursion, tle
+    * Tags: 
+    *    A: brute-force, pure recursion
     * 'counter' as a return statement from dfs
     * converts to top-down
-    * @param {number} number
+    * @param {number} steps
     * @return {number}
     */
-   climbStairs(number) {
-      function dfs(index) {
-         if (index < 0)
-            return 0
-         else if (index === 0)
+   climbStairs(steps) {
+      const dfs = (index) => {
+         if (index === 0 || index === 1)
             return 1
-
          return dfs(index - 1) + dfs(index - 2);
       }
-      return dfs(number)
+      return dfs(steps)
    };
 
    /**
     * Time complexity: O(2^n)
     * Auxiliary space complexity: O(n)
-    * Tags: brute force, shared state, tle
-    * `counter` as shared variable (list)
-    * @param {number} number
+    * Tags: 
+    *    A: brute-force, shared state
+    * `counter` as shared variable
+    * @param {number} steps
     * @return {number}
     */
-   climbStairs(number) {
+   climbStairs(steps) {
       let counter = 0;
-
-      function dfs(index) {
-         if (index < 0)
-            return
-         else if (index === 0) {
+      const dfs = (index) => {
+         if (index === 0 || index === 1) {
             counter++;
             return
          }
          dfs(index - 1);
          dfs(index - 2);
       }
-
-      dfs(number)
+      dfs(steps)
       return counter
    };
 
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: dp, top-down with memoization as hash map
-    * @param {number} number
+    * Tags:    
+    *    DS: hash map
+    *    A: top-down
+    * @param {number} steps
     * @return {number}
     */
-   climbStairs(number) {
-      const memo = new Map([[0, 1]]);
+   climbStairs(steps) {
+      const memo = new Map([[0, 1], [1, 1]]);
 
-      function dfs(index) {
-         if (index < 0)
-            return 0
-         else if (memo.has(index))
+      const dfs = (index) => {
+         if (memo.has(index))
             return memo.get(index)
-
+      
          memo.set(index, (dfs(index - 1) + dfs(index - 2)));
          return memo.get(index);
       }
-
-      return dfs(number)
+      return dfs(steps)
    };
 
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: dp, top-down with memoization as array
-    * @param {number} number
+    * Tags: 
+    *     DS: array
+    *     A: top-down
+    * @param {number} steps
     * @return {number}
     */
-   climbStairs(number) {
-      const memo = Array(number + 1).fill(null);
+   climbStairs(steps) {
+      const memo = Array(steps + 1).fill(-1);
       memo[0] = 1;
+      memo[1] = 1;
 
-      function dfs(index) {
-         if (index < 0)
-            return 0
-         else if (memo[index] !== null)
+      const dfs = (index) => {
+         if (memo[index] !== -1)
             return memo[index]
 
          memo[index] = dfs(index - 1) + dfs(index - 2);
          return memo[index];
       }
-
-      return dfs(number)
+      return dfs(steps)
    };
 
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: dp, bottom-up
-    * @param {number} number
+    * Tags: 
+    *     DS: array
+    *     A: bottom-up
+    * @param {number} steps
     * @return {number}
     */
-   climbStairs(number) {
-      if (number < 4)
-         return number
+   climbStairs(steps) {
+      const cache = Array(steps + 1).fill(1);
 
-      const cache = Array(number + 1).fill(1);
-
-      for (let index = 2; index < number + 1; index++) {
+      for (let index = 2; index < steps + 1; index++) {
          cache[index] = cache[index - 1] + cache[index - 2];
       }
-
-      return cache[cache.length - 1]
+      return cache[steps]
    };
 
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: dp, bottom-up
-    * @param {number} number
+    * Tags: 
+    *     A: greedy
+    * @param {number} steps
     * @return {number}
     */
-   climbStairs(number) {
-      if (number < 4)
-         return number
-
+   climbStairs(steps) {
       const cache = [1, 1];
 
-      for (let index = 2; index < number + 1; index++) {
-         [cache[0], cache[1]] = [cache[1], cache[0] + cache[1]];
+      for (let index = 2; index < steps + 1; index++) {
+         cache[index % 2] = cache[0] + cache[1];
       }
-
-      return cache[1]
+      return cache[steps % 2]
    };
 
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: slick
+    * Tags: greedy
     * @param {number} number
     * @return {number}
     */
-   climbStairs(number) {
-      if (number < 4)
-         return number
-
+   climbStairs1(number) {
       let a = 0;
       let b = 1;
-
+      
       for (let index = 0; index < number; index++) {
-         b = a + b;
-         a = b - a;
-         // [a, b] = [b, a + b]
+         [a, b] = [b, a + b]
+         // b = a + b;
+         // a = b - a;
       }
       return b
    };
 }
 
 
-console.log(new Solution().climbStairs(1) === 1)
-console.log(new Solution().climbStairs(2) === 2)
-console.log(new Solution().climbStairs(3) === 3)
-console.log(new Solution().climbStairs(4) === 5)
-console.log(new Solution().climbStairs(5) === 8)
-console.log(new Solution().climbStairs(6) === 13)
+const climbStairs = new Solution().climbStairs;
+console.log(new Solution().climbStairs1(1) === 1)
+console.log(new Solution().climbStairs1(2) === 2)
+console.log(new Solution().climbStairs1(3) === 3)
+console.log(new Solution().climbStairs1(4) === 5)
+console.log(new Solution().climbStairs1(5) === 8)
+console.log(new Solution().climbStairs1(6) === 13)
+console.log(new Solution().climbStairs1(44) === 1134903170)

@@ -1,5 +1,5 @@
 from binary_tree_utils import *
-
+from collections import deque
 
 # class TreeNode:
 #     """
@@ -16,37 +16,43 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: binary tree, bfs, iteration, queue, level order traversal
+        Tags: 
+            DS: binary tree, queue, list
+            A: bfs, iteration, level-order traversal
         """
-        nodes = []
+        if root == None:
+            return []
+
         queue = deque([root])
+        nodes = []
 
         while queue:
-            node_level = []
+            level = []
             for _ in range(len(queue)):
                 node = queue.popleft()
-                if node:
-                    node_level.append(node.val)
+                level.append(node.val)
+
+                if node.left:
                     queue.append(node.left)
+                if node.right:
                     queue.append(node.right)
 
-            if node_level:
-                nodes.append(node_level)
+            nodes.append(level)
 
         return nodes
 
-
-class Solution:
     def levelOrder(self, root: TreeNode) -> list[list[int]]:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: binary tree, dfs, recursion, level order traversal
+        Tags: 
+            DS: binary tree, list
+            A: dfs, recursion, pre-order traversal
         """
         nodes = []
 
         def dfs(index, node):
-            if not node:
+            if node is None:
                 return
             elif index == len(nodes):
                 nodes.append([])
@@ -59,7 +65,8 @@ class Solution:
         return nodes
 
 
-print(Solution().levelOrder(build_tree([1, 2, 3])), [[1], [2, 3]])
-print(Solution().levelOrder(build_tree([3, 9, 20, None, None, 15, 7])), [[3], [9, 20], [15, 7]])
-print(Solution().levelOrder(build_tree([1])), [[1]])
-print(Solution().levelOrder(build_tree([])), [])
+print(Solution().levelOrder(build_tree([1, 2, 3])) == [[1], [2, 3]])
+print(Solution().levelOrder(build_tree([3, 9, 20, None, None, 15, 7])) == [[3], [9, 20], [15, 7]])
+print(Solution().levelOrder(build_tree([1])) == [[1]])
+print(Solution().levelOrder(build_tree([])) == [])
+print(Solution().levelOrder(build_tree([4, 2, 7, 1, 3, 6, 9])) == [[4], [2, 7], [1, 3, 6, 9]])

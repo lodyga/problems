@@ -22,155 +22,124 @@ draft
 class Solution:
     def numDecodings(self, text: str) -> int:
         """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(1)
-        Tags: dp, bottom-up
+        Time complexity: O(2^n)
+        Auxiliary space complexity: O(n)
+        Tags: 
+            A: brute-force
         """
-        cache = [1, 1]
+        def dfs(index: int) -> int:
+            if index == len(text):
+                return 1
 
-        for index in reversed(range(len(text))):
-            if text[index] == "0":
-                cache = [0, cache[0]]
-                continue
+            num = text[index]
+            # (1-9)
+            one_digit_num = 0
+            if num != "0":
+                one_digit_num = dfs(index + 1)
+            # (10-26)
+            two_digit_num = 0
+            if (
+                index + 1 < len(text) and
+                (num == "1" or
+                 (num == "2" and "0" <= text[index + 1] <= "6"))
+            ):
+                two_digit_num = dfs(index + 2)
 
-            current_cache = cache[0]
+            return one_digit_num + two_digit_num
 
-            if (index + 1 < len(text) and
-                    text[index: index + 2] <= "26"):
-                current_cache += cache[1]
+        return dfs(0)
 
-            cache = [current_cache, cache[0]]
-
-        return cache[0]
-
-
-class Solution:
     def numDecodings(self, text: str) -> int:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: dp, bottom-up with cache as list
+        Tags: 
+            DS: array
+            A: top-down
+        """
+        memo = [-1] * (len(text) + 1)
+        memo[-1] = 1
+
+        def dfs(index: int) -> int:
+            if memo[index] != -1:
+                return memo[index]
+
+            num = text[index]
+            # (1-9)
+            one_digit_num = 0
+            if num != "0":
+                one_digit_num = dfs(index + 1)
+            # (10-26)
+            two_digit_num = 0
+            if (
+                index + 1 < len(text) and
+                (num == "1" or
+                 (num == "2" and "0" <= text[index + 1] <= "6"))
+            ):
+                two_digit_num = dfs(index + 2)
+
+            memo[index] = one_digit_num + two_digit_num
+            return memo[index]
+
+        return dfs(0)
+
+    def numDecodings(self, text: str) -> int:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(n)
+        Tags: 
+            DS: array
+            A: bottom-up
         """
         cache = [0] * (len(text) + 1)
         cache[-1] = 1
 
-        for index in reversed(range(len(text))):
-            if text[index] == "0":
+        for index in range(len(text) - 1, -1, -1):
+            num = text[index]
+            if num == "0":
                 continue
-            
-            cache[index] = cache[index + 1]
-
-            if (index + 1 < len(text) and
-                    text[index: index + 2] <= "26"):
+            # (1-9)
+            cache[index] += cache[index + 1]
+            # (10-26)
+            if (
+                index + 1 < len(text) and
+                (num == "1" or
+                 (num == "2" and "0" <= text[index + 1] <= "6"))
+            ):
                 cache[index] += cache[index + 2]
 
         return cache[0]
 
-
-class Solution:
     def numDecodings(self, text: str) -> int:
         """
         Time complexity: O(n)
-        Auxiliary space complexity: O(n)
-        Tags: dp, bottom-up with cache as hash map
+        Auxiliary space complexity: O(1)
+        Tags: 
+            DS: array
+            A: bottom-up
         """
-        cache = {len(text): 1}
+        cache = [1, 1]
 
-        for index in reversed(range(len(text))):
-            if text[index] == "0":
-                cache[index] = 0
+        for index in range(len(text) - 1, -1, -1):
+            num = text[index]
+            if num == "0":
+                cache[1] = cache[0]
+                cache[0] = 0
                 continue
-            
-            cache[index] = cache[index + 1]
+            # (1-9)
+            cache_at_index = cache[0]
+            # (10-26)
+            if (
+                index + 1 < len(text) and
+                (num == "1" or
+                 (num == "2" and "0" <= text[index + 1] <= "6"))
+            ):
+                cache_at_index += cache[1]
 
-            if (index + 1 < len(text) and
-                    text[index: index + 2] <= "26"):
-                cache[index] += cache[index + 2]
+            cache[1] = cache[0]
+            cache[0] = cache_at_index
 
         return cache[0]
-
-
-class Solution:
-    def numDecodings(self, text: str) -> int:
-        """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(n)
-        Tags: dp, top-down with memoization as hash map
-        """
-        memo = {len(text): 1}
-
-        def dfs(index):
-            if index in memo:
-                return memo[index]
-            elif text[index] == "0":
-                return 0
-
-            # choose one digit number
-            memo[index] = dfs(index + 1)
-
-            # choose two digit number
-            if (index + 1 < len(text) and
-                    text[index: index + 2] <= "26"):
-                memo[index] += dfs(index + 2)
-
-            return memo[index]
-
-        return dfs(0)
-
-
-class Solution:
-    def numDecodings(self, text: str) -> int:
-        """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(n)
-        Tags: dp, top-down with memoization as list
-        """
-        memo = [None] * (len(text) + 1)
-        memo[-1] = 1
-
-        def dfs(index):
-            if memo[index] is not None:
-                return memo[index]
-            elif text[index] == "0":
-                return 0
-
-            # choose one digit number
-            memo[index] = dfs(index + 1)
-
-            # choose two digit number
-            if (index + 1 < len(text) and
-                    text[index: index + 2] <= "26"):
-                memo[index] += dfs(index + 2)
-
-            return memo[index]
-
-        return dfs(0)
-
-
-class Solution:
-    def numDecodings(self, text: str) -> int:
-        """
-        Time complexity: O(2^n)
-        Auxiliary space complexity: O(n)
-        Tags: brute-force, tle
-        shared state
-        """
-        self.number_counter = 0
-
-        def dfs(index):
-            if index == len(text):
-                self.number_counter += 1
-                return
-            elif text[index] == "0":
-                return
-
-            dfs(index + 1)
-            if (index + 1 < len(text) and
-                    text[index: index + 2] <= "26"):
-                dfs(index + 2)
-
-        dfs(0)
-        return self.number_counter
 
 
 print(Solution().numDecodings("5") == 1)
@@ -181,4 +150,5 @@ print(Solution().numDecodings("12") == 2)
 print(Solution().numDecodings("2101") == 1)
 print(Solution().numDecodings("06") == 0)
 print(Solution().numDecodings("0") == 0)
+print(Solution().numDecodings("2617") == 4)
 print(Solution().numDecodings("111111111111111111111111111111111111111111111") == 1836311903)

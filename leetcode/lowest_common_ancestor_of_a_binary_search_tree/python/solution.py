@@ -16,93 +16,58 @@ class Solution:
         """
         Time complexity: O(logn)
         Auxiliary space complexity: O(logn)
-        Tags: binary tree, dfs, recursion
+        Tags: 
+            DS: binary tree
+            A: dfs, recursion, pre-order traversal
         """
         def dfs(node):
             if node is None:
                 return
-            elif node in (p, q):
+            elif (
+                p.val < node.val < q.val or
+                q.val < node.val < p.val
+            ):
                 return node
-            
-            if (
-                p.val < node.val and 
-                q.val < node.val
+            elif (
+                node.val > p.val and
+                node.val > q.val
             ):
                 return dfs(node.left)
             elif (
-                p.val > node.val and 
-                q.val > node.val
+                node.val < p.val and
+                node.val < q.val
             ):
                 return dfs(node.right)
-            else:
+            else:  # node in (p, q)
                 return node
-
-        return dfs(root)  
-
-
-class Solution:
-    def lowestCommonAncestor(self, root: TreeNode, p: TreeNode, q: TreeNode) -> int:
-        """
-        Time complexity: O(logn)
-        Auxiliary space complexity: O(logn)
-        Tags: binary tree, dfs, recursion
-        Compare node values, not nodes themselves.
-        """
-        def dfs(node):
-            if node is None:
-                return
-            elif node.val in (p, q):
-                return node.val
-            
-            if (
-                p.val < node.val and 
-                q.val < node.val
-            ):
-                return dfs(node.left)
-            elif (
-                p.val > node.val and 
-                q.val > node.val
-            ):
-                return dfs(node.right)
-            else:
-                return node.val
 
         return dfs(root)
-
-
-class Solution:
+            
     def lowestCommonAncestor(self, root: TreeNode, p: TreeNode, q: TreeNode) -> TreeNode:
         """
         Time complexity: O(logn)
         Auxiliary space complexity: O(1)
-        Tags: binary tree, dfs, iteration
+        Tags: 
+            DS: binary tree
+            A: dfs, iteration, pre-order traversal
         """
         node = root
-        while root:
-            if p.val < node.val and q.val < node.val:
+        while node:
+            if (
+                node.val > p.val and 
+                node.val > q.val
+            ):
                 node = node.left
-            elif p.val > node.val and q.val > node.val:
+            elif (
+                node.val < p.val and 
+                node.val < q.val
+            ):
                 node = node.right
-            else:
+            else:  # node in (p, q)
                 return node
 
 
-class Solution:
-    def lowestCommonAncestor(self, root: TreeNode, p: TreeNode, q: TreeNode) -> TreeNode:
-        """
-        Time complexity: O(logn)
-        Auxiliary space complexity: O(logn)
-        Tags: binary tree, dfs, recursion
-        """
-        if p.val < root.val and q.val < root.val:
-            return self.lowestCommonAncestor(root.left, p, q)
-        elif p.val > root.val and q.val > root.val:
-            return self.lowestCommonAncestor(root.right, p, q)
-        else:
-            return root
-
-
-print((Solution().lowestCommonAncestor(build_tree([2, 1]), build_tree([2]), build_tree([1]))) ==  2)
-print((Solution().lowestCommonAncestor(build_tree([6, 2, 8, 0, 4, 7, 9, None, None, 3, 5]), build_tree([2]), build_tree([8]))) == 6)
-print((Solution().lowestCommonAncestor(build_tree([6, 2, 8, 0, 4, 7, 9, None, None, 3, 5]), build_tree([2]), build_tree([4]))) == 2)
-print((Solution().lowestCommonAncestor(build_tree([6, 2, 8, 0, 4, 7, 9, None, None, 3, 5]), build_tree([3]), build_tree([5]))) == 4)
+print(get_tree_values(Solution().lowestCommonAncestor(build_tree([2, 1]), build_tree([2]), build_tree([1])))[0] == 2)
+print(get_tree_values(Solution().lowestCommonAncestor(build_tree([6, 2, 8, 0, 4, 7, 9, None, None, 3, 5]), build_tree([2]), build_tree([8])))[0] == 6)
+print(get_tree_values(Solution().lowestCommonAncestor(build_tree([6, 2, 8, 0, 4, 7, 9, None, None, 3, 5]), build_tree([2]), build_tree([4])))[0] == 2)
+print(get_tree_values(Solution().lowestCommonAncestor(build_tree([6, 2, 8, 0, 4, 7, 9, None, None, 3, 5]), build_tree([3]), build_tree([5])))[0] == 4)

@@ -21,7 +21,7 @@ class Solution:
         values = []
 
         def dfs(node):
-            if not node:
+            if node is None:
                 return
 
             values.append(str(node.val))

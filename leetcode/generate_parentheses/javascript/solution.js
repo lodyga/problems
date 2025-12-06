@@ -2,7 +2,9 @@ class Solution {
    /**
     * Time complexity: O(n2^n)
     * Auxiliary space complexity: O(n)
-    * Tags: backtracking
+    * Tags: 
+    *     DS: list
+    *     A: backtracking
     * @param {number} n
     * @return {string}
     */
@@ -10,32 +12,29 @@ class Solution {
       const parenthesis = [];
       const parenthesisList = [];
 
-      dfs(n, n);
-      return parenthesisList
-
-      function dfs(open, close) {
-         if (
-            open === 0 &&
-            close === 0
-         ) {
+      const dfs = (opened, closed) => {
+         if (opened + closed == 2 * n) {
             parenthesisList.push(parenthesis.join(''));
             return
          }
-         if (open) {
+         if (opened < n) {
             parenthesis.push('(');
-            dfs(open - 1, close);
+            dfs(opened + 1, closed);
             parenthesis.pop();
          }
-         if (close > open) {
+         if (opened !== closed) {
             parenthesis.push(')');
-            dfs(open, close - 1);
+            dfs(opened, closed + 1);
             parenthesis.pop();
          }
       }
+      dfs(0, 0);
+      return parenthesisList
    };
 }
 
 
+const generateParenthesis = new Solution().generateParenthesis;
 console.log(new Solution().generateParenthesis(1), ['()'])
 console.log(new Solution().generateParenthesis(2), ['(())', '()()'])
 console.log(new Solution().generateParenthesis(3), ['((()))', '(()())', '(())()', '()(())', '()()()'])

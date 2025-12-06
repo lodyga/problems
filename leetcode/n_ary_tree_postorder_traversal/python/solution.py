@@ -17,7 +17,7 @@ class Solution:
         values = []
 
         def dfs(node):
-            if not node:
+            if node is None:
                 return
 
             for child in node.children:

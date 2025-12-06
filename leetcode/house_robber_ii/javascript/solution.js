@@ -2,38 +2,35 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: dp, bottom-up
-    * @param {number[]} numbers
+    * Tags: 
+    *     A: greedy
+    * @param {number[]} houses
     * @return {number}
     */
-   rob(numbers) {
-      if (numbers.length <= 3) {
-         return Math.max(...numbers)
+   rob(houses) {
+      if (houses.length <= 3) {
+         return Math.max(...houses)
       }
+      const rob2 = (houses) => {
+         const cache = [0, 0];
+         for (let index = houses.length - 1; index > -1; index--) {
+            const house = houses[index];
+            const skipHouse = cache[0];
+            const robHouse = house + cache[1];
+            [cache[0], cache[1]] = [Math.max(skipHouse, robHouse), cache[0]];
+         }
+         return cache[0]
+      };
 
       return Math.max(
-         robInner(numbers.slice(0, -1)),
-         robInner(numbers.slice(1,))
+         rob2(houses.slice(0, -1)),
+         rob2(houses.slice(1,))
       )
-
-      function robInner(numbers) {
-         if (numbers.length <= 2) {
-            return Math.max(...numbers)
-         }
-         let cache = Array(
-            numbers[0],
-            Math.max(numbers[0], numbers[1])
-         );
-
-         for (const number of numbers.slice(2,)) {
-            cache = [cache[1], Math.max(cache[0] + number, cache[1])];
-         }
-         return cache[cache.length - 1]
-      };
    };
 }
 
 
+const rob = new Solution().rob;
 console.log(new Solution().rob([2, 3, 2]) === 3)
 console.log(new Solution().rob([1, 2, 3, 1]) === 4)
 console.log(new Solution().rob([1, 2, 3]) === 3)

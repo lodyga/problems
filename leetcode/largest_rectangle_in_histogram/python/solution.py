@@ -3,36 +3,37 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: stack
-        monotonic increasing stack
+        Tags:
+            DS: monotonic increasing stack
+            A: iteration
         """
-        stack = []  # [(index, height), ]
-        area = 0
+        # stores monotonic increasing height tuples
+        height_stack = []  # [(index, height), ]
+        max_area = heights[0]
 
         for index, height in enumerate(heights):
-            prev_index = index
-            while stack and stack[-1][1] > height:
-                prev_index, prev_height = stack.pop()
-                area = max(area, prev_height * (index - prev_index))
-            
-            stack.append((prev_index, height))
-        
-        for index in reversed(range(len(stack))):
-            prev_index, prev_height = stack[index]
-            area = max(area, prev_height * (len(heights) - prev_index))
+            start = index
+            while height_stack and height_stack[-1][1] > height:
+                start, prev_height = height_stack.pop()
+                max_area = max(
+                    max_area, prev_height * (index - start)
+                )
+            height_stack.append((start, height))
 
-        return area
+        for index, height in height_stack:
+            max_area = max(max_area, height * (len(heights) - index))
 
-
-print(Solution().largestRectangleArea([2, 1, 5, 6, 2, 3]) == 10)
-print(Solution().largestRectangleArea([2, 4]) == 4)
-print(Solution().largestRectangleArea([2, 1, 2]) == 3)
+        return max_area
 
 
-# O(n2), O(1)
-# brute force
-class Solution:
+class Solution2:
     def largestRectangleArea(self, heights: list[int]) -> int:
+        """
+        Time complexity: O(n2)
+        Auxiliary space complexity: O(1)
+        Tags:
+            A: brute-force
+        """
         max_area = 0
 
         for left in range(len(heights)):
@@ -40,7 +41,12 @@ class Solution:
             
             for right in range(left, len(heights)):
                 min_height = min(min_height, heights[right])
-                current_area = min_height * (right - left + 1)
-                max_area = max(max_area, current_area)
+                area = min_height * (right - left + 1)
+                max_area = max(max_area, area)
         
         return max_area
+
+
+print(Solution().largestRectangleArea([2, 1, 5, 6, 2, 3]) == 10)
+print(Solution().largestRectangleArea([2, 4]) == 4)
+print(Solution().largestRectangleArea([2, 1, 2]) == 3)

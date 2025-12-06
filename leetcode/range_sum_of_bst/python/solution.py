@@ -21,7 +21,7 @@ class Solution:
         self.range_sum = 0
 
         def dfs(node):
-            if not node:
+            if node is None:
                 return 0
             
             if low <= node.val <= high:

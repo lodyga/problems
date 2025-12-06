@@ -1,24 +1,26 @@
 class Solution:
-    def permute(self, numbers: list[int]) -> list[list[int]]:
+    def permute(self, nums: list[int]) -> list[list[int]]:
         """
         Time complexity: O(n!)
         Auxiliary space complexity: O(n)
-        Tags: backtracking
+        Tags: 
+            DS: array
+            A: backtracking
         """
-        permutationList = []
+        permetation_list = []
 
-        def dfs(start):
-            if start == len(numbers):
-                permutationList.append(numbers.copy())
+        def backtrack(index):
+            if index == len(nums):
+                permetation_list.append(nums.copy())
                 return
 
-            for index in range(start, len(numbers)):
-                numbers[start], numbers[index] = numbers[index], numbers[start]
-                dfs(start + 1)
-                numbers[start], numbers[index] = numbers[index], numbers[start]
-        
-        dfs(0)
-        return permutationList
+            for i2 in range(index, len(nums)):
+                nums[index], nums[i2] = nums[i2], nums[index]
+                backtrack(index + 1)
+                nums[index], nums[i2] = nums[i2], nums[index]
+
+        backtrack(0)
+        return permetation_list
 
 
 print(Solution().permute([1, 2, 3]), [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]])

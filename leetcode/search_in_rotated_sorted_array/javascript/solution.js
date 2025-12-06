@@ -2,27 +2,28 @@ class Solution {
    /**
     * Time complexity: O(logn)
     * Auxiliary space complexity: O(1)
-    * Tags: binary search
-    * @param {number[]} numbers
+    * Tags: 
+    *     A: binary search
+    * @param {number[]} nums
     * @param {number} target
     * @return {number}
     */
-   search(numbers, target) {
+   search(nums, target) {
       let left = 0;
-      let right = numbers.length - 1;
+      let right = nums.length - 1;
 
       while (left <= right) {
          let middle = (left + right) >> 1;
-         const middleNumber = numbers[middle];
+         const middleNum = nums[middle];
 
-         if (target === middleNumber) {
+         if (target === middleNum) {
             return middle
          }
          // right side portion is contiguous
-         else if (middleNumber < numbers[right]) {
+         else if (middleNum < nums[right]) {
             if (
-               middleNumber < target &&
-               target <= numbers[right]
+               middleNum < target &&
+               target <= nums[right]
             ) {
                left = ++middle;
             } else {
@@ -32,8 +33,8 @@ class Solution {
          // left side portion is contiguous
          else {
             if (
-               numbers[left] <= target &&
-               target < middleNumber
+               nums[left] <= target &&
+               target < middleNum
             ) {
                right = --middle;
             } else {
@@ -46,6 +47,7 @@ class Solution {
 }
 
 
+const search = new Solution().search;
 console.log(new Solution().search([1, 3, 5], 5) === 2)
 console.log(new Solution().search([3, 5, 1], 3) === 0)
 console.log(new Solution().search([3, 5, 1], 1) === 2)

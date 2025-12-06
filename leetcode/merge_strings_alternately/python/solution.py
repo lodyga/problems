@@ -1,44 +1,28 @@
 class Solution:
-    def mergeAlternately(self, word_1: str, word_2:str) -> str:
+    def mergeAlternately(self, text1: str, text2: str) -> str:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
+        Tags:
+            DS: list
+            A: two pointers
         """
-        letter_list = []
-        index_1 = 0
-        index_2 = 0
-        
-        while index_1 < len(word_1) and index_2 < len(word_2):
-            letter_list.append(word_1[index_1])
-            index_1 += 1
-            letter_list.append(word_2[index_2])
-            index_2 += 1
-        
-        while index_1 < len(word_1):
-            letter_list.append(word_1[index_1])
-            index_1 += 1
-        while index_2 < len(word_2):
-            letter_list.append(word_2[index_2])
-            index_2 += 1
+        left = 0
+        right = 0
+        text = []
 
-        return "".join(letter_list)
+        while (
+            left < len(text1) or
+            right < len(text2)
+        ):
+            letter1 = text1[left] if left < len(text1) else ""
+            letter2 = text2[right] if right < len(text2) else ""
+            text.append(letter1)
+            text.append(letter2)
+            left += 1
+            right += 1
 
-
-class Solution:
-    def mergeAlternately(self, word_1: str, word_2: str) -> str:
-        """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(n)
-        """
-        concatenated_str = ""
-
-        for index in range(max(len(word_1), len(word_2))):
-            letter = word_1[index] if index < len(word_1) else ""
-            concatenated_str += letter
-            letter = word_2[index] if index < len(word_2) else ""
-            concatenated_str += letter
-
-        return concatenated_str
+        return "".join(text)
 
 
 print(Solution().mergeAlternately("abc", "pqr") == "apbqcr")

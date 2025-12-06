@@ -1,65 +1,69 @@
+import { Queue } from "@datastructures-js/queue";
+
+
 class Solution {
    /**
-    * Time complexity: O(n4)
+    * Time complexity: O(n2)
     * Auxiliary space complexity: O(n2)
-    * Tags: dfs, recursion, graph, matrix
+    * Tags: 
+    *     DS: array (matrix), queue
+    *     A: bfs, iteration
     * @param {number[][]} grid
     * @return {number}
     */
    orangesRotting(grid) {
-      const rows = grid.length;
-      const cols = grid[0].length;
-      const visitedCells = new Set();
+      const ROWS = grid.length;
+      const COLS = grid[0].length;
       const DIRECTIONS = [[-1, 0], [1, 0], [0, -1], [0, 1]];
-      const gridCopy = Array.from({ length: rows }, () => Array(cols).fill(Infinity))
 
-      for (let row = 0; row < rows; row++) {
-         for (let col = 0; col < cols; col++) {
-            if (grid[row][col] === 0) {
-               gridCopy[row][col] = -1
+      const dfs = () => {
+         while (queue.size()) {
+            const [row, col, distance] = queue.pop();
+            maxDistance = Math.max(maxDistance, distance);
+
+            for (const [dr, dc] of DIRECTIONS) {
+               const [r, c] = [row + dr, col + dc];
+               if (
+                  -1 < r &&
+                  -1 < c &&
+                  r < ROWS &&
+                  c < COLS &&
+                  grid[r][c] == -1
+               ) {
+                  queue.push([r, c, distance + 1]);
+                  grid[r][c] = distance + 1;
+               }
             }
          }
       }
 
-      for (let row = 0; row < rows; row++) {
-         for (let col = 0; col < cols; col++) {
+      const queue = new Queue();
+      let maxDistance = 0;
+      for (let row = 0; row < ROWS; row++) {
+         for (let col = 0; col < COLS; col++) {
             if (grid[row][col] === 2) {
-               dfs(row, col, 0)
+               queue.push([row, col, 0]);
+               grid[row][col] = 0;
+            } else if (grid[row][col] == 1) {
+               grid[row][col] = -1;
             }
          }
       }
-      
-      let distance = -1;
-      for (let row = 0; row < rows; row++) {
-         for (let col = 0; col < cols; col++) {
-            distance = Math.max(distance, gridCopy[row][col])
+      dfs();
+
+      for (let row = 0; row < ROWS; row++) {
+         for (let col = 0; col < COLS; col++) {
+            if (grid[row][col] === -1) {
+               return -1
+            }
          }
       }
-      // only water cells
-      distance = Math.max(distance, 0);
-      return distance === Infinity ? -1 : distance
-
-      function dfs(row, col, distance) {
-         if (
-            row < 0 ||
-            col < 0 ||
-            row === rows ||
-            col === cols ||
-            grid[row][col] === 0 ||
-            gridCopy[row][col] <= distance ||
-            visitedCells.has(`${row},${col}`)
-         ) return
-
-         gridCopy[row][col] = Math.min(gridCopy[row][col], distance);
-         visitedCells.add(`${row},${col}`);
-         DIRECTIONS.map(([r, c]) => dfs(row + r, col + c, distance + 1));
-         visitedCells.delete(`${row},${col}`);
-      }
+      return maxDistance
    };
 }
+
+
 const orangesRotting = new Solution().orangesRotting;
-
-
 console.log(new Solution().orangesRotting([[2, 1, 1], [1, 1, 0], [0, 1, 1]]) === 4)
 console.log(new Solution().orangesRotting([[2, 1, 1], [0, 1, 1], [1, 0, 1]]) === -1)
 console.log(new Solution().orangesRotting([[2, 1, 1], [1, 1, 1], [0, 1, 2]]) == 2)

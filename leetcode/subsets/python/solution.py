@@ -11,52 +11,56 @@ Binary Decision Tree
 
 
 class Solution:
-    def subsets(self, numbers: list[int]) -> list[list[int | None]]:
+    def subsets(self, nums: list[int]) -> list[list[int]]:
         """
         Time complexity: O(n2^n)
         Auxiliary space complexity: O(n)
-        Tags: backtracking
+        Tags: 
+            DS: list
+            A: DFS with backtracking
         Largest → Smallest
         """
         subset = []
         subset_list = []
 
-        def dfs(index: int) -> None:
-            if index == len(numbers):
+        def backtrack(index: int) -> None:
+            if index == len(nums):
                 subset_list.append(subset.copy())
                 return
 
-            subset.append(numbers[index])
-            dfs(index + 1)
+            subset.append(nums[index])
+            backtrack(index + 1)
             subset.pop()
-            dfs(index + 1)
+            backtrack(index + 1)
 
-        dfs(0)
+        backtrack(0)
         return subset_list
 
 
 class Solution:
-    def subsets(self, numbers: list[int]) -> list[list[int | None]]:
+    def subsets(self, nums: list[int]) -> list[list[int]]:
         """
         Time complexity: O(n2^n)
         Auxiliary space complexity: O(n)
-        Tags: backtracking
+        Tags: 
+            DS: list
+            A: DFS with backtracking
         Smallest → Largest
         """
         subset = []
         subset_list = []
 
-        def dfs(index: int) -> None:
-            if index == len(numbers):
+        def backtrack(index: int) -> None:
+            if index == len(nums):
                 subset_list.append(subset.copy())
                 return
 
-            dfs(index + 1)
-            subset.append(numbers[index])
-            dfs(index + 1)
+            backtrack(index + 1)
+            subset.append(nums[index])
+            backtrack(index + 1)
             subset.pop()
 
-        dfs(0)
+        backtrack(0)
         return subset_list
 
 
@@ -72,47 +76,52 @@ DFS with iteration — Tree Diagram
 └── [3]
 """
 
+
 class Solution:
-    def subsets(self, numbers: list[int]) -> list[list[int]]:
+    def subsets(self, nums: list[int]) -> list[list[int]]:
         """
         Time complexity: O(n2^n)
         Auxiliary space complexity: O(n)
-        Tags: Iterative DFS with Backtracking
+        Tags: 
+            DS: list
+            A: DFS with backtracking
         Smallest → Largest
         """
         subset_list = []
         subset = []
 
-        def dfs(start):
+        def backtrack(start):
             subset_list.append(subset.copy())  # append early
-            for index in range(start, len(numbers)):
-                subset.append(numbers[index])
-                dfs(index + 1)
+            for index in range(start, len(nums)):
+                subset.append(nums[index])
+                backtrack(index + 1)
                 subset.pop()
 
-        dfs(0)
+        backtrack(0)
         return subset_list
 
 
 class Solution:
-    def subsets(self, numbers: list[int]) -> list[list[int]]:
+    def subsets(self, nums: list[int]) -> list[list[int]]:
         """
         Time complexity: O(n2^n)
         Auxiliary space complexity: O(n)
-        Tags: Iterative DFS with Backtracking
+        Tags: 
+            DS: list
+            A: DFS with backtracking
         Largest → Smallest
         """
         subset_list = []
         subset = []
 
-        def dfs(start):
-            for index in range(start, len(numbers)):
-                subset.append(numbers[index])
-                dfs(index + 1)
+        def backtrack(start):
+            for index in range(start, len(nums)):
+                subset.append(nums[index])
+                backtrack(index + 1)
                 subset.pop()
             subset_list.append(subset.copy())  # append after recursion
 
-        dfs(0)
+        backtrack(0)
         return subset_list
 
 

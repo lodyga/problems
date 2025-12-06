@@ -1,11 +1,13 @@
 # Palindromic Substrings
 https://leetcode.com/problems/palindromic-substrings/
 
+
 Given a string s, return the number of palindromic substrings in it.
 
 A string is a palindrome when it reads the same backward as forward.
 
 A substring is a contiguous sequence of characters within the string.
+
 
 <b>Example 1:</b>\
 Input: s = "abc"\

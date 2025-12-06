@@ -5,29 +5,30 @@ class Solution:
             n: pile length 
             m: highest pile stack
         Auxiliary space complexity: O(1)
-        Tags: binary search
+        Tags: 
+            A: binary search
         """
+        # bnananas per hour
         left = 1
         right = max(piles)
-        min_banana_per_hour = right
+        min_time = right
 
         while left <= right:
-            # bananas per hour
-            middle = (left + right) // 2
+            middle = (left + right) >> 1
+            hours_for_eat = 0
 
-            time_to_eat = 0
             for pile in piles:
-                time_to_eat += ((pile - 1) // middle) + 1
-                if time_to_eat > hours:
+                hours_for_eat += ((pile - 1) // middle) + 1
+                if hours_for_eat > hours:
                     break
 
-            if time_to_eat <= hours:
-                min_banana_per_hour = middle
-                right = middle - 1
-            else:
+            if hours_for_eat > hours:
                 left = middle + 1
+            else:
+                min_time = middle
+                right = middle - 1
 
-        return min_banana_per_hour
+        return min_time
 
 
 print(Solution().minEatingSpeed([3, 6, 7, 11], 8) == 4)

@@ -1,4 +1,5 @@
 from binary_tree_utils import *
+from collections import deque
 
 
 # class TreeNode:
@@ -12,58 +13,87 @@ from binary_tree_utils import *
 
 
 class Solution:
-    def invertTree(self, root: TreeNode | None) -> TreeNode | None:
+    def invertTree(self, root: TreeNode) -> TreeNode:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: binary tree, dfs, recursion
+        Tags: 
+            DS: binary tree
+            A: dfs, recursion, pre-order traversal
         """
-        if not root:
-            return
+        def dfs(node):
+            if node is None:
+                return 
 
-        root.left, root.right = root.right, root.left
-        self.invertTree(root.left)
-        self.invertTree(root.right)
-
+            node.left, node.right = node.right, node.left
+            dfs(node.right)
+            dfs(node.left)
+        
+        dfs(root)
         return root
 
-    def invertTree(self, root: TreeNode | None) -> TreeNode | None:
+    def invertTree(self, root: TreeNode) -> TreeNode:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: binary tree, dfs, stack, iteration, pre-order traversal
+        Tags: 
+            DS: binary tree
+            A: dfs, recursion, post-order traversal
         """
-        if not root:
-            return
+        def dfs(node):
+            if node is None:
+                return 
 
+            dfs(node.left)
+            dfs(node.right)
+            node.left, node.right = node.right, node.left
+        
+        dfs(root)
+        return root
+
+    def invertTree(self, root: TreeNode) -> TreeNode:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(n)
+        Tags: 
+            DS: binary tree, stack
+            A: dfs, iteration, pre-order traversal
+        """
+        if root is None:
+            return
+        
         stack = [root]
+
         while stack:
             node = stack.pop()
             node.left, node.right = node.right, node.left
-            if node.right:
-                stack.append(node.right)
             if node.left:
                 stack.append(node.left)
+            if node.right:
+                stack.append(node.right)
 
         return root
 
-    def invertTree(self, root: TreeNode | None) -> TreeNode | None:
+    def invertTree(self, root: TreeNode) -> TreeNode:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: binary tree, bfs, deque, iteration
+        Tags: 
+            DS: binary tree, queue
+            A: bfs, iteration, level-order traversal
         """
-        if not root:
+        if root is None:
             return
-
+        
         queue = deque([root])
+
         while queue:
             node = queue.popleft()
             node.left, node.right = node.right, node.left
-            if node.left:
-                queue.append(node.left)
             if node.right:
                 queue.append(node.right)
+            if node.left:
+                queue.append(node.left)
 
         return root
 

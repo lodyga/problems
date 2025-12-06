@@ -2,38 +2,21 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: greedy
+    * Tags: 
+    *     A: greedy (Kadane)
     * @param {number[]} numbers
     * @return {number}
     */
    maxSubArray(numbers) {
-      let total = 0;
+      let subarraySum = 0;
       let maxSum = numbers[0];
 
       for (const number of numbers) {
-         total > 0 ? total += number : total = number
-         // total = Math.max(total + number, number);
-         maxSum = Math.max(maxSum, total);
+         subarraySum > 0 ? subarraySum += number : subarraySum = number
+         // subarraySum = Math.max(subarraySum + number, number);
+         maxSum = Math.max(maxSum, subarraySum);
       }
       return maxSum
-   };
-}
-
-
-class Solution {
-   /**
-    * Time complexity: O(n)
-    * Auxiliary space complexity: O(1)
-    * Tags: greedy
-    * Kadane's Algorithm, mutate imput list
-    * @param {number[]} numbers
-    * @return {number}
-    */
-   maxSubArray(numbers) {
-      for (let index = 1; index < numbers.length; index++) {
-         numbers[index] += Math.max(numbers[index - 1], 0)
-      }
-      return Math.max(...numbers)
    };
 }
 

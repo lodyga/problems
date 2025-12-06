@@ -22,7 +22,7 @@ class Solution:
             return root
         
         def dfs(node):
-            if not node:
+            if node is None:
                 return None
             elif key == node.val:
                 if not node.left:

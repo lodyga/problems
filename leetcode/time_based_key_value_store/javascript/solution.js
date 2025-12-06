@@ -1,69 +1,3 @@
-/**
- * Time complexity: 
- *    set(): O(1)
- *    get(): O(logn)
- *    n: max `values assigned to a key` count
- * Auxiliary space complexity: O(n*m)
- *     m: key count
- * Tags: binary search
- * @param {}
- * @return {}
- */
-class TimeMap {
-   constructor() {
-      this.store = new Map();
-   };
-
-   /** 
-    * @param {string} key 
-    * @param {string} value 
-    * @param {number} timestamp
-    * @return {void}
-    */
-   set(key, value, timestamp) {
-      if (!this.store.has(key)) {
-         this.store.set(key, [])
-      }
-      this.store.get(key).push([timestamp, value]);  // [timestamp, value]
-   };
-
-   /** 
-    * @param {string} key 
-    * @param {number} timestamp
-    * @return {string}
-    */
-   get(key, timestamp) {
-      if (
-         !this.store.get(key) ||
-         timestamp < this.store.get(key)[0][0]
-      ) {
-         return ''
-      }
-      const list_values = this.store.get(key);
-      
-      if (timestamp >= list_values[list_values.length - 1][0]) {
-         return list_values[list_values.length - 1][1]
-      }
-      let left = 0;
-      let right = list_values.length - 1;
-
-      while (left <= right) {
-         const middle = (left + right) >> 1;
-         const middleTimeStamp = list_values[middle][0];
-
-         if (timestamp === middleTimeStamp) {
-            return list_values[middle][1]
-         } else if (timestamp < middleTimeStamp) {
-            right = middle - 1;
-         } else {
-            left = middle + 1;
-         }
-      }
-      return list_values[right][1]
-   }
-}
-
-
 class ListNode {
    constructor(val = [null, null], next = null) {
       this.val = val;  // [timestamp, value]
@@ -71,15 +5,69 @@ class ListNode {
    }
 }
 
+
 /**
- * Time complexity: O(n)
- * Auxiliary space complexity: O(n)
- *     n: max `values assigned to a key` count
+ * Time complexity: 
+ *    set(): O(1)
+ *    get(): O(n)
+ *    n: `values assigned to a key` count
  * Auxiliary space complexity: O(n*m)
  *     m: key count
- * Tags: linked list
- * @param {}
- * @return {}
+ * Tags:
+ *     DS: linked list, hash map
+ *     A: iteration
+ */
+class TimeMap2 {
+   constructor() {
+      this.store = new Map();
+   };
+
+   /** 
+    * @param {string} key 
+    * @param {string} value 
+    * @param {number} timestamp
+    * @return {void}
+    */
+   set(key, value, timestamp) {
+      const store = this.store;
+      if (!store.has(key))
+         store.set(key, new ListNode([0, ""]));
+
+      const head = store.get(key);
+      const node = new ListNode([timestamp, value], head);
+      store.set(key, node);
+
+   };
+
+   /** 
+    * @param {string} key 
+    * @param {number} timestamp
+    * @return {string}
+    */
+   get(key, timestamp) {
+      const store = this.store;
+      if (!this.store.get(key))
+         return ''
+
+      let node = store.get(key);
+      while (timestamp < node.val[0])
+         node = node.next
+
+      return node.val[1]
+   };
+}
+
+
+/**
+ * Time complexity: 
+ *    set(): O(1)
+ *    get(): O(logn)
+ *    n: `values assigned to a key` count
+ * Auxiliary space complexity: O(n*m)
+ *     m: key count
+ * Tags:
+ *     DS: list, hash map
+ *     A: binary search
  */
 class TimeMap {
    constructor() {
@@ -93,15 +81,11 @@ class TimeMap {
     * @return {void}
     */
    set(key, value, timestamp) {
-      if (!this.store.has(key)) {
-         this.store.set(key, new ListNode([timestamp, value], null));
-         return
-      }
-      let node = this.store.get(key);
-      while (node.next) {
-         node = node.next;
-      }
-      node.next = new ListNode([timestamp, value], null);
+      const store = this.store;
+      if (!store.has(key))
+         store.set(key, [[0, ""]]);
+
+      store.get(key).push([timestamp, value]);
    };
 
    /** 
@@ -110,17 +94,105 @@ class TimeMap {
     * @return {string}
     */
    get(key, timestamp) {
-      if (!this.store.get(key))
-         return ''
-      let node = this.store.get(key);
+      const store = this.store;
+      if (!store.has(key))
+         return ""
 
-      while (node.next && timestamp >= node.next.val[0]) {
-         node = node.next;
+      const keyVals = store.get(key);
+      let left = 0;
+      let right = keyVals.length - 1;
+      let res = keyVals[right][1];
+
+      while (left <= right) {
+         const middle = (left + right) >> 1;
+         const middleVal = keyVals[middle]
+
+         if (timestamp === middleVal[0]) {
+            return middleVal[1]
+         } else if (timestamp > middleVal[0]) {
+            res = middleVal[1];
+            left = middle + 1;
+         } else {
+            right = middle - 1;
+         }
       }
-
-      return timestamp >= node.val[0] ? node.val[1] : ''
-   }
+      return res
+   };
 }
+
+
+/** 
+ * @param {string[]} operations
+ * @param {number[][]} args
+ * @return {number[][]}
+ */
+const testInput = (operations, args) => {
+   const output = []
+   let timeMap;
+
+   for (let index = 0; index < operations.length; index++) {
+      const operation = operations[index];
+      const argument = args[index];
+
+      if (operation === 'TimeMap') {
+         timeMap = new TimeMap();
+         output.push(null);
+      } else if (operation === 'set') {
+         timeMap.set(...argument);
+         output.push(null);
+      } else if (operation === 'get') {
+         output.push(timeMap.get(...argument));
+      }
+   };
+   return output
+}
+
+
+// Example Input
+const operationsList = [
+   ['TimeMap','set','get','get','set','get','get'],
+   ['TimeMap','set','set','get','get','get','get','get'],
+   ['TimeMap','set','set','get','set','get','get']
+]
+
+const argumentsList = [
+   [[],['foo','bar',1],['foo',1],['foo',3],['foo','bar2',4],['foo',4],['foo',5]],
+   [[],['love','high',10],['love','low',20],['love',5],['love',10],['love',15],['love',20],['love',25]],
+   [[],['a','bar',1],['x','b',3],['b',3],['foo','bar2',4],['foo',4],['foo',5]]
+]
+
+const expectedOutputList = [
+   [null,null,'bar','bar',null,'bar2','bar2'],
+   [null,null,null,'','high','high','low','low'],
+   [null,null,null,'',null,'bar2','bar2']
+]
+
+
+// Run tests
+/**
+ * Run a batch of TimeMap tests and compare outputs with expected results.
+ * If show_output is True, returns [(actual, expected), ...] instead of booleans.
+ * @param {string[][]} operationsList 
+ * @param {number[][][]} argumentsList 
+ * @param {number[][]} expectedOutputList 
+ * @returns {boolean}
+ */
+const runTests = (operationsList, argumentsList, expectedOutputList, showOutput) => {
+   const output = [];
+
+   for (let index = 0; index < operationsList.length; index++) {
+      const operations = operationsList[index];
+      const args = argumentsList[index];
+      const expectedOutput = expectedOutputList[index];
+      if (showOutput) {
+         output.push([testInput(operations, args), expectedOutput])
+      } else {
+         output.push(JSON.stringify(testInput(operations, args)) === JSON.stringify(expectedOutput))
+      }
+   }
+   return output
+}
+console.log(runTests(operationsList, argumentsList, expectedOutputList))
 
 
 // Example 1

@@ -3,28 +3,25 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: stack
+        Tags: 
+            DS: stack
+            A: iteration
         """
-        number_stack = []
+        num_stack = []
 
         for operation in operations:
             if operation == "C":
-                number_stack.pop()
+                num_stack.pop()
             elif operation == "D":
-                number_stack.append(number_stack[-1] * 2)
+                num_stack.append(num_stack[-1] * 2)
             elif operation == "+":
-                prev_number = number_stack.pop()
-                last_number = prev_number + number_stack[-1]
-                number_stack.extend((prev_number, last_number))
+                num_stack.append(num_stack[-2] + num_stack[-1])
             else:
-                try:
-                    number_stack.append(int(operation))
-                except:
-                    pass
+                num_stack.append(int(operation))
 
-        return sum(number_stack)
+        return sum(num_stack)
 
 
-print(Solution().calPoints(["5","2","C","D","+"]), 30)
-print(Solution().calPoints(["5","-2","4","C","D","9","+","+"]), 27)
-print(Solution().calPoints(["1","C"]), 0)
+print(Solution().calPoints(["5", "2", "C", "D", "+"]) == 30)
+print(Solution().calPoints(["5", "-2", "4", "C", "D", "9", "+", "+"]) == 27)
+print(Solution().calPoints(["1", "C"]) == 0)

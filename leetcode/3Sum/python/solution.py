@@ -1,45 +1,57 @@
 class Solution:
-    def threeSum(self, numbers: list[int]) -> list[list[int]]:
+    def threeSum(self, nums: list[int]) -> list[list[int]]:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n)
-        Tags: two pointers
+        Tags:
+            DS: list
+            A: two pointers, sorting
         """
-        numbers.sort()
-        triplet_list = []
+        nums.sort()
+        triplets = []
 
-        for index, number in enumerate(numbers[:-2]):
-            # Skip positive numbers
-            if number > 0:
+        left = 0
+        while left < len(nums) - 2:
+            left_num = nums[left]
+
+            # If left number is > 0 then triplet sum is > 0
+            if left_num > 0:
                 break
-            # Skip same number values
-            elif index and number == numbers[index - 1]:
+
+            # Skip duplicate left values.
+            if (
+                left and
+                nums[left - 1] == left_num
+            ):
+                left += 1
                 continue
 
-            left = index + 1
-            right = len(numbers) - 1
+            middle = left + 1
+            right = len(nums) - 1
 
-            while left < right:
-                triplet = number + numbers[left] + numbers[right]
+            while middle < right:
+                triplet_sum = left_num + nums[middle] + nums[right]
 
-                if triplet == 0:
-                    triplet_list.append([number, numbers[left], numbers[right]])
-                    left += 1
+                if triplet_sum == 0:
+                    triplets.append([left_num, nums[middle], nums[right]])
+                    middle += 1
                     right -= 1
-                    # skip same left pointer values
-                    while (left < right and 
-                           numbers[left] == numbers[left - 1]):
-                        left += 1
-                    
-                elif triplet > 0:
+                    # Skip duplicate middle values.
+                    while (
+                        middle < right and
+                        nums[middle - 1] == nums[middle]
+                    ):
+                        middle += 1
+                elif triplet_sum > 0:
                     right -= 1
                 else:
-                    left += 1
-            
-        return triplet_list
+                    middle += 1
+
+            left += 1
+        return triplets
 
 
-class Solution:
+class Solution2:
     def threeSum(self, nums: list[int]) -> list[list[int]]:
         """
         Time complexity: O(n3)
@@ -63,3 +75,4 @@ print(Solution().threeSum([1, 1, -2]) == [[-2, 1, 1]])
 print(Solution().threeSum([-1, 1, 1]) == [])
 print(Solution().threeSum([-2, 0, 0, 2, 2]) == [[-2, 0, 2]])
 print(Solution().threeSum([0, 0, 0]) == [[0, 0, 0]])
+print(Solution().threeSum([0, 0, 0, 0]) == [[0, 0, 0]])

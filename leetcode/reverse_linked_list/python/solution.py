@@ -15,6 +15,9 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
+        Tags: 
+            DS: linked list
+            A: iteration
         Reverse a singly-linked list.
         """
         node = head
@@ -32,6 +35,9 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
+        Tags: 
+            DS: linked list
+            A: iteration
         Reverse a singly-linked list.
         One-liner
         """
@@ -40,7 +46,7 @@ class Solution:
 
         while node:
             node.next, prev, node = prev, node, node.next
-        
+
         return prev
 
 

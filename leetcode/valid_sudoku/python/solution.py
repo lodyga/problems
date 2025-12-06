@@ -1,92 +1,105 @@
-class Solution:
-    def isValidSudoku(self, board: list[list[str]]) -> bool:
-        """
-        Time complexity: O(1)
-        Auxiliary space complexity: O(1)
-        Tags: hash set
-        """
-        rows = len(board)
-        cols = len(board[0])
-
-        def is_row_valid(row):
-            unique_numbers = set()
-            for char in board[row]:
-                if char != ".":
-                    if char in unique_numbers:
-                        return False
-                    else:
-                        unique_numbers.add(char)
-            return True
-
-        def is_col_valid(col):
-            unique_numbers = set()
-            for row in range(rows):
-                char = board[row][col]
-                if char != ".":
-                    if char in unique_numbers:
-                        return False
-                    else:
-                        unique_numbers.add(char)
-            return True
-
-        def is_subbox_valid(row, col):
-            unique_numbers = set()
-            for r in range(3):
-                for c in range(3):
-                    char = board[row + r][col + c]
-                    if char != ".":
-                        if char in unique_numbers:
-                            return False
-                        else:
-                            unique_numbers.add(char)
-            return True
-
-        for row in range(rows):
-            if not is_row_valid(row):
-                return False
-
-        for col in range(cols):
-            if not is_col_valid(col):
-                return False
-
-        for row in range(0, rows, 3):
-            for col in range(0, cols, 3):
-                if not is_subbox_valid(row, col):
-                    return False
-
-        return True
-
-
 from collections import defaultdict
 
+
 class Solution:
     def isValidSudoku(self, board: list[list[str]]) -> bool:
         """
         Time complexity: O(1)
         Auxiliary space complexity: O(1)
-        Tags: hash set, built-in data structure
+        Tags: 
+            DS: hash set
+            A: iteration
         """
-        rows = len(board)
-        cols = len(board[0])
+        ROWS = len(board)
+        COLS = len(board[0])
+
+        def are_rows_valid() -> bool:
+            for row in range(ROWS):
+                row_values = set()
+
+                for col in range(COLS):
+                    cell = board[row][col]
+                    if cell == ".":
+                        continue
+                    elif cell in row_values:
+                        return False
+                    else:
+                        row_values.add(cell)
+            return True
+
+        def are_cols_valid() -> bool:
+            for col in range(COLS):
+                col_values = set()
+
+                for row in range(ROWS):
+                    cell = board[row][col]
+                    if cell == ".":
+                        continue
+                    elif cell in col_values:
+                        return False
+                    else:
+                        col_values.add(cell)
+            return True
+
+        def are_boxes_valid() -> bool:
+            def is_box_valid(row, col):
+                box_values = set()
+                for i in range(row, row + 3):
+                    for j in range(col, col + 3):
+                        cell = board[i][j]
+                        if cell == ".":
+                            continue
+                        elif cell in box_values:
+                            return False
+                        else:
+                            box_values.add(cell)
+                return True
+
+            for row in range(0, ROWS, 3):
+                for col in range(0, COLS, 3):
+                    if is_box_valid(row, col) is False:
+                        return False
+            return True
+
+        return (
+            are_rows_valid() and
+            are_cols_valid() and
+            are_boxes_valid()
+        )
+
+
+class Solution:
+    def isValidSudoku(self, board: list[list[str]]) -> bool:
+        """
+        Time complexity: O(1)
+        Auxiliary space complexity: O(1)
+        Tags: 
+            DS: hash set, built-in data structure
+            A: iteration
+        """
+        ROWS = len(board)
+        COLS = len(board[0])
 
         row_uniq = defaultdict(set)
         col_uniq = defaultdict(set)
         box_uniq = defaultdict(set)
 
-        for row in range(rows):
-            for col in range(cols):
-                element = board[row][col]
+        for row in range(ROWS):
+            for col in range(COLS):
+                cell = board[row][col]
 
-                if element != ".":
-                    if (element in row_uniq[row]
-                        or element in col_uniq[col]
-                        or element in box_uniq[(row//3, col//3)]
-                    ):
-                        return False
-                    else:
-                        row_uniq[row].add(element)
-                        col_uniq[col].add(element)
-                        box_uniq[(row//3, col//3)].add(element)
+                if cell == ".":
+                    continue
+                elif (
+                    cell in row_uniq[row] or
+                    cell in col_uniq[col] or
+                    cell in box_uniq[(row//3, col//3)]
+                ):
+                    return False
+                else:
+                    row_uniq[row].add(cell)
+                    col_uniq[col].add(cell)
+                    box_uniq[(row//3, col//3)].add(cell)
 
         return True
 

@@ -22,7 +22,7 @@ class Solution:
         self.prev_node = None
 
         def dfs(node):
-            if not node:
+            if node is None:
                 return
 
             dfs(node.left)

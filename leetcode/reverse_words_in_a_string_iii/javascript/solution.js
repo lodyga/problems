@@ -2,35 +2,12 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
+    * Tags:
+    *     A: build-in function
     * @param {string} text
     * @return {string}
     */
    reverseWords(text) {
-      const letterList = [];
-      const textWithReversedWords = [];
-
-      for (const letter of text + ' ') {
-         if (letter == ' ') {
-            textWithReversedWords.push(...letterList.reverse());
-            textWithReversedWords.push(' ');
-            letterList.length = 0;
-         } else {
-            letterList.push(letter);
-         }
-      }
-      return textWithReversedWords
-         .slice(0, textWithReversedWords.length - 1)
-         .join('')
-   };
-
-   /**
-    * Time complexity: O(n)
-    * Auxiliary space complexity: O(n)
-    * Tag: build-in function
-    * @param {string} text
-    * @return {string}
-    */
-   reverseWords2(text) {
       return text
          .split(' ')
          .reverse()
@@ -39,9 +16,40 @@ class Solution {
          .reverse()
          .join('')
    };
+
+   /**
+    * Time complexity: O(n)
+    * Auxiliary space complexity: O(n)
+    * Tags:
+    *     DS: array
+    *     A: two pointers
+    * @param {string} text
+    * @return {string}
+    */
+   reverseWords(text) {
+      const reverseWord = (left, right) => {
+         while (left < right) {
+            [letters[left], letters[right]] = [letters[right], letters[left]];
+            left += 1;
+            right -= 1;
+         }
+      };
+
+      const letters = Array.from(text);
+      let left = 0;
+      for (let right = 0; right < text.length; right++) {
+         const letter = letters[right];
+         if (letter === ' ' || right === text.length - 1) {
+            reverseWord(left, right == text.length - 1 ? right : right - 1)
+            left = right + 1;
+         }
+      }
+      return letters.join('')
+   };
 }
 
 
-console.log(new Solution().reverseWords2('Let\'s take LeetCode contest'), 's\'teL ekat edoCteeL tsetnoc')
-console.log(new Solution().reverseWords2('Mr Ding'), 'rM gniD')
-console.log(new Solution().reverseWords2('hehhhhhhe'), 'ehhhhhheh')
+const reverseWords = new Solution().reverseWords;
+console.log(new Solution().reverseWords('Let\'s take LeetCode contest') == 's\'teL ekat edoCteeL tsetnoc')
+console.log(new Solution().reverseWords('Mr Ding') == 'rM gniD')
+console.log(new Solution().reverseWords('hehhhhhhe') == 'ehhhhhheh')

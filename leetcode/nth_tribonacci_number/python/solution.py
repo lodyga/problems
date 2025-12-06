@@ -92,7 +92,7 @@ class Solution:
         """
         Time complexity: O(2^n)
         Auxiliary space complexity: O(n)
-        Tags: brute force, tle
+        Tags: brute-force, tle
         """
         memo = {0: 0, 1: 1, 2: 1}
         
@@ -110,7 +110,7 @@ class Solution:
         """
         Time complexity: O(2^n)
         Auxiliary space complexity: O(n)
-        Tags: brute force, tle
+        Tags: brute-force, tle
         """
         memo = [0, 1, 1]
         

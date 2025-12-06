@@ -3,99 +3,112 @@ class Solution:
         """
         Time complexity: O(2^n)
         Auxiliary space complexity: O(n)
-        Tags: brute-force, tle
+        Tags:
+            A: brute-force
         """
         def dfs(index):
-            if index >= len(houses):
+            if index in (len(houses), len(houses) + 1):
                 return 0
 
-            rob_house = houses[index] + dfs(index + 2)
-            skip_house = dfs(index + 1)
-            return max(rob_house, skip_house)
+            house = houses[index]
+            # skip current house
+            sikp = dfs(index + 1)
+            # rob current house
+            take = house + dfs(index + 2)
+            return max(sikp, take)
 
         return dfs(0)
 
-
-class Solution:
     def rob(self, houses: list[int]) -> int:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: dp, top-down with memoization as hash map
+        Tags: 
+            DS: hash map
+            A: top-down
         """
-        memo = {}
+        memo = {
+            len(houses): 0,
+            len(houses) + 1: 0
+        }
 
         def dfs(index):
-            if index >= len(houses):
-                return 0
-            elif index in memo:
+            if index in memo:
                 return memo[index]
 
-            rob_house = houses[index] + dfs(index + 2)
-            skip_house = dfs(index + 1)
+            house = houses[index]
+            # skip current house
+            sikp = dfs(index + 1)
+            # rob current house
+            take = house + dfs(index + 2)
+            memo[index] = max(sikp, take)
+            return memo[index]
 
-            memo[index] = max(rob_house, skip_house)
+        return dfs(0)
+
+    def rob(self, houses: list[int]) -> int:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(n)
+        Tags: 
+            DS: array
+            A: top-down
+        """
+        memo = [-1] * (len(houses) + 2)
+        memo[-1] = 0
+        memo[-2] = 0
+
+        def dfs(index):
+            if memo[index] != -1:
+                return memo[index]
+
+            house = houses[index]
+            # skip current house
+            sikp = dfs(index + 1)
+            # rob current house
+            take = house + dfs(index + 2)
+            memo[index] = max(sikp, take)
             return memo[index]
 
         return dfs(0)
 
 
-class Solution:
     def rob(self, houses: list[int]) -> int:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: dp, top-down with memoization as array
-        """
-        memo = [-1] * len(houses)
-
-        def dfs(index):
-            if index >= len(houses):
-                return 0
-            elif memo[index] != -1:
-                return memo[index]
-
-            rob_house = houses[index] + dfs(index + 2)
-            skip_house = dfs(index + 1)
-
-            memo[index] = max(rob_house, skip_house)
-            return memo[index]
-
-        return dfs(0)
-
-
-class Solution:
-    def rob(self, houses: list[int]) -> int:
-        """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(n)
-        Tags: dp, bottom-up
+        Tags: 
+            DS: array
+            A: bottom-up
         """
         cache = [0] * (len(houses) + 2)
 
-        for index in reversed(range(len(houses))):
-            rob_house = houses[index] + cache[index + 2]
-            skip_house = cache[index + 1]
-            cache[index] = max(rob_house, skip_house)
-
+        for index in range(len(houses) - 1, -1, -1):
+            house = houses[index]
+            skip = cache[index + 1]
+            take = house + cache[index + 2]
+            cache[index] = max(skip, take)
         return cache[0]
 
-
-class Solution:
     def rob(self, houses: list[int]) -> int:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: dp, bottom-up
+        Tags: 
+            A: bottom-up, rolling cache
         """
         cache = [0, 0]
+        N = len(houses)
 
-        for index in reversed(range(len(houses))):
-            rob_house = houses[index] + cache[1]
-            skip_house = cache[0]
-            cache[0], cache[1] = max(rob_house, skip_house), cache[0]
-
-        return cache[0]
+        for index in range(N - 1, -1, -1):
+            house = houses[index]
+            index1 = (N - index) % 2
+            index2 = (N - 1 - index) % 2
+            skip = cache[index2]
+            take = house + cache[index1]
+            cache[index1] = max(skip, take)
+        
+        return cache[N % 2]
 
 
 print(Solution().rob([2]) == 2)

@@ -19,7 +19,7 @@ class Solution:
         Tags: linked list, dfs, recursion
         """
         def dfs(node):
-            if not node:
+            if node is None:
                 node = TreeNode(val)
             elif node.val < val:
                 node.right = dfs(node.right)

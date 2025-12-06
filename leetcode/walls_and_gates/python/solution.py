@@ -1,69 +1,40 @@
-class Solution:
-    def islandsAndTreasure(self, grid: list[list[float]]) -> list[list[float]]:
-        """
-        Time complexity: O(n4)
-            may vistit the same land more than once
-        Auxiliary space complexity: O(n2)
-        Tags: dfs, recursion, graph, matrix
-        """
-        rows = len(grid)
-        cols = len(grid[0])
-        DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
-
-        def dfs(row, col, distance):
-            if (row < 0 or
-                col < 0 or
-                row == rows or
-                col == cols or
-                grid[row][col] < distance or
-                    (distance and grid[row][col] == 0)):
-                return
-
-            grid[row][col] = min(grid[row][col], distance)
-
-            for r, c in DIRECTIONS:
-                dfs(row + r, col + c, distance + 1)
-
-        for row in range(rows):
-            for col in range(cols):
-                if grid[row][col] == 0:
-                    dfs(row, col, 0)
-                    
-        return grid
-
-
 from collections import deque
 
+
 class Solution:
     def islandsAndTreasure(self, grid: list[list[float]]) -> list[list[float]]:
         """
-        Time complexity: O(n4)
-            may vistit the same land more than once
+        Time complexity: O(n2)
         Auxiliary space complexity: O(n2)
-        Tags: dfs, iteration, queue, matrix, graph
+        Tags: 
+            DS: array (matrix), queue
+            A: bfs, iteration
         """
-        rows = len(grid)
-        cols = len(grid[0])
+        ROWS = len(grid)
+        COLS = len(grid[0])
         DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
 
-        def bfs(row, col, distance):
-            queue = deque([(row, col, distance)])
-
+        def bfs() -> None:
             while queue:
-                row, col, distance = queue.pop()
-                grid[row][col] = min(grid[row][col], distance)
+                (row, col, distance) = queue.popleft()
 
-                for r, c in DIRECTIONS:
-                    if (0 <= row + r < rows and
-                        0 <= col + c < cols and
-                            grid[row + r][col + c] > distance):
-                        queue.append((row + r, col + c, distance + 1))
+                for dr, dc in DIRECTIONS:
+                    (r, c) = (row + dr, col + dc)
+                    if (
+                        -1 < r < ROWS and
+                        -1 < c < COLS and
+                        grid[r][c] == float("inf")
+                    ):
+                        queue.append((r, c, distance + 1))
+                        grid[r][c] = distance + 1
 
-        for row in range(rows):
-            for col in range(cols):
+        queue = deque()
+        for row in range(ROWS):
+            for col in range(COLS):
                 if grid[row][col] == 0:
-                    bfs(row, col, 0)
-                    
+                    queue.append((row, col, 0))
+
+        bfs()
         return grid
 
 

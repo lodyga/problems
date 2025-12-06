@@ -16,59 +16,60 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: binary tree, dfs, recursion
+    * Tags: 
+    *     DS: binary tree
+    *     A: dfs, recursion, pre-order traversal
     * @param {TreeNode} root
     * @return {number[]}
     */
    postorderTraversal(root) {
-      const nodeList = [];
+      const nodes = [];
 
-      function dfs(node) {
-         if (!node) {
+      const dfs = (node) => {
+         if (node === null) {
             return
          }
          dfs(node.left);
          dfs(node.right);
-         nodeList.push(node.val);
+         nodes.push(node.val);
       }
       dfs(root);
-      return nodeList
+      return nodes
    };
-}
 
-
-class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: binary tree, dfs, iteration, stack
+    * Tags: 
+    *     DS: binary tree, stack, list
+    *     A: dfs, iteration, pre-order traversal
     * @param {TreeNode} root
     * @return {number[]}
     */
    postorderTraversal(root) {
-      const nodeList = [];
+      const nodes = [];
       const stack = [];
       let node = root;
 
-      while (stack.length || node) {
+      while (node || stack.length) {
          if (node) {
-            nodeList.push(node.val);
+            nodes.push(node.val);
             stack.push(node);
             node = node.right;
-         }
-         else {
+         } else {
             // Backtrack to the last right child
             node = stack.pop();
             node = node.left;
          }
       }
-      nodeList.reverse();
-      return nodeList
+      nodes.reverse();
+      return nodes
    };
 }
 
 
-console.log(new Solution().postorderTraversal(buildTree([])), [])
-console.log(new Solution().postorderTraversal(buildTree([1])), [1])
-console.log(new Solution().postorderTraversal(buildTree([1, null, 2, 3])), [3, 2, 1])
-console.log(new Solution().postorderTraversal(buildTree([1, 2, 3, 4, 5, null, 8, null, null, 6, 7, 9])), [4, 6, 7, 5, 2, 9, 8, 3, 1])
+const postorderTraversal = new Solution().postorderTraversal;
+console.log(JSON.stringify(new Solution().postorderTraversal(buildTree([]))) === JSON.stringify([]))
+console.log(JSON.stringify(new Solution().postorderTraversal(buildTree([1]))) === JSON.stringify([1]))
+console.log(JSON.stringify(new Solution().postorderTraversal(buildTree([1, null, 2, 3]))) === JSON.stringify([3, 2, 1]))
+console.log(JSON.stringify(new Solution().postorderTraversal(buildTree([1, 2, 3, 4, 5, null, 8, null, null, 6, 7, 9]))) === JSON.stringify([4, 6, 7, 5, 2, 9, 8, 3, 1]))

@@ -5,7 +5,9 @@ class Solution {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(n2)
-    * Tags: bfs, iteration, queue, graph, matrix
+    * Tags: 
+    *     DS: array (matrix)
+    *     A: dfs, recursion 
     * @param {number[][]} grid
     * @return {number}
     */
@@ -14,61 +16,6 @@ class Solution {
       const COLS = grid[0].length;
       const DIRECTIONS = [[-1, 0], [1, 0], [0, -1], [0, 1]];
       const visited = Array.from({ length: ROWS }, () => Array(COLS).fill(false));
-      let maxArea = 0;
-
-      const bfs = (row, col) => {
-         visited[row][col] = true;
-         let area = 1
-         const queue = new Queue([[row, col]]);
-
-         while (!queue.isEmpty()) {
-            const [row, col] = queue.dequeue();
-
-            for (const [r, c] of DIRECTIONS.map(([r, c]) => [r + row, c + col])) {
-               if (
-                  r === -1 ||
-                  c === -1 ||
-                  r === ROWS ||
-                  c === COLS ||
-                  grid[r][c] === 0 ||
-                  visited[r][c]
-               ) continue
-               
-               queue.enqueue([r, c]);
-               visited[r][c] = true;
-               area++;
-            }
-         }
-         return area
-      }
-
-      for (let row = 0; row < ROWS; row++)
-         for (let col = 0; col < COLS; col++)
-            if (
-               grid[row][col] &&
-               !visited[row][col]
-            )
-               maxArea = Math.max(maxArea, bfs(row, col));
-
-      return maxArea
-   }
-};
-
-
-class Solution {
-   /**
-    * Time complexity: O(n2)
-    * Auxiliary space complexity: O(n2)
-    * Tags: dfs, recursion, graph, matrix
-    * @param {number[][]} grid
-    * @return {number}
-    */
-   maxAreaOfIsland(grid) {
-      const ROWS = grid.length;
-      const COLS = grid[0].length;
-      const DIRECTIONS = [[-1, 0], [1, 0], [0, -1], [0, 1]];
-      const visited = Array.from({ length: ROWS }, () => Array(COLS).fill(false));
-      let maxArea = 0;
 
       const dfs = (row, col) => {
          if (
@@ -82,19 +29,73 @@ class Solution {
 
          visited[row][col] = true;
 
-         let area = 1
-         for (const [r, c] of DIRECTIONS.map(([r, c]) => [r + row, c + col])) {
-            area += dfs(r, c)
+         let area = 1;
+         for (const [dr, dc] of DIRECTIONS) {
+            area += dfs(row + dr, col + dc)
          }
          return area
       }
 
+      let maxArea = 0;
       for (let row = 0; row < ROWS; row++) {
          for (let col = 0; col < COLS; col++) {
             maxArea = Math.max(maxArea, dfs(row, col));
          }
       }
+      return maxArea
+   };
 
+   /**
+    * Time complexity: O(n2)
+    * Auxiliary space complexity: O(n2)
+    * Tags: 
+    *     DS: array (matrix), queue
+    *     A: bfs, iteration
+    * @param {number[][]} grid
+    * @return {number}
+    */
+   maxAreaOfIsland(grid) {
+      const ROWS = grid.length;
+      const COLS = grid[0].length;
+      const DIRECTIONS = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+      const visited = Array.from({ length: ROWS }, () => Array(COLS).fill(false));
+
+      const bfs = (row, col) => {
+         if (
+            grid[row][col] == 0 ||
+            visited[row][col]
+         ) return 0
+
+         const queue = new Queue([[row, col]]);
+         visited[row][col] = true;
+         let area = 1;
+
+         while (queue.size()) {
+            const [row, col] = queue.dequeue();
+
+            for (const [dr, dc] of DIRECTIONS) {
+               const [r, c] = [row + dr, col + dc];
+               if (
+                  r === -1 ||
+                  c === -1 ||
+                  r === ROWS ||
+                  c === COLS ||
+                  grid[r][c] === 0 ||
+                  visited[r][c]
+               ) continue
+
+               queue.enqueue([r, c]);
+               visited[r][c] = true;
+               area++;
+            }
+         }
+         return area
+      }
+
+      let maxArea = 0;
+      for (let row = 0; row < ROWS; row++)
+         for (let col = 0; col < COLS; col++)
+            maxArea = Math.max(maxArea, bfs(row, col));
       return maxArea
    };
 }

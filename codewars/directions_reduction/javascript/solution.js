@@ -2,31 +2,35 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: stack
-    * @param {string[]} directionList
+    * Tags:
+    *     DS: stack
+    *     A: iteration
+    * @param {string[]} directions
     * @return {string[]}
    */
-   dirReduc(directionList) {
-      const visitedDirections = [];
-      const oppositeDirection = {
-         "NORTH": "SOUTH",
-         "SOUTH": "NORTH",
-         "EAST": "WEST",
-         "WEST": "EAST",
-      };
+   dirReduc(directions) {
+      const directionStack = [];
+      const oppositeDirection = new Map([
+         ['NORTH', 'SOUTH'],
+         ['SOUTH', 'NORTH'],
+         ['EAST', 'WEST'],
+         ['WEST', 'EAST']
+      ]);
 
-      for (const direction of directionList) {
-         if (visitedDirections[visitedDirections.length - 1] == oppositeDirection[direction]) {
-            visitedDirections.pop();
+      for (const direction of directions) {
+         if (directionStack[directionStack.length - 1] === oppositeDirection.get(direction)) {
+            directionStack.pop();
          } else {
-            visitedDirections.push(direction);
+            directionStack.push(direction);
          }
       }
-      return visitedDirections
+      return directionStack
    }
-}
-const solution = new Solution();
-console.log(new Solution().dirReduc(["NORTH", "SOUTH", "SOUTH", "EAST", "WEST", "NORTH", "WEST"]), ["WEST"])
-console.log(new Solution().dirReduc(["NORTH", "EAST", "WEST", "SOUTH", "WEST", "WEST"]), ["WEST", "WEST"])
-console.log(new Solution().dirReduc(["NORTH", "WEST", "SOUTH", "EAST"]), ["NORTH", "WEST", "SOUTH", "EAST"])
+};
+
+
+const dirReduc = new Solution().dirReduc;
+console.log(new Solution().dirReduc(['NORTH', 'SOUTH', 'SOUTH', 'EAST', 'WEST', 'NORTH', 'WEST']), ['WEST'])
+console.log(new Solution().dirReduc(['NORTH', 'EAST', 'WEST', 'SOUTH', 'WEST', 'WEST']), ['WEST', 'WEST'])
+console.log(new Solution().dirReduc(['NORTH', 'WEST', 'SOUTH', 'EAST']), ['NORTH', 'WEST', 'SOUTH', 'EAST'])
 console.log(new Solution().dirReduc([]), [])

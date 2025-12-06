@@ -1,6 +1,7 @@
 // import { TreeNode, bt.buildTree, getTreeValues, isSameTree } from '../../../../JS/binary-tree.js';
 import * as bt from '../../../../JS/binary-tree.js';
 
+
 /**
  * class TreeNode {
  *    constructor(val = null, left = null, right = null) {
@@ -16,7 +17,9 @@ class Solution {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(n)
-    * Tags: binary tree, dfs, recursion, in-order traversal, pre-order traversal
+    * Tags:
+    *     DS: binary tree
+    *     A: dfs, recursion, in-order traversal, pre-order traversal
     * @param {number[]} preorder
     * @param {number[]} inorder
     * @return {bt.TreeNode}
@@ -39,14 +42,13 @@ class Solution {
          inorder.slice(nodeIndex + 1,));
       return node
    };
-}
 
-
-class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: binary tree, dfs, recursion, in-order traversal, pre-order traversal
+    * Tags: 
+    *     DS: binary tree
+    *     A: dfs, recursion, in-order traversal, pre-order traversal
     * @param {number[]} preorder
     * @param {number[]} inorder
     * @return {bt.TreeNode}

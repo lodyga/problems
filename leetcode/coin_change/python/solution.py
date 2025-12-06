@@ -1,102 +1,4 @@
-class Solution:
-    def coinChange(self, coins: list[int], amount: int) -> int:
-        """
-        Time complexity: O(n2)
-        Auxiliary space complexity: O(n)
-        Tags: dp, bottom-up with tabulation as list
-        """
-        # min number of coins needed to get target amount (equal to the index)
-        # "anmount + 1" an imposbile value stays when the last element of min_coins was not modified
-        cache = [amount + 1] * (amount + 1)
-        # no coins needed to get 0
-        cache[0] = 0
-
-        for index in range(1, amount + 1):
-            for coin in coins:
-                if index >= coin:
-                    cache[index] = min(cache[index],
-                                       cache[index - coin] + 1)
-
-        return (cache[amount]
-                if cache[amount] != amount + 1
-                else -1)
-
-
-class Solution:
-    def coinChange(self, coins: list[int], amount: int) -> int:
-        """
-        Time complexity: O(n2)
-        Auxiliary space complexity: O(n)
-        Tags: dp, bottom-up with tabulation as hash map
-        """
-        # min number of coins needed to get target amount (equal to the index)
-        cache = {0: 0}
-
-        for index in range(1, amount + 1):
-            for coin in coins:
-                if index >= coin:
-                    cache[index] = min(cache.get(index, amount + 1),
-                                       cache.get(index - coin, amount + 1) + 1)
-
-        return (cache.get(amount, -1)
-                if cache.get(amount, -1) != amount + 1
-                else -1)
-
-
-class Solution:
-    def coinChange(self, coins: list[int], amount: int) -> int:
-        """
-        Time complexity: O(n2)
-        Auxiliary space complexity: O(n)
-        Tags: dp, top-down with memoization as list
-        """
-        # [min coins to get index amount]
-        memo = [None] * (amount + 1)
-        memo[0] = 0
-        base_amount = amount
-
-        def dfs(amount):
-            if amount < 0:
-                return base_amount + 1
-            elif memo[amount] is not None:
-                return memo[amount]
-
-            memo[amount] = min(1 + dfs(amount - coin)
-                               for coin in coins)
-
-            return memo[amount]
-
-        coin_count = dfs(amount)
-        return (coin_count
-                if coin_count <= amount
-                else -1)
-
-
-class Solution:
-    def coinChange(self, coins: list[int], amount: int) -> int:
-        memo = {0: 0}  # memo = {0: 0}  # {ammont: min coins to get target amount}
-        base_amount = amount
-
-        def dfs(amount):
-            if amount < 0:
-                return base_amount + 1  # return impossible value
-            elif amount in memo:
-                return memo[amount]
-
-            memo[amount] = base_amount + 1
-            for coin in coins:
-                memo[amount] = min(memo[amount], 
-                                   dfs(amount - coin) + 1)
-            
-            # memo[amount] = min(1 + dfs(amount - coin)
-            #                    for coin in coins)
-
-            return memo[amount]
-
-        coin_count = dfs(amount)
-        return (coin_count
-                if coin_count <= base_amount
-                else -1)
+from collections import deque
 
 
 class Solution:
@@ -105,23 +7,196 @@ class Solution:
         Time complexity: O(2^n)
             O(coins^amount)
         Auxiliary space complexity: O(n)
-        Tags: brute-force, tle
+            O(amount)
+        Tags: brute-force
         """
-        base_amount = amount
+        coins.sort(reverse=True)
 
-        def dfs(amount):
-            if amount == 0:
+        def dfs(total: int) -> int:
+            if total == amount:
                 return 0
-            elif amount < 0:
-                return base_amount + 1
+            elif total > amount:
+                return amount + 1
 
-            return min(1 + dfs(amount - coin)
-                       for coin in coins)
+            coin_counter = amount + 1
+            for coin in coins:
+                coin_counter = min(coin_counter, 1 + dfs(total + coin))
 
-        coin_count = dfs(amount)
-        return (coin_count
-                if coin_count <= amount
-                else -1)
+            return coin_counter
+
+        res = dfs(0)
+        return res if res != amount + 1 else -1
+
+
+class Solution:
+    def coinChange(self, coins: list[int], amount: int) -> int:
+        """
+        Time complexity: O(n2)
+            O(c*a)
+            c: coin denominations
+            a: ammonut size
+        Auxiliary space complexity: O(n)
+            O(amount)
+        Tags: 
+            DS: hash map
+            A: top-down
+        """
+        coins.sort(reverse=True)
+        # {amount: min coins to get target amount}
+        memo = {amount: 0}
+
+        def dfs(total: int) -> int:
+            if total > amount:
+                return amount + 1
+            elif total in memo:
+                return memo[total]
+
+            coin_counter = amount + 1
+            for coin in coins:
+                coin_counter = min(coin_counter, 1 + dfs(total + coin))
+
+            memo[total] = coin_counter
+            return coin_counter
+
+        res = dfs(0)
+        return res if res != amount + 1 else -1
+
+
+class Solution:
+    def coinChange(self, coins: list[int], amount: int) -> int:
+        """
+        Time complexity: O(n2)
+            O(c*a)
+            c: coin denominations
+            a: ammonut size
+        Auxiliary space complexity: O(n)
+            O(amount)
+        Tags: 
+            DS: array
+            A: top-down
+        """
+        coins.sort(reverse=True)
+        # [amount left: min coins to get target amount left]
+        memo = [-1] * (amount + 1)
+        memo[-1] = 0
+
+        def dfs(total: int) -> int:
+            if total > amount:
+                return amount + 1
+            elif memo[total] != -1:
+                return memo[total]
+
+            coin_counter = amount + 1
+            for coin in coins:
+                coin_counter = min(coin_counter, 1 + dfs(total + coin))
+
+            memo[total] = coin_counter
+            return coin_counter
+
+        res = dfs(0)
+        return res if res != amount + 1 else -1
+
+
+class Solution:
+    def coinChange(self, coins: list[int], amount: int) -> int:
+        """
+        Time complexity: O(n2)
+            O(c*a)
+            c: coin denominations
+            a: ammonut size
+        Auxiliary space complexity: O(n)
+            O(amount)
+        Tags: 
+            DS: hash map
+            A: bottom-up
+        """
+        # Min number of coins needed to get target amount (equal to the index).
+        # No coins needed to get to 0 amount.
+        cache = {0: 0}
+
+        for index in range(1, amount + 1):
+            for coin in coins:
+                if coin > index:
+                    continue
+                cache[index] = min(
+                    cache.get(index, amount + 1),
+                    1 + cache.get(index - coin, amount + 1)
+                )
+
+        res = cache.get(amount, amount + 1)
+        return res if res != amount + 1 else -1
+
+
+class Solution:
+    def coinChange(self, coins: list[int], amount: int) -> int:
+        """
+        Time complexity: O(n2)
+            O(c*a)
+            c: coin denominations
+            a: ammonut size
+        Auxiliary space complexity: O(n)
+            O(amount)
+        Tags: 
+            DS: array
+            A: bottom-up
+        """
+        # Min number of coins needed to get target amount (equal to the index).
+        cache = [amount + 1] * (amount + 1)
+        # No coins needed to get to 0 amount amount.
+        cache[0] = 0
+
+        for index in range(1, amount + 1):
+            for coin in coins:
+                if coin > index:
+                    continue
+                cache[index] = min(cache[index], 1 + cache[index - coin])
+
+        res = cache[amount]
+        return res if res != amount + 1 else -1
+
+
+class Solution:
+    def coinChange(self, coins: list[int], amount: int) -> int:
+        """
+        Time complexity: O(n2)
+            O(c*a)
+            c: coin denominations
+            a: ammonut size
+        Auxiliary space complexity: O(n)
+            O(amount)
+        Tags: 
+            DS: queue
+            A: bfs, iteration, queue
+        """
+        if amount == 0:
+            return 0
+
+        def bfs(node):
+            queue = deque([node])
+            level = 0
+            visited = [False] * (amount + 1)
+            visited[0] = True
+
+            while queue:
+                level += 1
+                for _ in range(len(queue)):
+                    node = queue.popleft()
+
+                    for coin in coins:
+                        total = node + coin
+
+                        if total == amount:
+                            return level
+                        elif total > amount:
+                            continue
+                        elif visited[total]:
+                            continue
+
+                        queue.append(total)
+                        visited[total] = True
+            return -1
+
+        return bfs(0)
 
 
 print(Solution().coinChange([5], 5) == 1)

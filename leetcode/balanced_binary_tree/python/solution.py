@@ -12,31 +12,36 @@ from binary_tree_utils import *
 
 
 class Solution:
-    def isBalanced(self, root: TreeNode | None) -> bool:
+    def isBalanced(self, root: TreeNode) -> bool:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: binary tree, dfs, recursion
+        Tags: 
+            DS: binary tree
+            A: dfs, recursion
         """
-        self.is_balanced = True
+        is_balanced = True
 
         def dfs(node):
-            if not node or not self.is_balanced:
+            nonlocal is_balanced
+            if node is None:
                 return 0
+        
+            left = dfs(node.left)
+            right = dfs(node.right)
 
-            left_path = dfs(node.left)
-            right_path = dfs(node.right)
-            if abs(left_path - right_path) > 1:
-                self.is_balanced = False
-                return 0
+            if abs(left - right) > 1:
+                is_balanced = False
 
-            return 1 + max(left_path, right_path)
+            return 1 + max(left, right)
 
         dfs(root)
-        return self.is_balanced
+        return is_balanced
 
 
-print(Solution().isBalanced(build_tree([1, 2, 3])), True)
-print(Solution().isBalanced(build_tree([3, 9, 20, None, None, 15, 7])), True)
-print(Solution().isBalanced(build_tree([1, 2, 2, 3, 3, None, None, 4, 4])), False)
-print(Solution().isBalanced(build_tree([1, 2, 2, 3, None, None, 3, 4, None, None, 4])), False)
+print(Solution().isBalanced(build_tree([3])) == True)
+print(Solution().isBalanced(build_tree([1, 2, 3])) == True)
+print(Solution().isBalanced(build_tree([3, 9, 20, None, None, 15, 7])) == True)
+print(Solution().isBalanced(build_tree([1, 2, 2, 3, 3, None, None, 4, 4])) == False)
+print(Solution().isBalanced(build_tree([1, 2, 2, 3, None, None, 3, 4, None, None, 4])) == False)
+print(Solution().isBalanced(build_tree([])) == True)

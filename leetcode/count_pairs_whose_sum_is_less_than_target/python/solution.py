@@ -1,23 +1,18 @@
-# draft
-# countPairs([1, 1, 3, 4, 5], 6) -> 5
-# 1,4; 1,3; 1,1  add every pair and increase the left pointer
-# 1,4; 1,3
-
-
 class Solution:
-    def countPairs(self, numbers: list[int], target: int) -> int:
+    def countPairs(self, nums: list[int], target: int) -> int:
         """
         Time complexity: O(nlogn)
         Auxiliary space complexity: O(n)
-        Tags: two pointers
+        Tags: 
+            A: two pointers, sorting
         """
-        numbers.sort()
+        nums.sort()
         counter = 0
         left = 0
-        right = len(numbers) - 1
+        right = len(nums) - 1
 
         while left < right:
-            if numbers[left] + numbers[right] < target:
+            if nums[left] + nums[right] < target:
                 counter += right - left
                 left += 1
             else:
@@ -25,20 +20,22 @@ class Solution:
 
         return counter
 
-    def countPairs(self, numbers: list[int], target: int) -> int:
+
+class Solution:
+    def countPairs(self, nums: list[int], target: int) -> int:
         """
         Time complexity: O(n2)
-        Auxiliary space complexity: O(n)
-        Tags: brute force
+        Auxiliary space complexity: O(1)
+        Tags: brute-force
         """
-        numbers.sort()
+        nums.sort()
         counter = 0
-
-        for i in range(len(numbers) - 1):
-            for j in range(i + 1, len(numbers)):
-                if numbers[i] + numbers[j] < target:
+        for i in range(len(nums) - 1):
+            for j in range(i + 1, len(nums)):
+                if nums[i] + nums[j] < target:
                     counter += 1
-
+                else:
+                    break
         return counter
 
 

@@ -2,34 +2,51 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
+    * Tags:
+    *     DS: stack
+    *     A: iteration
     * @param {string} word
     * @param {character} pivot
     * @return {string}
     */
    reversePrefix(word, pivot) {
-      const prefixArray = [];
-      let hasPrefix = false;
-      let index = 0;
-
-      for (index; index < word.length; index++) {
+      const letterStack = [];
+      for (let index = 0; index < word.length; index++) {
          const letter = word[index];
-         prefixArray.push(letter);
+         letterStack.push(letter);
          if (letter === pivot) {
-            hasPrefix = true;
-            break
+            const prefix = letterStack.reverse().join('');
+            const postfix = word.slice(index + 1);
+            return prefix + postfix
          }
       }
+      return word
+   };
 
-      if (hasPrefix) {
-         const prefix = prefixArray.reverse().join('');
-         const base = word.slice(index + 1);
-         return prefix + base
-      } else
-         return word
+   /**
+    * Time complexity: O(n)
+    * Auxiliary space complexity: O(n)
+    * Tags:
+    *     A: iteration
+    * @param {string} word
+    * @param {character} pivot
+    * @return {string}
+    */
+   reversePrefix(word, pivot) {
+      for (let index = 0; index < word.length; index++) {
+         const letter = word[index];
+         if (letter === pivot) {
+            const prefix = word.slice(0, index + 1).split('').reverse().join('');
+            const postfix = word.slice(index + 1);
+            return prefix + postfix
+         }
+      }
+      return word
    };
 }
 
 
-console.log(new Solution().reversePrefix('abcdefd', 'd'), 'dcbaefd')
-console.log(new Solution().reversePrefix('xyxzxe', 'z'), 'zxyxxe')
-console.log(new Solution().reversePrefix('abcd', 'z'), 'abcd')
+const reversePrefix = new Solution().reversePrefix;
+console.log(new Solution().reversePrefix('abcdefd', 'd') === 'dcbaefd')
+console.log(new Solution().reversePrefix('xyxzxe', 'z') === 'zxyxxe')
+console.log(new Solution().reversePrefix('abcd', 'z') === 'abcd')

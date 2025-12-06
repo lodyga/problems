@@ -2,34 +2,37 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: sliding window as hash set
-    * @param {string} word
+    * Tags: 
+    *     DS: hash set
+    *     A: sliding window
+    * @param {string} text
     * @return {number}
     */
-   lengthOfLongestSubstring(word) {
+   lengthOfLongestSubstring(text) {
       let left = 0;
-      const window = new Set();
-      let longestSubstring = 1;
+      const windowLetters = new Set();
+      let substringLenght = 0;
 
-      for (let right = 0; right < word.length; right++) {
-         const letter = word[right];
+      for (let right = 0; right < text.length; right++) {
+         const letter = text[right];
 
-         while (window.has(letter)) {
-            window.delete(word[left]);
+         while (windowLetters.has(letter)) {
+            const leftLetter = text[left];
+            windowLetters.delete(leftLetter);
             left++;
          }
-
-         window.add(letter);
-         longestSubstring = Math.max(longestSubstring, right - left + 1);
+         windowLetters.add(letter);
+         substringLenght = Math.max(substringLenght, right - left + 1);
          
       }
-      return longestSubstring
+      return substringLenght
    };
 }
 
 
-console.log(new Solution().lengthOfLongestSubstring('abcabcbb'), 3)
-console.log(new Solution().lengthOfLongestSubstring('bbbbb'), 1)
-console.log(new Solution().lengthOfLongestSubstring('pwwkew'), 3)
-console.log(new Solution().lengthOfLongestSubstring('aabaab!bb'), 3)
-console.log(new Solution().lengthOfLongestSubstring('aab'), 2)
+const lengthOfLongestSubstring = new Solution().lengthOfLongestSubstring;
+console.log(new Solution().lengthOfLongestSubstring('abcabcbb') === 3)
+console.log(new Solution().lengthOfLongestSubstring('bbbbb') === 1)
+console.log(new Solution().lengthOfLongestSubstring('pwwkew') === 3)
+console.log(new Solution().lengthOfLongestSubstring('aabaab!bb') === 3)
+console.log(new Solution().lengthOfLongestSubstring('aab') === 2)

@@ -3,13 +3,14 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: two pointers
+        Tags: 
+            A: two pointers
         """
         left = 0
         right = len(heights) - 1
-        max_left_height = heights[left]
+        max_left_height = heights[0]
         max_right_height = heights[right]
-        trapped_water = 0
+        water_volume = 0
 
         while left < right:
             left_height = heights[left]
@@ -17,14 +18,16 @@ class Solution:
 
             if left_height < right_height:
                 max_left_height = max(max_left_height, left_height)
-                trapped_water += max_left_height - left_height
+                water_height = max_left_height - left_height
                 left += 1
             else:
                 max_right_height = max(max_right_height, right_height)
-                trapped_water += max_right_height - right_height
+                water_height = max_right_height - right_height
                 right -= 1
 
-        return trapped_water
+            water_volume += water_height
+
+        return water_volume
 
 
 print(Solution().trap([3, 1, 2]) == 1)

@@ -1,5 +1,5 @@
-import heapq
 from binary_tree_utils import *
+import heapq
 
 
 # class TreeNode:
@@ -13,81 +13,130 @@ from binary_tree_utils import *
 
 
 class Solution:
-    def kthSmallest(self, root: TreeNode, k: int) -> bool:
+    def kthSmallest(self, root: TreeNode, k: int) -> int:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: binary tree, dfs, recursion, in-order traversal
+        Tags: 
+            DS: binary tree
+            A: dfs, recursion, in-order traversal
+        """
+        vals = []
+        
+        def dfs(node):
+            if node is None:
+                return
+
+            dfs(node.left)
+            vals.append(node.val)
+            dfs(node.right)
+
+        dfs(root)
+        return vals[k - 1]
+
+    def kthSmallest(self, root: TreeNode, k: int) -> int:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(n)
+        Tags: 
+            DS: binary tree, list
+            A: dfs, recursion, in-order traversal
         """
         numbers = []
 
         def dfs(node):
-            if not node:
+            if node is None:
                 return
         
             dfs(node.left)
 
-            numbers.append(node.val)
+            if len(numbers) < k:
+                numbers.append(node.val)
             if len(numbers) == k:
                 return
 
             dfs(node.right)
 
         dfs(root)
-        return numbers[k - 1]
+        return numbers[-1]
 
-
-class Solution:
-    def kthSmallest(self, root: TreeNode, k: int) -> bool:
+    def kthSmallest(self, root: TreeNode, k: int) -> int:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: binary tree, dfs, iteration, stack, in-order traversal
+        Tags: e
+            DS: binary tree
+            A: dfs, recursion, in-order traversal
         """
-        values = []
+        val = root.val
+        
+        def dfs(node):
+            nonlocal k, val
+            if node is None:
+                return
+
+            dfs(node.left)
+            k -= 1
+            if k == 0:
+                val = node.val
+                return
+                
+            dfs(node.right)
+
+        dfs(root)
+        return val
+
+    def kthSmallest(self, root: TreeNode, k: int) -> int:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(n)
+        Tags: 
+            DS: binary tree, stack, list
+            A: dfs, iteration, in-order traversal
+        """
         stack = []
         node = root
-
+        
         while node or stack:
             if node:
                 stack.append(node)
                 node = node.left
             else:
                 node = stack.pop()
-                values.append(node.val)
-                if len(values) == k:
-                    return values[-1]
+                k -= 1
+                if k == 0:
+                    return node.val
                 node = node.right
-                
 
-class Solution:
-    def kthSmallest(self, root: TreeNode, k: int) -> bool:
+    def kthSmallest(self, root: TreeNode, k: int) -> int:
         """
-        Time complexity: O(n)
+        Time complexity: O(nlogk)
         Auxiliary space complexity: O(n)
-        Tags: binary tree, dfs, recursion, brute-force
+        Tags: 
+            DS: binary tree, heap
+            A: dfs, recursion, pre-order traversal
         """
-        numbers = []
-        heapq.heapify(numbers)
+        nums = []
 
         def dfs(node):
-            if not node:
+            if node is None:
                 return
             
-            if len(numbers) < k:
-                heapq.heappush(numbers, -node.val)
+            if len(nums) < k:
+                heapq.heappush(nums, -node.val)
             else:
-                heapq.heappushpop(numbers, -node.val)
+                heapq.heappushpop(nums, -node.val)
 
             dfs(node.left)
             dfs(node.right)
 
         dfs(root)
-        return -heapq.heappop(numbers)
+        return -heapq.heappop(nums)
 
 
 print(Solution().kthSmallest(build_tree([1]), 1) == 1)
 print(Solution().kthSmallest(build_tree([2, 1, 3]), 1) == 1)
+print(Solution().kthSmallest(build_tree([1, None, 2]), 2) == 2)
 print(Solution().kthSmallest(build_tree([5, 3, 6, 2, 4, None, None, 1]), 3) == 3)
 print(Solution().kthSmallest(build_tree([5, 3, 7, 2, 4, None, 8]), 3) == 4)
 print(Solution().kthSmallest(build_tree([3, 1, 4, None, 2]), 1) == 1)
