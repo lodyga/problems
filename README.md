@@ -1,20 +1,22 @@
-# Łukasz's Coding Solutions
+# Solutions for LeetCode problems
 
-Hello! 👋 I'm **Łukasz**, a passionate programmer practicing problem-solving on various coding platforms.  
-This repository contains my solutions to algorithmic challenges, primarily from **LeetCode**, with additional problems from **Codewars** and **Codility**.
+Hello! 👋 I'm **Łukasz**, a passionate programmer practicing problem-solving skills. 
 
-Most problems are solved in **Python** and **JavaScript**, but some basic ones are also implemented in **Java** and **C++**.
+I’ve solved **500+ problems** on **LeetCode**.
 
+This repository contains my solutions, primarily from **LeetCode**, with additional problems from **Codewars** and **Codility**.
+
+All problems are solved in **Python**, most also in **JavaScript**, with selected solutions in **Java** and **C++**.
 
 ## 🚀 Platforms
-- [LeetCode](https://leetcode.com/problemset/) – main focus
+- [LeetCode](https://leetcode.com/u/lodyga/)
 - [Codewars](https://www.codewars.com/dashboard)
 - [Codility](https://app.codility.com/programmers/challenges/)
 
 
 ## 🛠️ Languages
 - **Python** 🐍 – for all solutions
-- **JavaScript** ⚡ – for all solutions
+- **JavaScript** ⚡ – for most solutions
 - **Java** ☕ – a few basic solutions
 - **C++** 💻 – a few basic solutions
 
