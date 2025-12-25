@@ -30,10 +30,10 @@ class Solution {
 
 
 const validPalindrome = new Solution().validPalindrome;
-console.log(new Solution().validPalindrome('aba') == true)
-console.log(new Solution().validPalindrome('abca') == true)
-console.log(new Solution().validPalindrome('abc') == false)
-console.log(new Solution().validPalindrome('deeee') == true)
-console.log(new Solution().validPalindrome('eeccccbebaeeabebccceea') == false)
-console.log(new Solution().validPalindrome('abzzbab') == true)
-console.log(new Solution().validPalindrome('aguokepatgbnvfqmgmlcupuufxoohdfpgjdmysgvhmvffcnqxjjxqncffvmhvgsymdjgpfdhooxfuupuculmgmqfvnbgtapekouga') == true)
+console.log(new Solution().validPalindrome('aba') === true)
+console.log(new Solution().validPalindrome('abca') === true)
+console.log(new Solution().validPalindrome('abc') === false)
+console.log(new Solution().validPalindrome('deeee') === true)
+console.log(new Solution().validPalindrome('eeccccbebaeeabebccceea') === false)
+console.log(new Solution().validPalindrome('abzzbab') === true)
+console.log(new Solution().validPalindrome('aguokepatgbnvfqmgmlcupuufxoohdfpgjdmysgvhmvffcnqxjjxqncffvmhvgsymdjgpfdhooxfuupuculmgmqfvnbgtapekouga') === true)

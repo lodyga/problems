@@ -2,13 +2,16 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * @param {string} word
+    * Tags:
+    *     DS: stack
+    *     A: iteration
+    * @param {string} text
     * @return {string}
     */
-   makeGood(word) {
+   makeGood(text) {
       const letterStack = [];
 
-      for (const letter of word) {
+      for (const letter of text) {
          if (
             letterStack.length &&
             letter !== letterStack[letterStack.length - 1] &&
@@ -23,9 +26,9 @@ class Solution {
       return letterStack.join('');
    };
 }
+
+
 const makeGood = new Solution().makeGood;
-
-
 console.log(new Solution().makeGood('s') === 's')
 console.log(new Solution().makeGood('Mc') === 'Mc')
 console.log(new Solution().makeGood('Pp') === '')

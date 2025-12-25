@@ -8,7 +8,7 @@ class Solution:
         Auxiliary space complexity: O(n2)
         Tags: 
             DS: array (matrix)
-            A: dfs, recursion 
+            A: dfs, recursion
         """
         ROWS = len(grid)
         COLS = len(grid[0])

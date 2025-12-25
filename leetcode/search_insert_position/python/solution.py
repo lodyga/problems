@@ -1,25 +1,33 @@
+import bisect
+
+
 class Solution:
-    def searchInsert(self, numbers: list[int], target: int) -> int:
+    def searchInsert(self, nums: list[int], target: int) -> int:
         """
         Time complexity: O(logn)
         Auxiliary space complexity: O(1)
-        Tags: binary search
+        Tags: 
+            A: binary search
         """
         left = 0
-        right = len(numbers) - 1
+        right = len(nums) - 1
 
         while left <= right:
-            middle = (left + right) // 2
-            middle_number = numbers[middle]
+            middle = (left + right) >> 1
+            middle_num = nums[middle]
 
-            if target == middle_number:
+            if target == middle_num:
                 return middle
-            elif target < middle_number:
+            elif target < middle_num:
                 right = middle - 1
             else:
                 left = middle + 1
-        
+
         return left
+
+
+    def searchInsert(self, nums: list[int], target: int) -> int:
+        return bisect.bisect_left(nums, target)
 
 
 print(Solution().searchInsert([1, 3, 5, 6], 1) == 0)

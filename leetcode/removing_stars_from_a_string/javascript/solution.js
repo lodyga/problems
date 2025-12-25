@@ -2,7 +2,9 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: stack
+    * Tags: 
+    *     DS: stack
+    *     A: iteration
     * @param {string} text
     * @return {string}
     */
@@ -20,5 +22,6 @@ class Solution {
 }
 
 
+const removeStars = new Solution().removeStars;
 console.log(new Solution().removeStars('leet**cod*e') === 'lecoe')
 console.log(new Solution().removeStars('erase*****') === '')

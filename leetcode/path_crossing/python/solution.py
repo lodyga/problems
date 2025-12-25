@@ -3,58 +3,26 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
+        Tags:
+            DS: hash set, hash map
+            A: iteration
         """
-        horizontal = 0
-        vertical = 0
-        visited = set({(0, 0)})
+        DIRECTIONS = {"E": (1, 0), "W": (-1, 0), "N": (0, 1), "S": (0, -1)}
+        x, y = 0, 0
+        visited = set([(x, y)])
 
         for direction in path:
-            if direction == "E":
-                horizontal += 1
-            elif direction == "W":
-                horizontal -= 1
-            elif direction == "N":
-                vertical += 1
-            elif direction == "S":
-                vertical -= 1
+            dx, dy = DIRECTIONS[direction]
+            (x, y) = (x + dx, y + dy)
             
-            if (vertical, horizontal) in visited:
+            if (x, y) in visited:
                 return True
             else:
-                visited.add((vertical, horizontal))
-        
-        return False
-
-
-class Solution:
-    def isPathCrossing(self, path: str) -> bool:
-        """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(n)
-        """
-        prev_visit = (0, 0)
-        visited = {prev_visit}
-
-        DIRECTIONS = {
-            "E": (0, 1),
-            "W": (0, -1),
-            "N": (1, 0),
-            "S": (-1, 0)
-        }
-
-        for direction in path:
-            next_visit = (prev_visit[0] + DIRECTIONS[direction][0], 
-                          prev_visit[1] + DIRECTIONS[direction][1])
-
-            if next_visit in visited:
-                return True
-            else:
-                visited.add(next_visit)
-                prev_visit = next_visit
+                visited.add((x, y))
 
         return False
 
 
-print(Solution().isPathCrossing("NES"), False)
-print(Solution().isPathCrossing("WNSN"), True)
-print(Solution().isPathCrossing("NESWW"), True)
+print(Solution().isPathCrossing("NES") == False)
+print(Solution().isPathCrossing("WNSN") == True)
+print(Solution().isPathCrossing("NESWW") == True)

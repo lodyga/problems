@@ -2,27 +2,28 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: in-place method, two pointers
-    * @param {number[]} numbers
+    * Tags: 
+    *     A: two pointers, in-place method
+    * @param {number[]} nums
     * @return {number[]}
     */
-   sortArrayByParity(numbers) {
+   sortArrayByParity(nums) {
       let left = 0;
       
-      for (let right = 0; right < numbers.length; right++) {
-         const number = numbers[right];
+      for (let right = 0; right < nums.length; right++) {
+         const num = nums[right];
 
-         if (number % 2 === 0) {
-            [numbers[left], numbers[right]] = [numbers[right], numbers[left]];
+         if (num % 2 === 0) {
+            [nums[left], nums[right]] = [nums[right], nums[left]];
             left++;
          }
       }
-      return numbers
+      return nums
    };
 }
+
+
 const sortArrayByParity = new Solution().sortArrayByParity;
-
-
-console.log(new Solution().sortArrayByParity([3, 1, 2, 4]), [2, 4, 3, 1])
-console.log(new Solution().sortArrayByParity([1, 2, 3, 4]), [2, 4, 3, 1])
-console.log(new Solution().sortArrayByParity([0]), [0])
+console.log(JSON.stringify(new Solution().sortArrayByParity([3, 1, 2, 4])) === JSON.stringify([2, 4, 3, 1]))
+console.log(JSON.stringify(new Solution().sortArrayByParity([1, 2, 3, 4])) === JSON.stringify([2, 4, 3, 1]))
+console.log(JSON.stringify(new Solution().sortArrayByParity([0])) === JSON.stringify([0]))

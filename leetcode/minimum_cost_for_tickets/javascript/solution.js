@@ -2,46 +2,50 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: dp, top-down with memoization as hash map
+    * Tags: 
+    *     DS: array
+    *     A: top-down
     * @param {number[]} days
     * @param {number[]} costs
     * @return {number}
     */
    mincostTickets(days, costs) {
-      const memo = new Map();  // {day_index: min cost} minimum cost to travel from day dayIndex pointing day onwards
-      const validities = [1, 7, 30];
-      return dfs(0)
+      // [day_index: min cost] minimum cost to travel from day index pointing day onwards
+      const memo = Array(days.length).fill(-1);
+      const UPPER_COST = days.length * costs[0];
+      const VALIDITIES = [1, 7, 30];
 
-      function dfs(dayIndex) {
-         if (dayIndex >= days.length) {
+      const dfs = (index) => {
+         if (index == days.length) {
             return 0
-         } else if (memo.has(dayIndex)) {
-            return memo.get(dayIndex)
+         } else if (memo[index] !== -1) {
+            return memo[index]
          }
 
-         let minCost = Infinity;
+         const day = days[index];
+         memo[index] = UPPER_COST
+         let nextIndex = index;
 
          for (let i = 0; i < 3; i++) {
             const cost = costs[i];
-            const validity = validities[i];
-            let dayIndexDelta = 1;
-            
+            const validity = VALIDITIES[i];
+
             while (
-               dayIndex + dayIndexDelta < days.length &&
-               days[dayIndex + dayIndexDelta] < days[dayIndex] + validity
-            ) {
-               dayIndexDelta++;
-            }
-            minCost = Math.min(minCost, cost + dfs(dayIndex + dayIndexDelta));
+               nextIndex < days.length &&
+               days[nextIndex] < day + validity
+            ) nextIndex++;
+
+            memo[index] = Math.min(memo[index], cost + dfs(nextIndex));
          }
-         
-         memo.set(dayIndex, minCost)
-         return minCost
+
+         return memo[index]
       }
+      return dfs(0)
    };
 }
 
 
+const mincostTickets = new Solution().mincostTickets;
 console.log(new Solution().mincostTickets([5], [2, 7, 15]) === 2)
 console.log(new Solution().mincostTickets([1, 4, 6, 7, 8, 20], [2, 7, 15]) === 11)
 console.log(new Solution().mincostTickets([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 30, 31], [2, 7, 15]) === 17)

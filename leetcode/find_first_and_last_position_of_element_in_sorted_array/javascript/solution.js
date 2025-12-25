@@ -2,56 +2,55 @@ class Solution {
    /**
     * Time complexity: O(logn)
     * Auxiliary space complexity: O(1)
-    * Tags: binary search
-    * @param {number[]} numbers
+    * Tags: 
+    *     A: binary search
+    * @param {number[]} nums
     * @param {number} target
     * @return {number[]}
     */
-   searchRange(numbers, target) {
+   searchRange(nums, target) {
       let left = 0;
-      let right = numbers.length - 1;
-      let lowerBound = -1;
-      
-      while (left <= right) {
-         const middle = (left + right) >> 1;
-         const middleNumber = numbers[middle];
+      let right = nums.length - 1;
+      let starting = -1;
 
-         if (middleNumber === target) {
-            lowerBound = middle;
-            right = middle - 1;
-         } else if (middleNumber > target) {
-            right = middle - 1;
+      while (left <= right) {
+         const mid = (left + right) >> 1;
+         const midNum = nums[mid];
+
+         if (target <= midNum) {
+            if (target == midNum)
+               starting = mid;
+            right = mid - 1;
          } else {
-            left = middle + 1;
+            left = mid + 1;
          }
       }
-      
+
       left = 0;
-      right = numbers.length - 1;
-      let upperBound = -1;
+      right = nums.length - 1;
+      let ending = -1;
 
       while (left <= right) {
-         const middle = (left + right) >> 1;
-         const middleNumber = numbers[middle];
+         const mid = (left + right) >> 1;
+         const midNum = nums[mid];
 
-         if (middleNumber === target) {
-            upperBound = middle;
-            left = middle + 1;
-         } else if (middleNumber < target) {
-            left = middle + 1;
+         if (target >= midNum) {
+            if (target == midNum)
+               ending = mid;
+            left = mid + 1;
          } else {
-            right = middle - 1;
+            right = mid - 1;
          }
       }
-      return [lowerBound, upperBound]
+      return [starting, ending]
    };
 }
+
+
 const searchRange = new Solution().searchRange;
-
-
-console.log(new Solution().searchRange([5, 5, 7], 5), [0, 1])
-console.log(new Solution().searchRange([5, 7, 7], 7), [1, 2])
-console.log(new Solution().searchRange([5, 7, 7, 8, 8, 10], 8), [3, 4])
-console.log(new Solution().searchRange([5, 7, 7, 8, 8, 10], 6), [-1, -1])
-console.log(new Solution().searchRange([], 0), [-1, -1])
-console.log(new Solution().searchRange([1], 1), [0, 0])
+console.log(new Solution().searchRange([5, 5, 7], 5).toString() === [0, 1].toString())
+console.log(new Solution().searchRange([5, 7, 7], 7).toString() === [1, 2].toString())
+console.log(new Solution().searchRange([5, 7, 7, 8, 8, 10], 8).toString() === [3, 4].toString())
+console.log(new Solution().searchRange([5, 7, 7, 8, 8, 10], 6).toString() === [-1, -1].toString())
+console.log(new Solution().searchRange([], 0).toString() === [-1, -1].toString())
+console.log(new Solution().searchRange([1], 1).toString() === [0, 0].toString())

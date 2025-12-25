@@ -1,4 +1,4 @@
-import { TreeNode, buildTree, getTreeValues } from '../../../../JS/binary-tree.js';
+import { TreeNode, buildTree, getTreeValues, isSameTree } from '../../../../JS/binary-tree.js';
 
 
 /**
@@ -16,15 +16,15 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: binary tree, dfs, recursion
+    * Tags: 
+    *     DS: binary tree
+    *     A: dfs, recursion, pre-order traversal
     * @param {TreeNode} root
     * @param {number} val
     * @return {TreeNode}
     */
    insertIntoBST(root, val) {
-      return dfs(root)
-
-      function dfs(node) {
+      const dfs = (node) => {
          if (node === null) {
             node = new TreeNode(val)
          } else if (node.val < val) {
@@ -34,25 +34,21 @@ class Solution {
          }
          return node
       }
+      return dfs(root)
    };
-}
 
-
-class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: binary tree, bfs, iteration
+    * Tags: 
+    *     DS: binary tree
+    *     A: dfs, iteration, pre-order traversal
     * @param {TreeNode} root
     * @param {number} val
     * @return {TreeNode}
     */
-   insertIntoBST(root, val) {
-      if (root === null) {
-         return new TreeNode(val)
-      }
+   insertIntoBST2(root, val) {
       let node = root;
-
       while (node) {
          if (node.val < val) {
             if (node.right) {
@@ -70,13 +66,14 @@ class Solution {
             }
          }
       }
+      return new TreeNode(val)
    };
 }
+
+
 const insertIntoBST = new Solution().insertIntoBST;
-
-
-console.log(getTreeValues(new Solution().insertIntoBST(buildTree([5]), 6)), [5, null, 6])
-console.log(getTreeValues(new Solution().insertIntoBST(buildTree([]), 5)), [5])
-console.log(getTreeValues(new Solution().insertIntoBST(buildTree([4, 2, 7, 1, 3]), 5)), [4, 2, 7, 1, 3, 5])
-console.log(getTreeValues(new Solution().insertIntoBST(buildTree([40, 20, 60, 10, 30, 50, 70]), 25)), [40, 20, 60, 10, 30, 50, 70, null, null, 25])
-console.log(getTreeValues(new Solution().insertIntoBST(buildTree([4, 2, 7, 1, 3, null, null, null, null, null, null]), 5)), [4, 2, 7, 1, 3, 5])
+console.log(isSameTree(new Solution().insertIntoBST(buildTree([5]), 6), buildTree([5, null, 6])))
+console.log(isSameTree(new Solution().insertIntoBST(buildTree([]), 5), buildTree([5])))
+console.log(isSameTree(new Solution().insertIntoBST(buildTree([4, 2, 7, 1, 3]), 5), buildTree([4, 2, 7, 1, 3, 5])))
+console.log(isSameTree(new Solution().insertIntoBST(buildTree([40, 20, 60, 10, 30, 50, 70]), 25), buildTree([40, 20, 60, 10, 30, 50, 70, null, null, 25])))
+console.log(isSameTree(new Solution().insertIntoBST(buildTree([4, 2, 7, 1, 3, null, null, null, null, null, null]), 5), buildTree([4, 2, 7, 1, 3, 5])))

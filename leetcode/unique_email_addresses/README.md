@@ -1,6 +1,7 @@
 # Unique Email Addresses
 https://leetcode.com/problems/unique-email-addresses/description/
 
+
 Every valid email consists of a local name and a domain name, separated by the '@' sign. Besides lowercase letters, the email may contain one or more '.' or '+'.
 
 For example, in "alice@leetcode.com", "alice" is the local name, and "leetcode.com" is the domain name.
@@ -13,6 +14,7 @@ For example, "m.y+name@email.com" will be forwarded to "my@email.com".
 It is possible to use both of these rules at the same time.
 
 Given an array of strings emails where we send one email to each emails[i], return the number of different addresses that actually receive mails.
+
 
 <b>Example 1:</b>\
 Input: emails = ["test.email+alex@leetcode.com","test.e.mail+bob.cathy@leetcode.com","testemail+david@lee.tcode.com"]\

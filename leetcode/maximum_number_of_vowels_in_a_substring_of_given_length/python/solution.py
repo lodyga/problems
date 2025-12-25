@@ -3,26 +3,27 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: sliding window
+        Tags: 
+            DS: string
+            A: sliding window
         """
+        VOWELS = "aeiou"
+        vowel_window = 0
         left = 0
-        window_vovel_count = 0
-        vovels = "aeiou"
-        max_vovels = 0
+        vowel_counter = 0
 
         for right, letter in enumerate(text):
-            if letter in vovels:
-                window_vovel_count += 1
+            vowel_window += letter in VOWELS
             
-            if right - left + 1 == k:
-                max_vovels = max(max_vovels, window_vovel_count)
+            if right + 1 < k:
+                continue
 
-                left_letter = text[left]
-                if left_letter in vovels:
-                    window_vovel_count -= 1
-                left += 1
+            vowel_counter = max(vowel_counter, vowel_window)
+            left_letter = text[left]
+            vowel_window -= left_letter in VOWELS
+            left+= 1
 
-        return max_vovels
+        return vowel_counter
 
 
 print(Solution().maxVowels("abciiidef", 3) == 3)

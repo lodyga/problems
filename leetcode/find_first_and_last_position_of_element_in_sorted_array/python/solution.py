@@ -1,42 +1,42 @@
 class Solution:
-    def searchRange(self, numbers: list[int], target: int) -> list[int]:
+    def searchRange(self, nums: list[int], target: int) -> list[int]:
         """
         Time complexity: O(logn)
         Auxiliary space complexity: O(1)
-        Tags: binary search
+        Tags: 
+            A: binary search
         """
         left = 0
-        right = len(numbers) - 1
-        lower_bound = -1
+        right = len(nums) - 1
+        starting = -1
 
         while left <= right:
-            middle = (left + right) // 2
-            middle_number = numbers[middle]
+            mid = (left + right) // 2
+            mid_num = nums[mid]
 
-            if middle_number == target:
-                lower_bound = middle
-                right = middle - 1
-            elif middle_number > target:
-                right = middle - 1
+            if target <= mid_num:
+                if target == mid_num:
+                    starting = mid
+                right = mid - 1
             else:
-                left = middle + 1
-            
+                left = mid + 1
+
         left = 0
-        right = len(numbers) - 1
-        upper_bound = -1
+        right = len(nums) - 1
+        ending = -1
+
         while left <= right:
-            middle = (left + right) // 2
-            middle_number = numbers[middle]
+            mid = (left + right) // 2
+            mid_num = nums[mid]
 
-            if middle_number == target:
-                upper_bound = middle
-                left = middle + 1
-            elif middle_number < target:
-                left = middle + 1
+            if target >= mid_num:
+                if target == mid_num:
+                    ending = mid
+                left = mid + 1
             else:
-                right = middle - 1
+                right = mid - 1
 
-        return [lower_bound, upper_bound]
+        return [starting, ending]
 
 
 print(Solution().searchRange([5, 5, 7], 5) == [0, 1])

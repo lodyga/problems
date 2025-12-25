@@ -1,111 +1,108 @@
 class Solution {
    /**
     * Time complexity: O(n!)
-    * Auxiliary space complexity: O(n!)
-    * Tags: backtracking, hash set
-    * @param {number[]} numbers
+    * Auxiliary space complexity: O(n)
+    * Tags: 
+    *     DS: hash set
+    *     A: backtracking
+    * @param {number[]} nums
     * @return {number[][]}
     */
-   permuteUnique(numbers) {
-      numbers.sort((a, b) => a - b)
-      const permutationList = [];
-      dfs(0)
-      return permutationList
+   permuteUnique(nums) {
+      const permutationSet = new Set();
 
-      function dfs(left) {
-         if (left === numbers.length - 1) {
-            permutationList.push(numbers.slice());
+      const dfs = (left) => {
+         if (left === nums.length - 1) {
+            permutationSet.add(JSON.stringify(nums));
+            return
+         }
+
+         for (let right = left; right < nums.length; right++) {
+            [nums[left], nums[right]] = [nums[right], nums[left]];
+            dfs(left + 1);
+            [nums[left], nums[right]] = [nums[right], nums[left]];
+         }
+      }
+      dfs(0)
+      return [...permutationSet].map(JSON.parse)
+   };
+
+   /**
+    * Time complexity: O(n!)
+    * Auxiliary space complexity: O(n)
+    * Tags: 
+    *     DS: hash set
+    *     A: backtracking
+    * @param {number[]} nums
+    * @return {number[][]}
+    */
+   permuteUnique(nums) {
+      const permutations = [];
+
+      const dfs = (left) => {
+         if (left === nums.length - 1) {
+            permutations.push(nums.slice());
             return
          }
 
          const uniqueLevelValue = new Set();
-         for (let right = left; right < numbers.length; right++) {
-            if (uniqueLevelValue.has(numbers[right]))
+         for (let right = left; right < nums.length; right++) {
+            if (uniqueLevelValue.has(nums[right]))
                continue
             else
-               uniqueLevelValue.add(numbers[right]);
+               uniqueLevelValue.add(nums[right]);
 
-            [numbers[left], numbers[right]] = [numbers[right], numbers[left]];
+            [nums[left], nums[right]] = [nums[right], nums[left]];
             dfs(left + 1);
-            [numbers[left], numbers[right]] = [numbers[right], numbers[left]];
+            [nums[left], nums[right]] = [nums[right], nums[left]];
          }
       }
+      dfs(0)
+      return permutations
    };
-}
 
-
-class Solution {
    /**
     * Time complexity: O(n!)
-    * Auxiliary space complexity: O(n!)
-    * Tags: backtracking, hash map
-    * @param {number[]} numbers
+    * Auxiliary space complexity: O(n)
+    * Tags: 
+    *     DS: hash set
+    *     A: backtracking
+    * @param {number[]} nums
     * @return {number[][]}
     */
-   permuteUnique(numbers) {
+   permuteUnique(nums) {
       const permutation = [];
-      const permutationList = [];
-      const numberFrequency = new Map();
-      for (const number of numbers) {
-         numberFrequency.set(number, (numberFrequency.get(number) || 0) + 1);
+      const permutations = [];
+      const numFrequency = new Map();
+      for (const number of nums) {
+         numFrequency.set(number, (numFrequency.get(number) || 0) + 1);
       }
 
-      dfs()
-      return permutationList
-
-      function dfs(left) {
-         if (permutation.length === numbers.length) {
-            permutationList.push(permutation.slice());
+      const dfs = (left) => {
+         if (permutation.length === nums.length) {
+            permutations.push(permutation.slice());
             return
          }
-         for (const number of numberFrequency.keys()) {
-            if (numberFrequency.get(number)) {
+         for (const number of numFrequency.keys()) {
+            if (numFrequency.get(number)) {
                permutation.push(number);
-               numberFrequency.set(number, numberFrequency.get(number) - 1);
+               numFrequency.set(number, numFrequency.get(number) - 1);
                dfs();
                permutation.pop();
-               numberFrequency.set(number, numberFrequency.get(number) + 1);
+               numFrequency.set(number, numFrequency.get(number) + 1);
             }
          }
-
       }
+      dfs()
+      return permutations
    };
 }
-class Solution {
-   /**
-    * Time complexity: O(n!)
-    * Auxiliary space complexity: O(n!)
-    * Tags: backtracking, hash set
-    * @param {number[]} numbers
-    * @return {number[][]}
-    */
-   permuteUnique(numbers) {
-      const permutationSet = new Set();
-      dfs(0)
-      return Array.from(permutationSet).map(JSON.parse)
 
-      function dfs(left) {
-         if (left === numbers.length - 1) {
-            permutationSet.add(JSON.stringify(numbers));
-            return
-         }
-
-         for (let right = left; right < numbers.length; right++) {
-            [numbers[left], numbers[right]] = [numbers[right], numbers[left]];
-            dfs(left + 1);
-            [numbers[left], numbers[right]] = [numbers[right], numbers[left]];
-            
-         }
-      }
-   };
-}
 
 
 const permuteUnique = new Solution().permuteUnique;
-
-
-console.log(new Solution().permuteUnique([1, 2]), [[1, 2], [2, 1]])
-console.log(new Solution().permuteUnique([1, 2, 3]), [[1, 3, 2], [1, 2, 3], [2, 1, 3], [3, 2, 1], [3, 1, 2], [2, 3, 1]])
-console.log(new Solution().permuteUnique([1]), [[1]])
-console.log(new Solution().permuteUnique([1, 1, 2]), [[1, 2, 1], [2, 1, 1], [1, 1, 2]])
-console.log(new Solution().permuteUnique([2, 2, 1, 1]), [[1, 1, 2, 2], [1, 2, 1, 2], [1, 2, 2, 1], [2, 1, 1, 2], [2, 1, 2, 1], [2, 2, 1, 1]])
+console.log(JSON.stringify((new Solution().permuteUnique([1, 2])).sort()) === JSON.stringify([[1, 2], [2, 1]].sort()))
+console.log(JSON.stringify(new Solution().permuteUnique([1, 2, 3]).sort()) === JSON.stringify([[1, 3, 2], [1, 2, 3], [2, 1, 3], [3, 2, 1], [3, 1, 2], [2, 3, 1]].sort()))
+console.log(JSON.stringify(new Solution().permuteUnique([1]).sort()) === JSON.stringify([[1]].sort()))
+console.log(JSON.stringify(new Solution().permuteUnique([1, 1, 2]).sort()) === JSON.stringify([[1, 2, 1], [2, 1, 1], [1, 1, 2]].sort()))
+console.log(JSON.stringify((new Solution().permuteUnique([2, 2, 1, 1])).sort()) === JSON.stringify(([[1, 1, 2, 2], [1, 2, 1, 2], [1, 2, 2, 1], [2, 1, 1, 2], [2, 1, 2, 1], [2, 2, 1, 1]]).sort()))

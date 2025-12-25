@@ -1,73 +1,57 @@
-"""
-draft
-[1, 2, 1, 2, 3], 2
-[1,2],
-([1,2,1], [2,1]),
-([1,2,1,2], [2,1,2], [1,2]),
-[2,3]
-
-[1, 2, 1, 3, 4], 3
-[1,2,1,3], [2,1,3],
-[1,3,4]
-"""
-
-
 class Solution:
-    def subarraysWithKDistinct(self, numbers: list[int], unique_number_counter: int) -> int:
+    def subarraysWithKDistinct(self, nums: list[int], k: int) -> int:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: sliding window
+        Tags: 
+            DS: hash map
+            A: sliding window
         """
-        window = {}  # {number: frequency}
+        # {number: frequency}
+        window = {}
         left = 0
-        middle = 0
-        subarray_counter = 0
+        far_left = 0
+        counter = 0
 
-        for number in numbers:
-            window[number] = window.get(number, 0) + 1
-            
-            while len(window) > unique_number_counter:
-                middle_number = numbers[middle]
-                window[middle_number] -= 1
-                
-                if window[middle_number] == 0:
-                    del window[middle_number]
-                
-                middle += 1
-                left = middle
+        for num in nums:
+            window[num] = window.get(num, 0) + 1
 
-            # if there is more than one copy of middle number
-            # than separate middle from left and move if right
-            # while there's at least one copy of each unique number
-            middle_number = numbers[middle]
-            while window[middle_number] > 1:
-                window[middle_number] -= 1
-                middle += 1
-                middle_number = numbers[middle]
+            if len(window) > k:
+                window.pop(nums[left])
+                left += 1
+                far_left = left
 
-            if len(window) == unique_number_counter:
-                subarray_counter += middle - left + 1
+            while window[nums[left]] > 1:
+                window[nums[left]] -= 1
+                left += 1
+
+            if len(window) == k:
+                counter += left - far_left + 1
+
+        return counter
+
+
+class Solution:
+    def subarraysWithKDistinct(self, nums: list[int], k: int) -> int:
+        """
+        Time complexity: O(n2)
+        Auxiliary space complexity: O(n)
+        Tags: 
+            DS: hash map
+            A: brute-force
+        """
+        counter = 0
         
-        return subarray_counter
+        for i in range(len(nums)):
+            window = {}
+            
+            for j in range(i, len(nums)):
+                window[nums[j]] = window.get(nums[j], 0) + 1
+                if len(window) == k:
+                    counter += 1
+        
+        return counter
 
 
 print(Solution().subarraysWithKDistinct([1, 2, 1, 2, 3], 2) == 7)
 print(Solution().subarraysWithKDistinct([1, 2, 1, 3, 4], 3) == 3)
-
-
-# O(n2), O(n)
-# brute force
-class Solution:
-    def subarraysWithKDistinct(self, numbers: list[int], k: int) -> int:
-        subarray_counter = 0
-        
-        for i in range(len(numbers)):
-            counter = {}
-            
-            for j in range(i, len(numbers)):
-                counter[numbers[j]] = counter.get(numbers[j], 0) + 1
-                if len(counter) == k:
-                    subarray_counter += 1
-        
-        return subarray_counter

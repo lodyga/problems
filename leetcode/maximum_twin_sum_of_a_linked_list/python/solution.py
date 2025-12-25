@@ -15,61 +15,33 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: linked list
-        three pass
+        Tags: 
+            DS: linked list
+            A: iteration
         """
-        slow = head
-        fast = head
-        while fast:
-            slow = slow.next
-            fast = fast.next.next
-
-        node = slow
-        prev = None
-        while node:
-            node_next = node.next
-            node.next = prev
-            prev = node
-            node = node_next
-        
-        twin_sum = 0
-        left = head
-        right = prev
-        while right:
-            twin_sum = max(twin_sum, left.val + right.val)
-            left = left.next
-            right = right.next
-
-        return twin_sum
-
-
-class Solution:
-    def pairSum(self, head: ListNode | None) -> int:
-        """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(1)
-        Tags: linked list
-        two pass
-        """
+        # Find the beginning of the right portion,
+        # while reversing the left portion.
         slow = head
         fast = head
         prev = None
-        while fast:
+        while fast and fast.next:
             fast = fast.next.next
-            next_slow = slow.next
+            # The reverse
+            slow_next = slow.next
             slow.next = prev
             prev = slow
-            slow = next_slow
+            slow = slow_next
 
-        twin_sum = 0
+        # Find max twin.
         left = prev
         right = slow
-        while left:
-            twin_sum = max(twin_sum, left.val + right.val)
+        twin = 0
+        while left:  # or right
+            twin = max(twin, left.val + right.val)
             left = left.next
             right = right.next
 
-        return twin_sum
+        return twin
 
 
 print(Solution().pairSum(build_linked_list([5, 4, 2, 1])) == 6)

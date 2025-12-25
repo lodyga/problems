@@ -11,6 +11,33 @@ import { TreeNode, buildTree, getTreeValues } from '../../../../JS/binary-tree.j
  * }
  */
 
+class Solution {
+   /**
+    * Time complexity: O(n)
+    * Auxiliary space complexity: O(1)
+    * Tags: 
+    *     DS: linked list
+    *     A: two pointers
+    * @param {TreeNode} headA
+    * @param {TreeNode} headB
+    * @return {boolean}
+    */
+   getIntersectionNode(headA, headB) {
+      if (headA && headB === null) {
+         return headA && headB
+      }
+      let nodeA = headA;
+      let nodeB = headB;
+
+      while (nodeA !== nodeB) {
+         nodeA = nodeA ? nodeA.next : headB;
+         nodeB = nodeB ? nodeB.next : headA;
+      }
+      return nodeA
+   };
+}
+
+const getIntersectionNode = new Solution().getIntersectionNode;
 
 class Solution {
    /**
@@ -22,7 +49,7 @@ class Solution {
     * @return {boolean}
     */
    getIntersectionNode(headA, headB) {
-      function getLenght(node) {
+      const getLenght = (node) => {
          let listLength = 0;
          while (node) {
             listLength++;
@@ -54,30 +81,6 @@ class Solution {
          nodeB = nodeB.next;
       }
       return null
-   };
-}
-const getIntersectionNode = new Solution().getIntersectionNode;
-
-
-class Solution {
-   /**
-    * Time complexity: O(n)
-    * Auxiliary space complexity: O(1)
-    * Tags: linked list
-    * @param {TreeNode} headA
-    * @param {TreeNode} headB
-    * @return {boolean}
-    */
-   getIntersectionNode = function (headA, headB) {
-      let nodeA = headA;
-      let nodeB = headB;
-
-      while (nodeA != nodeB) {
-         nodeA = nodeA ? nodeA.next : headB;
-         nodeB = nodeB ? nodeB.next : headA;
-      }
-
-      return nodeA
    };
 }
 const getIntersectionNode = new Solution().getIntersectionNode;

@@ -2,30 +2,36 @@ class Solution {
    /**
     * Time complexity: O(logn)
     * Auxiliary space complexity: O(1)
-    * Tags: binary search
-    * @param {number} square
+    * Tags: 
+    *    A: binary search
+    * @param {number} X
     * @return {number}
     */
-   mySqrt(square) {
+   mySqrt(X) {
       let left = 1;
-      let right = square;
+      let right = X;
+      let res = X;
 
       while (left <= right) {
-         const middle = (left + right) >> 1;
-         const currentSquare = middle ** 2;
+         const middle = left + ((right - left) >> 1);
+         const currentSquare = middle * middle;
 
-         if (currentSquare === square)
+         if (currentSquare === X) {
             return middle
-         else if (currentSquare > square)
-            right = middle - 1;
-         else
+         }
+         else if (currentSquare < X) {
+            res = middle;
             left = middle + 1;
+         }
+         else {
+            right = middle - 1;
+         }
       }
-
-      return right
+      return res
    };
 }
 
 
-console.log(new Solution().mySqrt(4), 2)
-console.log(new Solution().mySqrt(8), 2)
+const mySqrt = new Solution().mySqrt;
+console.log(new Solution().mySqrt(4) === 2)
+console.log(new Solution().mySqrt(8) === 2)

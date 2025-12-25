@@ -1,6 +1,7 @@
 # Simplify Path
 https://leetcode.com/problems/simplify-path/description/
 
+
 You are given an absolute path for a Unix-style file system, which always begins with a slash '/'. Your task is to transform this absolute path into its simplified canonical path.
 
 The rules of a Unix-style file system are as follows:
@@ -16,6 +17,7 @@ Directories within the path must be separated by exactly one slash '/'.
 The path must not end with a slash '/', unless it is the root directory.
 The path must not have any single or double periods ('.' and '..') used to denote current or parent directories.
 Return the simplified canonical path.
+
 
 <b>Example 1:</b>\
 Input: path = "/home/"\

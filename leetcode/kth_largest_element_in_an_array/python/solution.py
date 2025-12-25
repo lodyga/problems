@@ -1,32 +1,52 @@
 import heapq
 
+
 class Solution:
-    def findKthLargest(self, numbers: list[int], k: int) -> int:
+    def findKthLargest(self, nums: list[int], k: int) -> int:
         """
         Time complexity: O(nlogk)
         Auxiliary space complexity: O(k)
-        Tags: heap
+        Tags: 
+            DS: heap
+            A: iteration
         """
-        number_heap = []
-        heapq.heapify(number_heap)
+        num_heap = []
 
-        for number in numbers:
-            if len(number_heap) < k:
-                heapq.heappush(number_heap, number)
+        for num in nums:
+            if len(num_heap) < k:
+                heapq.heappush(num_heap, num)
             else:
-                heapq.heappushpop(number_heap, number)
+                heapq.heappushpop(num_heap, num)
         
-        return heapq.heappop(number_heap)
+        return num_heap[0]
 
 
 class Solution:
-    def findKthLargest(self, numbers: list[int], k: int) -> int:
+    def findKthLargest(self, nums: list[int], k: int) -> int:
         """
         Time complexity: O(nlogk)
-        Auxiliary space complexity: O(n)
-        Tags: heap
+        Auxiliary space complexity: O(1)
+        Tags: 
+            DS: heap
+            A: iteration
         """
-        return heapq.nlargest(k, numbers)[-1]
+        heapq.heapify(nums)
+        while len(nums) > k:
+            heapq.heappop(nums)
+        
+        return nums[0]
+
+
+class Solution:
+    def findKthLargest(self, nums: list[int], k: int) -> int:
+        """
+        Time complexity: O(nlogk)
+        Auxiliary space complexity: O(k)
+        Tags: 
+            DS: heap
+            A: build-in function
+        """
+        return heapq.nlargest(k, nums)[-1]
 
 
 print(Solution().findKthLargest([3, 2, 1, 5, 6, 4], 2) == 5)

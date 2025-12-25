@@ -1,4 +1,4 @@
-import {ListNode, buildLinkedList, getLinkedListValues} from '../../../../JS/linked-list-utils.js'
+import { ListNode, areLinkedListsEqueal, buildLinkedList, getLinkedListValues } from '../../../../JS/linked-list-utils.js'
 
 
 /**
@@ -16,7 +16,9 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: linked list, two pointers
+    * Tags: 
+    *     DS: linked list
+    *     A: two pointers
     * @param {ListNode} head
     * @return {ListNode}
     */
@@ -28,10 +30,10 @@ class Solution {
          slow = slow.next;
          fast = fast.next.next;
       }
-      
-      let prev = null;
+
       let node = slow.next;
       slow.next = null;
+      let prev = null;
       while (node) {
          const nodeNext = node.next;
          node.next = prev;
@@ -52,8 +54,8 @@ class Solution {
       return head
    };
 }
+
+
 const reorderList = new Solution().reorderList;
-
-
-console.log(getLinkedListValues(new Solution().reorderList(buildLinkedList([1, 2, 3, 4]))), [1, 4, 2, 3])
-console.log(getLinkedListValues(new Solution().reorderList(buildLinkedList([1, 2, 3, 4, 5]))), [1, 5, 2, 4, 3])
+console.log(areLinkedListsEqueal(new Solution().reorderList(buildLinkedList([1, 2, 3, 4])), buildLinkedList([1, 4, 2, 3])))
+console.log(areLinkedListsEqueal(new Solution().reorderList(buildLinkedList([1, 2, 3, 4, 5])), buildLinkedList([1, 5, 2, 4, 3])))

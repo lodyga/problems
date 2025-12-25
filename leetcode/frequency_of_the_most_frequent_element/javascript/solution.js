@@ -2,32 +2,37 @@ class Solution {
    /**
     * Time complexity: O(nlogn)
     * Auxiliary space complexity: O(n)
-    * Tags: sliding window
-    * @param {number[]} numbers
+    * Tags: 
+    *     A: sliding window, sorting
+    * @param {number[]} nums
     * @param {number} k
     * @return {number}
     */
-   maxFrequency(numbers, k) {
-      numbers.sort((a, b) => a - b);
+   maxFrequency(nums, k) {
+      nums.sort((a, b) => a - b);
       let left = 0;
-      let TopFrequency = 1;
-      let windowSum = 0;
+      let frequency = 1;
+      let prevNum = 0;
 
-      for (let right = 0; right < numbers.length; right++) {
-         let number = numbers[right];
-         windowSum += number;
+      for (let right = 0; right < nums.length; right++) {
+         const num = nums[right];
+         const diff = num - prevNum;
+         k -= diff * (right - left);
 
-         while ((right - left + 1) * number - windowSum > k) {
-            windowSum -= numbers[left];
-            left++;
+         while (k < 0) {
+            k += num - nums[left];
+            left += 1;
          }
-         TopFrequency = Math.max(TopFrequency, right - left + 1)
+
+         frequency = Math.max(frequency, right - left + 1);
+         prevNum = num;
       }
-      return TopFrequency
+      return frequency
    };
 }
 
 
+const maxFrequency = new Solution().maxFrequency;
 console.log(new Solution().maxFrequency([1, 2, 4], 5) === 3)
 console.log(new Solution().maxFrequency([1, 4, 8, 13], 5) === 2)
 console.log(new Solution().maxFrequency([3, 9, 6], 2) === 1)

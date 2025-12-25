@@ -1,4 +1,4 @@
-import {ListNode, buildLinkedList, getLinkedListValues} from '../../../../JS/linked-list-utils.js'
+import {ListNode, areLinkedListsEqueal, buildLinkedList, getLinkedListValues} from '../../../../JS/linked-list-utils.js'
 
 
 /**
@@ -16,7 +16,9 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: linked list, two pointers
+    * Tags: 
+    *     DS: linked list
+    *     A: two pointers
     * @param {ListNode} head
     * @param {number} n
     * @return {ListNode}
@@ -24,27 +26,26 @@ class Solution {
    removeNthFromEnd(head, n) {
       const anchor = new ListNode(null, head);
       let left = anchor;
-      let right = head;
+      let right = anchor;
 
       while (n) {
          right = right.next;
          n--;
       }
 
-      while (right) {
+      while (right.next) {
          left = left.next;
          right = right.next;
       }
 
       left.next = left.next.next;
-
       return anchor.next
    };
 }
+
+
 const removeNthFromEnd = new Solution().removeNthFromEnd;
-
-
-console.log(getLinkedListValues(new Solution().removeNthFromEnd(buildLinkedList([1, 2]), 1)), [1])
-console.log(getLinkedListValues(new Solution().removeNthFromEnd(buildLinkedList([1, 2]), 2)), [2])
-console.log(getLinkedListValues(new Solution().removeNthFromEnd(buildLinkedList([1]), 1)), [])
-console.log(getLinkedListValues(new Solution().removeNthFromEnd(buildLinkedList([1, 2, 3, 4, 5]), 2)), [1, 2, 3, 5])
+console.log(areLinkedListsEqueal(new Solution().removeNthFromEnd(buildLinkedList([1, 2]), 1), buildLinkedList([1])))
+console.log(areLinkedListsEqueal(new Solution().removeNthFromEnd(buildLinkedList([1, 2]), 2), buildLinkedList([2])))
+console.log(areLinkedListsEqueal(new Solution().removeNthFromEnd(buildLinkedList([1]), 1), buildLinkedList([])))
+console.log(areLinkedListsEqueal(new Solution().removeNthFromEnd(buildLinkedList([1, 2, 3, 4, 5]), 2), buildLinkedList([1, 2, 3, 5])))

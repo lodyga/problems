@@ -1,6 +1,7 @@
 # Construct String from Binary Tree
 https://leetcode.com/problems/construct-string-from-binary-tree/description/
 
+<p>
 Given the root node of a binary tree, your task is to create a string representation of the tree following a specific set of formatting rules. The representation should be based on a preorder traversal of the binary tree and must adhere to the following guidelines:
 
 Node Representation: Each node in the tree should be represented by its integer value.
@@ -12,29 +13,30 @@ If a node has a right child, the value of the right child should also be enclose
 Omitting Empty Parentheses: Any empty parentheses pairs (i.e., ()) should be omitted from the final string representation of the tree, with one specific exception: when a node has a right child but no left child. In such cases, you must include an empty pair of parentheses to indicate the absence of the left child. This ensures that the one-to-one mapping between the string representation and the original binary tree structure is maintained.
 
 In summary, empty parentheses pairs should be omitted when a node has only a left child or no children. However, when a node has a right child but no left child, an empty pair of parentheses must precede the representation of the right child to reflect the tree's structure accurately.
+</p>
 
-<b>Example 1:</b>
 <pre>
+<b>Example 1:</b>
     1
    / \
   2   3
  /
 4
+
+Input: root = [1,2,3,4]
+Output: "1(2(4))(3)"
+Explanation: Originally, it needs to be "1(2(4)())(3()())", but you need to omit all the empty parenthesis pairs. And it will be "1(2(4))(3)".
 </pre>
 
-Input: root = [1,2,3,4]\
-Output: "1(2(4))(3)"\
-Explanation: Originally, it needs to be "1(2(4)())(3()())", but you need to omit all the empty parenthesis pairs. And it will be "1(2(4))(3)".
-
-<b>Example 2:</b>
 <pre>
+<b>Example 2:</b>
   __1
  /   \
 2     3
  \
   4
-</pre>
 
-Input: root = [1,2,3,null,4]\
-Output: "1(2()(4))(3)"\
+Input: root = [1,2,3,null,4]
+Output: "1(2()(4))(3)"
 Explanation: Almost the same as the first example, except the () after 2 is necessary to indicate the absence of a left child for 2 and the presence of a right child.
+</pre>

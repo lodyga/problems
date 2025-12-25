@@ -14,40 +14,71 @@ import { TreeNode, buildTree, getTreeValues } from '../../../../JS/binary-tree.j
 
 class Solution {
    /**
-    * Time complexity: O(n)
+    * Time complexity: O(n)e
     * Auxiliary space complexity: O(n)
-    * Tags: binary tree, dfs, recursion
+    * Tags: 
+    *     DS: binary tree
+    *     A: dfs, recursion, pre-order traversal
     * @param {TreeNode} root
     * @return {string}
     */
    tree2str(root) {
-      const values = [];
-      dfs(root);
-      return values.join('')
+      const parts = [];
 
-      function dfs(node) {
+      const dfs = (node) => {
          if (node === null) {
             return
          }
-         
-         values.push(node.val);
+         parts.push(node.val);
 
          if (node.left || node.right) {
-            values.push('(');
+            parts.push('(');
             dfs(node.left);
-            values.push(')');
+            parts.push(')');
          }
          if (node.right) {
-            values.push('(');
+            parts.push('(');
             dfs(node.right);
-            values.push(')');
+            parts.push(')');
          }
       }
+      dfs(root);
+      return parts.join('')
    };
+
+   /**
+    * Time complexity: O(n2)
+    * Auxiliary space complexity: O(n)
+    * Tags: 
+    *     DS: binary tree
+    *     A: dfs, recursion, pre-order traversal
+    * @param {TreeNode} root
+    * @return {string}
+    */
+   tree2str(root) {
+      const dfs = (node) => {
+         if (node === null) {
+            return ''
+         }
+         let res = String(node.val);
+
+         if (node.left || node.right)
+            res += '(' + dfs(node.left) + ')'
+
+         if (node.right)
+            res += '(' + dfs(node.right) + ')'
+
+         return res
+      }
+      return dfs(root)
+   }
 }
+
+
 const tree2str = new Solution().tree2str;
-
-
 console.log(new Solution().tree2str(buildTree([1])) === '1')
+console.log(new Solution().tree2str(buildTree([1, 2])) === '1(2)')
+console.log(new Solution().tree2str(buildTree([1, null, 3])) === '1()(3)')
+console.log(new Solution().tree2str(buildTree([1, 2, 3])) === '1(2)(3)')
 console.log(new Solution().tree2str(buildTree([1, 2, 3, 4])) === '1(2(4))(3)')
 console.log(new Solution().tree2str(buildTree([1, 2, 3, null, 4])) === '1(2()(4))(3)')

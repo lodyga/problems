@@ -47,7 +47,7 @@ class Solution {
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
     * Tags: 
-    *     DS: binary tree, stack, list
+    *     DS: binary tree, stack
     *     A: dfs, iteration, in-order traversal
     * @param {TreeNode} root
     * @param {number} k

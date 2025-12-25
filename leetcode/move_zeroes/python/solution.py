@@ -1,19 +1,20 @@
 class Solution:
-    def moveZeroes(self, numbers: list[int]) -> list[int]:
+    def moveZeroes(self, nums: list[int]) -> list[int]:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: two pointers, in-place method
+        Tags: 
+            A: two pointers, in-place method
         """
         left = 0
 
-        for right, number in enumerate(numbers):
-            if number != 0:
-                numbers[left], numbers[right] = numbers[right], numbers[left]
+        for right in range(len(nums)):
+            if nums[right] != 0:
+                nums[left], nums[right] = nums[right], nums[left]
                 left += 1
-        
-        return numbers
-            
+
+        return nums
+
 
 print(Solution().moveZeroes([0]), [0])
 print(Solution().moveZeroes([1]), [1])

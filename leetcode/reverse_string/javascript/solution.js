@@ -2,7 +2,8 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: two pointers, iteration
+    * Tags: 
+    *    A: two pointers, iteration
     * @param {characters[]} letters
     * @return {characters[]}
     */
@@ -17,35 +18,32 @@ class Solution {
       }
       return letters
    };
-}
 
-
-class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: two pointers, recursion
+    * Tags: 
+    *    A: two pointers, recursion
     * @param {characters[]} letters
     * @return {characters[]}
     */
    reverseString(letters) {
-      function dfs(left, right) {
-         if (left < right) {
-            [letters[left], letters[right]] = [letters[right], letters[left]];
-            dfs(left + 1, right - 1)
+      const dfs = (left, right) => {
+         if (left >= right) {
+            return
          }
+         [letters[left], letters[right]] = [letters[right], letters[left]];
+         dfs(left + 1, right - 1);
       }
       dfs(0, letters.length - 1)
       return letters
    };
-}
 
-
-class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: build-in function
+    * Tags: 
+    *    A: build-in function
     * @param {characters[]} letters
     * @return {characters[]}
     */
@@ -55,5 +53,6 @@ class Solution {
 }
 
 
-console.log(new Solution().reverseString(["h", "e", "l", "l", "o"]), ["o", "l", "l", "e", "h"])
-console.log(new Solution().reverseString(["H", "a", "n", "n", "a", "h"]), ["h", "a", "n", "n", "a", "H"])
+const reverseString = new Solution().reverseString;
+console.log(JSON.stringify(new Solution().reverseString(["h", "e", "l", "l", "o"])) === JSON.stringify(["o", "l", "l", "e", "h"]))
+console.log(JSON.stringify(new Solution().reverseString(["H", "a", "n", "n", "a", "h"])) === JSON.stringify(["h", "a", "n", "n", "a", "H"]))

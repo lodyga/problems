@@ -1,16 +1,22 @@
 # Middle of the Linked List
 https://leetcode.com/problems/middle-of-the-linked-list/description/
 
+
 Given the head of a singly linked list, return the middle node of the linked list.
 
 If there are two middle nodes, return the second middle node.
 
+
 <b>Example 1:</b>\
 Input: head = [1,2,3,4,5]\
+1 &rarr; 2 &rarr; 3 &rarr; 4 &rarr; 5\
 Output: [3,4,5]\
-Explanation: The middle node of the list is node 3.\
+3 &rarr; 4 &rarr; 5\
+Explanation: The middle node of the list is node 3.
 
 <b>Example 2:</b>\
 Input: head = [1,2,3,4,5,6]\
+1 &rarr; 2 &rarr; 3 &rarr; 4 &rarr; 5 &rarr; 6\
 Output: [4,5,6]\
+4 &rarr; 5 &rarr; 6\
 Explanation: Since the list has two middle nodes with values 3 and 4, we return the second one.

@@ -1,26 +1,29 @@
 class Solution:
-    def mySqrt(self, suqare: int) -> int:
+    def mySqrt(self, X: int) -> int:
         """
         Time complexity: O(logn)
         Auxiliary space complexity: O(1)
-        Tags: binary search
+        Tags: 
+            A: binary search
         """
         left = 1
-        right = suqare
+        right = X
+        res = X
 
         while left <= right:
-            middle = (left + right) // 2
-            current_square = middle ** 2
+            middle = left + (right - left) // 2
+            square = middle*middle
 
-            if current_square == suqare:
+            if square == X:
                 return middle
-            elif current_square > suqare:
-                right = middle - 1
-            else:
+            elif square < X:
+                res = middle
                 left = middle + 1
+            else:
+                right = middle - 1
 
-        return right
+        return res
 
 
-print(Solution().mySqrt(4), 2)
-print(Solution().mySqrt(8), 2)
+print(Solution().mySqrt(4) == 2)
+print(Solution().mySqrt(8) == 2)

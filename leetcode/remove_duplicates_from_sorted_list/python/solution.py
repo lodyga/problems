@@ -15,19 +15,21 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: linked list
+        Tags: 
+            DS: linked list
+            A: iteration
         """
         node = head
 
         while node and node.next:
-            while node.next and node.val == node.next.val:
+            if node.val == node.next.val:
                 node.next = node.next.next
-            if node.next:
+            else:
                 node = node.next
-        
+
         return head
 
 
-print(get_linked_list_values(Solution().deleteDuplicates(build_linked_list([]))) == [])
-print(get_linked_list_values(Solution().deleteDuplicates(build_linked_list([1, 1, 2]))) == [1, 2])
-print(get_linked_list_values(Solution().deleteDuplicates(build_linked_list([1, 1, 2, 3, 3]))) == [1, 2, 3])
+print(are_linked_lists_equeal(Solution().deleteDuplicates(build_linked_list([])), build_linked_list([])))
+print(are_linked_lists_equeal(Solution().deleteDuplicates(build_linked_list([1, 1, 2])), build_linked_list([1, 2])))
+print(are_linked_lists_equeal(Solution().deleteDuplicates(build_linked_list([1, 1, 2, 3, 3])), build_linked_list([1, 2, 3])))

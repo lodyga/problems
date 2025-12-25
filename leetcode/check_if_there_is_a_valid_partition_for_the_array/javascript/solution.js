@@ -1,236 +1,145 @@
 class Solution {
    /**
     * Time complexity: O(n)
-    * Auxiliary space complexity: O(1)
-    * Tags: dp, bottom-up
-    * @param {number[]} numbers
-    * @return {boolean}
-    */
-   validPartition(numbers) {
-      const cache = [true, true, true, true];
-
-      for (let index = numbers.length - 1; index >= 0; index--) {
-         cache.pop();
-         cache.unshift(false);
-
-         if (!cache[0] && index + 1 < numbers.length) {
-            if (numbers[index] === numbers[index + 1]) {
-               cache[0] = cache[2];
-            }
-         }
-
-         if (!cache[0] && index + 2 < numbers.length) {
-            if (
-               numbers[index] === numbers[index + 1] &&
-               numbers[index + 1] === numbers[index + 2]
-            ) {
-               cache[0] = cache[3];
-            }
-         }
-
-         if (!cache[0] && index + 2 < numbers.length) {
-            if (
-               numbers[index] + 2 === numbers[index + 1] + 1 &&
-               numbers[index + 1] + 1 === numbers[index + 2]
-            ) {
-               cache[0] = cache[3];
-            }
-         }
-      }
-      return cache[0]
-   };
-}
-
-
-class Solution {
-   /**
-    * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: dp, bottom-up
-    * @param {number[]} numbers
+    * Tags:
+    *     DS: hash map
+    *     A: top-down
+    * @param {number[]} nums
     * @return {boolean}
     */
-   validPartition(numbers) {
-      const cache = Array(numbers.length + 1).fill(false);
-      cache[cache.length - 1] = true;
+   validPartition(nums) {
+      const memo = new Map([[nums.length, true]]);
 
-      for (let index = numbers.length - 1; index >= 0; index--) {
-
-         if (!cache[index] && index + 1 < numbers.length) {
-            if (numbers[index] === numbers[index + 1]) {
-               cache[index] = cache[index + 2];
-            }
-         }
-
-         if (!cache[index] && index + 2 < numbers.length) {
-            if (
-               numbers[index] === numbers[index + 1] &&
-               numbers[index + 1] === numbers[index + 2]
-            ) {
-               cache[index] = cache[index + 3];
-            }
-         }
-
-         if (!cache[index] && index + 2 < numbers.length) {
-            if (
-               numbers[index] + 2 === numbers[index + 1] + 1 &&
-               numbers[index + 1] + 1 === numbers[index + 2]
-            ) {
-               cache[index] = cache[index + 3];
-            }
-         }
-      }
-      return cache[0]
-   };
-}
-
-
-class Solution {
-   /**
-    * Time complexity: O(n)
-    * Auxiliary space complexity: O(n)
-    * Tags: dp, top-down witm memoization as hash map
-    * @param {number[]} numbers
-    * @return {boolean}
-    */
-   validPartition(numbers) {
-      const memo = new Map([[numbers.length, true]]);
-      return dfs(0)
-
-      function dfs(index) {
+      const dfs = (index) => {
          if (memo.has(index)) {
             return memo.get(index)
-         }
-
-         memo.set(index, false);
-
-         if (!memo.get(index) && index + 1 < numbers.length) {
-            if (numbers[index] === numbers[index + 1]) {
-               memo.set(index, dfs(index + 2));
-            }
-         }
-
-         if (!memo.get(index) && index + 2 < numbers.length) {
-            if (
-               numbers[index] === numbers[index + 1] && 
-               numbers[index + 1] === numbers[index + 2]
-            ) {
-               memo.set(index, dfs(index + 3));
-            }
-         }
-
-         if (!memo.get(index) && index + 2 < numbers.length) {
-            if (
-               numbers[index] + 2 === numbers[index + 1] + 1 && 
-               numbers[index + 1] + 1 === numbers[index + 2]
-            ) {
-               memo.set(index, dfs(index + 3));
-            }
-         }
-         return memo.get(index)
-      }
-   };
-}
-
-
-class Solution {
-   /**
-    * Time complexity: O(n)
-    * Auxiliary space complexity: O(n)
-    * Tags: dp, top-down witm memoization as array
-    * @param {number[]} numbers
-    * @return {boolean}
-    */
-   validPartition(numbers) {
-      const memo = Array(numbers.length + 1).fill(null);
-      memo[memo.length - 1] = true;
-      return dfs(0)
-
-      function dfs(index) {
-         if (memo[index]) {
-            return memo[index]
-         } else if (memo[index] === false) {
+         } else if (index > nums.length) {
             return false
          }
 
-         if (!memo[index] && index + 1 < numbers.length) {
-            if (numbers[index] === numbers[index + 1]) {
-               memo[index] = dfs(index + 2);
-            }
+         memo.set(index, false);
+         // two digits equals
+         if (index + 1 < nums.length &&
+            nums[index] === nums[index + 1] &&
+            dfs(index + 2)
+         ) {
+            memo.set(index, true);
+            // three digits equals
+         } else if (
+            index + 2 < nums.length &&
+            nums[index] === nums[index + 1] &&
+            nums[index + 1] === nums[index + 2] &&
+            dfs(index + 3)
+         ) {
+            memo.set(index, true);
+            // three digits increasing by one
+         } else if (
+            index + 2 < nums.length &&
+            nums[index] + 2 === nums[index + 1] + 1 &&
+            nums[index + 1] + 1 === nums[index + 2] &&
+            dfs(index + 3)
+         ) {
+            memo.set(index, true);
          }
-
-         if (!memo[index] && index + 2 < numbers.length) {
-            if (
-               numbers[index] === numbers[index + 1] && 
-               numbers[index + 1] === numbers[index + 2]
-            ) {
-               memo[index] = dfs(index + 3);
-            }
-         }
-
-         if (!memo[index] && index + 2 < numbers.length) {
-            if (
-               numbers[index] + 2 === numbers[index + 1] + 1 && 
-               numbers[index + 1] + 1 === numbers[index + 2]
-            ) {
-               memo[index] = dfs(index + 3);
-            }
-         }
-         return memo[index] ? memo[index] : false
+         return memo.get(index)
       }
+      return dfs(0)
    };
-}
 
-
-class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: brute-force, tle
-    * @param {number[]} numbers
+    * Tags:
+    *     DS: array
+    *     A: bottom-up
+    * @param {number[]} nums
     * @return {boolean}
     */
-   validPartition(numbers) {
-      return dfs(0)
+   validPartition(nums) {
+      const cache = Array(nums.length + 1).fill(false);
+      cache[cache.length - 1] = true;
 
-      function dfs(index) {
-         if (index >= numbers.length) {
-            return index === numbers.length
+      for (let index = nums.length - 1; index > -1; index--) {
+         // two digits equals
+         if (
+            index + 1 < nums.length &&
+            nums[index] === nums[index + 1] &&
+            cache[index + 2]
+         ) {
+            cache[index] = true;
+            // three digits equals
+         } else if (
+            index + 2 < nums.length &&
+            nums[index] === nums[index + 1] &&
+            nums[index + 1] === nums[index + 2] &&
+            cache[index + 3]
+         ) {
+            cache[index] = true;
+            // three digits increasing by one
+         } else if (
+            index + 2 < nums.length &&
+            nums[index] + 2 === nums[index + 1] + 1 &&
+            nums[index + 1] + 1 === nums[index + 2] &&
+            cache[index + 3]
+         ) {
+            cache[index] = true;
          }
-         let memo = false;
-
-         if (!memo && index + 1 < numbers.length) {
-            if (numbers[index] === numbers[index + 1]) {
-               memo = dfs(index + 2);
-            }
-         }
-
-         if (!memo && index + 2 < numbers.length) {
-            if (
-               numbers[index] === numbers[index + 1] && 
-               numbers[index + 1] === numbers[index + 2]
-            ) {
-               memo = dfs(index + 3);
-            }
-         }
-
-         if (!memo && index + 2 < numbers.length) {
-            if (
-               numbers[index] + 2 === numbers[index + 1] + 1 && 
-               numbers[index + 1] + 1 === numbers[index + 2]
-            ) {
-               memo = dfs(index + 3);
-            }
-         }
-         return memo
       }
+      return cache[0]
+   };
+
+   /**
+    * Time complexity: O(n)
+    * Auxiliary space complexity: O(1)
+    * Tags:
+    *     DS: array
+    *     A: bottom-up
+    * @param {number[]} nums
+    * @return {boolean}
+    */
+   validPartition(nums) {
+      const cache = [true, true, true];
+
+      for (let index = nums.length - 1; index > -1; index--) {
+         let cache0 = false;
+         // two digits equals
+         if (
+            index + 1 < nums.length &&
+            nums[index] === nums[index + 1] &&
+            cache[1]
+         ) {
+            cache0 = true;
+            // three digits equals
+         } else if (
+            index + 2 < nums.length &&
+            nums[index] === nums[index + 1] &&
+            nums[index + 1] === nums[index + 2] &&
+            cache[2]
+         ) {
+            cache0 = true;
+            // three digits increasing by one
+         } else if (
+            index + 2 < nums.length &&
+            nums[index] + 2 === nums[index + 1] + 1 &&
+            nums[index + 1] + 1 === nums[index + 2] &&
+            cache[2]
+         ) {
+            cache0 = true;
+         }
+         cache[2] = cache[1];
+         cache[1] = cache[0];
+         cache[0] = cache0;
+      }
+      return cache[0]
    };
 }
+
+
 const validPartition = new Solution().validPartition;
-
-
 console.log(new Solution().validPartition([4, 4, 4, 5, 6]) === true)
 console.log(new Solution().validPartition([1, 1, 1, 2]) === false)
 console.log(new Solution().validPartition([993335, 993336, 993337, 993338, 993339, 993340, 993341]) === false)
 console.log(new Solution().validPartition([803201, 803201, 803201, 803201, 803202, 803203]) === true)
 console.log(new Solution().validPartition([67149, 67149, 67149, 67149, 67149, 136768, 136768, 136768, 136768, 136768, 136768, 136768, 136769, 136770, 136771, 136772, 136773, 136774, 136775, 136776, 136777, 136778, 136779, 136780, 136781, 136782, 136783, 136784]) === false)
+console.log(new Solution().validPartition([7096, 7096, 7096, 7096, 7097, 7098, 7098, 7098, 7098, 7098, 7099, 7100, 7101, 7102, 7103, 7104, 7104, 7105, 7105, 7105, 7106, 7106, 7106, 7107, 7107, 7107, 7108, 7109, 7110, 7111, 7112, 7113, 7113, 7113, 7114, 7114, 7114, 7115, 7115, 7115, 7116, 7116, 7116, 7116, 7116, 7116, 7117, 7117, 7117, 7118, 7119, 7120, 7120, 7120, 7121, 7122, 7123, 7124, 7124, 7125, 7125, 7125, 7126, 7126, 7126, 7126, 7126, 7127, 7128, 7129, 7129, 7130, 7131, 7131, 7131, 7131, 7132, 7133, 7134, 7134, 7134, 7135, 7136, 7137, 7137, 7138, 7139, 7140, 7140, 7140, 7140, 7140, 7141, 7142, 7143, 7143, 7144, 7145, 7145, 7145, 7145, 7146, 7146, 7147, 7147, 7147, 7147, 7147, 7147, 7148, 7149, 7149, 7149, 7150, 7150, 7150, 7150, 7150, 7151, 7151, 7151, 7151, 7152, 7153, 7153, 7154, 7155, 7156, 7156, 7156, 7157, 7158, 7158, 7158, 7159, 7160, 7161, 7162, 7162, 7163, 7163, 7163, 7164, 7165, 7165, 7166, 7167, 7167, 7167, 7168, 7168, 7168, 7169, 7169, 7169, 7169, 7169, 7169, 7169, 7170, 7171, 7171, 7171, 7171, 7172, 7173, 7174, 7174, 7175, 7176, 7177, 7178, 7179, 7180, 7180, 7181, 7181, 7181, 7181, 7181, 7181, 7181, 7181, 7182, 7183, 7183, 7183, 7183, 7184, 7184, 7184, 7184, 7185, 7186, 7187, 7187, 7187, 7188, 7188, 7188, 7189, 7190, 7190, 7191, 7192, 7193, 7194, 7195, 7196, 7196, 7196, 7196, 7196, 7197, 7197, 7197, 7197, 7197, 7197, 7197, 7197, 7198, 7199, 7199, 7199, 7199, 7200, 7200, 7200, 7200, 7200, 7201, 7201, 7201, 7201, 7201, 7202, 7203, 7204, 7204, 7204, 7205, 7205, 7206, 7207, 7208, 7209, 7210, 7211, 7211, 7212, 7213, 7213, 7214, 7215, 7215, 7215, 7215, 7215, 7215, 7216, 7216, 7216, 7217, 7217, 7218, 7218, 7218, 7218, 7218, 7218, 7219, 7220, 7221, 7222, 7222, 7222, 7222, 7222, 7222, 7222, 7222, 7222, 7222, 7223, 7224, 7225, 7225, 7226, 7226, 7226, 7227, 7227, 7227, 7227, 7227, 7227, 7228, 7228, 7228, 7229, 7230, 7231, 7231, 7231, 7231, 7232, 7233, 7234, 7235, 7236, 7237, 7237, 7237, 7237, 7237, 7237, 7237, 7237, 7238, 7238, 7238, 7238, 7238, 7238, 7238, 7238, 7239, 7240, 7241, 7241, 7241, 7241, 7242, 7243, 7244, 7245, 7245, 7245, 7245, 7245, 7245, 7246, 7247, 7248, 7248, 7248, 7248, 7248, 7249, 7249, 7249, 7249, 7249, 7249, 7249, 7250, 7251, 7252, 7253, 7254, 7255, 7255, 7255, 7256, 7256, 7256, 7256, 7256, 7256, 7256, 7256, 7256, 7256, 7256, 7257, 7257, 7257, 7257, 7257, 7258, 7258, 7258, 7259, 7260, 7260, 7260, 7260, 7260, 7260, 7260, 7261, 7262, 7262, 7263, 7264, 7264, 7264, 7265, 7265, 7265, 7265, 7266, 7267, 7267, 7267, 7268, 7268, 7268, 7269, 7270, 7271, 7272, 7272, 7272, 7273, 7273, 7273, 7273, 7274, 7275, 7275, 7276, 7277, 7278, 7278, 7279, 7279, 7279, 7280, 7281, 7281, 7281, 7281, 7282, 7283, 7283, 7283, 7283, 7284, 7285, 7286, 7286, 7286, 7286, 7286, 7286, 7286, 7286, 7286, 7287, 7287, 7288, 7289, 7290, 7290, 7290, 7290, 7291, 7291, 7291, 7291, 7291, 7291, 7291, 7292, 7293, 7294, 7294, 7294, 7294, 7294, 7294, 7295, 7295, 7295, 7296, 7297, 7298, 7298, 7298, 7298, 7299, 7299, 7300, 7300, 7300, 7300, 7300, 7301, 7301, 7301, 7301, 7301, 7301, 7301, 7301, 7302, 7303, 7304, 7304, 7304, 7304, 7304, 7304, 7305, 7306, 7306, 7306, 7307, 7307, 7307, 7308, 7309, 7310, 7311, 7312, 7313, 7314, 7314, 7314, 7314, 7314, 7314, 7314, 7314, 7314, 7314, 7315, 7316, 7317, 7318, 7319, 7320, 7320, 7320, 7321, 7321, 7321, 7321, 7321, 7321, 7321, 7321, 7322, 7323, 7324, 7324, 7324, 7324, 7324, 7324, 7324, 7325, 7326, 7326, 7326, 7326, 7326, 7326, 7326, 7326, 7326, 7327, 7327, 7327, 7328, 7328, 7328, 7328, 7329, 7330, 7331, 7331, 7331, 7331, 7332, 7333, 7334, 7334, 7335, 7336, 7336, 7336, 7336, 7337, 7337, 7338, 7338, 7338, 7339, 7340, 7341, 7341, 7341, 7341, 7341, 7342, 7343, 7343, 7344, 7345, 7345, 7346, 7347, 7348, 7348, 7348, 7349, 7349, 7349, 7350, 7350, 7350, 7350, 7351, 7352, 7352, 7352, 7352, 7353, 7354, 7354, 7355, 7356, 7357, 7357, 7358, 7358, 7358, 7359, 7360, 7360, 7360, 7360, 7360, 7361, 7362, 7363, 7363, 7363, 7363, 7363, 7363, 7364, 7364, 7364, 7365, 7366, 7367, 7368, 7368, 7368, 7369, 7369, 7369, 7369, 7369, 7370, 7370, 7370, 7370, 7370, 7370, 7370, 7371, 7371, 7371, 7371, 7372, 7373, 7373, 7374, 7375, 7375, 7375, 7375, 7375, 7375, 7375, 7376, 7376, 7376, 7376, 7377, 7378, 7379, 7379, 7379, 7380, 7381, 7382, 7383, 7383, 7384, 7385, 7386, 7387, 7387, 7388, 7388, 7389, 7389, 7389, 7390, 7391, 7391, 7392, 7393, 7394, 7395, 7396, 7396, 7397, 7398, 7398, 7398, 7398, 7399, 7399, 7399, 7400, 7401, 7401, 7401, 7401, 7401, 7401, 7401, 7401, 7401, 7401, 7402, 7403, 7404, 7405, 7406, 7407, 7407, 7408, 7409, 7410, 7410, 7410, 7410, 7411, 7412, 7413, 7414, 7414, 7414, 7414, 7415, 7416, 7417, 7417, 7417, 7418, 7419, 7420, 7420, 7421, 7422, 7422, 7422, 7422, 7422, 7422, 7423, 7424, 7425, 7425, 7425, 7425, 7425, 7426, 7427, 7427, 7427, 7427, 7428, 7428, 7428, 7429, 7429, 7429, 7429, 7430, 7430, 7430, 7430, 7431, 7432, 7433, 7433, 7433, 7434, 7435, 7436, 7436, 7437, 7438, 7439, 7439, 7439, 7440, 7441, 7441, 7442, 7443, 7444, 7444, 7444, 7444, 7444, 7444, 7445, 7446, 7446, 7446, 7446, 7447, 7447, 7447, 7447, 7447, 7448, 7448, 7448, 7448, 7448, 7448, 7448, 7448, 7449, 7450, 7451, 7452, 7452, 7452, 7453, 7453, 7453, 7453, 7453, 7453, 7454, 7455, 7456, 7456, 7456, 7456, 7457, 7458, 7459, 7460, 7461, 7462, 7463, 7463, 7464, 7464, 7465, 7466, 7467, 7467, 7467]) === true)

@@ -18,7 +18,7 @@ class Solution:
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
         Tags: 
-            DS: binary tree, queue, list
+            DS: binary tree, queue
             A: bfs, iteration, level-order traversal
         """
         if root is None:

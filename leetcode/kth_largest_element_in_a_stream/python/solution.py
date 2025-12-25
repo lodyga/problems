@@ -3,32 +3,41 @@ import heapq
 
 class KthLargest:
     """
-    Time complexity: O(m*logk)
-        m: number of `add` calls
+    Time complexity: O(n*logk)
+        n: number of `add` calls
         k: the number of highest test scores
-    Auxiliary space complexity: O(k)
-    Tags: heap
+    Auxiliary space complexity: O(1)
+    Tags: 
+        DS: heap
+        A: heap, in-place method
     """
 
-    def __init__(self, k: int, numbers: list[int]):
-        self.numbers = numbers
+    def __init__(self, k: int, nums: list[int]):
         self.k = k
-        heapq.heapify(self.numbers)
-        while len(self.numbers) > self.k:
-            heapq.heappop(self.numbers)
+        self.nums = nums
+        heapq.heapify(nums)
+        while len(nums) > k:
+            heapq.heappop(nums)
 
     def add(self, val: int) -> int:
-        heapq.heappushpop(self.numbers, val)
-        return self.numbers[0]
+        nums = self.nums
+
+        if len(nums) < self.k:
+            heapq.heappush(nums, val)
+        else:
+            heapq.heappushpop(nums, val)
+        return nums[0]
 
 
 class KthLargest:
     """
-    Time complexity: O(m*nlogn)
-        m: number of `add` calls
-        n: `numbers` size
+    Time complexity: O(n*mlogm)
+        n: number of `add` calls
+        m: `numbers` size
     Auxiliary space complexity: O(n + m)
-    Tags: sorting
+    Tags:
+        DS: list
+        A: sorting
     """
 
     def __init__(self, k: int, numbers: list[int]):
@@ -42,6 +51,8 @@ class KthLargest:
         return self.numbers[-1]
 
 
+
+# Example 1
 kthLargest = KthLargest(3, [4, 5, 8, 2])
 print(kthLargest.add(3) == 4)
 print(kthLargest.add(5) == 5)

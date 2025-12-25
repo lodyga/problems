@@ -1,59 +1,51 @@
-r"""
-draft
-[1, 3, 2, 3, 3]
-[1,3,2,3], [3,2,3],        [1,3,2,3,3], [3,2,3,3], [2,3,3] and [3,3]
-
-[1, 3, 2, 3, 1]
-[1,3,2,3], [3,2,3],        [1,3,2,3,1], [3,2,3,1]
-"""
-
-
 class Solution:
-    def countSubarrays(self, numbers: list[int], k: int) -> int:
+    def countSubarrays(self, nums: list[int], k: int) -> int:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: sliding window
+        Tags: 
+            A: sliding window
         """
+        window = 0
         left = 0
-        max_number = max(numbers)
-        window = 0  # count occurences of the maximum number
-        subarray_counter = 0  # count number of subsets
+        counter = 0
+        max_num = max(nums)
 
-        for number in numbers:
-            if number == max_number:
+        for num in nums:
+            if num == max_num:
                 window += 1
 
             while window == k:
-                if numbers[left] == max_number:
+                if nums[left] == max_num:
                     window -= 1
                 left += 1
 
-            subarray_counter += left
+            counter += left
 
-        return subarray_counter
+        return counter
 
 
 class Solution:
-    def countSubarrays(self, numbers: list[int], k: int) -> int:
+    def countSubarrays(self, nums: list[int], k: int) -> int:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(1)
-        Tags: brute-force
+        Tags: 
+            A: brute-force
         """
-        subarray_counter = 0
-        max_number = max(numbers)
+        counter = 0
+        max_num = max(nums)
 
-        for i in range(len(numbers)):
+        for i in range(len(nums)):
             max_count = 0
            
-            for j in range(i, len(numbers)):
-                if numbers[j] == max_number:
+            for j in range(i, len(nums)):
+                if nums[j] == max_num:
                     max_count += 1
-                if  max_count >= 2:
-                    subarray_counter += 1
+                if  max_count >= k:
+                    counter += 1
 
-        return subarray_counter
+        return counter
 
 
 print(Solution().countSubarrays([1, 3, 2, 3, 3], 2) == 6)

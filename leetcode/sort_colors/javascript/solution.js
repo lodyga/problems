@@ -2,31 +2,33 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: two pointers, three pointers, one pass
-    * @param {number[]} numbers
+    * Tags: 
+    *     A: two pointers, in-place method
+    *     one pass
+    * @param {number[]} nums
     * @return {number[]}
     */
-   sortColors(numbers) {
+   sortColors(nums) {
       let left = 0;
-      let right = numbers.length - 1;
+      let right = nums.length - 1;
       let index = 0;
 
       while (index <= right) {
-         if (numbers[index] === 0) {
-            [numbers[index], numbers[left]] = [numbers[left], numbers[index]];
+         if (nums[index] === 0) {
+            [nums[index], nums[left]] = [nums[left], nums[index]];
             left++;
-         }
-         else if (numbers[index] === 2) {
-            [numbers[index], numbers[right]] = [numbers[right], numbers[index]];
+         } else if (nums[index] === 2) {
+            [nums[index], nums[right]] = [nums[right], nums[index]];
             right--;
             index--;
          }
          index++;
       }
-      return numbers
+      return nums
    };
 }
 
 
-console.log(new Solution().sortColors([2, 0, 1]), [0, 1, 2])
-console.log(new Solution().sortColors([2, 0, 2, 1, 1, 0]), [0, 0, 1, 1, 2, 2])
+const sortColors = new Solution().sortColors;
+console.log(new Solution().sortColors([2, 0, 1]).toString() === [0, 1, 2].toString())
+console.log(new Solution().sortColors([2, 0, 2, 1, 1, 0]).toString() === [0, 0, 1, 1, 2, 2].toString())

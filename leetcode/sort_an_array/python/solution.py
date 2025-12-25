@@ -2,78 +2,96 @@ import heapq
 
 
 class Solution:
-    def sortArray(self, numbers: list[int]) -> list[int]:
+    def sortArray(self, nums: list[int]) -> list[int]:
         """
         Time complexity: O(nlogn)
         Auxiliary space complexity: O(n)
-        Tags: heap, sorting
+        Tags: 
+            A: sorting, build-in function, in-place method
         """
-        heapq.heapify(numbers)
-        sorted_numbers = []
-
-        while numbers:
-            sorted_numbers.append(heapq.heappop(numbers))
-
-        return sorted_numbers
+        nums.sort()
+        return nums
 
 
 class Solution:
-    def sortArray(self, numbers: list[int]) -> list[int]:
+    def sortArray(self, nums: list[int]) -> list[int]:
         """
         Time complexity: O(nlogn)
         Auxiliary space complexity: O(n)
-        Tags: merge sort, sorting
+        Tags: 
+            DS: heap
+            A: heap, sorting
+        """
+        heapq.heapify(nums)
+        sorted_nums = []
+        while nums:
+            sorted_nums.append(heapq.heappop(nums))
+        return sorted_nums
+
+
+class Solution:
+    def sortArray(self, nums: list[int]) -> list[int]:
+        """
+        Time complexity: O(nlogn)
+        Auxiliary space complexity: O(n)
+        Tags: 
+            DS: list
+            A: merge sort, sorting
         """
         def merge_sort(left, right):
-            if left == right:  # if pointers point only one number
-                return
 
+            if left == right:
+                return
             divide(left, right)
             merge(left, right)
 
         def divide(left, right):
-            middle = (left + right) // 2
-            merge_sort(left, middle)
-            merge_sort(middle + 1, right)
+            mid = (left + right) // 2
+            merge_sort(left, mid)
+            merge_sort(mid + 1, right)
 
         def merge(left, right):
-            middle = (left + right) // 2
-            left_chunk = numbers[left: middle + 1]  # clone left chunk
-            right_chunk = numbers[middle + 1: right + 1]  # colone right chunk
+            mid = (left + right) // 2
+            left_chunk = nums[left: mid + 1]
+            right_chunk = nums[mid + 1: right + 1]
             index = left
-            left, right = 0, 0
+            left = right = 0
 
-            while (left < len(left_chunk) and  # while numbers in left chunk and
-                   right < len(right_chunk)):  # numbers in right chunk
-                # if left number is less equal than right
-                if left_chunk[left] <= right_chunk[right]:
-                    numbers[index] = left_chunk[left]
+            while (
+                left < len(left_chunk) and
+                right < len(right_chunk)
+            ):
+                if left_chunk[left] < right_chunk[right]:
+                    nums[index] = left_chunk[left]
                     left += 1
                 else:
-                    numbers[index] = right_chunk[right]
+                    nums[index] = right_chunk[right]
                     right += 1
                 index += 1
 
-            while left < len(left_chunk):  # while still numbers in left chunk
-                numbers[index] = left_chunk[left]
+            while left < len(left_chunk):
+                nums[index] = left_chunk[left]
                 left += 1
                 index += 1
 
-            while right < len(right_chunk):  # while still numbers in right chunk
-                numbers[index] = right_chunk[right]
+            while right < len(right_chunk):
+                nums[index] = right_chunk[right]
                 right += 1
                 index += 1
 
-        merge_sort(0, len(numbers) - 1)
-        return numbers
+        merge_sort(0, len(nums))
+        return nums
 
 
 class Solution:
-    def sortArray(self, numbers: list[int]) -> list[int]:
+    def sortArray(self, nums: list[int]) -> list[int]:
         """
-        Time complexity: O(nlogn)
+        Time complexity: O(n2)
+            avg case: O(nlogn)
+            worst case: O(n2)
         Auxiliary space complexity: O(n)
-        Tags: quick sort, sorting, tle
+        Tags: 
+            A: quick sort, sorting, in-place method
         """
         def quick_sort(left: int, right: int) -> None:
             if left >= right:
@@ -84,63 +102,64 @@ class Solution:
             quick_sort(pivot + 1, right)
 
         def partition(left: int, end: int) -> int:
-            pivot = numbers[end]
-            left -= 1
+            pivot = nums[end]
 
-            for right in range(left + 1, end):
-                if numbers[right] < pivot:
+            for right in range(left, end):
+                if nums[right] < pivot:
+                    swap_nums(left, right)
                     left += 1
-                    swap_numbers(left, right)
 
-            swap_numbers(left + 1, end)
-            return left + 1
+            swap_nums(left, end)
+            return left
 
-        def swap_numbers(left: int, right: int) -> None:
-            numbers[left], numbers[right] = numbers[right], numbers[left]
+        def swap_nums(left: int, right: int) -> None:
+            nums[left], nums[right] = nums[right], nums[left]
 
-        quick_sort(0, len(numbers) - 1)
-        return numbers
+        quick_sort(0, len(nums) - 1)
+        return nums
 
 
 class Solution:
-    def sortArray(self, numbers: list[int]) -> None:
+    def sortArray(self, nums: list[int]) -> None:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(1)
-        Tags: insertion sort, sorting, tle
+        Tags: 
+            A: insertion sort, sorting
         """
         def insertionSort():
-            for right in range(1, len(numbers)):
-                key = numbers[right]
+            for right in range(1, len(nums)):
+                key = nums[right]
                 left = right - 1
 
                 # Move elements of arr[0..i-1], that are
                 # greater than key, to one position ahead
                 # of their current position
-                while (left >= 0 and numbers[left] > key):
-                    numbers[left + 1] = numbers[left]
+                while left > -1 and nums[left] > key:
+                    nums[left + 1] = nums[left]
                     left -= 1
-                numbers[left + 1] = key
+                nums[left + 1] = key
 
         insertionSort()
-        return numbers
+        return nums
 
 
 class Solution:
-    def sortArray(self, numbers: list[int]) -> list[int]:
+    def sortArray(self, nums: list[int]) -> list[int]:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(1)
-        Tags: bubble sort, sorting
+        Tags: 
+            A: bubble sort, sorting, in-place method
         """
         def bubble_sort():
-            for i in range(len(numbers) - 1):
-                for j in range(len(numbers) - 1 - i):
-                    if numbers[j] > numbers[j + 1]:
-                        numbers[j], numbers[j + 1] = numbers[j + 1], numbers[j]
-        
+            for left in range(len(nums)):
+                for right in range(left + 1, len(nums)):
+                    if nums[right] < nums[left]:
+                        nums[left], nums[right] = nums[right], nums[left]
+
         bubble_sort()
-        return numbers
+        return nums
 
 
 print(Solution().sortArray([4]) == [4])

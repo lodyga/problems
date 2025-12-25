@@ -1,26 +1,26 @@
 /**
  * Time complexity: 
- *    constructor: O(n)
- *    sumRange: O(1)
+ *     constructor: O(n)
+ *     sumRange: O(1)
  * Auxiliary space complexity: O(n)
- * Tags: prefix sum
+ * Tags:
+ *     DS: list
+ *     A: prefix sum
  */
 class NumArray {
-   constructor(numbers) {
-      this.prefixes = Array(numbers.length).fill(0);
-      for (let index = 1; index <= numbers.length; index++) {
-         this.prefixes[index] = this.prefixes[index - 1] + numbers[index - 1]
-      }
+   constructor(nums) {
+      this.prefix = [0];
+      for (const num of nums)
+         this.prefix.push(this.prefix[this.prefix.length - 1] + num);
    }
 
    /**
-    * 
     * @param {number} left 
     * @param {number} right 
     * @returns {number}
     */
    sumRange(left, right) {
-      return this.prefixes[right + 1] - this.prefixes[left]
+      return this.prefix[right + 1] - this.prefix[left]
    };
 }
 

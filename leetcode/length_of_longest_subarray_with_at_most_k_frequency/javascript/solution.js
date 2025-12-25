@@ -1,40 +1,40 @@
 class Solution {
    /**
     * Time complexity: O(n)
-    * Auxiliary space complexity: O(n)
+    * Auxiliary space complexity: O(k)
     * Tags: 
-    * @param {number[]} numbers
+    *     DS: hash map
+    *     A: sliding window
+    * @param {number[]} nums
     * @param {number} k
     * @return {number}
     */
-   maxSubarrayLength(numbers, k) {
+   maxSubarrayLength(nums, k) {
       const window = new Map();  // {number: frequency}
       let left = 0;
-      let subarrayLength = 0;
+      let subarrayLen = 0;
 
-      for (let right = 0; right < numbers.length; right++) {
-         const number = numbers[right];
+      for (let right = 0; right < nums.length; right++) {
+         const num = nums[right];
 
-         window.set(number, (window.get(number) || 0) + 1);
+         window.set(num, (window.get(num) || 0) + 1);
 
-         while (window.get(number) > k) {
-            const leftNumber = numbers[left];
-            window.set(leftNumber, window.get(leftNumber) - 1);
-            if (window.get(leftNumber) === 0)
-               window.delete(leftNumber);
+         while (window.get(num) > k) {
+            const leftNum = nums[left];
+            window.set(leftNum, window.get(leftNum) - 1);
+            if (window.get(leftNum) === 0)
+               window.delete(leftNum);
             left++;
          }
 
-         subarrayLength = Math.max(
-            subarrayLength,
-            right - left + 1);
+         subarrayLen = Math.max(subarrayLen, right - left + 1);
       }
-      return subarrayLength
+      return subarrayLen
    };
 }
+
+
 const maxSubarrayLength = new Solution().maxSubarrayLength;
-
-
 console.log(new Solution().maxSubarrayLength([1, 2, 3, 1, 2, 3, 1, 2], 2) === 6)
 console.log(new Solution().maxSubarrayLength([1, 2, 1, 2, 1, 2, 1, 2], 1) === 2)
 console.log(new Solution().maxSubarrayLength([5, 5, 5, 5, 5, 5, 5], 4) === 4)

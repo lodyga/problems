@@ -10,18 +10,24 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: linked list, hash map
+        Tags: 
+            DS: linked list, hash map
+            A: iteration
         """
-        node = head
-        original_to_copy = {None: None}
-        while node:
-            original_to_copy[node] = Node(node.val)
-            node = node.next
-            
+        # {original node: copy node, ...}
+        node_map = {None: None}
+
         node = head
         while node:
-            original_to_copy[node].next = original_to_copy[node.next]
-            original_to_copy[node].random = original_to_copy[node.random]
+            node_copy = Node(node.val)
+            node_map[node] = node_copy
             node = node.next
 
-        return original_to_copy[head]
+        node = head
+        while node:
+            node_copy = node_map[node]
+            node_copy.next = node_map[node.next]
+            node_copy.random = node_map[node.random]
+            node = node.next
+        
+        return node_map[head]

@@ -1,33 +1,29 @@
 class Solution:
-    def isIsomorphic(self, word_1: str, word_2: str) -> bool:
+    def isIsomorphic(self, text1: str, text2: str) -> bool:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: hash map
+        Tags: 
+            DS: hash map
+            A: iteration
         """
-        if len(word_1) != len(word_2):
+        if len(text1) != len(text2):
             return False
-        
-        letter_1_map_letter_2 = {}
-        letters_2 = set()
 
-        for index in range(len(word_1)):
-            letter_1 = word_1[index]
-            letter_2 = word_2[index]
+        def is_iso(text1, text2):
+            letter_map = {}
+            for letter1, letter2 in zip(text1, text2):
+                if letter1 in letter_map:
+                    if letter_map[letter1] != letter2:
+                        return False
+                else:
+                    letter_map[letter1] = letter2
+            return True
 
-            if word_1[index] in letter_1_map_letter_2:
-                if letter_1_map_letter_2[letter_1] != letter_2:
-                    return False
-            else:
-                if letter_2 in letters_2:
-                    return False
-                letter_1_map_letter_2[letter_1] = letter_2
-                letters_2.add(letter_2)
-
-        return True
+        return is_iso(text1, text2) and is_iso(text2, text1)
 
 
-print(Solution().isIsomorphic("egg", "add"), True)
-print(Solution().isIsomorphic("foo", "bar"), False)
-print(Solution().isIsomorphic("paper", "title"), True)
-print(Solution().isIsomorphic("badc", "baba"), False)
+print(Solution().isIsomorphic("egg", "add") == True)
+print(Solution().isIsomorphic("foo", "bar") == False)
+print(Solution().isIsomorphic("paper", "title") == True)
+print(Solution().isIsomorphic("badc", "baba") == False)

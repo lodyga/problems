@@ -1,22 +1,26 @@
 class Solution:
-    def sortedSquares(self, numbers: list[int]) -> list[int]:
+    def sortedSquares(self, nums: list[int]) -> list[int]:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: two pointers
+        Tags: 
+            DS: array
+            A: two pointers
         """
+        squares = [0] * len(nums)
         left = 0
-        right = len(numbers) - 1
-        squares = []
+        right = len(nums) - 1
 
         while left <= right:
-            left_number = numbers[left]
-            right_number = numbers[right]
-            if abs(left_number) > abs(right_number):
-                squares.append(left_number**2)
+            left_num = abs(nums[left])
+            right_num = abs(nums[right])
+            index = (len(nums) - 1 - right) + left
+
+            if left_num >= right_num:
+                squares[index] = left_num**2
                 left += 1
             else:
-                squares.append(right_number**2)
+                squares[index] = right_num**2
                 right -= 1
 
         squares.reverse()

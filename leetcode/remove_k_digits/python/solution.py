@@ -1,19 +1,58 @@
 class Solution:
+    def removeKdigits(self, nums: str, k: int) -> str:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(n)
+        Tags:
+            DS: monotonic increasing stack
+            A: greedy
+        Fails 35 / 43
+        """
+        if len(nums) == k:
+            return "0"
+
+        # monotonic increasing stack
+        stack = []
+        length = len(nums) - k
+
+        for index, num in enumerate(nums):
+            if not stack or stack[-1] <= num:
+                stack.append(num)
+                continue
+
+            while stack and stack[-1] >= num:
+                stack.pop()
+                k -= 1
+                if k == 0:
+                    while index < len(nums) and nums[index] == "0":
+                        index += 1
+                    res = "".join(stack) + nums[index:]
+                    return res if res else "0"
+            stack.append(num)
+
+        return "".join(stack[: length])
+
+
+class Solution:
     def removeKdigits(self, numbers: str, k: int) -> str:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: stack, monotonic stack
-        monotonic increasing stack
+        Tags:
+            DS: monotonic increasing stack
+            A: two pointers
         """
         if len(numbers) == k:
             return "0"
         
+        # monotonic increasing stack
         stack = []
 
         for number in numbers:
-            while (k and stack and
-                   stack[-1] > number):
+            while (
+                k and stack and
+                stack[-1] > number
+            ):
                 stack.pop()
                 k -= 1
             stack.append(number)
@@ -24,7 +63,7 @@ class Solution:
         while left < len(stack) and stack[left] == "0":
             left += 1
 
-        result = "".join(stack[left:right])
+        result = "".join(stack[left: right])
         return result if result else "0"
 
 

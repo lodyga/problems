@@ -1,6 +1,7 @@
 # Minimum Number of Flips to Make the Binary String Alternating
 https://leetcode.com/problems/minimum-number-of-flips-to-make-the-binary-string-alternating/description/
 
+
 You are given a binary string s. You are allowed to perform two types of operations on the string in any sequence:
 
 Type-1: Remove the character at the start of the string s and append it to the end of the string.
@@ -10,6 +11,7 @@ Return the minimum number of type-2 operations you need to perform such that s b
 The string is called alternating if no two adjacent characters are equal.
 
 For example, the strings "010" and "1010" are alternating, while the string "0100" is not.
+
  
 <b>Example 1:</b>\
 Input: s = "111000"\

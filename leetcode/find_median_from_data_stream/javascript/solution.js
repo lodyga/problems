@@ -69,7 +69,7 @@ const testInput = (operations, args) => {
       const argument = args[index];
 
       if (operation === 'MedianFinder') {
-         medianFinder = new MedianFinder();
+         medianFinder = new MedianFinder(...argument);
          output.push(null);
       } else if (operation === 'addNum') {
          medianFinder.addNum(...argument);

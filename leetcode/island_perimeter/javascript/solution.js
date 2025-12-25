@@ -1,103 +1,115 @@
+import { Queue } from "@datastructures-js/queue";
+
+
 class Solution {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(n2)
-    * Tags: dfs, matrix, graph, pure functional 
+    * Tags: 
+    *     DS: array (matrix)
+    *     A: dfs, recursion
     * @param {number[][]} grid
     * @return {number}
     */
    islandPerimeter(grid) {
-      function getPerimeter(row, col) {
+      const ROWS = grid.length;
+      const COLS = grid[0].length;
+      const DIRECTIONS = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+      const visited = Array.from({ length: ROWS }, () => Array(COLS).fill(false));
+
+      const dfs = (row, col) => {
          if (
-            row < 0 ||
-            col < 0 ||
-            row === rows ||
-            col === cols ||
+            row === -1 ||
+            col === -1 ||
+            row === ROWS ||
+            col === COLS ||
             grid[row][col] === 0
          ) {
             return 1
          }
-         else if (visitedCells.has(`${row},${col}`)) {
+         else if (visited[row][col]) {
             return 0
          }
 
-         visitedCells.add(`${row},${col}`)
+         visited[row][col] = true;
 
          let perimeter = 0;
-         for (const [r, c] of DIRECTIONS) {
-            perimeter += getPerimeter(row + r, col + c)
+         for (const [dr, dc] of DIRECTIONS) {
+            const [r, c] = [row + dr, col + dc];
+            perimeter += dfs(r, c)
          }
          return perimeter
-      }
+      };
 
-      const rows = grid.length;
-      const cols = grid[0].length;
-      const visitedCells = new Set();
-      const DIRECTIONS = [[-1, 0], [1, 0], [0, -1], [0, 1]];
-
-      for (let row = 0; row < rows; row++) {
-         for (let col = 0; col < cols; col++) {
+      for (let row = 0; row < ROWS; row++) {
+         for (let col = 0; col < COLS; col++) {
             if (grid[row][col]) {
-               return getPerimeter(row, col)
+               return dfs(row, col)
             }
          }
       }
+      return 0
    };
-}
-const islandPerimeter = new Solution().islandPerimeter;
 
-
-class Solution {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(n2)
-    * Tags: dfs, matrix, graph, outer variable
-    * Imperative style with side effects
+    * Tags: 
+    *     DS: array (matrix)
+    *     A: bfs, recursion
     * @param {number[][]} grid
     * @return {number}
     */
    islandPerimeter(grid) {
-      function getPerimeter(row, col) {
-         if (
-            row < 0 ||
-            col < 0 ||
-            row === rows ||
-            col === cols ||
-            grid[row][col] === 0
-         ) {
-            perimeter++;
-            return
-         }
-         else if (visitedCells.has(`${row},${col}`)) {
-            return
-         }
-
-         visitedCells.add(`${row},${col}`)
-
-         for (const [r, c] of DIRECTIONS) {
-            getPerimeter(row + r, col + c)
-         }
-      }
-
-      const rows = grid.length;
-      const cols = grid[0].length;
-      const visitedCells = new Set();
+      const ROWS = grid.length;
+      const COLS = grid[0].length;
       const DIRECTIONS = [[-1, 0], [1, 0], [0, -1], [0, 1]];
-      let perimeter = 0
+      const visited = Array.from({ length: ROWS }, () => Array(COLS).fill(false));
 
-      for (let row = 0; row < rows; row++) {
-         for (let col = 0; col < cols; col++) {
+      const bfs = (row, col) => {
+         let perimeter = 0;
+         const queue = new Queue([[row, col]]);
+         visited[row][col] = true;
+
+         while (queue.size()) {
+            const [row, col] = queue.pop();
+
+            for (const [dr, dc] of DIRECTIONS) {
+               const [r, c] = [row + dr, col + dc];
+
+               if (
+                  r === -1 ||
+                  c === -1 ||
+                  r === ROWS ||
+                  c === COLS ||
+                  grid[r][c] === 0
+               )
+                  perimeter++;
+
+               else if (grid[r][c] === 1 && !visited[r][c]) {
+                  queue.push([r, c]);
+                  visited[r][c] = true;
+               }
+            }
+         }
+         return perimeter
+      };
+
+      for (let row = 0; row < ROWS; row++) {
+         for (let col = 0; col < COLS; col++) {
             if (grid[row][col]) {
-               getPerimeter(row, col)
-               return perimeter
+               return bfs(row, col)
             }
          }
       }
+      return 0
    };
 }
+
+
 const islandPerimeter = new Solution().islandPerimeter;
-
-
-console.log(new Solution().islandPerimeter([[1]]), 4)
-console.log(new Solution().islandPerimeter([[1, 0]]), 4)
-console.log(new Solution().islandPerimeter([[0, 1, 0, 0], [1, 1, 1, 0], [0, 1, 0, 0], [1, 1, 0, 0]]), 16)
+console.log(new Solution().islandPerimeter([[0]]) === 0)
+console.log(new Solution().islandPerimeter([[1]]) === 4)
+console.log(new Solution().islandPerimeter([[1, 0]]) === 4)
+console.log(new Solution().islandPerimeter([[1, 1], [1, 1]]) === 8)
+console.log(new Solution().islandPerimeter([[0, 1, 0, 0], [1, 1, 1, 0], [0, 1, 0, 0], [1, 1, 0, 0]]) === 16)

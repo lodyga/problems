@@ -1,7 +1,9 @@
 # Subarray Product Less Than K
 https://leetcode.com/problems/subarray-product-less-than-k/description/
 
+
 Given an array of integers nums and an integer k, return the number of contiguous subarrays where the product of all the elements in the subarray is strictly less than k.
+
 
 <b>Example 1:</b>\
 Input: nums = [10,5,2,6], k = 100\

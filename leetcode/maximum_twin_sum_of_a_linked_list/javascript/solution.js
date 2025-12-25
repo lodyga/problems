@@ -1,4 +1,4 @@
-import {ListNode, buildLinkedList, getLinkedListValues} from '../../../../JS/linked-list-utils.js'
+import { ListNode, buildLinkedList, getLinkedListValues } from '../../../../JS/linked-list-utils.js'
 
 
 /**
@@ -16,30 +16,31 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: linked list
+    * Tags: 
+    *    DS: linked list
+    *    A: iteration
     * @param {ListNode} head
     * @return {ListNode}
     */
-   removeNodes(head) {
+   pairSum(head) {
+      // Find the beginning of the right portion,
+      // while reversing the left portion.
       let slow = head;
       let fast = head;
+      let prev = null;
       while (fast) {
-         slow = slow.next;
          fast = fast.next.next;
+         // The reverse
+         const slowNext = slow.next;
+         slow.next = prev;
+         prev = slow;
+         slow = slowNext;
       }
 
-      let node = slow;
-      let prev = null;
-      while (node) {
-         const nodeNext = node.next;
-         node.next = prev;
-         prev = node;
-         node = nodeNext;
-      }
-      
+      // Find max twin.
       let twinSum = 0;
-      let left = head;
-      let right = prev;
+      let left = prev;
+      let right = slow;
       while (right) {
          twinSum = Math.max(twinSum, left.val + right.val);
          left = left.next;
@@ -48,9 +49,9 @@ class Solution {
       return twinSum
    };
 }
-const removeNodes = new Solution().removeNodes;
 
 
-console.log(new Solution().removeNodes(buildLinkedList([5, 4, 2, 1])) === 6)
-console.log(new Solution().removeNodes(buildLinkedList([4, 2, 2, 3])) === 7)
-console.log(new Solution().removeNodes(buildLinkedList([1, 100000])) === 100001)
+const pairSum = new Solution().pairSum;
+console.log(new Solution().pairSum(buildLinkedList([5, 4, 2, 1])) === 6)
+console.log(new Solution().pairSum(buildLinkedList([4, 2, 2, 3])) === 7)
+console.log(new Solution().pairSum(buildLinkedList([1, 100000])) === 100001)

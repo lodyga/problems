@@ -3,11 +3,13 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: sliding window
+        Tags: 
+            DS: hash map
+            A: sliding window
         """
         left = 0
         window = {}
-        total_fruit = 0
+        total = 1
 
         for right, fruit in enumerate(fruits):
             window[fruit] = window.get(fruit, 0) + 1
@@ -15,13 +17,13 @@ class Solution:
             while len(window) > 2:
                 left_fruit = fruits[left]
                 window[left_fruit] -= 1
-                if window[fruits[left]] == 0:
-                    window.pop(fruits[left])
+                if window[left_fruit] == 0:
+                    window.pop(left_fruit)
                 left += 1
 
-            total_fruit = max(total_fruit, right - left + 1)
+            total = max(total, right - left + 1)
 
-        return total_fruit
+        return total
 
 
 print(Solution().totalFruit([1, 2, 1]) == 3)

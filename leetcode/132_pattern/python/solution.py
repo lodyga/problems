@@ -1,23 +1,25 @@
 class Solution:
-    def find132pattern(self, numbers: list[int]) -> bool:
+    def find132pattern(self, nums: list[int]) -> bool:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: stack, monotonic stack
-        monotonic decreasing stack
+        Tags:
+            DS: monotonic decreasing stack
+            A: iteration
         """
         stack = []
-        prev_min_number = numbers[0]
+        prev_min = nums[0]
 
-        for number in numbers[1:]:
-            while stack and stack[-1][1] <= number:
+        for num in nums:
+            while stack and stack[-1][0] <= num:
                 stack.pop()
-            
-            if stack and stack[-1][0] < number:
-                return True
 
-            stack.append((prev_min_number, number))
-            prev_min_number = min(prev_min_number, number)
+            if stack and stack[-1][1] < num:
+            # if stack and stack[-1][1] < num < stack[-1][0]:
+                return True
+            
+            stack.append((num, prev_min))
+            prev_min = min(prev_min, num)
 
         return False
 
@@ -32,35 +34,43 @@ print(Solution().find132pattern([1, 2, 3, 4, -4, -3, -5, -1]) == False)
 print(Solution().find132pattern([1, 3, -4, 2]) == True)
 
 
-# O(n2), O(1)
-# tle
 class Solution:
-    def find132pattern(self, numbers: list[int]) -> bool:
-        for right, number in enumerate(numbers[2:], 2):
-            middle = right - 1
+    def find132pattern(self, nums: list[int]) -> bool:
+        """
+        Time complexity: O(n2)
+        Auxiliary space complexity: O(1)
+        Tags:
+            A: brute-force
+        """
+        for right, num in enumerate(nums[2:], 2):
+            mid = right - 1
 
-            while middle > 0:
-                if numbers[middle] > number:
-                    left = middle - 1
+            while mid > 0:
+                if nums[mid] > num:
+                    left = mid - 1
 
                     while left >= 0:
-                        if numbers[left] < number:
+                        if nums[left] < num:
                             return True
 
                         left -= 1
 
-                middle -= 1
+                mid -= 1
 
         return False
 
 
-# O(n3), O(1)
-# brute force
 class Solution:
-    def find132pattern(self, numbers: list[int]) -> bool:
-        for i in range(len(numbers)):
-            for j in range(i + 1, len(numbers)):
-                for k in range(j + 1, len(numbers)):
-                    if numbers[i] < numbers[k] < numbers[j]:
+    def find132pattern(self, nums: list[int]) -> bool:
+        """
+        Time complexity: O(n3)
+        Auxiliary space complexity: O(1)
+        Tags:
+            A: brute-force
+        """
+        for i in range(len(nums)):
+            for j in range(i + 1, len(nums)):
+                for k in range(j + 1, len(nums)):
+                    if nums[i] < nums[k] < nums[j]:
                         return True
         return False

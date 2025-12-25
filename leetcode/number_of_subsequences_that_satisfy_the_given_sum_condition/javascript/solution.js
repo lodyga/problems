@@ -2,21 +2,79 @@ class Solution {
    /**
     * Time complexity: O(nlogn)
     * Auxiliary space complexity: O(n)
-    * Tags: two pointers
-    * @param {number[]} numbers
+    * Tags: 
+    *     A: binary search, sorting
+    * @param {number[]} nums
     * @param {number} target
     * @return {number}
     */
-   numSubseq(numbers, target) {
-      numbers.sort((a, b) => a - b);
-      let right = numbers.length - 1;
+   numSubseq(nums, target) {
+      const MOD = 10 ** 9 + 7
+      let counter = 0;
+      nums.sort((a, b) => a - b);
+
+      const getPowerOfTwo = [1];
+      for (let index = 1; index < nums.length; index++) {
+         getPowerOfTwo[index] = getPowerOfTwo[index - 1] * 2 % MOD;
+      }
+
+      // const PowerOfTwo = new Map([[0, 1]])
+      // const getPowerOfTwo = (index) => {
+      //    if (PowerOfTwo.has(index)) {
+      //       return PowerOfTwo.get(index)
+      //    }
+      //    const power = 2 * getPowerOfTwo(index - 1) % MOD;
+      //    PowerOfTwo[index] = power;
+      //    return power
+      // }
+
+
+      for (let index = 0; index < nums.length; index++) {
+         const num = nums[index];
+         if (nums[index] * 2 > target)
+            break
+
+         // Default value for maxLeft must be index in case of
+         // maxLeft = middle won't trigger
+         let maxLeft = index;
+         let left = index + 1;
+         let right = nums.length - 1;
+
+         while (left <= right) {
+            const middle = (left + right) >> 1;
+            const middleNum = nums[middle];
+
+            if (num + middleNum > target) {
+               right = middle - 1;
+            } else {
+               maxLeft = middle;
+               left = middle + 1;
+            }
+         }
+         // counter = (counter + getPowerOfTwo(maxLeft - index)) % MOD;
+         counter = (counter + getPowerOfTwo[maxLeft - index]) % MOD;
+      }
+      return counter
+   };
+
+   /**
+    * Time complexity: O(nlogn)
+    * Auxiliary space complexity: O(n)
+    * Tags: two pointers
+    * @param {number[]} nums
+    * @param {number} target
+    * @return {number}
+    */
+   numSubseq(nums, target) {
+      nums.sort((a, b) => a - b);
+      let right = nums.length - 1;
       let subsequenceCounter = 0;
       const mod = 10 ** 9 + 7;
 
-      for (let left = 0; left < numbers.length; left++) {
+      for (let left = 0; left < nums.length; left++) {
          while (
             left <= right &&
-            numbers[left] + numbers[right] > target
+            nums[left] + nums[right] > target
          ) right--;
          if (left <= right) {
             subsequenceCounter += Math.pow(2, right - left) % mod;
@@ -28,44 +86,7 @@ class Solution {
 }
 
 
-class Solution {
-   /**
-    * Time complexity: O(nlogn)
-    * Auxiliary space complexity: O(n)
-    * Tags: two pointers
-    * @param {number[]} numbers
-    * @param {number} target
-    * @return {number}
-    */
-   numSubseq(numbers, target) {
-      numbers.sort((a, b) => a - b);
-      let subsequenceCounter = 0;
-      let right = numbers.length - 1;
-      const mod = 10 ** 9 + 7;
-      const powersOfTwo = [1];
-
-      for (let index = 1; index < numbers.length; index++) {
-         powersOfTwo[index] = powersOfTwo[index - 1] * 2 % mod
-      }
-
-      for (let left = 0; left < numbers.length; left++) {
-         while (
-            left <= right &&
-            numbers[left] + numbers[right] > target
-         ) right--;
-
-         if (left <= right) {
-            subsequenceCounter += powersOfTwo[right - left];
-            subsequenceCounter %= mod;
-         }
-      }
-
-      return subsequenceCounter
-   };
-}
 const numSubseq = new Solution().numSubseq;
-
-
 console.log(new Solution().numSubseq([3, 5, 6, 7], 9) === 4)
 console.log(new Solution().numSubseq([3, 3, 6, 8], 10) === 6)
 console.log(new Solution().numSubseq([2, 3, 3, 4, 6, 7], 12) === 61)

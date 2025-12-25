@@ -3,24 +3,25 @@ class Solution:
         """
         Time complexity: O(logn)
         Auxiliary space complexity: O(1)
-        Tags: binary search
+        Tags: 
+            A: binary search
         """
-        left = 0
+        left = 1
         right = square
 
         while left <= right:
-            side = (left + right) // 2
-            current_square = side ** 2
+            middle = left + (right - left) // 2
+            curr_square = middle**2
 
-            if current_square == square:
+            if curr_square == square:
                 return True
-            elif current_square > square:
-                right = side - 1
+            elif curr_square > square:
+                right = middle - 1
             else:
-                left = side + 1
+                left = middle + 1
 
         return False
 
 
-print(Solution().isPerfectSquare(16), True)
-print(Solution().isPerfectSquare(14), False)
+print(Solution().isPerfectSquare(16) == True)
+print(Solution().isPerfectSquare(14) == False)

@@ -15,7 +15,9 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: linked list, two pointers, Floyd's tortoise and hare
+        Tags: 
+            DS: linked list
+            A: two pointers, Floyd's tortoise and hare
         """
         slow = head
         fast = head
@@ -23,9 +25,10 @@ class Solution:
         while fast and fast.next:
             slow = slow.next
             fast = fast.next.next
+            
             if slow == fast:
                 return True
-
+            
         return False
 
 

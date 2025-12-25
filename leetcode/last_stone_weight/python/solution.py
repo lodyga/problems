@@ -6,17 +6,19 @@ class Solution:
         """
         Time complexity: O(nlogn)
         Auxiliary space complexity: O(n)
-        Tags: heap
+        Tags: 
+            DS: heap
+            A: heap
         """
         stones = [-stone for stone in stones]
         heapq.heapify(stones)
 
         while len(stones) > 1:
-            smashed_stone = heapq.heappop(stones) - heapq.heappop(stones)
-            if smashed_stone:
-                heapq.heappush(stones, smashed_stone)
+            diff = heapq.heappop(stones) - heapq.heappop(stones)
+            if diff:
+                heapq.heappush(stones, diff)
 
-        return -heapq.heappop(stones) if stones else 0
+        return -stones[0] if stones else 0
 
 
 print(Solution().lastStoneWeight([1]) == 1)

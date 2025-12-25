@@ -1,33 +1,34 @@
 class Solution:
-    def minOperations(self, numbers: list[int], x: int) -> int:
+    def minOperations(self, nums: list[int], x: int) -> int:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: sliding window
+        Tags: 
+            A: sliding window
         """
-        target = sum(numbers) - x
-        if target < 0:
-            return -1
-        elif target == 0:
-            return len(numbers)
-        
-        left = 0
-        window_sum = 0
+        total = sum(nums)
+        if total == x:
+            return len(nums)
+        target = total - x
+        # find max window length
         window_length = 0
+        window = 0
+        left = 0
 
-        for right, number in enumerate(numbers):
-            window_sum += number
+        for right, num in enumerate(nums):
+            window += num
 
-            while left <= right and window_sum > target:
-                window_sum -= numbers[left]
+            while (
+                left < right and
+                window > target
+            ):
+                window -= nums[left]
                 left += 1
-            
-            if window_sum == target:
+
+            if window == target:
                 window_length = max(window_length, right - left + 1)
-        
-        return (len(numbers) - window_length 
-                if window_length 
-                else -1)
+
+        return len(nums) - window_length if window_length else -1
 
 
 print(Solution().minOperations([1, 1, 4, 2, 3], 5) == 2)

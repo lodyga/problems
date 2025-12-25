@@ -16,16 +16,19 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: linked list, dfs, recursion
+        Tags: 
+            DS: binary tree
+            A: dfs, recursion, pre-order traversal
         """
         def dfs(node):
             if node is None:
-                node = TreeNode(val)
-            elif node.val < val:
-                node.right = dfs(node.right)
-            else:
+                return TreeNode(val)
+            elif val < node.val:
                 node.left = dfs(node.left)
+            else:
+                node.right = dfs(node.right)
             return node
+
         return dfs(root)
 
 
@@ -34,13 +37,11 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: linked list, bfs, iteration
+        Tags: 
+            DS: binary tree
+            A: dfs, iteration, pre-order traversal
         """
-        if not root:
-            return TreeNode(val)
-        
         node = root
-
         while node:
             if node.val < val:
                 if node.right:
@@ -54,10 +55,12 @@ class Solution:
                 else:
                     node.left = TreeNode(val)
                     return root
+        
+        return TreeNode(val)
 
 
-print(get_tree_values(Solution().insertIntoBST(build_tree([]), 5)) == [5])
-print(get_tree_values(Solution().insertIntoBST(build_tree([5]), 6)) == [5, None, 6])
-print(get_tree_values(Solution().insertIntoBST(build_tree([4, 2, 7, 1, 3]), 5)) == [4, 2, 7, 1, 3, 5])
-print(get_tree_values(Solution().insertIntoBST(build_tree([40, 20, 60, 10, 30, 50, 70]), 25)) == [40, 20, 60, 10, 30, 50, 70, None, None, 25])
-print(get_tree_values(Solution().insertIntoBST(build_tree([4, 2, 7, 1, 3, None, None, None, None, None, None]), 5)) == [4, 2, 7, 1, 3, 5])
+print(is_same_tree(Solution().insertIntoBST(build_tree([]), 5), build_tree([5])))
+print(is_same_tree(Solution().insertIntoBST(build_tree([5]), 6), build_tree([5, None, 6])))
+print(is_same_tree(Solution().insertIntoBST(build_tree([4, 2, 7, 1, 3]), 5), build_tree([4, 2, 7, 1, 3, 5])))
+print(is_same_tree(Solution().insertIntoBST(build_tree([40, 20, 60, 10, 30, 50, 70]), 25), build_tree([40, 20, 60, 10, 30, 50, 70, None, None, 25])))
+print(is_same_tree(Solution().insertIntoBST(build_tree([4, 2, 7, 1, 3, None, None, None, None, None, None]), 5), build_tree([4, 2, 7, 1, 3, 5])))

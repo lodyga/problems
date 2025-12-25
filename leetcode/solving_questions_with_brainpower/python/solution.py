@@ -3,105 +3,26 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: dp, top-down with memoization as array
+        Tags: 
+            DS: array
+            A: top-down
         """
         # [question: maximum points cumulated]
-        memo = [None] * len(questions)
+        memo = [-1] * len(questions)
 
         def dfs(index):
             if index >= len(questions):
                 return 0
-            elif memo[index] is not None:
+            elif memo[index] != -1:
                 return memo[index]
-
-            points, brainpower = questions[index]
-
-            memo[index] = max(
-                # solve question
-                points + dfs(index + brainpower + 1),
-                # skip question
-                dfs(index + 1)
-            )
-
-            return memo[index]
-
-        return dfs(0)
-
-
-class Solution:
-    def mostPoints(self, questions: list[list[int]]) -> int:
-        """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(n)
-        Tags: dp, top-down with memoization as hash map
-        """
-        # [question: maximum points cumulated]
-        memo = {}
-
-        def dfs(index):
-            if index >= len(questions):
-                return 0
-            elif index in memo:
-                return memo[index]
-
-            points, brainpower = questions[index]
-            memo[index] = max(
-                # solve question
-                points + dfs(index + brainpower + 1),
-                # skip question
-                dfs(index + 1)
-            )
-
-            return memo[index]
-
-        return dfs(0)
-
-
-class Solution:
-    def mostPoints(self, questions: list[list[int]]) -> int:
-        """
-        Time complexity: O(2^n)
-        Auxiliary space complexity: O(n)
-        Tags: brute-force, tle
-        """
-        def dfs(index):
-            if index >= len(questions):
-                return 0
-
-            points, brainpower = questions[index]
-            memo = max(
-                # solve question
-                points + dfs(index + brainpower + 1),
-                # skip question
-                dfs(index + 1)
-            )
-
-            return memo
-
-        return dfs(0)
-
-
-class Solution:
-    def mostPoints(self, questions: list[list[int]]) -> int:
-        """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(n)
-        Tags: dp, bottom-up with tabulation as array
-        """
-        # [question: maximum points cumulated]
-        cache = [0] * (len(questions) + 1)
-        cache[-1] = 0
-
-        for index in reversed(range(len(questions))):
-            points, brainpower = questions[index]
-            skip = index + brainpower + 1
             
-            if skip < len(questions):
-                cache[index] = max(cache[index + 1], points + cache[skip])
-            else:
-                cache[index] = max(cache[index + 1], points + 0)
-
-        return cache[0]
+            points, cooldown = questions[index]
+            skip = dfs(index + 1)
+            solve = points + dfs(index + 1 + cooldown)
+            memo[index] = max(skip, solve)
+            return memo[index]
+        
+        return dfs(0)
 
 
 class Solution:
@@ -109,20 +30,20 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: dp, bottom-up with tabulation as hash map
+        Tags: 
+            DS: array
+            A: bottom-up
         """
         # [question: maximum points cumulated]
-        cache = {}
-        cache[len(questions)] = 0
+        cache = [0] * len(questions)
 
-        for index in reversed(range(len(questions))):
-            points, brainpower = questions[index]
-            skip = index + brainpower + 1
-            
-            if skip < len(questions):
-                cache[index] = max(cache[index + 1], points + cache[skip])
-            else:
-                cache[index] = max(cache[index + 1], points + 0)
+        for index in range(len(questions) - 1, -1, -1):
+            points, cooldown = questions[index]
+            skip = cache[index + 1] if index + 1 < len(questions) else 0
+            next_index = index + 1 + cooldown
+            solve = points + \
+                    (cache[next_index] if next_index < len(questions) else 0)
+            cache[index] = max(skip, solve)
 
         return cache[0]
 

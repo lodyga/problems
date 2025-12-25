@@ -1,4 +1,5 @@
 import { TreeNode, buildTree, getTreeValues } from '../../../../JS/binary-tree.js';
+import { Queue } from '@datastructures-js/queue';
 
 
 /**
@@ -22,57 +23,53 @@ class Solution {
     * @return {boolean}
     */
    hasPathSum(root, targetSum) {
-      return dfs(root, targetSum)
-
-      function dfs(node, targetSum) {
+      const dfs = (node, total) => {
          if (node === null) {
             return false
          } else if (
-            !node.left && !node.right
+            node.left === null && node.right === null
          ) {
-            return targetSum - node.val === 0
-         } else {
-            return (
-               dfs(node.left, targetSum - node.val) ||
-               dfs(node.right, targetSum - node.val)
-            )
+            return total + node.val === targetSum
          }
+         const left = dfs(node.left, total + node.val);
+         const right = dfs(node.right, total + node.val);
+         return left || right
       }
+      return dfs(root, 0)
    };
-}
 
-
-class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: binary tree, dfs, iteration, stack
+    * Tags: 
+    *     DS: binary tree, stack
+    *     A: dfs, iteration, pre-order traversal
     * @param {TreeNode} root
     * @param {number} targetSum
     * @return {boolean}
     */
    hasPathSum(root, targetSum) {
-      if (root === null) return false
-      const stack = [[root, targetSum]];
+      if (root === null)
+         return false
+      const stack = [[root, 0]];
 
       while (stack.length) {
-         const [node, targetSum] = stack.pop();
+         const [node, pathSum] = stack.pop();
 
          if (
-            !node.left &&
-            !node.right &&
-            targetSum - node.val === 0   
+            node.left === null &&
+            node.right === null &&
+            pathSum + node.val === targetSum
          ) return true
-         if (node.right) 
-            stack.push([node.right, targetSum - node.val]);
-         if (node.left) 
-            stack.push([node.left, targetSum - node.val]);
+         
+         if (node.right)
+            stack.push([node.right, pathSum + node.val]);
+         if (node.left)
+            stack.push([node.left, pathSum + node.val]);
       }
       return false
    };
-}
 
-class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
@@ -82,30 +79,31 @@ class Solution {
     * @return {boolean}
     */
    hasPathSum(root, targetSum) {
-      if (root === null) return false
-      const queue = new Queue([[root, targetSum]])
+      if (root === null) {
+         return false
+      }
+      const queue = new Queue([[root, 0]]);
 
-
-
-      while (!queue.isEmpty()) {
-         const [node, targetSum] = queue.pop();
+      while (queue.size()) {
+         const [node, pathSum] = queue.pop();
 
          if (
-            !node.left &&
-            !node.right &&
-            targetSum - node.val === 0   
+            node.left === null &&
+            node.right === null &&
+            pathSum + node.val === targetSum
          ) return true
-         if (node.right) 
-            queue.push([node.right, targetSum - node.val]);
-         if (node.left) 
-            queue.push([node.left, targetSum - node.val]);
+         
+         if (node.left)
+            queue.push([node.left, pathSum + node.val]);
+         if (node.right)
+            queue.push([node.right, pathSum + node.val]);
       }
       return false
    };
 }
+
+
 const hasPathSum = new Solution().hasPathSum;
-
-
 console.log(new Solution().hasPathSum(buildTree([5]), 5) === true)
 console.log(new Solution().hasPathSum(buildTree([5, 4, 3]), 8) === true)
 console.log(new Solution().hasPathSum(buildTree([5, 4, 3]), 11) === false)

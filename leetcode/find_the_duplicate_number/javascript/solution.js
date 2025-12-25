@@ -2,8 +2,8 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: two pointers
-    * Floyd's cycle finding algorithm or Hare-Tortoise algorithm        
+    * Tags: 
+    *    A: two pointers, Floyd's cycle finding algorithm or Hare-Tortoise algorithm        
     * @param {number[]} numbers
     * @return {number}
     */
@@ -29,6 +29,7 @@ class Solution {
 }
 
 
+const findDuplicate = new Solution().findDuplicate;
 console.log(new Solution().findDuplicate([1, 3, 4, 2, 2]) === 2)
 console.log(new Solution().findDuplicate([3, 1, 3, 4, 2]) === 3)
 console.log(new Solution().findDuplicate([3, 3, 3, 3, 3]) === 3)

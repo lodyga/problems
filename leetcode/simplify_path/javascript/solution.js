@@ -2,26 +2,28 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: stack
+    * Tags: 
+    *     DS: stack, string
+    *     A: iteration
     * @param {string} path
     * @return {string}
     */
    simplifyPath(path) {
       const stack = [];
-      let word = '';
+      let name = '';
 
       for (const char of path + '/') {
          if (char === '/') {
-            if (word === '..') {
+            if (name === '..') {
                if (stack.length) {
                   stack.pop();
                }
-            } else if (word && word !== '.') {
-               stack.push(word);
+            } else if (name && name !== '.') {
+               stack.push(name);
             }
-            word = '';
+            name = '';
          } else {
-            word += char;
+            name += char;
          }
       }
       return '/' + stack.join('/')
@@ -29,7 +31,7 @@ class Solution {
 }
 
 
-
+const simplifyPath = new Solution().simplifyPath;
 console.log(new Solution().simplifyPath('/home/') === '/home')
 console.log(new Solution().simplifyPath('/home//foo/') === '/home/foo')
 console.log(new Solution().simplifyPath('/home/user/Documents/../Pictures') === '/home/user/Pictures')

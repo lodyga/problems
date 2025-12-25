@@ -42,7 +42,7 @@ class Solution {
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
     * Tags: 
-    *     DS: binary tree, stack, list
+    *     DS: binary tree, stack
     *     A: dfs, iteration, pre-order traversal
     * @param {TreeNode} root
     * @return {number[]}

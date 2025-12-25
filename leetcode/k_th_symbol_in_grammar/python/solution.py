@@ -7,22 +7,22 @@ draft
 0110100110010110
 """
 
+
 class Solution:
     def kthGrammar(self, n: int, k: int) -> int:
         """
         Time complexity: O(2^n)
         Auxiliary space complexity: O(2^n)
-        Tags: brute-force, mle
+        Tags: 
+            A: brute-force
         """
-        level = [0]
-        for _ in range(n):
-            for index in range(len(level)):
-                if level[index] == 0:
-                    level.append(1)
-                else:
-                    level.append(0)
+        bins = [0]
 
-        return level[k - 1]
+        for _ in range(1, n):
+            for col in range(len(bins)):
+                bins.append(0 if bins[col] else 1)
+
+        return bins[k - 1]
 
 
 class Solution:
@@ -30,22 +30,24 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: binary search
+        Tags: 
+            A: binary search
         """
-        left = 1
-        right = 2**(n - 1)
-        val = 0
+        k -= 1
+        left = 0
+        right = 2**(n - 1) - 1
+        res = 0
 
         while left < right:
-            middle = (left + right) // 2
+            mid = (left + right) // 2
 
-            if k <= middle:
-                right = middle
+            if k <= mid:
+                right = mid
             else:
-                left = middle + 1
-                val = 0 if val else 1
-        
-        return val
+                res = 0 if res else 1
+                left = mid + 1
+
+        return res
 
 
 print(Solution().kthGrammar(1, 1) == 0)

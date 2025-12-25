@@ -1,41 +1,41 @@
 class Solution {
    /**
     * Time complexity: O(n*k)
-    *     n: word number
+    *     n: word count
     *     k: avg word length
     * Auxiliary space complexity: O(1)
-    * @param {string[]} worlList
+    * Tags:
+    *     DS: hash map, string
+    *     A: iteration
+    * @param {string[]} words
     * @param {string} order
     * @return {boolean}
     */
-   isAlienSorted(worlList, order) {
-      function areWordsInOrder(word1, word2) {
-         for (let index = 0; index < Math.min(word1.length, word2.length); index++) {
-            if (letterOrder.get(word1[index]) < letterOrder.get(word2[index]))
-               return true
-            else if (letterOrder.get(word1[index]) > letterOrder.get(word2[index]))
+   isAlienSorted(words, order) {
+      const letterIndex = new Map([...order].map((letter, index) => [letter, index]));
+
+      for (let index = 0; index < words.length - 1; index++) {
+         const word1 = words[index];
+         const word2 = words[index + 1];
+
+         for (let i2 = 0; i2 < word1.length; i2++) {
+            if (
+               i2 === word2.length ||
+               letterIndex.get(word1[i2]) > letterIndex.get(word2[i2])
+            )
                return false
+            else if (letterIndex.get(word1[i2]) < letterIndex.get(word2[i2]))
+               break
          }
-         return word1.length <= word2.length
-      }
-
-      const letterOrder = new Map(
-         order
-            .split('')
-            .map((value, index) => [value, index])
-         );
-
-      for (let index = 0; index < worlList.length - 1; index++) {
-         if (!areWordsInOrder(worlList[index], worlList[index + 1]))
-            return false
       }
       return true
    };
 }
+
+
 const isAlienSorted = new Solution().isAlienSorted;
-
-
-console.log(new Solution().isAlienSorted(['hello', 'leetcode'], 'hlabcdefgijkmnopqrstuvwxyz'), true)
-console.log(new Solution().isAlienSorted(['word', 'world', 'row'], 'worldabcefghijkmnpqstuvxyz'), false)
-console.log(new Solution().isAlienSorted(['apple', 'app'], 'abcdefghijklmnopqrstuvwxyz'), false)
-console.log(new Solution().isAlienSorted(["ubg", "kwh"], "qcipyamwvdjtesbghlorufnkzx"), true)
+console.log(new Solution().isAlienSorted(['hello', 'leetcode'], 'hlabcdefgijkmnopqrstuvwxyz') === true)
+console.log(new Solution().isAlienSorted(['word', 'world', 'row'], 'worldabcefghijkmnpqstuvxyz') === false)
+console.log(new Solution().isAlienSorted(['apple', 'app'], 'abcdefghijklmnopqrstuvwxyz') === false)
+console.log(new Solution().isAlienSorted(['ubg', 'kwh'], 'qcipyamwvdjtesbghlorufnkzx') === true)
+console.log(new Solution().isAlienSorted(['kuvp', 'q'], 'ngxlkthsjuoqcpavbfdermiywz') === true)

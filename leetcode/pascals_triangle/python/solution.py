@@ -1,19 +1,21 @@
 class Solution:
-    def generate(self, row_count: int) -> list[list[int]]:
+    def generate(self, ROW_COUNT: int) -> list[list[int]]:
         """
-        Time complexity: O(2)
-        Auxiliary space complexity: O(n)
+        Time complexity: O(n2)
+        Auxiliary space complexity: O(n2)
+        Tags: 
+            DS: list
+            A: bottom-up
         """
-        triangle = [[1]]
+        triangle = []
 
-        for row in range(row_count - 1):
-            last_row = triangle[-1]
-            new_row = [1] * (row + 2)
+        for index in range(1, ROW_COUNT + 1):
+            row = [1] * index
 
-            for col in range(row):
-                new_row[col + 1] = last_row[col] + last_row[col + 1]
+            for col in range(index - 2):
+                row[col + 1] = triangle[-1][col] + triangle[-1][col + 1]
 
-            triangle.append(new_row)
+            triangle.append(row)
 
         return triangle
 

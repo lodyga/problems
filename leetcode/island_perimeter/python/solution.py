@@ -1,75 +1,97 @@
+from collections import deque
+
+
 class Solution:
     def islandPerimeter(self, grid: list[list[int]]) -> int:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n2)
-        Tags: dfs, matrix, graph, pure functional
+        Tags: 
+            DS: array (matrix)
+            A: dfs, recursion
         """
-        rows = len(grid)
-        cols = len(grid[0])
-        visited_cells = set()
+        ROWS = len(grid)
+        COLS = len(grid[0])
         DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
+        visited = [[False] * COLS for _ in range(ROWS)]
 
-        def get_perimeter(row, col):
-            if (row < 0 or
-                col < 0 or
-                row == rows or
-                col == cols or
-                    grid[row][col] == 0):
+        def dfs(row, col):
+            if (
+                row == -1 or
+                col == -1 or
+                row == ROWS or
+                col == COLS or
+                grid[row][col] == 0
+            ):
                 return 1
-            elif (row, col) in visited_cells:
+            elif visited[row][col]:
                 return 0
 
-            visited_cells.add((row, col))
+            perimeter = 0
+            visited[row][col] = True
 
-            return sum(get_perimeter(row + r, col + c)
-                       for r, c in DIRECTIONS)
+            for dr, dc in DIRECTIONS:
+                (r, c) = (row + dr, col + dc)
+                perimeter += dfs(r, c)
 
-        for row in range(rows):
-            for col in range(cols):
+            return perimeter
+
+        for row in range(ROWS):
+            for col in range(COLS):
                 if grid[row][col]:
-                    return get_perimeter(row, col)
+                    return dfs(row, col)
+        return 0
 
 
 class Solution:
-    def __init__(self):
-        self.perimeter = 0
-
     def islandPerimeter(self, grid: list[list[int]]) -> int:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n2)
-        Tags: dfs, matrix, graph, class variable
-        Imperative style with side effects
+        Tags: 
+            DS: array (matrix)
+            A: bfs, recursion
         """
-        rows = len(grid)
-        cols = len(grid[0])
-        visited_cells = set()
+        ROWS = len(grid)
+        COLS = len(grid[0])
         DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
+        visited = [[False] * COLS for _ in range(ROWS)]
 
-        def get_perimeter(row, col):
-            if (row < 0 or
-                col < 0 or
-                row == rows or
-                col == cols or
-                    grid[row][col] == 0):
-                self.perimeter += 1
-                return
-            elif (row, col) in visited_cells:
-                return
+        def bfs(row, col):
+            perimeter = 0
+            queue = deque([(row, col)])
+            visited[row][col] = True
 
-            visited_cells.add((row, col))
-            
-            for r, c in DIRECTIONS:
-                get_perimeter(row + r, col + c) 
+            while queue:
+                row, col = queue.popleft()
 
-        for row in range(rows):
-            for col in range(cols):
+                for dr, dc in DIRECTIONS:
+                    (r, c) = (row + dr, col + dc)
+
+                    if (
+                        r == -1 or
+                        c == -1 or
+                        r == ROWS or
+                        c == COLS or
+                        grid[r][c] == 0
+                    ):
+                        perimeter += 1
+                    
+                    elif grid[r][c] == 1 and not visited[r][c]:
+                        queue.append((r, c))
+                        visited[r][c] = True
+
+            return perimeter
+
+        for row in range(ROWS):
+            for col in range(COLS):
                 if grid[row][col]:
-                    get_perimeter(row, col)
-                    return self.perimeter
+                    return bfs(row, col)
+        return 0
 
 
-print(Solution().islandPerimeter([[1]]), 4)
-print(Solution().islandPerimeter([[1, 0]]), 4)
-print(Solution().islandPerimeter([[0, 1, 0, 0], [1, 1, 1, 0], [0, 1, 0, 0], [1, 1, 0, 0]]), 16)
+print(Solution().islandPerimeter([[0]]) == 0)
+print(Solution().islandPerimeter([[1]]) == 4)
+print(Solution().islandPerimeter([[1, 0]]) == 4)
+print(Solution().islandPerimeter([[1, 1], [1, 1]]) == 8)
+print(Solution().islandPerimeter([[0, 1, 0, 0], [1, 1, 1, 0], [0, 1, 0, 0], [1, 1, 0, 0]]) == 16)

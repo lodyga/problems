@@ -2,74 +2,50 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: two pointers
-    * @param {number[]} numbers
+    * Tags: 
+    *     DS: array
+    *     A: two pointers, in-place method
+    * @param {number[]} nums
     * @param {number} k
     * @return {number[]}
     */
-   rotate(numbers, k) {
-      k %= numbers.length;
-      reverseInplace(0, numbers.length - 1);
-      reverseInplace(0, k - 1);
-      reverseInplace(k, numbers.length - 1);
-      return numbers
-
-      function reverseInplace(left, right) {
+   rotate(nums, k) {
+      const _reverse = (left, right) => {
          while (left < right) {
-            [numbers[left], numbers[right]] = [numbers[right], numbers[left]];
+            [nums[left], nums[right]] = [nums[right], nums[left]];
             left++;
             right--;
          }
-      }
+      };
+      k %= nums.length;
+      _reverse(0, nums.length - k - 1);
+      _reverse(nums.length - k, nums.length - 1);
+      _reverse(0, nums.length - 1);
+      return nums
    };
-}
 
-
-class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: build-in function
-    * @param {number[]} numbers
+    * Tags: 
+    *    DS: list
+    *    A: build-in function
+    * @param {number[]} nums
     * @param {number} k
     * @return {number[]}
     */
-   rotate(numbers, k) {
-      const index = numbers.length - k;
-      return [...numbers.slice(index,), ...numbers.slice(0, index + 1)]
+   rotate2(nums, k) {
+      const pivot = nums.length - k % nums.length;
+      return [...nums.slice(pivot,), ...nums.slice(0, pivot)]
    };
 }
 
 
-class Solution {
-   /**
-    * Time complexity: O(n)
-    * Auxiliary space complexity: O(n)
-    * Tags: iteration
-    * @param {number[]} numbers
-    * @param {number} k
-    * @return {number[]}
-    */
-   rotate(numbers, k) {
-      const numberCopy = Array(numbers.length);
-
-      for (let left = 0; left < numbers.length; left++) {
-         const right = (left + k) % numbers.length;
-         numberCopy[right] = numbers[left];
-      }
-      
-      numbers = numberCopy;
-      return numbers
-   };
-}
-
-
-console.log(new Solution().rotate([1, 2, 3, 4, 5], 2), [4, 5, 1, 2, 3])
-console.log(new Solution().rotate([1, 2, 3], 2), [2, 3, 1])
-console.log(new Solution().rotate([1, 2, 3, 4, 5, 6, 7], 3), [5, 6, 7, 1, 2, 3, 4])
-console.log(new Solution().rotate([1, 2, 3, 4, 5, 6], 1), [6, 1, 2, 3, 4, 5])
-console.log(new Solution().rotate([1, 2, 3, 4, 5, 6, 7], 3), [5, 6, 7, 1, 2, 3, 4])
-console.log(new Solution().rotate([-1, -100, 3, 99], 2), [3, 99, -1, -100])
-console.log(new Solution().rotate([-1], 2), [-1])
-console.log(new Solution().rotate([1, 2], 3), [2, 1])
-console.log(new Solution().rotate([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27], 38), [17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16])
+const rotate = new Solution().rotate;
+console.log(JSON.stringify(new Solution().rotate([1, 2, 3, 4, 5], 2)) === JSON.stringify([4, 5, 1, 2, 3]))
+console.log(JSON.stringify(new Solution().rotate([1, 2, 3], 2)) === JSON.stringify([2, 3, 1]))
+console.log(JSON.stringify(new Solution().rotate([1, 2, 3, 4, 5, 6, 7], 3)) === JSON.stringify([5, 6, 7, 1, 2, 3, 4]))
+console.log(JSON.stringify(new Solution().rotate([1, 2, 3, 4, 5, 6], 1)) === JSON.stringify([6, 1, 2, 3, 4, 5]))
+console.log(JSON.stringify(new Solution().rotate([1, 2, 3, 4, 5, 6, 7], 3)) === JSON.stringify([5, 6, 7, 1, 2, 3, 4]))
+console.log(JSON.stringify(new Solution().rotate([-1, -100, 3, 99], 2)) === JSON.stringify([3, 99, -1, -100]))
+console.log(JSON.stringify(new Solution().rotate([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27], 38)) === JSON.stringify([17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]))

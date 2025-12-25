@@ -1,46 +1,30 @@
 class Solution:
-    def numOfSubarrays(self, numbers: list[int], window_length: int, threshold: int) -> int:
+    def numOfSubarrays(self, nums: list[int], k: int, threshold: int) -> int:
         """
         Time complexity: O(n)
-        Auxiliary space complexity: O(n)
-        Tags: sliding window
-        """
-        window_sum = 0
-        subarray_counter = 0
-        left = 0
-        min_sum = threshold * window_length
-
-        for right, number in enumerate(numbers):
-            window_sum += number
-            
-            if right - left + 1 == window_length:
-        
-                if window_sum  >= min_sum:
-                    subarray_counter += 1
-
-                window_sum -= numbers[left]
-                left += 1
-            
-        return subarray_counter
-
-
-class Solution:
-    def numOfSubarrays(self, numbers: list[int], subarray_length: int, threshold: int) -> int:
-        """
-        Time complexity: O(n2)
         Auxiliary space complexity: O(1)
-        Tags: brute-force
+        Tags: 
+            A: sliding window
         """
-        subarray_counter = 0
-        min_sum = threshold * subarray_length
+        window = 0
+        left = 0
+        counter = 0
+        min_sum = threshold * k
 
-        for index in range(len(numbers) - subarray_length + 1):
-            subarray = numbers[index: index + subarray_length]
-            
-            if sum(subarray)  >= min_sum:
-                subarray_counter += 1
-        
-        return subarray_counter
+        for right, num in enumerate(nums):
+            window += num
+
+            if right + 1 < k:
+                continue
+
+            if window >= min_sum :
+                counter += 1
+
+            left_num = nums[left]
+            window -= left_num
+            left += 1
+
+        return counter
 
 
 print(Solution().numOfSubarrays([2, 2, 2, 2, 5, 5, 5, 8], 3, 4) == 3)

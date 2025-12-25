@@ -2,29 +2,49 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * @param {number[]} numbers
+    * Tags:
+    *     DS: array
+    *     A: iteration
+    * @param {number[]} nums
     * @return {number}
     */
-   maxProductDifference(numbers) {
-      let minNumber = numbers[0];
-      let almostMinNumber = numbers[0];
-      let maxNumber = numbers[0];
-      let almostMaxNumber = numbers[0];
+   maxProductDifference(nums) {
+      const mins = [10 ** 5, 10 ** 5];
+      const maxs = [0, 0];
 
-      for (const number of numbers) {
-         if (number > maxNumber)
-            [maxNumber, almostMaxNumber] = [number, maxNumber];
-         else if (number > almostMaxNumber)
-            almostMaxNumber = number;
-         else if (number < minNumber)
-            [minNumber, almostMinNumber] = [number, minNumber];
-         else if (number < almostMinNumber)
-            almostMinNumber = number;
+      for (const num of nums) {
+         if (num < mins[0]) {
+            mins[1] = mins[0];
+            mins[0] = num;
+         }
+         else if (num < mins[1])
+            mins[1] = num;
+
+         if (num > maxs[0]) {
+            maxs[1] = maxs[0];
+            maxs[0] = num;
+         }
+         else if (num > maxs[1])
+            maxs[1] = num;
       }
-      return maxNumber * almostMaxNumber - minNumber * almostMinNumber
+      return maxs[0] * maxs[1] - mins[0] * mins[1]
+   };
+
+   /**
+    * Time complexity: O(nlogn)
+    * Auxiliary space complexity: O(n)
+    * Tags:
+    *     A: sorting, build-in function
+    * @param {number[]} nums
+    * @return {number}
+    */
+   maxProductDifference(nums) {
+      nums.sort((a, b) => b - a);
+      return nums[0] * nums[1] - nums[nums.length - 1] * nums[nums.length - 2]
    };
 }
 
 
-console.log(new Solution().maxProductDifference([5, 6, 2, 7, 4]), 34)
-console.log(new Solution().maxProductDifference([4, 2, 5, 9, 7, 4, 8]), 64)
+const maxProductDifference = new Solution().maxProductDifference;
+console.log(new Solution().maxProductDifference([5, 6, 2, 7, 4]) === 34)
+console.log(new Solution().maxProductDifference([4, 2, 5, 9, 7, 4, 8]) === 64)

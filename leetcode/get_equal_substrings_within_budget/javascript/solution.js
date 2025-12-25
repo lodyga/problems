@@ -2,7 +2,8 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: sliding window
+    * Tags: 
+    *     A: sliding window
     * @param {string} text1
     * @param {string} text2
     * @param {number} maxCost
@@ -32,6 +33,7 @@ class Solution {
 }
 
 
+const equalSubstring = new Solution().equalSubstring;
 console.log(new Solution().equalSubstring('abcd', 'bcdf', 3) === 3)
 console.log(new Solution().equalSubstring('abcd', 'cdef', 3) === 1)
 console.log(new Solution().equalSubstring('abcd', 'acde', 0) === 1)

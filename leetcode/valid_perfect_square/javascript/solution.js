@@ -2,16 +2,17 @@ class Solution {
    /**
     * Time complexity: O(logn)
     * Auxiliary space complexity: O(1)
-    * Tags: binary search
+    * Tags: 
+    *     A: binary search
     * @param {number} square
     * @return {boolean}
     */
-   isPerfectSquare = function (square) {
+   isPerfectSquare(square) {
       let left = 0;
       let right = square;
 
       while (left <= right) {
-         const middle = (left + right) >> 1;
+         const middle = left + ((right - left) >> 1);
          const currentSquare = middle ** 2;
 
          if (currentSquare === square)
@@ -26,5 +27,6 @@ class Solution {
 }
 
 
-console.log(new Solution().isPerfectSquare(16), true)
-console.log(new Solution().isPerfectSquare(14), false)
+const isPerfectSquare = new Solution().isPerfectSquare;
+console.log(new Solution().isPerfectSquare(16) === true)
+console.log(new Solution().isPerfectSquare(14) === false)

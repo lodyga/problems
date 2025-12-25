@@ -1,4 +1,4 @@
-import {ListNode, buildLinkedList, getLinkedListValues} from '../../../../JS/linked-list-utils.js'
+import { ListNode, areLinkedListsEqueal, buildLinkedList, getLinkedListValues } from '../../../../JS/linked-list-utils.js'
 
 
 /**
@@ -16,7 +16,9 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: linked list
+    * Tags: 
+    *     DS: linked list
+    *     A: iteration
     * @param {ListNode} head
     * @param {number} val
     * @return {ListNode}
@@ -26,22 +28,18 @@ class Solution {
       let node = anchor;
 
       while (node.next) {
-         while (
-            node.next && 
-            node.next.val === val
-         ) {
+         if (node.next.val === val) {
             node.next = node.next.next;
-         }
-         if (node.next) {
+         } else {
             node = node.next;
          }
       }
       return anchor.next
    };
 }
+
+
 const removeElements = new Solution().removeElements;
-
-
-console.log(getLinkedListValues(new Solution().removeElements(buildLinkedList([1, 2, 6, 3, 4, 5, 6]), 6)), [1, 2, 3, 4, 5])
-console.log(getLinkedListValues(new Solution().removeElements(buildLinkedList([]), 1)), [])
-console.log(getLinkedListValues(new Solution().removeElements(buildLinkedList([7, 7, 7, 7]), 7)), [])
+console.log(areLinkedListsEqueal(new Solution().removeElements(buildLinkedList([1, 2, 6, 3, 4, 5, 6]), 6), buildLinkedList([1, 2, 3, 4, 5])))
+console.log(areLinkedListsEqueal(new Solution().removeElements(buildLinkedList([]), 1), buildLinkedList([])))
+console.log(areLinkedListsEqueal(new Solution().removeElements(buildLinkedList([7, 7, 7, 7]), 7), buildLinkedList([])))

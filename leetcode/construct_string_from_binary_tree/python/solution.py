@@ -16,28 +16,61 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: binary tree, dfs, recursion
+        Tags: 
+            DS: binary tree
+            A: dfs, recursion, pre-order traversal
         """
-        values = []
+        parts = []
 
         def dfs(node):
             if node is None:
                 return
 
-            values.append(str(node.val))
+            parts.append(str(node.val))
+
             if node.left or node.right:
-                values.append("(")
+                parts.append("(")
                 dfs(node.left)
-                values.append(")")
+                parts.append(")")
+
             if node.right:
-                values.append("(")
+                parts.append("(")
                 dfs(node.right)
-                values.append(")")
+                parts.append(")")
 
         dfs(root)
-        return "".join(values)
+        return "".join(parts)
+
+
+class Solution:
+    def tree2str(self, root: TreeNode) -> str:
+        """
+        Time complexity: O(n2)
+        Auxiliary space complexity: O(n)
+        Tags: 
+            DS: binary tree
+            A: dfs, recursion, pre-order traversal
+        """
+        def dfs(node):
+            if node is None:
+                return ""
+
+            res = str(node.val)
+
+            if node.left or node.right:
+                res += "(" + dfs(node.left) + ")"
+
+            if node.right:
+                res += "(" + dfs(node.right) + ")"
+
+            return res
+
+        return dfs(root)
 
 
 print(Solution().tree2str(build_tree([1])) == "1")
+print(Solution().tree2str(build_tree([1, 2])) == "1(2)")
+print(Solution().tree2str(build_tree([1, None, 3])) == "1()(3)")
+print(Solution().tree2str(build_tree([1, 2, 3])) == "1(2)(3)")
 print(Solution().tree2str(build_tree([1, 2, 3, 4])) == "1(2(4))(3)")
 print(Solution().tree2str(build_tree([1, 2, 3, None, 4])) == "1(2()(4))(3)")

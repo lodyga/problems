@@ -1,49 +1,61 @@
 class Solution:
-    def minOperations(self, numbers: list[int]) -> int:
+    def minOperations(self, nums: list[int]) -> int:
         """
         Time complexity: O(nlogn)
         Auxiliary space complexity: O(n)
-        Tags: sliding window
+        Tags: 
+            A: sliding window, sorting
         """
-        min_operations = len(numbers) - 1
-        unique_sorted_numbers = sorted(set(numbers))
+        uniq_sort_nums = sorted(set(nums))
+        # matching num counter
+        max_window = 0
         right = 0
+        num_len = len(nums)
 
-        for left, left_number in enumerate(unique_sorted_numbers):
+        for left, num in enumerate(uniq_sort_nums):
             while (
-                right < len(unique_sorted_numbers) and
-                left_number + len(numbers) > unique_sorted_numbers[right]
+                right < len(uniq_sort_nums) and
+                num + num_len - 1 >= uniq_sort_nums[right]
             ):
                 right += 1
 
             window = right - left
-            operations = len(numbers) - window
-            min_operations = min(min_operations, operations)
+            max_window = max(max_window, window)
 
-        return min_operations
+        return num_len - max_window
 
-    def minOperations(self, numbers: list[int]) -> int:
+
+class Solution2:
+    def minOperations(self, nums: list[int]) -> int:
         """
-        Time complexity: O(n2)
+        Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: brute-force, tle
+        Tags: 
+            DS: array, hash set
+            A: brute-force, sliding window
         """
-        number_set = set(numbers)
-        numbers.sort()
-        min_operations = len(numbers) - 1
+        num_set = set(nums)
+        num_range = list(range(min(nums), max(nums) + 1))
+        # missing num counter / min operations counter
+        window = 0
+        min_window = len(nums)
+        left = 0
 
-        for number in number_set:
-            operations = 0
+        for right, num in enumerate(num_range):
+            if num not in num_set:
+                window += 1
 
-            for diff in range(1, len(numbers)):
-                if number + diff not in number_set:
-                    operations += 1
+            if right - left + 1 < len(nums):
+                continue
 
-            min_operations = min(min_operations, operations)
-            if min_operations == 0:
-                return 0
+            min_window = min(min_window, window)
 
-        return min_operations
+            left_num = num_range[left]
+            if left_num not in num_set:
+                window -= 1
+            left += 1
+
+        return min_window
 
 
 print(Solution().minOperations([2, 3, 5, 9]) == 1)

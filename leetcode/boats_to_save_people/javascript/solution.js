@@ -2,7 +2,8 @@ class Solution {
    /**
     * Time complexity: O(nlogn)
     * Auxiliary space complexity: O(n)
-    * Tags: two pointers
+    * Tags: 
+    *    A: two pointers
     * @param {number[]} people
     * @param {number} limit
     * @return {number}
@@ -21,9 +22,9 @@ class Solution {
       return boatCounter
    };
 }
+
+
 const numRescueBoats = new Solution().numRescueBoats;
-
-
 console.log(new Solution().numRescueBoats([1, 2], 3) === 1)
 console.log(new Solution().numRescueBoats([3, 2, 2, 1], 3) === 3)
 console.log(new Solution().numRescueBoats([3, 5, 3, 4], 5) === 4)

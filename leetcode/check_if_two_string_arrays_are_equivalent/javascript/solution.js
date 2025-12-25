@@ -1,61 +1,63 @@
 class Solution {
    /**
-    * Time complexity: O(n)
+    * Time complexity: O(n+m)
     * Auxiliary space complexity: O(1)
-    * Tags: two pointers
-    * @param {string[]} word1List
-    * @param {string[]} word2List
+    * Tags: 
+    *    A: two pointers
+    * @param {string[]} words1
+    * @param {string[]} words2
     * @return {boolean}
     */
-   arrayStringsAreEqual(word1List, word2List) {
-      function getLetterOrEnd(letter, word, wordList, isEnd) {
-         if (letter === wordList[word].length) {
-            word++;
-            letter = 0;
-            if (word == wordList.length)
-               return [null, null, true]
-         }
-         return [letter, word, isEnd]
-      };
-      
-      let [letter1, letter2] = [0, 0];
-      let [word1, word2] = [0, 0];
-      let [isEnd1, isEnd2] = [false, false];
+   arrayStringsAreEqual(words1, words2) {
+      let r1 = 0;
+      let c1 = 0;
+      let r2 = 0;
+      let c2 = 0;
 
-      while (true) {
-         if (word1List[word1][letter1] != word2List[word2][letter2])
+      while (
+         r1 < words1.length &&
+         r2 < words2.length
+      ) {
+         const letter1 = words1[r1][c1];
+         const letter2 = words2[r2][c2];
+
+         if (letter1 !== letter2) {
             return false
-
-         letter1++;
-         letter2++;
-         [letter1, word1, isEnd1] = getLetterOrEnd(letter1, word1, word1List, isEnd1);
-         [letter2, word2, isEnd2] = getLetterOrEnd(letter2, word2, word2List, isEnd2);
-         
-         if (isEnd1 || isEnd2)
-            return isEnd1 === isEnd2
+         }
+         c1++;
+         if (c1 === words1[r1].length) {
+            c1 = 0;
+            r1++;
+         }
+         c2++;
+         if (c2 === words2[r2].length) {
+            c2 = 0;
+            r2++;
+         }
       }
+      return (
+         (r1 === words1.length && c1 === 0) &&
+         (r2 === words2.length && c2 === 0)
+      )
    };
-}
-const arrayStringsAreEqual = new Solution().arrayStringsAreEqual;
 
-
-class Solution {
    /**
     * Time complexity: O(m+n)
     * Auxiliary space complexity: O(m+n)
-    * Tags: build-in function
-    * @param {string[]} word1List
-    * @param {string[]} word2List
+    * Tags: 
+    *    A: build-in function
+    * @param {string[]} words1
+    * @param {string[]} words2
     * @return {boolean}
     */
-   arrayStringsAreEqual(word1List, word2List) {
-      return word1List.join('') === word2List.join('')
+   arrayStringsAreEqual(words1, words2) {
+      return words1.join('') === words2.join('')
    };
 }
+
+
 const arrayStringsAreEqual = new Solution().arrayStringsAreEqual;
-
-
-console.log(new Solution().arrayStringsAreEqual(['ab', 'c'], ['a', 'bc']), true)
-console.log(new Solution().arrayStringsAreEqual(['a', 'cb'], ['ab', 'c']), false)
-console.log(new Solution().arrayStringsAreEqual(['abc', 'd', 'defg'], ['abcddefg']), true)
-console.log(new Solution().arrayStringsAreEqual(['abc', 'd', 'defg'], ['abcddef']), false)
+console.log(new Solution().arrayStringsAreEqual(['ab', 'c'], ['a', 'bc']) === true)
+console.log(new Solution().arrayStringsAreEqual(['a', 'cb'], ['ab', 'c']) === false)
+console.log(new Solution().arrayStringsAreEqual(['abc', 'd', 'defg'], ['abcddefg']) === true)
+console.log(new Solution().arrayStringsAreEqual(['abc', 'd', 'defg'], ['abcddef']) === false)

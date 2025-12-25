@@ -6,37 +6,43 @@ class Solution:
     def leastInterval(self, tasks: list[str], cooldown: int) -> int:
         """
         Time complexity: O(n)
-            O(nlogn) -> log26 => const ->  O(n)
+            O(nlogk) -> O(nlog26) -> O(n)
+            n: task count
+            k: letter count
         Auxiliary space complexity: O(1)
-            O(26) -> O(1)
-        Tags: heap, queue
+            O(k)
+        Tags: 
+            DS: heap, queue
+            A: iteration
         """
-        task_frequency = {}  # {task: frquency, ...}  O(26)
+        task_heap = []
+        task_freaq = {}
         for task in tasks:
-            task_frequency[task] = task_frequency.get(task, 0) + 1
+            task_freaq[task] = task_freaq.get(task, 0) + 1
 
-        # [-frequency1, ...]  O(26)
-        task_heap = [-frequency
-                     for frequency in task_frequency.values()]
-        heapq.heapify(task_heap)
+        task_queue = deque()
+        for freq in task_freaq.values():
+            task_queue.append((0, -freq))
 
-        task_length = 0
-        queue = deque()  # deque((cooldown, -frequency), ...) O(26)
-        while task_heap or queue:  # O(n)
-            while queue and queue[0][0] == task_length:
-                _, frequency = queue.popleft()
-                heapq.heappush(task_heap, frequency)  # O(26)
+        time = 0
+        while task_queue or task_heap:
+            time += 1
 
-            if task_heap:
-                frequency = heapq.heappop(task_heap) + 1
-                if frequency:
-                    queue.append((task_length + cooldown + 1, frequency))
+            while task_queue and task_queue[0][0] < time:
+                _, freq = task_queue.popleft()
+                heapq.heappush(task_heap, freq)
 
-            task_length += 1
+            if not task_heap:
+                continue
 
-        return task_length
+            freq = heapq.heappop(task_heap) + 1
+            if freq:
+                task_queue.append((time + cooldown, freq))
+
+        return time
 
 
-print(Solution().leastInterval(["A", "A", "A", "B", "B", "B"], 2) == 8)  # A -> B -> idle -> A -> B -> idle -> A -> B
-print(Solution().leastInterval(["A", "C", "A", "B", "D", "B"], 1) == 6)  # A -> B -> C -> D -> A -> B
-print(Solution().leastInterval(["A", "A", "A", "B", "B", "B"], 3) == 10)  # A -> B -> idle -> idle -> A -> B -> idle -> idle -> A -> B
+print(Solution().leastInterval(["A", "A", "A", "B", "B", "B"], 2) == 8)
+print(Solution().leastInterval(["A", "C", "A", "B", "D", "B"], 1) == 6)
+print(Solution().leastInterval(["A", "A", "A", "B", "B", "B"], 3) == 10)
+print(Solution().leastInterval(["B", "C", "D", "A", "A", "A", "A", "G"], 1) == 8)

@@ -1,24 +1,25 @@
 class Solution:
-    def isMonotonic(self, numbers) -> bool:
+    def isMonotonic(self, nums) -> bool:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
+        Tags:
+            A: iteration
         """
-        def is_increasing():
-            for index in range(len(numbers) - 1):
-                if numbers[index + 1] < numbers[index]:
-                    return False
-            return True
+        prev = nums[0]
+        is_increasing = True
+        is_decreasing = True
 
-        def is_decreasing():
-            for index in range(len(numbers) - 1):
-                if numbers[index + 1] > numbers[index]:
-                    return False
-            return True
+        for num in nums:
+            if prev > num:
+                is_decreasing = False
+            if prev < num:
+                is_increasing = False
+            prev = num
 
-        return is_increasing() or is_decreasing()
+        return is_increasing or is_decreasing
 
 
-print(Solution().isMonotonic([1, 2, 2, 3]), True)
-print(Solution().isMonotonic([6, 5, 4, 4]), True)
-print(Solution().isMonotonic([1, 3, 2]), False)
+print(Solution().isMonotonic([1, 2, 2, 3]) == True)
+print(Solution().isMonotonic([6, 5, 4, 4]) == True)
+print(Solution().isMonotonic([1, 3, 2]) == False)

@@ -2,7 +2,9 @@ class Solution {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(1)
-    * Tags: dp, bottom-up, in-place
+    * Tags: 
+    *     DS: array
+    *     A: bottom-up, in-place
     * @param {number[][]} triangle
     * @return {number}
     */
@@ -18,9 +20,9 @@ class Solution {
       return triangle[0][0]
    };
 }
+
+
 const minimumTotal = new Solution().minimumTotal;
-
-
 console.log(new Solution().minimumTotal([[2]]) === 2)
 console.log(new Solution().minimumTotal([[2], [3, 4], [6, 5, 7], [4, 1, 8, 3]]) === 11)
 console.log(new Solution().minimumTotal([[-10]]) === -10)

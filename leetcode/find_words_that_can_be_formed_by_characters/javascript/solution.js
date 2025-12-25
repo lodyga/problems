@@ -1,43 +1,44 @@
 class Solution {
    /**
     * Time complexity: O(n2)
+    *     O(w * c):
+    *     w: word count
+    *     c: avg char count
     * Auxiliary space complexity: O(n)
-    * Tags: hash map
+    * Tags: 
+    *     DS: array
+    *     A: iteration
     * @param {string[]} words
     * @param {string} chars
     * @return {number}
     */
    countCharacters(words, chars) {
-      const charLeterFrequency = new Map();
-      let lengthsSum = 0;
+      let counter = 0;
 
-      for (const char of chars) {
-         charLeterFrequency.set(char, (charLeterFrequency.get(char) || 0) + 1);
+      const charFreq = Array(26).fill(0);
+      for (let index = 0; index < chars.length; index++) {
+         const pos = chars.charCodeAt(index) - 'a'.charCodeAt(0);
+         charFreq[pos]++;
       }
+
       for (const word of words) {
-         if (isWordGood(word))
-            lengthsSum += word.length;
-      }
-      return lengthsSum
+         const charFreqCopy = [...charFreq];
+         counter += word.length;
 
-      function isWordGood(word) {
-         const charLeterFrequencyCopy = new Map(charLeterFrequency);
-
-         for (const letter of word) {
-            if (
-               !charLeterFrequencyCopy.has(letter) ||
-               charLeterFrequencyCopy.get(letter) === 0
-            ) {
-               return false
+         for (let index = 0; index < word.length; index++) {
+            const pos = word.charCodeAt(index) - 'a'.charCodeAt(0);
+            if (charFreqCopy[pos] === 0) {
+               counter -= word.length;
+               break
             }
-            charLeterFrequencyCopy.set(letter, charLeterFrequencyCopy.get(letter) - 1);
+            charFreqCopy[pos]--;
          }
-         return true
-      };
+      }
+      return counter
    };
 }
+
+
 const countCharacters = new Solution().countCharacters;
-
-
-console.log(new Solution().countCharacters(['cat', 'bt', 'hat', 'tree'], 'atach'), 6)
-console.log(new Solution().countCharacters(['hello', 'world', 'leetcode'], 'welldonehoneyr'), 10)
+console.log(new Solution().countCharacters(['cat', 'bt', 'hat', 'tree'], 'atach') === 6)
+console.log(new Solution().countCharacters(['hello', 'world', 'leetcode'], 'welldonehoneyr') === 10)

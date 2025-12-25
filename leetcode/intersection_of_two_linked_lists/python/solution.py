@@ -11,11 +11,35 @@ from linked_list_utils import *
 
 
 class Solution:
-    def getIntersectionNode(self, head_a: ListNode, head_b: ListNode) -> Optional[ListNode]:
+    def getIntersectionNode(self, head_a: ListNode, head_b: ListNode) -> ListNode:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: linked list
+        Tags: 
+            DS: linked list
+            A: two pointers
+        """
+        if head_a and head_b is None:
+            return head_a and head_b
+        
+        node_a = head_a
+        node_b = head_b
+        
+        while node_a != node_b:
+            node_a = node_a.next if node_a else head_b
+            node_b = node_b.next if node_b else head_a
+        
+        return node_a
+
+
+class Solution:
+    def getIntersectionNode(self, head_a: ListNode, head_b: ListNode) -> ListNode:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(1)
+        Tags: 
+            DS: linked list
+            A: iteration
         """
         def get_length(node):
             list_length = 0            
@@ -45,20 +69,3 @@ class Solution:
                 node_b = node_b.next
 
         return None
-
-
-class Solution:
-    def getIntersectionNode(self, head_a: ListNode, head_b: ListNode) -> Optional[ListNode]:        
-        """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(1)
-        Tags: linked list
-        """
-        node_a = head_a
-        node_b = head_b
-
-        while node_a != node_b:
-            node_a = node_a.next if node_a else head_b
-            node_b = node_b.next if node_b else head_a
-        else:
-            return node_a

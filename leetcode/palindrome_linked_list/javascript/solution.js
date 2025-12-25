@@ -1,4 +1,4 @@
-import {ListNode, buildLinkedList, getLinkedListValues} from '../../../../JS/linked-list-utils.js'
+import { ListNode, buildLinkedList, getLinkedListValues } from '../../../../JS/linked-list-utils.js'
 
 
 /**
@@ -16,31 +16,28 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: linked list
+    * Tags: 
+    *     DS: linked list
+    *     A: iteration
     * @param {ListNode} head
     * @return {boolean}
     */
    isPalindrome(head) {
-      let node = head;
-      let palindrmeLength = 0;
+      if (head.next === null)
+         return true
+      let slow = head;
+      let fast = head.next;
 
-      while (node) {
-         palindrmeLength++;
-         node = node.next;
-      }
-      let middle = palindrmeLength >> 1;
-
-      // find the end of the left potrion
-      node = head;
-      for (let index = 0; index < middle; index++) {
-         node = node.next;
-      }
-      // if palindrome lenght is odd, skipp the middle node
-      if (palindrmeLength % 2) {
-         node = node.next;
+      // Find the end of the left potrion.
+      while (fast.next) {
+         slow = slow.next;
+         fast = fast.next;
+         if (fast.next)
+            fast = fast.next;
       }
 
-      // reverse the right portion
+      // Reverse the right portion.
+      let node = slow.next;
       let prev = null;
       while (node) {
          const nodeNext = node.next;
@@ -49,23 +46,25 @@ class Solution {
          node = nodeNext;
       }
 
-      // compare both portions
-      let leftNode = head;
-      let rightNode = prev;
-      while (rightNode) {
-         if (leftNode.val != rightNode.val) {
+      // Compare the left and right portions.
+      let left = head;
+      let right = prev;
+      while (right) {
+         if (left.val != right.val) {
             return false
          }
-         leftNode = leftNode.next;
-         rightNode = rightNode.next;
+         left = left.next;
+         right = right.next;
       }
       return true
    }
 }
+
+
 const isPalindrome = new Solution().isPalindrome;
-
-
-console.log(new Solution().isPalindrome(buildLinkedList([5, 5])), true)
-console.log(new Solution().isPalindrome(buildLinkedList([4, 5])), false)
-console.log(new Solution().isPalindrome(buildLinkedList([1, 2, 2, 1])), true)
-console.log(new Solution().isPalindrome(buildLinkedList([1, 2, 1])), true)
+console.log(new Solution().isPalindrome(buildLinkedList([5, 5])) === true)
+console.log(new Solution().isPalindrome(buildLinkedList([4, 5])) === false)
+console.log(new Solution().isPalindrome(buildLinkedList([1, 2, 2, 1])) === true)
+console.log(new Solution().isPalindrome(buildLinkedList([1, 2, 1])) === true)
+console.log(new Solution().isPalindrome(buildLinkedList([1, 2, 3, 3, 2, 1])) === true)
+console.log(new Solution().isPalindrome(buildLinkedList([5])) === true)

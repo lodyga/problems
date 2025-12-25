@@ -1,4 +1,5 @@
 from binary_tree_utils import *
+from collections import deque
 
 
 # class TreeNode:
@@ -12,79 +13,84 @@ from binary_tree_utils import *
 
 
 class Solution:
-    def hasPathSum(self, root: TreeNode, targetSum: int) -> bool:
+    def hasPathSum(self, root: TreeNode, target_sum: int) -> bool:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: binary tree, dfs, recursion
+        Tags: 
+            DS: binary tree
+            A: dfs, recursion, pre-order traversal
         """
-        def dfs(node, targetSum):
+        def dfs(node, path_sum):
             if node is None:
                 return False
-            elif not node.left and not node.right:
-                return targetSum - node.val == 0
-            else:
-                return (
-                    dfs(node.left, targetSum - node.val) or
-                    dfs(node.right, targetSum - node.val)
-                )
+            elif node.left is None and node.right is None:
+                return path_sum + node.val == target_sum
 
-        return dfs(root, targetSum)
+            left = dfs(node.left, path_sum + node.val)
+            right = dfs(node.right, path_sum + node.val)
+            return left or right
+
+        return dfs(root, 0)
 
 
 class Solution:
-    def hasPathSum(self, root: TreeNode, targetSum: int) -> bool:
+    def hasPathSum(self, root: TreeNode, target_sum: int) -> bool:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: binary tree, dfs, iteration, stack
+        Tags: 
+            DS: binary tree, stack
+            A: dfs, iteration, pre-order traversal
         """
-        if not root:
+        if root is None:
             return False
-        
-        stack = [(root, targetSum)]
+
+        stack = [(root, 0)]  # [(node, path sum)]
 
         while stack:
-            node, targetSum = stack.pop()
-
-            if (not node.left and 
-                not node.right and 
-                    targetSum - node.val == 0):
+            node, path_sum = stack.pop()
+            if (
+                node.left is None and
+                node.right is None and
+                path_sum + node.val == target_sum
+            ):
                 return True
             if node.right:
-                stack.append((node.right, targetSum - node.val))
+                stack.append((node.right, path_sum + node.val))
             if node.left:
-                stack.append((node.left, targetSum - node.val))
-        
+                stack.append((node.left, path_sum + node.val))
+
         return False
 
 
-from collections import deque
-
 class Solution:
-    def hasPathSum(self, root: TreeNode, targetSum: int) -> bool:
+    def hasPathSum(self, root: TreeNode, target_sum: int) -> bool:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: binary tree, bfs, iteration, queue
+        Tags: 
+            DS: binary tree, queue
+            A: bfs, iteration, level-order traversal
         """
-        if not root:
+        if root is None:
             return False
-        
-        queue = deque([(root, targetSum)])
+
+        queue = deque([(root, 0)])  # deque([(node, path sum)])
 
         while queue:
-            node, targetSum = queue.popleft()
-
-            if (not node.left and 
-                not node.right and 
-                    targetSum - node.val == 0):
+            node, path_sum = queue.popleft()
+            if (
+                node.left is None and
+                node.right is None and
+                path_sum + node.val == target_sum
+            ):
                 return True
-            if node.right:
-                queue.append((node.right, targetSum - node.val))
             if node.left:
-                queue.append((node.left, targetSum - node.val))
-        
+                queue.append((node.left, path_sum + node.val))
+            if node.right:
+                queue.append((node.right, path_sum + node.val))
+
         return False
 
 

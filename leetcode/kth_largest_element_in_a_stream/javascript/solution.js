@@ -2,25 +2,25 @@ import { MinPriorityQueue } from '@datastructures-js/priority-queue';
 
 
 /**
- * @param {number} k
- * @param {number[]} numbers
+ * Time complexity: O(n*logk)
+ *     n: number of `add` calls
+ *     k: the number of highest test scores
+ * Auxiliary space complexity: O(1)
+ * Tags: 
+ *     DS: heap
+ *     A: heap, in-place method
  */
 class KthLargest {
-   /**
-    * Time complexity: O(m*logk)
-    *     m: number of `add` calls
-    *     k: the number of highest test scores
-    * Auxiliary space complexity: O(k)
-    * Tags: heap
-    * @param {number} k
-    * @param {number[]} numbers
-    */
-   constructor(k, numbers) {
+    /**
+     * @param {number} k
+     * @param {number[]} nums
+     */
+   constructor(k, nums) {
       this.k = k;
       this.minHeap = new MinPriorityQueue();
 
-      for (const number of numbers)
-         this.minHeap.enqueue(number);
+      for (const num of nums)
+         this.minHeap.enqueue(num);
 
       while (this.minHeap.size() > k)
          this.minHeap.dequeue();
@@ -40,49 +40,23 @@ class KthLargest {
 }
 
 
-import { MinHeap } from '@datastructures-js/heap';
-
-
-class KthLargest {
-   /**
-    * Time complexity: O(m*logk)
-    *     m: number of `add` calls
-    *     k: the number of highest test scores
-    * Auxiliary space complexity: O(k)
-    * Tags: heap
-    * @param {number} k
-    * @param {number[]} numbers
-    */
-   constructor(k, numbers) {
-      this.k = k;
-      this.numbersHeap = MinHeap.heapify(numbers)
-      while (this.numbersHeap.size() > this.k)
-         this.numbersHeap.pop();
-   };
-
-   add(val) {
-      this.numbersHeap.push(val);
-      this.numbersHeap.pop();
-      return this.numbersHeap.top()
-   };
-}
-
-
 /**
  * Time complexity: O(m*nlogn)
  *     m: number of `add` calls
  *     n: `numbers` size
  * Auxiliary space complexity: O(n + m)
- * Tags: sorting
+ * Tags:
+ *     DS: list
+ *     A: sorting
  */
-class KthLargest {
+class KthLargest2 {
    /**
     * @param {number} k
-    * @param {number[]} numbers
+    * @param {number[]} nums
     */
-   constructor(k, numbers) {
+   constructor(k, nums) {
       this.k = k;
-      this.numbers = numbers.sort((a, b) => b - a).slice(0, this.k);
+      this.nums = nums.sort((a, b) => b - a).slice(0, this.k);
    };
 
    /** 
@@ -90,10 +64,10 @@ class KthLargest {
     * @return {number}
     */
    add(val) {
-      this.numbers.push(val);
-      this.numbers.sort((a, b) => b - a);
-      this.numbers.pop();
-      return this.numbers[this.numbers.length - 1]
+      this.nums.push(val);
+      this.nums.sort((a, b) => b - a);
+      this.nums.pop();
+      return this.nums[this.nums.length - 1]
    };
 }
 

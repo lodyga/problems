@@ -4,50 +4,62 @@ class Solution {
   /**
    * Time complexity: O(nlogn)
    * Auxiliary space complexity: O(n)
-   * Tags: heap, sorting
-   * @param {number[]} numbers
+   * Tags: 
+   *     A: sorting, build-in function, in-place method
+   * @param {number[]} nums
    * @return {number[]}
    */
-  sortArray(numbers) {
-    const numberHeap = new MinPriorityQueue();
-    numbers.forEach(number => numberHeap.enqueue(number));
-    const sortedNumbers = [];
-    while (numberHeap.size()) {
-      sortedNumbers.push(numberHeap.dequeue());
-    }
-    return sortedNumbers
+  sortArray(nums) {
+    return nums.sort((a, b) => a - b);
   };
-}
-const sortArray = new Solution().sortArray;
 
-
-class Solution {
   /**
    * Time complexity: O(nlogn)
    * Auxiliary space complexity: O(n)
-   * Tags: merge sort, sorting
-   * @param {number[]} numbers
+   * Tags: 
+   *     DS: heap
+   *     A: heap, sorting
+   * @param {number[]} nums
    * @return {number[]}
    */
-  sortArray(numbers) {
-    function mergeSort(left, right) {
+  sortArray(nums) {
+    const numberHeap = new MinPriorityQueue();
+    nums.forEach(num => numberHeap.enqueue(num));
+    const sortedNums = [];
+    while (numberHeap.size()) {
+      sortedNums.push(numberHeap.dequeue());
+    }
+    return sortedNums
+  };
+
+  /**
+   * Time complexity: O(nlogn)
+   * Auxiliary space complexity: O(n)
+   * Tags: 
+   *     DS: list
+   *     A: merge sort, sorting
+   * @param {number[]} nums
+   * @return {number[]}
+   */
+  sortArray(nums) {
+    const mergeSort = (left, right) => {
       if (left === right) {
         return
       }
       divide(left, right);
       merge(left, right);
-    }
+    };
 
-    function divide(left, right) {
+    const divide = (left, right) => {
       const middle = (left + right) >> 1;
       mergeSort(left, middle);
       mergeSort(middle + 1, right);
-    }
+    };
 
-    function merge(left, right) {
+    const merge = (left, right) => {
       const middle = (left + right) >> 1;
-      const leftChunk = numbers.slice(left, middle + 1);
-      const rightChunk = numbers.slice(middle + 1, right + 1);
+      const leftChunk = nums.slice(left, middle + 1);
+      const rightChunk = nums.slice(middle + 1, right + 1);
       let index = left;
       left = 0;
       right = 0;
@@ -57,130 +69,125 @@ class Solution {
         right < rightChunk.length
       ) {
         if (leftChunk[left] <= rightChunk[right]) {
-          numbers[index] = leftChunk[left];
+          nums[index] = leftChunk[left];
           left++;
         } else {
-          numbers[index] = rightChunk[right];
+          nums[index] = rightChunk[right];
           right++;
         }
         index++;
       }
       while (left < leftChunk.length) {
-        numbers[index] = leftChunk[left];
+        nums[index] = leftChunk[left];
         left++;
         index++;
       }
       while (right < rightChunk.length) {
-        numbers[index] == rightChunk[right];
+        nums[index] == rightChunk[right];
         right++;
         index++;
       }
-    }
+    };
 
-    mergeSort(0, numbers.length - 1);
-    return numbers
-  }
-}
+    mergeSort(0, nums.length - 1);
+    return nums
+  };
 
-
-class Solution {
   /**
-   * Time complexity: O(nlogn)
+   * Time complexity: O(n2)
+   *     avg case: O(nlogn)
+   *     worst case: O(n2)
    * Auxiliary space complexity: O(n)
-   * Tags: quick sort, sorting, tle
-   * @param {number[]} numbers
+   * Tags: 
+   *     A: quick sort, sorting, in-place method
+   * @param {number[]} nums
    * @return {number[]}
    */
-  sortArray(numbers) {
-    function quickSort(left, right) {
+  sortArray(nums) {
+    const quickSort = (left, right) => {
       if (left >= right) {
         return
       }
-
       const pivot = partition(left, right)
       quickSort(left, pivot - 1);
       quickSort(pivot + 1, right);
     };
 
-    function partition(left, end) {
-      const pivot = numbers[end];
-      left--;
-
-      for (let right = left + 1; right < end; right++) {
-        if (numbers[right] < pivot) {
+    const partition = (left, end) => {
+      const pivot = nums[end];
+      for (let right = left; right < end; right++) {
+        if (nums[right] < pivot) {
+          swapNums(left, right);
           left++;
-          swapNumbers(left, right);
         }
       }
-      swapNumbers(left + 1, end);
-      return left + 1
-    }
+      swapNums(left, end);
+      return left
+    };
 
-    function swapNumbers(left, right) {
-      [numbers[left], numbers[right]] = [numbers[right], numbers[left]];
-    }
+    const swapNums = (left, right) => {
+      [nums[left], nums[right]] = [nums[right], nums[left]];
+    };
 
-    quickSort(0, numbers.length - 1);
-    return numbers
-  }
-}
+    quickSort(0, nums.length - 1);
+    return nums
+  };
 
-class Solution {
   /**
    * Time complexity: O(n2)
    * Auxiliary space complexity: O(1)
-   * Tags: insertion sort, sorting, tle
-   * @param {number[]} numbers
+   * Tags: 
+   *     A: insertion sort, sorting
+   * @param {number[]} nums
    * @return {number[]}
    */
-  sortArray(numbers) {
-    function insertionSort() {
-      for (let right = 1; right < numbers.length; right++) {
-        const key = numbers[right];
+  sortArray(nums) {
+    const insertionSort = () => {
+      for (let right = 1; right < nums.length; right++) {
+        const key = nums[right];
         let left = right - 1;
 
         while (
-          left >= 0 &&
-          numbers[left] > key
+          left > -1 &&
+          nums[left] > key
         ) {
-          numbers[left + 1] = numbers[left];
+          nums[left + 1] = nums[left];
           left--;
         }
-        numbers[left + 1] = key;
+        nums[left + 1] = key;
       }
     }
     insertionSort();
-    return numbers
-  }
-}
+    return nums
+  };
 
-
-class Solution {
   /**
    * Time complexity: O(n2)
    * Auxiliary space complexity: O(1)
-   * Tags: bubble sort, sorting, tle
-   * @param {number[]} numbers
+   * Tags: 
+   *     A: bubble sort, sorting, in-place method
+   * @param {number[]} nums
    * @return {number[]}
    */
-  sortArray(numbers) {
-     function bubbleSort() {
-        for (let i = 0; i < numbers.length - 1; i++) {
-           for (let j = 0; j < numbers.length - 1 - i; j++) {
-              if (numbers[j] > numbers[j + 1]) {
-                 [numbers[j], numbers[j + 1]] = [numbers[j + 1], numbers[j]];
-              }
-           }
+  sortArray(nums) {
+    const bubbleSort = () => {
+      for (let left = 0; left < nums.length; left++) {
+        for (let right = left + 1; right < nums.length; right++) {
+          if (nums[right] < nums[left]) {
+            [nums[left], nums[right]] = [nums[right], nums[left]];
+          }
         }
-     }
-     bubbleSort();
-     return numbers
+      }
+    }
+    bubbleSort();
+    return nums
   };
 }
 
 
-console.log(new Solution().sortArray([4]), [4])
-console.log(new Solution().sortArray([5, 4]), [4, 5])
-console.log(new Solution().sortArray([5, 2, 3, 1]), [1, 2, 3, 5])
-console.log(new Solution().sortArray([5, 1, 1, 2, 0, 0]), [0, 0, 1, 1, 2, 5])
-console.log(new Solution().sortArray([-2, 3, -5]), [-5, -2, 3])
+const sortArray = new Solution().sortArray;
+console.log(new Solution().sortArray([4]).toString() === [4].toString())
+console.log(new Solution().sortArray([5, 4]).toString() === [4, 5].toString())
+console.log(new Solution().sortArray([5, 2, 3, 1]).toString() === [1, 2, 3, 5].toString())
+console.log(new Solution().sortArray([5, 1, 1, 2, 0, 0]).toString() === [0, 0, 1, 1, 2, 5].toString())
+console.log(new Solution().sortArray([-2, 3, -5]).toString() === [-5, -2, 3].toString())

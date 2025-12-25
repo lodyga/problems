@@ -1,60 +1,69 @@
 class Solution:
-    def numSubseq(self, numbers: list[int], target: int) -> int:
+    def numSubseq(self, nums: list[int], target: int) -> int:
         """
         Time complexity: O(nlogn)
         Auxiliary space complexity: O(n)
-        Tags: two pointers
+        Tags: 
+            A: binary search, sorting
         """
-        numbers.sort()
-        mod = 10 ** 9 + 7
-        subsequence_counter = 0
-        right = len(numbers) - 1
+        MOD = 10 ** 9 + 7
+        counter = 0
+        nums.sort()
 
-        for left, left_number in enumerate(numbers):
-            while (left <= right and 
-                   left_number + numbers[right] > target):
-                right -= 1
-            
-            if left <= right:
-                subsequence_counter += pow(2, right - left, mod)
-                subsequence_counter %= mod
-            
-            if left == right:
+        for index, num in enumerate(nums):
+            if nums[index] * 2 > target:
                 break
 
-        return subsequence_counter
-
-
-class Solution:
-    def numSubseq(self, numbers: list[int], target: int) -> int:
-        """
-        Time complexity: O(nlogn)
-        Auxiliary space complexity: O(n)
-        Tags: binary search
-        """
-        numbers.sort()
-        mod = 10 ** 9 + 7
-        subsequence_counter = 0
-
-        for index in range(len(numbers)):
-            if numbers[index] * 2 > target:
-                break
-            
-            left = index
-            right = len(numbers) - 1
+            # Default value for max_left must be index in case of
+            # max_left = middle won't trigger
+            max_left = index
+            left = index + 1
+            right = len(nums) - 1
 
             while left <= right:
                 middle = (left + right) // 2
+                middle_num = nums[middle]
 
-                if (numbers[index] + numbers[middle]) <= target:
-                    left = middle + 1
-                else:
+                if num + middle_num > target:
                     right = middle - 1
-            
-            subsequence_counter += pow(2, right - index, mod)
-            subsequence_counter %= mod
+                else:
+                    max_left = middle
+                    left = middle + 1
 
-        return subsequence_counter
+            counter += pow(2, max_left - index, MOD)
+            counter %= MOD
+
+        return counter
+
+
+class Solution:
+    def numSubseq(self, nums: list[int], target: int) -> int:
+        """
+        Time complexity: O(nlogn)
+        Auxiliary space complexity: O(n)
+        Tags: 
+            A: two pointers, sorting
+        """
+        MOD = 10 ** 9 + 7
+        counter = 0
+        nums.sort()
+        right = len(nums) - 1
+
+        for left, left_num in enumerate(nums):
+            while (
+                left <= right and
+                left_num + nums[right] > target
+            ):
+                right -= 1
+
+            if left <= right:
+                counter += pow(2, right - left, MOD)
+                counter %= MOD
+
+            if left == right:
+                break
+
+        return counter
 
 
 print(Solution().numSubseq([3, 5, 6, 7], 9) == 4)
@@ -66,78 +75,84 @@ print(Solution().numSubseq([9, 25, 9, 28, 24, 12, 17, 8, 28, 7, 21, 25, 10, 2, 1
 
 
 class Solution:
-    def numSubseq(self, numbers: list[int], target: int) -> int:
+    def numSubseq(self, nums: list[int], target: int) -> int:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n)
         Tags: two pointers
         """
-        numbers.sort()
-        mod = 10 ** 9 + 7
-        subsequence_counter = 0
+        nums.sort()
+        MOD = 10 ** 9 + 7
+        counter = 0
 
-        for left, left_number in enumerate(numbers):
-            if left_number * 2 > target:
+        for left, left_num in enumerate(nums):
+            if left_num * 2 > target:
                 break
             
             right = left
-            while (right < len(numbers) and 
-                   left_number + numbers[right] <= target):
+            while (
+                right < len(nums) and 
+                left_num + nums[right] <= target
+            ):
                 right += 1
             
-            subsequence_counter += pow(2, right - left - 1, mod)
-            subsequence_counter %= mod
+            counter += pow(2, right - left - 1, MOD)
+            counter %= MOD
 
-        return subsequence_counter
+        return counter
 
 
-# O(n2^n), O(n)
+# O(2^n), O(n)
 # backtracking
-# slow
 class Solution:
-    def __init__(self):
-        self.counter = 0
-
-    def numSubseq(self, numbers: list[int], target: int) -> int:
-        numbers.sort()
+    def numSubseq(self, nums: list[int], target: int) -> int:
+        MOD = 10 ** 9 + 7
+        counter = 0
+        nums.sort()
         subsequence = []
 
         def dfs(index):
-            if index == len(numbers):
-                if (subsequence and 
-                        subsequence[0] + subsequence[-1] <= target):
-                    self.counter += 1
+            nonlocal counter
+            if index == len(nums):
+                if (
+                    subsequence and 
+                    subsequence[0] + subsequence[-1] <= target
+                ):
+                    counter += 1
+                    counter %= MOD
                 return
             
-            subsequence.append(numbers[index])
+            subsequence.append(nums[index])
             dfs(index + 1)
             subsequence.pop()
             dfs(index + 1)
 
         dfs(0)
-        return self.counter % (10 ** 9 + 7)
+        return counter
 
 
-# O(n2^n), O(n)
+# O(2^n), O(n)
 # backtracking
-# slow
 class Solution:
-    def numSubseq(self, numbers: list[int], target: int) -> int:
-        numbers.sort()
+    def numSubseq(self, nums: list[int], target: int) -> int:
+        MOD = 10 ** 9 + 7
+        nums.sort()
         subsequence = []
 
         def dfs(index, counter):
-            if index == len(numbers):
-                if (subsequence and 
-                        subsequence[0] + subsequence[-1] <= target):
+            if index == len(nums):
+                if (
+                    subsequence and 
+                    subsequence[0] + subsequence[-1] <= target
+                ):
                     return 1
                 else:
                     return 0
             
-            subsequence.append(numbers[index])
+            subsequence.append(nums[index])
             left = dfs(index + 1, counter)
             subsequence.pop()
             right = dfs(index + 1, counter)
-            return (left + right) % (10 ** 9 + 7)
+            return (left + right) % MOD
 
         return dfs(0, 0)

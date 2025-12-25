@@ -3,22 +3,24 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: stack
+        Tags: 
+            DS: stack, string
+            A: iteration
         """
         stack = []
-        word = ""
+        name = []
 
         for char in path + "/":
             if char == "/":
-                if word == "..":
+                if "".join(name) == "..":
                     if stack:
                         stack.pop()
-                elif word and word != ".":
-                    stack.append(word)
-                word = ""
+                elif name and name != ["."]:
+                    stack.append("".join(name))
+                name = []
             else:
-                word += char
-        
+                name.append(char)
+
         return "/" + "/".join(stack)
 
 
@@ -27,20 +29,22 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: built-in function
+        Tags: 
+            DS: stack, string
+            A: built-in function
         """
-        clean_dirs = []
+        names = []
         
         for dir in path.split("/"):
-            if not dir or dir == ".":
+            if dir == "" or dir == ".":
                 continue
             elif dir == "..":
-                if clean_dirs:
-                    clean_dirs.pop()
+                if names:
+                    names.pop()
             else:
-                clean_dirs.append(dir)
+                names.append(dir)
         
-        return "/" + "/".join(clean_dirs)
+        return "/" + "/".join(names)
 
 
 print(Solution().simplifyPath("/home/") == "/home")

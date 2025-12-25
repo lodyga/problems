@@ -1,88 +1,65 @@
 class Solution:
-    def permuteUnique(self, numbers: list[int]) -> list[list[int]]:
+    def permuteUnique(self, nums: list[int]) -> list[list[int]]:
         """
         Time complexity: O(n!)
-        Auxiliary space complexity: O(n!)
-        Tags: backtracking, hash set
+        Auxiliary space complexity: O(n)
+        Tags: 
+            DS: hash map
+            A: backtracking
         """
-        numbers.sort()
-        permutation_list = []
+        perm = []
+        perms = []
+        num_frequency = {}
+        for num in nums:
+            num_frequency[num] = num_frequency.get(num, 0) + 1
 
-        def dfs(left):
-            if left == len(numbers) - 1:
-                permutation_list.append(tuple(numbers))
+        def backtrack():
+            if len(perm) == len(nums):
+                perms.append(perm.copy())
                 return
-
-            unique_level_value = set()
-            for right in range(left, len(numbers)):
-                if numbers[right] in unique_level_value:
+            
+            for num in num_frequency:
+                if num_frequency[num] == 0:
                     continue
-                else:
-                    unique_level_value.add(numbers[right])
+                
+                perm.append(num)
+                num_frequency[num] -= 1
+                backtrack()
+                perm.pop()
+                num_frequency[num] += 1
 
-                numbers[left], numbers[right] = numbers[right], numbers[left]
-                dfs(left + 1)
-                numbers[left], numbers[right] = numbers[right], numbers[left]
-
-        dfs(0)
-        return list(permutation_list)
-
-
-class Solution2:
-    def permuteUnique(self, numbers: list[int]) -> list[list[int]]:
-        """
-        Time complexity: O(n!)
-        Auxiliary space complexity: O(n!)
-        Tags: backtracking, hash map
-        """
-        permutation = []
-        permutation_list = []
-        number_frequency = {}
-        for number in numbers:
-            number_frequency[number] = number_frequency.get(number, 0) + 1
-
-        def dfs():
-            if len(permutation) == len(numbers):
-                permutation_list.append(permutation.copy())
-                return
-
-            for number in number_frequency:
-                if number_frequency[number] > 0:
-                    permutation.append(number)
-                    number_frequency[number] -= 1
-                    dfs()
-                    permutation.pop()
-                    number_frequency[number] += 1
-
-        dfs()
-        return permutation_list
+        backtrack()
+        return perms
 
 
 class Solution:
-    def permuteUnique(self, numbers: list[int]) -> list[list[int]]:
+    def permuteUnique(self, nums: list[int]) -> list[list[int]]:
         """
         Time complexity: O(n!)
-        Auxiliary space complexity: O(n!)
-        Tags: backtracking, hash set
+        Auxiliary space complexity: O(n)
+        Tags: 
+            DS: hash set
+            A: backtracking
         """
-        permutation_set = set()
+        nums.sort()
+        perms = set()
 
-        def dfs(left):
-            if left == len(numbers) - 1:
-                permutation_set.add(tuple(numbers))
+        def backtrack(left):
+            if left == len(nums):
+                perms.add(tuple(nums))
                 return
+            
+            for index in range(left, len(nums)):
+                nums[left], nums[index] = nums[index], nums[left]
+                backtrack(left + 1)
+                nums[left], nums[index] = nums[index], nums[left]
+        
+        backtrack(0)
+        return [list(perm) for perm in perms]
 
-            for right in range(left, len(numbers)):
-                numbers[left], numbers[right] = numbers[right], numbers[left]
-                dfs(left + 1)
-                numbers[left], numbers[right] = numbers[right], numbers[left]
 
-        dfs(0)
-        return list(permutation_set)
-
-
-print(Solution().permuteUnique([1, 2]), [[1, 2], [2, 1]])
-print(Solution().permuteUnique([1, 2, 3]), [[1, 3, 2], [1, 2, 3], [2, 1, 3], [3, 2, 1], [3, 1, 2], [2, 3, 1]])
-print(Solution().permuteUnique([1]), [[1]])
-print(Solution().permuteUnique([1, 1, 2]), [[1, 2, 1], [2, 1, 1], [1, 1, 2]])
-print(Solution().permuteUnique([2, 2, 1, 1]), [[1, 1, 2, 2], [1, 2, 1, 2], [1, 2, 2, 1], [2, 1, 1, 2], [2, 1, 2, 1], [2, 2, 1, 1]])
+print(sorted(Solution().permuteUnique([1, 2])) == sorted([[1, 2], [2, 1]]))
+print(sorted(Solution().permuteUnique([1, 2, 3])) == sorted([[1, 3, 2], [1, 2, 3], [2, 1, 3], [3, 2, 1], [3, 1, 2], [2, 3, 1]]))
+print(sorted(Solution().permuteUnique([1])) == sorted([[1]]))
+print(sorted(Solution().permuteUnique([1, 1, 2])) == sorted([[1, 2, 1], [2, 1, 1], [1, 1, 2]]))
+print(sorted(Solution().permuteUnique([2, 2, 1, 1])) == sorted([[1, 1, 2, 2], [1, 2, 1, 2], [1, 2, 2, 1], [2, 1, 1, 2], [2, 1, 2, 1], [2, 2, 1, 1]]))

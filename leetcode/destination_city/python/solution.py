@@ -3,20 +3,23 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: hash set
+        Tags: 
+            DS: hash set
+            A: iteration
         """
-        origin_cities = set()
-        destination_cities = set()
+        srcs = set()
+        dsts = set()
 
-        for origin_city, destination_city in paths:
-            origin_cities.add(origin_city)
-            destination_cities.add(destination_city)
+        for src, dst in paths:
+            srcs.add(src)
+            dsts.add(dst)
 
-        for destination_city in destination_cities:
-            if destination_city not in origin_cities:
-                return destination_city
+        for dst in dsts:
+            if dst not in srcs:
+                return dst
+        return ""
 
 
-print(Solution().destCity([["London", "New York"], ["New York", "Lima"], ["Lima", "Sao Paulo"]]), "Sao Paulo")
-print(Solution().destCity([["B", "C"], ["D", "B"], ["C", "A"]]), "A")
-print(Solution().destCity([["A", "Z"]]), "Z")
+print(Solution().destCity([["London", "New York"], ["New York", "Lima"], ["Lima", "Sao Paulo"]]) == "Sao Paulo")
+print(Solution().destCity([["B", "C"], ["D", "B"], ["C", "A"]]) == "A")
+print(Solution().destCity([["A", "Z"]]) == "Z")

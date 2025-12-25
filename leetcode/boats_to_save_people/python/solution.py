@@ -3,17 +3,19 @@ class Solution:
         """
         Time complexity: O(nlogn)
         Auxiliary space complexity: O(n)
-        Tags: two pointers
+        Tags: 
+            A: two pointers
         """
         people.sort()
-        boat_counter = 0
         left = 0
         right = len(people) - 1
+        boat_counter = 0
 
         while left <= right:
-            left += 1 if people[left] + people[right] <= limit else 0
-            boat_counter += 1
+            if people[left] <= limit - people[right]:
+                left += 1
             right -= 1
+            boat_counter += 1
 
         return boat_counter
 

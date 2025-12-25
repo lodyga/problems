@@ -135,7 +135,7 @@ const testInput = (operations, args) => {
       const argument = args[index];
 
       if (operation === 'TimeMap') {
-         timeMap = new TimeMap();
+         timeMap = new TimeMap(...argument);
          output.push(null);
       } else if (operation === 'set') {
          timeMap.set(...argument);

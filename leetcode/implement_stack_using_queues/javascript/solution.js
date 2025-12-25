@@ -57,7 +57,7 @@ const testInput = (operations, args) => {
       const argument = args[index];
 
       if (operation === 'MyStack') {
-         myStack = new MyStack();
+         myStack = new MyStack(...argument);
          output.push(null);
       } else if (operation === 'push') {
          myStack.push(...argument);

@@ -1,81 +1,79 @@
 class Solution:
-    def arrayStringsAreEqual(self, word_list1: list[str], word_list2: list[str]) -> bool:
+    def arrayStringsAreEqual(self, words1: list[str], words2: list[str]) -> bool:
         """
         Time complexity: O(m+n)
         Auxiliary space complexity: O(1)
-        Tags: generator
+        Tags: 
+            A: two pointers
         """
-        def gnerate_letter(word_list):
-            for word in word_list:
-                for letter in word:
-                    yield letter
+        r1 = c1 = r2 = c2 = 0
 
-        letter1, letter2 = 0, 0
-        is_end1, is_end2 = False, False
+        while (
+            r1 < len(words1) and
+            r2 < len(words2)
+        ):
+            letter1 = words1[r1][c1]
+            letter2 = words2[r2][c2]
 
-        generated_letters1 = gnerate_letter(word_list1)
-        generated_letters2 = gnerate_letter(word_list2)
-        
-        while True:
-            try:
-                letter1 = next(generated_letters1)
-            except:
-                is_end1 = True
-            try:
-                letter2 = next(generated_letters2)
-            except:
-                is_end2 = True
-
-            if is_end1 or is_end2:
-                return is_end1 == is_end2
-            
             if letter1 != letter2:
                 return False
 
+            c1 += 1
+            if c1 == len(words1[r1]):
+                c1 = 0
+                r1 += 1
 
-class Solution:
-    def arrayStringsAreEqual(self, word_list1: list[str], word_list2: list[str]) -> bool:
-        """
-        Time complexity: O(m+n)
-        Auxiliary space complexity: O(1)
-        Tags: two pointers
-        """
-        def get_letter_or_end(letter, word, word_list, is_end):
-            letter += 1
-            if letter == len(word_list[word]):
-                word += 1
-                letter = 0
-                if word == len(word_list):
-                    return (None, None, True)
+            c2 += 1
+            if c2 == len(words2[r2]):
+                c2 = 0
+                r2 += 1
 
-            return (letter, word, is_end)
-
-        word1, word2 = 0, 0
-        letter1, letter2 = 0, 0
-        is_end1, is_end2 = False, False
-
-        while True:
-            if word_list1[word1][letter1] != word_list2[word2][letter2]:
-                return False
-
-            letter1, word1, is_end1 = get_letter_or_end(letter1, word1, word_list1, is_end1)
-            letter2, word2, is_end2 = get_letter_or_end(letter2, word2, word_list2, is_end2)
-
-            if is_end1 or is_end2:
-                return is_end1 == is_end2
+        return (
+            (r1 == len(words1) and c1 == 0) and
+            (r2 == len(words2) and c2 == 0)
+        )
 
 
 class Solution:
-    def arrayStringsAreEqual(self, word_list1: list[str], word_list2: list[str]) -> bool:
+    def arrayStringsAreEqual(self, words1: list[str], words2: list[str]) -> bool:
         """
         Time complexity: O(m+n)
         Auxiliary space complexity: O(m+n)
-        Tags: build-in function
+        Tags: 
+            A: build-in function
         """
-        return "".join(word_list1) == "".join(word_list2)
+        return "".join(words1) == "".join(words2)
 
 
-print(Solution().arrayStringsAreEqual(["ab", "c"], ["a", "bc"]), True)
-print(Solution().arrayStringsAreEqual(["a", "cb"], ["ab", "c"]), False)
-print(Solution().arrayStringsAreEqual(["abc", "d", "defg"], ["abcddefg"]), True)
-print(Solution().arrayStringsAreEqual(["abc", "d", "defg"], ["abcddef"]), False)
+class Solution:
+    def arrayStringsAreEqual(self, words1: list[str], words2: list[str]) -> bool:
+        """
+        Time complexity: O(m+n)
+        Auxiliary space complexity: O(1)
+        Tags: 
+            A: two pointers generator
+        """
+        def generate_letter(words):
+            for word in words:
+                for letter in word:
+                    yield letter
+            yield False
+
+        letters1 = generate_letter(words1)
+        letters2 = generate_letter(words2)
+
+        while True:
+            letter1 = next(letters1)
+            letter2 = next(letters2)
+
+            if letter1 != letter2:
+                return False
+
+            if letter1 is False or letter2 is False:
+                return letter1 is letter2 is False
+
+
+print(Solution().arrayStringsAreEqual(["ab", "c"], ["a", "bc"]) == True)
+print(Solution().arrayStringsAreEqual(["a", "cb"], ["ab", "c"]) == False)
+print(Solution().arrayStringsAreEqual(["abc", "d", "defg"], ["abcddefg"]) == True)
+print(Solution().arrayStringsAreEqual(["abc", "d", "defg"], ["abcddef"]) == False)

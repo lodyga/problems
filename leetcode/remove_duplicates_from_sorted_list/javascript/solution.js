@@ -1,4 +1,4 @@
-import {ListNode, buildLinkedList, getLinkedListValues} from '../../../../JS/linked-list-utils.js'
+import { ListNode, areLinkedListsEqueal, buildLinkedList, getLinkedListValues } from '../../../../JS/linked-list-utils.js'
 
 
 /**
@@ -16,7 +16,9 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: linked list
+    * Tags: 
+    *     DS: linked list
+    *     A: iteration
     * @param {ListNode} head
     * @return {ListNode}
     */
@@ -24,22 +26,18 @@ class Solution {
       let node = head;
 
       while (node && node.next) {
-         while (
-            node.next &&
-            node.next.val === node.val
-         ) {
+         if (node.next.val === node.val) {
             node.next = node.next.next;
-         }
-         if (node.next) {
+         } else {
             node = node.next;
          }
       }
       return head;
    };
 }
+
+
 const deleteDuplicates = new Solution().deleteDuplicates;
-
-
-console.log(getLinkedListValues(new Solution().deleteDuplicates(buildLinkedList([]))), [])
-console.log(getLinkedListValues(new Solution().deleteDuplicates(buildLinkedList([1, 1, 2]))), [1, 2])
-console.log(getLinkedListValues(new Solution().deleteDuplicates(buildLinkedList([1, 1, 2, 3, 3]))), [1, 2, 3])
+console.log(areLinkedListsEqueal(new Solution().deleteDuplicates(buildLinkedList([])), buildLinkedList([])))
+console.log(areLinkedListsEqueal(new Solution().deleteDuplicates(buildLinkedList([1, 1, 2])), buildLinkedList([1, 2])))
+console.log(areLinkedListsEqueal(new Solution().deleteDuplicates(buildLinkedList([1, 1, 2, 3, 3])), buildLinkedList([1, 2, 3])))

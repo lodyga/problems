@@ -1,4 +1,4 @@
-import {ListNode, buildLinkedList, getLinkedListValues} from '../../../../JS/linked-list-utils.js'
+import { ListNode, buildLinkedList, areLinkedListsEqueal } from '../../../../JS/linked-list-utils.js'
 
 
 /**
@@ -16,7 +16,9 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: linked list, two pointers
+    * Tags: 
+    *     DS: linked list
+    *     A: two pointers
     * @param {ListNode} head
     * @return {ListNode}
     */
@@ -31,8 +33,8 @@ class Solution {
       return slow
    };
 }
+
+
 const middleNode = new Solution().middleNode;
-
-
-console.log(getLinkedListValues(new Solution().middleNode(buildLinkedList([1, 2, 3, 4, 5]))), [3, 4, 5])
-console.log(getLinkedListValues(new Solution().middleNode(buildLinkedList([1, 2, 3, 4, 5, 6]))), [4, 5, 6])
+console.log(areLinkedListsEqueal(new Solution().middleNode(buildLinkedList([1, 2, 3, 4, 5])), buildLinkedList([3, 4, 5])))
+console.log(areLinkedListsEqueal(new Solution().middleNode(buildLinkedList([1, 2, 3, 4, 5, 6])), buildLinkedList([4, 5, 6])))

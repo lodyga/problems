@@ -15,26 +15,27 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: linked list, two pointers
+        Tags: 
+            DS: linked list
+            A: two pointers
         """
         anchor = ListNode(None, head)
         slow = anchor
-        fast = head
-        
+        fast = anchor
+
         while n:
             fast = fast.next
             n -= 1
-        
-        while fast:
+
+        while fast.next:
             slow = slow.next
             fast = fast.next
 
         slow.next = slow.next.next
-
         return anchor.next
 
 
-print(get_linked_list_values(Solution().removeNthFromEnd(build_linked_list([1, 2]), 1)) == [1])
-print(get_linked_list_values(Solution().removeNthFromEnd(build_linked_list([1, 2]), 2)) == [2])
-print(get_linked_list_values(Solution().removeNthFromEnd(build_linked_list([1]), 1)) == [])
-print(get_linked_list_values(Solution().removeNthFromEnd(build_linked_list([1, 2, 3, 4, 5]), 2)) == [1, 2, 3, 5])
+print(are_linked_lists_equeal(Solution().removeNthFromEnd(build_linked_list([1, 2]), 1), build_linked_list([1])))
+print(are_linked_lists_equeal(Solution().removeNthFromEnd(build_linked_list([1, 2]), 2), build_linked_list([2])))
+print(are_linked_lists_equeal(Solution().removeNthFromEnd(build_linked_list([1]), 1), build_linked_list([])))
+print(are_linked_lists_equeal(Solution().removeNthFromEnd(build_linked_list([1, 2, 3, 4, 5]), 2), build_linked_list([1, 2, 3, 5])))

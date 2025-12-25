@@ -15,7 +15,9 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: linked list, two pointers
+        Tags: 
+            DS: linked list
+            A: two pointers
         """
         slow = head
         fast = head
@@ -27,5 +29,5 @@ class Solution:
         return slow
 
 
-print(get_linked_list_values(Solution().middleNode(build_linked_list([1, 2, 3, 4, 5]))), [3, 4, 5])
-print(get_linked_list_values(Solution().middleNode(build_linked_list([1, 2, 3, 4, 5, 6]))), [4, 5, 6])
+print(are_linked_lists_equeal(Solution().middleNode(build_linked_list([1, 2, 3, 4, 5])), build_linked_list([3, 4, 5])))
+print(are_linked_lists_equeal(Solution().middleNode(build_linked_list([1, 2, 3, 4, 5, 6])), build_linked_list([4, 5, 6])))

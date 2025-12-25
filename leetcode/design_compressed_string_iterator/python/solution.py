@@ -1,86 +1,61 @@
 class StringIterator:
     """
     Time complexity: O(1)
-    Auxiliary space complexity: O(1)
-    Tags: iterator
+    Auxiliary space complexity: O(n)
+    Tags:
+        DS: list, string
+        A: iterator
     """
 
-    def __init__(self, text):
+    def __init__(self, text) -> None:
         self.text = text
         self.index = 0
         self.letter = ""
         self.letter_counter = 0
 
-    def _get_next_letter(self):
-        if self.letter_counter:
-            self.letter_counter -= 1
-            return self.letter
-
+    def _get_next_letter(self) -> str:
         self.letter = self.text[self.index]
         self.index += 1
 
-        while (self.index < len(self.text) and
-               self.text[self.index].isdigit()):
-            self.letter_counter = 10 * self.letter_counter + int(self.text[self.index])
+        multi = 0
+        while (
+            self.index < len(self.text) and
+            self.text[self.index].isdigit()
+        ):
+            multi = multi*10 + int(self.text[self.index])
             self.index += 1
+        self.letter_counter = multi - 1
 
+        return self.letter
+
+    def next(self) -> str:
         if self.letter_counter:
+            next_letter = self.letter
             self.letter_counter -= 1
-            return self.letter
-
-    def next(self) -> str:
-        return self._get_next_letter() if self.hasNext() else " "
-
-    def hasNext(self) -> bool:
-        return self.letter_counter or self.index < len(self.text)
-
-
-class StringIterator:
-    """
-    Time complexity: O(1)
-    Auxiliary space complexity: O(1)
-    Tags: iterator, generator
-    """
-    def __init__(self, compressed_string: str):
-        self.generator = self._generate(compressed_string)
-        self.letter = next(self.generator, " ")  # Preload the first letter
-
-    def _generate(self, compressed_string):
-        index = 0
-        
-        while index < len(compressed_string):
-            letter = compressed_string[index]
-            index += 1
-            frequency = 0
-            
-            # Parse the number representing the letter frequency
-            while (index < len(compressed_string) and 
-                   compressed_string[index].isdigit()):
-                frequency = 10 * frequency + int(compressed_string[index])
-                index += 1
-            
-            # Yield the letter `frequency` times
-            for _ in range(frequency):
-                yield letter
-        
-    def next(self) -> str:
-        current_letter = self.letter
-        self.letter = next(self.generator, " ")
-        return current_letter
+            if self.letter_counter == 0:
+                self.letter = ""
+            return next_letter
+        elif self.index == len(self.text):
+            return " "
+        else:
+            return self._get_next_letter()
 
     def hasNext(self) -> bool:
-        return self.letter != " "
+        return bool(
+            self.letter_counter or
+            self.index < len(self.text)
+        )
 
 
 iterator = StringIterator("L1e2t1C1o1d1e1")
-print(iterator.next())  # return 'L'
-print(iterator.next())  # return 'e'
-print(iterator.next())  # return 'e'
-print(iterator.next())  # return 't'
-print(iterator.next())  # return 'C'
-print(iterator.next())  # return 'o'
-print(iterator.next())  # return 'd'
-print(iterator.hasNext())  # return true
-print(iterator.next())  # return 'e'
-print(iterator.hasNext())  # return false
-print(iterator.next())  # return ' '
+print(iterator.next() == "L")
+print(iterator.next() == "e")
+print(iterator.next() == "e")
+print(iterator.next() == "t")
+print(iterator.next() == "C")
+print(iterator.next() == "o")
+print(iterator.next() == "d")
+print(iterator.hasNext() is True)
+print(iterator.next() == "e")
+print(iterator.hasNext() is False)
+print(iterator.next() == " ")

@@ -1,10 +1,13 @@
 import { MaxPriorityQueue } from '@datastructures-js/priority-queue';
 
+
 class Solution {
    /**
     * Time complexity: O(nlogn)
     * Auxiliary space complexity: O(n)
-    * Tags: heap
+    * Tags: 
+    *    DS: heap
+    *    A: heap
     * @param {number[]} stones
     * @return {number}
     */
@@ -12,40 +15,17 @@ class Solution {
       const stoneHeap = new MaxPriorityQueue();
       stones.forEach(stone => stoneHeap.enqueue(stone));
 
-      while (stoneHeap.size()) {
-         const smashedStone = stoneHeap.dequeue() - stoneHeap.dequeue();
-         if (smashedStone)
-            stoneHeap.enqueue(smashedStone);
+      while (stoneHeap.size() > 1) {
+         const diff = stoneHeap.dequeue() - stoneHeap.dequeue();
+         if (diff)
+            stoneHeap.enqueue(diff);
       }
-      return stoneHeap.isEmpty() ? 0 : stoneHeap.dequeue()
+      return stoneHeap.size() ? stoneHeap.dequeue() : 0
    };
 }
+
+
 const lastStoneWeight = new Solution().lastStoneWeight;
-
-
-import { MaxHeap } from '@datastructures-js/heap';
-
-class Solution {
-   /**
-    * Time complexity: O(nlogn)
-    * Auxiliary space complexity: O(n)
-    * Tags: heap
-    * @param {number[]} stones
-    * @return {number}
-    */
-   lastStoneWeight(stones) {
-      const stoneHeap = MaxHeap.heapify(stones);
-
-      while (stoneHeap.size()) {
-         const smashedStone = stoneHeap.pop() - stoneHeap.pop();
-         if (smashedStone)
-            stoneHeap.push(smashedStone);
-      }
-      return stoneHeap.isEmpty() ? 0 : stoneHeap.pop()
-   };
-}
-
-
 console.log(new Solution().lastStoneWeight([1]) === 1)
 console.log(new Solution().lastStoneWeight([1, 1]) === 0)
 console.log(new Solution().lastStoneWeight([2, 7, 4, 1, 8, 1]) === 1)

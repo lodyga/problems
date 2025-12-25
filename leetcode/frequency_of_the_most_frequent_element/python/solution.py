@@ -1,25 +1,28 @@
 class Solution:
-    def maxFrequency(self, numbers: list[int], k: int) -> int:
+    def maxFrequency(self, nums: list[int], k: int) -> int:
         """
         Time complexity: O(nlogn)
         Auxiliary space complexity: O(n)
-        Tags: sliding window
+        Tags: 
+            A: sliding window, sorting
         """
-        numbers.sort()
+        nums.sort()
+        prev_num = 0
+        frequency = 1
         left = 0
-        window_sum = 0
-        max_frequency = 1
 
-        for right, number in enumerate(numbers):
-            window_sum += number
+        for right, num in enumerate(nums):
+            diff = num - prev_num
+            k -= diff * (right - left)
 
-            while (right - left + 1) * number - window_sum > k:
-                window_sum -= numbers[left]
+            while k < 0:
+                k += num - nums[left]
                 left += 1
 
-            max_frequency = max(max_frequency, right - left + 1)
+            frequency = max(frequency, right - left + 1)
+            prev_num = num
 
-        return max_frequency
+        return frequency
 
 
 print(Solution().maxFrequency([1, 2, 4], 5) == 3)

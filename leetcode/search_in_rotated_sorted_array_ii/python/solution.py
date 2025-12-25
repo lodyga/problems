@@ -10,39 +10,48 @@ draft
 
 
 class Solution:
-    def search(self, numbers: list[int], target: int) -> bool:
+    def search(self, nums: list[int], target: int) -> bool:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: binary search
+        Tags: 
+            A: build-in function
+        """
+        return target in nums
+
+
+class Solution:
+    def search(self, nums: list[int], target: int) -> bool:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(1)
+        Tags: 
+            A: almost binary search but not quite
         """
         left = 0
-        right = len(numbers) - 1
+        right = len(nums) - 1
 
         while left <= right:
-            middle = (left + right) // 2
-            middle_number = numbers[middle]
+            mid = (left + right) // 2
+            mid_num = nums[mid]
 
-            if (
-                middle_number == target or
-                numbers[left] == target or
-                numbers[right] == target
-            ):
+            if target == mid_num:
                 return True
-            elif middle_number < numbers[right]:
-                if middle_number < target < numbers[right]:
-                    left = middle + 1
-                else:
-                    right = middle - 1
-            elif numbers[left] < middle_number:
-                if numbers[left] < target < middle_number:
-                    right = middle - 1
-                else:
-                    left = middle + 1
-            # No way to tell which side of portion is contiguous
-            else:
+            elif nums[left] == mid_num == nums[right]:
                 left += 1
                 right -= 1
+            # right portion is contiguous
+            elif mid_num <= nums[right]:
+                if mid_num < target <= nums[right]:
+                    left = mid + 1
+                else:
+                    right = mid - 1
+            # left portion is contiguous
+            else:
+                if nums[left] <= target < mid_num:
+                    right = mid - 1
+                else:
+                    left = mid + 1
 
         return False
 
@@ -55,6 +64,8 @@ print(Solution().search([0, 1], 0) == True)
 print(Solution().search([1, 0], 0) == True)
 print(Solution().search([0, 1], 1) == True)
 print(Solution().search([1, 0], 1) == True)
-print(Solution().search([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1], 2) == True)
+print(Solution().search([0, 1, 1], 0) == True)
 print(Solution().search([1, 0, 1, 1, 1], 0) == True)
 print(Solution().search([1, 0, 0], 1) == True)
+print(Solution().search([1, 2, 1], 1) == True)
+print(Solution().search([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1], 2) == True)

@@ -2,27 +2,28 @@ class Solution {
    /**
     * Time complexity: O(nlogn)
     * Auxiliary space complexity: O(n)
-    * Tags: sliding window
-    * @param {number[]} numbers
+    * Tags: 
+    *     A: sliding window, sorting
+    * @param {number[]} nums
     * @return {number}
     */
-   minOperations(numbers) {
-      const uniqueNumbers = [...new Set(numbers)].sort((a, b) => a - b);
-      let minOperations = numbers.length - 1;
+   minOperations(nums) {
+      const uniqSortNums = [...new Set(nums)].sort((a, b) => a - b);
+      let maxWindow = 0;
       let right = 0;
 
-      for (let left = 0; left < numbers.length; left++) {
+      for (let left = 0; left < uniqSortNums.length; left++) {
+         const num = uniqSortNums[left];
          while (
-            right < uniqueNumbers.length &&
-            uniqueNumbers[right] < uniqueNumbers[left] + numbers.length
+            right < uniqSortNums.length &&
+            num + nums.length - 1 >= uniqSortNums[right]
          ) {
             right++;
          }
          const window = right - left;
-         const operations = numbers.length - window;
-         minOperations = Math.min(minOperations, operations);
+         maxWindow = Math.max(maxWindow, window);
       }
-      return minOperations
+      return nums.length - maxWindow
    };
 }
 

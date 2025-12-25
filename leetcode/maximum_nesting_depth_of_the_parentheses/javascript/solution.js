@@ -2,6 +2,8 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
+    * Tags: 
+    *     A: iteration
     * @param {string} text
     * @return {number}
     */
@@ -20,9 +22,9 @@ class Solution {
       return maxDep
    };
 }
+
+
 const maxDepth = new Solution().maxDepth;
-
-
-console.log(new Solution().maxDepth('(1+(2*3)+((8)/4))+1'), 3)
-console.log(new Solution().maxDepth('(1)+((2))+(((3)))'), 3)
-console.log(new Solution().maxDepth('()(())((()()))'), 3)
+console.log(new Solution().maxDepth('(1+(2*3)+((8)/4))+1') === 3)
+console.log(new Solution().maxDepth('(1)+((2))+(((3)))') === 3)
+console.log(new Solution().maxDepth('()(())((()()))') === 3)

@@ -18,7 +18,7 @@ class Solution:
         Auxiliary space complexity: O(n)
         Tags: 
             DS: binary tree
-            A: dfs, recursion
+            A: dfs, recursion, pre-order traversal
         """
         is_balanced = True
 

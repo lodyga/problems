@@ -1,37 +1,65 @@
 class Solution {
    /**
-    * Time complexity: O(2^n)
-    *     O(2^numbers)
+    * Time complexity: O(n2^n)
     * Auxiliary space complexity: O(n)
-    * Tags: backtracking
+    * Tags: 
+    *     DS: list
+    *     A: backtracking
     * @param {number} n
     * @param {number} k
     * @return {number[][]}
     */
    combine(n, k) {
       const combination = [];
-      const combinationList = [];
-      const numbers = Array.from({length:n}, (n, k) => k + 1);
-      dfs(0)
-      return combinationList
+      const combinations = [];
 
-      function dfs(index) {
-         if (combination.length === k) {
-            combinationList.push(combination.slice());
+      const backtrack = (index) => {
+         if (index == n) {
+            if (combination.length === k)
+               combinations.push(combination.slice());
             return
-         } else if (index === n)
-            return
-         
-         combination.push(numbers[index]);
-         dfs(index + 1);
+         }
+         combination.push(index + 1);
+         backtrack(index + 1);
          combination.pop();
-         dfs(index + 1);
+         backtrack(index + 1);
       }
+      backtrack(0)
+      return combinations
+   };
+
+   /**
+    * Time complexity: O(n2^n)
+    * Auxiliary space complexity: O(n)
+    * Tags: 
+    *     DS: list
+    *     A: backtracking
+    * @param {number} n
+    * @param {number} k
+    * @return {number[][]}
+    */
+   combine(n, k) {
+      const combination = [];
+      const combinations = [];
+
+      const backtrack = (index) => {
+         if (combination.length === k) {
+            combinations.push(combination.slice());
+            return
+         }
+         for (let num = index; num < n + 1; num++) {
+            combination.push(num);
+            backtrack(num + 1);
+            combination.pop();
+         }
+      }
+      backtrack(1)
+      return combinations
    };
 }
+
+
 const combine = new Solution().combine;
-
-
-console.log(new Solution().combine(1, 1), [[1]])
-console.log(new Solution().combine(2, 2), [[1, 2]])
-console.log(new Solution().combine(4, 2), [[1, 2], [1, 3], [1, 4], [2, 3], [2, 4], [3, 4]])
+console.log(JSON.stringify(new Solution().combine(1, 1)) === JSON.stringify([[1]]))
+console.log(JSON.stringify(new Solution().combine(2, 2)) === JSON.stringify([[1, 2]]))
+console.log(JSON.stringify(new Solution().combine(4, 2)) === JSON.stringify([[1, 2], [1, 3], [1, 4], [2, 3], [2, 4], [3, 4]]))

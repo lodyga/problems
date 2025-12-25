@@ -2,35 +2,36 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: sliding window
-    * @param {number[]} numbers
+    * Tags: 
+    *    A: sliding window
+    * @param {number[]} nums
     * @param {number} k
     * @return {number}
     */
-   countSubarrays(numbers, k) {
-      let left = 0;
+   countSubarrays(nums, k) {
       let window = 0;
-      let maxNumber = Math.max(...numbers);
-      let subarrayCounter = 0;
+      let left = 0;
+      let maxNum = Math.max(...nums);
+      let counter = 0;
 
-      for (const number of numbers) {
-         if (number === maxNumber) {
+      for (const number of nums) {
+         if (number === maxNum) {
             window++;
          }
          while (window === k) {
-            if (numbers[left] === maxNumber) {
+            if (nums[left] === maxNum) {
                window--;
             }
             left++;
          }
-         subarrayCounter += left;
+         counter += left;
       }
-      return subarrayCounter
+      return counter
    };
 }
+
+
 const countSubarrays = new Solution().countSubarrays;
-
-
 console.log(new Solution().countSubarrays([1, 3, 2, 3, 3], 2) === 6)
 console.log(new Solution().countSubarrays([1, 3, 2, 3, 3, 1], 2) === 10)
 console.log(new Solution().countSubarrays([1, 3, 2, 3, 1], 2) === 4)

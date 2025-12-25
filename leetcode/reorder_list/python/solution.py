@@ -1,16 +1,3 @@
-r"""
-draft
-1, 2, 3, 4, 5, None
-sf
-   s  f
-      s     f 
-1, 2, 3, 4, None
-sf 
-   s  f
-      s     f
-"""
-
-
 from linked_list_utils import *
 
 
@@ -24,30 +11,33 @@ from linked_list_utils import *
 
 
 class Solution:
-    def reorderList(self, head: ListNode) -> None:
+    def reorderList(self, head: ListNode) -> ListNode:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: linked list, two pointers
+        Tags: 
+            DS: linked list
+            A: two pointers
         """
-        # find middle node
         slow = head
         fast = head
+
+        # Find the left end.
         while fast and fast.next:
             slow = slow.next
             fast = fast.next.next
-
-        # reverse second part (always even size)
-        prev = None
+        
+        # Reverse the right portion
         node = slow.next
         slow.next = None  # Cut the list into two halves
+        prev = None
         while node:
             node_next = node.next
             node.next = prev
             prev = node
             node = node_next
         
-        # reorder
+        # Merge the left and right portions.
         left = head
         right = prev
         while right:
@@ -61,5 +51,5 @@ class Solution:
         return head
 
 
-print(get_linked_list_values(Solution().reorderList(build_linked_list([1, 2, 3, 4]))) == [1, 4, 2, 3])
-print(get_linked_list_values(Solution().reorderList(build_linked_list([1, 2, 3, 4, 5]))) == [1, 5, 2, 4, 3])
+print(are_linked_lists_equeal(Solution().reorderList(build_linked_list([1, 2, 3, 4])),build_linked_list([1, 4, 2, 3])))
+print(are_linked_lists_equeal(Solution().reorderList(build_linked_list([1, 2, 3, 4, 5])), build_linked_list([1, 5, 2, 4, 3])))

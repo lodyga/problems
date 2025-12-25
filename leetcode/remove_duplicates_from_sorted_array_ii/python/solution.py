@@ -1,36 +1,37 @@
 class Solution:
-    def removeDuplicates(self, numbers: list[int]) -> int:
+    def removeDuplicates(self, nums: list[int]) -> int:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: two pointers
+        Tags: 
+            A: two pointers
         """
         left = 1
-
-        for right in range(2, len(numbers)):
-            # if numbers[left - 1] == numbers[left] == numbers[right]:
-            if numbers[left - 1] == numbers[right]:
+        
+        for right in range(2, len(nums)):
+            if nums[left - 1] == nums[right]:
                 continue
             else:
                 left += 1
-                numbers[left] = numbers[right]
-
+                nums[left], nums[right] = nums[right], nums[left]
+        
         return left + 1
 
 
 class Solution:
-    def removeDuplicates(self, numbers: list[int]) -> int:
+    def removeDuplicates(self, nums: list[int]) -> int:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: two pointers
+        Tags: 
+            A: two pointers
         """
         left = 1
 
-        for right in range(2, len(numbers)):
-            if numbers[left - 1] < numbers[right]:
+        for right in range(2, len(nums)):
+            if nums[left - 1] < nums[right]:
                 left += 1
-                numbers[left] = numbers[right]
+                nums[left] = nums[right]
 
         return left + 1
 

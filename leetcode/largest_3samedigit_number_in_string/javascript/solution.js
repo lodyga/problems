@@ -1,30 +1,36 @@
 class Solution {
    /**
     * Time complexity: O(n)
-    * Auxiliary space complexity: O(n)
-    * @param {string} number
+    * Auxiliary space complexity: O(1)
+    * Tags:
+    *     DS: strging
+    *     A: iteration
+    * @param {string} num
     * @return {string}
     */
-   largestGoodInteger(number) {
+   largestGoodInteger(num) {
       let triplet = '';
 
-      for (let index = 0; index < number.length - 2; index++) {
+      for (let index = 0; index < num.length - 2; index++) {
          if (
-            number[index] === number[index + 1] &&
-            number[index + 1] === number[index + 2]
+            num[index] === num[index + 1] &&
+            num[index + 1] === num[index + 2]
          ) {
-            triplet = Math.max(triplet, number.slice(index, index + 3));
-            index += 2;
+            if (
+               triplet === '' ||
+               (triplet && num[index] > triplet[0])
+            ) 
+               triplet = num[index].repeat(3);
          }
       }
-      return triplet === 0 ? '000' : triplet.toString()
+      return triplet
    };
 }
+
+
 const largestGoodInteger = new Solution().largestGoodInteger;
-
-
-console.log(new Solution().largestGoodInteger('6777133339'), '777')
-console.log(new Solution().largestGoodInteger('2300019'), '000')
-console.log(new Solution().largestGoodInteger('42352338'), '')
-console.log(new Solution().largestGoodInteger('7678222622241118390785777474281834906756431393782326744172075725179542796491876218340'), '777')
-console.log(new Solution().largestGoodInteger('333666'), '666')
+console.log(new Solution().largestGoodInteger('6777133339') === '777')
+console.log(new Solution().largestGoodInteger('2300019') === '000')
+console.log(new Solution().largestGoodInteger('42352338') === '')
+console.log(new Solution().largestGoodInteger('333666') === '666')
+console.log(new Solution().largestGoodInteger('7678222622241118390785777474281834906756431393782326744172075725179542796491876218340') === '777')

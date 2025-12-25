@@ -3,28 +3,32 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: hash map, hash set
+        Tags: 
+            DS: hash map, hash set
+            A: iteration
         """
-        word_list = text.split()
-        unique_words = set()
-        letter_to_word_map = {}
-        if len(pattern) != len(word_list):
+        words = text.split(" ")
+        if len(pattern) != len(words):
             return False
 
-        for index, letter in enumerate(pattern):
-            if letter not in letter_to_word_map:
-                if word_list[index] in unique_words:
+        letter_map = {}
+        word_set = set()
+        
+        for letter, word in zip(pattern, words):
+            if letter in letter_map:
+                if letter_map[letter] != word:
                     return False
-                letter_to_word_map[letter] = word_list[index]
-                unique_words.add(word_list[index])
             else:
-                if letter_to_word_map[letter] != word_list[index]:
+                if word in word_set:
                     return False
+                letter_map[letter] = word
+                word_set.add(word)
         
         return True
 
 
-print(Solution().wordPattern("abba", "dog cat cat dog"), True)
-print(Solution().wordPattern("abba", "dog cat cat fish"), False)
-print(Solution().wordPattern("aaaa", "dog cat cat dog"), False)
-print(Solution().wordPattern("abba", "dog dog dog dog"), False)
+print(Solution().wordPattern("abba", "dog cat cat dog") == True)
+print(Solution().wordPattern("abba", "dog cat cat fish") == False)
+print(Solution().wordPattern("aaaa", "dog cat cat dog") == False)
+print(Solution().wordPattern("abba", "dog dog dog dog") == False)
+print(Solution().wordPattern("aaa", "aa aa aa aa") == False)

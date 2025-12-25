@@ -4,29 +4,36 @@ class Solution {
     *     n: number of words
     *     k: avg word length
     * Auxiliary space complexity: O(k)
-    * @param {string[]} wordList
+    * Tags: 
+    *     DS: list
+    *     A: iteration
+    * @param {string[]} words
     * @return {string}
     */
-   longestCommonPrefix(wordList) {
-      let prefix = wordList[0];
-      for (const word of wordList.slice(1,)) {
-         for (let index = 0; index < word.length; index++) {
-            const letter = word[index];
-            if (
-               index < prefix.length &&
-               prefix[index] !== letter
-            ) {
-               prefix = prefix.slice(0, index);
+   longestCommonPrefix(words) {
+      const prefix = Array.from(words[0]);
+
+      for (const word of words) {
+         while (prefix.length > word.length)
+            prefix.pop();
+
+         for (let index = 0; index < prefix.length; index++) {
+            if (prefix[index] !== word[index]) {
+               while (prefix.length > index)
+                  prefix.pop()
                break
             }
-            prefix = prefix.slice(0, word.length);
          }
+         if (prefix.length === 0)
+            return ""
       }
-      return prefix
+      return prefix.join('')
    };
 }
 
 
+const longestCommonPrefix = new Solution().longestCommonPrefix;
 console.log(new Solution().longestCommonPrefix(['flower', 'flow']) === 'flow')
 console.log(new Solution().longestCommonPrefix(['flower', 'flow', 'flight']) === 'fl')
 console.log(new Solution().longestCommonPrefix(['dog', 'racecar', 'car']) === '')
+console.log(new Solution().longestCommonPrefix(['aaa', 'aa', 'aaa']) == 'aa')

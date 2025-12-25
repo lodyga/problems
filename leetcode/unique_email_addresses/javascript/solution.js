@@ -1,7 +1,12 @@
 class Solution {
    /**
-    * Time complexity: O(n)
-    * Auxiliary space complexity: O(n)
+    * Time complexity: O(n*m)
+    *     n: emails len
+    *     m: avg email len
+    * Auxiliary space complexity: O(n*m)
+    * Tags:
+    *     DS: hash set
+    *     A: iteration
     * @param {string[]}
     * @return {number}
     */
@@ -27,15 +32,15 @@ class Solution {
       }
       return cleanEmails.size
    };
-}
-const numUniqueEmails = new Solution().numUniqueEmails;
 
-
-class Solution {
    /**
-    * Time complexity: O(n)
-    * Auxiliary space complexity: O(n)
-    * Tags: regex
+    * Time complexity: O(n*m)
+    *     n: emails len
+    *     m: avg email len
+    * Auxiliary space complexity: O(n*m)
+    * Tags:
+    *     DS: hash set
+    *     A: iteration, regex
     * @param {string[]}
     * @return {number}
     */
@@ -53,12 +58,12 @@ class Solution {
 
          clean_emails.add(name + '@' + domain);
       }
-
       return clean_emails.size
    };
 }
+
+
 const numUniqueEmails = new Solution().numUniqueEmails;
-
-
-console.log(new Solution().numUniqueEmails(['test.email+alex@leetcode.com', 'test.e.mail+bob.cathy@leetcode.com', 'testemail+david@lee.tcode.com']), 2)
-console.log(new Solution().numUniqueEmails(['a@leetcode.com', 'b@leetcode.com', 'c@leetcode.com']), 3)
+console.log(new Solution().numUniqueEmails(['test.email+alex@leetcode.com', 'test.e.mail+bob.cathy@leetcode.com', 'testemail+david@lee.tcode.com']) == 2)
+console.log(new Solution().numUniqueEmails(['a@leetcode.com', 'b@leetcode.com', 'c@leetcode.com']) == 3)
+console.log(new Solution().numUniqueEmails(['a@leetcode.com', 'b@leetcode.com', 'c@leetcode.com']) == 3)

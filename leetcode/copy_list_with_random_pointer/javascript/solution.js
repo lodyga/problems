@@ -11,25 +11,32 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: linked list, hash map
+    * Tags: 
+    *     DS: linked list, hash map
+    *     A: iteration
     * @param {_Node} head
     * @return {_Node}
     */
    copyRandomList(head) {
-      const originalToCopy = new Map([[null, null]]);
+      const nodeMap = new Map([[null, null]]);
+      
       let node = head;
       while (node) {
-         originalToCopy.set(node, new _Node(node.val));
+         const nodeCopy = new _Node(node.val);
+         nodeMap.set(node, nodeCopy);
          node = node.next;
       }
 
       node = head;
       while (node) {
-         originalToCopy.get(node).next = originalToCopy.get(node.next);
-         originalToCopy.get(node).random = originalToCopy.get(node.random);
+         const nodeCopy = nodeMap.get(node);
+         nodeCopy.next = nodeMap.get(node.next);
+         nodeCopy.random = nodeMap.get(node.random);
          node = node.next;
       }
-
-      return originalToCopy.get(head);
+      return nodeMap.get(head);
    };
 }
+
+
+const copyRandomList = new Solution().copyRandomList;

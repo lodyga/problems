@@ -3,22 +3,27 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: stack
+        Tags: 
+            DS: stack
+            A: iteration
         """
         stack = []
 
         for asteroid in asteroids:
             add_asteroid = True
 
-            while (stack and stack[-1] > 0 and
-                   asteroid < 0):
+            while (
+                stack and
+                stack[-1] >= 0 and
+                asteroid < 0
+            ):
                 if stack[-1] < abs(asteroid):
                     stack.pop()
-                elif stack[-1] == abs(asteroid):
+                elif asteroid + stack[-1] == 0:
                     stack.pop()
                     add_asteroid = False
                     break
-                else:
+                else:  # stack[-1] > abs(asteroid)
                     add_asteroid = False
                     break
 

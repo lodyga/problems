@@ -1,9 +1,11 @@
 # Number of Good Pairs
 https://leetcode.com/problems/number-of-good-pairs/description/
 
+
 Given an array of integers nums, return the number of good pairs.
 
 A pair (i, j) is called good if nums[i] == nums[j] and i < j.
+
 
 <b>Example 1:</b>\
 Input: nums = [1,2,3,1,1,3]\

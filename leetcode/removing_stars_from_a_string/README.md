@@ -1,6 +1,7 @@
 # Removing Stars From a String
 https://leetcode.com/problems/removing-stars-from-a-string/description/
 
+
 You are given a string s, which contains stars *.
 
 In one operation, you can:
@@ -13,6 +14,7 @@ Note:
 
 The input will be generated such that the operation is always possible.
 It can be shown that the resulting string will always be unique.
+
 
 <b>Example 1:</b>\
 Input: s = "leet**cod*e"\

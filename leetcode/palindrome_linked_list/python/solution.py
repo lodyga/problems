@@ -15,27 +15,25 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: linked list
+        Tags: 
+            DS: linked list
+            A: iteration
         """
-        node = head
-        palindrome_lenght = 0
+        if head.next is None:
+            return True
 
-        while node:
-            palindrome_lenght += 1
-            node = node.next
-        
-        middle = palindrome_lenght // 2
+        slow = head
+        fast = head.next
 
-        # find the end of the left potrion
-        node = head
-        for _ in range(middle):
-            node = node.next
+        # Find the end of the left potrion.
+        while fast.next:
+            slow = slow.next
+            fast = fast.next
+            if fast.next:
+                fast = fast.next
 
-        # if palindrome lenght is odd, skipp the middle node
-        if palindrome_lenght % 2:
-            node = node.next
-        
-        # reverse the right portion
+        # Reverse the right portion.
+        node = slow.next
         prev = None
         while node:
             node_next = node.next
@@ -43,19 +41,22 @@ class Solution:
             prev = node
             node = node_next
 
-        # compare both portions
-        left_node = head
-        right_node = prev
-        while right_node:
-            if left_node.val != right_node.val:
+        # Compare the left and right portions.
+        left = head
+        right = prev
+        while right:
+            if left.val != right.val:
                 return False
-            left_node = left_node.next
-            right_node = right_node.next
+
+            left = left.next
+            right = right.next
 
         return True
 
 
-print(Solution().isPalindrome(build_linked_list([5, 5])), True)
-print(Solution().isPalindrome(build_linked_list([4, 5])), False)
-print(Solution().isPalindrome(build_linked_list([1, 2, 2, 1])), True)
-print(Solution().isPalindrome(build_linked_list([1, 2, 1])), True)
+print(Solution().isPalindrome(build_linked_list([5, 5])) == True)
+print(Solution().isPalindrome(build_linked_list([4, 5])) == False)
+print(Solution().isPalindrome(build_linked_list([1, 2, 2, 1])) == True)
+print(Solution().isPalindrome(build_linked_list([1, 2, 1])) == True)
+print(Solution().isPalindrome(build_linked_list([1, 2, 3, 3, 2, 1])) == True)
+print(Solution().isPalindrome(build_linked_list([5])) == True)

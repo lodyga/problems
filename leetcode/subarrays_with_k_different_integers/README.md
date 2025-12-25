@@ -1,19 +1,25 @@
 # Subarrays with K Different Integers
 https://leetcode.com/problems/subarrays-with-k-different-integers/description/
 
+<p>
 Given an integer array nums and an integer k, return the number of good subarrays of nums.
 
 A good array is an array where the number of different integers in that array is exactly k.
 
 For example, [1,2,3,1,2] has 3 different integers: 1, 2, and 3.
 A subarray is a contiguous part of an array.
+</p>
 
-<b>Example 1:</b>\
-Input: nums = [1,2,1,2,3], k = 2\
-Output: 7\
+<pre>
+<b>Example 1:</b>
+Input: nums = [1,2,1,2,3], k = 2
+Output: 7
 Explanation: Subarrays formed with exactly 2 different integers: [1,2], [2,1], [1,2], [2,3], [1,2,1], [2,1,2], [1,2,1,2]
+</pre>
 
-<b>Example 2:</b>\
-Input: nums = [1,2,1,3,4], k = 3\
-Output: 3\
+<pre>
+<b>Example 2:</b>
+Input: nums = [1,2,1,3,4], k = 3
+Output: 3
 Explanation: Subarrays formed with exactly 3 different integers: [1,2,1,3], [2,1,3], [1,3,4].
+</pre>

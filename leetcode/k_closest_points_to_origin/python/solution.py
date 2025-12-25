@@ -1,25 +1,40 @@
 import heapq
 
+
 class Solution:
     def kClosest(self, points: list[list[int]], k: int) -> list[list[int]]:
         """
         Time complexity: O(nlogk)
         Auxiliary space complexity: O(k)
-        Tags: heap
+        Tags: 
+            DS: heap
+            A: heap
         """
-        distance_list = []
-        heapq.heapify(distance_list)
+        point_heap = []
 
         for x, y in points:
-            distance = (x**2 + y**2) #** 0.5
-            if len(distance_list) < k:
-                heapq.heappush(distance_list, [-distance, x, y])
+            dist = x**2 + y**2
+
+            if len(point_heap) < k:
+                heapq.heappush(point_heap, (-dist, x, y))
             else:
-                heapq.heappushpop(distance_list, [-distance, x, y])
-        
-        return [[x, y] for _, x, y in distance_list]
+                heapq.heappushpop(point_heap, (-dist, x, y))
+
+        return [[x, y] for _, x, y in point_heap]
 
 
-print(Solution().kClosest([[1, 3], [-2, 2]], 1), [[-2, 2]])
-print(Solution().kClosest([[3, 3], [5, -1], [-2, 4]], 2), [[-2, 4], [3, 3]])
-print(Solution().kClosest([[1, 3], [-2, 2], [2, -2]], 2), [[-2, 2], [2, -2]])
+class Solution:
+    def kClosest(self, points: list[list[int]], k: int) -> list[list[int]]:
+        """
+        Time complexity: O(nlogn)
+        Auxiliary space complexity: O(k)
+        Tags: 
+            A: sorting, build-in function
+        """
+        points.sort(key=lambda x: (x[0]**2 + x[1]**2))
+        return points[: k]
+
+
+print(sorted(Solution().kClosest([[1, 3], [-2, 2]], 1)) == sorted([[-2, 2]]))
+print(sorted(Solution().kClosest([[3, 3], [5, -1], [-2, 4]], 2)) == sorted([[-2, 4], [3, 3]]))
+print(sorted(Solution().kClosest([[1, 3], [-2, 2], [2, -2]], 2)) == sorted([[-2, 2], [2, -2]]))

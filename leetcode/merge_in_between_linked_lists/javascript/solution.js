@@ -1,4 +1,4 @@
-import {ListNode, buildLinkedList, getLinkedListValues} from '../../../../JS/linked-list-utils.js'
+import { ListNode, areLinkedListsEqueal, buildLinkedList, getLinkedListValues } from '../../../../JS/linked-list-utils.js'
 
 
 /**
@@ -16,43 +16,40 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: linked list
+    * Tags: 
+    *     DS: linked list
+    *     A: iteration
     * @param {ListNode} head1
     * @param {number} a
     * @param {number} b
     * @param {ListNode} head2
     * @return {ListNode}
     */
-   mergeInBetween = function (head1, a, b, head2) {
-      const anchor = new ListNode(null, head1);
-      let node = anchor;
+   mergeInBetween(head1, a, b, head2) {
+      // Traverse to merge start in list 1.
+      let node1 = head1;
+      for (let index = 0; index < a - 1; index++)
+         node1 = node1.next;
+      const mergeStart = node1;
 
-      while (a) {
-         node = node.next;
-         a--;
-         b--;
-      }
-      const startNode = node;
+      // Traverse to merge end in list 1.
+      for (let index = 0; index < b - a + 2; index++)
+         node1 = node1.next;
+      const mergeEnd = node1;
 
-      while (b + 2) {
-         node = node.next
-         b--;
-      }
-      const endNode = node;
+      // Traverse to end in list 2.
+      let node2 = head2;
+      while (node2.next)
+         node2 = node2.next;
 
-      node = head2;
-      while (node.next) {
-         node = node.next;
-      }
-      node.next = endNode;
-
-      startNode.next = head2
-
-      return anchor.next
+      // Merge 
+      mergeStart.next = head2;
+      node2.next = mergeEnd;
+      return head1
    };
 }
+
+
 const mergeInBetween = new Solution().mergeInBetween;
-
-
-console.log(getLinkedListValues(new Solution().mergeInBetween(buildLinkedList([10, 1, 13, 6, 9, 5]), 3, 4, buildLinkedList([1000000, 1000001, 1000002]))), [10, 1, 13, 1000000, 1000001, 1000002, 5])
-console.log(getLinkedListValues(new Solution().mergeInBetween(buildLinkedList([0, 1, 2, 3, 4, 5, 6]), 2, 5, buildLinkedList([1000000, 1000001, 1000002, 1000003, 1000004]))), [0, 1, 1000000, 1000001, 1000002, 1000003, 1000004, 6])
+console.log(areLinkedListsEqueal(new Solution().mergeInBetween(buildLinkedList([10, 1, 13, 6, 9, 5]), 3, 4, buildLinkedList([1000000, 1000001, 1000002])), buildLinkedList([10, 1, 13, 1000000, 1000001, 1000002, 5])))
+console.log(areLinkedListsEqueal(new Solution().mergeInBetween(buildLinkedList([0, 1, 2, 3, 4, 5, 6]), 2, 5, buildLinkedList([1000000, 1000001, 1000002, 1000003, 1000004])), buildLinkedList([0, 1, 1000000, 1000001, 1000002, 1000003, 1000004, 6])))

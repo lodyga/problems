@@ -1,11 +1,14 @@
 # Path Sum
 https://leetcode.com/problems/path-sum/description/
 
+
 Given the root of a binary tree and an integer targetSum, return true if the tree has a root-to-leaf path such that adding up all the values along the path equals targetSum.
 
 A leaf is a node with no children.
 
-<b>Example 1:</b>
+
+<b>Example 1:</b>\
+Input: root = [5,4,8,11,null,13,4,7,2,null,null,null,1], targetSum = 22
 <pre>
          5___
         /    \
@@ -15,19 +18,16 @@ A leaf is a node with no children.
  /  \            \
 7    2            1
 </pre>
-
-Input: root = [5,4,8,11,null,13,4,7,2,null,null,null,1], targetSum = 22
-Output: true
+Output: true\
 Explanation: The root-to-leaf path with the target sum is shown.
 
-<b>Example 2:</b>
+<b>Example 2:</b>\
+Input: root = [1,2,3], targetSum = 5
 <pre>
   1
  / \
 2   3
 </pre>
-
-Input: root = [1,2,3], targetSum = 5\
 Output: false\
 Explanation: There are two root-to-leaf paths in the tree:\
 (1 --> 2): The sum is 3.\

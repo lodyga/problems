@@ -2,28 +2,36 @@ class Solution:
     def successfulPairs(self, spells: list[int], potions: list[int], success: int) -> list[int]:
         """
         Time complexity: O(mlogm + nlogm)
-        Auxiliary space complexity: O(m)
-        Tags: binary search
+            n: spell count 
+            m: potion count
+        Auxiliary space complexity: O(n + m)
+        Tags: 
+            DS: array
+            A: binary search, sorting
         """
         potions.sort()
-        successful_spells = [0] * len(spells)
+        res = []
 
-        for index, spell in enumerate(spells):
+        for spell in spells:
             left = 0
             right = len(potions) - 1
+            min_right = len(potions)
+            threshold = success / spell
 
             while left <= right:
-                middle = (left + right) // 2
-                middle_potion = potions[middle]
+                middle = (left + right) >> 1
+                middle_num = potions[middle]
 
-                if middle_potion * spell >= success:
-                    right = middle - 1
-                else:
+                if middle_num * spell < success:
+                # if middle_num < threshold:
                     left = middle + 1
-                
-            successful_spells[index] = len(potions) - left
-        
-        return successful_spells
+                else:
+                    min_right = middle
+                    right = middle - 1
+
+            res.append(len(potions) - min_right)
+            
+        return res
 
 
 print(Solution().successfulPairs([5, 1, 3], [1, 2, 3, 4, 5], 7) == [4, 0, 3])

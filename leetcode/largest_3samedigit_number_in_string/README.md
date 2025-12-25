@@ -1,6 +1,7 @@
 # Largest 3-Same-Digit Number in String
 https://leetcode.com/problems/largest-3-same-digit-number-in-string/description/
 
+
 You are given a string num representing a large integer. An integer is good if it meets the following conditions:
 
 It is a substring of num with length 3.
@@ -11,6 +12,7 @@ Note:
 
 A substring is a contiguous sequence of characters within a string.
 There may be leading zeroes in num or a good integer.
+
  
 <b>Example 1:</b>\
 Input: num = "6777133339"\

@@ -1,24 +1,32 @@
 class Solution {
    /**
     * Time complexity: O(n)
-    * Auxiliary space complexity: O(n)
-    * @param {number[]} numbers
+    * Auxiliary space complexity: O(1)
+    * Tags:
+    *     A: negative marking, in-place method
+    * @param {number[]} nums
     * @return {number[]}
     */
-   findDisappearedNumbers(numbers) {
-      const numberSet = new Set(numbers);
-      const complement = [];
-
-      for (let number = 1; number <= numbers.length; number++) {
-         if (!numberSet.has(number)) {
-            complement.push(number)
-         }
+   findDisappearedNumbers(nums) {
+      for (let num of nums) {
+         num = Math.abs(num);
+         nums[num - 1] = -Math.abs(nums[num - 1]);
       }
-      return complement
+      // return nums
+      //    .map((value, index) => [value, index])
+      //    .filter(([value, _]) => value > 0)
+      //    .map(([_, index]) => index + 1)
+      const res = [];
+      for (let index = 0; index < nums.length; index++) {
+         const num = nums[index];
+         if (num > 0)
+            res.push(index + 1);
+      }
+      return res
    };
 }
+
+
 const findDisappearedNumbers = new Solution().findDisappearedNumbers;
-
-
-console.log(new Solution().findDisappearedNumbers([4, 3, 2, 7, 8, 2, 3, 1]), [5, 6])
-console.log(new Solution().findDisappearedNumbers([1, 1]), [2])
+console.log(JSON.stringify(new Solution().findDisappearedNumbers([1, 1])) === JSON.stringify([2]))
+console.log(JSON.stringify(new Solution().findDisappearedNumbers([4, 3, 2, 7, 8, 2, 3, 1])) === JSON.stringify([5, 6]))

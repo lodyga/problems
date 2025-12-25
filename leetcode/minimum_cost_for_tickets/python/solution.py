@@ -1,17 +1,37 @@
-r"""
-draft
-                                               1
-                      (1,2)/               (7,7)|                 (30,15)\
-                         2                     8                         31
-          /             |   \               /    |     \
-         3              9    32            9    15     39
-    /    | \        /   | \
-   4    10  33     10   16  39
+class Solution:
+    def mincostTickets(self, days: list[int], costs: list[int]) -> int:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(n)
+        Tags: 
+            DS: array
+            A: top-down
+        """
+        # [day_index: min cost] minimum cost to travel from day dayIndex pointing day onwards
+        memo = [-1] * len(days)
+        UPPER_COST = len(days) * costs[0]
 
-[1,  4, 6, 7, 8, 20]
-[12, 10, 8, 6, 4, 2, 0]
-[                   ,  0]
-"""
+        def dfs(index):
+            if index == len(days):
+                return 0
+            elif memo[index] != -1:
+                return memo[index]
+
+            day = days[index]
+            memo[index] = UPPER_COST
+            next_index = index
+
+            for cost, validity in zip(costs, (1, 7, 30)):
+                while (
+                    next_index < len(days) and
+                    days[next_index] < day + validity
+                ):
+                    next_index += 1
+                memo[index] = min(memo[index], cost + dfs(next_index))
+
+            return memo[index]
+
+        return dfs(0)
 
 
 class Solution:
@@ -19,18 +39,16 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: dp, top-down with memoization as hash map
+        Tags: 
+            DS: array
+            A: bottom-up
         """
-        memo = {}  # {day_index: min cost} minimum cost to travel from day index pointing day onwards
+        UPPER_COST = len(days) * costs[0]
+        # {day_index: cost} minimum cost to travel from day index pointing day onwards
+        cache = [UPPER_COST] * (len(days) + 1)
+        cache[-1] = 0
 
-        def dfs(day_index):
-            if day_index >= len(days):
-                return 0
-            elif day_index in memo:
-                return memo[day_index]
-
-            memo[day_index] = float("inf")
-
+        for day_index in range(len(days) - 1, -1, -1):
             for cost, validity in zip(costs, (1, 7, 30)):
                 day_index_delta = 1
 
@@ -40,94 +58,10 @@ class Solution:
                 ):
                     day_index_delta += 1
 
-                memo[day_index] = min(memo[day_index], 
-                                      cost + dfs(day_index + day_index_delta))
-
-            return memo[day_index]
-
-        return dfs(0)
-
-
-class Solution:
-    def mincostTickets(self, days: list[int], costs: list[int]) -> int:
-        """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(n)
-        Tags: dp, top-down with memoization as array
-        """
-        memo = [None] * len(days)  # {day_index: cost} minimum cost to travel from day index pointing day onwards
-
-
-        def dfs(day_index):
-            if day_index >= len(days):
-                return 0
-            elif memo[day_index] is not None:
-                return memo[day_index]
-
-            memo[day_index] = float("inf")
-
-            for cost, validity in zip(costs, (1, 7, 30)):
-                day_index_delta = 1
-
-                while (day_index + day_index_delta < len(days) and
-                       days[day_index + day_index_delta] < days[day_index] + validity):
-                    day_index_delta += 1
-
-                memo[day_index] = min(memo[day_index], 
-                                      cost + dfs(day_index + day_index_delta))
-
-            return memo[day_index]
-
-        return dfs(0)
-
-
-class Solution:
-    def mincostTickets(self, days: list[int], costs: list[int]) -> int:
-        """
-        Time complexity: O(3^n)
-        Auxiliary space complexity: O(n)
-        Tags: brute-force, tle
-        """
-        def dfs(day_index):
-            if day_index >= len(days):
-                return 0
-
-            min_cost = float("inf")
-
-            for cost, validity in zip(costs, (1, 7, 30)):
-                day_index_delta = 1
-
-                while (day_index + day_index_delta < len(days) and
-                       days[day_index + day_index_delta] < days[day_index] + validity):
-                    day_index_delta += 1
-
-                min_cost = min(min_cost, cost + dfs(day_index + day_index_delta))
-
-            return min_cost
-
-        return dfs(0)
-
-
-class Solution:
-    def mincostTickets(self, days: list[int], costs: list[int]) -> int:
-        """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(n)
-        Tags: dp, top-down with memoization as array
-        """
-        cache = [float("inf")] * (len(days) + 1)  # {day_index: cost} minimum cost to travel from day index pointing day onwards
-        cache[-1] = 0
-
-        for day_index in reversed(range(len(days))):
-            for cost, validity in zip(costs, (1, 7, 30)):
-                day_index_delta = 1
-
-                while (day_index + day_index_delta < len(days) and
-                       days[day_index + day_index_delta] < days[day_index] + validity):
-                    day_index_delta += 1
-
-                cache[day_index] = min(cache[day_index], 
-                                      cost + cache[day_index + day_index_delta])
+                cache[day_index] = min(
+                    cache[day_index],
+                    cost + cache[day_index + day_index_delta]
+                )
 
         return cache[0]
 
