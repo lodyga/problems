@@ -6,7 +6,7 @@ class Solution:
             t: target
             m: min from candidates
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             DS: list
             A: DFS with backtracking
         """
@@ -41,7 +41,7 @@ class Solution:
             t: target
             m: min from candidates
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             DS: list
             A: DFS with backtracking
         """

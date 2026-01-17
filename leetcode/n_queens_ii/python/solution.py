@@ -3,38 +3,45 @@ class Solution:
         """
         Time complexity: O(n!)
         Auxiliary space complexity: O(n)
-        Tags: backtracking
+        Tags:
+            DS: array
+            A: backtracking
         """
-        rows = n
-        cols = n
-        self.counter = 0
-        visited_cols = set()
-        visited_diags = set()  # set(row + col, ...)
-        visited_adiags = set()  # set(row - col, ...)
+        ROWS = n
+        COLS = n
+        counter = 0
+        visited_cols = [False] * COLS
+        # [row + col, ...]
+        visited_diags = [False] * (ROWS + COLS - 1)
+        # [row - col + n, ...]
+        visited_adiags = [False] * (ROWS + COLS)
 
-        def dfs(row):
-            if row == rows:
-                self.counter += 1
+        def backtrack(row):
+            nonlocal counter
+            if row == ROWS:
+                counter += 1
                 return
 
-            for col in range(cols):
+            for col in range(COLS):
                 if (
-                    col in visited_cols or
-                    row + col in visited_diags or
-                    row - col in visited_adiags
+                    visited_cols[col] or
+                    visited_diags[row + col] or
+                    visited_adiags[row - col + n]
                 ):
                     continue
 
-                visited_cols.add(col)
-                visited_diags.add(row + col)
-                visited_adiags.add(row - col)
-                dfs(row + 1)
-                visited_cols.remove(col)
-                visited_diags.remove(row + col)
-                visited_adiags.remove(row - col)
+                visited_cols[col] = True
+                visited_diags[row + col] = True
+                visited_adiags[row - col + n] = True
 
-        dfs(0)
-        return self.counter
+                backtrack(row + 1)
+
+                visited_cols[col] = False
+                visited_diags[row + col] = False
+                visited_adiags[row - col + n] = False
+
+        backtrack(0)
+        return counter
 
 
 print(Solution().totalNQueens(1) == 1)

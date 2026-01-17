@@ -3,7 +3,7 @@ class Solution:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             DS: array
             A: top-down
         """
@@ -31,7 +31,7 @@ class Solution:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             DS: array
             A: bottom-up
         """
@@ -53,7 +53,7 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: 
+        Tags:
             A: greedy
         """
         max_jump = 1

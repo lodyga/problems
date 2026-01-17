@@ -5,7 +5,7 @@ class Solution:
             k: word count
             n: avg word length
         Auxiliary space complexity: O(1)
-        Tags: 
+        Tags:
             A: two pointers
         """
         def is_palindrome(word: str) -> bool:
@@ -30,7 +30,7 @@ class Solution:
             k: word count
             n: avg word length
         Auxiliary space complexity: O(k)
-        Tags: 
+        Tags:
             A: two pointers, build-in function
         """
         for word in words:

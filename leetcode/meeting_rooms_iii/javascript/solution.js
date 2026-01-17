@@ -1,57 +1,60 @@
-import { PriorityQueue, PriorityQueue } from '@datastructures-js/priority-queue';
+import { PriorityQueue } from '@datastructures-js/priority-queue';
 
 
 class Solution {
    /**
-    * Time complexity: O(mlogn + mlogm)
+    * Time complexity: O(mlogn)
     *     n: room count
-    *     m: meetins count
-    * Auxiliary space complexity: O(n + m)
-    * Tags: heap
+    *     m: meeting count
+    * Auxiliary space complexity: O(n)
+    * Tags:
+    *     DS: heap
+    *     A: iteration
     * @param {number} roomCount
     * @param {number[][]} meetings
     * @return {number}
     */
    mostBooked(roomCount, meetings) {
       meetings.sort((a, b) => a[0] === b[0] ? a[1] - b[1] : a[0] - b[0]);
-      // [(avaibility date, room number, room used)]
-      const meeting_rooms = new PriorityQueue((a, b) => a[0] - b[0] === 0 ? a[1] - b[1] : a[0] - b[0]);
-
-      // [(room number, room used)]
-      const avaible_rooms = new PriorityQueue((a, b) => a[0] - b[0] === 0 ? a[1] - b[1] : a[0] - b[0]);
-      for (let roomNumber = 0; roomNumber < roomCount; roomNumber++) {
-         avaible_rooms.enqueue([roomNumber, 0]);
+      // PriorityQueue([avaibility date, room number], )
+      const occupiedRooms = new PriorityQueue((a, b) => a[0] - b[0] === 0 ? a[1] - b[1] : a[0] - b[0]);
+      for (let room = 0; room < roomCount; room++) {
+         occupiedRooms.enqueue([0, room]);
       }
-      const roomUse = Array(roomCount).fill(0);
-      let maxRoomUse = 0;
+      // PriorityQueue([room number], )
+      const avaibleRooms = new PriorityQueue((a, b) => a - b);
+      const roomUseCounter = Array(roomCount).fill(0);
 
-      for (const [start, end] of meetings) {
-         while (!meeting_rooms.isEmpty() && start >= meeting_rooms.front()[0]) {
-            const [_, roomNumber, useCount] = meeting_rooms.dequeue();
-            avaible_rooms.enqueue([roomNumber, useCount]);
+      for (let [start, end] of meetings) {
+         const meetingDuration = end - start;
+
+         while (occupiedRooms.size() && occupiedRooms.front()[0] <= start) {
+            const [_, roomNumber] = occupiedRooms.dequeue();
+            avaibleRooms.enqueue(roomNumber);
          }
-         let rN;
-         if (avaible_rooms.size() !== 0) {
-            const [roomNumber, useCount] = avaible_rooms.dequeue();
-            meeting_rooms.enqueue([end, roomNumber, useCount + 1]);
-            rN = roomNumber;
+
+         let roomNumber = roomCount;
+         if (avaibleRooms.size()) {
+            roomNumber = avaibleRooms.dequeue();
          } else {
-            let [avaible, roomNumber, useCount] = meeting_rooms.dequeue();
-            avaible = Math.max(avaible, start) + (end - start);
-            meeting_rooms.enqueue([avaible, roomNumber, useCount + 1]);
-            rN = roomNumber;
+            const [avaible, rN] = occupiedRooms.dequeue();
+            roomNumber = rN;
+            // Avabile from room overrides start from meeting.
+            start = avaible;
          }
-         roomUse[rN] += 1;
-         maxRoomUse = Math.max(maxRoomUse, roomUse[rN]);
+         const meeingEnd = start + meetingDuration;
+         occupiedRooms.enqueue([meeingEnd, roomNumber]);
+         roomUseCounter[roomNumber] += 1;
       }
+      const maxUseCounter = Math.max(...roomUseCounter);
       for (let roomNumber = 0; roomNumber < roomCount; roomNumber++)
-         if (roomUse[roomNumber] === maxRoomUse)
+         if (roomUseCounter[roomNumber] === maxUseCounter)
             return roomNumber
    };
 }
+
+
 const mostBooked = new Solution().mostBooked;
-
-
 console.log(new Solution().mostBooked(2, [[0, 10], [1, 5], [2, 7], [3, 4]]) === 0)
 console.log(new Solution().mostBooked(3, [[1, 20], [2, 10], [3, 5], [4, 9], [6, 8]]) === 1)
 console.log(new Solution().mostBooked(3, [[1, 20], [2, 10], [3, 5], [4, 9], [6, 8]]) === 1)

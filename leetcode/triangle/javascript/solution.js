@@ -2,7 +2,7 @@ class Solution {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(1)
-    * Tags: 
+    * Tags:
     *     DS: array
     *     A: bottom-up, in-place
     * @param {number[][]} triangle

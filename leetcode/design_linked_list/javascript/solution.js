@@ -15,7 +15,7 @@ class ListNode {
  *     addAtIndex: O(n)
  *     deleteAtIndex: O(n)
  * Auxiliary space complexity O(n): 
- * Tags: 
+ * Tags:
  *     DS: linked list, singly linked list
  */
 class MyLinkedList {
@@ -166,7 +166,7 @@ myLinkedList.deleteAtIndex(1);  // now the linked list is 1 -> 3
 console.log(myLinkedList.get(1));  // return 3
 
 
-class DoublyListNode {
+class DoublyLinkedNode {
    constructor(val = null, next = null, prev = null) {
       this.val = val;
       this.next = next;
@@ -176,8 +176,8 @@ class DoublyListNode {
 
 class MyLinkedList2 {
    constructor() {
-      this.left = new DoublyListNode();
-      this.right = new DoublyListNode();
+      this.left = new DoublyLinkedNode();
+      this.right = new DoublyLinkedNode();
       this.left.next = this.right;
       this.right.prev = this.left;
    }
@@ -188,7 +188,7 @@ class MyLinkedList2 {
    addAtHead(val) {
       let next = this.left.next;
       let prev = this.left;
-      let node = new DoublyListNode(val, next, prev);
+      let node = new DoublyLinkedNode(val, next, prev);
       next.prev = node;
       prev.next = node;
    }
@@ -199,7 +199,7 @@ class MyLinkedList2 {
    addAtTail(val) {
       let next = this.right;
       let prev = this.right.prev;
-      let node = new DoublyListNode(val, next, prev);
+      let node = new DoublyLinkedNode(val, next, prev);
       next.prev = node;
       prev.next = node;
    }
@@ -236,7 +236,7 @@ class MyLinkedList2 {
 
       if (index === 0 && next) {
          let prev = next.prev;
-         let node = new DoublyListNode(val, next, prev);
+         let node = new DoublyLinkedNode(val, next, prev);
          prev.next = node;
          next.prev = node;
       }

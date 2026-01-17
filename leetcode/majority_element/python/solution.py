@@ -3,7 +3,7 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: 
+        Tags:
             A: greedy, Boyer-Moore Voting
         """
         major = 0
@@ -24,7 +24,7 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             DS: hash map
             A: iteration
         """

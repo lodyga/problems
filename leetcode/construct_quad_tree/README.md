@@ -1,6 +1,7 @@
 # Construct Quad Tree
 https://leetcode.com/problems/construct-quad-tree/
 
+<p>
 Given a n * n matrix grid of 0's and 1's only. We want to represent grid with a Quad-Tree.
 
 Return the root of the Quad-Tree representing grid.
@@ -22,13 +23,17 @@ We can construct a Quad-Tree from a two-dimensional area using the following ste
 If the current grid has the same value (i.e all 1's or all 0's) set isLeaf True and set val to the value of the grid and set the four children to Null and stop.
 If the current grid has different values, set isLeaf to False and set val to any value and divide the current grid into four sub-grids as shown in the photo.
 Recurse for each of the children with the proper sub-grid.
+</p>
 
+<pre>
 <b>Example 1:</b>
 Input: grid = [[0,1],[1,0]]
 Output: [[0,1],[1,0],[1,1],[1,1],[1,0]]
 Explanation: The explanation of this example is shown below:
 Notice that 0 represents False and 1 represents True in the photo representing the Quad-Tree.
+</pre>
 
+<pre>
 <b>Example 2:</b>
 Input: grid = [[1,1,1,1,0,0,0,0],[1,1,1,1,0,0,0,0],[1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1],[1,1,1,1,0,0,0,0],[1,1,1,1,0,0,0,0],[1,1,1,1,0,0,0,0],[1,1,1,1,0,0,0,0]]
 Output: [[0,1],[1,1],[0,1],[1,1],[1,0],null,null,null,null,[1,0],[1,0],[1,1],[1,1]]
@@ -36,3 +41,4 @@ Explanation: All values in the grid are not the same. We divide the grid into fo
 The topLeft, bottomLeft and bottomRight each has the same value.
 The topRight have different values so we divide it into 4 sub-grids where each has the same value.
 Explanation is shown in the photo below:
+</pre>

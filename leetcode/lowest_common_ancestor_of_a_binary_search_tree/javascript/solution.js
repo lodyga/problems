@@ -16,7 +16,7 @@ class Solution {
    /**
     * Time complexity: O(logn)
     * Auxiliary space complexity: O(logn)
-    * Tags: 
+    * Tags:
     *     DS: binary tree
     *     A: dfs, recursion, pre-order traversal
     * @param {TreeNode} root
@@ -56,7 +56,7 @@ class Solution {
    /**
     * Time complexity: O(logn)
     * Auxiliary space complexity: O(1)
-    * Tags: 
+    * Tags:
     *     DS: binary tree
     *     A: dfs, iteration, pre-order traversal
     * @param {TreeNode} root

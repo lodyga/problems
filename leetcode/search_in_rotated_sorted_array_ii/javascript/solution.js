@@ -2,7 +2,7 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: 
+    * Tags:
     *     A: almost binary search but not quite
     * @param {number[]} nums
     * @param {number} target
@@ -15,7 +15,7 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: 
+    * Tags:
     *     A: almost binary search but not quite
     * @param {number[]} nums
     * @param {number} target

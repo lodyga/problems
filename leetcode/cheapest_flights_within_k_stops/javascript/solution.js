@@ -3,9 +3,12 @@ import { MinPriorityQueue } from "@datastructures-js/priority-queue";
 
 class Solution {
    /**
-    * Time complexity: O(E*k)
-    * Auxiliary space complexity: O(V + E)
-    * Tags: Bellman-Ford
+    * Time complexity: O(Elog(V*k))
+    * Auxiliary space complexity: O(V*k)
+    * Tags:
+    *     DS: heap, array
+    *     A: greedy, Dijkstra with cache
+    *     Model: graph
     * @param {number} n
     * @param {number[][]} flights
     * @param {number} src
@@ -13,68 +16,76 @@ class Solution {
     * @param {number} k
     * @return {number}
     */
-   findCheapestPrice(n, flights, src, dst, k) {
-      let toCityCost = Array(n).fill(10 ** 6);
-      toCityCost[src] = 0;
-      
-      for (let transits = 0; transits <= k; transits++) {
-         const layerToCityCost = toCityCost.slice();
+   findCheapestPrice(N, flights, src, dst, k) {
+      const UPPER_BOUND = 10 ** 6
+      const cache = Array.from({ length: N }, () => Array(k + 2).fill(UPPER_BOUND));
+      const adjCities = Array.from({ length: N }, () => []);
 
-         for (const [source, destination, cost] of flights) {
-            if (toCityCost[source] === 10 ** 6)
-               continue
-
-            if (toCityCost[source] + cost < layerToCityCost[destination])
-               layerToCityCost[destination] = toCityCost[source] + cost;
-         }
-         toCityCost = layerToCityCost;
+      for (const [city, destination, price] of flights) {
+         adjCities[city].push([destination, price]);
       }
-      return toCityCost[dst] === 10 ** 6 ? -1 : toCityCost[dst]
-   };
-}
 
+      const flightHeap = new MinPriorityQueue(vertex => vertex[0]);
+      // Heap([price, city, transits])
+      flightHeap.enqueue([0, src, 0]);
 
-class Solution {
-   /**
-    * Time complexity: O(ElogV)
-    * Auxiliary space complexity: O(V+E)
-    * Tags: bfs, iteration, graph
-    * Dijkstra with memo
-    * @param {number} n
-    * @param {number[][]} flights
-    * @param {number} src
-    * @param {number} dst
-    * @param {number} k
-    * @return {number}
-    */
-   findCheapestPrice(n, flights, src, dst, k) {
-      const adjs = Array.from({ length: n }, () => []);
-      for (const [source, destination, cost] of flights) {
-         adjs[source].push([destination, cost]);
-      }
-      
-      const minHeap = new MinPriorityQueue((city) => city[0]);
-      // [price, transits, city]
-      minHeap.enqueue([0, -1, src]);
-      const toCityCost = Array.from({ length: n }, () => Array(k + 1).fill(10**6));
+      while (flightHeap.size()) {
+         const [price, city, transits] = flightHeap.dequeue();
 
-      while (minHeap.size()) {
-         const [cost, transits, city] = minHeap.dequeue()
-
-         if (city === dst)
-            return cost
-         else if (transits === k)
+         if (city === dst) {
+            return price
+         } else if (
+            transits === k + 1 ||
+            price > cache[city][transits]
+         ) {
             continue
+         }
 
-         for (const [adjCity, adjCost] of adjs[city]) {
-            const toAdjCost = cost + adjCost;
-            if (toCityCost[adjCity][transits + 1] > toAdjCost) {
-               toCityCost[adjCity][transits + 1] = toAdjCost;
-               minHeap.enqueue([toAdjCost, transits + 1, adjCity]);
+         for (const [adjCity, adjPrice] of adjCities[city]) {
+            const partialPrice = price + adjPrice;
+            
+            if (partialPrice < cache[adjCity][transits + 1]) {
+               cache[adjCity][transits + 1] = partialPrice;
+               flightHeap.enqueue([partialPrice, adjCity, transits + 1]);
             }
          }
       }
       return - 1
+   };
+
+   /**
+    * Time complexity: O(E*k)
+    *     O(E*V) => O(E*V)
+    * Auxiliary space complexity: O(V + E)
+    * Tags:
+    *     DS: array
+    *     A: BFS, Bellman-Ford
+    *     Model: graph
+    * @param {number} n
+    * @param {number[][]} flights
+    * @param {number} src
+    * @param {number} dst
+    * @param {number} k
+    * @return {number}
+    */
+   findCheapestPrice(n, flights, src, dst, k) {
+      const COST_BOUND = 10**6
+      let costCache = Array(n).fill(COST_BOUND);
+      costCache[src] = 0;
+
+      for (let transits = 0; transits <= k; transits++) {
+         const cacheCacheCopy = costCache.slice();
+
+         for (const [source, destination, price] of flights) {
+            if (costCache[source] === COST_BOUND) {
+               continue
+            } else if (costCache[source] + price < cacheCacheCopy[destination]) {
+               cacheCacheCopy[destination] = costCache[source] + price;
+            }
+         }
+         costCache = cacheCacheCopy;
+      }
+      return costCache[dst] !== COST_BOUND ? costCache[dst] : -1
    };
 }
 

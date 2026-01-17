@@ -18,7 +18,7 @@ class Trie {
     *     n: word length
     * Auxiliary space complexity: O(t)
     *     t: number of Trie nodes
-    * Tags: 
+    * Tags:
     *     DS: trie
     *     A: iteration
     */

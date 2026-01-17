@@ -15,19 +15,22 @@ class Solution:
         """
         Time complexity: O(nlogn)
         Auxiliary space complexity: O(n)
-        Tags: intervals, heap
+        Tags:
+            A: intervals, heap
         """
         intervals.sort(key=lambda interval: interval.start)
-        rooms = []  # [interval.end, ...]
-        min_rooms = 0
+        room_counter = 0
+        room_heap = []
 
         for interval in intervals:
-            while rooms and rooms[0] <= interval.start:
-                heapq.heappop(rooms)
-            heapq.heappush(rooms, interval.end)
-            min_rooms = max(min_rooms, len(rooms))
+            start, end = interval.start, interval.end
+            
+            while room_heap and room_heap[0] <= start:
+                heapq.heappop(room_heap)
+            heapq.heappush(room_heap, end)
+            room_counter = max(room_counter, len(room_heap))
 
-        return min_rooms
+        return room_counter
 
 
 class Solution:
@@ -35,7 +38,8 @@ class Solution:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n)
-        Tags: intervals, brute-force
+        Tags:
+            A: intervals, brute-force
         """
         max_interval = 0
         for interval in intervals:

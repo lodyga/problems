@@ -3,7 +3,7 @@ class Solution:
         """
         Time complexity: O(2^n)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             DS: hash map
             A: brute-force
         """
@@ -37,7 +37,7 @@ class Solution:
             n: num count
             m: unique num count
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             DS: array, hash map
             A: top-down
         """
@@ -74,7 +74,7 @@ class Solution:
             n: num count
             m: unique num count
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             DS: array, hash map
             A: bottom-up
         """
@@ -103,7 +103,7 @@ class Solution:
             n: num count
             m: unique num count
         Auxiliary space complexity: O(m)
-        Tags: 
+        Tags:
             DS: array, hash map
             A: bottom-up
         """

@@ -24,7 +24,7 @@ class Solution:
         """
         Time complexity: O(2^n)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             A: brute-force
         """
         def dfs(index: int) -> int:
@@ -53,7 +53,7 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             DS: array
             A: top-down
         """
@@ -87,7 +87,7 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             DS: array
             A: bottom-up
         """
@@ -114,7 +114,7 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: 
+        Tags:
             DS: array
             A: bottom-up
         """

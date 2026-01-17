@@ -1,12 +1,13 @@
-import { PriorityQueue, MinPriorityQueue } from "@datastructures-js/priority-queue";
+import { MinPriorityQueue } from "@datastructures-js/priority-queue";
 
 
 class Solution {
    /**
     * Time complexity: O(ElogV)
     * Auxiliary space complexity: O(V + E)
-    * Tags: bfs, iteration, heap, graph
-    * Dijkstra
+    * Tags:
+    *     DS: heap, hash map, hash set, graph
+    *     A: BFS, Dijkstra
     * @param {number[][]} times
     * @param {number} n
     * @param {number} k
@@ -14,78 +15,69 @@ class Solution {
     */
    networkDelayTime(times, n, k) {
       const nextVertices = new Map();
-      const delays = Array(n).fill(0);
 
-      for (let vertex = 1; vertex <= n; vertex++) {
+      for (let vertex = 0; vertex < n; vertex++) {
          nextVertices.set(vertex, []);
-         // nextVertices.set(vertex, new Set());
       }
-      for (const [source, destination, time] of times) {
-         nextVertices.get(source).push([destination, time]);
-         // nextVertices.get(source).add([destination, time]);
+      for (const [src, dst, time] of times) {
+         nextVertices.get(src - 1).push([time, dst - 1]);
       }
 
-      const visited = new Set();
-      const minHeap = new MinPriorityQueue((vertex) => vertex[0]);
-      // const minHeap = new PriorityQueue((a, b) => a[0] - b[0]);
-      minHeap.enqueue([0, k]);
+      const visited = Array(n).fill(false);
+      const minHeap = new MinPriorityQueue(vertex => vertex[0]);
+      minHeap.enqueue([0, k - 1]);
       let maxDelay = 0;
 
-      while (
-         visited.size !== n &&
-         !minHeap.isEmpty()
-      ) {
-         const [weight, vertex] = minHeap.dequeue();
-         if (visited.has(vertex)) continue;
-         // delays[vertex - 1] = weight;
-         maxDelay = Math.max(maxDelay, weight);
-         visited.add(vertex);
+      while (minHeap.size()) {
+         const [delay, vertex] = minHeap.dequeue();
+         if (visited[vertex])
+            continue;
+         visited[vertex] = true;
+         maxDelay = Math.max(maxDelay, delay);
 
-         for (const [nextVertex, nextWeight] of nextVertices.get(vertex)) {
-            minHeap.enqueue([weight + nextWeight, nextVertex]);
+         for (const [nextWeight, nextVertex] of nextVertices.get(vertex)) {
+            minHeap.enqueue([delay + nextWeight, nextVertex]);
          }
       }
-      // return visited.size === n ? Math.max(...delays) : -1;
-      return visited.size === n ? maxDelay : -1;
+      return visited.every(v => v === true) ? maxDelay : -1;
    };
-}
 
-
-class Solution2 {
    /**
     * Time complexity: O(V * E)
     * Auxiliary space complexity: O(V + E)
-    * Tags: dfs, recursion, graph
-    * DFS
+    * Tags:
+    *     DS: hash map, hash set, graph
+    *     A: DFS
     * @param {number[][]} times
     * @param {number} n
     * @param {number} k
     * @return {number}
     */
    networkDelayTime(times, n, k) {
-      const delays = new Map();
       const nextVertices = new Map();
+      const delays = new Map();
 
-      for (let vertex = 1; vertex <= n; vertex++) {
-         delays.set(vertex, 10 ** 4 + 1);
+      for (let vertex = 0; vertex < n; vertex++) {
          nextVertices.set(vertex, new Set());
+         delays.set(vertex, 10 ** 4 + 1);
       }
-      for (const [source, destination, time] of times) {
-         nextVertices.set(source, nextVertices.get(source).add([destination, time]));
+      
+      for (const [src, dst, time] of times) {
+         nextVertices.set(src - 1, nextVertices.get(src - 1).add([dst - 1, time]));
       }
 
-      const dfs = (vertex, weight) => {
-         if (delays.get(vertex) <= weight)
+      const dfs = (vertex, delay) => {
+         if (delays.get(vertex) <= delay)
             return
 
-         delays.set(vertex, weight);
+         delays.set(vertex, delay);
 
          for (const [nextVertex, nextWeight] of nextVertices.get(vertex)) {
-            dfs(nextVertex, weight + nextWeight)
+            dfs(nextVertex, delay + nextWeight)
          }
       }
 
-      dfs(k, 0);
+      dfs(k - 1, 0);
 
       let maxDelay = 0;
       for (const delay of delays.values()) {

@@ -2,7 +2,8 @@ class Solution {
    /**
     * Time complexity: O(sqrtn)
     * Auxiliary space complexity: O(1)
-    * Tags: 
+    * Tags:
+    *     A: iteration
     * @param {number} target
     * @return {boolean}
     */
@@ -15,15 +16,15 @@ class Solution {
       for (let number = 2; number < Number(target ** 0.5); number++ ) {
          if (target % number === 0) {
             divisorSum += number;
-            divisorSum += target / number;
+            divisorSum += Math.floor(target / number);
          }
       }
       return divisorSum === target;
    };
 }
+
+
 const checkPerfectNumber = new Solution().checkPerfectNumber;
-
-
 console.log(new Solution().checkPerfectNumber(28) === true)
 console.log(new Solution().checkPerfectNumber(7) === false)
 console.log(new Solution().checkPerfectNumber(6) === true)

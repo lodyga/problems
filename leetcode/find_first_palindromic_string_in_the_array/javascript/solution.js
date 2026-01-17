@@ -4,7 +4,7 @@ class Solution {
     *     k: word count
     *     n: avg word length
     * Auxiliary space complexity: O(1)
-    * Tags: 
+    * Tags:
     *     A: two pointers
     * @param {string[]} words
     * @return {string}
@@ -35,7 +35,7 @@ class Solution {
     *     k: word count
     *     n: avg word length
     * Auxiliary space complexity: O(k)
-    * Tags: 
+    * Tags:
     *     A: two pointers, build-in function
     * @param {string[]} words
     * @return {string}

@@ -3,25 +3,28 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: greedy
+        Tags:
+            DS: hash map
+            A: greedy
         """
-        letter_last_position = {}
+        last_indexes = {}
+
         for index, letter in enumerate(text):
-            letter_last_position[letter] = index
+            last_indexes[letter] = index
 
-        partition_lengths = []
-        counter = 0
-        end = 0
-        
-        for index, letter in enumerate(text):
-            counter += 1
-            end = max(end, letter_last_position[letter])
+        part_lens = []
+        right = 0
+        part_len = 0
 
-            if index == end:
-                partition_lengths.append(counter)
-                counter = 0
+        for left, letter in enumerate(text):
+            right = max(right, last_indexes[letter])
+            part_len += 1
 
-        return partition_lengths
+            if left == right:
+                part_lens.append(part_len)
+                part_len = 0
+
+        return part_lens
 
 
 print(Solution().partitionLabels("ababcc") == [4, 2])

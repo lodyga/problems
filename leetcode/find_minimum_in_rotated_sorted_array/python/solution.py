@@ -14,7 +14,7 @@ class Solution:
         """
         Time complexity: O(logn)
         Auxiliary space complexity: O(1)
-        Tags: 
+        Tags:
             A: binary search
         """
         left = 0
@@ -41,7 +41,7 @@ class Solution:
         """
         Time complexity: O(logn)
         Auxiliary space complexity: O(1)
-        Tags: 
+        Tags:
             A: binary search (lower bound)
         """
         left = 0

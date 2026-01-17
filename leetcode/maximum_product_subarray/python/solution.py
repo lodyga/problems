@@ -24,7 +24,7 @@ class Solution2:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(1)
-        Tags: 
+        Tags:
             A: brute-force
         """
         max_product = numbers[0]

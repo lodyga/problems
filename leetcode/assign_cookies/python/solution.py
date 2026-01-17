@@ -3,7 +3,7 @@ class Solution:
         """
         Time complexity: O(nlogn)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             A: two pointers
         """
         greed_list.sort()

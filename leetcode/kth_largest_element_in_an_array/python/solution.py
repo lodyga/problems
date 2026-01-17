@@ -6,7 +6,7 @@ class Solution:
         """
         Time complexity: O(nlogk)
         Auxiliary space complexity: O(k)
-        Tags: 
+        Tags:
             DS: heap
             A: iteration
         """
@@ -26,7 +26,7 @@ class Solution:
         """
         Time complexity: O(nlogk)
         Auxiliary space complexity: O(1)
-        Tags: 
+        Tags:
             DS: heap
             A: iteration
         """
@@ -42,7 +42,7 @@ class Solution:
         """
         Time complexity: O(nlogk)
         Auxiliary space complexity: O(k)
-        Tags: 
+        Tags:
             DS: heap
             A: build-in function
         """

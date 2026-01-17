@@ -6,33 +6,76 @@ class Solution:
         """
         Time complexity: O(n)
             O(nlogk) -> O(nlog26) -> O(n)
-            n: text.length
-            k: unique_chars.count
-        Auxiliary space complexity: O(1)
-        Tags: heap
+            n: text length
+            k: unique letter count
+        Auxiliary space complexity: O(k)
+        Tags:
+            DS: heap
+            A: iteration
         """
-        letter_frequency: dict = {}  # {letter: frequency, ...}
-        letter_heap: list = []  # [[frequency, letter], ...]
-        reorganized_string: list = []
-
+        letter_freq = {}
         for letter in text:
-            letter_frequency[letter] = letter_frequency.get(letter, 0) + 1
-        
-        for letter, frequency in letter_frequency.items():
-            heapq.heappush(letter_heap, [-frequency, letter])
+            letter_freq[letter] = letter_freq.get(letter, 0) + 1
 
-        prev_letter: str = ""
-        prev_frequency: int = 0
+        letter_heap = []
+        for letter, freq in letter_freq.items():
+            heapq.heappush(letter_heap, (-freq, letter))
+
+        new_str = []
         while letter_heap:
-            frequency, letter = heapq.heappop(letter_heap)
-            if prev_frequency:
-                heapq.heappush(letter_heap, [prev_frequency, prev_letter])
-            frequency += 1
-            reorganized_string.append(letter)
-            prev_letter: str = letter
-            prev_frequency: int = frequency
+            freq, letter = heapq.heappop(letter_heap)
 
-        return "" if prev_frequency else "".join(reorganized_string)
+            if new_str and letter == new_str[-1]:
+                if letter_heap:
+                    freq2, letter2 = heapq.heappop(letter_heap)
+                    new_str.append(letter2)
+                    if freq2 + 1 < 0:
+                        heapq.heappush(letter_heap, (freq2 + 1, letter2))
+                    heapq.heappush(letter_heap, (freq, letter))
+                else:
+                    return ""
+            else:
+                new_str.append(letter)
+                if freq + 1 < 0:
+                    heapq.heappush(letter_heap, (freq + 1, letter))
+
+        return "".join(new_str)
+
+
+class Solution:
+    def reorganizeString(self, text: str) -> str:
+        """
+        Time complexity: O(n)
+            O(nlogk) -> O(nlog26) -> O(n)
+            n: text length
+            k: unique letter count
+        Auxiliary space complexity: O(k)
+        Tags:
+            DS: heap
+            A: iteration
+        """
+        letter_freq = {}
+        for letter in text:
+            letter_freq[letter] = letter_freq.get(letter, 0) + 1
+
+        letter_heap = []
+        for letter, freq in letter_freq.items():
+            heapq.heappush(letter_heap, (-freq, letter))
+
+        new_str = []
+        prev_freq = 0
+        prev_letter = ""
+        while letter_heap:
+            freq, letter = heapq.heappop(letter_heap)
+
+            if prev_freq:
+                heapq.heappush(letter_heap, (prev_freq, prev_letter))
+
+            new_str.append(letter)
+            prev_letter = letter
+            prev_freq = freq + 1
+
+        return "".join(new_str) if prev_freq == 0 else ""
 
 
 print(Solution().reorganizeString("aab") == "aba")

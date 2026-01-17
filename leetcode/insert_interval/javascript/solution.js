@@ -2,42 +2,52 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: intervals, greedy
+    * Tags:
+    *     DS: list
+    *     A: intervals, greedy
     * @param {number[][]} intervals
     * @param {number[]} newInterval
     * @return {number[][]}
     */
    insert(intervals, newInterval) {
-      const mergedInervals = [];
+      let [newStart, newEnd] = newInterval;
+      const newIntervals = [];
 
-      for (let index = 0; index < intervals.length; index++) {
-         const start = intervals[index][0];
-         const end = intervals[index][1];
-         const newStart = newInterval[0];
-         const newEnd = newInterval[1];
+      for (const [start, end] of intervals) {
+         // New interval already added
+         // or new interval is after current interval.
+         if (
+            newInterval === null ||
+            end < newStart
+         )
+            newIntervals.push([start, end]);
 
-         if (newEnd < start) {
-            mergedInervals.push(newInterval);
-            mergedInervals.push(...intervals.slice(index,));
-            return mergedInervals  // early exit
-         } else if (newStart > end) {
-            mergedInervals.push([start, end]);
-         } else {
-            newInterval = [
-               Math.min(start, newStart),
-               Math.max(end, newEnd)
-            ];
+         // New interval is before current interval.
+         else if (newEnd < start) {
+            newIntervals.push(newInterval);
+            newIntervals.push([start, end]);
+            newInterval = null;
+         }
+
+         // New and current intervals overlaps.
+         else {
+            newInterval = [Math.min(start, newStart), Math.max(end, newEnd)];
+            [newStart, newEnd] = newInterval;
          }
       }
-      mergedInervals.push(newInterval);
-      return mergedInervals
+
+      if (newInterval)
+         newIntervals.push(newInterval);
+
+      return newIntervals
    };
 }
+
+
 const insert = new Solution().insert;
-
-
-console.log(new Solution().insert([[1, 3], [6, 9]], [2, 5]), [[1, 5], [6, 9]])
-console.log(new Solution().insert([[1, 2], [3, 5], [6, 7], [8, 10], [12, 16]], [4, 8]), [[1, 2], [3, 10], [12, 16]])
-console.log(new Solution().insert([], [5, 7]), [[5, 7]])
-console.log(new Solution().insert([[1, 5]], [2, 3]), [[1, 5]])
-console.log(new Solution().insert([[2, 5], [6, 7], [8, 9]], [0, 1]), [[0, 1], [2, 5], [6, 7], [8, 9]])
+console.log(new Solution().insert([[1, 3], [6, 9]], [2, 5]).toString() === [[1, 5], [6, 9]].toString())
+console.log(new Solution().insert([[1, 2], [3, 5], [6, 7], [8, 10], [12, 16]], [4, 8]).toString() === [[1, 2], [3, 10], [12, 16]].toString())
+console.log(new Solution().insert([], [5, 7]).toString() === [[5, 7]].toString())
+console.log(new Solution().insert([[1, 5]], [2, 3]).toString() === [[1, 5]].toString())
+console.log(new Solution().insert([[2, 5], [6, 7], [8, 9]], [0, 1]).toString() === [[0, 1], [2, 5], [6, 7], [8, 9]].toString())
+console.log(new Solution().insert([[1, 5]], [6, 8]).toString() === [[1, 5], [6, 8]].toString())

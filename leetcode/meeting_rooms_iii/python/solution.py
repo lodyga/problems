@@ -6,75 +6,42 @@ class Solution:
         """
         Time complexity: O(mlogn)
             n: room count
-            m: meegins count
-        Auxiliary space complexity: O(m)
-        Tags: heap
+            m: meeting count
+        Auxiliary space complexity: O(n)
+        Tags:
+            DS: heap
+            A: iteration
         """
         meetings.sort()
-        meeting_rooms = []  # [(avaibility date, room number, room used)]
-        avaible_rooms = [(room_number, 0) for room_number in range(room_count)]  # [(room number, room used)]
-        heapq.heapify(avaible_rooms)
-        room_use = [0] * room_count
-        max_room_use = 0
-        
+        # heap((avaibility date, room number, room use counter))
+        occupied_rooms = [(0, room) for room in range(room_count)]
+        # heap((room number, room use counter))
+        avaible_rooms = []
+        room_use_counter = [0] * room_count
+
         for start, end in meetings:
-            while meeting_rooms and start >= meeting_rooms[0][0]:
-                _, room_number, use_count = heapq.heappop(meeting_rooms)
-                heapq.heappush(avaible_rooms, (room_number, use_count))
-            
+            meeting_duration = end - start
+
+            while occupied_rooms and occupied_rooms[0][0] <= start:
+                _, room_num = heapq.heappop(occupied_rooms)
+                heapq.heappush(avaible_rooms, (room_num))
+
             if avaible_rooms:
-                room_number, use_count = heapq.heappop(avaible_rooms)
-                heapq.heappush(meeting_rooms, (end, room_number, use_count + 1))
+                room_num = heapq.heappop(avaible_rooms)
             else:
-                avaible, room_number, use_count = heapq.heappop(meeting_rooms)
-                avaible = max(avaible, start) + (end - start)  # when to start + meeting duration
-                heapq.heappush(meeting_rooms, (avaible, room_number, use_count + 1))
+                avaible, room_num = heapq.heappop(occupied_rooms)
+                # Avabile from room overrides start from meeting.
+                start = avaible
             
-            room_use[room_number] += 1
-            max_room_use = max(max_room_use, room_use[room_number])
+            meeing_end = start + meeting_duration
+            heapq.heappush(occupied_rooms, (meeing_end, room_num))
+            room_use_counter[room_num] += 1
 
-        for room_number in range(room_count):
-            if room_use[room_number] == max_room_use:
-                return room_number
-
-
-class Solution:
-    def mostBooked(self, room_count: int, meetings: list[list[int]]) -> int:
-        """
-        Time complexity: O(mlogn + mlogm)
-            n: room count
-            m: meetins count
-        Auxiliary space complexity: O(n + m)
-        Tags: heap
-        """
-        meetings.sort()
-        meeting_rooms = []  # [(avaibility date, room number, room used)]
-        avaible_rooms = [(room_number, 0) for room_number in range(room_count)]  # [(room number, room used)]
-        heapq.heapify(avaible_rooms)
+        max_use_counter = max(room_use_counter)
+        for room_num, use_counter in enumerate(room_use_counter):
+            if use_counter == max_use_counter:
+                return room_num
         
-        for start, end in meetings:
-            while meeting_rooms and start >= meeting_rooms[0][0]:
-                _, room_number, use_count = heapq.heappop(meeting_rooms)
-                heapq.heappush(avaible_rooms, (room_number, use_count))
-            
-            if avaible_rooms:
-                room_number, use_count = heapq.heappop(avaible_rooms)
-                heapq.heappush(meeting_rooms, (end, room_number, use_count + 1))
-            else:
-                avaible, room_number, use_count = heapq.heappop(meeting_rooms)
-                avaible = max(avaible, start) + (end - start)  # when to start + meeting duration
-                heapq.heappush(meeting_rooms, (avaible, room_number, use_count + 1))
-
-        most_booked_room = []  # [(-room used, room numebr)]
-        while meeting_rooms or avaible_rooms:
-            if meeting_rooms:
-                _, room_number, use_count = heapq.heappop(meeting_rooms)
-            else:
-                room_number, use_count = heapq.heappop(avaible_rooms)
-            heapq.heappush(most_booked_room , (-use_count, room_number))
-
-        return most_booked_room[0][1]
-
 
 print(Solution().mostBooked(2, [[0, 10], [1, 5], [2, 7], [3, 4]]) == 0)
 print(Solution().mostBooked(3, [[1, 20], [2, 10], [3, 5], [4, 9], [6, 8]]) == 1)

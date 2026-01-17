@@ -3,20 +3,23 @@ class Solution:
         """
         Time complexity: O(nlogn)
         Auxiliary space complexity: O(n)
-        Tags: intervals, sorting
+        Tags:
+            A: intervals, greedy, sorting
         """
         intervals.sort()
-        clean_counter = 0
         prev_end = intervals[0][1]
+        counter = 0
 
-        for start, end in intervals[1:]:
+        for index in range(1, len(intervals)):
+            start, end = intervals[index]
+
             if prev_end > start:
-                prev_end = min(prev_end, end)
-                clean_counter += 1
+                prev_end = min(end, prev_end)
+                counter += 1
             else:
                 prev_end = end
-
-        return clean_counter
+            
+        return counter
 
 
 print(Solution().eraseOverlapIntervals([[1, 2], [2, 3], [3, 4], [1, 3]]) == 1)

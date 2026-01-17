@@ -2,49 +2,41 @@ class Solution:
     def findOrder(self, course_count: int, prerequisites: list[list[int]]) -> list[int]:
         """
         Time complexity: O(V + E)
+            V: unique course count
         Auxiliary space complexity: O(V + E)
-        Tags: dfs, recursion, graph, topological sort
+        Tags:
+            DS: array (graph)
+            A: multi-source DFS, topological sort with cycle detection
         """
         prereqs = {course: set() for course in range(course_count)}
+
         for course, prereq in prerequisites:
-            # course requires itself (a, a)
-            if course == prereq:
-                return []
-            # early cycle detect: (a, b), (b, a)
-            elif course in prereqs[prereq]:
-                return []
             prereqs[course].add(prereq)
-        
-        course_order = []
-        # calculate order for each course only once
-        visited = [False] * course_count
-        # build the path for cycle detection
-        path = [False] * course_count
+
+        order = []
+        # -1: not visited, 0: visited, 1: on path (cycle detection)
+        visited = [-1] * course_count
 
         def dfs(course):
-            # detect cycle
-            if path[course]:
-                return False
-            # if already visited
-            elif visited[course]:
-                return True
-            
-            path[course] = True
+            if visited[course] != -1:
+                return visited[course]
+
+            visited[course] = 1
 
             for prereq in prereqs[course]:
-                if dfs(prereq) == False:
-                    return False
-            
-            path[course] = False
-            visited[course] = True
-            course_order.append(course)
-            return True
+                if dfs(prereq):
+                    return True
+
+            visited[course] = 0
+            order.append(course)
+
+            return False
 
         for course in prereqs:
-            if dfs(course) == False:
+            if dfs(course):
                 return []
-        
-        return course_order
+
+        return order
 
 
 print(Solution().findOrder(2, [[1, 0]]) == [0, 1])

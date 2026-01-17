@@ -2,7 +2,7 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: 
+    * Tags:
     *     DS: array
     *     A: top-down 
     * @param {number[]} costs
@@ -31,7 +31,7 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: 
+    * Tags:
     *     DS: array
     *     A: bottom-up
     * @param {number[]} costs
@@ -50,7 +50,7 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: 
+    * Tags:
     *     DS: array
     *     A: bottom-up
     * @param {number[]} costs

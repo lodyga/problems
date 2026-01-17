@@ -16,18 +16,50 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: binary tree, dfs, recursion
+        Tags:
+            DS: binary tree
+            A: dfs, recursion, pre-order traversal
+        """
+        memo = {None: 0}
+
+        def dfs(node):
+            if node in memo:
+                return memo[node]
+
+            # Skip node and `rob` chldren.
+            skip = dfs(node.left) + dfs(node.right)
+            
+            # Rob node but skip children layer.
+            left_grand = dfs(node.left.left) + \
+                dfs(node.left.right) if node.left else 0
+            right_grand = dfs(node.right.left) + \
+                dfs(node.right.right) if node.right else 0
+            take = node.val + left_grand + right_grand
+            memo[node] = max(take, skip)
+            return memo[node]
+
+        return dfs(root)
+
+
+class Solution:
+    def rob(self, root: TreeNode) -> int:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(n)
+        Tags:
+            DS: binary tree
+            A: dfs, recursion, pre-order traversal
         """
         def dfs(node):
             if node is None:
                 return (0, 0)
 
-            node_left = dfs(node.left)
-            node_right = dfs(node.right)
-            with_node = node.val + node_left[1] + node_right[1]
-            without_node = max(node_left) + max(node_right)
+            left_node = dfs(node.left)
+            right_node = dfs(node.right)
+            skip_node = max(left_node) + max(right_node)
+            take_node = node.val + left_node[1] + right_node[1]
 
-            return (with_node, without_node)
+            return (take_node, skip_node)
 
         return max(dfs(root))
 

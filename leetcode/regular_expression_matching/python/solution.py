@@ -1,67 +1,49 @@
 class Solution:
     def isMatch(self, text: str, pattern: str) -> bool:
-        def dfs(index1, index2):
+        """
+        Time complexity: O(n2)
+        Auxiliary space complexity: O(n2)
+        Tags:
+            DS: array
+            A: top-down
+            regex
+        """
+        memo = [[-1] * len(pattern) for _ in range(len(text))]
+
+        def dfs(index1: int, index2: int) -> int:
             if index2 == len(pattern):
                 return index1 == len(text)
             elif index1 == len(text):
-                return index2 + 2 == len(pattern) and pattern[index2 + 1] == "*"
-            
-            letter = text[index1] if index1 < len(text) else ""
+                # capute all of trailing x* groups to match the empty string:
+                while index2 + 1 < len(pattern) and pattern[index2 + 1] == "*":
+                    index2 += 2
+                return index2 == len(pattern)
+            elif memo[index1][index2] != -1:
+                return memo[index1][index2]
+
+            letter = text[index1]
             char = pattern[index2]
-            next_char = pattern[index2 + 1] if index2 + 1 < len(pattern) else ""
-            
+            next_char = pattern[index2 + 1] \
+                if index2 + 1 < len(pattern) else ""
+
+            res = 0
             if next_char == "*":
-                # skip current pattern
+                # Skip current pattrn.
                 if dfs(index1, index2 + 2):
-                    return True
-                # match one letter
-                if letter == char or char == ".":
+                    res = 1
+                # Match one letter.
+                elif char in (letter, "."):
+                    # use parrtern
                     if dfs(index1 + 1, index2):
-                        return True
-                return False
-            elif letter == char:
-                return dfs(index1 + 1, index2 + 1)
-            elif char == ".":
-                return dfs(index1 + 1, index2 + 1)
+                        res = 1
 
-            return False
-        
-        return dfs(0, 0)
+            elif char in (letter, "."):
+                res = dfs(index1 + 1, index2 + 1)
 
+            memo[index1][index2] = res
+            return res
 
-class Solution:
-    def isMatch(self, text: str, pattern: str) -> bool:
-        def dfs(index1, index2):
-            if index2 == len(pattern):
-                return index1 == len(text)
-            elif index1 == len(text):
-                return index2 + 2 == len(pattern) and pattern[index2 + 1] == "*"
-            
-            letter = text[index1] if index1 < len(text) else ""
-            char = pattern[index2]
-            next_char = pattern[index2 + 1] if index2 + 1 < len(pattern) else ""
-            
-            if next_char == "*":
-                if (
-                    letter == char or 
-                    char == "."
-                ):
-                    return (
-                        # skip text letter
-                        dfs(index1 + 1, index2)
-                        # skip `.*` pattern
-                        or dfs(index1, index2 + 2)
-                    )
-                elif char.isalpha():
-                    return dfs(index1, index2 + 2)
-            elif letter == char:
-                return dfs(index1 + 1, index2 + 1)
-            elif char == ".":
-                return dfs(index1 + 1, index2 + 1)
-
-            return False
-        
-        return dfs(0, 0)
+        return bool(dfs(0, 0))
 
 
 class Solution:
@@ -69,7 +51,10 @@ class Solution:
         """
         Time complexity: O(2^n)
         Auxiliary space complexity: O(n)
-        Tags: regex
+        Tags:
+            DS: string
+            A: iteration
+            regex
         """
         def match_star(char: str, regexp: str, text: str) -> bool:
             while True:
@@ -92,6 +77,50 @@ class Solution:
             return False
 
         return match_here(regexp, text)
+
+
+class Solution:
+    def isMatch(self, text: str, pattern: str) -> bool:
+        """
+        Time complexity: O(n2)
+        Auxiliary space complexity: O(n2)
+        Tags:
+            DS: array
+            A: top-down
+            regex
+        """
+        memo = [[-1] * (len(pattern) + 1) for _ in range(len(text) + 1)]
+
+        def dfs(index1: int, index2: int) -> int:
+            if index2 == len(pattern):
+                return index1 == len(text)
+            elif memo[index1][index2] != -1:
+                return memo[index1][index2]
+
+            is_letter_matched = index1 < len(text) and \
+                (pattern[index2] in (".", text[index1]))
+            # is_letter_matched = pattern[index2] == "."
+            # if index1 < len(text):
+            #     is_letter_matched |= pattern[index2] == text[index1]
+            is_star_next = index2 + 1 < len(pattern) and \
+                pattern[index2 + 1] == "*"
+
+            res = 0
+            if is_star_next:
+                # Skip current pattrn.
+                if dfs(index1, index2 + 2):
+                    res = 1
+                # if letter matched and use parrtern
+                elif is_letter_matched and dfs(index1 + 1, index2):
+                    res = 1
+
+            elif is_letter_matched:
+                res = dfs(index1 + 1, index2 + 1)
+
+            memo[index1][index2] = res
+            return res
+
+        return bool(dfs(0, 0))
 
 
 print(Solution().isMatch("a", "a") == True)

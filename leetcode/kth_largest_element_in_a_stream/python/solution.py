@@ -7,7 +7,7 @@ class KthLargest:
         n: number of `add` calls
         k: the number of highest test scores
     Auxiliary space complexity: O(1)
-    Tags: 
+    Tags:
         DS: heap
         A: heap, in-place method
     """

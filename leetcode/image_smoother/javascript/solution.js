@@ -28,7 +28,7 @@ class Solution {
                divider++
             }
          }
-         return parseInt(total / divider)
+         return Math.floor(total / divider)
       };
 
       for (let row = 0; row < ROWS; row++) {

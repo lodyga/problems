@@ -2,7 +2,7 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: 
+    * Tags:
     *     A: iteration
     * @param {string} text
     * @return {number}

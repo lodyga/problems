@@ -1,16 +1,16 @@
 class DSU:
-    def __init__(self, node_count) -> None:
-        self.rank = [1] * node_count
-        self.parents = list(range(node_count))
+    def __init__(self, N) -> None:
+        self.size = [1] * N
+        self.parent = list(range(N))
 
-    def find(self, node):
-        # while node != self.parents[node]:
-        #     self.parents[node] = self.parents[self.parents[node]]
-        #     node = self.parents[node]
-        # return node
-        if node != self.parents[node]:
-            self.parents[node] = self.find(self.parents[node])
-        return self.parents[node]
+    def find(self, vertex):
+        # if vertex != self.parent[vertex]:
+        #     self.parent[vertex] = self.find(self.parent[vertex])
+        # return self.parent[vertex]
+        while vertex != self.parent[vertex]:
+            self.parent[vertex] = self.parent[self.parent[vertex]]
+            vertex = self.parent[vertex]
+        return vertex
 
     def union(self, u, v):
         pu = self.find(u)
@@ -18,13 +18,12 @@ class DSU:
 
         if pu == pv:
             return True
-        elif pu >= pv:
-            self.rank[pu] += self.rank[pv]
-            self.parents[pv] = pu
+        elif self.size[pu] >= self.size[pv]:
+            self.size[pu] += self.size[pv]
+            self.parent[pv] = pu
         else:
-            self.rank[pv] += self.rank[pu]
-            self.parents[pu] = pv
-        return False
+            self.size[pv] += self.size[pu]
+            self.parent[pu] = pv
 
 
 class Solution:
@@ -32,13 +31,15 @@ class Solution:
         """
         Time complexity: O(V + E)
         Auxiliary space complexity: O(V + E)
-        Tags: dfs, recursion, graph, dsu
-        DSU
+        Tags:
+            DS: array
+            A: DSU, cycle detection
         """
         dsu = DSU(len(edges))
+
         for u, v in edges:
             if dsu.union(u - 1, v - 1):
-                return [u , v]
+                return [u, v]
 
 
 print(Solution().findRedundantConnection([[1, 2], [1, 3], [2, 3]]) == [2, 3])

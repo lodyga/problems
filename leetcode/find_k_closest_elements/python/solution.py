@@ -21,7 +21,7 @@ class Solution:
 class Solution:
     def findClosestElements(self, nums: list[int], k: int, target: int) -> list[int]:
         """
-        Time complexity: O(logn)
+        Time complexity: O(log(n))
         Auxiliary space complexity: O(1)
         Tags:
             A: binary search

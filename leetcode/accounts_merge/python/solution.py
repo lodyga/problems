@@ -1,12 +1,12 @@
 class DSU:
-    def __init__(self, n) -> None:
-        self.parents = list(range(n))
-        self.rank = [1] * n
+    def __init__(self, N) -> None:
+        self.size = [1] * N
+        self.parent = list(range(N))
     
     def find(self, u):
-        while u != self.parents[u]:
-            self.parents[u] = self.parents[self.parents[u]]
-            u = self.parents[u]
+        while u != self.parent[u]:
+            self.parent[u] = self.parent[self.parent[u]]
+            u = self.parent[u]
         return u
 
     def union(self, u, v):
@@ -17,10 +17,10 @@ class DSU:
             pass
         elif self.rank[pu] >= self.rank[pv]:
             self.rank[pu] += self.rank[pv]
-            self.parents[pv] = pu
+            self.parent[pv] = pu
         else:
             self.rank[pv] += self.rank[pu]
-            self.parents[pu] = pv
+            self.parent[pu] = pv
 
 
 class Solution:
@@ -28,7 +28,7 @@ class Solution:
         """
         Time complexity: O(n2⋅m + ElogE)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
         """
         n = len(accounts)
         emails = {node: set() for node in range(len(accounts))}

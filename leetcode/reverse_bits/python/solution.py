@@ -2,26 +2,42 @@ class Solution:
     def reverseBits(self, n: int) -> int:
         """
         Time complexity: O(1)
-            O(32) => O(1)
+            O(32)
         Auxiliary space complexity: O(1)
-        Tags: bit manipulation
+        Tags:
+            A: bit manipulation
         """
-        bin_short = bin(n)[2:]
-        leading_zeros =  (32 - len(bin_short)) * "0"
-        bin_full = leading_zeros + bin_short
-        return int(bin_full[::-1], 2)
+        res = 0
+        for index in range(32):
+            bit = (n >> index) & 1
+            if bit:
+                res += bit << (31 - index)
+        return res
+
 
 class Solution:
     def reverseBits(self, n: int) -> int:
         """
         Time complexity: O(1)
+            O(32)
         Auxiliary space complexity: O(1)
-        Tags: bit manipulation
+        Tags:
+            DS: array
+            A: bit manipulation
         """
+        bits = [0] * 32
+        index = 0
+
+        while n:
+            bits[index] = n % 2
+            n //= 2
+            index += 1 
+        
         res = 0
-        for i in range(32):
-            bit = (n >> i) & 1
-            res += (bit << (31 - i))
+        for index, num in enumerate(reversed(bits)):
+            if num:
+                res += 2**index
+        
         return res
 
 

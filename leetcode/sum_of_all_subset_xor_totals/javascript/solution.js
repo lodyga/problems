@@ -2,7 +2,7 @@ class Solution {
    /**
     * Time complexity: O(2^n)
     * Auxiliary space complexity: O(n)
-    * Tags: 
+    * Tags:
     *     A: backtracking
     * @param {number[]} nums
     * @return {number}
@@ -25,7 +25,7 @@ class Solution {
    /**
     * Time complexity: O(2^n)
     * Auxiliary space complexity: O(n)
-    * Tags: 
+    * Tags:
     *     A: dfs, recursion
     * @param {number[]} nums
     * @return {number}

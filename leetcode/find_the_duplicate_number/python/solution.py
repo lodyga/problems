@@ -3,8 +3,8 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: 
-            A: two pointers, Floyd's cycle finding algorithm or Hare-Tortoise algorithm        
+        Tags:
+            A: two pointers, Floyd
         """
         slow = 0
         fast = 0

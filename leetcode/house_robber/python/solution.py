@@ -23,7 +23,7 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             DS: hash map
             A: top-down
         """
@@ -50,7 +50,7 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             DS: array
             A: top-down
         """
@@ -77,7 +77,7 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             DS: array
             A: bottom-up
         """
@@ -94,7 +94,7 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: 
+        Tags:
             A: bottom-up, rolling cache
         """
         cache = [0, 0]

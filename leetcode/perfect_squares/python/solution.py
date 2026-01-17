@@ -14,7 +14,7 @@ class Solution:
         """
         Time complexity: O(n*sqrtn)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             DS: hash map
             A: top-down
         """
@@ -53,7 +53,7 @@ class Solution:
         """
         Time complexity: O(n*sqrtn)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             DS: array
             A: bottom-up
         """

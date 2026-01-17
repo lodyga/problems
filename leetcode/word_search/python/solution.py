@@ -2,9 +2,10 @@ class Solution:
     def exist(self, board: list[list[str]], word: str) -> bool:
         """
         Time complexity: O(n2*3^k)
+            n: board length
             k: word length
         Auxiliary space complexity: O(n2)
-        Tags: 
+        Tags:
             DS: array (matrix)
             A: backtracking
         """
@@ -13,7 +14,7 @@ class Solution:
         DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
         visited = [[False] * COLS for _ in range(ROWS)]
 
-        def dfs(index, row, col):
+        def backtrack(index, row, col):
             if index == len(word):
                 return True
             elif (
@@ -29,7 +30,7 @@ class Solution:
             visited[row][col] = True
             for dr, dc in DIRECTIONS:
                 (r, c) = (row + dr, col + dc)
-                if dfs(index + 1, r, c):
+                if backtrack(index + 1, r, c):
                     return True
 
             visited[row][col] = False
@@ -37,7 +38,7 @@ class Solution:
 
         for row in range(ROWS):
             for col in range(COLS):
-                if dfs(0, row, col):
+                if backtrack(0, row, col):
                     return True
 
         return False

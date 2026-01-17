@@ -15,7 +15,7 @@ class Solution {
       const matrix = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
 
       for (let index = 0; index < original.length; index++) {
-         const row = parseInt(index / COLS);
+         const row = Math.floor(index / COLS);
          const col = index % COLS;
          matrix[row][col] = original[index];
       }

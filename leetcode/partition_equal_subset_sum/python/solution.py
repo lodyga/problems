@@ -7,7 +7,7 @@ class Solution:
             s: nums sum
         Auxiliary space complexity: O(n)
             O(s)
-        Tags: 
+        Tags:
             DS: bottom-up, hash set
             A: bottom-up
         """
@@ -34,7 +34,7 @@ class Solution:
         Time complexity: O(2^n)
             n: nums length
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             A: brute-force, pure recursion
         """
         total = sum(nums)
@@ -68,7 +68,7 @@ class Solution:
             n: nums length
             s: nums sum
         Auxiliary space complexity: O(n*s)
-        Tags: 
+        Tags:
             DS: hash map
             A: top-down
         """
@@ -106,7 +106,7 @@ class Solution:
         Time complexity: O(2^n)
             n: nums length
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             A: brute-force, backtracking
         """
         total = sum(nums)

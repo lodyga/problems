@@ -3,7 +3,7 @@ class Solution:
         """
         Time complexity: O(n+m)
         Auxiliary space complexity: O(n+m)
-        Tags: 
+        Tags:
             DS: monotonic decreasing stack, hash map
             A: iteration
         """

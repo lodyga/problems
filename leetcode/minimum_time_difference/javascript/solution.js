@@ -12,8 +12,8 @@ class Solution {
 
       for (let index = 0; index < timePoints.length; index++) {
          const timePoint = timePoints[index];
-         const minutes = parseInt(timePoint.slice(3,));
-         const hours = parseInt(timePoint.slice(0, 2));
+         const minutes = Math.floor(timePoint.slice(3,));
+         const hours = Math.floor(timePoint.slice(0, 2));
          minuteList[index] = minutes + hours * 60;
       }
 

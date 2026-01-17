@@ -3,7 +3,7 @@ class Solution:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(1)
-        Tags: 
+        Tags:
             A: two pointers
         """
         def check_for_palindrome(left, right):

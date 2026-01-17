@@ -1,4 +1,4 @@
-class DoublyListNode {
+class DoublyLinkedNode {
    constructor(val = null, next = null, prev = null) {
       this.val = val;
       this.next = next;
@@ -15,16 +15,16 @@ class BrowserHistory {
     *     back: O(n),
     *     forward: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: 
+    * Tags:
     *     DS: doubly linked list
     *     A: iteration
     */
    constructor(homepage) {
-      this.active = new DoublyListNode(homepage);
+      this.active = new DoublyLinkedNode(homepage);
    };
 
    visit(url) {
-      this.active.next = new DoublyListNode(url, null, this.active);
+      this.active.next = new DoublyLinkedNode(url, null, this.active);
       this.active = this.active.next;
    };
 

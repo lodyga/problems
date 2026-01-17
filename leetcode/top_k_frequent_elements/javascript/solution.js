@@ -4,7 +4,7 @@ class Solution {
    /**
     * Time complexity: O(nlogk)
     * Auxiliary space complexity: O(n)
-    * Tags: 
+    * Tags:
     *     DS: heap, hash map
     *     A: iteration
     * @param {number[]} nums
@@ -29,7 +29,7 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: 
+    * Tags:
     *     DS: bucket as list, hash map
     *     A: iteration
     * @param {number[]} nums

@@ -6,34 +6,38 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: heap
+        Tags:
+            DS: heap
+            A: greedy, iteration
         """
-        abc_heap = []
-        happy_string = ""
+        letter_heap = []
+        for letter, freq in zip("abc", (a, b, c)):
+            if freq:
+                heapq.heappush(letter_heap, (-freq, letter))
 
-        for frequency, letter in ((a, "a"), (b, "b"), (c, "c")):
-            if frequency:
-                heapq.heappush(abc_heap, (-frequency, letter))
+        prev_letter = ""
+        prev_freq = 0
+        happy_list = []
+        while letter_heap:
+            freq, letter = heapq.heappop(letter_heap)
 
-        prev = (0, "")
-        while abc_heap:
-            frequency, letter = heapq.heappop(abc_heap)
-            if prev[0]:
-                heapq.heappush(abc_heap, prev)
+            if prev_freq:
+                heapq.heappush(letter_heap, (prev_freq, prev_letter))
 
             if (
-                frequency == -1 or 
-                frequency > prev[0]
+                freq == -1 or
+                # Limit current letter becouse of letter with highter frequency.
+                prev_freq < freq
             ):
-                happy_string += letter
-                frequency += 1
+                happy_list.append(letter)
+                prev_freq = freq + 1
+                prev_letter = letter
             else:
-                happy_string += 2*letter
-                frequency += 2
+                happy_list.append(letter*2)
+                prev_freq = freq + 2
+                prev_letter = letter
 
-            prev = (frequency, letter) if frequency else (0, "")
-        
-        return happy_string
+        return "".join(happy_list)
 
 
 print(Solution().longestDiverseString(1, 1, 7) == "ccaccbcc")

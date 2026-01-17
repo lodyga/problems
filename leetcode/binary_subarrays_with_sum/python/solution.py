@@ -3,7 +3,7 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: 
+        Tags:
             A: sliding window
         """
         far_left = 0
@@ -32,7 +32,7 @@ class Solution:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(1)
-        Tags: 
+        Tags:
             A: brute-force
         """
         counter = 0
@@ -56,7 +56,7 @@ class Solution2:
         """
         Time complexity: O(n3)
         Auxiliary space complexity: O(1)
-        Tags: 
+        Tags:
             A: brute-force
         """
         counter = 0

@@ -4,7 +4,7 @@ class Solution:
         Time complexity: O(n2^n)
         Auxiliary space complexity: O(n)
             Output: O(2^n)
-        Tags: 
+        Tags:
             DS: list
             A: DFS with backtracking
         """

@@ -2,7 +2,7 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: 
+    * Tags:
     *     DS: hash map
     *     A: top-down
     * @param {number} num
@@ -25,7 +25,7 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: 
+    * Tags:
     *     DS: list
     *     A: bottom-up
     * @param {number} num
@@ -47,7 +47,7 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: 
+    * Tags:
     *     DS: array
     *     A: bottom-up
     * @param {number} number

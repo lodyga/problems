@@ -2,7 +2,7 @@ class Solution {
    /**
     * Time complexity: O(2^n)
     * Auxiliary space complexity: O(n)
-    * Tags: 
+    * Tags:
     *    A: brute-force, pure recursion
     * 'counter' as a return statement from dfs
     * converts to top-down
@@ -21,7 +21,7 @@ class Solution {
    /**
     * Time complexity: O(2^n)
     * Auxiliary space complexity: O(n)
-    * Tags: 
+    * Tags:
     *    A: brute-force, shared state
     * `counter` as shared variable
     * @param {number} steps
@@ -66,7 +66,7 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: 
+    * Tags:
     *     DS: array
     *     A: top-down
     * @param {number} steps
@@ -90,7 +90,7 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: 
+    * Tags:
     *     DS: array
     *     A: bottom-up
     * @param {number} steps
@@ -108,7 +108,7 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: 
+    * Tags:
     *     A: greedy
     * @param {number} steps
     * @return {number}

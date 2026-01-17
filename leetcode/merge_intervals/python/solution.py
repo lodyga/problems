@@ -3,19 +3,23 @@ class Solution:
         """
         Time complexity: O(nlogn)
         Auxiliary space complexity: O(n)
-        Tags: intervals, sorting
+        Tags:
+            DS: list
+            A: intervals, greedy, sorting
         """
         intervals.sort()
-        merged_intervals = [intervals[0]]
+        merged = [intervals[0]]
 
-        for index, (start, end) in enumerate(intervals[1:], 1):
-            prev_end = merged_intervals[-1][1]
+        for index in range(1, len(intervals)):
+            start, end = intervals[index]
+
+            _, prev_end = merged[-1]
             if prev_end >= start:
-                merged_intervals[-1][1] = max(prev_end, end)
+                merged[-1][1] = max(prev_end, end)
             else:
-                merged_intervals.append([start, end])
-            
-        return merged_intervals
+                merged.append([start, end])
+
+        return merged
 
 
 print(Solution().merge([[1, 3], [2, 6], [8, 10], [15, 18]]) == [[1, 6], [8, 10], [15, 18]])

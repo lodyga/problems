@@ -6,7 +6,7 @@ class MyQueue {
     *     peek: O(1)
     *     empty: O(1)
     * Auxiliary space complexity: O(n)
-    * Tags: 
+    * Tags:
     *     DS: stack, queue
     *     A: iteration
     */

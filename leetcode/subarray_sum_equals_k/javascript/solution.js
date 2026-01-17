@@ -2,29 +2,31 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: hash map
-    * @param {number[]} numbers
+    * Tags:
+    *     DS: hash map
+    *     A: prefix sum
+    * @param {number[]} nums
     * @param {number} target
     * @return {number}
     */
-   subarraySum(numbers, target) {
-      const cache = new Map([[0, 1]]);
-      let subarrayCounter = 0;
-      let currentSum = 0;
+   subarraySum(nums, target) {
+      let counter = 0;
+      let prefix = 0;
+      const prefixFreq = new Map([[0, 1]]);
 
-      for (const number of numbers) {
-         currentSum += number;
-         if (cache.has(currentSum - target)) {
-            subarrayCounter += cache.get(currentSum - target)
+      for (const num of nums) {
+         prefix += num;
+         if (prefixFreq.has(prefix - target)) {
+            counter += prefixFreq.get(prefix - target);
          }
-         cache.set(currentSum, (cache.get(currentSum) || 0) + 1);
+         prefixFreq.set(prefix, (prefixFreq.get(prefix) || 0) + 1);
       }
-      return subarrayCounter
+      return counter
    };
 }
+
+
 const subarraySum = new Solution().subarraySum;
-
-
 console.log(new Solution().subarraySum([1, 1, 1], 2) === 2)
 console.log(new Solution().subarraySum([1, 2, 3], 3) === 2)
 console.log(new Solution().subarraySum([1], 0) === 0)

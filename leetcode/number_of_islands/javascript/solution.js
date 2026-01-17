@@ -5,7 +5,7 @@ class Solution {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(n2)
-    * Tags: 
+    * Tags:
     *     DS: array (matrix)
     *     A: dfs, recursion 
     * @param {string[][]} grid
@@ -44,9 +44,9 @@ class Solution {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(n2)
-    * Tags: 
+    * Tags:
     *     DS: array (matrix)
-    *     A: bfs, recursion 
+    *     A: bfs, iteration 
     * @param {string[][]} grid
     * @return {number}
     */

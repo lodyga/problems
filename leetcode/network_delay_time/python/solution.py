@@ -6,30 +6,32 @@ class Solution:
         """
         Time complexity: O(ElogV)
         Auxiliary space complexity: O(V + E)
-        Tags: bfs, iteration, graph
-        Dijkstra
+        Tags:
+            DS: heap, hash map, hash set, graph
+            A: BFS, Dijkstra
         """
-        next_vertices = {vertex: set() for vertex in range(1, n + 1)}  # {vertex: {(next vertex, weight), ()}, }
-        delays = [0] * n  # [[vertex - 1]: min weight, ]
-        for source, destnation, time in times:
-            next_vertices[source].add((destnation, time))
+        # {vertex: set((next vertex, time to travel), ), }
+        next_vertices = {vertex: set() for vertex in range(n)}
 
+        for scr, dst, time in times:
+            next_vertices[scr - 1].add((dst - 1, time))
 
-        visited = set()
-        min_heap = [(0, k)]
+        vertex_heap = [(0, k - 1)]
+        visited = [False] * n
+        max_delay = -1
         
-        while len(visited) != n and min_heap:
-            weight, vertex = heapq.heappop(min_heap)
-            if vertex in visited:
+        while vertex_heap:
+            time, vertex = heapq.heappop(vertex_heap)
+            if visited[vertex]:
                 continue
-            delays[vertex - 1] = weight
-            visited.add(vertex)
+            visited[vertex] = True
+            max_delay = max(max_delay, time)
 
-            for next_vertex, next_delay in next_vertices[vertex]:
-                heapq.heappush(min_heap, (weight + next_delay, next_vertex))
+            for next_vertex, next_time in next_vertices[vertex]:
+                if not visited[next_vertex]:
+                    heapq.heappush(vertex_heap, (time + next_time, next_vertex))
 
-        # return max(delays) if len(visited) == n else -1
-        return weight if len(visited) == n else -1
+        return max_delay if all(visited) else -1
 
 
 class Solution:
@@ -37,13 +39,16 @@ class Solution:
         """
         Time complexity: O(V * E)
         Auxiliary space complexity: O(V + E)
-        Tags: dfs, recursion, graph
-        DFS
+        Tags:
+            DS: hash map, hash set, graph
+            A: DFS
         """
-        next_vertices = {vertex: set() for vertex in range(1, n + 1)}  # {vertex: {(next vertex, weight), ()}, }
-        delays = {vertex: 10**4 + 1 for vertex in range(1, n + 1)}  # {vertex: min weight, }
-        for source, destnation, time in times:
-            next_vertices[source].add((destnation, time))
+        # {vertex: set((next vertex, delay), ), }
+        next_vertices = {vertex: set() for vertex in range(n)}
+        # {vertex: min delay, }
+        delays = {vertex: 10**4 + 1 for vertex in range(n)}
+        for src, dst, time in times:
+            next_vertices[src - 1].add((dst - 1, time))
         
         def dfs(vertex, weight):
             if delays[vertex] <= weight:
@@ -54,7 +59,7 @@ class Solution:
             for next_vertex, next_weight in next_vertices[vertex]:
                 dfs(next_vertex, weight + next_weight)
 
-        dfs(k, 0)
+        dfs(k - 1, 0)
 
         max_delay = 0
         for delay in delays.values():

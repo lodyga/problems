@@ -3,36 +3,38 @@ class Solution {
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
     * Tags: two pointers
+    * 
     * @param {string} text
     * @return {number[]}
     */
    partitionLabels(text) {
-      const letterLastIndex = new Map();
+      const lastIndexes = new Map();
+      
       for (let index = 0; index < text.length; index++) {
          const letter = text[index];
-         letterLastIndex.set(letter, index)
+         lastIndexes.set(letter, index)
       }
       
-      let counter = 0;
-      let end = 0;
-      const partitionLengths = [];
+      const partLens = [];
+      let lastInd = 0;
+      let partLen = 0;
 
       for (let index = 0; index < text.length; index++) {
          const letter = text[index];
-         counter++;
-         end = Math.max(end, letterLastIndex.get(letter));
+         lastInd = Math.max(lastInd, lastIndexes.get(letter));
+         partLen++;
 
-         if (index === end) {
-            partitionLengths.push(counter);
-            counter = 0;
+         if (index === lastInd) {
+            partLens.push(partLen);
+            partLen = 0;
          }
       }
-      return partitionLengths
+      return partLens
    };
 }
+
+
 const partitionLabels = new Solution().partitionLabels;
-
-
-console.log(new Solution().partitionLabels('ababcc'), [4, 2])
-console.log(new Solution().partitionLabels('ababcbacadefegdehijhklij'), [9, 7, 8])
-console.log(new Solution().partitionLabels('eccbbbbdec'), [10])
+console.log(new Solution().partitionLabels('ababcc').toString() === [4, 2].toString())
+console.log(new Solution().partitionLabels('ababcbacadefegdehijhklij').toString() === [9, 7, 8].toString())
+console.log(new Solution().partitionLabels('eccbbbbdec').toString() === [10].toString())

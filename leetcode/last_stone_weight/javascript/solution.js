@@ -5,7 +5,7 @@ class Solution {
    /**
     * Time complexity: O(nlogn)
     * Auxiliary space complexity: O(n)
-    * Tags: 
+    * Tags:
     *    DS: heap
     *    A: heap
     * @param {number[]} stones

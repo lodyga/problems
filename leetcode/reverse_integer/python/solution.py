@@ -6,12 +6,13 @@ class Solution:
         """
         Time complexity: O(1)
         Auxiliary space complexity: O(1)
-        Tags: bit manipulation
+        Tags:
+            A: iteration
         """
-        MIN = -2**31  # -2147483648
-        MAX = 2**31 - 1  # 2147483647
+        MIN = -2**31  # -2_147_483_648
+        MAX = 2**31 - 1  # 2_147_483_647
         res = 0
-        
+
         while x:
             digit = int(math.fmod(x, 10))
             x = int(x / 10)
@@ -21,14 +22,14 @@ class Solution:
                 res == MAX // 10 and digit > MAX % 10
             ):
                 return 0
-            if (
+            elif (
                 res < MIN // 10 or
                 res == MIN // 10 and digit < MIN % 10
             ):
                 return 0
 
             res = (res * 10) + digit
-        
+
         return res
 
 

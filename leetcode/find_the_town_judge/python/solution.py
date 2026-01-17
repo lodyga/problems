@@ -3,7 +3,7 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             DS: hash map, hash set
             A: iteration
         """
@@ -29,7 +29,7 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             DS: array
             A: iteration
         """

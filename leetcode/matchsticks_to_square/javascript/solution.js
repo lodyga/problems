@@ -1,8 +1,8 @@
 class Solution {
    /**
-    * Time complexity: O(4^n)
+    * Time complexity: O(2^n)
     * Auxiliary space complexity: O(n)
-    * Tags: 
+    * Tags:
     *     DS: array
     *     A: backtracking with pruning, sorting
     * @param {number[]} sticks

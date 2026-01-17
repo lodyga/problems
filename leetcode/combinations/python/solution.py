@@ -3,7 +3,7 @@ class Solution:
         """
         Time complexity: O(n2^n)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             DS: list
             A: backtracking
         """
@@ -33,7 +33,7 @@ class Solution:
         """
         Time complexity: O(n2^n)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             DS: list
             A: backtracking
         """
@@ -59,7 +59,7 @@ class Solution:
         """
         Time complexity: O(n2^n)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             DS: queue
             A: bfs
         """

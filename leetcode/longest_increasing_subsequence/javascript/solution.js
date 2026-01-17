@@ -2,7 +2,7 @@ class Solution {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(n)
-    * Tags: 
+    * Tags:
     *     DS: array
     *     A: top-down
     * @param {number[]} nums
@@ -39,7 +39,7 @@ class Solution {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(n)
-    * Tags: 
+    * Tags:
     *     DS: array
     *     A: bottom-up
     * @param {number[]} nums
@@ -62,7 +62,7 @@ class Solution {
    /**
     * Time complexity: O(nlogn)
     * Auxiliary space complexity: O(n)
-    * Tags: 
+    * Tags:
     *     DS: list
     *     A: binary search
     * @param {number[]} nums
@@ -74,7 +74,7 @@ class Solution {
          let right = lis.length - 1;
 
          while (left <= right) {
-            const middle = parseInt((left + right) / 2);
+            const middle = Math.floor((left + right) / 2);
             const middleNum = lis[middle];
 
             // search for the first greater/equal to num

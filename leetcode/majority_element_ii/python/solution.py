@@ -1,57 +1,61 @@
 class Solution:
-    def majorityElement(self, numbers: list[int]) -> list[int]:
-        """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(n)
-        Tags: hash map
-        """
-        frequencies = {}
-        most_frequent_numbers = []
-        threshold = len(numbers) // 3
-
-        for number in numbers:
-            frequencies[number] = frequencies.get(number, 0) + 1
-        
-        for nubmer, frequency in frequencies.items():
-            if frequency > threshold:
-                most_frequent_numbers.append(nubmer)
-
-        return most_frequent_numbers
-
-
-class Solution:
-    def majorityElement(self, numbers: list[int]) -> list[int]:
+    def majorityElement(self, nums: list[int]) -> list[int]:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
+        Tags:
+            DS: hash map
+            A: iteration
         Boyer-Moore Voting Algorithm
         """
-        frequencies = {}
-        most_frequent_numbers = []
-        threshold = len(numbers) // 3
+        num_freq = {}
 
-        for number in numbers:
-            frequencies[number] = frequencies.get(number, 0) + 1
+        for num in nums:
+            if len(num_freq) == 3:
+                for numf in tuple(num_freq):
+                    num_freq[numf] -= 1
+                    if num_freq[numf] == 0:
+                        num_freq.pop(numf)
 
-            if len(frequencies) > 2:
-                number_frequency_copy = {}
-                for number, frequency in frequencies.items():
-                    if frequency > 1:
-                        number_frequency_copy[number] = frequency - 1
-                frequencies = number_frequency_copy
+            num_freq[num] = num_freq.get(num, 0) + 1
 
-        for number in frequencies:
-            if numbers.count(number) > threshold:
-                most_frequent_numbers.append(number)
+        res = []
+        for num in num_freq:
+            if nums.count(num) / len(nums) > 1 / 3:
+                res.append(num)
 
-        return most_frequent_numbers
+        return res
 
 
-print(Solution().majorityElement([3, 3, 4]), [3])
-print(Solution().majorityElement([3, 2, 3]), [3])
-print(Solution().majorityElement([1]), [1])
-print(Solution().majorityElement([1, 2]), [1, 2])
-print(Solution().majorityElement([3, 4, 5, 3, 4]), [3, 4])
-print(Solution().majorityElement([2, 2]), [2])
-print(Solution().majorityElement([3, 4, 5, 3]), [3])
-print(Solution().majorityElement([3, 4, 5]), [])
+class Solution:
+    def majorityElement(self, nums: list[int]) -> list[int]:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(n)
+        Tags:
+            DS: hash map
+            A: iteration
+        """
+        num_freq = {}
+        threshold = len(nums) // 3
+
+        for num in nums:
+            num_freq[num] = num_freq.get(num, 0) + 1
+        
+        res = []
+        for num, frequency in num_freq.items():
+            if frequency > threshold:
+                res.append(num)
+
+        return res
+
+
+print(Solution().majorityElement([3, 3, 4]) == [3])
+print(Solution().majorityElement([3, 2, 3]) == [3])
+print(Solution().majorityElement([1]) == [1])
+print(Solution().majorityElement([1, 2]) == [1, 2])
+print(Solution().majorityElement([3, 4, 5, 3, 4]) == [3, 4])
+print(Solution().majorityElement([2, 2]) == [2])
+print(Solution().majorityElement([3, 4, 5, 3]) == [3])
+print(Solution().majorityElement([3, 4, 5]) == [])
+print(Solution().majorityElement([1, 2, 3, 4]) == [])

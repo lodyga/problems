@@ -1,9 +1,9 @@
 class Solution {
    /**
     * Time complexity: O(n)
-    *     O(min(n+m))
     * Auxiliary space complexity: O(1)
-    * Tags: iteration, two pointers
+    * Tags:
+    *     A: two pointers, iteration
     * @param {string} text1
     * @param {string} text2
     * @return {number}
@@ -24,9 +24,9 @@ class Solution {
       return text2.length - index2
    };
 }
+
+
 const appendCharacters = new Solution().appendCharacters;
-
-
 console.log(new Solution().appendCharacters('coaching', 'coding') === 4)
 console.log(new Solution().appendCharacters('abcde', 'a') === 0)
 console.log(new Solution().appendCharacters('z', 'abcde') === 5)

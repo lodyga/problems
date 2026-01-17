@@ -14,7 +14,7 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: 
+        Tags:
             A: build-in function
         """
         return target in nums
@@ -25,7 +25,7 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: 
+        Tags:
             A: almost binary search but not quite
         """
         left = 0

@@ -3,7 +3,7 @@ class Solution:
         """
         Time complexity: O(nlogn)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             A: sliding window, sorting
         """
         uniq_sort_nums = sorted(set(nums))
@@ -30,7 +30,7 @@ class Solution2:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             DS: array, hash set
             A: brute-force, sliding window
         """

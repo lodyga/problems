@@ -3,95 +3,86 @@ class Solution:
         """
         Time complexity: O(2^n)
         Auxiliary space complexity: O(n)
-        Tags: brute-force
+        Tags:
+            A: brute-force
         """
-        def dfs(index, alice_to_move, m):
-            if index >= len(piles):
+        UPPER_BOUND = 10**6
+
+        def dfs(start: int, m: int, is_alice_turn: bool) -> int:
+            if start == len(piles):
                 return 0
 
-            score = 0 if alice_to_move else 10**6
+            score = 0 if is_alice_turn else UPPER_BOUND
             subpile_sum = 0
-            # for x in range(1, 2*m + 1):
-            for j in range(index, min(index + 2*m, len(piles))):
-                subpile_sum += piles[j]
-                if alice_to_move:
-                    ponits = subpile_sum + dfs(j + 1, not alice_to_move, max(m, j - index + 1))
-                    score = max(score, ponits)
+
+            for index in range(start, min(start + 2*m, len(piles))):
+                subpile_sum += piles[index]
+
+                get_rest_piles = dfs(
+                    index + 1,
+                    max(m, index - start + 1),
+                    not is_alice_turn
+                )
+
+                if is_alice_turn:
+                    score = max(score, subpile_sum + get_rest_piles)
                 else:
-                    ponits = dfs(j + 1, not alice_to_move, max(m, j - index + 1))
-                    score = min(score, ponits)
+                    score = min(score, get_rest_piles)
+
             return score
-        return dfs(0, True, 1)
 
-
-class Solution:
-    def stoneGameII(self, piles: list[int]) -> int:
-        """
-        Time complexity: O(2^n)
-        Auxiliary space complexity: O(n)
-        Tags: brute-force
-        """
-        def dfs(index, alice_to_move, m):
-            if index >= len(piles):
-                return 0
-
-            score = 0 if alice_to_move else 10**6
-            subpile_sum = 0
-            for x in range(1, 2*m + 1):
-                if index + x > len(piles):
-                    break
-                subpile_sum += piles[index + x - 1]
-                if alice_to_move:
-                    ponits = subpile_sum + dfs(index + x, not alice_to_move, max(m, x))
-                    score = max(score, ponits)
-                else:
-                    ponits = dfs(index + x, not alice_to_move, max(m, x))
-                    score = min(score, ponits)
-            return score
-        return dfs(0, True, 1)
+        return dfs(0, 1, True)
 
 
 class Solution:
     def stoneGameII(self, piles: list[int]) -> int:
         """
         Time complexity: O(n3)
-
         Auxiliary space complexity: O(n2)
-        Tags: dp, top-down with memoization as hash map
+        Tags:
+            DS: hash map
+            A: top-down, prefix sum
         """
-        memo = {}  # {(index, alice_to_move, m): alice's max score}
+        UPPER_BOUND = 10**6
+        memo = {}
+        prefix = [0]
+        for pile in piles:
+            prefix.append(prefix[-1] + pile)
 
-        def dfs(index, alice_to_move, m):
-            if index == len(piles):
+        def dfs(start: int, m: int, is_alice_turn: bool) -> int:
+            memo_ind = (start, m, is_alice_turn)
+
+            if start == len(piles):
                 return 0
-            elif (index, alice_to_move, m) in memo:
-                return memo[(index, alice_to_move, m)]
+            elif memo_ind in memo:
+                return memo[memo_ind]
 
-            # result max wihile Alice, min while Bob
-            memo[(index, alice_to_move, m)] = 0 if alice_to_move else 10**6
-            part_sum = 0
+            score = 0 if is_alice_turn else UPPER_BOUND
 
-            for x in range(1, 2*m + 1):
-                if index + x - 1 == len(piles):
-                    break
-                part_sum += (piles[index + x - 1] if alice_to_move else 0)
-                score = part_sum + dfs(index + x, not alice_to_move, max(m, x))
-                # score = (sum(piles[index: index + x]) if alice_to_move else 0) + \
-                #     dfs(index + x, not alice_to_move, max(m, x))
-                memo[(index, alice_to_move, m)] = (
-                    max(memo[(index, alice_to_move, m)], score) if alice_to_move else
-                    min(memo[(index, alice_to_move, m)], score)
+            for index in range(start, min(start + 2*m, len(piles))):
+                subpile_sum = prefix[index + 1] - prefix[start]
+
+                get_rest_piles = dfs(
+                    index + 1,
+                    max(m, index - start + 1),
+                    not is_alice_turn
                 )
 
-            return memo[(index, alice_to_move, m)]
+                if is_alice_turn:
+                    score = max(score, subpile_sum + get_rest_piles)
+                else:
+                    score = min(score, get_rest_piles)
 
-        return dfs(0, True, 1)
+            memo[memo_ind] = score
+            return score
+
+        return dfs(0, 1, True)
 
 
-print(Solution().stoneGameII([2, 7]), 9)
-print(Solution().stoneGameII([2, 7, 9, 4, 4]), 10)
-print(Solution().stoneGameII([1, 2, 3, 4, 5, 100]), 104)
-print(Solution().stoneGameII([2, 100]), 102)
-print(Solution().stoneGameII([1, 2, 100]), 3)
-print(Solution().stoneGameII([77, 12, 64, 35, 28, 4, 87, 21, 20]), 217)
-print(Solution().stoneGameII([8270, 7145, 575, 5156, 5126, 2905, 8793, 7817, 5532, 5726, 7071, 7730, 5200, 5369, 5763, 7148, 8287, 9449, 7567, 4850, 1385, 2135, 1737, 9511, 8065, 7063, 8023, 7729, 7084, 8407]), 98008)
+print(Solution().stoneGameII([2, 7]) == 9)
+print(Solution().stoneGameII([2, 7, 9, 4, 4]) == 10)
+print(Solution().stoneGameII([1, 2, 3, 4, 5, 100]) == 104)
+print(Solution().stoneGameII([2, 100]) == 102)
+print(Solution().stoneGameII([1, 2, 100]) == 3)
+print(Solution().stoneGameII([77, 12, 64, 35, 28, 4, 87, 21, 20]) == 217)
+print(Solution().stoneGameII([8270, 7145, 575, 5156, 5126, 2905, 8793, 7817, 5532, 5726, 7071, 7730, 5200, 5369, 5763, 7148, 8287, 9449, 7567, 4850, 1385, 2135, 1737, 9511, 8065, 7063, 8023, 7729, 7084, 8407]) == 98008)

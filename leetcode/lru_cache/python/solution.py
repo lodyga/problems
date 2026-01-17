@@ -1,4 +1,4 @@
-class DoublyLinkedList:
+class DoublyLinkedNode:
     def __init__(self, val=None, next=None, prev=None) -> None:
         self.val = val
         self.next = next
@@ -10,13 +10,13 @@ class LRUCache:
     Time complexity: O(1)
     Auxiliary space complexity: O(c)
         O(capacity)
-    Tags: 
+    Tags:
         DS: doubly linked list, hash map
     """
 
     def __init__(self, capacity: int):
-        self.left = DoublyLinkedList()
-        self.right = DoublyLinkedList(None, None, self.left)
+        self.left = DoublyLinkedNode()
+        self.right = DoublyLinkedNode(None, None, self.left)
         self.left.next = self.right
         self.cache = {}  # {key: Node(val, next, prev)}
         self.vals = {}  # {key: val}
@@ -60,7 +60,7 @@ class LRUCache:
     def _push(self, key: int, val: int) -> None:
         right = self.right
         left = right.prev
-        node = DoublyLinkedList(key, right, left)
+        node = DoublyLinkedNode(key, right, left)
         left.next, right.prev = node, node
 
         self.cache[key] = node
@@ -166,7 +166,7 @@ class LRUCache:
     Time complexity: O(1)
     Auxiliary space complexity: O(c)
         O(capacity)
-    Tags: 
+    Tags:
         DS: hash map
         A: build-in function
     """
@@ -198,7 +198,7 @@ class LRUCache:
     Time complexity: O(1)
     Auxiliary space complexity: O(c)
         O(capacity)
-    Tags: 
+    Tags:
         DS: hash map, build-in data structurn
         A: 
     """

@@ -2,7 +2,7 @@ class Solution {
    /**
     * Time complexity: O(logn)
     * Auxiliary space complexity: O(1)
-    * Tags: 
+    * Tags:
     *     A: binary search
     * @param {number[]} nums
     * @return {number}
@@ -39,7 +39,7 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: 
+    * Tags:
     *     A: bit manipulation
     * @param {number[]} nums
     * @return {number}

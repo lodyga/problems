@@ -6,7 +6,7 @@ class Solution:
         """
         Time complexity: O(nlogk)
         Auxiliary space complexity: O(k)
-        Tags: 
+        Tags:
             DS: heap
             A: heap
         """
@@ -28,7 +28,7 @@ class Solution:
         """
         Time complexity: O(nlogn)
         Auxiliary space complexity: O(k)
-        Tags: 
+        Tags:
             A: sorting, build-in function
         """
         points.sort(key=lambda x: (x[0]**2 + x[1]**2))

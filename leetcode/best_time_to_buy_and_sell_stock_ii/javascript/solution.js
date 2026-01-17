@@ -2,27 +2,24 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: greedy
+    * Tags:
+    *    A: greedy
     * @param {number[]} prices
     * @return {number}
     */
    maxProfit(prices) {
-      if (prices.length === 1)
-         return 0
-
       let profit = 0;
+      let prevPrice = prices[0];
 
-      for (let index = 1; index < prices.length; index++) {
-         if (prices[index - 1] < prices[index]) {
-            profit += prices[index] - prices[index - 1];
+      for (const price of prices) {
+         if (price > prevPrice) {
+            profit += price - prevPrice;
          }
+         prevPrice = price;
       }
       return profit
    };
-}
 
-
-class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
@@ -58,9 +55,9 @@ class Solution {
       return dfs(0, true)
    };
 }
+
+
 const maxProfit = new Solution().maxProfit;
-
-
 console.log(new Solution().maxProfit([7, 1]) === 0)
 console.log(new Solution().maxProfit([1, 7]) === 6)
 console.log(new Solution().maxProfit([7, 1, 5, 3, 6, 4]) === 7)

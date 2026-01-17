@@ -2,7 +2,7 @@ class Solution {
    /**
     * Time complexity: O(nlogn)
     * Auxiliary space complexity: O(n)
-    * Tags: 
+    * Tags:
     *    A: two pointers
     * @param {number[]} people
     * @param {number} limit

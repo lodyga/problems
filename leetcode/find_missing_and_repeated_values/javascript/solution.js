@@ -1,37 +1,39 @@
 class Solution {
    /**
-    * Time complexity: O(n)
-    * Auxiliary space complexity: O(n)
-    * Tags: hash set
+    * Time complexity: O(n2)
+    * Auxiliary space complexity: O(n2)
+    * Tags:
+    *     DS: array (matrix)
+    *     A: iteration
     * @param {number[][]} grid
     * @return {number[]}
     */
    findMissingAndRepeatedValues(grid) {
-      const uniqueNumbers = new Set();
-      const len = grid.length;
-      let repeated;
-      let missing;
+      const N = grid.length;
+      const DIMS = grid.length ** 2;
+      const seen = Array(DIMS).fill(false);
+      const res = [];
 
-      for (let row = 0; row < len; row++) {
-         for (let col = 0; col < len; col++) {
-            const number = grid[row][col];
-            if (uniqueNumbers.has(number)) {
-               repeated = number;
+      for (let row = 0; row < N; row++) {
+         for (let col = 0; col < N; col++) {
+            const num = grid[row][col];
+            if (seen[num - 1]) {
+               res.push(num);
             }
-            uniqueNumbers.add(number);
+            seen[num - 1] = true;
          }
       }
 
-      for (let number = 1; number < len * len + 1; number++) {
-         if (!uniqueNumbers.has(number)) {
-            missing = number;
+      for (let index = 0; index < DIMS; index++) {
+         if (!seen[index]) {
+            res.push(index + 1);
          }
       }
-      return [repeated, missing]
+      return res
    };
 }
+
+
 const findMissingAndRepeatedValues = new Solution().findMissingAndRepeatedValues;
-
-
-console.log(new Solution().findMissingAndRepeatedValues([[1, 3], [2, 2]]), [2, 4])
-console.log(new Solution().findMissingAndRepeatedValues([[9, 1, 7], [8, 9, 2], [3, 4, 6]]), [9, 5])
+console.log(new Solution().findMissingAndRepeatedValues([[1, 3], [2, 2]]).toString() === [2, 4].toString())
+console.log(new Solution().findMissingAndRepeatedValues([[9, 1, 7], [8, 9, 2], [3, 4, 6]]).toString() === [9, 5].toString())

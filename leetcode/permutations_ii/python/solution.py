@@ -3,7 +3,7 @@ class Solution:
         """
         Time complexity: O(n!)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             DS: hash map
             A: backtracking
         """
@@ -37,7 +37,7 @@ class Solution:
         """
         Time complexity: O(n!)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             DS: hash set
             A: backtracking
         """

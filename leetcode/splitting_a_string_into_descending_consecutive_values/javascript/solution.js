@@ -2,7 +2,7 @@ class Solution {
    /**
     * Time complexity: O(2^n)
     * Auxiliary space complexity: O(n)
-    * Tags: 
+    * Tags:
     *     A: backtracking with pruning
     * @param {string} text
     * @return {boolean}

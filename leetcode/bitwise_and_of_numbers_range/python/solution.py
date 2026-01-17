@@ -6,7 +6,7 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: 
+        Tags:
         """
         bitwise_and = right
         for number in range(left, right):

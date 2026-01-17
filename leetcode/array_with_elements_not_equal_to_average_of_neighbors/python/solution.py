@@ -3,7 +3,7 @@ class Solution:
         """
         Time complexity: O(nlogn)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             DS: array
             A: two pointers
         """
@@ -38,7 +38,7 @@ class Solution:
         """
         Time complexity: O(nlogn)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             DS: array
             A: two pointers
         """
@@ -68,7 +68,7 @@ class Solution:
         """
         Time complexity: O(nlogn)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             DS: array
             A: build-in function
         """

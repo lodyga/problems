@@ -5,7 +5,7 @@ class Solution:
             n: spell count 
             m: potion count
         Auxiliary space complexity: O(n + m)
-        Tags: 
+        Tags:
             DS: array
             A: binary search, sorting
         """

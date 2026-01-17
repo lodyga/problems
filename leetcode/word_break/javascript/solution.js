@@ -8,7 +8,7 @@ class Solution {
     *     m: word count
     *     t: avg word length
     * Auxiliary space complexity: O(n)
-    * Tags: 
+    * Tags:
     *     DS: array
     *     A: top-down
     * @param {string} text
@@ -63,7 +63,7 @@ class Solution {
     *     m: word count
     *     t: avg word length
     * Auxiliary space complexity: O(n)
-    * Tags: 
+    * Tags:
     *     DS: array
     *     A: bottom-up
     * @param {string} text
@@ -95,7 +95,7 @@ class Solution {
     *     m: word count
     *     t: longest word length
     * Auxiliary space complexity: O(n+m*t)
-    * Tags: 
+    * Tags:
     *     DS: tire, array
     *     A: bottom-up
     * @param {string} text
@@ -131,7 +131,7 @@ class Solution {
     *     m: word count
     *     t: avg word length
     * Auxiliary space complexity: O(n+m*t)
-    * Tags: 
+    * Tags:
     *     DS: queue
     *     A: bottom-up
     * @param {string} text

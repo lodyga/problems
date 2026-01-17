@@ -9,7 +9,7 @@ class MyStack:
         top: O(n)
         empty: O(1)
     Auxiliary space complexity: O(n)
-    Tags: 
+    Tags:
         DS: queue, stack
         A: iteration
     """

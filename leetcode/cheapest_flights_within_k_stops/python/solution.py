@@ -2,103 +2,80 @@ import heapq
 
 
 class Solution:
-    def findCheapestPrice(self, n: int, flights: list[list[int]], src: int, dst: int, k: int) -> int:
+    def findCheapestPrice(self, N: int, flights: list[list[int]], src: int, dst: int, k: int) -> int:
         """
-        Time complexity: O(ElogV)
-        Auxiliary space complexity: O(V+E)
-        Tags: bfs, iteration, graph
-        Dijkstra with memo
+        Time complexity: O(Elog(V*k))
+        Auxiliary space complexity: O(V*k)
+        Tags:
+            DS: heap, hash map, hash set, array
+            A: greedy, Dijkstra with cache
+            Model: graph
         """
-        adjs = [set() for _ in range(n)]
-        for source, destination, cost in flights:
-            adjs[source].add((cost, destination))
+        UPPER_BOUND = 10**6
+        cache = [[UPPER_BOUND] * (k + 2) for _ in range(N)]
+        adj_vertices = [[] for _ in range(N)]
 
-        min_heap = []  # (cost, transfers, vertex)
-        heapq.heappush(min_heap, (0, -1, src))
-        # vertex min travel cost, {(node, transfers): min const, }
-        # vertex_cost_map = {}
-        vertex_cost_map = [[10**6] * (k + 1) for _ in range(n)]
+        for source, destination, price in flights:
+            adj_vertices[source].append((destination, price))
 
-        while min_heap:
-            cost, transfers, vertex = heapq.heappop(min_heap)
+        # heap((price, vertex, transits))
+        flight_heap = [(0, src, 0)]
+
+        while flight_heap:
+            price, vertex, transits = heapq.heappop(flight_heap)
+
             if vertex == dst:
-                return cost
-            elif transfers == k:
+                return price
+            elif (
+                transits == k + 1 or
+                price > cache[vertex][transits]
+            ):
                 continue
 
-            for adj_cost, adj_vertex in adjs[vertex]:
-                to_adj_cost = cost + adj_cost
-                # if vertex_cost_map.get((adj_vertex, transfers + 1), 10**6) > to_adj_cost:
-                #     vertex_cost_map[(adj_vertex, transfers + 1)] = to_adj_cost
-                if vertex_cost_map[adj_vertex][transfers + 1] > to_adj_cost:
-                    vertex_cost_map[adj_vertex][transfers + 1] = to_adj_cost
-                    heapq.heappush(min_heap, (to_adj_cost, transfers + 1, adj_vertex))
+            for adj_vertex, adj_price in adj_vertices[vertex]:
+                partial_price = price + adj_price
+
+                if partial_price < cache[adj_vertex][transits + 1]:
+                    cache[adj_vertex][transits + 1] = partial_price
+                    heapq.heappush(
+                        flight_heap,
+                        (partial_price, adj_vertex, transits + 1)
+                    )
 
         return -1
 
 
-class Solution2:
-    def findCheapestPrice(self, n: int, flights: list[list[int]], src: int, dst: int, k: int) -> int:
-        """
-        Time complexity: O(ElogV)
-        Auxiliary space complexity: O(V+E)
-        Tags: bfs, iteration, graph, tle
-        Dijkstra
-        """
-        adjs = {flight: set()
-                for flight in range(n)}  # {flight: (destination, cost)}
-        for s, d, c in flights:
-            adjs[s].add((d, c))
 
-        min_heap = [(0, 0, src)]  # heap((cost, stops, vertex))
-        # need to visit the same node multiple times
-        # visited = set()
-
-        while min_heap:
-            cost, stops, vertex = heapq.heappop(min_heap)
-            if vertex == dst:
-                return cost
-            elif stops == k + 1:
-                continue
-
-            for adj_dst, adj_cost in adjs[vertex]:
-                heapq.heappush(min_heap, (cost + adj_cost, stops + 1, adj_dst))
-
-        return -1
-
-
-class Solution2:
-    def findCheapestPrice(self, n: int, flights: list[list[int]], src: int, dst: int, k: int) -> int:
+class Solution:
+    def findCheapestPrice(self, N: int, flights: list[list[int]], src: int, dst: int, k: int) -> int:
         """
         Time complexity: O(E*k)
+            O(E*V) => O(E*V)
         Auxiliary space complexity: O(V + E)
-        Tags: Bellman-Ford
+        Tags:
+            DS: array
+            A: BFS, Bellman-Ford
+            Model: graph
         """
-        TRAVEL_COST_BOUND = 10**6
-        adjs = {flight: set()
-                for flight in range(n)}  # {flight: (destination, cost)}
-        for s, d, c in flights:
-            adjs[s].add((d, c))
-
-        to_city_cost = [TRAVEL_COST_BOUND] * n
-        to_city_cost[src] = 0
+        COST_BOUND = 10**6
+        price_cache = [COST_BOUND] * N
+        price_cache[src] = 0
 
         for _ in range(k + 1):
-            layer_to_city_cost = to_city_cost.copy()
+            cache_copy = price_cache.copy()
 
-            for city in range(n):
-                if to_city_cost[city] == TRAVEL_COST_BOUND:
+            for source, destination, price in flights:
+                if price_cache[source] == COST_BOUND:
                     continue
+                
+                elif price_cache[source] + price < cache_copy[destination]:
+                    cache_copy[destination] = price_cache[source] + price
 
-                for adj_city, adj_cost in adjs[city]:
-                    if to_city_cost[city] + adj_cost < layer_to_city_cost[adj_city]:
-                        layer_to_city_cost[adj_city] = to_city_cost[city] + adj_cost
-
-            to_city_cost = layer_to_city_cost
+            price_cache = cache_copy
 
         return (
-            to_city_cost[dst]
-            if to_city_cost[dst] != TRAVEL_COST_BOUND
+            price_cache[dst]
+            if price_cache[dst] != COST_BOUND
             else -1
         )
 

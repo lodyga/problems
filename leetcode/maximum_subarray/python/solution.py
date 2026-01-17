@@ -17,23 +17,22 @@ draft
 
 
 class Solution:
-    def maxSubArray(self, numbers: list[int]) -> int:
+    def maxSubArray(self, nums: list[int]) -> int:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: 
+        Tags:
             A: greedy (Kadane)
         """
-        subarray_sum = 0
-        max_sum = numbers[0]
+        sub_sum = 0
+        max_sub_sum = nums[0]
 
-        for number in numbers:
-            subarray_sum = subarray_sum + number if subarray_sum > 0 else number
-            # subarray_sum = max(subarray_sum + number, number)
-            # if subarray_sum < 0:
-            #     subarray_sum = 0
-            max_sum = max(max_sum, subarray_sum)
-        return max_sum
+        for num in nums:
+            sub_sum = sub_sum + num if sub_sum > 0 else num
+            # sub_sum = max(sub_sum + num, num)
+            max_sub_sum = max(max_sub_sum, sub_sum)
+
+        return max_sub_sum
 
 
 print(Solution().maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]) == 6)

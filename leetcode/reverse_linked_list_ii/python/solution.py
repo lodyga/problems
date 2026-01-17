@@ -15,36 +15,38 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: linked list
-        one pass
+        Tags:
+            DS: linked list
+            A: iteration
         """
         anchor = ListNode(None, head)
 
         # find the left node
         node = anchor
-        while left != 0:
-            prev_left_node = node
+        index = 1
+        while index < left:
             node = node.next
-            left -= 1
-            right -= 1
-        left_node = node
+            index += 1
+        outer_left = node
+        node = node.next
+        inner_right = node
 
         # reverse the middle portion
         prev = None
-        while right != -1:
+        while index <= right:
             node_next = node.next
             node.next = prev
             prev = node
             node = node_next
-            right -= 1
+            index += 1
         
-        # link the right side of the reversed portion
-        # with the unchanged on the right side
-        left_node.next = node
-        # link the left side of the reversed portion
-        # with the unchanged on the left side
-        prev_left_node.next = prev
-
+        inner_left = prev
+        outer_right = node
+        # Link the left side.
+        outer_left.next = inner_left
+        # Link the right side.
+        inner_right.next = outer_right
+    
         return anchor.next
 
 
@@ -92,5 +94,5 @@ class Solution:
         return anchor.next
 
 
-print(get_linked_list_values(Solution().reverseBetween(build_linked_list([1, 2, 3, 4, 5]), 2, 4)) ==  [1, 4, 3, 2, 5])
-print(get_linked_list_values(Solution().reverseBetween(build_linked_list([5]), 1, 1)) == [5])
+print(are_linked_lists_equeal(Solution().reverseBetween(build_linked_list([1, 2, 3, 4, 5]), 2, 4), build_linked_list([1, 4, 3, 2, 5])))
+print(are_linked_lists_equeal(Solution().reverseBetween(build_linked_list([5]), 1, 1), build_linked_list([5])))

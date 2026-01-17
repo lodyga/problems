@@ -8,7 +8,7 @@ class Solution {
     *     a: ammonut size
     * Auxiliary space complexity: O(n)
     *     O(amount)
-    * Tags: 
+    * Tags:
     *     DS: array
     *     A: top-down
     * @param {number[]} coins
@@ -47,7 +47,7 @@ class Solution {
     *     a: ammonut size
     * Auxiliary space complexity: O(n)
     *     O(amount)
-    * Tags: 
+    * Tags:
     *     DS: array
     *     A: bottom-up
     * @param {number[]} coins
@@ -78,7 +78,7 @@ class Solution {
     *     a: ammonut size
     * Auxiliary space complexity: O(n)
     *     O(amount)
-    * Tags: 
+    * Tags:
     *     DS: queue
     *     A: bfs, iteration, queue
     * @param {number[]} coins

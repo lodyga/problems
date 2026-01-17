@@ -7,7 +7,7 @@ class Twitter:
         O(1): postTweet, follow, unfollow, 
         O(n): getNewsFeed
     Auxiliary space complexity: O(n)
-    Tags: 
+    Tags:
         DS: queue, hash map, hash set
         A: iteration
     """

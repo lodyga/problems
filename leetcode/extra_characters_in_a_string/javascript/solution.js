@@ -3,7 +3,7 @@ class Solution {
     * Time complexity: O(n3)
     *     O(text length * word count * word lenght)
     * Auxiliary space complexity: O(n)
-    * Tags: 
+    * Tags:
     *     DS: array
     *     A: bottom-up
     * @param {string} text
@@ -38,7 +38,7 @@ class Solution {
     * Time complexity: O(n3)
     *     O(text length * distinct word count * word lenght)
     * Auxiliary space complexity: O(n)
-    * Tags: 
+    * Tags:
     *     DS: hash set
     *     A: bottom-up
     *     check every distinct word length
@@ -76,7 +76,7 @@ class Solution {
     *     O(text length * word lenght)
     * Auxiliary space complexity: O(n2)
     *     O(word count * word length) + O(text lenght)
-    * Tags: 
+    * Tags:
     *     DS: trie
     *     A: bottom-up
     * @param {string} text

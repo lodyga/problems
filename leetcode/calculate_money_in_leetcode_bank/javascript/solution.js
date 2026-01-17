@@ -7,7 +7,7 @@ class Solution {
     * @return {number}
     */
    totalMoney(days) {
-      const weeks = parseInt(days / 7);
+      const weeks = Math.floor(days / 7);
       const left = days % 7;
       let total = 0;
 

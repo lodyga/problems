@@ -2,41 +2,48 @@ class Solution:
     def alienOrder(self, words: list[str]) -> str:
         """
         Time complexity: O(V + E)
-            V: unique letters count
+            V: unique letter count
         Auxiliary space complexity: O(V + E)
-        Tags: dfs, recursion, graph, topological sort
+        Tags:
+            DS: array (graph)
+            A: multi-source DFS, topological sort with cycle detection
         """
         prereqs = {letter: set() for word in words for letter in word}
+
         for index in range(len(words) - 1):
             word = words[index]
             next_word = words[index + 1]
-            
-            for j in range(max(len(word), len(next_word))):
-                if j == len(word):
-                    break
-                elif j == len(next_word):
-                    return ""
-                elif word[j] != next_word[j]:
-                    prereqs[next_word[j]].add(word[j])
-                    break
-        
-        alien_dict = []
-        # None: not visited, False: visited, True: on current patch (detect cycle)
-        visited = [None] * 26
-        
-        def dfs(letter):
-            if visited[ord(letter) - ord("a")] is not None:
-                return visited[ord(letter) - ord("a")]
 
-            visited[ord(letter) - ord("a")] = True
-            
+            for index, letter in enumerate(word):
+                if index == len(next_word):
+                    return ""
+
+                next_letter = next_word[index]
+                if letter == next_letter:
+                    continue
+
+                prereqs[next_letter].add(letter)
+                break
+
+        # -1: not visited, 0: visited, 1: in path (detect a cycle)
+        visited = [-1] * 26
+
+        def dfs(letter):
+            index = ord(letter) - ord("a")
+            if visited[index] != -1:
+                return visited[index]
+
+            visited[index] = 1
+
             for prereq in prereqs[letter]:
                 if dfs(prereq):
                     return True
-            
-            alien_dict.append(letter)
-            visited[ord(letter) - ord("a")] = False
 
+            alien_dict.append(letter)
+            visited[index] = 0
+            return 0
+
+        alien_dict = []
         for letter in prereqs:
             if dfs(letter):
                 return ""
@@ -47,6 +54,7 @@ class Solution:
 print(Solution().alienOrder(["z", "x"]) == "zx")
 print(Solution().alienOrder(["z", "o", "z"]) == "")
 print(Solution().alienOrder(["a", "ab", "bc", "c"]) == "abc")
-print(Solution().alienOrder(["wrt","wrf","er","ett","rftt"]) == "wertf")
+print(Solution().alienOrder(["wrt", "wrf", "er", "ett", "rftt"]) == "wertf")
 print(Solution().alienOrder(["hrn", "hrf", "er", "enn", "rfnn"]) == "hernf")
 print(Solution().alienOrder(["abc", "bcd", "cde"]) == "abcde")
+print(Solution().alienOrder(["wrtkj", "wrt"]) == "")

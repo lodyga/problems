@@ -1,6 +1,7 @@
 # Find in Mountain Array
 https://leetcode.com/problems/find-in-mountain-array/
 
+<p>
 (This problem is an interactive problem.)
 
 You may recall that an array arr is a mountain array if and only if:
@@ -16,13 +17,18 @@ You cannot access the mountain array directly. You may only access the array usi
 MountainArray.get(k) returns the element of the array at index k (0-indexed).
 MountainArray.length() returns the length of the array.
 Submissions making more than 100 calls to MountainArray.get will be judged Wrong Answer. Also, any solutions that attempt to circumvent the judge will result in disqualification.
+</p>
 
-<b>Example 1:</b>\
-Input: mountainArr = [1,2,3,4,5,3,1], target = 3\
-Output: 2\
+<pre>
+<b>Example 1:</b>
+Input: mountainArr = [1,2,3,4,5,3,1], target = 3
+Output: 2
 Explanation: 3 exists in the array, at index=2 and index=5. Return the minimum index, which is 2.
+</pre>
 
-<b>Example 2:</b>\
-Input: mountainArr = [0,1,2,4,2,1], target = 3\
-Output: -1\
+<pre>
+<b>Example 2:</b>
+Input: mountainArr = [0,1,2,4,2,1], target = 3
+Output: -1
 Explanation: 3 does not exist in the array, so we return -1.
+</pre>

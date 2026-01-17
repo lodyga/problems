@@ -6,32 +6,44 @@ class Solution:
         """
         Time complexity: O(nlogn + mlogm)
             n: interval length
-            m: queries length
+            m: query length
         Auxiliary space complexity: O(n + m)
-        Tags: intervals, heap
+        Tags:
+            DS: heap
+            A: intervals
         """
         intervals.sort()
-        interval_heap = []  # [(duration, ends)]
+        # heap((interval size, end), )
+        interval_heap = []
+        index = 0
         min_intervals = {}
-        index = 0  # interval index
 
         for query in sorted(queries):
-            # push intervals that start before or at query
+            # Skip intervals that end before query.
             while (
-                index < len(intervals) and 
+                index < len(intervals) and
+                intervals[index][1] < query
+            ):
+                index += 1
+
+            while (
+                index < len(intervals) and
                 intervals[index][0] <= query
             ):
                 start, end = intervals[index]
                 heapq.heappush(interval_heap, (end - start + 1, end))
                 index += 1
-            
-            # pop intervals that end befere query
+
             while interval_heap and interval_heap[0][1] < query:
                 heapq.heappop(interval_heap)
 
             min_intervals[query] = interval_heap[0][0] if interval_heap else -1
 
         return [min_intervals[query] for query in queries]
+
+
+print(Solution().minInterval([[1, 4], [2, 4], [3, 6], [4, 4]], [2, 3, 4, 5]) == [3, 3, 1, 4])
+print(Solution().minInterval([[2, 3], [2, 5], [1, 8], [20, 25]], [2, 19, 5, 22]) == [2, -1, 4, 6])
 
 
 class Solution:
@@ -57,6 +69,3 @@ class Solution:
                 for query in queries
                 ]
 
-
-print(Solution().minInterval([[1, 4], [2, 4], [3, 6], [4, 4]], [2, 3, 4, 5]) == [3, 3, 1, 4])
-print(Solution().minInterval([[2, 3], [2, 5], [1, 8], [20, 25]], [2, 19, 5, 22]) == [2, -1, 4, 6])

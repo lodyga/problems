@@ -28,7 +28,7 @@ class Solution {
          len++;
          node = node.next
       }
-      const div = parseInt(len / k);
+      const div = Math.floor(len / k);
       let mod = len % k;
 
       node = head;

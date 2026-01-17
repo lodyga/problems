@@ -2,7 +2,7 @@ class Solution {
    /**
     * Time complexity: O(n+m)
     * Auxiliary space complexity: O(1)
-    * Tags: 
+    * Tags:
     *    A: two pointers
     * @param {string[]} words1
     * @param {string[]} words2
@@ -44,7 +44,7 @@ class Solution {
    /**
     * Time complexity: O(m+n)
     * Auxiliary space complexity: O(m+n)
-    * Tags: 
+    * Tags:
     *    A: build-in function
     * @param {string[]} words1
     * @param {string[]} words2

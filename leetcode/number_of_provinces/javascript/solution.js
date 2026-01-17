@@ -1,16 +1,122 @@
 import { Queue } from "@datastructures-js/queue";
 
+
+class Solution {
+   /**
+    * Time complexity: O(n2)
+    *     n: adjacency matrix side
+    * Auxiliary space complexity: O(n)
+    * Tags:
+    *     DS: array (graph)
+    *     A: multi-source DFS
+    * @param {number[][]} isConnected
+    * @return {number}
+    */
+   findCircleNum(isConnected) {
+      const N = isConnected.length
+      let components = 0;
+      const visited = Array(N).fill(false);
+
+      const dfs = (node) => {
+         if (visited[node])
+            return 0
+
+         visited[node] = true;
+
+         for (let index = 0; index < N; index++) {
+            if (
+               index !== node &&
+               isConnected[node][index]
+            )
+               dfs(index)
+         }
+         return 1
+      }
+
+      for (let node = 0; node < N; node++)
+         components += dfs(node);
+
+      return components
+   };
+
+   /**
+    * Time complexity: O(n2)
+    *     n: adjacency matrix side
+    * Auxiliary space complexity: O(n)
+    * Tags:
+    *     DS: array (graph)
+    *     A: multi-source BFS
+    * @param {number[][]} isConnected
+    * @return {number}
+    */
+   findCircleNum(isConnected) {
+      const N = isConnected.length
+      let components = 0;
+      const visited = Array(N).fill(false);
+
+      const bfs = (node) => {
+         if (visited[node])
+            return 0
+
+         const queue = new Queue([node]);
+
+         while (queue.size()) {
+            const node = queue.dequeue();
+            visited[node] = true;
+
+            for (let index = 0; index < N; index++) {
+               if (
+                  index !== node &&
+                  isConnected[node][index] &&
+                  !visited[index]
+               )
+                  queue.enqueue(index)
+            }
+         }
+         return 1
+      }
+
+      for (let node = 0; node < N; node++)
+         components += bfs(node)
+
+      return components
+   };
+
+   /**
+    * Time complexity: O(n2)
+    *     n: adjacency matrix side
+    * Auxiliary space complexity: O(n)
+    * Tags:
+    *     DS: array (graph)
+    *     A: DSU
+    * @param {number[][]} isConnected
+    * @return {number}
+    */
+   findCircleNum(isConnected) {
+      const dsu = new DSU(isConnected.length);
+
+      for (let row = 0; row < isConnected.length; row++) {
+         for (let col = 0; col < isConnected.length; col++) {
+            if (row > col && isConnected[row][col])
+               dsu.union(row, col);
+         }
+      }
+      return dsu.components
+   };
+}
+
+
 class DSU {
-   constructor(nodeCounter) {
-      this.rank = Array(nodeCounter).fill(1);
-      this.parents = Array.from({ length: nodeCounter }, (_, node) => node);
-      this.size = nodeCounter;
+   constructor(N) {
+      this.size = Array(N).fill(1);
+      this.parent = Array.from({ length: N }, (_, node) => node);
+      this.components = N;
    }
 
    find(node) {
-      while (node !== this.parents[node]) {
-         this.parents[node] = this.parents[this.parents[node]];
-         node = this.parents[node];
+      while (node !== this.parent[node]) {
+         this.parent[node] = this.parent[this.parent[node]];
+         node = this.parent[node];
       }
       return node
    }
@@ -21,140 +127,19 @@ class DSU {
 
       if (pu === pv)
          return
-      else if (this.rank[pu] >= this.rank[pv]) {
-         this.rank[pu] += this.rank[pv];
-         this.parents[pv] = pu;
+      else if (this.size[pu] >= this.size[pv]) {
+         this.size[pu] += this.size[pv];
+         this.parent[pv] = pu;
       } else {
-         this.rank[pv] += this.rank[pu];
-         this.parents[pu] = pv;
+         this.size[pv] += this.size[pu];
+         this.parent[pu] = pv;
       }
-      this.size -= 1
+      this.components -= 1
    }
 }
 
 
-class Solution2 {
-   /**
-    * Time complexity: O(n2)
-    *     n: adjacency matrix len
-    * Auxiliary space complexity: O(n)
-    * Tags: dfs, recursion, graph, dsu
-    * DSU
-    * @param {number[][]} connections
-    * @return {number}
-    */
-   findCircleNum(connections) {
-      const dsu = new DSU(connections.length);
-
-      for (let row = 0; row < connections.length; row++) {
-         for (let col = 0; col < connections.length; col++) {
-            if (row > col && connections[row][col])
-               dsu.union(row, col);
-         }
-      }
-      return dsu.size
-   };
-}
-
-
-class Solution3 {
-   /**
-    * Time complexity: O(n2)
-    *     n: adjacency matrix len
-    * Auxiliary space complexity: O(n)
-    * Tags: dfs, recursion, graph, dsu
-    * DFS
-    * @param {number[][]} connections
-    * @return {number}
-    */
-   findCircleNum(connections) {
-      const adjs = new Map();
-      for (let node = 0; node < connections.length; node++) {
-         adjs.set(node, new Set());
-      }
-      for (let row = 0; row < connections.length; row++) {
-         for (let col = 0; col < connections.length; col++) {
-            if (row !== col && connections[row][col] === 1) {
-               adjs.set(row, adjs.get(row).add(col));
-               adjs.set(col, adjs.get(col).add(row));
-            }
-         }
-      }
-
-      const dfs = (node) => {
-         if (visited.has(node))
-            return
-
-         visited.add(node);
-
-         for (const adjNode of adjs.get(node)) {
-            dfs(adjNode);
-         }
-      };
-
-      let components = 0;
-      const visited = new Set();
-      for (let node = 0; node < connections.length; node++) {
-         if (!visited.has(node)) {
-            dfs(node)
-            components++;
-         }
-      }
-      return components
-   };
-}
-
-
-class Solution {  
-   /**
-    * Time complexity: O(n2)
-    *     n: adjacency matrix len
-    * Auxiliary space complexity: O(n)
-    * Tags: bfs, dfs, graph, dsu
-    * BFS
-    * @param {number[][]} connections
-    * @return {number}
-    */
-   findCircleNum(connections) {
-      const adjs = new Map();
-      for (let node = 0; node < connections.length; node++) {
-         adjs.set(node, new Set());
-      }
-      for (let row = 0; row < connections.length; row++) {
-         for (let col = 0; col < connections.length; col++) {
-            if (row !== col && connections[row][col] === 1) {
-               adjs.set(row, adjs.get(row).add(col));
-               adjs.set(col, adjs.get(col).add(row));
-            }
-         }
-      }
-
-      const bfs = (node) => {
-         const queue = new Queue([node]);
-         
-         while (!queue.isEmpty()) {
-            const node = queue.dequeue();
-            visited.add(node);
-            for (const adjNode of adjs.get(node)) {
-               if (!visited.has(adjNode))
-                  queue.enqueue(adjNode);
-            }
-         }
-      };
-
-      let components = 0;
-      const visited = new Set();
-      for (let node = 0; node < connections.length; node++) {
-         if (!visited.has(node)) {
-            bfs(node)
-            components++;
-         }
-      }
-      return components
-   };
-}
 const findCircleNum = new Solution().findCircleNum;
-
-
-console.log(new Solution().findCircleNum([[1, 1, 0], [1, 1, 0], [0, 0, 1]]), 2)
-console.log(new Solution().findCircleNum([[1, 0, 0], [0, 1, 0], [0, 0, 1]]), 3)
+console.log(new Solution().findCircleNum([[1, 1, 0], [1, 1, 0], [0, 0, 1]]) === 2)
+console.log(new Solution().findCircleNum([[1, 0, 0], [0, 1, 0], [0, 0, 1]]) === 3)
+console.log(new Solution().findCircleNum([[1, 0, 0, 1], [0, 1, 1, 0], [0, 1, 1, 1], [1, 0, 1, 1]]) === 1)

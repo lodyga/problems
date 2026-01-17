@@ -6,7 +6,7 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
         """
         subarray_sums = [sum(nums[: k])] * len(nums)
         memo = {}

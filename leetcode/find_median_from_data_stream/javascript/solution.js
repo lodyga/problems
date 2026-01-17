@@ -6,53 +6,45 @@ import { MaxPriorityQueue, MinPriorityQueue } from '@datastructures-js/priority-
  *     addNum: O(logn)
  *     findMedian: O(1)
  * Auxiliary space complexity: O(n)
- * Tags: heap
+ * Tags:
+ *     DS: heap
+ *     A: iteration
  */
 class MedianFinder {
    constructor() {
-      // max heap
-      this.lowHeap = new MaxPriorityQueue();
-      // min heap
-      this.highHeap = new MinPriorityQueue();
-      this.index = 0;
+      this.leftHeap = new MaxPriorityQueue();
+      this.rightHeap = new MinPriorityQueue();
    };
 
    /**
-    * @param {number} number
+    * @param {number} num
     * @return {void}
     */
-   addNum(number) {
-      if (this.index % 2) {
-         this.highHeap.enqueue(number);
-         const lowNumber = this.highHeap.dequeue();
-         this.lowHeap.enqueue(lowNumber);
+   addNum(num) {
+      if ((this.leftHeap.size() + this.rightHeap.size()) % 2) {
+         this.rightHeap.enqueue(num);
+         const lownum = this.rightHeap.dequeue();
+         this.leftHeap.enqueue(lownum);
       } else {
-         this.lowHeap.enqueue(number);
-         const highNumber = this.lowHeap.dequeue();
-         this.highHeap.enqueue(highNumber)
+         this.leftHeap.enqueue(num);
+         const highNumber = this.leftHeap.dequeue();
+         this.rightHeap.enqueue(highNumber)
       }
-      this.index++;
    };
 
    /**
     * @return {number}
     */
    findMedian() {
-      if (this.index % 2) {
-         return this.highHeap.front();
+      if ((this.leftHeap.size() + this.rightHeap.size()) % 2) {
+         return this.rightHeap.front();
       } else {
-         return (this.lowHeap.front() + this.highHeap.front()) / 2
+         return (this.leftHeap.front() + this.rightHeap.front()) / 2
       }
    };
 }
 
 
-// const medianFinder = new MedianFinder();
-// medianFinder.addNum(1);    // arr = [1]
-// medianFinder.addNum(2);    // arr = [1, 2]
-// console.log(medianFinder.findMedian()); // return 1.5 (i.e., (1 + 2) / 2)
-// medianFinder.addNum(3);    // arr[1, 2, 3]
-// console.log(medianFinder.findMedian()); // return 2.0
 
 
 /** 
@@ -80,16 +72,6 @@ const testInput = (operations, args) => {
    }
    return output
 }
-
-// Example Input
-// const operations = ['MedianFinder', 'addNum', 'addNum', 'findMedian', 'addNum', 'findMedian']
-// const args = [[], [1], [2], [], [3], []]
-// const expected_output = [null, null, null, 1.5, null, 2.0]
-
-// Run tests
-//const test_output = testInput(operations, args)
-//console.log(JSON.stringify(test_output) === JSON.stringify(expected_output))
-//console.log(test_output)
 
 
 // Example Input
@@ -137,3 +119,12 @@ const runTests = (operationsList, argumentsList, expectedOutputList, showOutput)
    return output
 }
 console.log(runTests(operationsList, argumentsList, expectedOutputList))
+
+
+// Example 1
+const medianFinder = new MedianFinder();
+medianFinder.addNum(1);
+medianFinder.addNum(2);
+console.log(medianFinder.findMedian() === 1.5);
+medianFinder.addNum(3);
+console.log(medianFinder.findMedian() === 2);

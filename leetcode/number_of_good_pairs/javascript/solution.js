@@ -2,7 +2,7 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: 
+    * Tags:
     *     DS: hash map
     *     A: iteration
     * @param {number[]} nums
@@ -17,7 +17,7 @@ class Solution {
       }
 
       for (const freq of numFreq.values()) {
-         counter += parseInt(freq * (freq - 1) / 2);
+         counter += Math.floor(freq * (freq - 1) / 2);
       }
       return counter
    };

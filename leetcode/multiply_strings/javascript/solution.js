@@ -1,39 +1,40 @@
 class Solution {
    /**
     * Time complexity: O(n2)
-    *     n: number length
     * Auxiliary space complexity: O(n)
-    * Tags: iteration
-    * @param {string} number1
-    * @param {string} number2
+    * Tags:
+    *     DS: string
+    *     A: iteration
+    * @param {string} text1
+    * @param {string} text2
     * @return {string}
     */
-   multiply(number1, number2) {
-      if (number1 === '0' || number2 === '0')
+   multiply(text1, text2) {
+      if (text1 === '0' || text2 === '0')
          return '0'
       
-      const number_list = Array(number1.length + number2.length).fill(0);
+      const num_list = Array(text1.length + text2.length).fill(0);
 
-      for (let index1 = number1.length - 1; index1 > -1; index1--) {
-         const digit1 = number1[index1];
-         for (let index2 = number2.length - 1; index2 > -1; index2--) {
-            const digit2 = number2[index2];
-            number_list[(number1.length - index1 - 1) + (number2.length - index2 - 1)] += Number(digit1) * Number(digit2);
+      for (let index1 = text1.length - 1; index1 > -1; index1--) {
+         const digit1 = text1[index1];
+         for (let index2 = text2.length - 1; index2 > -1; index2--) {
+            const digit2 = text2[index2];
+            num_list[(text1.length - index1 - 1) + (text2.length - index2 - 1)] += Number(digit1) * Number(digit2);
          }
       }
       
       let carry = 0;
-      for (let index = 0; index < number_list.length; index++) {
-         let number = number_list[index] + carry;
-         carry = number / 10 | 0;
-         number %= 10;
-         number_list[index] = number;
+      for (let index = 0; index < num_list.length; index++) {
+         let num = num_list[index] + carry;
+         carry = Math.floor(num / 10);
+         num %= 10;
+         num_list[index] = num;
       }
 
-      while (number_list[number_list.length - 1] === 0)
-         number_list.pop();
+      while (num_list[num_list.length - 1] === 0)
+         num_list.pop();
       
-      return number_list.reverse().join('')
+      return num_list.reverse().join('')
    };
 }
 

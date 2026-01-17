@@ -7,7 +7,7 @@ class Solution:
         """
         Time complexity: O(nlogk)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             DS: heap, hash map
             A: iteration
         """
@@ -30,7 +30,7 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             DS: bucket as list, hash map
             A: iteration
         """
@@ -57,7 +57,7 @@ class Solution:
         """
         Time complexity: O(nlogn)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             DS: bucket as hash map
             A: iteration, sorting
         """

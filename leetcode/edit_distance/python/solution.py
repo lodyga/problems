@@ -11,28 +11,35 @@ c   2   1   0   1
 class Solution:
     def minDistance(self, word1: str, word2: str) -> int:
         """
-        Time complexity: O(3^n)
-        Auxiliary space complexity: O(n)
-        Tags: brute-force, tle
+        Time complexity: O(n2)
+        Auxiliary space complexity: O(n2)
+        Tags:
+            DS: array
+            A: top-down
         """
-        def dfs(index1, index2):
-            if index1 == len(word1):
-                return len(word2) - index2
-            elif index2 == len(word2):
-                return len(word1) - index1
+        UPPER_BOUND = len(word1) + len(word2)
+        # memo = [(index1, index2): min distance]
+        memo = [[-1] * len(word2) for _ in range(len(word1))]
 
+        def dfs(index1: int, index2: int) -> int:
+            if (
+                index1 == len(word1) or
+                index2 == len(word2)
+            ):
+                return len(word2) - index2 or len(word1) - index1
+            elif memo[index1][index2] != -1:
+                return memo[index1][index2]
+
+            # if letter match
             if word1[index1] == word2[index2]:
-                # match
                 distance = dfs(index1 + 1, index2 + 1)
             else:
-                # insert
-                insert_char = dfs(index1, index2 + 1)
-                # delete
-                delete_char = dfs(index1 + 1, index2)
-                # replace
-                replace_char = dfs(index1 + 1, index2 + 1)
-                distance = min(insert_char, delete_char, replace_char) + 1
+                insert_chr = 1 + dfs(index1, index2 + 1)
+                delete_chr = 1 + dfs(index1 + 1, index2)
+                replace_chr = 1 + dfs(index1 + 1, index2 + 1)
+                distance = min(insert_chr, delete_chr, replace_chr)
 
+            memo[index1][index2] = distance
             return distance
 
         return dfs(0, 0)
@@ -43,68 +50,36 @@ class Solution:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n2)
-        Tags: dp, top-down with memoization as hash map
+        Tags:
+            DS: array
+            A: bottom-up
         """
-        memo = {}  # {(index1, index2): min distance}
-
-        def dfs(index1, index2):
-            if index1 == len(word1):
-                return len(word2) - index2
-            elif index2 == len(word2):
-                return len(word1) - index1
-            elif (index1, index2) in memo:
-                return memo[(index1, index2)]
-
-            if word1[index1] == word2[index2]:
-                # match
-                distance = dfs(index1 + 1, index2 + 1)
-            else:
-                # insert
-                insert_char = dfs(index1, index2 + 1)
-                # delete
-                delete_char = dfs(index1 + 1, index2)
-                # replace
-                replace_char = dfs(index1 + 1, index2 + 1)
-                distance = min(insert_char, delete_char, replace_char) + 1
-
-            memo[(index1, index2)] = distance
-            return distance
-
-        return dfs(0, 0)
-
-
-class Solution:
-    def minDistance(self, word1: str, word2: str) -> int:
-        """
-        Time complexity: O(n2)
-        Auxiliary space complexity: O(n2)
-        Tags: dp, bottom-up with tabulation as array
-        """
+        # cache = [(index1, index2): min distance]
         ROWS = len(word1)
         COLS = len(word2)
-        # [[index1][index2]: min distance]
-        cache = [[ROWS + COLS] * (COLS + 1) for _ in range(ROWS + 1)]
+        cache = [[0] * (COLS + 1) for _ in range(ROWS + 1)]
         
-        for row in range(ROWS + 1):
+        for row in range(ROWS):
             cache[row][COLS] = ROWS - row
-        for col in range(COLS + 1):
+        
+        for col in range(COLS):
             cache[ROWS][col] = COLS - col
 
-        for row in reversed(range(ROWS)):
-            for col in reversed(range(COLS)):
+        for row in range(ROWS - 1, -1, -1):
+            for col in range(COLS - 1, -1, -1):
+                # if letter match
                 if word1[row] == word2[col]:
-                    # match
                     cache[row][col] = cache[row + 1][col + 1]
                 else:
                     cache[row][col] = 1 + min(
-                        # replace
-                        cache[row + 1][col + 1],
+                        # insert
+                        cache[row][col + 1],
                         # delete
                         cache[row + 1][col],
-                        # insert
-                        cache[row][col + 1]
+                        # replace
+                        cache[row + 1][col + 1]
                     )
-        
+
         return cache[0][0]
 
 
@@ -113,31 +88,33 @@ class Solution:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n)
-        Tags: dp, bottom-up with tabulation as array
+        Tags:
+            DS: array
+            A: bottom-up
         """
+        # cache = [index2: min distance]
         ROWS = len(word1)
         COLS = len(word2)
-        # [index: min distance]
-        next_cache = [COLS - col for col in range(COLS + 1)]
-        
-        for row in reversed(range(ROWS)):
+        next_cache = list(range(COLS, -1, -1))
+
+        for row in range(ROWS - 1, -1, -1):
             cache = [ROWS - row] * (COLS + 1)
             
-            for col in reversed(range(COLS)):
+            for col in range(COLS - 1, -1, -1):
+                # if letter match
                 if word1[row] == word2[col]:
-                    # match
                     cache[col] = next_cache[col + 1]
                 else:
                     cache[col] = 1 + min(
-                        # replace
-                        next_cache[col + 1],
+                        # insert
+                        cache[col + 1],
                         # delete
                         next_cache[col],
-                        # insert
-                        cache[col + 1]
+                        # replace
+                        next_cache[col + 1]
                     )
             next_cache = cache
-        
+
         return next_cache[0]
 
 

@@ -3,7 +3,7 @@ class Solution:
         """
         Time complexity: O(2^n)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             A: brute-force, pure function
         """
         lower_bound = -10**4 - 1
@@ -26,7 +26,7 @@ class Solution:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             DS: hash map
             A: top-down
         """
@@ -61,7 +61,7 @@ class Solution:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             DS: array
             A: top-down
         """
@@ -97,7 +97,7 @@ class Solution:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             DS: array
             A: bottom-up
         """
@@ -117,7 +117,7 @@ class Solution:
         """
         Time complexity: O(2^n)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             A: brute-force, side effect
         """
         lis_length = 1
@@ -148,7 +148,7 @@ class Solution:
         """
         Time complexity: O(nlogn)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             DS: list
             A: bottom-up, binary search, patience sorting
         """

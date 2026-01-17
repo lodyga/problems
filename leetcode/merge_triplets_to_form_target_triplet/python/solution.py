@@ -3,32 +3,28 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: greedy
+        Tags:
+            A: greedy
         """
-        target_a, target_b, target_c = target
-        a_found = b_found = c_found = False
-        
+        t_a, t_b, t_c = target
+        is_a = is_b = is_c = False
+
         for a, b, c in triplets:
-            if (
-                a > target_a or
-                b > target_b or
-                c > target_c
-            ):
+            if a > t_a or b > t_b or c > t_c:
                 continue
-            
-            if a == target_a:
-                a_found = True
-            if b == target_b:
-                b_found = True
-            if c == target_c:
-                c_found = True
-        
-            if a_found and b_found and c_found:
+
+            is_a = is_a or a == t_a
+            is_b = is_b or b == t_b
+            is_c = is_c or c == t_c
+
+            if is_a and is_b and is_c:
                 return True
-        
+
         return False
 
 
-print(Solution().mergeTriplets([[2, 5, 3], [1, 8, 4], [1, 7, 5]], [2, 7, 5]) == True)
+print(Solution().mergeTriplets(
+    [[2, 5, 3], [1, 8, 4], [1, 7, 5]], [2, 7, 5]) == True)
 print(Solution().mergeTriplets([[3, 4, 5], [4, 5, 6]], [3, 2, 5]) == False)
-print(Solution().mergeTriplets([[2, 5, 3], [2, 3, 4], [1, 2, 5], [5, 2, 3]], [5, 5, 5]) == True)
+print(Solution().mergeTriplets(
+    [[2, 5, 3], [2, 3, 4], [1, 2, 5], [5, 2, 3]], [5, 5, 5]) == True)

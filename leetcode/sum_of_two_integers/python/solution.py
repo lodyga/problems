@@ -3,7 +3,8 @@ class Solution:
         """
         Time complexity: O(1)
         Auxiliary space complexity: O(1)
-        Tags: bit manipulation
+        Tags:
+            A: bit manipulation
         """
         mask = 0xFFFFFFFF
         a &= mask

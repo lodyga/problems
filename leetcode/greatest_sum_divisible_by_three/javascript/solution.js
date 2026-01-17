@@ -2,7 +2,7 @@ class Solution {
    /**
     * Time complexity: O(2^n)
     * Auxiliary space complexity: O(n)
-    * Tags: 
+    * Tags:
     *     A: brute-force
     * @param {number[]} nums
     * @return {number}
@@ -23,7 +23,7 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: 
+    * Tags:
     *     A: greedy
     * @param {number[]} nums
     * @return {number}

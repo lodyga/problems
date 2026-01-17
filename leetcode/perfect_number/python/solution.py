@@ -14,19 +14,19 @@ class Solution:
         """
         Time complexity: O(sqrtn)
         Auxiliary space complexity: O(1)
-        Tags: 
+        Tags:
+            A: iteration
         """
         if target == 1:
             return False
         
         divisor_sum = 1
-        
-        for number in reversed(range(2, int(target ** 0.5) + 1)):
-            if target % number == 0:
-                divisor_sum += number
-                divisor_sum += target // number
+        for num in range(2, int(target**0.5) + 1):
+            if target % num == 0:
+                divisor_sum += num
+                divisor_sum += target // num
 
-        return divisor_sum == target
+        return target == divisor_sum
 
 
 class Solution:
@@ -34,12 +34,13 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: 
+        Tags:
+            A: iteration
         """
         divisor_sum = 0
-        for number in reversed(range(1, target // 2 + 1)):
-            if target % number == 0:
-                divisor_sum += number
+        for num in range(1, target // 2 + 1):
+            if target % num == 0:
+                divisor_sum += num
 
         return divisor_sum == target
 

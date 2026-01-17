@@ -16,7 +16,9 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: binary tree, dfs, recursion
+    * Tags:
+    *     DS: binary tree
+    *     A: dfs, recursion, pre-order traversal
     * @param {TreeNode} root 
     * @returns {number}
     */
@@ -25,17 +27,47 @@ class Solution {
          if (node === null) {
             return [0, 0]
          }
-         const nodeLeft = dfs(node.left);
-         const nodeRight = dfs(node.right);
-         const withNode = node.val + nodeLeft[1] + nodeRight[1];
-         const withoutNode = Math.max(...nodeLeft) + Math.max(...nodeRight);
-         return [withNode, withoutNode]
+         const leftNode = dfs(node.left);
+         const rightNode = dfs(node.right);
+         const takeNode = node.val + leftNode[1] + rightNode[1];
+         const skipNode = Math.max(...leftNode) + Math.max(...rightNode);
+         return [takeNode, skipNode]
       }
       return Math.max(...dfs(root))
    };
-}
-const rob = new Solution().rob;
 
+   /**
+    * Time complexity: O(n)
+    * Auxiliary space complexity: O(n)
+    * Tags:
+    *     DS: binary tree
+    *     A: dfs, recursion, pre-order traversal
+    * @param {TreeNode} root 
+    * @returns {number}
+    */
+   rob(root) {
+      const memo = new Map([[null, 0]]);
+
+      const dfs = (node) => {
+         if (memo.has(node)) {
+            return memo.get(node)
+         }
+         // Skip node and `rob` chldren.
+         const skip = dfs(node.left) + dfs(node.right);
+
+         // Rob node but skip children layer.
+         const leftGrand = node.left ? dfs(node.left.left) + dfs(node.left.right) : 0;
+         const rightGrand = node.right ? dfs(node.right.left) + dfs(node.right.right) : 0;
+         const take = node.val + leftGrand + rightGrand;
+         memo.set(node, Math.max(take, skip));
+         return memo.get(node)
+      }
+      return dfs(root)
+   };
+}
+
+
+const rob = new Solution().rob;
 console.log(new Solution().rob(buildTree([3, 2, 3, null, 3, null, 1])) === 7)
 console.log(new Solution().rob(buildTree([3, 4, 5, 1, 3, null, 1])) === 9)
 console.log(new Solution().rob(buildTree([4, 1, null, 2, null, 3])) === 7)

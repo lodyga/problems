@@ -3,7 +3,7 @@ class Solution:
         """
         Time complexity: O(2^n)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             A: brute-force
         """
         def dfs(index, total):
@@ -26,7 +26,7 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: 
+        Tags:
             A: bottom-up
         """
         # Max subsequence sum divided by 3 with rest 0, 1, 2 respectively.

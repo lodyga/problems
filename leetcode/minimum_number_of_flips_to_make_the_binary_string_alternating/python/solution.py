@@ -3,7 +3,7 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: 
+        Tags:
             A: sliding window
         """
         N = len(text)
@@ -38,7 +38,7 @@ class Solution:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             DS: string
             A: brute-force
         """

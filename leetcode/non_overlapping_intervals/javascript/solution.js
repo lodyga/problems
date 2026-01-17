@@ -1,14 +1,15 @@
 class Solution {
    /**
-    * Time complexity: O(n)
+    * Time complexity: O(nlogn)
     * Auxiliary space complexity: O(n)
-    * Tags: 
+    * Tags:
+    *     A: intervals, greedy, sorting
     * @param {number[][]} intervals
     * @return {number}
     */
    eraseOverlapIntervals(intervals) {
       intervals.sort((a, b) => a[0] - b[0]);
-      let cleanCounter = 0;
+      let counter = 0;
       let prevEnd = intervals[0][1];
 
       for (let index = 1; index < intervals.length; index++) {
@@ -17,17 +18,17 @@ class Solution {
 
          if (prevEnd > start) {
             prevEnd = Math.min(prevEnd, end)
-            cleanCounter++;
+            counter++;
          } else {
             prevEnd = end;
          }
       }
-      return cleanCounter
+      return counter
    };
 }
+
+
 const eraseOverlapIntervals = new Solution().eraseOverlapIntervals;
-
-
 console.log(new Solution().eraseOverlapIntervals([[1, 2], [2, 3], [3, 4], [1, 3]]) === 1)
 console.log(new Solution().eraseOverlapIntervals([[1, 2], [1, 2], [1, 2]]) === 2)
 console.log(new Solution().eraseOverlapIntervals([[1, 2], [2, 3]]) === 0)

@@ -4,7 +4,7 @@ class Solution {
     *     n: numbers length
     *     t: target
     * Auxiliary space complexity: O(t)
-    * Tags: 
+    * Tags:
     *     DS: array
     *     A: top-down
     * @param {number[]} nums
@@ -40,7 +40,7 @@ class Solution {
     *     n: numbers length
     *     t: target
     * Auxiliary space complexity: O(t)
-    * Tags: 
+    * Tags:
     *     DS: array
     *     A: bottom-up
     * @param {number[]} nums

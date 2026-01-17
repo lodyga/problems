@@ -1,18 +1,20 @@
 class Solution:
-    def maximum69Number(self, number: int) -> int:
+    def maximum69Number(self, num: int) -> int:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
+            DS: string
+            A: greedy
         """
-        digit_array = list(str(number))
-        
-        for index, digit in enumerate(digit_array):
-            if digit == "6":
-                digit_array[index] = "9"
-                return int("".join(digit_array))
+        digit_num = list(str(num))
 
-        return number
+        for index in range(len(digit_num)):
+            if digit_num[index] == "6":
+                digit_num[index] = "9"
+                break
+
+        return int("".join(digit_num))
 
 
 print(Solution().maximum69Number(9669) == 9969)

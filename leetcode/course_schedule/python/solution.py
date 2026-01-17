@@ -3,40 +3,42 @@ class Solution:
         """
         Time complexity: O(V + E)
         Auxiliary space complexity: O(V + E)
-        Tags: dfs, recursion, graph, topological sort
+        Tags:
+            DS: array
+            A: dfs, recursion, graph, topological sort
         Mark visited courses in visited
         One array for visited / path: None: not visited, False: visited, True: in current path
         """
         if course_count == 0:
             return True
-        
+
         prereqs = {course: set() for course in range(course_count)}
         for course, prereq in prerequisites:
-            # course requires itself (a, a)
+            # Course requires itself (a, a).
             if course == prereq:
                 return False
-            # early cycle detect: (a, b), (b, a)
+            # Detect early cycle: (a, b), (b, a);
             elif course in prereqs[prereq]:
                 return False
             prereqs[course].add(prereq)
 
         # None: not visited, False: visited, True: on current path
         visited = [None] * course_count
-        
+
         def dfs(course):
             # True: cycle detected
             # False: visited
-            if visited[course] != None:
+            if visited[course] is not None:
                 return visited[course]
 
-            # mark as 'in path'
+            # mark as `in path``
             visited[course] = True
 
             for prereq in prereqs[course]:
-                if dfs(prereq) == True:
+                if dfs(prereq) is True:
                     return True
-            
-            # mark as 'visited'
+
+            # mark as `visited`
             visited[course] = False
             # return False
 
@@ -52,20 +54,22 @@ class Solution:
         """
         Time complexity: O(V + E)
         Auxiliary space complexity: O(V + E)
-        Tags: dfs, recursion, graph, topological sort
+        Tags:
+            DS: array
+            A: dfs, recursion, graph, topological sort
         Mark visited courses in visited
         """
         if course_count == 0:
             return True
-        
-        visited = [False] * course_count
-        path = [False] * course_count
 
         prereqs = {course: set() for course in range(course_count)}
         for course, prereq in prerequisites:
             if course == prereq:
                 return False
             prereqs[course].add(prereq)
+
+        visited = [False] * course_count
+        path = [False] * course_count
 
         def dfs(course):
             # detect cycle
@@ -74,7 +78,8 @@ class Solution:
             # if already visited
             elif visited[course]:
                 return True
-            
+
+            visited[course] = True
             path[course] = True
 
             for prereq in prereqs[course]:
@@ -82,11 +87,10 @@ class Solution:
                     return False
 
             path[course] = False
-            visited[course] = True
             return True
 
         for course in prereqs:
-            if dfs(course) == False:
+            if dfs(course) is False:
                 return False
 
         return True
@@ -97,44 +101,46 @@ class Solution:
         """
         Time complexity: O(V + E)
         Auxiliary space complexity: O(V + E)
-        Tags: dfs, recursion, graph, topological sort
+        Tags:
+            DS: array
+            A: dfs, recursion, graph, topological sort
         Mark visited courses with no prerequisites
         """
         if course_count == 0:
             return True
 
-        # empty prerequisities        
         prereqs = {index: set() for index in range(course_count)}
         for course, prereq in prerequisites:
-            # course requires itself as a preqreuire
-            if course == prereq:
-                return False
             prereqs[course].add(prereq)
-
 
         # check visited path for cycles
         visited = [False] * course_count
+
         def dfs(course):
             # course with no prerequisities
-            if course not in prereqs or not prereqs[course]:
+            if course not in prereqs:
+                return True
+            elif not prereqs[course]:
                 return True
             # detect cycle
             elif visited[course]:
                 return False
-            
+
             visited[course] = True
+
             for prereq in prereqs[course]:
-                if not dfs(prereq):
+                if dfs(prereq) is False:
                     return False
-                
+
+            # Discard course prerequisites.
             prereqs[course] = set()
             visited[course] = False
             return True
 
         for course in prereqs:
-            if not dfs(course):
+            if dfs(course) is False:
                 return False
-        
+
         return True
 
 

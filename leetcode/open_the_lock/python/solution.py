@@ -7,37 +7,48 @@ class Solution:
         Time complexity: O(1)
             O(10**4) -> O(1) 
         Auxiliary space complexity: O(1)
-        Tags: backtracking, bfs, iteration
+        Tags:
+            DS: array, tuple, string, hash set
+            A: bfs, iteration, level-order traversal
         """
-        visited = set(deadends)
-        if target == "0000":
-            return 0
-        elif "0000" in visited:
+        deadend_set = set(tuple(int(digit) for digit in deadend) for deadend in deadends)
+        target = tuple(int(digit) for digit in target)
+        
+        if (
+            (0, 0, 0, 0) in deadend_set or 
+            target in deadend_set
+        ):
             return -1
 
-        def bfs():
+        def bfs() -> int:
+            queue = deque([(0, 0, 0, 0)])
             turns = 0
-            queue = deque(["0000"])
-            
+
             while queue:
                 for _ in range(len(queue)):
                     code = queue.popleft()
+                
                     if code == target:
                         return turns
+                    
+                    code = list(code)
 
-                    for index in range(4):
-                        for j in {-1, 1}:
-                            digit = str((int(code[index]) + j) % 10)
-                            next_code = code[:index] + digit + code[index + 1:]
-                            if next_code not in visited:
-                                queue.append(next_code)
-                                visited.add(next_code)
+                    for i in range(4):
+                        for j in (-1, 1):
+                            code[i] = (code[i] + j) % 10
+                            tup_code = tuple(code)
+            
+                            if tup_code not in deadend_set:
+                                queue.append(tup_code)
+                                deadend_set.add(tup_code)
+
+                            code[i] = (code[i] - j) % 10
                 
                 turns += 1
-            return False
+            
+            return -1
 
-        sol = bfs()
-        return -1 if sol == False else sol
+        return bfs()
 
 
 print(Solution().openLock(["0201", "0101", "0102", "1212", "2002"], "0202") == 6)

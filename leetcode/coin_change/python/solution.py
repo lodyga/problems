@@ -37,7 +37,7 @@ class Solution:
             a: ammonut size
         Auxiliary space complexity: O(n)
             O(amount)
-        Tags: 
+        Tags:
             DS: hash map
             A: top-down
         """
@@ -71,7 +71,7 @@ class Solution:
             a: ammonut size
         Auxiliary space complexity: O(n)
             O(amount)
-        Tags: 
+        Tags:
             DS: array
             A: top-down
         """
@@ -106,7 +106,7 @@ class Solution:
             a: ammonut size
         Auxiliary space complexity: O(n)
             O(amount)
-        Tags: 
+        Tags:
             DS: hash map
             A: bottom-up
         """
@@ -136,7 +136,7 @@ class Solution:
             a: ammonut size
         Auxiliary space complexity: O(n)
             O(amount)
-        Tags: 
+        Tags:
             DS: array
             A: bottom-up
         """
@@ -164,7 +164,7 @@ class Solution:
             a: ammonut size
         Auxiliary space complexity: O(n)
             O(amount)
-        Tags: 
+        Tags:
             DS: queue
             A: bfs, iteration, queue
         """

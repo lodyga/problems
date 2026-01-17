@@ -7,45 +7,41 @@ class MedianFinder:
         addNum: O(logn)
         findMedian: O(1)
     Auxiliary space complexity: O(n)
-    Tags: heap
+    Tags:
+        DS: heap
+        A: iteration
     """
 
     def __init__(self):
-        # max heap
-        self.low_heap = []
-        heapq.heapify(self.low_heap)
-        # min heap
-        self.high_heap = []
-        heapq.heapify(self.high_heap)
-        self.total_length = 0
+        self.left_heap = []
+        self.right_heap = []
 
-    def addNum(self, number: int) -> None:
-        # high heap is longer
-        if self.total_length % 2:
-            low_number = heapq.heappushpop(self.high_heap, number)
-            heapq.heappush(self.low_heap, -low_number)
+    def addNum(self, num: int) -> None:
+        left = self.left_heap
+        right = self.right_heap
+
+        if len(left) == 0:
+            heapq.heappush(left, -num)
+
+        elif len(left) == len(right):
+            if num <= right[0]:
+                heapq.heappush(left, -num)
+            else:
+                heapq.heappush(left, -heapq.heappop(right))
+                heapq.heappush(right, num)
+
         else:
-        # both heaps are equal lenght
-            high_number = heapq.heappushpop(self.low_heap, -number)
-            heapq.heappush(self.high_heap, -high_number)
-        
-        self.total_length += 1
+            if num >= -left[0]:
+                heapq.heappush(right, num)
+            else:
+                heapq.heappush(right, -heapq.heappop(left))
+                heapq.heappush(left, -num)
 
     def findMedian(self) -> float:
-        # high heap is longer
-        if self.total_length % 2:
-            return self.high_heap[0]
-        # both heaps are equal lenght
+        if len(self.left_heap) == len(self.right_heap):
+            return (-self.left_heap[0] + self.right_heap[0]) / 2
         else:
-            return (self.high_heap[0] - self.low_heap[0]) / 2
-
-
-medianFinder = MedianFinder()
-medianFinder.addNum(1)  # arr = [1]
-medianFinder.addNum(2)  # arr = [1, 2]
-print(medianFinder.findMedian())  # return 1.5 (i.e., (1 + 2) / 2)
-medianFinder.addNum(3)  # arr[1, 2, 3]
-print(medianFinder.findMedian())  # return 2.0
+            return -self.left_heap[0]
 
 
 def test_input(operations: list[str], arguments: list[list[int]]) -> list[int | None]:
@@ -98,20 +94,26 @@ def run_tests(
         show_output: bool = False
 ) -> list[bool]:
     """
-    Run a batch of MedianFinder tests and compare outputs with expected results.
+    Run a batch of TimeMap tests and compare outputs with expected results.
     If show_output is True, returns [(actual, expected), ...] instead of booleans.
     """
     output = []
-    for index, (operations, arguments, expected_output) in enumerate(zip(operations_list, arguments_list, expected_output_list), 1):
+    for operations, arguments, expected_output in zip(operations_list, arguments_list, expected_output_list):
         if show_output:
-            output.append((
-                f"Test case {index} | " + 'PASS' if test_input(operations, arguments) == expected_output else 'FAIL',
-                f"Test case {index} | Actual:   {test_input(operations, arguments)}",
-                f"Test case {index} | Expected: {expected_output}",
-                "="*150
-            ))
+            output.append((test_input(operations, arguments), expected_output))
         else:
             output.append(test_input(operations, arguments) == expected_output)
     return output
 
-print(run_tests(operations_list, arguments_list, expected_output_list, show_output=False))1
+
+print(run_tests(operations_list, arguments_list, expected_output_list, show_output=False))
+
+
+# Example 1
+medianFinder = MedianFinder()
+medianFinder.addNum(1)
+medianFinder.addNum(2)
+print(medianFinder.findMedian() == 1.5)
+medianFinder.addNum(3)
+print(medianFinder.findMedian() == 2)
+

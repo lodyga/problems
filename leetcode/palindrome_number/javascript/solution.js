@@ -14,7 +14,7 @@ class Solution {
       let reversedNumber = 0;
       while (carry > 0) {
          reversedNumber = reversedNumber * 10 + carry % 10;
-         carry = parseInt(carry / 10)
+         carry = Math.floor(carry / 10)
       }
       return (number === reversedNumber)
    };

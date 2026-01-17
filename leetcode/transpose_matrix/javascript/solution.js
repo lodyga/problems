@@ -2,7 +2,9 @@ class Solution {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(1)
-    * Tags: iteration
+    * Tags:
+    *     DS: array (matrix)
+    *     A: iteration
     * @param {number[][]} matrix
     * @return {number[][]}
     */
@@ -18,9 +20,28 @@ class Solution {
       }
       return transposed
    };
+
+   /**
+    * Time complexity: O(n2)
+    * Auxiliary space complexity: O(1)
+    * Tags:
+    *     DS: array (matrix)
+    *     A: iteration
+    * @param {number[][]} matrix
+    * @return {number[][]}
+    */
+   transpose(matrix) {
+      const ROWS = matrix.length;
+      const COLS = matrix[0].length;
+      return Array.from({ length: COLS }, (_, col) => 
+         Array.from({length: ROWS}, (_, row) =>
+            matrix[row][col]
+         )
+      );
+   };
 }
+
+
 const transpose = new Solution().transpose;
-
-
-console.log(new Solution().transpose([[1, 2, 3], [4, 5, 6], [7, 8, 9]]), [[1, 4, 7], [2, 5, 8], [3, 6, 9]])
-console.log(new Solution().transpose([[1, 2, 3], [4, 5, 6]]), [[1, 4], [2, 5], [3, 6]])
+console.log(new Solution().transpose([[1, 2, 3], [4, 5, 6], [7, 8, 9]]).toString() === [[1, 4, 7], [2, 5, 8], [3, 6, 9]].toString())
+console.log(new Solution().transpose([[1, 2, 3], [4, 5, 6]]).toString() === [[1, 4], [2, 5], [3, 6]].toString())

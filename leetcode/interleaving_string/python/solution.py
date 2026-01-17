@@ -1,36 +1,44 @@
 class Solution:
     def isInterleave(self, s1: str, s2: str, s3: str) -> bool:
         """
-        Time complexity: O(2^n)
-            n: s3.length
-        Auxiliary space complexity: O(n)
-        Tags: brute-force, tle
+        Time complexity: O(n2)
+        Auxiliary space complexity: O(n2)
+        Tags:
+            DS: array (matrix), string
+            A: top-down
         """
         if len(s1) + len(s2) != len(s3):
             return False
 
-        def dfs(index1, index2):
-            if index1 + index2 == len(s3):
-                return True
+        # {(index1, index2): can_fold}
+        # can_fold: {1: Yes, 0: No, -1: donno}
+        memo = [[-1] * len(s2) for _ in range(len(s1))]
 
-            index = index1 + index2
-            memo = False
+        def dfs(index1: int, index2: int) -> int:
+            index3 = index1 + index2
 
-            if (
-                index1 < len(s1) and
-                s1[index1] == s3[index]
-            ):
-                memo |= dfs(index1 + 1, index2)
-            if (
-                not memo and
-                index2 < len(s2) and
-                s2[index2] == s3[index]
-            ):
-                memo |= dfs(index1, index2 + 1)
+            if index1 == len(s1):
+                return s3[index3:] == s2[index2:]
+            elif index2 == len(s2):
+                return s3[index3:] == s1[index1:]
+            elif memo[index1][index2] != -1:
+                return memo[index1][index2]
 
-            return memo
+            letter1 = s1[index1]
+            letter2 = s2[index2]
+            letter3 = s3[index3]
 
-        return dfs(0, 0)
+            if letter1 == letter3 and dfs(index1 + 1, index2):
+                memo[index1][index2] = 1
+                return 1
+            elif letter2 == letter3 and dfs(index1, index2 + 1):
+                memo[index1][index2] = 1
+                return 1
+            
+            memo[index1][index2] = 0
+            return 0
+
+        return dfs(0, 0) == 1
 
 
 class Solution:
@@ -38,70 +46,29 @@ class Solution:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n2)
-        Tags: dp, top-down witm memoization as hash map
+        Tags:
+            DS: array (matrix), string
+            A: bottom-up
         """
-        s1_len = len(s1)
-        s2_len = len(s2)
-        s3_len = len(s3)
-        
-        if s3_len != s1_len + s2_len:
-            return False
-        
-        memo = {}  # {(index1, index2):  can fold}
-
-        def dfs(index1, index2):
-            if (index1 + index2 == s3_len):
-                return True
-            elif (index1, index2) in memo:
-                return memo[(index1, index2)]
-            
-            index3 = index1 + index2          
-            memo[(index1, index2)] = False
-            
-            if (
-                index1 < s1_len and 
-                s3[index3] == s1[index1]
-            ):
-                memo[(index1, index2)] |= dfs(index1 + 1, index2)
-            if (
-                not memo[(index1, index2)] and
-                index2 < s2_len and 
-                s3[index3] == s2[index2]
-            ):
-                memo[(index1, index2)] |= dfs(index1, index2 + 1)
-            
-            return memo[(index1, index2)]
-
-        return dfs(0, 0)
-
-
-class Solution:
-    def isInterleave(self, s1: str, s2: str, s3: str) -> bool:
-        """
-        Time complexity: O(n2)
-        Auxiliary space complexity: O(n2)
-        Tags: dp, bottom-up with cache as array
-        """
-        ROWS = len(s1)
-        COLS = len(s2)
-        
         if len(s3) != len(s1) + len(s2):
             return False
         
-        cache = [[False] * (COLS + 1) for _ in range(ROWS + 1)]  # [[index1, index2]: can fold]
+        ROWS = len(s1)
+        COLS = len(s2)
+        cache = [[False] * (COLS + 1) for _ in range(ROWS + 1)]
         cache[ROWS][COLS] = True
 
-        for row in reversed(range(ROWS + 1)):
-            for col in reversed(range(COLS + 1)):
+        for row in range(ROWS, -1, -1):
+            for col in range(COLS, -1, -1):
                 index = row + col
+                
                 if (
                     row < ROWS and 
                     s1[row] == s3[index] and 
                     cache[row + 1][col]
                 ):
                     cache[row][col] = True
-                    continue
-                if (
+                elif (
                     col < COLS and 
                     s2[col] == s3[index] and 
                     cache[row][col + 1]
@@ -116,30 +83,33 @@ class Solution:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n)
-        Tags: dp, bottom-up with cache as array
+        Tags:
+            DS: array (matrix), string
+            A: bottom-up
         """
-        ROWS = len(s1)
-        COLS = len(s2)
-        
         if len(s3) != len(s1) + len(s2):
             return False
         
+        ROWS = len(s1)
+        COLS = len(s2)
+        next_cache = [False] * (COLS + 1)
+        next_cache[COLS] = True
 
-        for row in reversed(range(ROWS + 1)):
-            cache = [False] * (COLS + 1)  # [[index1, index2]: can fold]
+        for row in range(ROWS, -1, -1):
+            cache = [False] * (COLS + 1)
             if row == ROWS:
                 cache[COLS] = True
 
-            for col in reversed(range(COLS + 1)):
+            for col in range(COLS, -1, -1):
                 index = row + col
+                
                 if (
                     row < ROWS and 
                     s1[row] == s3[index] and 
                     next_cache[col]
                 ):
                     cache[col] = True
-                    continue
-                if (
+                elif (
                     col < COLS and 
                     s2[col] == s3[index] and 
                     cache[col + 1]
@@ -148,7 +118,7 @@ class Solution:
             
             next_cache = cache
         
-        return cache[0]
+        return next_cache[0]
 
 
 print(Solution().isInterleave("a", "b", "c") == False)

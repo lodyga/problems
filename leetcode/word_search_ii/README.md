@@ -1,14 +1,20 @@
 # Word Search II
 https://leetcode.com/problems/word-search-ii/
 
+<p>
 Given an m x n board of characters and a list of strings words, return all words on the board.
 
 Each word must be constructed from letters of sequentially adjacent cells, where adjacent cells are horizontally or vertically neighboring. The same letter cell may not be used more than once in a word.
+</p>
 
-<b>Example 1:</b>\
-Input: board = [["o","a","a","n"],["e","t","a","e"],["i","h","k","r"],["i","f","l","v"]], words = ["oath","pea","eat","rain"]\
+<pre>
+<b>Example 1:</b>
+Input: board = [["o","a","a","n"],["e","t","a","e"],["i","h","k","r"],["i","f","l","v"]], words = ["oath","pea","eat","rain"]
 Output: ["eat","oath"]
+</pre>
 
-<b>Example 2:</b>\
-Input: board = [["a","b"],["c","d"]], words = ["abcb"]\
+<pre>
+<b>Example 2:</b>
+Input: board = [["a","b"],["c","d"]], words = ["abcb"]
 Output: []
+</pre>

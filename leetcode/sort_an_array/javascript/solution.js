@@ -4,7 +4,7 @@ class Solution {
   /**
    * Time complexity: O(nlogn)
    * Auxiliary space complexity: O(n)
-   * Tags: 
+   * Tags:
    *     A: sorting, build-in function, in-place method
    * @param {number[]} nums
    * @return {number[]}
@@ -16,7 +16,7 @@ class Solution {
   /**
    * Time complexity: O(nlogn)
    * Auxiliary space complexity: O(n)
-   * Tags: 
+   * Tags:
    *     DS: heap
    *     A: heap, sorting
    * @param {number[]} nums
@@ -35,7 +35,7 @@ class Solution {
   /**
    * Time complexity: O(nlogn)
    * Auxiliary space complexity: O(n)
-   * Tags: 
+   * Tags:
    *     DS: list
    *     A: merge sort, sorting
    * @param {number[]} nums
@@ -98,7 +98,7 @@ class Solution {
    *     avg case: O(nlogn)
    *     worst case: O(n2)
    * Auxiliary space complexity: O(n)
-   * Tags: 
+   * Tags:
    *     A: quick sort, sorting, in-place method
    * @param {number[]} nums
    * @return {number[]}
@@ -136,7 +136,7 @@ class Solution {
   /**
    * Time complexity: O(n2)
    * Auxiliary space complexity: O(1)
-   * Tags: 
+   * Tags:
    *     A: insertion sort, sorting
    * @param {number[]} nums
    * @return {number[]}
@@ -164,7 +164,7 @@ class Solution {
   /**
    * Time complexity: O(n2)
    * Auxiliary space complexity: O(1)
-   * Tags: 
+   * Tags:
    *     A: bubble sort, sorting, in-place method
    * @param {number[]} nums
    * @return {number[]}

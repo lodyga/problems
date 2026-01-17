@@ -17,7 +17,7 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             DS: binary tree
             A: dfs, recursion, in-order traversal
         """
@@ -38,7 +38,7 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             DS: binary tree, list
             A: dfs, recursion, in-order traversal
         """
@@ -90,7 +90,7 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             DS: binary tree, stack
             A: dfs, iteration, in-order traversal
         """
@@ -112,7 +112,7 @@ class Solution:
         """
         Time complexity: O(nlogk)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             DS: binary tree, heap
             A: dfs, recursion, pre-order traversal
         """

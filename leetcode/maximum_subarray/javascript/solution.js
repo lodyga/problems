@@ -2,21 +2,21 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: 
+    * Tags:
     *     A: greedy (Kadane)
-    * @param {number[]} numbers
+    * @param {number[]} nums
     * @return {number}
     */
-   maxSubArray(numbers) {
-      let subarraySum = 0;
-      let maxSum = numbers[0];
+   maxSubArray(nums) {
+      let subSum = 0;
+      let maxSubSum = nums[0];
 
-      for (const number of numbers) {
-         subarraySum > 0 ? subarraySum += number : subarraySum = number
-         // subarraySum = Math.max(subarraySum + number, number);
-         maxSum = Math.max(maxSum, subarraySum);
+      for (const num of nums) {
+         subSum > 0 ? subSum += num : subSum = num
+         // subSum = Math.max(subSum + num, num);
+         maxSubSum = Math.max(maxSubSum, subSum);
       }
-      return maxSum
+      return maxSubSum
    };
 }
 

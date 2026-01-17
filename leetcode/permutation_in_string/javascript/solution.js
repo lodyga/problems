@@ -2,7 +2,7 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: 
+    * Tags:
           DS: hash map
     *     A: sliding window 
     * @param {string} word
@@ -42,7 +42,7 @@ class Solution2 {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: 
+    * Tags:
           DS: hash map
     *     A: sliding window 
     * @param {string} word

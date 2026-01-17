@@ -4,7 +4,7 @@ class Solution {
     *     n: words length
     *     k: avg word length
     * Auxiliary space complexity: O(n*k)
-    * Tags: 
+    * Tags:
     *     DS: hash map
     *     A: iteration
     * @param {string[]} words
@@ -35,7 +35,7 @@ class Solution {
     *     n: words length
     *     k: avg word length
     * Auxiliary space complexity: O(n*k)
-    * Tags: 
+    * Tags:
     *     DS: hash map
     *     A: sorting
     * @param {string[]} words

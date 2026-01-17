@@ -4,7 +4,7 @@ class Solution:
         Time complexity: O(2^n)
             O(word_count^text_len)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             A: brute-force
         """
         def dfs(index):
@@ -28,7 +28,7 @@ class Solution:
         Time complexity: O(n3)
             O(text length * word count * word lenght)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             DS: array
             A: top-down
         """
@@ -88,7 +88,7 @@ class Solution:
             O(text length * word lenght**2)
         Auxiliary space complexity: O(n2)
             O(word count * word length) + O(text lenght)
-        Tags: 
+        Tags:
             DS: array, trie
             A: top-down
         """
@@ -125,7 +125,7 @@ class Solution:
         Time complexity: O(n3)
             O(text length * word count * word lenght)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             DS: array
             A: bottom-up
         """
@@ -157,7 +157,7 @@ class Solution:
         Time complexity: O(n3)
             O(text length * distinct word count * word lenght)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             DS: hash set
             A: bottom-up
             check every distinct word length
@@ -192,7 +192,7 @@ class Solution:
             O(text length * word lenght)
         Auxiliary space complexity: O(n2)
             O(word count * word length) + O(text lenght)
-        Tags: 
+        Tags:
             DS: trie
             A: bottom-up
         """

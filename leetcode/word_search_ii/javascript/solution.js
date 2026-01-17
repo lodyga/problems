@@ -30,64 +30,137 @@ class Trie {
 
 class Solution {
    /**
-    * Time complexity: O(nm*3^k)
+    * Time complexity: O(w*n2*3^k)
+    *     n: board length
     *     k: word length
-    * Auxiliary space complexity: O(nm)
-    * Tags: backtracking, trie
+    *     w: word count
+    * Auxiliary space complexity: O(n2)
+    * Tags:
+    *     DS: array (matrix)
+    *     A: backtracking
     * @param {character[][]} board
     * @param {string[]} words
     * @return {string[]}
     */
    findWords(board, words) {
-      const rows = board.length;
-      const cols = board[0].length;
-      const visitedCells = new Set();
+      const ROWS = board.length;
+      const COLS = board[0].length;
       const DIRECTIONS = [[-1, 0], [1, 0], [0, -1], [0, 1]];
-      const wordsFound = new Set();
+      let visited = Array.from(({ length: ROWS }), () => Array(COLS).fill(false));
 
-      const wordTrie = new Trie();
-      for (const word of words) {
-         wordTrie.add(word);
-      }
-
-      const dfs = (row, col, node, word) => {
-         if (
-            row < 0 ||
-            col < 0 ||
-            row === rows ||
-            col === cols ||
-            !node.letters.has(board[row][col]) ||
-            visitedCells.has(`${row},${col}`)
+      const backtrack = (index, row, col, word) => {
+         if (index === word.length)
+            return true
+         else if (
+            row == -1 ||
+            col == -1 ||
+            row === ROWS ||
+            col === COLS ||
+            board[row][col] !== word[index] ||
+            visited[row][col]
          ) {
             return false
          }
 
-         visitedCells.add(`${row},${col}`);
-         word += board[row][col];
-         if (node.letters.get(board[row][col]).isWord) {
-            wordsFound.add(word);
+         visited[row][col] = true;
+
+         for (const [dr, dc] of DIRECTIONS) {
+            const [r, c] = [row + dr, col + dc]
+            if (backtrack(index + 1, r, c, word))
+               return true
          }
 
-         for (const [r, c] of DIRECTIONS) {
-            dfs(row + r, col + c, node.letters.get(board[row][col]), word)
-         }
-
-         visitedCells.delete(`${row},${col}`);
+         visited[row][col] = false;
          return false
       }
 
-      for (let row = 0; row < rows; row++) {
-         for (let col = 0; col < cols; col++) {
-            dfs(row, col, wordTrie.root, '')
+      const wordFound = [];
+      for (const word of words) {
+         visited = Array.from(({ length: ROWS }), () => Array(COLS).fill(false));
+         let isAdded = false;
+         for (let row = 0; row < ROWS; row++) {
+            if (isAdded)
+               break
+            for (let col = 0; col < COLS; col++) {
+               if (backtrack(0, row, col, word)) {
+                  wordFound.push(word)
+                  isAdded = true;
+                  break
+               }
+            }
          }
       }
-      return [...wordsFound]
+      return wordFound
+   };
+
+   /**
+    * Time complexity: O(n2*3^k + w)
+    *     n: board length
+    *     k: longest word length
+    *     w: word count
+    * Auxiliary space complexity: O(n2)
+    * Tags:
+    *     DS: array (matrix)
+    *     A: backtracking
+    * @param {character[][]} board
+    * @param {string[]} words
+    * @return {string[]}
+    */
+   findWords(board, words) {
+      const ROWS = board.length;
+      const COLS = board[0].length;
+      const DIRECTIONS = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+      let visited = Array.from(({ length: ROWS }), () => Array(COLS).fill(false));
+      const LONGEST = Math.max(...words.map(word => word.length));
+
+      const trie = new Trie();
+      words.forEach(word => trie.add(word));
+
+      const backtrack = (index, row, col, node, word) => {
+         if (
+            index === LONGEST ||
+            row == -1 ||
+            col == -1 ||
+            row === ROWS ||
+            col === COLS ||
+            visited[row][col] ||
+            !node.letters.has(board[row][col])
+         ) {
+            return false
+         }
+
+         visited[row][col] = true;
+         const letter = board[row][col];
+         word = word + letter;
+         node = node.letters.get(letter);
+
+         if (node.isWord)
+            wordFound.add(word);
+
+         for (const [dr, dc] of DIRECTIONS) {
+            const [r, c] = [row + dr, col + dc];
+            if (backtrack(index + 1, r, c, node, word))
+               return true
+         }
+
+         visited[row][col] = false;
+         return false
+      }
+
+      const wordFound = new Set();
+      for (let row = 0; row < ROWS; row++) {
+         for (let col = 0; col < COLS; col++) {
+            (backtrack(0, row, col, trie.root, ''))
+         }
+      }
+      return Array.from(wordFound)
    };
 }
+
+
 const findWords = new Solution().findWords;
-
-
-console.log(new Solution().findWords([['a', 'b'], ['a', 'd']], ['aa', 'ab']), ['aa', 'ab'])
-console.log(new Solution().findWords([['o', 'a', 'a', 'n'], ['e', 't', 'a', 'e'], ['i', 'h', 'k', 'r'], ['i', 'f', 'l', 'v']], ['oath', 'pea', 'eat', 'rain']), ['oath', 'eat'])
-console.log(new Solution().findWords([['a', 'b'], ['c', 'd']], ['abcd']), [])
-console.log(new Solution().findWords([['o', 'a', 'b', 'n'], ['o', 't', 'a', 'e'], ['a', 'h', 'k', 'r'], ['a', 'f', 'l', 'v']], ['oa', 'oaa']), ['oa', 'oaa'])
+console.log(new Solution().findWords([['a', 'b'], ['a', 'd']], ['aa', 'ab']).sort().toString() === ['aa', 'ab'].sort().toString())
+console.log(new Solution().findWords([['o', 'a', 'a', 'n'], ['e', 't', 'a', 'e'], ['i', 'h', 'k', 'r'], ['i', 'f', 'l', 'v']], ['oath', 'pea', 'eat', 'rain']).sort().toString() === ['oath', 'eat'].sort().toString())
+console.log(new Solution().findWords([['a', 'b'], ['c', 'd']], ['abcd']).sort().toString() === [].sort().toString())
+console.log(new Solution().findWords([['o', 'a', 'b', 'n'], ['o', 't', 'a', 'e'], ['a', 'h', 'k', 'r'], ['a', 'f', 'l', 'v']], ['oa', 'oaa']).sort().toString() === ['oa', 'oaa'].sort().toString())
+console.log(new Solution().findWords([["a", "b"], ["a", "a"]], ["aba", "baa", "bab", "aaab", "aaa", "aaaa", "aaba"]).sort().toString() === ["aba", "aaa", "aaab", "baa", "aaba"].sort().toString())

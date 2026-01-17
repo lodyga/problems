@@ -22,7 +22,7 @@ class Solution {
 
          for (const candy of candies) {
             if (candy >= middle) {
-               happyChildCount += parseInt(candy / middle);
+               happyChildCount += Math.floor(candy / middle);
                if (happyChildCount >= childCount)
                   break
             }

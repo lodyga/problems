@@ -3,7 +3,7 @@ class Solution:
         """
         Time complexity: O(2^n)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             A: dfs, recursion
         """
         def dfs(index, xor):
@@ -22,7 +22,7 @@ class Solution:
         """
         Time complexity: O(2^n)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             A: backtracking
         """
         res = 0

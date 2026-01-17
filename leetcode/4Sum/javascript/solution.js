@@ -2,7 +2,7 @@ class Solution {
    /**
     * Time complexity: O(n3)
     * Auxiliary space complexity: O(n)
-    * Tags: 
+    * Tags:
     *    A: two pointers
     * @param {number[]} nums
     * @param {number} target

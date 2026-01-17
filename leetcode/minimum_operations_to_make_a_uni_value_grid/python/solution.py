@@ -3,7 +3,7 @@ class Solution:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
         """
         ROWS = len(grid)
         COLS = len(grid[0])

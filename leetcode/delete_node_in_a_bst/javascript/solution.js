@@ -1,4 +1,4 @@
-import { TreeNode, buildTree, getTreeValues } from '../../../../JS/binary-tree.js';
+import { TreeNode, buildTree, getTreeValues, isSameTree } from '../../../../JS/binary-tree.js';
 
 
 /**
@@ -21,7 +21,7 @@ class Solution {
     * @param {number} key
     * @return {TreeNode}
    */
-   deleteNode(root, key) {
+   static deleteNode(root, key) {
       const dfs = (node) => {
          if (node === null) {
             return node
@@ -37,7 +37,7 @@ class Solution {
                   bottom_node = bottom_node.left;
                }
                node.val = bottom_node.val;
-               node.right = this.deleteNode(node.right, node.val)
+               node.right = deleteNode(node.right, node.val)
             }
          }
          else if (key < node.val) {
@@ -52,18 +52,18 @@ class Solution {
       return dfs(root)
    };
 }
+
+
 // Bind the method to the instance
-const solution = new Solution();
-const deleteNode = solution.deleteNode.bind(solution); // Bind the context
+// const solution = new Solution();
+// const deleteNode = solution.deleteNode.bind(solution); // Bind the context
 
 // static method
-// const deleteNode = Solution.deleteNode;
-
-
-console.log(getTreeValues(new Solution().deleteNode(buildTree([5, 3, 6]), 6)), [5, 3])
-console.log(getTreeValues(new Solution().deleteNode(buildTree([5, 3, 6]), 3)), [5, null, 6])
-console.log(getTreeValues(new Solution().deleteNode(buildTree([5, 3, 6]), 5)), [6, 3])
-console.log(getTreeValues(new Solution().deleteNode(buildTree([5, 3, 6, 2, 4, null, 7]), 3)), [5, 4, 6, 2, null, null, 7])
-console.log(getTreeValues(new Solution().deleteNode(buildTree([5, 3, 6, 2, 4, null, 7]), 0)), [5, 3, 6, 2, 4, null, 7])
-console.log(getTreeValues(new Solution().deleteNode(buildTree([]), 0)), [])
-console.log(getTreeValues(new Solution().deleteNode(buildTree([0]), 0)), [])
+const deleteNode = Solution.deleteNode;
+console.log(isSameTree(Solution.deleteNode(buildTree([5, 3, 6]), 6), buildTree([5, 3])))
+console.log(isSameTree(Solution.deleteNode(buildTree([5, 3, 6]), 3), buildTree([5, null, 6])))
+console.log(isSameTree(Solution.deleteNode(buildTree([5, 3, 6]), 5), buildTree([6, 3])))
+console.log(isSameTree(Solution.deleteNode(buildTree([5, 3, 6, 2, 4, null, 7]), 3), buildTree([5, 4, 6, 2, null, null, 7])))
+console.log(isSameTree(Solution.deleteNode(buildTree([5, 3, 6, 2, 4, null, 7]), 0), buildTree([5, 3, 6, 2, 4, null, 7])))
+console.log(isSameTree(Solution.deleteNode(buildTree([]), 0), buildTree([])))
+console.log(isSameTree(Solution.deleteNode(buildTree([0]), 0), buildTree([])))

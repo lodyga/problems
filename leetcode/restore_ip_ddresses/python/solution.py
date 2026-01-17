@@ -4,7 +4,7 @@ class Solution:
         Time complexity: O(1)
             O(3**4)
         Auxiliary space complexity: O(1)
-        Tags: 
+        Tags:
             DS: list, string
             A: backtracking
         """

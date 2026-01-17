@@ -10,7 +10,7 @@ class Solution {
     *     k: letter count
     * Auxiliary space complexity: O(1)
     *     O(k)
-    * Tags: 
+    * Tags:
     *     DS: heap, queue
     *     A: iteration
     * @param {string[]} tasks

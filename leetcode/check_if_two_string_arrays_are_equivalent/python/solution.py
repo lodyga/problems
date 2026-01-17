@@ -3,7 +3,7 @@ class Solution:
         """
         Time complexity: O(m+n)
         Auxiliary space complexity: O(1)
-        Tags: 
+        Tags:
             A: two pointers
         """
         r1 = c1 = r2 = c2 = 0
@@ -39,7 +39,7 @@ class Solution:
         """
         Time complexity: O(m+n)
         Auxiliary space complexity: O(m+n)
-        Tags: 
+        Tags:
             A: build-in function
         """
         return "".join(words1) == "".join(words2)
@@ -50,7 +50,7 @@ class Solution:
         """
         Time complexity: O(m+n)
         Auxiliary space complexity: O(1)
-        Tags: 
+        Tags:
             A: two pointers generator
         """
         def generate_letter(words):

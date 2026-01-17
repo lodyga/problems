@@ -6,7 +6,7 @@ class Solution:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n2)
-        Tags: 
+        Tags:
             DS: array (matrix), queue
             A: bfs, iteration
         """
@@ -52,7 +52,7 @@ class Solution:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n2)
-        Tags: 
+        Tags:
             DS: array (matrix), queue
             A: bfs, iteration
         """

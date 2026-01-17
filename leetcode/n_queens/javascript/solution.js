@@ -2,7 +2,7 @@ class Solution {
    /**
     * Time complexity: O(n!)
     * Auxiliary space complexity: O(n2)
-    * Tags: 
+    * Tags:
     *     DS: array (matrix), hash set
     *     A: DFS with backtracking
     * @param {number} n

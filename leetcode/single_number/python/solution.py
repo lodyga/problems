@@ -1,31 +1,15 @@
 class Solution:
-    def singleNumber(self, numbers: list[int]) -> int:
+    def singleNumber(self, nums: list[int]) -> int:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: bit manipulation
+        Tags:
+            A: bit manipulation
         """
         xor = 0
-        for number in numbers:
-            xor ^= number
+        for num in nums:
+            xor ^= num
         return xor
-
-
-class Solution:
-    def singleNumber(self, numbers: list[int]) -> int:
-        """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(n)
-        Tags: hash set
-        """
-        unique_numbers = set()
-
-        for number in numbers:
-            if number in unique_numbers:
-                unique_numbers.remove(number)
-            else:
-                unique_numbers.add(number)
-        return unique_numbers.pop()
 
 
 print(Solution().singleNumber([2, 2, 1]) == 1)

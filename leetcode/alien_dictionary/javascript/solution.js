@@ -1,9 +1,11 @@
 class Solution {
    /**
     * Time complexity: O(V + E)
-    *     V: unique letters count
+    *     V: unique letter count
     * Auxiliary space complexity: O(V + E)
-    * Tags: dfs, recursion, graph, topological sort
+    * Tags:
+    *     DS: array (graph)
+    *     A: multi-source DFS, topological sort with cycle detection
     * @param {string[]} words
     * @return {string}
     */
@@ -11,7 +13,9 @@ class Solution {
       const prereqs = new Map();
       for (const word of words) {
          for (const letter of word) {
-            prereqs.set(letter, new Set())
+            if (!prereqs.has(letter)) {
+               prereqs.set(letter, [])
+            }
          }
       }
 
@@ -19,37 +23,43 @@ class Solution {
          const word = words[index];
          const nextWord = words[index + 1];
 
-         for (let j = 0; j < Math.max(word.length, nextWord.length); j++) {
-            if (j === word.length)
-               break
-            else if (j === nextWord.length)
+         for (let index = 0; index < word.length; index++) {
+            if (index === nextWord.length) {
                return ''
-            else if (word[j] !== nextWord[j]) {
-               prereqs.set(nextWord[j], prereqs.get(nextWord[j]).add(word[j]));
-               break
             }
+
+            const letter = word[index];
+            const nextLetter = nextWord[index];
+            if (letter === nextLetter) {
+               continue
+            }
+
+            prereqs.get(nextLetter).push(letter);
+            break
          }
       }
 
-      const alienDict = [];
-      // null: not visited, false: visited, true: on current patch (detect cycle)
-      const visited = Array(26).fill(null);
+      // -1: not visited, 0: visited, 1: in path (detect a cycle)
+      const visited = Array(26).fill(-1);
 
       const dfs = (letter) => {
-         if (visited[letter.charCodeAt(0) - 'a'.charCodeAt(0)] !== null)
-            return visited[letter.charCodeAt(0) - 'a'.charCodeAt(0)]
+         const index = letter.charCodeAt(0) - 'a'.charCodeAt(0);
+         if (visited[index] !== -1) {
+            return visited[index]
+         }
 
-         visited[letter.charCodeAt(0) - 'a'.charCodeAt(0)] = true;
+         visited[index] = 1;
 
          for (const prereq of prereqs.get(letter))
             if (dfs(prereq))
                return true
 
-         visited[letter.charCodeAt(0) - 'a'.charCodeAt(0)] = false;
          alienDict.push(letter);
-         return false
+         visited[index] = 0;
+         return 0
       };
 
+      const alienDict = [];
       for (const letter of prereqs.keys()) {
          if (dfs(letter))
             return ''
@@ -58,12 +68,13 @@ class Solution {
       return alienDict.join('')
    };
 }
+
+
 const alienOrder = new Solution().alienOrder;
-
-
 console.log(new Solution().alienOrder(['z', 'x']) === 'zx')
 console.log(new Solution().alienOrder(['z', 'o', 'z']) === '')
 console.log(new Solution().alienOrder(['a', 'ab', 'bc', 'c']) === 'abc')
 console.log(new Solution().alienOrder(['wrt', 'wrf', 'er', 'ett', 'rftt']) === 'wertf')
 console.log(new Solution().alienOrder(['hrn', 'hrf', 'er', 'enn', 'rfnn']) === 'hernf')
 console.log(new Solution().alienOrder(['abc', 'bcd', 'cde']) === 'abcde')
+console.log(new Solution().alienOrder(['wrtkj', 'wrt']) === '')

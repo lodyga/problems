@@ -18,7 +18,7 @@ class MyHashSet:
         contains: O(1)
         remove: O(1)
     Auxiliary space complexity: O(n)
-    Tags: 
+    Tags:
         DS: linked list, hash set
         A: iteration
     """

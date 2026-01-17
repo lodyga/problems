@@ -6,7 +6,7 @@ class Solution:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n2)
-        Tags: 
+        Tags:
             DS: array (matrix)
             A: dfs, recursion
         """
@@ -48,9 +48,9 @@ class Solution:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n2)
-        Tags: 
+        Tags:
             DS: array (matrix)
-            A: bfs, recursion
+            A: bfs, iteration
         """
         ROWS = len(grid)
         COLS = len(grid[0])

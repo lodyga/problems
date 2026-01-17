@@ -1,48 +1,52 @@
-import heapq
-
-
 class Solution:
-    def firstMissingPositive(self, numbers: list[int]) -> int:
-        """
-        Time complexity: O(nlogn)
-        Auxiliary space complexity: O(n)
-        Tags: heap
-        """
-        numbers = [number for number in numbers if number > 0]
-        heapq.heapify(numbers)
-        
-        number = 1
-        while numbers and numbers[0] == number:
-            heapq.heappop(numbers)
-            number += 1
-        
-        return number
-
-
-class Solution:
-    def firstMissingPositive(self, numbers: list[int]) -> int:
+    def firstMissingPositive(self, nums: list[int]) -> int:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: negative marking
+        Tags:
+            A: iteration, negative marking
         """
-        for index in range(len(numbers)):
-            if numbers[index] < 0:
-                numbers[index] = 0
-        
-        for index in range(len(numbers)):
-            number = abs(numbers[index])
-            if 0 < number <= len(numbers):
-                if numbers[number - 1] == 0:
-                    numbers[number - 1] = -(len(numbers) + 1)
-                elif numbers[number - 1] > 0:
-                    numbers[number - 1] = -numbers[number - 1]
-        
-        for index in range(len(numbers)):
-            if numbers[index] >= 0:
+        N = len(nums)
+
+        for index, num in enumerate(nums):
+            if num <= 0:
+                nums[index] = N + 1
+
+        for index, num in enumerate(nums):
+            num = abs(num)
+            if num <= N:
+                nums[num - 1] = -abs(nums[num - 1])
+
+        for index, num in enumerate(nums):
+            if num > 0:
                 return index + 1
-        
-        return len(numbers) + 1
+
+        return N + 1
+
+
+class Solution2:
+    def firstMissingPositive(self, nums: list[int]) -> int:
+        """
+        Time complexity: O(nlogn)
+        Auxiliary space complexity: O(n)
+        Tags:
+            DS: heap
+        """
+        import heapq
+        heapq.heapify(nums)
+        missing_num = 1
+
+        while nums:
+            num = heapq.heappop(nums)
+            if num < 1:
+                continue
+
+            if num == missing_num:
+                missing_num += 1
+            else:
+                return missing_num
+
+        return missing_num
 
 
 print(Solution().firstMissingPositive([1, 2, 0]) == 3)

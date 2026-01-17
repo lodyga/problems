@@ -2,7 +2,7 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: 
+    * Tags:
     *    A: two pointers, iteration
     * @param {characters[]} letters
     * @return {characters[]}
@@ -22,7 +22,7 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: 
+    * Tags:
     *    A: two pointers, recursion
     * @param {characters[]} letters
     * @return {characters[]}
@@ -42,7 +42,7 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: 
+    * Tags:
     *    A: build-in function
     * @param {characters[]} letters
     * @return {characters[]}

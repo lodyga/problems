@@ -14,7 +14,7 @@ class MyLinkedList:
         addAtIndex: O(n)
         deleteAtIndex: O(n)
     Auxiliary space complexity O(n): 
-    Tags: 
+    Tags:
         DS: linked list, singly linked list
     """
 
@@ -56,7 +56,7 @@ class MyLinkedList:
             node.next = node.next.next
 
 
-class DoublyListNode:
+class DoublyLinkedNode:
     def __init__(self, val=None, next=None, prev=None) -> None:
         self.val = val
         self.next = next
@@ -65,8 +65,8 @@ class DoublyListNode:
 
 class MyLinkedList2:
     def __init__(self):
-        self.left = DoublyListNode()
-        self.right = DoublyListNode()
+        self.left = DoublyLinkedNode()
+        self.right = DoublyLinkedNode()
         self.left.next = self.right
         self.right.prev = self.left
 
@@ -85,14 +85,14 @@ class MyLinkedList2:
     def addAtHead(self, val: int) -> None:
         left = self.left
         right = self.left.next
-        node = DoublyListNode(val, right, left)
+        node = DoublyLinkedNode(val, right, left)
         left.next = node
         right.prev = node
 
     def addAtTail(self, val: int) -> None:
         right = self.right
         left = self.right.prev
-        node = DoublyListNode(val, right, left)
+        node = DoublyLinkedNode(val, right, left)
         right.prev = node
         left.next = node
 
@@ -105,7 +105,7 @@ class MyLinkedList2:
 
         if (index == 0 and next):
             prev = next.prev
-            node = DoublyListNode(val, next, prev)
+            node = DoublyLinkedNode(val, next, prev)
             prev.next = node
             next.prev = node
 

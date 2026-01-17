@@ -5,26 +5,30 @@ class Solution:
             n: stone count
             m: stone sum
         Auxiliary space complexity: O(n*m)
-        Tags: dp, top-down with memoization as hash map
+        Tags:
+            DS: hash map
+            A: top-down
         """
-        total = sum(stones)
-        target = (total + 1) // 2
-        memo = {}  # {(indext, current_sum: min stone weight)}
+        stone_sum = sum(stones)
+        half = stone_sum // 2
+        memo = {}
 
-        def dfs(index, current_sum):
+        def dfs(index: int, total: int) -> int:
             if (
-                current_sum >= target or 
+                total >= half or 
                 index == len(stones)
             ):
-                return abs(current_sum - (total - current_sum))
-            elif (index, current_sum) in memo:
-                return memo[(index, current_sum)]
-        
-            memo[(index, current_sum)] = min(
-                dfs(index + 1, current_sum + stones[index]), 
-                dfs(index + 1, current_sum)
-            )
-            return memo[index, current_sum]
+                # Returns the difference between both part sums.
+                return abs(total - (stone_sum - total))
+            elif (index, total) in memo:
+                return memo[(index, total)]
+
+            stone = stones[index]
+            skip = dfs(index + 1, total)
+            take = dfs(index + 1, stone + total)
+            res = min(skip, take)
+            memo[(index, total)] = res
+            return res
 
         return dfs(0, 0)
 

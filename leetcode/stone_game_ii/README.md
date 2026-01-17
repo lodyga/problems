@@ -1,6 +1,7 @@
 # Stone Game II
 https://leetcode.com/problems/stone-game-ii/
 
+<p>
 Alice and Bob continue their games with piles of stones. There are a number of piles arranged in a row, and each pile has a positive integer number of stones piles[i]. The objective of the game is to end with the most stones.
 
 Alice and Bob take turns, with Alice starting first.
@@ -10,15 +11,20 @@ On each player's turn, that player can take all the stones in the first X remain
 The game continues until all the stones have been taken.
 
 Assuming Alice and Bob play optimally, return the maximum number of stones Alice can get.
+</p>
 
-<b>Example 1:</b>\
-Input: piles = [2,7,9,4,4]\
-Output: 10\
-Explanation:\
-If Alice takes one pile at the beginning, Bob takes two piles, then Alice takes 2 piles again. Alice can get 2 + 4 + 4 = 10 stones in total.\
-If Alice takes two piles at the beginning, then Bob can take all three piles left. In this case, Alice get 2 + 7 = 9 stones in total.\
+<pre>
+<b>Example 1:</b>
+Input: piles = [2,7,9,4,4]
+Output: 10
+Explanation:
+If Alice takes one pile at the beginning, Bob takes two piles, then Alice takes 2 piles again. Alice can get 2 + 4 + 4 = 10 stones in total.
+If Alice takes two piles at the beginning, then Bob can take all three piles left. In this case, Alice get 2 + 7 = 9 stones in total.
 So we return 10 since it's larger.
+</pre>
 
-<b>Example 2:</b>\
-Input: piles = [1,2,3,4,5,100]\
+<pre>
+<b>Example 2:</b>
+Input: piles = [1,2,3,4,5,100]
 Output: 104
+</pre>

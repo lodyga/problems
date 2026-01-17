@@ -2,7 +2,7 @@ class Solution {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(n2)
-    * Tags: 
+    * Tags:
     *     DS: list
     *     A: bottom-up
     * @param {number} rowIndex

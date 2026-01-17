@@ -3,7 +3,7 @@ class Solution:
         """
         Time complexity: O(log(n*m))
         Auxiliary space complexity: O(1)
-        Tags: 
+        Tags:
             A: binary search
         """
         top = 0

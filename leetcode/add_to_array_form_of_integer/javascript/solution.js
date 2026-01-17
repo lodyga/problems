@@ -14,7 +14,7 @@ class Solution {
          if (index == nums.length)
             nums.push(0);
          nums[index] += k % 10;
-         k = parseInt(k / 10);
+         k = Math.floor(k / 10);
          if (nums[index] > 9) {
             k += 1;
             nums[index] -= 10;

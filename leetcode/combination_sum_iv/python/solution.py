@@ -6,7 +6,7 @@ class Solution:
             n: numbers length
             t: target
         Auxiliary space complexity: O(t)
-        Tags: 
+        Tags:
             A: brute-force
         side effect
         """
@@ -36,7 +36,7 @@ class Solution:
             n: numbers length
             t: target
         Auxiliary space complexity: O(t)
-        Tags: 
+        Tags:
             A: brute-force
         pure function, converts to top-down
         """
@@ -57,7 +57,7 @@ class Solution:
             n: numbers length
             t: target
         Auxiliary space complexity: O(t)
-        Tags: 
+        Tags:
             DS: hash map
             A: top-down
         """
@@ -86,7 +86,7 @@ class Solution:
             n: numbers length
             t: target
         Auxiliary space complexity: O(t)
-        Tags: 
+        Tags:
             DS: array
             A: top-down
         """
@@ -116,7 +116,7 @@ class Solution:
             n: numbers length
             t: target
         Auxiliary space complexity: O(t)
-        Tags: 
+        Tags:
             DS: array
             A: bottom-up
         """
@@ -139,7 +139,7 @@ class Solution:
             n: numbers length
             t: target
         Auxiliary space complexity: O(t)
-        Tags: 
+        Tags:
             DS: hash map
             A: bottom-up
         """

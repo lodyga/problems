@@ -3,7 +3,7 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: 
+        Tags:
             A: two pointers
         """
         def validate(left: int, right: int, joker: bool) -> bool:

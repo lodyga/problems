@@ -1,9 +1,10 @@
 class Solution {
    /**
     * Time complexity: O(n2*3^k)
+    *     n: board length
     *     k: word length
     * Auxiliary space complexity: O(n2)
-    * Tags: 
+    * Tags:
     *     DS: array (matrix)
     *     A: backtracking
     * @param {string[][]} board
@@ -16,7 +17,7 @@ class Solution {
       const DIRECTIONS = [[-1, 0], [1, 0], [0, -1], [0, 1]];
       const visited = Array.from({ length: ROWS }, () => Array(COLS).fill(false));
 
-      const dfs = (index, row, col) => {
+      const backtrack = (index, row, col) => {
          if (index === word.length) {
             return true
          } else if (
@@ -33,7 +34,7 @@ class Solution {
 
          for (const [dr, dc] of DIRECTIONS) {
             const [r, c] = [row + dr, col + dc];
-            if (dfs(index + 1, r, c)) {
+            if (backtrack(index + 1, r, c)) {
                return true
             }
          }
@@ -43,7 +44,7 @@ class Solution {
 
       for (let row = 0; row < ROWS; row++) {
          for (let col = 0; col < COLS; col++) {
-            if (dfs(0, row, col))
+            if (backtrack(0, row, col))
                return true
          }
       }

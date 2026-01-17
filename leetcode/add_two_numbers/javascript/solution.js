@@ -16,7 +16,7 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: 
+    * Tags:
     *     DS: linked list
     *     A: iteration
     * @param {ListNode} head1
@@ -47,7 +47,7 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: 
+    * Tags:
     *     DS: linked list
     *     A: retursion
     * @param {ListNode} head1

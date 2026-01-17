@@ -2,7 +2,7 @@ class MinStack:
     """
     Time complexity: O(1)
     Auxiliary space complexity: O(n)
-    Tags: 
+    Tags:
         DS: stack
     """
 

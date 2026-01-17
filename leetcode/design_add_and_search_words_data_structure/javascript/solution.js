@@ -15,7 +15,7 @@ class TrieNode {
  *     k: word length
  *     w: windcard count
  * Auxiliary space complexity: O(n*k)
- * Tags: 
+ * Tags:
  *     DS: trie
  *     A: iteration, recursion
  * @return {TrieNode}

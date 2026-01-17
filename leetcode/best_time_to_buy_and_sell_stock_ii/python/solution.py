@@ -3,20 +3,25 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: greedy
+        Tags:
+            A: greedy
         """
-        if len(prices) == 1:
-            return 0
-        
-        prev_price = prices[0]
         profit = 0
-        
-        for price in prices[1:]:
-            if prev_price < price:
-                profit += (price - prev_price)
+        prev_price = prices[0]
+
+        for price in prices:
+            if price > prev_price:
+                profit += price - prev_price
             prev_price = price
 
         return profit
+
+
+print(Solution().maxProfit([7, 1]) == 0)
+print(Solution().maxProfit([1, 7]) == 6)
+print(Solution().maxProfit([7, 1, 5, 3, 6, 4]) == 7)
+print(Solution().maxProfit([1, 2, 3, 4, 5]) == 4)
+print(Solution().maxProfit([7, 6, 4, 3, 1]) == 0)
 
 
 class Solution:
@@ -72,10 +77,3 @@ class Solution:
             return memo[(index, can_buy)]
 
         return dfs(0, True)
-
-
-print(Solution().maxProfit([7, 1]) == 0)
-print(Solution().maxProfit([1, 7]) == 6)
-print(Solution().maxProfit([7, 1, 5, 3, 6, 4]) == 7)
-print(Solution().maxProfit([1, 2, 3, 4, 5]) == 4)
-print(Solution().maxProfit([7, 6, 4, 3, 1]) == 0)

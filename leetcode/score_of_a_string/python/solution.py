@@ -1,27 +1,28 @@
 class Solution:
-    def scoreOfString(self, word: str) -> int:
+    def scoreOfString(self, text: str) -> int:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: 
+        Tags:
+            A: iteration
         """
-        return sum(
-            abs(ord(word[index - 1]) - ord(word[index]))
-            for index in range(1, len(word))
-        )
+        score = 0
+        for index in range(len(text) - 1):
+            score += abs(ord(text[index]) - ord(text[index + 1]))
+        return score
 
 
 class Solution:
-    def scoreOfString(self, word: str) -> int:
+    def scoreOfString(self, text: str) -> int:
         """
         Time complexity: O(n)
-        Auxiliary space complexity: O(n)
-        Tags: 
+        Auxiliary space complexity: O(1)
+        Tags:
+            A: iteration
         """
-        points = [ord(letter) for letter in word]
         return sum(
-            abs(points[index - 1] - points[index])
-            for index in range(1, len(word))
+            abs(ord(text[index]) - ord(text[index + 1]))
+            for index in range(len(text) - 1)
         )
 
 

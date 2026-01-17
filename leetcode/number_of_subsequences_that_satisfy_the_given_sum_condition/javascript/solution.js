@@ -2,7 +2,7 @@ class Solution {
    /**
     * Time complexity: O(nlogn)
     * Auxiliary space complexity: O(n)
-    * Tags: 
+    * Tags:
     *     A: binary search, sorting
     * @param {number[]} nums
     * @param {number} target

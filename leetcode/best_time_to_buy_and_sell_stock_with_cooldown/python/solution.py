@@ -3,26 +3,28 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: dp, top-down with memoization as array
+        Tags:
+            DS: array
+            A: top-down
         """
-        memo = {}  # {(index, can_buy? (else selling)): profit}
+        memo = [[-1] * 2 for _ in range(len(prices) + 2)]
+        memo[-1] = memo[-2] = [0, 0]
 
-        def dfs(index, can_buy):
-            if index >= len(prices):
-                return 0
-            elif (index, can_buy) in memo:
-                return memo[(index, can_buy)]
-            elif can_buy:
-                buy = -prices[index] + dfs(index + 1, False)
-                wait = dfs(index + 1, can_buy)
-                memo[(index, can_buy)] = max(buy, wait)
+        def dfs(index: int, can_buy: bool) -> int:
+            if memo[index][can_buy] != -1:
+                return memo[index][can_buy]
+
+            price = prices[index]
+            buy = sell = 0
+            skip = dfs(index + 1, can_buy)
+            if can_buy:
+                buy = -price + dfs(index + 1, False)
             else:
-                sell = prices[index] + dfs(index + 2, True)
-                wait = dfs(index + 1, can_buy)
-                memo[(index, can_buy)] = max(sell, wait)
+                sell = price + dfs(index + 2, True)
+            res = max(skip, buy, sell)
+            memo[index][can_buy] = res
+            return res
 
-            return memo[(index, can_buy)]
-        
         return dfs(0, True)
 
 
@@ -31,52 +33,58 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: dp, top-down with memoization as array
+        Tags:
+            DS: array
+            A: bottom-up
         """
-        memo = {}  # {(index, can_buy? (else selling)): profit}
+        cache = [[0] * 2 for _ in range(len(prices) + 2)]
+        cache[-1] = cache[-2] = [0, 0]
 
-        def dfs(index, can_buy):
-            if index >= len(prices):
-                return 0
-            elif (index, can_buy) in memo:
-                return memo[(index, can_buy)]
-            
-            no_wait = (
-                # buy or sell
-                + prices[index] * (-1 if can_buy else 1)
-                + dfs(index + (1 if can_buy else 2), not can_buy)
+        for index in range(len(prices) - 1, -1, -1):
+            price = prices[index]
+            # can buy
+            cache[index][1] = max(
+                cache[index + 1][1], # skip
+                -price + cache[index + 1][0] # buy
             )
-            wait = dfs(index + 1, can_buy)
-            memo[(index, can_buy)] = max(no_wait, wait)
-            return memo[(index, can_buy)]
-        
-        return dfs(0, True)
+            # can sell
+            cache[index][0] = max(
+                cache[index + 1][0], # skip
+                price + cache[index + 2][1] # sell
+            )
+
+        return cache[0][1]
 
 
 class Solution:
     def maxProfit(self, prices: list[int]) -> int:
         """
-        Time complexity: O(n2)
-        Auxiliary space complexity: O(n)
-        Tags: dp, top-down with memoization as array
+        Time complexity: O(n)
+        Auxiliary space complexity: O(1)
+        Tags:
+            DS: array
+            A: bottom-up
         """
-        memo = [None] * len(prices)
+        cache = [[0, 0], [0, 0]]
 
-        def dfs(index):
-            if index >= len(prices):
-                return 0
-            elif memo[index] is not None:
-                return memo[index]
+        for index in range(len(prices) - 1, -1, -1):
+            price = prices[index]
+            # can buy
+            buy_cache = max(
+                cache[0][1], # skip
+                -price + cache[0][0] # buy
+            )
+            # can sell
+            sell_cache = max(
+                cache[0][0], # skip
+                price + cache[1][1] # sell
+            )
+            cache[1][0] = cache[0][0]
+            cache[1][1] = cache[0][1]
+            cache[0][0] = sell_cache
+            cache[0][1] = buy_cache
 
-            memo[index] = dfs(index + 1)
-            for index2 in range(index + 1, len(prices)):
-                memo[index] = max(
-                    memo[index],
-                    prices[index2] - prices[index] + dfs(index2 + 2)
-                )
-            return memo[index]
-
-        return dfs(0)
+        return cache[0][1]
 
 
 print(Solution().maxProfit([1, 2, 3, 0, 2]) == 3)

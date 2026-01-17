@@ -16,7 +16,7 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: 
+    * Tags:
     *     DS: linked list
     *     A: two pointers, Floyd's tortoise and hare
     * @param {ListNode} head

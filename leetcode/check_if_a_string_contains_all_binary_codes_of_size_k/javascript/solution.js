@@ -39,7 +39,7 @@ class Solution {
 
       for (let index = 0; index < k - 1; index++) {
          number += numbers[index] * power;
-         power = parseInt(power / 2);
+         power = Math.floor(power / 2);
       }
 
       let found = 0;
@@ -81,7 +81,7 @@ class Solution {
 
       for (let index = 0; index < k - 1; index++) {
          number += numbers[index] * power;
-         power = parseInt(power / 2);
+         power = Math.floor(power / 2);
       }
 
       for (let right = k - 1; right < text.length; right++) {

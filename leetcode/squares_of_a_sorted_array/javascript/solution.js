@@ -2,7 +2,7 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: 
+    * Tags:
     *    DS: array
     *    A: two pointers
     * @param {number[]} nums
@@ -32,7 +32,7 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: 
+    * Tags:
     *    DS: array
     *    A: two pointers
     * @param {number[]} nums

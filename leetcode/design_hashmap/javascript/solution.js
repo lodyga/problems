@@ -14,7 +14,7 @@ class MyHashMap {
     *     get: O(1)
     *     remove: O(1)
     * Auxiliary space complexity: O(n)
-    * Tags: 
+    * Tags:
     *     DS: linked list, hash map
     *     A: iteration
     * @param {}

@@ -1,4 +1,4 @@
-class DoublyListNode:
+class DoublyLinkedNode:
     def __init__(self, val=None, next=None, prev=None):
         self.val = val
         self.next = next
@@ -13,16 +13,16 @@ class BrowserHistory:
         back: O(n),
         forward: O(n)
     Auxiliary space complexity: O(n)
-    Tags: 
+    Tags:
         DS: doubly linked list
         A: iteration
     """
 
     def __init__(self, homepage: str):
-        self.active = DoublyListNode(homepage)
+        self.active = DoublyLinkedNode(homepage)
 
     def visit(self, url: str) -> None:
-        self.active.next = DoublyListNode(url, None, self.active)
+        self.active.next = DoublyLinkedNode(url, None, self.active)
         self.active = self.active.next
 
     def back(self, steps: int) -> str:

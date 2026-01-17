@@ -3,7 +3,7 @@ class Solution:
         """
         Time complexity: O(nlogn)
         Auxiliary space complexity: O(1)
-        Tags: 
+        Tags:
             A: binary search
         """
         def can_transport(capacity):

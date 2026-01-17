@@ -2,7 +2,9 @@ class Solution {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(n2)
-    * Tags: dfs, recursion, graph, matrix, dp, top-down with memoization array
+    * Tags:
+    *     DS: array (matrix)
+    *     A: top-down
     * @param {number[][]} matrix
     * @return {number}
     */
@@ -11,87 +13,48 @@ class Solution {
       const COLS = matrix[0].length;
       const DIRECTIONS = [[-1, 0], [1, 0], [0, -1], [0, 1]];
       // memoization for longest increating path values
-      const memo = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
+      // memo[row][col] = lip value
+      const memo = Array.from({ length: ROWS }, () => Array(COLS).fill(-1));
 
-      const dfs = (row, col, prevCell) => {
+      const dfs = (row, col, prevVal) => {
          if (
             row === -1 ||
             col === -1 ||
             row === ROWS ||
             col === COLS ||
-            matrix[row][col] <= prevCell
+            matrix[row][col] <= prevVal
          )
             return 0
-         else if (memo[row][col])
+         else if (memo[row][col] !== -1)
             return memo[row][col]
 
-         let path = 1;
-         for (const [r, c] of DIRECTIONS) {
-            path = Math.max(path, 1 + dfs(row + r, col + c, matrix[row][col]));
+         let lis = 1;
+         for (const [dr, dc] of DIRECTIONS) {
+            const [r, c] = [row + dr, col + dc];
+            lis = Math.max(lis, 1 + dfs(r, c, matrix[row][col]));
          }
-         memo[row][col] = path
-         return path
+         memo[row][col] = lis;
+         return lis
       }
 
-      let longestPath = 1;
       for (let row = 0; row < ROWS; row++) {
          for (let col = 0; col < COLS; col++) {
-            longestPath = Math.max(longestPath, dfs(row, col, -1));
+            dfs(row, col, -1);
          }
       }
-      return longestPath
+
+      let lis = 1;
+      for (let row = 0; row < ROWS; row++) {
+         for (let col = 0; col < COLS; col++) {
+            lis = Math.max(lis, memo[row][col]);
+         }
+      }
+      return lis
    };
 }
 
 
-class Solution {
-   /**
-    * Time complexity: O(n2)
-    * Auxiliary space complexity: O(n2)
-    * Tags: dfs, recursion, graph, matrix, dp, top-down with memoization hash map
-    * @param {number[][]} matrix
-    * @return {number}
-    */
-   longestIncreasingPath(matrix) {
-      const ROWS = matrix.length;
-      const COLS = matrix[0].length;
-      const DIRECTIONS = [[-1, 0], [1, 0], [0, -1], [0, 1]];
-      // memoization for longest increating path values
-      //const memo = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
-      const memo = new Map();
-
-      const dfs = (row, col, prevCell) => {
-         if (
-            row === -1 ||
-            col === -1 ||
-            row === ROWS ||
-            col === COLS ||
-            matrix[row][col] <= prevCell
-         )
-            return 0
-         else if (memo.has(`${row},${col}`))
-            return memo.get(`${row},${col}`)
-
-         let path = 1;
-         for (const [r, c] of DIRECTIONS) {
-            path = Math.max(path, 1 + dfs(row + r, col + c, matrix[row][col]));
-         }
-         memo.set(`${row},${col}`, path)
-         return path
-      }
-
-      let longestPath = 1;
-      for (let row = 0; row < ROWS; row++) {
-         for (let col = 0; col < COLS; col++) {
-            longestPath = Math.max(longestPath, dfs(row, col, -1));
-         }
-      }
-      return longestPath
-   };
-}
 const longestIncreasingPath = new Solution().longestIncreasingPath;
-
-
 console.log(new Solution().longestIncreasingPath([[1]]) === 1)
 console.log(new Solution().longestIncreasingPath([[9, 9, 4], [6, 6, 8], [2, 1, 1]]) === 4)
 console.log(new Solution().longestIncreasingPath([[3, 4, 5], [3, 2, 6], [2, 2, 1]]) === 4)

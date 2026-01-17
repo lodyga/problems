@@ -15,7 +15,7 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: 
+        Tags:
         """
         number = 0
         value_map = {
@@ -51,7 +51,7 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: 
+        Tags:
         """
         number = 0
         value_map = {

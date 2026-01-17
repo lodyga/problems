@@ -15,7 +15,7 @@ class Solution {
       gifts.forEach(gift => giftHeap.enqueue(gift));
       for (let index = 0; index < k; index++) {
          const number = giftHeap.dequeue();
-         giftHeap.enqueue(parseInt(number**0.5));
+         giftHeap.enqueue(Math.floor(number**0.5));
       }
       return giftHeap.toArray().reduce((total, value) => total + value, 0)
    };

@@ -4,7 +4,7 @@ class Solution:
         Time complexity: O(1)
             O(2^9)
         Auxiliary space complexity: O(1)
-        Tags: 
+        Tags:
             DS: list
             A: DFS with backtracking
         """
@@ -37,7 +37,7 @@ class Solution:
         Time complexity: O(1)
             O(2^9)
         Auxiliary space complexity: O(1)
-        Tags: 
+        Tags:
             DS: list
             A: DFS with backtracking
         """

@@ -3,7 +3,7 @@ class Solution {
     * Time complexity: O((V + E) * q)
     *     q: queries countTime complexity: O(n)
     * Auxiliary space complexity: O(V + E + q)Auxiliary space complexity: O(n)
-    * Tags: dfs, recursion, graph, topological sort, tleTags: 
+    * Tags: dfs, recursion, graph, topological sort, tleTags:
     * @param {number} numCourses
     * @param {number[][]} prerequisites
     * @param {number[][]} queries

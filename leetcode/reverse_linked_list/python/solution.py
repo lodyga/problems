@@ -15,7 +15,7 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: 
+        Tags:
             DS: linked list
             A: iteration
         Reverse a singly-linked list.
@@ -35,7 +35,7 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: 
+        Tags:
             DS: linked list
             A: iteration
         Reverse a singly-linked list.

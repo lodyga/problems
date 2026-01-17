@@ -5,7 +5,7 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: 
+    * Tags:
     *     DS: heap
     *     A: iteration
     * @param {number[]} prices
@@ -28,7 +28,7 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: 
+    * Tags:
     *     DS: heap
     *     A: greedy
     * @param {number[]} prices

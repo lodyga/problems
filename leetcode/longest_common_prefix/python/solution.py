@@ -5,7 +5,7 @@ class Solution:
             n: number of words
             k: avg word length
         Auxiliary space complexity: O(k)
-        Tags: 
+        Tags:
             DS: list
             A: iteration
         """
@@ -86,7 +86,7 @@ class Solution:
             n: number of words
             k: avg word length
         Auxiliary space complexity: O(k)
-        Tags: 
+        Tags:
             DS: trie
             A: iteration
         """

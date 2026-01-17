@@ -16,24 +16,31 @@ class Solution {
    /**
     * Time complexity: O(nlogn)
     * Auxiliary space complexity: O(n)
-    * Tags: intervals, heap
+    * Tags:
+    *     A: intervals, heap
     * @param {Interval[]} intervals
     * @return {number}
     */
    minMeetingRooms(intervals) {
       intervals.sort((a, b) => a.start - b.start);
       const roomHeap = new MinPriorityQueue();
+      let roomCounter = 0;
 
       for (const interval of intervals) {
-         if (roomHeap.size() && roomHeap.front() <= interval.start) {
+         const start = interval.start;
+         const end = interval.end;
+         if (roomHeap.front() <= start) {
             roomHeap.pop();
          }
-         roomHeap.push(interval.end);
+         roomHeap.push(end);
+         roomCounter = Math.max(roomCounter, roomHeap.size())
       }
-      return roomHeap.size()
+      return roomCounter
    };
 }
 
 
+const minMeetingRooms = new Solution().minMeetingRooms;
 console.log(new Solution().minMeetingRooms([new Interval(0, 30), new Interval(5, 10), new Interval(15, 20)]) === 2)
 console.log(new Solution().minMeetingRooms([new Interval(5, 10), new Interval(15, 20)]) === 1)
+console.log(new Solution().minMeetingRooms([new Interval(0, 10), new Interval(5, 10), new Interval(5, 10), new Interval(15, 25), new Interval(20, 25)]) === 3)

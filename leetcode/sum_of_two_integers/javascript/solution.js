@@ -2,7 +2,8 @@ class Solution {
    /**
     * Time complexity: O(1)
     * Auxiliary space complexity: O(1)
-    * Tags: bit manipulation
+    * Tags:
+    *     A: bit manipulation
     * @param {number} a
     * @param {number} b
     * @return {number}
@@ -16,9 +17,9 @@ class Solution {
       return a
    };
 }
+
+
 const getSum = new Solution().getSum;
-
-
 console.log(new Solution().getSum(1, 2) === 3)
 console.log(new Solution().getSum(2, 3) === 5)
 console.log(new Solution().getSum(-1, 1) === 0)

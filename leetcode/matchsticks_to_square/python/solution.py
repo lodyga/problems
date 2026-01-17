@@ -1,9 +1,9 @@
 class Solution:
     def makesquare(self, sticks: list[int]) -> bool:
         """
-        Time complexity: O(4^n)
+        Time complexity: O(2^n)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             DS: array
             A: backtracking with pruning, sorting
         """
@@ -14,21 +14,21 @@ class Solution:
         sticks.sort(reverse=True)
         sides = [0, 0, 0, 0]
 
-        def backtrack(index):
-            if index == len(sticks):
+        def backtrack(start):
+            if start == len(sticks):
                 return True
 
-            stick = sticks[index]
+            stick = sticks[start]
 
-            for i2 in range(4):      
-                if sides[i2] + stick <= side:
-                    sides[i2] += stick
-                    if backtrack(index + 1):
+            for index in range(4):
+                if sides[index] + stick <= side:
+                    sides[index] += stick
+                    if backtrack(start + 1):
                         return True
-                    sides[i2] -= stick
+                    sides[index] -= stick
 
                 # pruning
-                if sides[i2] == 0: 
+                if sides[index] == 0:
                     break
             return False
 

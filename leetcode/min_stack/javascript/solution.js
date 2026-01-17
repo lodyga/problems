@@ -1,7 +1,7 @@
 /**
  * Time complexity: O(1)
  * Auxiliary space complexity: O(n)
- * Tags: 
+ * Tags:
  *     DS: stack
  * In the class-based approach, the object defined using the class keyword and the methods directly within the class body.
  */

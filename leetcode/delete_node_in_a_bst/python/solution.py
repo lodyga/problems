@@ -16,19 +16,61 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: binary tree
+        Tags:
+            DS: binary tree
+            A: dfs, recursion, pre-order traversal, iteration
         """
-        if not root or root.val is None:
-            return root
-        
-        def dfs(node):
+        def dfs(node: TreeNode) -> TreeNode:
             if node is None:
                 return None
+
             elif key == node.val:
-                if not node.left:
-                    return node.right
-                elif not node.right:
-                    return node.left
+                if node.left is None or node.right is None:
+                    return node.left or node.right
+
+                left_branch = node.left
+                right_branch = node.right
+                prev = node
+                # Node is a new head.
+                node = node.right
+                # Traverse to new head min value.
+                while node.left:
+                    prev = node
+                    node = node.left
+
+                # Prevent self parent-child loop
+                # when prev is node to remove.
+                if prev.val != key:
+                    prev.left = node.right
+                    node.right = right_branch
+                node.left = left_branch
+
+            elif key < node.val:
+                node.left = dfs(node.left)
+            else:
+                node.right = dfs(node.right)
+
+            return node
+
+        return dfs(root)
+
+
+class Solution:
+    def deleteNode(self, root: TreeNode, key: int) -> TreeNode:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(n)
+        Tags:
+            DS: binary tree
+            A: dfs, recursion, pre-order traversal, iteration
+        """
+        def dfs(node):
+            if node is None:
+                return node
+            
+            elif key == node.val:
+                if node.left is None or node.right is None:
+                    return node.left or node.right
                 else:
                     bottom_node = node.right
                     while bottom_node.left:
@@ -45,10 +87,10 @@ class Solution:
         return dfs(root)
         
 
-print(get_tree_values(Solution().deleteNode(build_tree([5, 3, 6]), 6)) == [5, 3])
-print(get_tree_values(Solution().deleteNode(build_tree([5, 3, 6]), 3)) == [5, None, 6])
-print(get_tree_values(Solution().deleteNode(build_tree([5, 3, 6]), 5)) == [6, 3])
-print(get_tree_values(Solution().deleteNode(build_tree([5, 3, 6, 2, 4, None, 7]), 3)) == [5, 4, 6, 2, None, None, 7])
-print(get_tree_values(Solution().deleteNode(build_tree([5, 3, 6, 2, 4, None, 7]), 0)) == [5, 3, 6, 2, 4, None, 7])
-print(get_tree_values(Solution().deleteNode(build_tree([]), 0)) == [])
-print(get_tree_values(Solution().deleteNode(build_tree([0]), 0)) == [])
+print(is_same_tree(Solution().deleteNode(build_tree([5, 3, 6]), 6), build_tree([5, 3])))
+print(is_same_tree(Solution().deleteNode(build_tree([5, 3, 6]), 3), build_tree([5, None, 6])))
+print(is_same_tree(Solution().deleteNode(build_tree([5, 3, 6]), 5), build_tree([6, 3])))
+print(is_same_tree(Solution().deleteNode(build_tree([5, 3, 6, 2, 4, None, 7]), 3), build_tree([5, 4, 6, 2, None, None, 7])))
+print(is_same_tree(Solution().deleteNode(build_tree([5, 3, 6, 2, 4, None, 7]), 0), build_tree([5, 3, 6, 2, 4, None, 7])))
+print(is_same_tree(Solution().deleteNode(build_tree([]), 0), build_tree([])))
+print(is_same_tree(Solution().deleteNode(build_tree([0]), 0), build_tree([])))

@@ -13,7 +13,8 @@ class Solution {
    /**
     * Time complexity: O(nlogn)
     * Auxiliary space complexity: O(n)
-    * Tags: sorting
+    * Tags:
+    *     A: intervals, sorting
     * @param {Interval[]} intervals
     * @returns {boolean}
     */

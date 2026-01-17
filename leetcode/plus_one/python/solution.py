@@ -3,23 +3,24 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: iteration
+        Tags:
+            A: iteration
         """
-        carry = True
-        index = len(digits) - 1
-        
-        while index > -1 and carry:
-            if digits[index] == 9:
-                carry = True
-                digits[index] = 0
-            else:
-                carry = False
-                digits[index] += 1
-            index -= 1
+        digits.reverse()
+        carry = 1
+
+        for index, digit in enumerate(digits):
+            digit += carry
+            carry = 0
+            if digit == 10:
+                digit = 0
+                carry = 1
+            digits[index] = digit
 
         if carry:
-            digits.insert(0, 1)
-        
+            digits.append(1)
+
+        digits.reverse()
         return digits
 
 

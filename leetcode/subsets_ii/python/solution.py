@@ -15,7 +15,7 @@ class Solution:
         """
         Time complexity: O(n2^n)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             DS: list
             A: DFS with backtracking
         Largest → Smallest
@@ -60,7 +60,7 @@ class Solution:
         """
         Time complexity: O(n2^n)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             DS: list
             A: DFS with backtracking
         Smallest → Largest

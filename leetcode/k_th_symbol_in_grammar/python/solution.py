@@ -13,7 +13,7 @@ class Solution:
         """
         Time complexity: O(2^n)
         Auxiliary space complexity: O(2^n)
-        Tags: 
+        Tags:
             A: brute-force
         """
         bins = [0]
@@ -30,7 +30,7 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: 
+        Tags:
             A: binary search
         """
         k -= 1

@@ -2,7 +2,9 @@ class Solution {
    /**
     * Time complexity: O(V + E)
     * Auxiliary space complexity: O(V + E)
-    * Tags: dfs, recursion, graph, topological sort
+    * Tags:
+    *     DS: array
+    *     A: dfs, recursion, graph, topological sort
     * Mark visited courses in visited
     * One array for visited / path: None: not visited, False: visited, True: in current path
     * @param {number} courseCount
@@ -17,6 +19,7 @@ class Solution {
       for (let course = 0; course < courseCount; course++) {
          prereqs.set(course, new Set());
       };
+      
       for (const [course, prereq] of prerequisites) {
          if (course === prereq)
             return false
@@ -48,9 +51,9 @@ class Solution {
       return true
    };
 }
+
+
 const canFinish = new Solution().canFinish;
-
-
 console.log(new Solution().canFinish(2, [[1, 0]]) === true)
 console.log(new Solution().canFinish(2, [[0, 1], [1, 0]]) === false)
 console.log(new Solution().canFinish(3, [[0, 1], [1, 2], [2, 0]]) === false)

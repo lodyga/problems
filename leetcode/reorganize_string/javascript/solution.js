@@ -1,45 +1,49 @@
+import { MaxPriorityQueue } from "@datastructures-js/priority-queue";
+
+
 class Solution {
    /**
     * Time complexity: O(n)
     *     O(nlogk) -> O(nlog26) -> O(n)
-    *     n: text.length
-    *     k: unique_chars.count
-    * Auxiliary space complexity: O(1)
-    * Tags: heap
+    *     n: text length
+    *     k: unique letter count
+    * Auxiliary space complexity: O(k)
+    * Tags:
+    *     DS: heap
+    *     A: iteration
     * @param {string} text
     * @return {string}
     */
    reorganizeString(text) {
-      const letterFrequency = new Map();  // {letter: frequency}
-      const letterHeap = new MaxPriorityQueue(x => x[0]);  // [[frequency, letter], ...]
-      const reorganizedString = [];
+      const letterFreq = new Map();
+      const letterHeap = new MaxPriorityQueue(x => x[0]);
+      const newString = [];
 
       for (const letter of text) {
-         letterFrequency.set(letter, (letterFrequency.get(letter) || 0) + 1);
+         letterFreq.set(letter, (letterFreq.get(letter) || 0) + 1);
       }
 
-      for (const [letter, frequency] of letterFrequency.entries()) {
+      for (const [letter, frequency] of letterFreq.entries()) {
          letterHeap.enqueue([frequency, letter])
       }
 
+      let prevFreq = 0;
       let prevLetter = '';
-      let prevFrequency = 0;
       while (letterHeap.size()) {
-         let [frequency, letter] = letterHeap.dequeue();
-         if (prevFrequency) {
-            letterHeap.enqueue([prevFrequency, prevLetter])
+         const [frequency, letter] = letterHeap.dequeue();
+         if (prevFreq) {
+            letterHeap.enqueue([prevFreq, prevLetter])
          }
-         frequency--;
-         reorganizedString.push(letter);
+         newString.push(letter);
          prevLetter = letter;
-         prevFrequency = frequency;
+         prevFreq = frequency - 1;
       }
-      return prevFrequency ? '' : reorganizedString.join('')
+      return prevFreq ? '' : newString.join('')
    };
 }
+
+
 const reorganizeString = new Solution().reorganizeString;
-
-
-console.log(new Solution().reorganizeString('aab') == 'aba')
-console.log(new Solution().reorganizeString('aaab') == '')
-console.log(new Solution().reorganizeString('kkkkzrkatkwpkkkktrq') == 'ktkrkpktkrkqkzkwkak')
+console.log(new Solution().reorganizeString('aab') === 'aba')
+console.log(new Solution().reorganizeString('aaab') === '')
+console.log(new Solution().reorganizeString('kkkkzrkatkwpkkkktrq') === 'ktkrkpktkrkqkzkwkak')

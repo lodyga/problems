@@ -4,7 +4,7 @@ class Solution {
     *     n: pile length 
     *     m: highest pile stack
     * Auxiliary space complexity: O(1)
-    * Tags: 
+    * Tags:
     *     A: binary search
     * @param {number[]} piles
     * @param {number} houns

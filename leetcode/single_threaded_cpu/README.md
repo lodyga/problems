@@ -1,6 +1,7 @@
 # Single-Threaded CPU
 https://leetcode.com/problems/single-threaded-cpu/
 
+<p>
 You are given n​​​​​​ tasks labeled from 0 to n - 1 represented by a 2D integer array tasks, where tasks[i] = [enqueueTimei, processingTimei] means that the i​​​​​​th​​​​ task will be available to process at enqueueTimei and will take processingTimei to finish processing.
 
 You have a single-threaded CPU that can process at most one task at a time and will act in the following way:
@@ -10,10 +11,12 @@ If the CPU is idle and there are available tasks, the CPU will choose the one wi
 Once a task is started, the CPU will process the entire task without stopping.
 The CPU can finish a task then start a new one instantly.
 Return the order in which the CPU will process the tasks.
+</p>
 
-<b>Example 1:</b>\
-Input: tasks = [[1,2],[2,4],[3,2],[4,1]]\
-Output: [0,2,3,1]\
+<pre>
+<b>Example 1:</b>
+Input: tasks = [[1,2],[2,4],[3,2],[4,1]]
+Output: [0,2,3,1]
 Explanation: The events go as follows: 
 - At time = 1, task 0 is available to process. Available tasks = {0}.
 - Also at time = 1, the idle CPU starts processing task 0. Available tasks = {}.
@@ -24,10 +27,12 @@ Explanation: The events go as follows:
 - At time = 5, the CPU finishes task 2 and starts processing task 3 as it is the shortest. Available tasks = {1}.
 - At time = 6, the CPU finishes task 3 and starts processing task 1. Available tasks = {}.
 - At time = 10, the CPU finishes task 1 and becomes idle.
+</pre>
 
-<b>Example 2:</b>\
-Input: tasks = [[7,10],[7,12],[7,5],[7,4],[7,2]]\
-Output: [4,3,2,0,1]\
+<pre>
+<b>Example 2:</b>
+Input: tasks = [[7,10],[7,12],[7,5],[7,4],[7,2]]
+Output: [4,3,2,0,1]
 Explanation: The events go as follows:
 - At time = 7, all the tasks become available. Available tasks = {0,1,2,3,4}.
 - Also at time = 7, the idle CPU starts processing task 4. Available tasks = {0,1,2,3}.
@@ -36,3 +41,4 @@ Explanation: The events go as follows:
 - At time = 18, the CPU finishes task 2 and starts processing task 0. Available tasks = {1}.
 - At time = 28, the CPU finishes task 0 and starts processing task 1. Available tasks = {}.
 - At time = 40, the CPU finishes task 1 and becomes idle.
+</pre>

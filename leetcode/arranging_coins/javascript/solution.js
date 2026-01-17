@@ -2,7 +2,7 @@ class Solution {
    /**
     * Time complexity: O(logn)
     * Auxiliary space complexity: O(1)
-    * Tags: 
+    * Tags:
     *     A: binary search
     * @param {number} coins
     * @return {number}
@@ -13,7 +13,7 @@ class Solution {
 
       while (left <= right) {
          const middle = left + ((right - left) >> 1)
-         const coinCount = parseInt((1 + middle) * middle / 2);
+         const coinCount = Math.floor((1 + middle) * middle / 2);
 
          if (coins === coinCount) {
             return middle

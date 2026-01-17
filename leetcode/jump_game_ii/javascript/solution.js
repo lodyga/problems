@@ -2,32 +2,32 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: greedy
-    * @param {number[]} numbers
-    * @return {numbers}
+    * Tags:
+    *    A: greedy, bfs, iteration, level-order traversal
+    * @param {number[]} nums
+    * @return {number}
     */
-   jump(numbers) {
+   jump(nums) {
       let jumpCounter = 0
       let left = 0;
-      let right = 0;
+      let nextRight = 0;
 
-      while (right < numbers.length - 1) {
-         let nextRight = 0;
+      while (nextRight < nums.length - 1) {
+         let right = nextRight;
 
          for (let index = left; index <= right; index++) {
-            nextRight = Math.max(nextRight, index + numbers[index])
+            nextRight = Math.max(nextRight, index + nums[index])
          }
 
          left = right + 1;
-         right = nextRight;
          jumpCounter++;
       }
       return jumpCounter
    };
 }
+
+
 const jump = new Solution().jump;
-
-
 console.log(new Solution().jump([2, 3, 1, 1, 4]) === 2)
 console.log(new Solution().jump([2, 3, 0, 1, 4]) === 2)
 console.log(new Solution().jump([0]) === 0)

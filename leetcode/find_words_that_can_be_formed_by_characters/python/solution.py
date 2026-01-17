@@ -6,7 +6,7 @@ class Solution:
             w: word count
             c: avg char count
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             DS: array
             A: iteration
         """

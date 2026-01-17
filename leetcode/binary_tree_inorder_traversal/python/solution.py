@@ -16,7 +16,7 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             DS: binary tree
             A: dfs, recursion, pre-order traversal
         """
@@ -37,7 +37,7 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: 
+        Tags:
             DS: binary tree, stack
             A: dfs, iteration, pre-order traversal
         """

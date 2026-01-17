@@ -2,46 +2,50 @@ class Solution {
    /**
     * Time complexity: O(n!)
     * Auxiliary space complexity: O(n)
-    * Tags: backtracking
+    * Tags:
+    *     DS: array
+    *     A: backtracking
     * @param {number} n
     * @return {number}
     */
    totalNQueens(n) {
-      const rows = n;
-      const cols = n;
+      const ROWS = n;
+      const COLS = n;
       let counter = 0;
-      const visitedCols = new Set();
-      const visitedDiags = new Set();
-      const visitedAdiags = new Set();
+      const visitedCols = Array(COLS).fill(false);
+      const visitedDiags = Array(ROWS + COLS - 1).fill(false);
+      const visitedADiags = Array(ROWS + COLS).fill(false);
 
       const dfs = (row) => {
-         if (row === rows) {
+         if (row === ROWS) {
             counter++
             return
          }
-         for (let col = 0; col < cols; col++) {
+         for (let col = 0; col < COLS; col++) {
             if (
-               visitedCols.has(col) ||
-               visitedDiags.has(row + col) ||
-               visitedAdiags.has(row - col)
+               visitedCols[col] ||
+               visitedDiags[row + col] ||
+               visitedADiags[row - col + n]
             ) continue
-            
-            visitedCols.add(col);
-            visitedDiags.add(row + col);
-            visitedAdiags.add(row - col);
+
+            visitedCols[col] = true;
+            visitedDiags[row + col] = true;
+            visitedADiags[row - col + n] = true;
+
             dfs(row + 1);
-            visitedCols.delete(col);
-            visitedDiags.delete(row + col);
-            visitedAdiags.delete(row - col);
+
+            visitedCols[col] = false;
+            visitedDiags[row + col] = false;
+            visitedADiags[row - col + n] = false;
          }
       }
       dfs(0);
       return counter
    };
 }
+
+
 const totalNQueens = new Solution().totalNQueens;
-
-
 console.log(new Solution().totalNQueens(1) === 1)
 console.log(new Solution().totalNQueens(2) === 0)
 console.log(new Solution().totalNQueens(3) === 0)

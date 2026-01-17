@@ -2,7 +2,7 @@ class Solution {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(1)
-    * Tags: 
+    * Tags:
     *     A: two pointers
     * @param {string} text
     * @return {number}

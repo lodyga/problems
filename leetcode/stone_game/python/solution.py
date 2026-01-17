@@ -1,26 +1,21 @@
 class Solution:
     def stoneGame(self, piles: list[int]) -> bool:
         """
-        Time complexity: O(n)
+        Time complexity: O(1)
         Auxiliary space complexity: O(1)
         Tags:
+        Able to force Bob into taking even or odd indexed piles.
         """
-        odd = 0
-        even = 0
-
-        for index, pile in enumerate(piles):
-            if index % 2:
-                odd += pile
-            else:
-                even += pile
         return True
+
 
 class Solution:
     def stoneGame(self, piles: list[int]) -> bool:
         """
         Time complexity: O(2^n)
         Auxiliary space complexity: O(n)
-        Tags: brute-force
+        Tags:
+            A: brute-force
         """
         def dfs(left, right, alice_to_move, alice_surplus):
             if left > right:
@@ -41,7 +36,9 @@ class Solution:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n2)
-        Tags: dp, top-down with memoization as hash map
+        Tags:
+            DS: hash map
+            A: top-down
         """
         memo = {}  # {(left, righ): can Alice win}
 

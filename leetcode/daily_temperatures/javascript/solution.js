@@ -2,7 +2,7 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: 
+    * Tags:
     *     DS: monotonic decreasing stack
     *     A: iteration
     * @param {number[]} temperatures
@@ -33,7 +33,7 @@ class Solution2 {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(1)
-    * Tags: 
+    * Tags:
     *     A: brute-force
     * @param {number[]} temperatures
     * @return {number}
