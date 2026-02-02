@@ -2,28 +2,29 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: iteration
-    * @param {number[]} numbers
+    * Tags:
+    *     A: iteration
+    * @param {number[]} nums
     * @return {number}
     */
-   findMaxConsecutiveOnes(numbers) {
+   findMaxConsecutiveOnes(nums) {
       let counter = 0;
       let maxCounter = 0;
 
-      for (const number of numbers) {
+      for (const number of nums) {
          if (number) {
             counter++;
-         } else {
             maxCounter = Math.max(maxCounter, counter);
+         } else {
             counter = 0;
          }
       }
-      return Math.max(maxCounter, counter)
+      return maxCounter
    };
 }
+
+
 const findMaxConsecutiveOnes = new Solution().findMaxConsecutiveOnes;
-
-
 console.log(new Solution().findMaxConsecutiveOnes([1, 1, 0, 1, 1, 1]) === 3)
 console.log(new Solution().findMaxConsecutiveOnes([1, 0, 1, 1, 0, 1]) === 2)
 console.log(new Solution().findMaxConsecutiveOnes([1]) === 1)

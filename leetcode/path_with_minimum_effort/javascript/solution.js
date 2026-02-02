@@ -3,10 +3,12 @@ import { MinPriorityQueue } from "@datastructures-js/priority-queue";
 
 class Solution {
    /**
-    * Time complexity: O(n2logn2)
+    * Time complexity: O(n2logn)
     * Auxiliary space complexity: O(n2)
-    * Tags: bfs, iteration, heap, graph, matrix
-    * Dijkstra's alg
+    * Tags:
+    *     DS: heap, array (matrix)
+    *     A: greedy, Dijkstra
+    *     Model: graph
     * @param {number[][]} heights
     * @return {number}
     */
@@ -15,31 +17,33 @@ class Solution {
       const COLS = heights[0].length;
       const DIRECTIONS = [[-1, 0], [1, 0], [0, -1], [0, 1]];
       const visited = Array.from({ length: ROWS }, () => Array(COLS).fill(false));
-      const heightHeap = new MinPriorityQueue(x => x[0]);
 
       const bfs = () => {
-         heightHeap.enqueue([0, 0, 0, 0]);
+         const minEffortHeap = new MinPriorityQueue(x => x[0]);
+         minEffortHeap.enqueue([0, 0, 0]);
 
-         while (!heightHeap.isEmpty()) {
-            const [_, minEffort, row, col] = heightHeap.dequeue();
-            if (row === ROWS - 1 && col === COLS - 1)
-               return minEffort
-            else if (visited[row][col])
+         while (minEffortHeap.size()) {
+            const [minEffort, row, col] = minEffortHeap.dequeue();
+
+            if (visited[row][col])
                continue
             visited[row][col] = true;
 
-            for (const [r, c] of DIRECTIONS.map(([r, c]) => [r + row, c + col])) {
+            if (row === ROWS - 1 && col === COLS - 1)
+               return minEffort
+
+            for (const [dr, dc] of DIRECTIONS) {
+               const [r, c] = [row + dr, col + dc];
+
                if (
-                  r > -1 &&
-                  r < ROWS &&
-                  c > -1 &&
-                  c < COLS &&
-                  !visited[r][c]
-               ) {
-                  const heightDifference = Math.abs(heights[r][c] - heights[row][col]);
-                  const newEffort = Math.max(minEffort, heightDifference);
-                  heightHeap.enqueue([heightDifference, newEffort, r, c])
-               }
+                  r == -1 || r == ROWS ||
+                  c == -1 || c == COLS ||
+                  visited[r][c]
+               ) continue
+
+               const heightDiff = Math.abs(heights[r][c] - heights[row][col]);
+               const nextMinEffort = Math.max(minEffort, heightDiff);
+               minEffortHeap.enqueue([nextMinEffort, r, c]);
             }
          }
       };

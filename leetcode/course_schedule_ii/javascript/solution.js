@@ -4,8 +4,9 @@ class Solution {
     *     V: unique course count
     * Auxiliary space complexity: O(V + E)
     * Tags:
-    *     DS: array (graph)
+    *     DS: array
     *     A: multi-source DFS, topological sort with cycle detection
+    *     Model: graph
     * @param {number} courseCount
     * @param {number[][]} prerequisites
     * @return {number[][]}

@@ -2,23 +2,51 @@ class Solution {
    /**
     * Time complexity: O(nlogn)
     * Auxiliary space complexity: O(n)
-    * Tags: sorting
+    * Tags:
+    *     DS: array
+    *     A: sorting
     * @param {number[][]} points
     * @return {number}
     */
    maxWidthOfVerticalArea(points) {
-      const xes = new Set();
+      const xPoints = points.map(([x, ]) => x).sort((a, b) => a - b);
+      let res = 0;
 
-      for (const [x, _] of points) {
-         xes.add(x);
+      for (let index = 1; index < xPoints.length; index++) {
+         const x1 = xPoints[index - 1];
+         const x2 = xPoints[index];
+         res = Math.max(res, x2 - x1);
       }
-      const sortedXes = [...xes].sort((a, b) => a - b);
-      let maxX = 0;
 
-      for (let index = 1; index < sortedXes.length; index++) 
-         maxX = Math.max(maxX, sortedXes[index] - sortedXes[index - 1]);
+      return res
+   };
+   
+   /**
+    * Time complexity: O(nlogn)
+    * Auxiliary space complexity: O(n)
+    * Tags:
+    *     DS: hash set, array
+    *     A: sorting
+    * @param {number[][]} points
+    * @return {number}
+    */
+   maxWidthOfVerticalArea(points) {
+      const xPoints = new Set();
 
-      return maxX
+      for (const [x,] of points) {
+         xPoints.add(x);
+      }
+      
+      const xPointsSort = [...xPoints].sort((a, b) => a - b);
+      let res = 0;
+
+      for (let index = 1; index < xPointsSort.length; index++) {
+         const x1 = xPointsSort[index - 1];
+         const x2 = xPointsSort[index];
+         res = Math.max(res, x2 - x1);
+      }
+
+      return res
    };
 }
 

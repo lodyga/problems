@@ -1,8 +1,9 @@
 class Solution {
    /**
     * Time complexity: O(n)
-    * Auxiliary space complexity: O(n)
-    * Tags: sliding window
+    * Auxiliary space complexity: O(1)
+    * Tags:
+    *     A: sliding window
     * @param {number[]} customers
     * @param {number[]} grumpy
     * @param {number} minutes
@@ -21,11 +22,12 @@ class Solution {
             satisfied += customers[right];
          }
 
-         if (right - left + 1 < minutes) 
+         if (right < minutes - 1)
             continue
 
          maxWindow = Math.max(maxWindow, window);
-         if (grumpy[left]) 
+         
+         if (grumpy[left])
             window -= customers[left];
          left++;
 
@@ -38,4 +40,4 @@ class Solution {
 const maxSatisfied = new Solution().maxSatisfied;
 console.log(new Solution().maxSatisfied([1, 0, 1, 2, 1, 1, 7, 5], [0, 1, 0, 1, 0, 1, 0, 1], 3) === 16)
 console.log(new Solution().maxSatisfied([1], [0], 1) === 1)
-console.log(new Solution().maxSatisfied([4, 10, 10], [1, 1, 0], 2) == 24)
+console.log(new Solution().maxSatisfied([4, 10, 10], [1, 1, 0], 2) === 24)

@@ -73,7 +73,7 @@ class Trie:
             node = node.letters[letter]
         node.is_word = True
 
-    def lookup(self, word: str) -> bool:
+    def has(self, word: str) -> bool:
         node = self.root
         for letter in word:
             if letter not in node.letters:
@@ -160,7 +160,7 @@ class Trie:
         node.word_index = self.word_index
         self.word_index += 1
 
-    def search(self, word: str) -> bool:
+    def has(self, word: str) -> bool:
         node = self.root
         for letter in word:
             if letter not in node.letters:

@@ -2,7 +2,9 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: greedy
+    * Tags:
+    *     DS: array
+    *     A: greedy
     * @param {number[]} ratings
     * @return {number}
     */
@@ -10,22 +12,24 @@ class Solution {
       const candies = Array(ratings.length).fill(1);
 
       for (let index = 1; index < ratings.length; index++) {
-         const currentRating = ratings[index];
          const prevRating = ratings[index - 1];
-         if (currentRating > prevRating)
-            candies[index] = candies[index - 1] + 1
+         const currentRating = ratings[index];
+         if (prevRating < currentRating)
+            candies[index] = candies[index - 1] + 1;
       }
-      
-      let totalCandies = candies[candies.length - 1];
+
       for (let index = ratings.length - 2; index > -1; index--) {
          const currentRating = ratings[index];
          const nextRating = ratings[index + 1];
-         if (currentRating > nextRating)
-            candies[index] = Math.max(candies[index], candies[index + 1] + 1)
-         totalCandies += candies[index]
+
+         if (
+            currentRating > nextRating &&
+            candies[index] < candies[index + 1] + 1
+         )
+            candies[index] = candies[index + 1] + 1;
       }
 
-      return totalCandies
+      return candies.reduce((sum, num) => sum + num, 0)
    };
 }
 

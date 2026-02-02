@@ -1,42 +1,39 @@
 class Solution:
     def findItinerary(self, tickets: list[list[str]]) -> list[str]:
         """
-        Time complexity: O(E2)
-        Auxiliary space complexity: O(E)
-        Tags: dfs, recursion, graph
+        Time complexity: O(V*E)
+        Auxiliary space complexity: O(V*E)
+        Tags:
+            DS: hash map, list
+            A: backtracking, sorting
+            Model: graph
         """
-        tickets.sort()
-        adjs = {}
-        for source, destination in tickets:
-            if source not in adjs:
-                adjs[source] = []
-            adjs[source].append(destination)
+        N = len(tickets)
+        tickets.sort(reverse=True)
+        next_cities = {src: [] for src, _ in tickets}
+        
+        for src, dst in tickets:
+            next_cities[src].append(dst)
 
         flight_path = ["JFK"]
-
-        def dfs(city):
-            if len(flight_path) == len(tickets) + 1:
+        
+        def backtrack(city):
+            if len(flight_path) == N + 1:
                 return True
-            elif not adjs[city]:
-                return False
+            
+            next_cities_copy = next_cities[city]
+            for index in range(len(next_cities_copy) - 1, -1, -1):
+                next_city = next_cities[city].pop(index)
+                flight_path.append(next_city)
 
-            # Create a copy of adjs to remove used tickets from orginal adjs.
-            pruned_adjs = adjs[city].copy()
-            for index, adj_city in enumerate(pruned_adjs):
-                adjs[city].pop(index)
-                flight_path.append(adj_city)
-                if dfs(adj_city):
+                if backtrack(next_city):
                     return True
-                adjs[city].insert(index, adj_city)
+
                 flight_path.pop()
+                next_cities[city].insert(index, next_city)
 
-            return False
-
-        dfs("JFK")
+        backtrack("JFK")
         return flight_path
-
-
-from collections import defaultdict
 
 
 class Solution:
@@ -44,25 +41,32 @@ class Solution:
         """
         Time complexity: O(ElogE)
         Auxiliary space complexity: O(E)
-        Tags: Hierholzer alg
+        Tags:
+            DS: hash map, list
+            A: post-order dfs on edges, Hierholzer
+            Model: graph
         """
-        adj = defaultdict(list)
         tickets.sort(reverse=True)
-
+        next_cities = {}
+        
         for src, dst in tickets:
-            adj[src].append(dst)
+            if src not in next_cities:
+                next_cities[src] = []
+            next_cities[src].append(dst)
 
-        path = []
-
-        def dfs(src):
-            while adj[src]:
-                next_dest = adj[src].pop()
-                dfs(next_dest)
-            path.append(src)
+        flight_path = []
+        
+        def dfs(city):
+            while next_cities.get(city, None):
+                next_city = next_cities[city].pop()
+                dfs(next_city)
+            
+            flight_path.append(city)
 
         dfs("JFK")
-        path.reverse()
-        return path
+        flight_path.reverse()
+        return flight_path
+
 
 
 print(Solution().findItinerary([["MUC", "LHR"], ["JFK", "MUC"], ["SFO", "SJC"], ["LHR", "SFO"]]) == ["JFK", "MUC", "LHR", "SFO", "SJC"])

@@ -1,92 +1,34 @@
 class Solution:
     def minCapability(self, houses: list[int], k: int) -> int:
         """
-        Time complexity: O(nlogn)
-        Auxiliary space complexity: O(1)
-        Tags: binary search, greedy
-        """        
-        # dp, top-down with memoization as hash map
-        def validate_capability_dfs(capability):
-            memo = {}
-            
-            def dfs(index, houses_robbed):
-                if houses_robbed >= k:
-                    return True
-                elif index >= len(houses):
-                    return False
-                elif (index, houses_robbed) in memo:
-                    return memo[(index, houses_robbed)]
-
-                # rob house
-                rob_house = False
-                if capability >= houses[index]:
-                    rob_house = dfs(index + 2, houses_robbed + 1)
-                # skip house
-                skip_house = False
-                if not rob_house:
-                    skip_house = dfs(index + 1, houses_robbed)
-                
-                memo[(index, houses_robbed)] = skip_house or rob_house
-                return memo[(index, houses_robbed)]
-
-            return dfs(0, 0)
-
-        # greedy
-        def validate_capability_greedy(capability):
-            index = 0
-            robbed_houses = 0
-            while index < len(houses):
-                if houses[index] <= capability:
-                    robbed_houses += 1
-                    index += 2
-                    if robbed_houses == k:
-                        return True
-                else:
-                    index += 1
-            return False
-
-        sorted_capabilities = sorted(houses)
-        left = 0
-        right = len(sorted_capabilities) - 1
-        min_capability = sorted_capabilities[right]
-        
-        while left <= right:
-            middle = (left + right) // 2
-            capability = sorted_capabilities[middle]
-
-            if validate_capability_greedy(capability):
-                min_capability = capability
-                right = middle - 1
-            else:
-                left = middle + 1
-
-        return min_capability
-
-
-class Solution:
-    def minCapability(self, houses: list[int], k: int) -> int:
-        """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n2)
-        Tags: dp, top-down with memoization as hash map
+        Tags:
+            DS: array
+            A: top-down
         """
-        upper_bound = max(houses) + 1
-        memo = {}
+        N = len(houses)
+        UPPER_BOUND = max(houses) + 1
+        memo = [[-1] * k for _ in range(N)]
 
-        def dfs(index, rob_counter):
-            if rob_counter >= k:
+        def dfs(index: int, rob_counter: int) -> int:
+            if rob_counter == k:
                 return 0
-            elif index >= len(houses):
-                return upper_bound
-            elif (index, rob_counter) in memo:
-                return memo[(index, rob_counter)]
-        
-            rob_house = max(houses[index], dfs(index + 2, rob_counter + 1))
-            skip_house = dfs(index + 1, rob_counter)
+            elif index in (N, N + 1):
+                return UPPER_BOUND
+            elif memo[index][rob_counter] != -1:
+                return memo[index][rob_counter]
 
-            # min capability
-            memo[(index, rob_counter)] = min(rob_house, skip_house)
-            return memo[(index, rob_counter)]
+            # skip
+            skip = dfs(index + 1, rob_counter)
+            # rob
+            rob = max(
+                houses[index],
+                dfs(index + 2, rob_counter + 1)
+            )
+
+            memo[index][rob_counter] = min(skip, rob)
+            return memo[index][rob_counter]
 
         return dfs(0, 0)
 
@@ -98,36 +40,43 @@ class Solution:
             n: house count
             m: capacity range; log2(10**9) = 30
         Auxiliary space complexity: O(1)
-        Tags: binary search, greedy
-        """
-        def valid_capacity(capacity):
+        Tags:
+            A: binary search, greedy
+        """        
+        def is_cap_valid(cap: int) -> bool:
+            # greedy
+            N = len(houses)
+            counter = 0
             index = 0
-            rob_counter = 0
-            while index < len(houses):
-                if houses[index] <= capacity:
-                    rob_counter += 1
+            
+            while index < N:
+                house = houses[index]
+                
+                if house <= cap:
+                    counter += 1
+                    if counter == k:
+                        return True
                     index += 2
                 else:
                     index += 1
-                if rob_counter == k:
-                    return True
+                
             return False
-
+        
+        # min/max capacities
         left = min(houses)
         right = max(houses)
-        min_capacity = left
+        res = left
 
         while left <= right:
-            middle = (left + right) // 2
-            can_rob = valid_capacity(middle)
+            mid = (left + right) // 2
 
-            if can_rob:
-                right = middle - 1
-                min_capacity = middle
+            if is_cap_valid(mid):
+                right = mid - 1
+                res = mid
             else:
-                left = middle + 1
+                left = mid + 1
 
-        return min_capacity
+        return res
 
 
 print(Solution().minCapability([2, 2], 1) == 2)
@@ -135,3 +84,4 @@ print(Solution().minCapability([1, 4, 5], 1) == 1)
 print(Solution().minCapability([2, 3, 5, 9], 2) == 5)
 print(Solution().minCapability([2, 7, 9, 3, 1], 2) == 2)
 print(Solution().minCapability([5038, 3053, 2825, 3638, 4648, 3259, 4948, 4248, 4940, 2834, 109, 5224, 5097, 4708, 2162, 3438, 4152, 4134, 551, 3961, 2294, 3961, 1327, 2395, 1002, 763, 4296, 3147, 5069, 2156, 572, 1261, 4272, 4158, 5186, 2543, 5055, 4735, 2325, 1206, 1019, 1257, 5048, 1563, 3507, 4269, 5328, 173, 5007, 2392, 967, 2768, 86, 3401, 3667, 4406, 4487, 876, 1530, 819, 1320, 883, 1101, 5317, 2305, 89, 788, 1603, 3456, 5221, 1910, 3343, 4597], 28) == 4134)
+print(Solution().minCapability([122892, 167559, 71162, 84608, 155685, 83771, 46844, 151582, 260777, 229378, 94904, 231936, 133869, 68206, 6327, 235746, 241153, 294739, 35538, 252596, 208450, 143695, 41671, 90463, 55968, 215973, 135666, 230284, 19337, 316998, 342023, 207513, 108625, 298565, 298086, 308835, 196174, 122353, 95011, 4944, 299391, 149506, 305368, 82341, 341334, 140050, 264987, 49127, 302356, 118998, 185820, 92898, 328343, 143179, 214621, 260865, 310385, 184661, 220782, 260238, 193917, 314337, 212823, 302500, 192347, 213864, 205673, 115455, 124915, 210119, 47002, 38311, 70117, 179606, 114421, 229912, 111736, 166844, 101801, 78821, 11730, 126469, 111827, 238674, 206172, 317, 297709, 340713, 42877, 306967, 239943, 309284, 5887, 104645, 200180, 318447, 146613, 6352, 283024, 258615, 98196, 138474, 256199, 82752, 199574, 174748, 142639, 73979, 1256, 85775, 42911, 239915, 155305, 190275, 3503, 141304, 300448, 234997, 225763, 220950, 305790, 24327, 80245, 198402, 78063, 52081, 119063, 128730, 197343, 40203, 144725, 148758, 203992, 100637, 262261, 163997, 123054, 57076, 80985, 240377, 171609, 174129, 232530, 296383, 184023, 120711, 313784, 67036, 154407, 78867, 41638, 69515, 264810, 221840, 301636, 128924, 125055, 247859, 318378, 57872, 212495, 265738, 260189, 30393, 248508, 67086, 11092, 290986, 31293, 223253, 223024, 91904, 180129, 137104, 75036, 119741, 178740, 50125, 107942, 329989, 4068, 252260, 70711, 287743, 11801, 184371, 16619, 53314, 14327, 286863, 266303, 56140, 168737, 323933, 153544, 69377, 25670, 52462, 231438, 179481, 223480, 8760, 323381, 118053, 126295, 136235, 163404, 141221, 295535, 337130, 49108, 89900, 46892, 239930, 304177, 328642, 279905, 226308, 25590, 6479, 51904, 280338, 80430, 79197, 37053, 58331, 39091, 104022, 278369, 247774, 289166, 96894, 158329, 107026, 177462, 663, 340017, 306977, 296543, 101186, 7566, 310622, 224476, 142720, 176247, 93441, 53033, 322739, 287387, 334680, 40448, 265039, 39081, 239961, 268555, 249209, 42978, 10745, 237021, 108474, 275454, 105716, 340575, 192507, 332454, 57748, 206157, 276787, 18629, 313106, 193240, 318860, 211857, 67481, 268886, 47519, 262568, 323693, 225619, 298292, 315066, 106793, 100554, 321315, 135254, 108522, 317852, 91320, 119299, 45061, 260449, 282863, 282246, 85870, 107297, 136565, 184891, 276634, 264188, 60413, 216547, 154508, 50372, 79077, 93111, 112174, 110237, 196571, 144653, 117489, 72570, 111340, 309021, 153020, 145698, 120838, 163115, 142334, 72725, 207391, 237560, 212221, 165961, 50688, 325508, 295201, 104875, 19040, 78555, 66302, 118442, 95916, 238907, 142065, 251616, 80925, 188342, 292787, 7570, 258402, 287364, 211491, 32842, 241673, 204754, 8981, 132749, 209833, 314513, 135984, 277873, 162554, 151633, 188501, 253045, 193953, 558, 144650, 202815, 236940, 138702, 67108, 20067, 230944, 186997, 137545, 140978, 144891, 288082, 143737, 241309, 58126, 340475, 263459, 154644, 155535, 195263, 205442, 203854, 290387, 72042, 249817, 7043, 231002, 234779, 338727, 237267, 339032, 294617, 154376, 26041, 88831, 49353, 191975, 274583, 97611, 189038, 106848, 244555, 226175, 282270, 87182, 85789, 286371, 304248, 235022, 145781, 8749, 49030, 262098, 214638, 93497, 310320, 136370, 20012, 251362, 118548, 141828, 141598, 9543, 214495, 196139, 43468, 288202, 284543, 329101, 170311, 239238, 229408, 59785, 180783, 280187, 312406, 301132, 144869, 44703, 113559, 331905, 335333, 171321, 307143, 15262, 258005, 260275, 325972, 329248, 271073, 265890, 322697, 290534, 129108, 231786, 274836, 339679, 324004, 224534, 132241, 337628, 157786, 45679, 208903, 42303, 183355, 302126, 219933, 133961, 323428, 286341, 124188, 26852, 228679, 40733, 214054, 101022, 55926, 186468, 220698, 83453, 39133, 321087, 124841, 161249, 310317, 129312, 218506, 34697, 304134, 97224, 191723, 57182, 324343, 100799, 310569, 103103, 272141, 308813, 300459, 9070, 28908, 198483, 73512, 152454, 269534, 187007, 104437, 205289, 179913, 190097, 99280, 159118, 47476, 127183, 61553, 206325, 64653, 548, 7219, 13924, 202034, 56718, 29027, 252450, 37131, 244482, 334792, 4405, 70729, 330282, 217981, 329524, 113202, 182274, 19447, 325682, 295429, 224488, 149780, 289487, 46101, 23860, 227112, 246302, 287313, 32836, 318499, 296455, 11165, 149958, 288181, 208673, 218600, 21715, 181949, 78565, 159039, 262547, 62109, 316556, 41573, 224473, 301610, 273063, 95958, 242741, 285171, 48797, 167573, 308975, 111680, 252038, 84745, 109516, 46869, 93904, 279049, 133512, 139151, 12057, 215583, 275700, 331273, 244690, 225734, 194693, 161364], 27) == 12057)

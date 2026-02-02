@@ -1,8 +1,6 @@
-from collections import deque
-
-
 class Solution:
     def maxSlidingWindow(self, nums: list[int], k: int) -> list[int]:
+        from collections import deque
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
@@ -10,54 +8,55 @@ class Solution:
             DS: monotonic decreasing queue
             A: sliding window
         """
-        window = deque()  # deque((index, num), ...)
-        max_window_list = []
+        # deque([(number, index), ...])
+        window_q = deque()
+        res = []
 
-        for index, num in enumerate(nums):
-            while window and window[0][0] < index - k + 1:
-                window.popleft()
+        for right, num in enumerate(nums):
+            while window_q and window_q[0][1] <= right - k:
+                window_q.popleft()
 
-            while window and window[-1][1] <= num:
-                window.pop()
+            while window_q and window_q[-1][0] <= num:
+                window_q.pop()
 
-            window.append((index, num))
+            window_q.append((num, right))
 
-            if index >= k - 1:
-                max_window_list.append(window[0][1])
+            if right < k - 1:
+                continue
 
-        return max_window_list
+            res.append(window_q[0][0])
 
-
-import heapq
+        return res
 
 
 class Solution:
     def maxSlidingWindow(self, nums: list[int], k: int) -> list[int]:
+        import heapq
         """
-        Time complexity: O(nlogn)
+        Time complexity: O(nlogk)
         Auxiliary space complexity: O(n)
         Tags:
             DS: heap
             A: sliding window
         """
-        left = 0
-        window = []
-        max_window_list = [0] * (len(nums) - k + 1)
+        window_h = []
+        res = []
 
         for right, num in enumerate(nums):
-            heapq.heappush(window, (-num, right))
+            heapq.heappush(window_h, (-num, right))
 
-            if right + 1 >= k:
-                while left > window[0][1]:
-                    heapq.heappop(window)
+            if right < k - 1:
+                continue
 
-                max_window_list[left] = -window[0][0]
-                left += 1
+            while window_h[0][1] <= right - k:
+                heapq.heappop(window_h)
 
-        return max_window_list
+            res.append(-window_h[0][0])
+
+        return res
 
 
-class Solution2:
+class Solution:
     def maxSlidingWindow(self, nums: list[int], k: int) -> list[int]:
         """
         Time complexity: O(n2)

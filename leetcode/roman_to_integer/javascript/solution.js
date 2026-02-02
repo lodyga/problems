@@ -3,11 +3,13 @@ class Solution {
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
     * Tags:
+    *     DS: hash map
+    *     A: iteration
     * @param {string} text
     * @return {number}
     */
    romanToInt(text) {
-      let number = 0
+      let res = 0
       const valueMap = new Map([
          ["I", 1],
          ["V", 5],
@@ -20,26 +22,26 @@ class Solution {
 
       let index = 0;
       while (index < text.length) {
-         const letter = text[index];
-         const nextLetter = index + 1 < text.length ? text[index + 1] : '';
+         const char = text[index];
+         const nextChar = index + 1 < text.length ? text[index + 1] : '';
 
          if (
             index + 1 < text.length &&
-            valueMap.get(letter) < valueMap.get(nextLetter)
+            valueMap.get(char) < valueMap.get(nextChar)
          ) {
-            number += -valueMap.get(letter) + valueMap.get(nextLetter);
+            res += -valueMap.get(char) + valueMap.get(nextChar);
             index += 2;
          } else {
-            number += valueMap.get(letter);
+            res += valueMap.get(char);
             index++;
          }
       }
-      return number
+      return res
    };
 }
+
+
 const romanToInt = new Solution().romanToInt;
-
-
 console.log(new Solution().romanToInt('III') === 3)
 console.log(new Solution().romanToInt('IV') === 4)
 console.log(new Solution().romanToInt('V') === 5)

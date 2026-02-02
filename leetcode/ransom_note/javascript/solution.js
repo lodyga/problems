@@ -2,20 +2,28 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: iteration
+    * Tags:
+    *     DS: array
+    *     A: iteration
     * @param {string} ransomNote
     * @param {string} magazine
     * @return {boolean}
     */
    canConstruct(ransomNote, magazine) {
       const letters = Array(26).fill(0);
-      for (const letter of magazine) 
-         letters[letter.charCodeAt(0) - 'a'.charCodeAt(0)] += 1;
-      for (const letter of ransomNote) {
-         const index = letter.charCodeAt(0) - 'a'.charCodeAt(0)
-         if (letters[index] === 0)
+      
+      for (let index = 0; index < magazine.length; index++) {
+         const letterInd = magazine.charCodeAt(index) - 'a'.charCodeAt(0);
+         letters[letterInd] += 1;
+      }
+      
+      for (let index = 0; index < ransomNote.length; index++) {
+         const letterInd = ransomNote.charCodeAt(index) - 'a'.charCodeAt(0);
+         
+         if (letters[letterInd] === 0)
             return false
-         letters[index] -= 1;
+         
+         letters[letterInd] -= 1;
       }
       return true
    };

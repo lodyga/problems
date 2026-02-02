@@ -2,32 +2,35 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: iteration
-    * @param {number[]} numbers
+    * Tags: 
+    *     A: iteration
+    * @param {number[]} nums
     * @return {number}
     */
-   longestMonotonicSubarray(numbers) {
-      let increasingLen = 1;
-      let decreasingLen = 1;
-      let maxLen = 1;
+   longestMonotonicSubarray(nums) {
+      let prevNum = nums[0];
+      let incLen = 1;
+      let decLen = 1;
+      let maxMonotLen = 1;
 
-      for (let index = 1; index < numbers.length; index++) {
-         const prevNumber = numbers[index - 1];
-         const number = numbers[index];
+      for (let index = 1; index < nums.length; index++) {
+         const num = nums[index];
 
-         if (prevNumber < number) {
-            increasingLen++;
-            decreasingLen = 1;
-         } else if (prevNumber > number) {
-            decreasingLen++;
-            increasingLen = 1;
+         if (prevNum < num) {
+            incLen++;
+            maxMonotLen = Math.max(maxMonotLen, incLen);
+            decLen = 1;
+         } else if (prevNum > num) {
+            decLen++;
+            maxMonotLen = Math.max(maxMonotLen, decLen);
+            incLen = 1;
          } else {
-            increasingLen = 1;
-            decreasingLen = 1;
+            incLen = 1;
+            decLen = 1;
          }
-         maxLen = Math.max(maxLen, increasingLen, decreasingLen);
+         prevNum = num;
       }
-      return maxLen
+      return maxMonotLen
    };
 }
 
@@ -36,3 +39,4 @@ const longestMonotonicSubarray = new Solution().longestMonotonicSubarray;
 console.log(new Solution().longestMonotonicSubarray([1, 4, 3, 3, 2]) === 2)
 console.log(new Solution().longestMonotonicSubarray([3, 3, 3, 3]) === 1)
 console.log(new Solution().longestMonotonicSubarray([3, 2, 1]) === 3)
+console.log(new Solution().longestMonotonicSubarray([3]) === 1)

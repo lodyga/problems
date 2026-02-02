@@ -128,12 +128,12 @@ class DSU {
       this.parent = Array.from({ length: N }, (_, index) => index);
    };
 
-   find(vertex) {
-      while (vertex !== this.parent[vertex]) {
-         this.parent[vertex] = this.parent[this.parent[vertex]];
-         vertex = this.parent[vertex];
+   find(u) {
+      while (u !== this.parent[u]) {
+         this.parent[u] = this.parent[this.parent[u]];
+         u = this.parent[u];
       }
-      return vertex
+      return u
    };
 
    union(u, v) {

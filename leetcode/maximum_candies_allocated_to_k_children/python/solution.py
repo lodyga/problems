@@ -1,35 +1,32 @@
 class Solution:
-    def maximumCandies(self, candies: list[int], child_count: int) -> int:
+    def maximumCandies(self, candies: list[int], k: int) -> int:
         """
         Time complexity: O(nlogn)
         Auxiliary space complexity: O(1)
-        Tags: binary search
+        Tags:
+            A: binary search
         """
-        if child_count > sum(candies):
-            return 0
-        
         left = 1
-        right = max(candies)
-        candy_per_child = 0
+        right = min(max(candies), sum(candies) // k)
+        res = 0
 
         while left <= right:
-            # estimated candy per child
-            middle = (left + right) // 2
-            happy_child_count = 0
-
+            # Estimated candies per child.
+            mid = (left + right) // 2
+            happy = 0
+            
             for candy in candies:
-                if candy >= middle:
-                    happy_child_count += candy // middle
-                    if happy_child_count >= child_count:
-                        break
-            
-            if happy_child_count >= child_count:
-                left = middle + 1
-                candy_per_child = middle
+                happy += candy // mid
+                if happy >= k:
+                    break
+
+            if happy >= k:
+                left = mid + 1
+                res = mid
             else:
-                right = middle - 1
-            
-        return candy_per_child
+                right = mid - 1
+
+        return res
 
 
 print(Solution().maximumCandies([5, 8, 6], 3) == 5)

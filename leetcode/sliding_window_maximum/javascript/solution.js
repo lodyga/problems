@@ -1,6 +1,9 @@
+import { Deque } from "@datastructures-js/deque";
+
+
 class Solution {
    /**
-    * Time complexity: O(n2)
+    * Time complexity: O(nlogn)
     * Auxiliary space complexity: O(n)
     * Tags:
     *     DS: monotonic decreasing queue
@@ -10,30 +13,33 @@ class Solution {
     * @return {number[]}
     */
    maxSlidingWindow(nums, k) {
-      const window = []  // [(index, num), ...]
-      const maxWindowList = [];
+      // Deque([(right, num), ...])
+      const windowQ = new Deque();
+      const res = [];
 
-      for (let index = 0; index < nums.length; index++) {
-         const num = nums[index];
-         while (window.length && window[0][0] < index - k + 1)
-            window.shift();
+      for (let right = 0; right < nums.length; right++) {
+         const num = nums[right];
+         while (windowQ.size() && windowQ.front()[0] <= right - k)
+            windowQ.popFront();
 
-         while (window.length && window[window.length - 1][1] <= num)
-            window.pop();
+         while (windowQ.size() && windowQ.back()[1] <= num)
+            windowQ.popBack();
 
-         window.push([index, num]);
+         windowQ.pushBack([right, num]);
 
-         if (index >= k - 1)
-            maxWindowList.push(window[0][1]);
+         if (right < k - 1)
+            continue
+
+         res.push(windowQ.front()[1]);
       }
-      return maxWindowList
+      return res
    };
 }
 
 
 const maxSlidingWindow = new Solution().maxSlidingWindow;
-console.log(new Solution().maxSlidingWindow([1, 3, -1, -3, 5, 3, 6, 7], 3), [3, 3, 5, 5, 6, 7])
-console.log(new Solution().maxSlidingWindow([1], 1), [1])
-console.log(new Solution().maxSlidingWindow([7, 2, 4], 2), [7, 4])
-console.log(new Solution().maxSlidingWindow([1, 3, 1, 2, 0, 5], 3), [3, 3, 2, 5])
-console.log(new Solution().maxSlidingWindow([1, 2, 1, 0, 4, 2, 6], 3), [2, 2, 4, 4, 6])
+console.log(new Solution().maxSlidingWindow([1, 3, -1, -3, 5, 3, 6, 7], 3).toString() === [3, 3, 5, 5, 6, 7].toString())
+console.log(new Solution().maxSlidingWindow([1], 1).toString() === [1].toString())
+console.log(new Solution().maxSlidingWindow([7, 2, 4], 2).toString() === [7, 4].toString())
+console.log(new Solution().maxSlidingWindow([1, 3, 1, 2, 0, 5], 3).toString() === [3, 3, 2, 5].toString())
+console.log(new Solution().maxSlidingWindow([1, 2, 1, 0, 4, 2, 6], 3).toString() === [2, 2, 4, 4, 6].toString())

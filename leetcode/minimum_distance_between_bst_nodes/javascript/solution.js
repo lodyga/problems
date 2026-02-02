@@ -16,25 +16,26 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: binary tree
+    * Tags:
+    *     DS: binary tree
+    *     A: dfs, recursion, in-order traversal
     * @param {TreeNode} root
     * @return {number}
     */
    minDiffInBST(root) {
-      let minDiff = 10e5 + 1;
-      let prevNode = null;
+      let minDiff = 10e5;
+      let prevVal = -minDiff;
 
       const dfs = (node) => {
-         if (!node)
-            return
+         if (node === null)
+            return null
 
          dfs(node.left);
-         if (prevNode)
-            minDiff = Math.min(minDiff, node.val - prevNode.val);
-         prevNode = node;
+         minDiff = Math.min(minDiff, node.val - prevVal);
+         prevVal = node.val;
          dfs(node.right);
       };
-      
+
       dfs(root);
       return minDiff
    };
@@ -45,5 +46,6 @@ const minDiffInBST = new Solution().minDiffInBST;
 console.log(new Solution().minDiffInBST(buildTree([3, null, 6])) === 3)
 console.log(new Solution().minDiffInBST(buildTree([4, 2, 6, 1, 3])) === 1)
 console.log(new Solution().minDiffInBST(buildTree([1, 0, 48, null, null, 12, 49])) === 1)
+console.log(new Solution().minDiffInBST(buildTree([99, 84, null, 27, null, 1, 53])) === 15)
 console.log(new Solution().minDiffInBST(buildTree([90, 69, null, 49, 89, null, 52])) === 1)
 console.log(new Solution().minDiffInBST(buildTree([41, 19, 62, 11, 31, null, 89, 8, 18, null, null, 74, null, null, null, 16])) === 1)

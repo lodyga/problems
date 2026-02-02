@@ -36,7 +36,7 @@ class Trie:
     def __init__(self):
         self.root = TrieNode()
 
-    def push(self, word: str) -> None:
+    def add(self, word: str) -> None:
         node = self.root
 
         for letter in word:
@@ -96,7 +96,7 @@ class Solution:
 
         # prefix candidate
         trie = Trie()
-        trie.push(words[0])
+        trie.add(words[0])
 
         for word in words:
             if word == "":

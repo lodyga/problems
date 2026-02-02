@@ -1,27 +1,31 @@
 class Solution:
-    def minimumRecolors(self, blocks: str, window_length: int) -> int:
+    def minimumRecolors(self, blocks: str, k: int) -> int:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: sliding window
+        Tags:
+            A: sliding window
         """
         window = 0
-        max_window = 0
-        for index in range(window_length):
-            block = blocks[index]
-            if block == "B":
+        min_window = k
+        left = 0
+
+        for right, block in enumerate(blocks):
+            if block == "W":
                 window += 1
-                max_window += 1
-        
-        for right in range(window_length, len(blocks)):
-            left = right - window_length
-            window -= 1 if blocks[left] == "B" else 0
-            window += 1 if blocks[right] == "B" else 0
-            max_window = max(max_window, window)
-            if max_window == window_length:
-                return 0
-        
-        return window_length - max_window
+
+            if right < k - 1:
+                continue
+
+            min_window = min(min_window, window)
+            if min_window == 0:
+                break
+
+            if blocks[left] == "W":
+                window -= 1
+            left += 1
+
+        return min_window
 
 
 print(Solution().minimumRecolors("WBBWWBBWBW", 7) == 3)

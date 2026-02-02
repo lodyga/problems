@@ -16,7 +16,10 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: binary tree, dfs, recursion, post-order traversal
+    * Tags:
+    *     DS: binary tree
+    *     A: dfs, recursion, post-order traversal
+    * Compare node objects, not just nodes values.
     * @param {TreeNode} root
     * @param {TreeNode} p
     * @param {TreeNode} q
@@ -44,12 +47,28 @@ class Solution {
 }
 
 
-class Solution2 {
+const lowestCommonAncestor = new Solution().lowestCommonAncestor;
+// Compare node objects
+let [root, lookup] = buildTree([4, 5, 6], { withLookup: true });
+console.log(new Solution().lowestCommonAncestor(root, lookup.get(5), lookup.get(6)) === lookup.get(4));
+[root, lookup] = buildTree([4, 5], { withLookup: true });
+console.log(new Solution().lowestCommonAncestor(root, lookup.get(4), lookup.get(5)) === lookup.get(4));
+[root, lookup] = buildTree([3, 5, 1, 6, 2, 0, 8, null, null, 7, 4], { withLookup: true });
+console.log(new Solution().lowestCommonAncestor(root, lookup.get(5), lookup.get(1)) === lookup.get(3));
+[root, lookup] = buildTree([3, 5, 1, 6, 2, 0, 8, null, null, 7, 4], { withLookup: true });
+console.log(new Solution().lowestCommonAncestor(root, lookup.get(6), lookup.get(2)) === lookup.get(5));
+[root, lookup] = buildTree([3, 5, 1, 6, 2, 0, 8, null, null, 7, 4], { withLookup: true });
+console.log(new Solution().lowestCommonAncestor(root, lookup.get(5), lookup.get(4)) === lookup.get(5));
+
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: binary tree, dfs, recursion, post-order traversal
-    * Compare node values, not nodes themselves.
+    * Tags:
+    *     DS: binary tree
+    *     A: dfs, recursion, post-order traversal
+    * Compare node values, not nodes objects.
     * @param {TreeNode} root
     * @param {TreeNode} p
     * @param {TreeNode} q
@@ -63,34 +82,27 @@ class Solution2 {
             node.val === p.val ||
             node.val === q.val
          )
-            return node.val
+            return node
 
          const left = dfs(node.left);
          const right = dfs(node.right);
 
          if (left && right)
-            return node.val
+            return node
          return left || right
       }
-      return dfs(root)
+      const res = dfs(root);
+      res.left = null;
+      res.right = null;
+      return res
    };
 }
 
 
 const lowestCommonAncestor = new Solution().lowestCommonAncestor;
-let [root, lookup] = buildTree([2, 1], { withLookup: true });
-console.log(new Solution().lowestCommonAncestor(root, lookup.get(1), lookup.get(2)).val === 2);
-
-[root, lookup] = buildTree([3, 5, 1, 6, 2, 0, 8, null, null, 7, 4], { withLookup: true });
-console.log(new Solution().lowestCommonAncestor(root, lookup.get(5), lookup.get(1)).val === 3);
-
-[root, lookup] = buildTree([3, 5, 1, 6, 2, 0, 8, null, null, 7, 4], { withLookup: true });
-console.log(new Solution().lowestCommonAncestor(root, lookup.get(6), lookup.get(2)).val === 5);
-
-[root, lookup] = buildTree([3, 5, 1, 6, 2, 0, 8, null, null, 7, 4], { withLookup: true });
-console.log(new Solution().lowestCommonAncestor(root, lookup.get(5), lookup.get(4)).val === 5);
-
-// console.log(new Solution().lowestCommonAncestor(buildTree([2, 1]), buildTree([2]), buildTree([1])) === 2)
-// console.log(new Solution().lowestCommonAncestor(buildTree([3, 5, 1, 6, 2, 0, 8, null, null, 7, 4]), buildTree([5]), buildTree([1])) === 3)
-// console.log(new Solution().lowestCommonAncestor(buildTree([3, 5, 1, 6, 2, 0, 8, null, null, 7, 4]), buildTree([6]), buildTree([2])) === 5)
-// console.log(new Solution().lowestCommonAncestor(buildTree([3, 5, 1, 6, 2, 0, 8, null, null, 7, 4]), buildTree([5]), buildTree([4])) === 5)
+// Compare node values
+console.log(isSameTree(new Solution().lowestCommonAncestor(buildTree([4, 5, 6]), buildTree([5]), buildTree([6])), buildTree([4])))
+console.log(isSameTree(new Solution().lowestCommonAncestor(buildTree([4, 5]), buildTree([4]), buildTree([5])), buildTree([4])))
+console.log(isSameTree(new Solution().lowestCommonAncestor(buildTree([3, 5, 1, 6, 2, 0, 8, null, null, 7, 4]), buildTree([5]), buildTree([1])), buildTree([3])))
+console.log(isSameTree(new Solution().lowestCommonAncestor(buildTree([3, 5, 1, 6, 2, 0, 8, null, null, 7, 4]), buildTree([6]), buildTree([2])), buildTree([5])))
+console.log(isSameTree(new Solution().lowestCommonAncestor(buildTree([3, 5, 1, 6, 2, 0, 8, null, null, 7, 4]), buildTree([5]), buildTree([4])), buildTree([5])))

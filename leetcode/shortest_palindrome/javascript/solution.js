@@ -2,7 +2,8 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: Rabin-Karp
+    * Tags:
+    *     A: Rabin-Karp, rolling hash
     * @param {string} text
     * @return {string}
     */
@@ -15,9 +16,9 @@ class Solution {
       let lastIndex = 0;
 
       for (let index = 0; index < text.length; index++) {
-         const value = text[index].charCodeAt(0) - 'a'.charCodeAt(0);
+         const value = text.charCodeAt(index) - 'a'.charCodeAt(0);
          prefix = (prefix * BASE + value) % MOD;
-         postfix = (postfix + value * power) % MOD
+         postfix = (value * power + postfix) % MOD
          power = (power * BASE) % MOD;
 
          if (prefix === postfix)
@@ -25,14 +26,12 @@ class Solution {
       }
       return text.slice(lastIndex + 1,).split('').reverse().join('') + text
    };
-}
 
-
-class Solution {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(n)
-    * Tags: two pointers, tle
+    * Tags:
+    *     A: two pointers
     * @param {string} text
     * @return {string}
     */
@@ -63,6 +62,7 @@ class Solution {
 
 
 const shortestPalindrome = new Solution().shortestPalindrome;
+console.log(new Solution().shortestPalindrome('bc') === 'cbc')
 console.log(new Solution().shortestPalindrome('aacecaaa') === 'aaacecaaa')
 console.log(new Solution().shortestPalindrome('abcd') === 'dcbabcd')
 console.log(new Solution().shortestPalindrome('') === '')

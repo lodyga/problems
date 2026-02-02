@@ -8,8 +8,9 @@ class Solution:
             n: adjacency matrix side
         Auxiliary space complexity: O(n)
         Tags:
-            DS: array (graph)
+            DS: array
             A: multi-source DFS
+            Model: graph
         """
         N = len(is_connected)
         components = 0
@@ -42,8 +43,9 @@ class Solution:
         Time complexity: O(V + E)
         Auxiliary space complexity: O(V + E)
         Tags:
-            DS: array (graph)
+            DS: array
             A: multi-source BFS
+            Model: graph
         """
         N = len(is_connected)
         components = 0
@@ -81,8 +83,9 @@ class Solution:
             n: adjacency matrix side
         Auxiliary space complexity: O(n)
         Tags:
-            DS: array (graph)
+            DS: array
             A: DSU
+            Model: graph
         """
         N = len(is_connected)
         dsu = DSU(N)

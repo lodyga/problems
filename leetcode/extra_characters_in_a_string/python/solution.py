@@ -72,7 +72,7 @@ class Trie:
             node = node.letters[letter]
         node.is_word = True
     
-    def lookup(self, word: str) -> bool:
+    def has(self, word: str) -> bool:
         node = self.root
         for letter in word:
             if letter not in node.letters:
@@ -109,7 +109,7 @@ class Solution:
             memo[index] = dfs(index + 1) + 1
 
             for word_len in range(1, longest_word_len + 1):
-                if trie.lookup(text[index: index + word_len]):
+                if trie.has(text[index: index + word_len]):
                     memo[index] = min(
                         memo[index], 
                         dfs(index + word_len)

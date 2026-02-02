@@ -114,7 +114,7 @@ class Solution {
 
       for (let left = text.length - 1; left >= 0; left--) {
          for (let right = left; right < Math.min(text.length, left + longestWord); right++) {
-            if (trie.lookup(left, right, text)) {
+            if (trie.has(left, right, text)) {
                cache[left] = cache[right + 1];
                if (cache[left])
                   break
@@ -191,7 +191,7 @@ class Trie {
       node.isWord = true
    }
 
-   lookup(left, right, text) {
+   has(left, right, text) {
       let node = this.root;
 
       for (let index = left; index <= right; index++) {

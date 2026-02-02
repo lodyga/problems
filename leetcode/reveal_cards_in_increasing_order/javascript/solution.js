@@ -1,30 +1,34 @@
-import { Queue } from "@datastructures-js/queue";
+import { Deque } from "@datastructures-js/deque";
 
 
 class Solution {
    /**
-    * Time complexity: O(nlogn)
+    * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: queue
+    * Tags:
+    *     DS: deque
+    *     A: sorting, iteration
     * @param {number[]} deck
     * @return {}
     */
    deckRevealedIncreasing(deck) {
-      deck.sort((a, b) => b - a);
-      const queue = new Queue();
+      deck.sort((a, b) => a - b);
+      const deq = new Deque(Array.from({ length: deck.length }, (_, index) => index));
+      const res = Array(deck.length).fill(0);
+
       for (const card of deck) {
-         queue.enqueue(card);
-         if (
-            queue.size() > 1 &&
-            queue.size() < deck.length
-         )
-            queue.enqueue(queue.pop())
+         res[deq.popFront()] = card;
+
+            if (deq.size())
+                deq.pushBack(deq.popFront());
       }
-      return queue.toArray().reverse();
+
+      return res
    };
 }
 
 
 const deckRevealedIncreasing = new Solution().deckRevealedIncreasing;
-console.log(new Solution().deckRevealedIncreasing([17, 13, 11, 2, 3, 5, 7]), [2, 13, 3, 11, 5, 17, 7])
-console.log(new Solution().deckRevealedIncreasing([1, 1000]), [1, 1000])
+console.log(new Solution().deckRevealedIncreasing([1, 2, 3, 4, 5]).toString() === [1, 5, 2, 4, 3].toString())
+console.log(new Solution().deckRevealedIncreasing([17, 13, 11, 2, 3, 5, 7]).toString() === [2, 13, 3, 11, 5, 17, 7].toString())
+console.log(new Solution().deckRevealedIncreasing([1, 1000]).toString() === [1, 1000].toString())

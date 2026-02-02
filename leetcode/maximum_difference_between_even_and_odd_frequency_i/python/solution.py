@@ -3,29 +3,28 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: iteration
+        Tags:
+            DS: array
+            A: iteration
         """
-        frequencies = [0] * 26
-        max_odd_freq = 0
-        min_even_freq = len(text)
-
-        def letter_index(letter):
-            return ord(letter) - ord("a")
-
+        letter_freq = [0] * 26
         for letter in text:
-            frequencies[letter_index(letter)] += 1
-        
-        for frequency in frequencies:
-            if not frequency:
-                continue
-            elif frequency & 1:
-                max_odd_freq = max(max_odd_freq, frequency)
-            else:
-                min_even_freq = min(min_even_freq, frequency)
+            letter_ind = ord(letter) - ord("a")
+            letter_freq[letter_ind] += 1
 
-        return max_odd_freq - min_even_freq
+        max_odd_freq = 1
+        min_even_fre = len(text)
+
+        for freq in letter_freq:
+            if freq % 2:
+                max_odd_freq = max(max_odd_freq, freq)
+            elif freq:
+                min_even_fre = min(min_even_fre, freq)
+
+        return max_odd_freq - min_even_fre
 
 
 print(Solution().maxDifference("aaaaabbc") == 3)
 print(Solution().maxDifference("abcabcab") == 1)
 print(Solution().maxDifference("yzyyys") == -3)
+print(Solution().maxDifference("sssgssiisisiggigsigiiigigggigiggsigggggigsigsisgsgiissisgsiggigssgsgisiisgsgggiigiiggiii") == -3)

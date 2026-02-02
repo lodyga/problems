@@ -1,3 +1,71 @@
+class Solution:
+    def buildMatrix(self, k: int, row_conds: list[list[int]], col_conds: list[list[int]]) -> list[list[int]]:
+        """
+        Time complexity: O(k2)
+        Auxiliary space complexity: O(k)
+        Tags:
+            DS: array (matrix)
+            A: multi-source DFS, topological sort with cycle detection
+            Model: graph
+        """
+        
+        def dfs(col, sorted, visited, prevs):
+            if visited[col] != -1:
+                return bool(visited[col])
+            
+            visited[col] = 1
+
+            for prev_col in prevs[col]:
+                if dfs(prev_col, sorted, visited, prevs):
+                    return True
+
+            sorted.append(col)
+            visited[col] = 0
+            return False
+        
+        ROWS = k
+        COLS = k
+        
+        prev_cols = [[] for _ in  range(COLS)]
+        for prev_vertex, vertex in col_conds:
+            prev_cols[vertex - 1].append(prev_vertex - 1)
+
+        prev_rows = [[] for _ in  range(ROWS)]
+        for prev_vertex, vertex in row_conds:
+            prev_rows[vertex - 1].append(prev_vertex - 1)
+        
+        sorted_cols = []
+        # -1: not visited, 0: visited, 1: visiting/current path
+        visited_cols = [-1] * COLS
+        
+        for col in range(COLS):
+            if dfs(col, sorted_cols, visited_cols, prev_cols):
+                return []
+        
+        sorted_rows = []
+        # -1: not visited, 0: visited, 1: visiting/current path
+        visited_rows = [-1] * ROWS
+
+        for row in range(ROWS):
+            if dfs(row, sorted_rows, visited_rows, prev_rows):
+                return []
+        
+        coords = {v: [] for v in range(k)}
+        for row, val in enumerate(sorted_rows):
+            coords[val].append(row)
+        for col, val in enumerate(sorted_cols):
+            coords[val].append(col)
+
+        res = [[0] * COLS for _ in range(ROWS)]
+        for val, (y, x) in coords.items():
+            res[y][x] = val + 1
+        return res
+
+
+print(Solution().buildMatrix(3, [[1, 2], [3, 2]], [[2, 1], [3, 2]]) == [[0, 0, 1], [3, 0, 0], [0, 2, 0]])
+print(Solution().buildMatrix(3, [[1, 2], [2, 3], [3, 1], [2, 3]], [[2, 1]]) == [])
+
+
 class TopologicalSort:
     def __init__(self, k, conditions):
         self.k = k
@@ -48,7 +116,3 @@ class Solution:
             matrix[row][col] = value
 
         return matrix
-
-
-print(Solution().buildMatrix(3, [[1, 2], [3, 2]], [[2, 1], [3, 2]]), [[0, 0, 1], [3, 0, 0], [0, 2, 0]])
-print(Solution().buildMatrix(3, [[1, 2], [2, 3], [3, 1], [2, 3]], [[2, 1]]), [])

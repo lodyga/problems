@@ -7,8 +7,9 @@ class Solution:
         Time complexity: O(ElogV)
         Auxiliary space complexity: O(V + E)
         Tags:
-            DS: heap, hash map, hash set, graph
-            A: BFS, Dijkstra
+            DS: heap, hash map, hash set
+            A: greedy, Dijkstra
+            Model: graph
         """
         # {vertex: set((next vertex, time to travel), ), }
         next_vertices = {vertex: set() for vertex in range(n)}

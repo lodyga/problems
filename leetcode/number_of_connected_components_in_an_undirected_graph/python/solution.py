@@ -7,8 +7,9 @@ class Solution:
         Time complexity: O(V + E)
         Auxiliary space complexity: O(V + E)
         Tags:
-            DS: array (graph)
+            DS: array
             A: multi-source DFS
+            Model: graph
         """
         components = 0
         visited = [False] * N
@@ -41,8 +42,9 @@ class Solution:
         Time complexity: O(V + E)
         Auxiliary space complexity: O(V + E)
         Tags:
-            DS: array (graph)
+            DS: array
             A: multi-source BFS
+            Model: graph
         """
         components = 0
         visited = [False] * N
@@ -107,8 +109,9 @@ class Solution:
         Time complexity: O(V + E)
         Auxiliary space complexity: O(V + E)
         Tags:
-            DS: array (graph)
+            DS: array
             A: DSU
+            Model: graph
         """
         dsu = DSU(N)
 

@@ -6,37 +6,31 @@ class Solution:
         """
         Time complexity: O(nlogn)
         Auxiliary space complexity: O(n)
-        Tags: heap
+        Tags:
+            DS: heap, list
+            A: sorting
         """
-        friends = [(start, end, friend_id) 
-                   for friend_id, (start, end) in enumerate(times)]
-        friends.sort()
-        # friends_order = list(range(len(times)))
-        # friends_order.sort(key=lambda i: times[i][0])
-        # heap((friend leave time, chair index), ...) chairs currently occupied by friends
-        occupied_chiars = []
-        # heap(chair index, ) avaible chairs
-        avaible_chairs = []
-        min_chair = 0
+        N = len(times)
+        friend_data = [(start, end, index)
+                       for index, (start, end) in enumerate(times)]
+        friend_data.sort()
 
-        for friend in friends:
-        # for friend_id in friends_order:
-        #     friend = times[index]
-            start, end, friend_id = friend
-            
-            while occupied_chiars and occupied_chiars[0][0] <= start:
-                _, chair = heapq.heappop(occupied_chiars)
-                heapq.heappush(avaible_chairs, chair)
+        avaible_chairs = list(range(N))
+        # heapq.heapify(avaible_chairs)
+        # heap([(end, chair id), ])
+        occupied_chars = []
 
-            if not avaible_chairs:
-                chair_index = heapq.heappush(avaible_chairs, min_chair)
-                min_chair += 1
-            chair_index = heapq.heappop(avaible_chairs)
+        for start, end, friend_id in friend_data:
+            while occupied_chars and occupied_chars[0][0] <= start:
+                _, chair_id = heapq.heappop(occupied_chars)
+                heapq.heappush(avaible_chairs, chair_id)
+
+            chair_id = heapq.heappop(avaible_chairs)
+            heapq.heappush(occupied_chars, (end, chair_id))
 
             if friend_id == target_friend:
-                return chair_index
+                return chair_id
 
-            heapq.heappush(occupied_chiars, (end, chair_index))
 
 
 print(Solution().smallestChair([[1, 4], [2, 3], [4, 6]], 1) == 1)

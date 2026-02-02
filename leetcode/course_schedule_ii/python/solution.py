@@ -5,8 +5,9 @@ class Solution:
             V: unique course count
         Auxiliary space complexity: O(V + E)
         Tags:
-            DS: array (graph)
+            DS: array
             A: multi-source DFS, topological sort with cycle detection
+            Model: graph
         """
         prereqs = {course: set() for course in range(course_count)}
 

@@ -12,9 +12,11 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: binary tree, dfs, recursion, post-order traversal
+        Tags:
+            DS: binary tree
+            A: dfs, recursion, post-order traversal
         """
-        values = []
+        vals = []
 
         def dfs(node):
             if node is None:
@@ -22,10 +24,10 @@ class Solution:
 
             for child in node.children:
                 dfs(child)
-            values.append(node.val)
+            vals.append(node.val)
         
         dfs(root)
-        return values
+        return vals
 
 
 class Solution:
@@ -33,21 +35,23 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: binary tree, dfs, iteration, post-order traversal
+        Tags:
+            DS: binary tree
+            A: dfs, iteration, post-order traversal
         """
         if not root:
             return []
         
-        values = []
+        vals = []
         stack = [(root, False)]
         
         while stack:
             node, visited = stack.pop()
             if visited:
-                values.append(node.val)
+                vals.append(node.val)
             else:
                 stack.append((node, True))
                 for child in reversed(node.children):
                     stack.append((child, False))
 
-        return values
+        return vals

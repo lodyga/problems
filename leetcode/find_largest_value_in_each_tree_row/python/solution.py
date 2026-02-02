@@ -16,9 +16,11 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: binary tree, bfs, iteration, queue, level order traversal
+        Tags:
+            DS: binary tree, queue, list
+            A: bfs, iteration, level-order traversal
         """
-        values = []
+        res = []
 
         def bfs(node):
             queue = deque()
@@ -26,12 +28,11 @@ class Solution:
                 queue.append(node)
 
             while queue:
-                for index, _ in enumerate(range(len(queue))):
+                res.append(queue[0].val)
+
+                for _ in range(len(queue)):
                     node = queue.popleft()
-                    if index == 0:
-                        values.append(node.val)
-                    elif node.val > values[-1]:
-                        values[-1] = node.val
+                    res[-1] = max(res[-1], node.val)
 
                     if node.left:
                         queue.append(node.left)
@@ -39,7 +40,7 @@ class Solution:
                         queue.append(node.right)
 
         bfs(root)
-        return values
+        return res
 
 
 class Solution:
@@ -47,23 +48,25 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: binary tree, dfs, recursion, level order traversal
+        Tags:
+            DS: binary tree, list
+            A: dfs, recursion, level-order traversal
         """
-        values = []
+        res = []
 
         def dfs(index, node):
             if node is None:
                 return
-            elif len(values) == index:
-                values.append(node.val)
-            elif node.val > values[index]:
-                values[index] = node.val
+            elif len(res) == index:
+                res.append(node.val)
+            elif node.val > res[index]:
+                res[index] = node.val
 
             dfs(index + 1, node.left)
             dfs(index + 1, node.right)
 
         dfs(0, root)
-        return values
+        return res
 
 
 class Solution:
@@ -71,9 +74,11 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: binary tree, dfs, iteration, stack
+        Tags:
+            DS: binary tree, list, stack
+            A: dfs, iteration, level-order traversal
         """
-        values = []
+        res = []
         stack = []
 
         def dfs(node):
@@ -83,21 +88,22 @@ class Solution:
             while stack:
                 index, node = stack.pop()
 
-                if index == len(values):
-                    values.append(node.val)
-                elif node.val > values[index]:
-                    values[index] = node.val
-                
+                if index == len(res):
+                    res.append(node.val)
+                elif node.val > res[index]:
+                    res[index] = node.val
+
                 if node.right:
                     stack.append((index + 1, node.right))
                 if node.left:
                     stack.append((index + 1, node.left))
 
         dfs(root)
-        return values
+        return res
 
 
 print(Solution().largestValues(build_tree([1, 3, 2, 5, 3, None, 9])) == [1, 3, 9])
 print(Solution().largestValues(build_tree([1, 2, 3])) == [1, 3])
 print(Solution().largestValues(build_tree([])) == [])
 print(Solution().largestValues(build_tree([3, 1, 5, 0, 2, 4, 6])) == [3, 5, 6])
+print(Solution().largestValues(build_tree([34, -6, None, -21])) == [34, -6, -21])

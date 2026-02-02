@@ -2,27 +2,29 @@ class Solution {
    /**
     * Time complexity: O(nlogn)
     * Auxiliary space complexity: O(1)
-    * Tags: binary search
-    * @param {number[]} numbers
+    * Tags:
+    *     A: binary search
+    * @param {number[]} nums
     * @return {number}
     */
-   specialArray(numbers) {
+   specialArray(nums) {
       let left = 1;
-      let right = numbers.length;
-      let specialNumber = -1;
+      let right = nums.length;
+      let res = -1;
 
       while (left <= right) {
          const middle = (left + right) >> 1;
-         const specialCount = numbers.filter(value => value >= middle).length;
+         const counter = nums.filter(value => value >= middle).length;
          
-         if (specialCount >= middle) {
-            if (specialCount === middle)
-               specialNumber = middle;
-            left = middle + 1;
-         } else
+         if (counter === middle) {
+            return middle;
+         } else if (counter < middle) {
             right = middle - 1;
+         } else {
+            left = middle + 1;
+         }
       }
-      return specialNumber
+      return -1
    };
 }
 

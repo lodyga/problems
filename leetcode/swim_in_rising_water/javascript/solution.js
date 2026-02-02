@@ -5,8 +5,9 @@ class Solution {
    /**
     * Time complexity: O(n2logn)
     * Auxiliary space complexity: O(n2)
-    * Tags: bfs, iteration, heap, graph, matrix
-    * Dijkstra's alg
+    * Tags:
+    *     DS: heap, array (matrix)
+    *     A: greedy, Dijkstra
     * @param {number[][]} grid
     * @return {number}
     */
@@ -14,41 +15,36 @@ class Solution {
       const ROWS = grid.length;
       const COLS = grid[0].length;
       const DIRECTIONS = [[-1, 0], [1, 0], [0, -1], [0, 1]];
-      const waterHeap = new MinPriorityQueue((water) => water[0]);
-      waterHeap.enqueue([grid[0][0], 0, 0]);
       const visited = Array.from({ length: ROWS }, () => Array(COLS).fill(false));
+      const waterHeap = new MinPriorityQueue(water => water[0]);
+      waterHeap.enqueue([grid[0][0], 0, 0]);
+      let highestWaterLevel = grid[0][0];
       visited[0][0] = true;
 
-      // bfs()
-      while (!waterHeap.isEmpty()) {
+      while (waterHeap.size()) {
          const [waterLevel, row, col] = waterHeap.dequeue();
+         highestWaterLevel = Math.max(highestWaterLevel, waterLevel);
 
          if (row === ROWS - 1 && col === COLS - 1)
-            return waterLevel
+            return highestWaterLevel
 
-         for (const [r, c] of DIRECTIONS) {
-            const sideRow = row + r;
-            const sideCol = col + c;
+         for (const [dr, dc] of DIRECTIONS) {
+            const [r, c] = [row + dr, col + dc];
             if (
-               sideRow > -1 &&
-               sideCol > -1 &&
-               sideRow < ROWS &&
-               sideCol < COLS &&
-               !visited[sideRow][sideCol]
+               -1 < r && r < ROWS &&
+               -1 < c && c < COLS &&
+               !visited[r][c]
             ) {
-               const reachableWaterLevel = Math.max(waterLevel, grid[sideRow][sideCol]);
-               waterHeap.enqueue([reachableWaterLevel, sideRow, sideCol]);
-               visited[sideRow][sideCol] = true;
+               waterHeap.enqueue([grid[r][c], r, c]);
+               visited[r][c] = true;
             }
          }
-
       }
-      return waterLevel
    };
 }
 
 
 const swimInWater = new Solution().swimInWater;
 console.log(new Solution().swimInWater([[0, 2], [1, 3]]) === 3)
-console.log(new Solution().swimInWater([[0, 1, 2, 3, 4], [24, 23, 22, 21, 5], [12, 13, 14, 15, 16], [11, 17, 18, 19, 20], [10, 9, 8, 7, 6]]) === 16)
 console.log(new Solution().swimInWater([[3, 2], [0, 1]]) === 3)
+console.log(new Solution().swimInWater([[0, 1, 2, 3, 4], [24, 23, 22, 21, 5], [12, 13, 14, 15, 16], [11, 17, 18, 19, 20], [10, 9, 8, 7, 6]]) === 16)

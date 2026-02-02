@@ -134,7 +134,7 @@ class Trie:
             node = node.letters[letter]
         node.is_word = True
 
-    def lookup(self, left, right, text) -> bool:
+    def has(self, left, right, text) -> bool:
         node = self.root
 
         for index in range(left, right + 1):
@@ -170,7 +170,7 @@ class Solution:
         for left in range(len(text) - min_word_length, -1, -1):
             for right in range(left, min(left + max_word_length, len(text))):
                 if (
-                    trie.lookup(left, right, text) and
+                    trie.has(left, right, text) and
                     cache[right + 1]
                 ):
                     cache[left] = True

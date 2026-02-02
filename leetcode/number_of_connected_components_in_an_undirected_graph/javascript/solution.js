@@ -6,8 +6,9 @@ class Solution {
     * Time complexity: O(V + E)
     * Auxiliary space complexity: O(V + E)
     * Tags:
-    *     DS: array (graph)
+    *     DS: array
     *     A: multi-source DFS
+    *     Model: graph
     * @param {number} N
     * @param {number[][]} edges
     * @return {}
@@ -48,8 +49,9 @@ class Solution {
     * Time complexity: O(V + E)
     * Auxiliary space complexity: O(V + E)
     * Tags:
-    *     DS: array (graph)
+    *     DS: array
     *     A: multi-source BFS
+    *     Model: graph
     * @param {number} N
     * @param {number[][]} edges
     * @return {}
@@ -94,8 +96,9 @@ class Solution {
     * Time complexity: O(V + E)
     * Auxiliary space complexity: O(V + E)
     * Tags:
-    *     DS: array (graph)
+    *     DS: array
     *     A: DSU
+    *     Model: graph
     * @param {number} N
     * @param {number[][]} edges
     * @return {}

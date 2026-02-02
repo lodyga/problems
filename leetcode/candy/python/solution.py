@@ -3,25 +3,29 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: greedy
+        Tags:
+            DS: array
+            A: greedy
         """
-        candy_length = len(ratings)
-        candies = [1] * candy_length
+        N = len(ratings)
+        candies = [1] * N
 
-        for index in range(candy_length - 1):
+        for index in range(N - 1):
             if ratings[index] < ratings[index + 1]:
                 candies[index + 1] = candies[index] + 1
-        
-        total_candies = candies[-1]
-        for index in reversed(range(candy_length - 1)):
-            if ratings[index] > ratings[index + 1]:
-                candies[index] = max(candies[index], candies[index + 1] + 1)
-            total_candies += candies[index]
-        
-        return total_candies
+
+        for index in range(N - 2, -1, -1):
+            if (
+                ratings[index] > ratings[index + 1] and 
+                candies[index] < candies[index + 1] + 1
+            ):
+                candies[index] = candies[index + 1] + 1
+
+        return sum(candies)
 
 
 print(Solution().candy([1, 0, 2]) == 5)
 print(Solution().candy([1, 2, 2]) == 4)
 print(Solution().candy([1, 2, 3, 4]) == 10)
 print(Solution().candy([4, 3, 2, 1]) == 10)
+print(Solution().candy([1, 3, 4, 5, 2]) == 11)

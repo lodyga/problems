@@ -1,8 +1,9 @@
 class Solution {
    /**
-    * Time complexity: O(n)
+    * Time complexity: O(n2)
     * Auxiliary space complexity: O(n)
-    * Tags: Rabin-Karp
+    * Tags:
+    *     A: iteration
     * @param {string} haystack
     * @param {string} needle
     * @return {int}
@@ -11,47 +12,18 @@ class Solution {
       if (haystack.length < needle)
          return -1
 
-      const BASE = 29;
-      const MOD = 1e9 + 7;
-
-      const getValue = (letter) => {
-         return letter.charCodeAt(0) - 'a'.charCodeAt(0)
-      }
-
-      const getHash = (text) => {
-         let value = 0;
-         let power = 1;
-         for (let index = 0; index < text.length; index++) {
-            value = (value * BASE + getValue(text[index])) % MOD;
-         }
-         return value
-      }
-
-      const needleHash = getHash(needle);
-      let haystackHash = getHash(haystack.slice(0, needle.length));
-      const power = Math.pow(BASE, needle.length - 1) % MOD
-
-      for (let left = 0; left < haystack.length - needle.length + 1; left++) {
-         if (needleHash === haystackHash) {
-            return left
-         }
-         else if (left < haystack.length - needle.length) {
-            const right = needle.length + left;
-            haystackHash -= getValue(haystack[left]) * power;
-            if (haystackHash < 0) haystackHash += MOD;
-            haystackHash = (haystackHash * BASE + getValue(haystack[right])) % MOD;
-         }
+      for (let index = 0; index < haystack.length - needle.length + 1; index++) {
+         if (needle === haystack.slice(index, index + needle.length))
+            return index
       }
       return -1
    };
-}
 
-
-class Solution {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(1)
-    * Tags: iteration
+    * Tags:
+    *     A: iteration
     * @param {string} haystack
     * @param {string} needle
     * @return {int}
@@ -74,28 +46,55 @@ class Solution {
       }
       return -1
    };
-}
 
-
-class Solution {
    /**
-    * Time complexity: O(n2)
+    * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: iteration
+    * Tags:
+    *     A: Rabin-Karp, rolling hash
     * @param {string} haystack
     * @param {string} needle
     * @return {int}
     */
    strStr(haystack, needle) {
-      if (haystack.length < needle)
+      if (haystack.length < needle) {
          return -1
+      } else if (haystack.length === needle.length) {
+         return needle === haystack ? 0 : -1
+      }
 
-      for (let index = 0; index < haystack.length - needle.length + 1; index++) {
-         if (needle === haystack.slice(index, index + needle.length))
-            return index
+      const BASE = 29;
+      const MOD = 1e9 + 7;
+      let needleHash = 0;
+
+      for (let index = 0; index < needle.length; index++) {
+         const val = needle.charCodeAt(index) - 'a'.charCodeAt(0);
+         needleHash = (needleHash * BASE + val) % MOD;
+      }
+
+      const POWER = Math.pow(BASE, needle.length - 1) % MOD;
+      let substrHash = 0;
+      let left = 0;
+
+      for (let right = 0; right < haystack.length; right++) {
+         const val = haystack.charCodeAt(right) - 'a'.charCodeAt(0);
+         substrHash = (substrHash * BASE + val) % MOD;
+
+         if (right < needle.length - 1) {
+            continue
+         } else if (substrHash == needleHash) {
+            return left
+         }
+
+         const leftVal = haystack.charCodeAt(left) - 'a'.charCodeAt(0);
+         substrHash = (substrHash - leftVal * POWER) % MOD;
+         if (substrHash < 0)
+            substrHash += MOD;
+         left++;
       }
       return -1
    };
+
 }
 
 
@@ -109,3 +108,4 @@ console.log(new Solution().strStr('leetcode', 'leeto') === -1)
 console.log(new Solution().strStr('hello', 'll') === 2)
 console.log(new Solution().strStr('ababcaababcaabc', 'ababcaabc') === 6)
 console.log(new Solution().strStr('baabbaaaaaaabbaaaaabbabbababaabbabbbbbabbabbbbbbabababaabbbbbaaabbbbabaababababbbaabbbbaaabbaababbbaabaabbabbaaaabababaaabbabbababbabbaaabbbbabbbbabbabbaabbbaa', 'bbaaaababa') === 107)
+console.log(new Solution().strStr('fourscoreandsevenyearsagoourfathersbroughtforthuponthiscontinentanewnation', 'ourfathersbroughtforthuponthiscontinentanewnation') === 25)

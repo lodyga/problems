@@ -16,9 +16,11 @@ class Solution:
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
         Tags:
+            DS: hash map
+            A: iteration
         """
-        number = 0
-        value_map = {
+        N = len(text)
+        value = {
             "I": 1,
             "V": 5,
             "X": 10,
@@ -27,23 +29,22 @@ class Solution:
             "D": 500,
             "M": 1000
         }
+        res = 0
 
-        for index, letter in enumerate(text):
-            number += value_map[letter]
+        for char in text:
+            res += value[char]
 
-            if index + 1 == len(text):
-                continue
-            
-            next_letter = text[index + 1]
-
+        for index in range(N - 1):
+            char = text[index]
+            next_char = text[index + 1]
             if (
-                (letter == "I" and next_letter in "VX") or 
-                (letter == "X" and next_letter in "LC") or 
-                (letter == "C" and next_letter in "DM")
+                char == "I" and next_char in ("VX") or
+                char == "X" and next_char in ("LC") or
+                char == "C" and next_char in ("DM")
             ):
-                number -= 2*value_map[letter]
-        
-        return number
+                res -= 2 * value[text[index]]
+
+        return res
 
 
 class Solution:
@@ -52,9 +53,12 @@ class Solution:
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
         Tags:
+            DS: hash map
+            A: iteration
         """
-        number = 0
-        value_map = {
+        N = len(text)
+        res = 0
+        value = {
             "I": 1,
             "V": 5,
             "X": 10,
@@ -65,21 +69,23 @@ class Solution:
         }
 
         index = 0
-        while index < len(text):
-            letter = text[index]
-            if index + 1 == len(text):
-                number += value_map[letter]
+        while index < N:
+            char = text[index]
+
+            if index + 1 == N:
+                res += value[char]
                 break
 
-            next_letter = text[index + 1]
-            if value_map[letter] < value_map[next_letter]:
-                number += -value_map[letter] + value_map[next_letter]
+            next_char = text[index + 1]
+
+            if value[char] < value[next_char]:
+                res += -value[char] + value[next_char]
                 index += 2
             else:
-                number += value_map[letter]
+                res += value[char]
                 index += 1
-            
-        return number
+
+        return res
 
 
 print(Solution().romanToInt("III") == 3)

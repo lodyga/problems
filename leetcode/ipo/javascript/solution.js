@@ -5,35 +5,39 @@ class Solution {
    /**
     * Time complexity: O(nlogn)
     * Auxiliary space complexity: O(n)
-    * Tags: heap
+    * Tags:
+    *     DS: heap
+    *     A: greedy
     * @param {number} projectCount
-    * @param {number} currentCapital
+    * @param {number} capital
     * @param {number[]} profits
     * @param {number[]} capital_list
     * @return {number}
     */
-   findMaximizedCapital(projectCount, currentCapital, profits, capital_list) {
-      const profCap = Array.from({ length: profits.length }, (_, index) => [profits[index], capital_list[index]]);
-      // heap((profit, capital), )
-      const entryHeap = new MinPriorityQueue((capital) => capital[1]);
-      profCap.forEach((pair) => entryHeap.enqueue(pair));
-      // heap((profit), )
+   findMaximizedCapital(projectCount, capital, profits, capital_list) {
+      // min-heap((capital, profit), )
+      const projectHeap = new MinPriorityQueue(project => project[0]);
+      for (let index = 0; index < profits.length; index++) {
+         projectHeap.enqueue([capital_list[index], profits[index]]);
+      }
+
+      // max-heap((profit), )
       const profitHeap = new MaxPriorityQueue();
 
-      for (let blank = 0; blank < projectCount; blank++) {
+      for (let i = 0; i < projectCount; i++) {
          while (
-            !entryHeap.isEmpty() &&
-            entryHeap.front()[1] <= currentCapital
+            projectHeap.size() &&
+            projectHeap.front()[0] <= capital
          ) {
-            const [profit, _] = entryHeap.dequeue();
+            const [, profit] = projectHeap.dequeue();
             profitHeap.enqueue(profit);
          }
          if (profitHeap.isEmpty())
             break
 
-         currentCapital += profitHeap.dequeue();
+         capital += profitHeap.dequeue();
       }
-      return currentCapital
+      return capital
    };
 }
 

@@ -1,27 +1,27 @@
 class Solution:
     def stringMatching(self, words: list[str]) -> list[str]:
         """
-        Time complexity: O(n2 * t2)
-            n: words length
+        Time complexity: O(n4)
+            O(n2 * t2)
+            n: word count
             t: average word length
         Auxiliary space complexity: O(n)
-        Tags: hash set
+        Tags:
+            DS: list
+            A: iteration
         """
-        word_set = set(words)
-        substring_words = []
+        res = []
 
-        for pattern in word_set:
-            for word in word_set:
+        for substring in words:
+            for word in words:
                 if (
-                    pattern == word or
-                    len(pattern) >= len(word)
+                    len(substring) < len(word) and 
+                    substring in word
                 ):
-                    continue
-                elif pattern in word:
-                    substring_words.append(pattern)
+                    res.append(substring)
                     break
 
-        return substring_words
+        return res
 
 
 class Solution:
@@ -31,118 +31,58 @@ class Solution:
             n: words length
             t: average word length
         Auxiliary space complexity: O(n)
-        Tags: Rabin-Karp, sliding window
-        """
-        word_set = set(words)
-        substring_words = []
-        base = 29
+        Tags:
+            DS: list
+            A: Rabin-Karp, rolling hash, sliding window
+        """        
+        def is_substring(word: str, text: str) -> bool:
+            if len(text) <= len(word):
+                return False
+            
+            BASE = 29
+            MOD = 10**9 + 7  # Large prime to avoid overflow.
+            word_hash = 0
+            
+            for letter in word:
+                letter_val = ord(letter) - ord("a")
+                word_hash = (word_hash * BASE + letter_val) % MOD
+            
+            # POWER = BASE**(len(word) - 1)
+            POWER = pow(BASE, len(word) - 1, MOD)
+            sub_hash = 0
+            left = 0
+            
+            for right, letter in enumerate(text):
+                letter_val = ord(letter) - ord("a")
+                sub_hash = (sub_hash * BASE + letter_val) % MOD
 
-        def rabin_krap(pattern, text) -> bool:
-            pattern_length = len(pattern)
-            pattern_hash = 0
-            text_hash = 0
-            power = 1
-            mod = 10**9 + 7  # Large prime to avoid overflow
+                if right < len(word) - 1:
+                    continue
 
-            # Calculate pattern hash and initial text window hash
-            for index in range(pattern_length):
-                pattern_hash = (pattern_hash * base + (ord(pattern[index]) - ord("a"))) % mod
-                text_hash = (text_hash * base + (ord(text[index]) - ord("a"))) % mod
-                if index:
-                    power = (power * base) % mod
-
-            # Sliding window
-            for left in range(len(text) - pattern_length + 1):
-                right = left + pattern_length
-
-                if pattern_hash == text_hash:
+                if sub_hash == word_hash:
                     return True
-                elif left < len(text) - pattern_length:
-                    # subtract left number
-                    text_hash = (text_hash - (ord(text[left]) - ord("a")) * power) % mod
-                    # handle negative hash
-                    # if text_hash < 0:
-                    #     text_hash += mod
-                    # shif left and add right number
-                    text_hash = (text_hash * base + ord(text[right]) - ord("a")) % mod
+                
+                left_letter = text[left]
+                left_letter_val = ord(left_letter) - ord("a")
+                sub_hash = (sub_hash - left_letter_val * POWER) % MOD
+                left += 1
 
             return False
-
-        for pattern in word_set:
-            for word in word_set:
-                if (
-                    pattern == word or
-                    len(pattern) >= len(word)
-                ):
-                    continue
-                if rabin_krap(pattern, word):
-                    substring_words.append(pattern)
+        
+        res = []
+        for substr in words:
+            for word in words:
+                if is_substring(substr, word):
+                    res.append(substr)
                     break
 
-        return substring_words
+        return res
 
 
-class Solution:
-    def stringMatching(self, words: list[str]) -> list[str]:
-        """
-        Time complexity: O(n2 * t)
-            n: words length
-            t: average word length
-        Auxiliary space complexity: O(n)
-        Tags: Rabin-Karp, sliding window
-        """
-        # word_set = set(words)
-        words.sort(key=len)
-        substring_words = []
-        base = 29
-
-        def rabin_krap(pattern, text) -> bool:
-            pattern_length = len(pattern)
-            pattern_hash = 0
-            text_hash = 0
-            power = 1
-            mod = 10**9 + 7  # Large prime to avoid overflow
-
-            # Calculate pattern hash and initial text window hash
-            for index in range(pattern_length):
-                pattern_hash = (pattern_hash * base + (ord(pattern[index]) - ord("a"))) % mod
-                text_hash = (text_hash * base + (ord(text[index]) - ord("a"))) % mod
-                if index:
-                    power = (power * base) % mod
-
-            # Sliding window
-            for left in range(len(text) - pattern_length + 1):
-                right = left + pattern_length
-
-                if pattern_hash == text_hash:
-                    return True
-                elif left < len(text) - pattern_length:
-                    # subtract left number
-                    text_hash = (text_hash - (ord(text[left]) - ord("a")) * power) % mod
-                    # handle negative hash
-                    # if text_hash < 0:
-                    #     text_hash += mod
-                    # shif left and add right number
-                    text_hash = (text_hash * base + ord(text[right]) - ord("a")) % mod
-
-            return False
-
-        for index, pattern in enumerate(words):
-            for word_index in range(index + 1, len(words)):
-                word = words[word_index]
-                if len(pattern) == len(word):
-                    continue
-                elif rabin_krap(pattern, word):
-                    substring_words.append(pattern)
-                    break
-
-        return substring_words
-
-
-print(Solution().stringMatching(["bb", "cbb"]), ["bb"])
-print(Solution().stringMatching(["bb", "bbc"]), ["bb"])
-print(Solution().stringMatching(["hero", "shero"]), ["hero"])
-print(Solution().stringMatching(["mass", "as", "hero", "superhero"]), ["as", "hero"])
-print(Solution().stringMatching(["leetcode", "et", "code"]), ["et", "code"])
-print(Solution().stringMatching(["blue", "green", "bu"]), [])
-print(Solution().stringMatching(["axicc", "waxiccgq", "ssvob", "gissvobox", "zfzcj", "gtzfzcjyk", "cpjj", "mnwaxiccgqd", "dvfoc", "rszfzcjim", "hxz", "vmssvob"]), ["axicc", "waxiccgq", "ssvob", "zfzcj"])
+print(sorted(Solution().stringMatching(["bb", "cbb"])) == sorted(["bb"]))
+print(sorted(Solution().stringMatching(["bb", "bbc"])) == sorted(["bb"]))
+print(sorted(Solution().stringMatching(["hero", "shero"])) == sorted(["hero"]))
+print(sorted(Solution().stringMatching(["mass", "as", "hero", "superhero"])) == sorted(["as", "hero"]))
+print(sorted(Solution().stringMatching(["leetcode", "et", "code"])) == sorted(["et", "code"]))
+print(sorted(Solution().stringMatching(["blue", "green", "bu"])) == sorted([]))
+print(sorted(Solution().stringMatching(["axicc", "waxiccgq", "ssvob", "gissvobox", "zfzcj", "gtzfzcjyk", "cpjj","mnwaxiccgqd", "dvfoc", "rszfzcjim", "hxz", "vmssvob"])) == sorted(["axicc", "waxiccgq", "ssvob", "zfzcj"]))

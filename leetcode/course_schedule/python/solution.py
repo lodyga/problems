@@ -5,7 +5,7 @@ class Solution:
         Auxiliary space complexity: O(V + E)
         Tags:
             DS: array
-            A: dfs, recursion, graph, topological sort
+            A: post-order dfs on vertices, recursion, graph, topological sort
         Mark visited courses in visited
         One array for visited / path: None: not visited, False: visited, True: in current path
         """
@@ -22,34 +22,34 @@ class Solution:
                 return False
             prereqs[course].add(prereq)
 
-        # None: not visited, False: visited, True: on current path
-        visited = [None] * course_count
+        # -1: not visited, 0: visited, 1: on current path
+        visited = [-1] * course_count
 
         def dfs(course):
             # True: cycle detected
             # False: visited
-            if visited[course] is not None:
+            if visited[course] != -1:
                 return visited[course]
 
             # mark as `in path``
-            visited[course] = True
+            visited[course] = 1
 
             for prereq in prereqs[course]:
-                if dfs(prereq) is True:
-                    return True
+                if dfs(prereq) == 1:
+                    return 1
 
             # mark as `visited`
-            visited[course] = False
-            # return False
+            visited[course] = 0
+            # return 0
 
         for course in prereqs:
-            if dfs(course) == True:
+            if dfs(course) == 1:
                 return False
 
         return True
 
 
-class Solution:
+class Solution2:
     def canFinish(self, course_count: int, prerequisites: list[list[int]]) -> bool:
         """
         Time complexity: O(V + E)
@@ -96,7 +96,7 @@ class Solution:
         return True
 
 
-class Solution:
+class Solution2:
     def canFinish(self, course_count: int, prerequisites: list[list[int]]) -> bool:
         """
         Time complexity: O(V + E)

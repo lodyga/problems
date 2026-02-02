@@ -3,20 +3,44 @@ class Solution:
         """
         Time complexity: O(nlogn)
         Auxiliary space complexity: O(n)
-        Tags: sorting
+        Tags:
+            DS: array
+            A: sorting
         """
-        xes = set()
-        
-        for x, _ in points:
-            xes.add(x)
-        
-        xes = sorted(xes)
-        max_x = 0
-        
-        for index in range(len(xes) - 1):
-            max_x = max(max_x, xes[index + 1] - xes[index])
+        x_points = sorted(x for x, _ in points)
+        res = 0
 
-        return max_x
+        for index in range(len(x_points) - 1):
+            x1 = x_points[index]
+            x2 = x_points[index + 1]
+            res = max(res, x2 - x1)
+
+        return res
+
+
+class Solution:
+    def maxWidthOfVerticalArea(self, points: list[list[int]]) -> int:
+        """
+        Time complexity: O(nlogn)
+        Auxiliary space complexity: O(n)
+        Tags:
+            DS: hash set, array
+            A: sorting
+        """
+        x_points = set()
+
+        for x, _ in points:
+            x_points.add(x)
+
+        x_points = sorted(x_points)
+        res = 0
+
+        for index in range(len(x_points) - 1):
+            x1 = x_points[index]
+            x2 = x_points[index + 1]
+            res = max(res, x2 - x1)
+
+        return res
 
 
 print(Solution().maxWidthOfVerticalArea([[8, 7], [9, 9], [7, 4], [9, 7]]) == 1)

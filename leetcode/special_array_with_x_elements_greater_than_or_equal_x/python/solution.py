@@ -1,27 +1,53 @@
 class Solution:
-    def specialArray(self, numbers: list[int]) -> int:
+    def specialArray(self, nums: list[int]) -> int:
         """
         Time complexity: O(nlogn)
         Auxiliary space complexity: O(1)
-        Tags: binary search
+        Tags:
+            A: binary search
         """
+        def count(mid):
+            for index, num in enumerate(nums):
+                if num >= mid:
+                    return N - index
+            return 0
+
+        def count_bs(mid_num_to_find):
+            if nums[-1] < mid_num_to_find:
+                return 0
+            left = 0
+            right = N - 1
+            res = 0
+            
+            while left <= right:
+                mid = (left + right) // 2
+                mid_num = nums[mid]
+                
+                if mid_num_to_find <= mid_num:
+                    right = mid - 1
+                    res = mid
+                else:
+                    left = mid + 1
+            
+            return len(nums) - res
+
+        N = len(nums)
+        nums.sort()
         left = 1
-        right = len(numbers)
-        special_number = -1
+        right = N
 
         while left <= right:
-            # number & number count
-            middle = (left + right) // 2
-            special_count = sum(True for number in numbers if number >= middle)
+            mid = (left + right) // 2
+            counter = count_bs(mid)
 
-            if special_count >= middle:
-                if special_count == middle:
-                    special_number = middle
-                left = middle + 1
+            if counter == mid:
+                return counter
+            elif counter < mid:
+                right = mid - 1
             else:
-                right = middle - 1
+                left = mid + 1
 
-        return special_number
+        return -1
 
 
 print(Solution().specialArray([3, 5]) == 2)

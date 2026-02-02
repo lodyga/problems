@@ -3,22 +3,24 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: prefix sum
+        Tags:
+            DS: list
+            A: prefix sum
         """
         vowels = "aeoiu"
-        response = [0] * len(queries)
-        bool_words = [word[0] in vowels and word[-1]
-                      in vowels for word in words]
-        prefix_sum = [0] * (len(words) + 1)
+        prefix = [0]
+    
+        for word in words:
+            are_vowel_ends = word[0] in vowels and word[-1] in vowels
+            prefix.append(prefix[-1] + are_vowel_ends)
 
-        for index in range(len(words)):
-            prefix_sum[index + 1] = prefix_sum[index] + bool_words[index]
+        res = []
+        
+        for start, end in queries:
+            res.append(prefix[end + 1] - prefix[start])
 
-        for index, (start, stop) in enumerate(queries):
-            response[index] = prefix_sum[stop + 1] - prefix_sum[start]
-
-        return response
+        return res
 
 
-print(Solution().vowelStrings(["a", "e", "i"],[[0, 2], [0, 1], [2, 2]]) == [3, 2, 1])
+print(Solution().vowelStrings(["a", "e", "i"], [[0, 2], [0, 1], [2, 2]]) == [3, 2, 1])
 print(Solution().vowelStrings(["aba", "bcb", "ece", "aa", "e"], [[0, 2], [1, 4], [1, 1]]) == [2, 3, 0])

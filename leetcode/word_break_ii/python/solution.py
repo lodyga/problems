@@ -1,54 +1,107 @@
 class Solution:
-    def wordBreak(self, text: str, word_list: list[str]) -> list[str]:
+    def wordBreak(self, text: str, words: list[str]) -> list[str]:
         """
         Time complexity: O(n2^n)
         Auxiliary space complexity: O(n)
-        Tags: backtracking
+        Tags:
+            DS: list
+            A: backtracking
         """
-        words = set(word_list)
+        N = len(text)
         sentence = []
         sentences = []
 
-        def dfs(index):
-            if index == len(text):
-                sentences.append(" ".join(sentence))
+        def backtrack(index):
+            if index == N:
+                return sentences.append(" ".join(sentence))
+            elif index > N:
                 return
-            
+
             for word in words:
-                if text[index: index + len(word)] == word:
+                if word == text[index: index + len(word)]:
                     sentence.append(word)
-                    dfs(index + len(word))
+                    backtrack(index + len(word))
                     sentence.pop()
 
-        dfs(0)
+        backtrack(0)
         return sentences
 
 
 class Solution:
-    def wordBreak(self, text: str, word_list: list[str]) -> list[str]:
+    def wordBreak(self, text: str, words: list[str]) -> list[str]:
         """
         Time complexity: O(n2^n)
         Auxiliary space complexity: O(n)
-        Tags: backtracking
+        Tags:
+            DS: list
+            A: backtracking
         """
-        words = set(word_list)
+        N = len(text)
         sentence = []
         sentences = []
+        word_set = set(words)
 
-        def dfs(index):
-            if index == len(text):
-                sentences.append(" ".join(sentence))
+        def backtrack(start):
+            if start == N:
+                return sentences.append(" ".join(sentence))
+            elif start > N:
                 return
 
-            for right in range(index, len(text)):
-                word = text[index: right + 1]
-                if word in words:
+            for end in range(start + 1, N + 1):
+                word = text[start: end]
+                
+                if word in word_set:
                     sentence.append(word)
-                    dfs(index + len(word))
+                    backtrack(end)
                     sentence.pop()
 
-        dfs(0)
+        backtrack(0)
         return sentences
+
+
+class Solution:
+    def wordBreak(self, text: str, words: list[str]) -> list[str]:
+        """
+        Time complexity: O(n2^n)
+        Auxiliary space complexity: O(n)
+        Tags:
+            DS: list
+            A: backtracking with memo
+        """
+        N = len(text)
+        # sentence = []
+        word_set = set(words)
+        # sentences starting at index
+        memo = [-1] * N
+        memo.append([""])
+
+        def backtrack(start):
+            if start > N:
+                return
+            elif memo[start] != -1:
+                return memo[start]
+
+            sentences = []
+            for end in range(start + 1, N + 1):
+                word = text[start: end]
+                
+                if word not in word_set:
+                    continue
+                
+                string = backtrack(end)
+                
+                if not string:
+                    continue
+                for substr in string:
+                    sentence = word
+                    if substr:
+                        sentence += " " + substr
+                    sentences.append(sentence)
+            
+            memo[start] = sentences
+            return sentences
+        
+        return backtrack(0)
 
 
 class TrieNode:
@@ -112,9 +165,6 @@ class Solution:
         return sentences
 
 
-print(Solution().wordBreak("catsanddog", ["cat", "cats", "and", "sand", "dog"]), ["cats and dog", "cat sand dog"])
-print(Solution().wordBreak("pineapplepenapple", ["apple", "pen", "applepen", "pine", "pineapple"]), ["pine apple pen apple", "pineapple pen apple", "pine applepen apple"])
-print(Solution().wordBreak("catsandog", ["cats", "dog", "sand", "and", "cat"]), [])
 print(sorted(Solution().wordBreak("catsanddog", ["cat", "cats", "and", "sand", "dog"])) == sorted(["cats and dog", "cat sand dog"]))
 print(sorted(Solution().wordBreak("pineapplepenapple", ["apple", "pen", "applepen", "pine", "pineapple"])) == sorted(["pine apple pen apple", "pineapple pen apple", "pine applepen apple"]))
 print(sorted(Solution().wordBreak("catsandog", ["cats", "dog", "sand", "and", "cat"])) == sorted([]))

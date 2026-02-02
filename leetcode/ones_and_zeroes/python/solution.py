@@ -1,232 +1,174 @@
 class Solution:
-    def findMaxForm(self, text_list: list[str], m: int, n: int) -> int:
-        """
-        Time complexity: O(2^n)
-        Auxiliary space complexity: O(n3)
-        Tags: brute-force
-        """
-        bin_count = [(text.count("0"), text.count("1"))
-                     for text in text_list]
-
-        def dfs(index, zeros_counter, ones_counter):
-            if index == len(text_list):
-                return 0
-
-            # take a number
-            take = 0
-            if (
-                zeros_counter <= m and
-                ones_counter <= n
-            ):
-                take = 1 + dfs(index + 1,
-                               zeros_counter + bin_count[index][0],
-                               ones_counter + bin_count[index][1]
-                               )
-
-            # skip a number
-            skip = dfs(index + 1, zeros_counter, ones_counter)
-
-            return max(take, skip)
-
-        return dfs(0, 0, 0)
-
-
-class Solution:
-    def findMaxForm(self, text_list: list[str], m: int, n: int) -> int:
+    def findMaxForm(self, strs: list[str], m: int, n: int) -> int:
         """
         Time complexity: O(n3)
-            text_list length
-            n size
-            m size
+            O(strs_len * m * n)
+            strs_len: strs length
+            m: m value
+            n: n value
         Auxiliary space complexity: O(n3)
-        Tags: dp, top-down with memoization as hash map
-        Check constraints in recursive case.
+        Tags:
+            DS: hash map
+            A: top-down
         """
+        N = len(strs)
+        bins = [(text.count("0"), text.count("1")) for text in strs]
         memo = {}
-        bin_count = [(text.count("0"), text.count("1"))
-                     for text in text_list]
 
-        def dfs(index, zeros_counter, ones_counter):
-            if index == len(text_list):
-                return 0
-            elif (index, zeros_counter, ones_counter) in memo:
-                return memo[(index, zeros_counter, ones_counter)]
-
-            # take a number
-            take = 0
-            if (
-                zeros_counter + bin_count[index][0] <= m and
-                ones_counter + bin_count[index][1] <= n
-            ):
-                take = 1 + dfs(index + 1,
-                               zeros_counter + bin_count[index][0],
-                               ones_counter + bin_count[index][1]
-                               )
-
-            # skip a number
-            skip = dfs(index + 1, zeros_counter, ones_counter)
-
-            memo[(index, zeros_counter, ones_counter)] = max(take, skip)
-            return memo[(index, zeros_counter, ones_counter)]
-
-        return dfs(0, 0, 0)
-
-
-class Solution:
-    def findMaxForm(self, text_list: list[str], m: int, n: int) -> int:
-        """
-        Time complexity: O(n3)
-            text_list length
-            n size
-            m size
-        Auxiliary space complexity: O(n3)
-        Tags: dp, top-down with memoization as hash map
-        Check constraints in base case.
-        """
-        memo = {}
-        bin_count = [(text.count("0"), text.count("1"))
-                     for text in text_list]
-
-        def dfs(index, zeros_counter, ones_counter):
-            if (  # Invalid solution. (-1) from return counter (1) from take.
-                zeros_counter > m or
-                ones_counter > n
-            ):
+        def dfs(index: int, zeros: int, ones: int) -> int:
+            memo_ind = (index, zeros, ones)
+            if zeros < 0 or ones < 0:
                 return -1
-            elif index == len(text_list):
+            elif index == N:
                 return 0
-            elif (index, zeros_counter, ones_counter) in memo:
-                return memo[(index, zeros_counter, ones_counter)]
+            elif memo_ind in memo:
+                return memo[memo_ind]
 
-            # take a number
-            take = 1 + dfs(index + 1,
-                           zeros_counter + bin_count[index][0],
-                           ones_counter + bin_count[index][1]
-                           )
+            z, o = bins[index]
 
-            # skip a number
-            skip = dfs(index + 1, zeros_counter, ones_counter)
+            skip = dfs(index + 1, zeros, ones)
+            take = 1 + dfs(index + 1, zeros - z, ones - o)
 
-            memo[(index, zeros_counter, ones_counter)] = max(take, skip)
-            return memo[(index, zeros_counter, ones_counter)]
+            res = max(skip, take)
+            memo[memo_ind] = res
+            return res
 
-        return dfs(0, 0, 0)
+        return dfs(0, m, n)
 
 
 class Solution:
-    def findMaxForm(self, text_list: list[str], m: int, n: int) -> int:
+    def findMaxForm(self, strs: list[str], m: int, n: int) -> int:
         """
         Time complexity: O(n3)
-            text_list length
-            n size
-            m size
+            O(strs_len * m * n)
+            strs_len: strs length
+            m: m value
+            n: n value
         Auxiliary space complexity: O(n3)
-        Tags: dp, bottom-up
+        Tags:
+            DS: array
+            A: top-down
         """
-        ROWS = m
-        COLS = n
-        text_len = len(text_list)
+        N = len(strs)
+        bins = [(text.count("0"), text.count("1")) for text in strs]
+        memo = [[[-1] * (n + 1) for _ in range(m + 1)] for _ in range(N)]
 
-        bin_count = [(text.count("0"), text.count("1"))
-                     for text in text_list]
+        def dfs(index: int, zeros: int, ones: int) -> int:
+            if zeros < 0 or ones < 0:
+                return -1
+            elif index == N:
+                return 0
+            elif memo[index][zeros][ones] != -1:
+                return memo[index][zeros][ones]
 
-        cache = [[[0] * (COLS + 1)
-                 for _ in range(ROWS + 1)]
-                 for _ in range(text_len + 1)]
+            z, o = bins[index]
 
-        for index in reversed(range(text_len)):
-            zeros, ones = bin_count[index]
-            for row in reversed(range(ROWS + 1)):
-                for col in reversed(range(COLS + 1)):
-                    # skip
-                    cache[index][row][col] = cache[index + 1][row][col]
-                    # check and take
-                    if (
-                        # keep indexex in bounds
-                        row + zeros <= m and
-                        col + ones <= n
-                    ):
-                        cache[index][row][col] = max(
-                            cache[index][row][col],
-                            1 + cache[index + 1][row + zeros][col + ones]
+            skip = dfs(index + 1, zeros, ones)
+            take = 1 + dfs(index + 1, zeros - z, ones - o)
+
+            res = max(skip, take)
+            memo[index][zeros][ones] = res
+            return res
+
+        return dfs(0, m, n)
+
+
+class Solution:
+    def findMaxForm(self, strs: list[str], m: int, n: int) -> int:
+        """
+        Time complexity: O(n3)
+            O(strs_len * m * n)
+            strs_len: strs length
+            m: m value
+            n: n value
+        Auxiliary space complexity: O(n3)
+        Tags:
+            DS: array
+            A: bottom-up
+        """
+        N = len(strs)
+        bins = [(text.count("0"), text.count("1")) for text in strs]
+        cache = [[[0] * (n + 1) for _ in range(m + 1)] for _ in range(N + 1)]
+
+        for index in range(N - 1, -1, -1):
+            for zeros in range(m, -1, -1):
+                for ones in range(n, -1, -1):
+                    z, o = bins[index]
+                    cache[index][zeros][ones] = cache[index + 1][zeros][ones]
+
+                    if zeros + z <= m and ones + o <= n:
+                        cache[index][zeros][ones] = max(
+                            cache[index][zeros][ones],
+                            (1 + cache[index + 1][zeros + z][ones + o])
                         )
 
         return cache[0][0][0]
 
 
-from copy import deepcopy
-
 class Solution:
-    def findMaxForm(self, text_list: list[str], m: int, n: int) -> int:
+    def findMaxForm(self, strs: list[str], m: int, n: int) -> int:
         """
         Time complexity: O(n3)
-            text_list length
-            n size
-            m size
+            O(strs_len * m * n)
+            strs_len: strs length
+            m: m value
+            n: n value
         Auxiliary space complexity: O(n2)
-        Tags: dp, bottom-up
-        Use cache and next cache to store `index + 1` level cache
+        Tags:
+            DS: array
+            A: bottom-up
         """
-        ROWS = m
-        COLS = n
-        text_len = len(text_list)
+        N = len(strs)
+        bins = [(text.count("0"), text.count("1")) for text in strs]
+        next_cache = [[0] * (n + 1) for _ in range(m + 1)]
 
-        bin_count = [(text.count("0"), text.count("1"))
-                     for text in text_list]
+        for index in range(N - 1, -1, -1):
+            cache = [[0] * (n + 1) for _ in range(m + 1)]
+            z, o = bins[index]
 
-        cache = [[0] * (COLS + 1) for _ in range(ROWS + 1)]
+            for zeros in range(m, -1, -1):
+                for ones in range(n, -1, -1):
+                    cache[zeros][ones] = next_cache[zeros][ones]
 
-        for index in reversed(range(text_len)):
-            zeros, ones = bin_count[index]
-            next_cache = deepcopy(cache)
-            for row in reversed(range(ROWS + 1)):
-                for col in reversed(range(COLS + 1)):
-                    # skip
-                    # Counter is already in place, no neeed for the line below;
-                    # cache[row][col] = next_cache[row][col]
-                    # check and take
-                    if (
-                        # keep indexex in bounds
-                        row + zeros <= m and
-                        col + ones <= n
-                    ):
-                        cache[row][col] = max(
-                            cache[row][col],
-                            1 + next_cache[row + zeros][col + ones]
+                    if zeros + z <= m and ones + o <= n:
+                        cache[zeros][ones] = max(
+                            cache[zeros][ones],
+                            (1 + next_cache[zeros + z][ones + o])
                         )
 
-        return cache[0][0]
+            next_cache = cache
+
+        return next_cache[0][0]
 
 
 class Solution:
-    def findMaxForm(self, text_list: list[str], m: int, n: int) -> int:
+    def findMaxForm(self, strs: list[str], m: int, n: int) -> int:
         """
         Time complexity: O(n3)
-            text_list length
-            n size
-            m size
-        Auxiliary space complexity: O(n * m)
-        Tags: dp, bottom-up
-        Use only one cache
+            O(strs_len * m * n)
+            strs_len: strs length
+            m: m value
+            n: n value
+        Auxiliary space complexity: O(n2)
+        Tags:
+            DS: array
+            A: bottom-up
         """
-        ROWS = m
-        COLS = n
-        cache = [[0] * (COLS + 1) for _ in range(ROWS + 1)]
+        cache = [[0] * (n + 1) for _ in range(m + 1)]
 
-        for zeros, ones in [(s.count('0'), s.count('1')) for s in text_list]:
-            # for zeros_used in reversed(range(ROWS - zeros + 1)):
-            for zeros_used in range(m, zeros - 1, -1):
-                # for ones_used in reversed(range(COLS - ones + 1)):
-                for ones_used in range(n, ones - 1, -1):
-                    cache[zeros_used][ones_used] = max(
-                        cache[zeros_used][ones_used],
-                        # 1 + cache[zeros_used + zeros][ones_used + ones]
-                        1 + cache[zeros_used - zeros][ones_used - ones]
+        for st in strs:
+            (z, o) = (st.count("0"), st.count("1"))
+
+            for zeros in range(m, z - 1, -1):
+                for ones in range(n, o - 1, -1):
+                    cache[zeros][ones] = max(
+                        cache[zeros][ones],
+                        1 + cache[zeros - z][ones - o]
                     )
 
         return cache[m][n]
 
 
-print(Solution().findMaxForm(["10", "0001", "111001", "1", "0"], 5, 3), 4)
-print(Solution().findMaxForm(["10", "0", "1"], 1, 1), 2)
-print(Solution().findMaxForm(["10", "0001", "111001", "1", "0"], 4, 3), 3)
+print(Solution().findMaxForm(["10", "0001", "111001", "1", "0"], 5, 3) == 4)
+print(Solution().findMaxForm(["10", "0", "1"], 1, 1) == 2)
+print(Solution().findMaxForm(["10", "0001", "111001", "1", "0"], 4, 3) == 3)

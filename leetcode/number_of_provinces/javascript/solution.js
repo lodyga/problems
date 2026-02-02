@@ -7,8 +7,9 @@ class Solution {
     *     n: adjacency matrix side
     * Auxiliary space complexity: O(n)
     * Tags:
-    *     DS: array (graph)
+    *     DS: array
     *     A: multi-source DFS
+    *     Model: graph
     * @param {number[][]} isConnected
     * @return {number}
     */
@@ -44,8 +45,9 @@ class Solution {
     *     n: adjacency matrix side
     * Auxiliary space complexity: O(n)
     * Tags:
-    *     DS: array (graph)
+    *     DS: array
     *     A: multi-source BFS
+    *     Model: graph
     * @param {number[][]} isConnected
     * @return {number}
     */
@@ -87,8 +89,9 @@ class Solution {
     *     n: adjacency matrix side
     * Auxiliary space complexity: O(n)
     * Tags:
-    *     DS: array (graph)
+    *     DS: array
     *     A: DSU
+    *     Model: graph
     * @param {number[][]} isConnected
     * @return {number}
     */

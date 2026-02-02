@@ -5,34 +5,32 @@ class Solution {
    /**
     * Time complexity: O(nlogn)
     * Auxiliary space complexity: O(n)
-    * Tags: heap
+    * Tags:
+    *     DS: heap, list
+    *     A: sorting
     * @param {number[][]} times
     * @param {number} targetFriend
     * @return {number}
     */
    smallestChair(times, targetFriend) {
-      const friendsOrder = Array.from({ length: times.length }, (_, index) => index);
-      friendsOrder.sort((a, b) => times[a][0] - times[b][0]);
-      const occupiedChairs = new MinPriorityQueue(x => x[0]);
+      const friendData = times.map(([start, end], index) => [start, end, index]);
+      friendData.sort((a, b) => a[0] === b[0] ? a[1] - b[1] : a[0] - b[0]);
+
       const avaibleChairs = new MinPriorityQueue();
-      let minChair = 0;
+      times.forEach((_, chairId) => {avaibleChairs.enqueue(chairId)});
+      const occupiedChairs = new MinPriorityQueue(x => x[0]);
 
-      for (const friendId of friendsOrder) {
-         const [start, end] = times[friendId];
-
-         while (!occupiedChairs.isEmpty() && occupiedChairs.front()[0] <= start) {
-            const [_, chair] = occupiedChairs.dequeue();
-            avaibleChairs.enqueue(chair);
+      for (const [start, end, friendId] of friendData) {
+         while (occupiedChairs.size() && occupiedChairs.front()[0] <= start) {
+            const [_, chairId] = occupiedChairs.dequeue();
+            avaibleChairs.enqueue(chairId);
          }
-         if (avaibleChairs.isEmpty()) {
-            avaibleChairs.enqueue(minChair);
-            minChair++;
-         }
-         const chair = avaibleChairs.dequeue();
-         occupiedChairs.enqueue([end, chair]);
+         
+         const chairId = avaibleChairs.dequeue();
+         occupiedChairs.enqueue([end, chairId]);
 
          if (friendId === targetFriend)
-            return chair
+            return chairId
       }
    };
 }

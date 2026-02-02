@@ -1,43 +1,47 @@
-from collections import deque
-
-
 class Solution:
-    def longestSubarray(self, numbers: list[int], limit: int) -> int:
+    def longestSubarray(self, nums: list[int], limit: int) -> int:
+        from collections import deque
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: queue, sliding window
-        monotonic increasing queue, monotonic decreasing queue
+        Tags:
+            DS: monotonic increasing queue, monotonic decreasing queue
+            A: sliding window
         """
-        # store min value; monotonic increasing queue
-        inc_queue = deque()
-        # store max value; monotonic decreasing queue
-        dec_queue = deque()
-        max_subarray_length = 1
+
+        # Store min value in monotonic increasing queue.
+        # deque([(number, index), ...])
+        inc = deque()
+        # Store max value in monotonic decreasing queue.
+        # deque([(number, index), ...])
+        dec = deque()
         left = 0
+        res = 0
 
-        for right, number in enumerate(numbers):
-            while inc_queue and inc_queue[-1][1] > number:
-                inc_queue.pop()
-            inc_queue.append((right, number))
-            while dec_queue and dec_queue[-1][1] < number:
-                dec_queue.pop()
-            dec_queue.append((right, number))
+        for right, num in enumerate(nums):
+            while inc and inc[-1][0] > num:
+                inc.pop()
+            inc.append((num, right))
 
-            while dec_queue[0][1] - inc_queue[0][1] > limit:
-                if inc_queue[0][0] == left:
-                    inc_queue.popleft()
-                if dec_queue[0][0] == left:
-                    dec_queue.popleft()
+            while dec and dec[-1][0] < num:
+                dec.pop()
+            dec.append((num, right))
+
+            while dec[0][0] - inc[0][0] > limit:
+                if inc[0][1] == left:
+                    inc.popleft()
+                if dec[0][1] == left:
+                    dec.popleft()
                 left += 1
 
-            max_subarray_length = max(max_subarray_length, right - left + 1)
+            res = max(res, right - left + 1)
 
-        return max_subarray_length
+        return res
 
 
-print(Solution().longestSubarray([1, 5, 6, 7, 8, 10, 6, 5, 6], 4) == 5)
 print(Solution().longestSubarray([8, 2, 4, 7], 4) == 2)
+print(Solution().longestSubarray([1, 5, 6, 7, 8, 10, 6, 5, 6], 4) == 5)
 print(Solution().longestSubarray([10, 1, 2, 4, 7, 2], 5) == 4)
 print(Solution().longestSubarray([4, 2, 2, 2, 4, 4, 2, 2], 0) == 3)
 print(Solution().longestSubarray([4, 10, 2, 6, 1], 10) == 5)
+print(Solution().longestSubarray([1, 8, 6, 10], 8) == 3)

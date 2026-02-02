@@ -1,32 +1,36 @@
 class Solution:
-    def validWordAbbreviation(self, word: str, abbr: str) -> bool:
+    def validWordAbbreviation(self, text: str, abbr: str) -> bool:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: two pointers, string, iteration
+        Tags:
+            A: two pointers, iteration
         """
-        index = 0
-        index2 = 0
-        while index < len(word) and index2 < len(abbr):
-            if word[index] == abbr[index2]:
-                index += 1
-                index2 += 1
-                continue
-            elif abbr[index2].isdigit():
-                if abbr[index2] == "0":
+        i1 = i2 = 0
+
+        while i1 < len(text) and i2 < len(abbr):
+            if text[i1] == abbr[i2]:
+                i1 += 1
+                i2 += 1
+
+            elif "0" <= abbr[i2] <= "9":
+                if abbr[i2] == "0":
                     return False
 
                 skip = 0
-                while index2 < len(abbr) and abbr[index2].isdigit():
-                    skip = skip*10 + int(abbr[index2])
-                    index2 += 1
-                index += skip
+                while i2 < len(abbr) and "0" <= abbr[i2] <= "9":
+                    skip = skip*10 + int(abbr[i2])
+                    i2 += 1
+                i1 += skip
+
             else:
                 return False
-        
-        return index == len(word) and index2 == len(abbr)
+
+        return i1 == len(text) and i2 == len(abbr)
 
 
-print(Solution().validWordAbbreviation("internationalization", "i12iz4n"), True)
-print(Solution().validWordAbbreviation("apple", "a2e"), False)
-print(Solution().validWordAbbreviation("substitution", "s010n"), False)
+print(Solution().validWordAbbreviation("apple", "a2le") == True)
+print(Solution().validWordAbbreviation("appl", "a2le") == False)
+print(Solution().validWordAbbreviation("apple", "a2e") == False)
+print(Solution().validWordAbbreviation("internationalization", "i12iz4n") == True)
+print(Solution().validWordAbbreviation("substitution", "s010n") == False)

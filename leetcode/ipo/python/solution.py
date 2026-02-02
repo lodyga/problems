@@ -2,29 +2,32 @@ import heapq
 
 
 class Solution:
-    def findMaximizedCapital(self, project_count: int, current_capital: int, profits: list[int], capital_list: list[int]) -> int:
+    def findMaximizedCapital(self, project_count: int, capital: int, profits: list[int], capital_list: list[int]) -> int:
         """
         Time complexity: O(nlogn)
         Auxiliary space complexity: O(n)
-        Tags: heap
+        Tags:
+            DS: heap
+            A: greedy
         """
-        min_heap = []  # heap((capital, -profit), )
-        max_heap = []  # heap(-profit, )
+        # min-heap((capital, profit), )
+        project_heap = list(zip(capital_list, profits))
+        heapq.heapify(project_heap)
 
-        for capital, profit in zip(capital_list, profits):
-            heapq.heappush(min_heap, (capital, -profit))
-        
+        # max-heap((-profit), )
+        profit_heap = []
+
         for _ in range(project_count):
-            while min_heap and current_capital >= min_heap[0][0]:
-                _, profit = heapq.heappop(min_heap)
-                heapq.heappush(max_heap, profit)
-            
-            if not max_heap:
+            while project_heap and project_heap[0][0] <= capital:
+                _, profit = heapq.heappop(project_heap)
+                heapq.heappush(profit_heap, -profit)
+
+            if not profit_heap:
                 break
 
-            current_capital -= heapq.heappop(max_heap)
+            capital -= heapq.heappop(profit_heap)
 
-        return current_capital
+        return capital
 
 
 print(Solution().findMaximizedCapital(2, 0, [1, 2, 3], [0, 1, 1]) == 4)
