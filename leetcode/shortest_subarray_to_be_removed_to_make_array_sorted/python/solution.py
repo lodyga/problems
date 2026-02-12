@@ -1,44 +1,49 @@
 class Solution:
-    def findLengthOfShortestSubarray(self, numbers: list[int]) -> int:
+    def findLengthOfShortestSubarray(self, nums: list[int]) -> int:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: two pointers
+        Tags:
+            A: two pointers
         """
-        # Find longest non-decreasing prefix
+        # Find longest non-decreasing prefix.
+        N = len(nums)
         left = 0
+        right = N - 1
+        
         while (
-            left + 1 < len(numbers) and
-            numbers[left] <= numbers[left + 1]
+            left + 1 < N and
+            nums[left] <= nums[left + 1]
         ):
             left += 1
-        if left == len(numbers) - 1:
+
+        if (left == N - 1):
             return 0
             
-        # Find longest non-decreasing suffix
-        right = len(numbers) - 1
+        # Find longest non-decreasing suffix.
         while (
-            right > 0 and
-            numbers[right - 1] <= numbers[right]
+            right - 1 > -1 and
+            nums[right - 1] <= nums[right]
         ):
             right -= 1
 
-        result = min(len(numbers) - (left + 1), right)
+        res = min(N - 1 - left, right)
 
-        # # Try to merge prefix with suffix
-        i = 0
-        j = right
-        while (
-            i <= left and
-            j < len(numbers)
-        ):
-            if numbers[i] <= numbers[j]:
-                result = min(result, j - i - 1)
-                i += 1
-            else:
-                j += 1
+        # Try to merge prefix with suffix.
+        l = 0
+        r = right
         
-        return result
+        while (
+            l <= left and
+            r < N
+        ):
+            if nums[l] <= nums[r]:
+                res = min(res, r - l - 1)
+                l += 1
+            else:
+                r += 1
+        
+        return res
 
 
 print(Solution().findLengthOfShortestSubarray([1, 2, 3, 10, 4, 2, 3, 5]) == 3)

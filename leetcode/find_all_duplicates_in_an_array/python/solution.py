@@ -1,53 +1,68 @@
 class Solution:
-    def findDuplicates(self, numbers: list[int]) -> list[int]:
+    def findDuplicates(self, nums: list[int]) -> list[int]:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: negative marking
+        Tags:
+            A: in-place, negative marking
         """
-        twices = []
-        for number in numbers:
-            if numbers[abs(number) - 1] > 0:
-                numbers[abs(number) - 1] *= -1
+        res = []
+
+        for num in nums:
+            index = abs(num) - 1
+
+            if nums[index] < 0:
+                res.append(abs(num))
             else:
-                twices.append(abs(number))
-        return twices
+                nums[index] *= -1
+
+        return res
 
 
 class Solution:
-    def findDuplicates(self, numbers: list[int]) -> list[int]:
+    def findDuplicates(self, nums: list[int]) -> list[int]:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: upper bound markning
+        Tags:
+            A: in-place, upper bound marking
         """
-        mod = 10**5
-        twices = []
-        for number in numbers:
-            if numbers[number % mod - 1] > mod:
-                twices.append(number % mod)
+        UPPER_BOUND = len(nums) + 1
+        res = []
+
+        for num in nums:
+            index = (num % UPPER_BOUND) - 1
+
+            if nums[index] > UPPER_BOUND:
+                res.append(num % UPPER_BOUND)
             else:
-                numbers[number % mod - 1] += mod
-        return twices
+                nums[index] += UPPER_BOUND
+
+        return res
 
 
 class Solution:
-    def findDuplicates(self, numbers: list[int]) -> list[int]:
+    def findDuplicates(self, nums: list[int]) -> list[int]:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: hash set
+        Tags:
+            DS: hash set
         """
-        number_set = set()
-        twices = []
-        for number in numbers:
-            if number in number_set:
-                twices.append(number)
+        res = []
+        num_set = set()
+        
+        for num in nums:
+            if num in num_set:
+                res.append(num)
             else:
-                number_set.add(number)
-        return twices
+                num_set.add(num)
+        
+        return res
 
 
-print(Solution().findDuplicates([4, 3, 2, 7, 8, 2, 3, 1]) == [2, 3])
-print(Solution().findDuplicates([1, 1, 2]) == [1])
-print(Solution().findDuplicates([1]) == [])
+print(sorted(Solution().findDuplicates([4, 3, 2, 7, 8, 2, 3, 1])) , sorted([2, 3]))
+print(sorted(Solution().findDuplicates([4, 3, 2, 7, 8, 2, 3, 1])) == sorted([2, 3]))
+print(sorted(Solution().findDuplicates([1, 1, 2])) == sorted([1]))
+print(sorted(Solution().findDuplicates([1])) == sorted([]))
+print(sorted(Solution().findDuplicates([10, 2, 5, 10, 9, 1, 1, 4, 3, 7])) == sorted([10, 1]))

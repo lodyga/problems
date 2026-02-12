@@ -1,28 +1,31 @@
 class Solution:
-    def areAlmostEqual(self, s1: str, s2: str) -> bool:
+    def areAlmostEqual(self, text1: str, text2: str) -> bool:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: iteration
+        Tags:
+            A: iteration
         """
-        is_changed = None
-        for index in range(len(s1)):
-            if s1[index] == s2[index]:
+        swap_pair = ()
+        is_swapped = False
+
+        for (c1, c2) in zip(text1, text2):
+            if (c1 == c2):
                 continue
-            elif is_changed == None:
-                is_changed = True
-                changeIndex = index
-            elif is_changed == True:
-                is_changed = False
-                if (
-                    s1[changeIndex] != s2[index] or
-                    s1[index] != s2[changeIndex]
-                ):
-                    return False
-            elif is_changed == False:
+
+            if (is_swapped):
                 return False
 
-        return is_changed in (None, False)
+            if (swap_pair):
+                if swap_pair != (c2, c1):
+                    return False
+
+                swap_pair = ()
+                is_swapped = True
+            else:
+                swap_pair = (c1, c2)
+
+        return swap_pair == ()
 
 
 print(Solution().areAlmostEqual("bank", "kanb") == True)

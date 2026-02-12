@@ -2,7 +2,9 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: prefix sum
+    * Tags:
+    *     DS: array
+    *     A: prefix sum
     * @param {string} text
     * @param {number[]} shifts
     * @return {string}
@@ -10,8 +12,8 @@ class Solution {
    shiftingLetters(text, shifts) {
       const shiftLetter = (letter, shift) => {
          const letterIndex = letter.charCodeAt(0) - 'a'.charCodeAt(0);
-         const shiftedIndex = letterIndex + shift;
-         return String.fromCharCode(shiftedIndex % 26 + 'a'.charCodeAt(0))
+         const shiftedIndex = (letterIndex + shift) % 26;
+         return String.fromCharCode(shiftedIndex+ 'a'.charCodeAt(0))
       }
 
       const letters = Array.from(text);

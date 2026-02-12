@@ -15,38 +15,38 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: linked list
+        Tags:
+            DS: linked list, list
+            A: iteration
         """
         node = head
         length = 0
+
         while node:
             length += 1
             node = node.next
-        div = length // k
-        mod = length % k
+
+        part_len = length // k
+        rest = length % k
 
         node = head
-        heads = []
-        for _ in range(k):
-            heads.append(node)
-            if mod:
-                rng = div + 1
-                mod -= 1
-            else:
-                rng = div
-            
-            while rng:
-                if rng == 1:
-                    node.next, node = None, node.next  # right order
-                    # node, node.next = node.next, None  # wrong order
-                    # node_next = node.next
-                    # node.next = None
-                    # node = node_next
-                else:
-                    node = node.next
-                rng -= 1
+        res = []
 
-        return heads
+        for _ in range(k):
+            res.append(node)
+            
+            if node is None:
+                continue
+
+            for _ in range(part_len - 1 + (1 if rest else 0)):
+                node = node.next
+
+            rest -= 1 if rest else 0
+            node_next = node.next
+            node.next = None
+            node = node_next
+
+        return res
 
 
 print(Solution().splitListToParts(build_linked_list([1, 2, 3]), 5), )

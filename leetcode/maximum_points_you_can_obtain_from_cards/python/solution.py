@@ -1,30 +1,35 @@
 class Solution:
-    def maxScore(self, card_points: list[int], k: int) -> int:
+    def maxScore(self, points: list[int], k: int) -> int:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: sliding window
+        Tags:
+            A: sliding window
         """
-        window_length = len(card_points) - k
+        N = len(points)
+        num_sum = sum(points)
+
+        if N == k:
+            return num_sum
+
+        min_window = num_sum
         window = 0
-        total = sum(card_points)
-        min_window = total
+        window_size = N - k
         left = 0
-        
-        if window_length == 0:
-            return total
 
-        for right, card_point in enumerate(card_points):
-            window += card_point
+        for right, point in enumerate(points):
+            window += point
 
-            if right - left + 1 < window_length:
+            if right < window_size - 1:
                 continue
 
             min_window = min(min_window, window)
-            window -= card_points[left]
+
+            left_point = points[left]
+            window -= left_point
             left += 1
 
-        return total - min_window
+        return num_sum - min_window
 
 
 print(Solution().maxScore([1, 2], 2) == 3)

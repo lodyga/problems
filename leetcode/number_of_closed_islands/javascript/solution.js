@@ -1,8 +1,13 @@
+import { Queue } from "@datastructures-js/queue";
+
+
 class Solution {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(n2)
-    * Tags: dfs, recursion, matrix, graph
+    * Tags:
+    *     DS: array (matrix)
+    *     A: dfs, recursion
     * @param {number[][]} grid
     * @return {number}
     */
@@ -10,44 +15,48 @@ class Solution {
       const ROWS = grid.length;
       const COLS = grid[0].length;
       const DIRECTIONS = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+      const visited = Array.from({ length: ROWS }, () => Array(COLS).fill(false));
 
       const dfs = (row, col) => {
          if (
-            row === -1 ||
-            row === ROWS ||
-            col === -1 ||
-            col === COLS
-         )
+            row === -1 || row === ROWS ||
+            col === -1 || col === COLS
+         ) {
             return false
-         else if (grid[row][col] == 1)
+         } else if (visited[row][col]) {
             return true
-
-         grid[row][col] = 1;
-
-         let isClosedIsland = true;
-         for (const [r, c] of DIRECTIONS.map(([r, c]) => [r + row, c + col])) {
-            if (dfs(r, c) === false)
-               isClosedIsland = false;
+         } else if (grid[row][col]) {
+            visited[row][col] = true;
+            return true
          }
-         return isClosedIsland
+
+         visited[row][col] = true;
+         let isClosed = true;
+
+         for (const [dr, dc] of DIRECTIONS) {
+            const [r, c] = [row + dr, col + dc];
+            isClosed &= dfs(r, c);
+         }
+         return isClosed
       };
 
-      let counter = 0;
+      let res = 0;
       for (let row = 0; row < ROWS; row++)
          for (let col = 0; col < COLS; col++)
-            if (grid[row][col] == 0)
-               counter += dfs(row, col)
-      return counter
+            if (
+               grid[row][col] == 0 &&
+               !visited[row][col]
+            )
+               res += dfs(row, col);
+      return res
    };
-}
 
-
-import { Queue } from "@datastructures-js/queue";
-class Solution {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(n2)
-    * Tags: bfs, iteration, queue, graph, matrix
+    * Tags:
+    *     DS: array (matrix), queue
+    *     A: bfs, iteration
     * @param {number[][]} grid
     * @return {number}
     */
@@ -55,38 +64,46 @@ class Solution {
       const ROWS = grid.length;
       const COLS = grid[0].length;
       const DIRECTIONS = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+      const visited = Array.from({ length: ROWS }, () => Array(COLS).fill(false));
 
       const bfs = (row, col) => {
-         const queue = new Queue();
-         queue.enqueue([row, col]);
-         let isClosedIsland = true;
+         const queue = new Queue([[row, col]]);
+         // queue.enqueue([row, col]);
+         visited[row][col] = true;
+         let isClosed = true;
 
-         while (!queue.isEmpty()) {
+         while (queue.size()) {
             const [row, col] = queue.dequeue();
-            grid[row][col] = 1;
 
-            for (const [r, c] of DIRECTIONS.map(([r, c]) => [r + row, c + col])) {
+            for (const [dr, dc] of DIRECTIONS) {
+               const[r, c] = [row + dr, col + dc];
+
                if (
-                  r === -1 ||
-                  r === ROWS ||
-                  c === -1 ||
-                  c === COLS
-               ) isClosedIsland = false;
-               else if (grid[r][c] == 0) {
-                  queue.enqueue([r, c])
-                  grid[r][c] = 1;
+                  r === -1 || r === ROWS ||
+                  c === -1 || c === COLS
+               ) {
+                  isClosed = false;
+                  continue
                }
+               else if (visited[r][c] || grid[r][c]) {
+                  continue
+               }
+               queue.enqueue([r, c]);
+               grid[r][c] = true;
             }
          }
-         return isClosedIsland
+         return isClosed
       };
 
-      let counter = 0;
+      let res = 0;
       for (let row = 0; row < ROWS; row++)
          for (let col = 0; col < COLS; col++)
-            if (grid[row][col] == 0)
-               counter += bfs(row, col)
-      return counter
+            if (
+               grid[row][col] == 0 &&
+               !visited[row][col]
+            )
+               res += bfs(row, col);
+      return res
    };
 }
 

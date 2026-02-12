@@ -2,32 +2,38 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: iteration
-    * @param {string} s1
-    * @param {string} s2
+    * Tags:
+    *     A: iteration
+    * @param {string} text1
+    * @param {string} text2
     * @return {boolean}
     */
-   areAlmostEqual(s1, s2) {
-      let isChanged = null;
-      let changeIndex = 0;
-      
-      for (let index = 0; index < s1.length; index++) {
-         if (s1[index] === s2[index])
+   areAlmostEqual(text1, text2) {
+      let swapPair = [];
+      let isSwapped = false;
+
+      for (let index = 0; index < text1.length; index++) {
+         const c1 = text1[index];
+         const c2 = text2[index];
+
+         if (c1 === c2)
             continue
-         else if (isChanged === null) {
-            isChanged = true;
-            changeIndex = index;
-         } else if (isChanged === true) {
-            isChanged = false;
-            if (
-               s1[changeIndex] !== s2[index] ||
-               s1[index] !== s2[changeIndex]
-            )
-               return false
-         } else if (isChanged === false)
+
+         if (isSwapped)
             return false
+
+         if (swapPair.length) {
+            if (swapPair.toString() !== [c2, c1].toString())
+               return false
+
+            swapPair = [];
+            isSwapped = true;
+         } else {
+            swapPair = [c1, c2];
+         }
+
       }
-      return (isChanged === null || isChanged === false)
+      return swapPair.length === 0
    };
 }
 

@@ -3,84 +3,98 @@ class Solution:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n2)
-        Tags: dfs, recursion, matrix, graph
+        Tags:
+            DS: array (matrix)
+            A: dfs, recursion
         """
         ROWS = len(grid)
         COLS = len(grid[0])
         DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
+        visited = [[False] * COLS for _ in range(ROWS)]
 
-        def dfs(row, col):
+        def dfs(row: int, col: int) -> bool:
             if (
-                row == -1 or
-                row == ROWS or
-                col == -1 or
-                col == COLS
+                row == -1 or row == ROWS or
+                col == -1 or col == COLS
             ):
                 return False
-            elif grid[row][col] == 1:
+            elif visited[row][col]:
+                return True
+            elif grid[row][col]:
+                visited[row][col] = True
                 return True
 
-            grid[row][col] = 1
+            visited[row][col] = True
+            is_closed = True
 
-            is_closed_island = True
-            for r, c in ((row + r, col + c) for r, c in DIRECTIONS):
-                if dfs(r, c) == False:
-                    is_closed_island = False
-
-            return is_closed_island
-
-        counter = 0
+            for dr, dc in DIRECTIONS:
+                r, c = row + dr, col + dc
+                is_closed &= dfs(r, c)
+                
+            return is_closed
+        
+        res = 0
         for row in range(ROWS):
             for col in range(COLS):
-                if grid[row][col] == 0:
-                    counter += dfs(row, col)
-
-        return counter
-
-
-from collections import deque
+                if (
+                    grid[row][col] == 0 and 
+                    not visited[row][col]
+                ):
+                    res += dfs(row, col)
+        
+        return res
 
 
 class Solution:
     def closedIsland(self, grid: list[list[int]]) -> int:
+        from collections import deque
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n2)
-        Tags: bfs, iteration, queue, graph, matrix
+        Tags:
+            DS: array (matrix), queue
+            A: bfs, iteration
         """
         ROWS = len(grid)
         COLS = len(grid[0])
         DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
+        visited = [[False] * COLS for _ in range(ROWS)]
 
-        def bfs(row, col):
+        def bfs(row: int, col: int) -> bool:
             queue = deque([(row, col)])
-            is_closed_island = True
-
+            visited[row][col] = True
+            is_closed = True
+            
             while queue:
                 row, col = queue.popleft()
-                grid[row][col] = 1
 
-                for r, c in ((row + r, col + c) for r, c in DIRECTIONS):
+                for dr, dc in DIRECTIONS:
+                    r, c = row + dr, col + dc
+
                     if (
-                        r == -1 or
-                        r == ROWS or
-                        c == -1 or
-                        c == COLS
+                        r == -1 or r == ROWS or
+                        c == -1 or c == COLS
                     ):
-                        is_closed_island = False
-                    elif grid[r][c] == 0:
-                        queue.append((r, c))
-                        grid[r][c] = 1
+                        is_closed = False
+                        continue
+                    elif (visited[r][c] or grid[r][c]):
+                        continue
 
-            return is_closed_island
+                    queue.append((r, c))
+                    visited[r][c] = True
 
-        counter = 0
+            return is_closed
+
+        res = 0
         for row in range(ROWS):
             for col in range(COLS):
-                if grid[row][col] == 0:
-                    counter += bfs(row, col)
-
-        return counter
+                if (
+                    grid[row][col] == 0 and 
+                    not visited[row][col]
+                ):
+                    res += bfs(row, col)
+        
+        return res
 
 
 print(Solution().closedIsland([[1, 1, 1], [1, 0, 1], [1, 1, 1]]) == 1)

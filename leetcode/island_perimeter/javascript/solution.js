@@ -55,7 +55,7 @@ class Solution {
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(n2)
     * Tags:
-    *     DS: array (matrix)
+    *     DS: array (matrix), queue
     *     A: bfs, iteration
     * @param {number[][]} grid
     * @return {number}

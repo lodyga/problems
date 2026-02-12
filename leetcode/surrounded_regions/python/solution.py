@@ -59,7 +59,7 @@ class Solution:
         Time complexity: O(n2)
         Auxiliary space complexity: O(n2)
         Tags:
-            DS: array (matrix)
+            DS: queue, array (matrix)
             A: multi-source BFS
         """
         ROWS = len(board)

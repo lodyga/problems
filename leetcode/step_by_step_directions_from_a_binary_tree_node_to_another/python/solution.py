@@ -12,65 +12,95 @@ from binary_tree_utils import *
 
 
 class Solution:
+    def getDirections(self, root: TreeNode, start_val: int, dest_val: int) -> str:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(n)
+        Tags:
+            DS: binary tree
+            A: DFS with backtracking, post-order traversal
+        """
+        def get_lca(node: TreeNode) -> TreeNode | None:
+            if node is None:
+                return None
+            elif node.val in (start_val, dest_val):
+                return node
+
+            left = get_lca(node.left)
+            right = get_lca(node.right)
+
+            if left and right:
+                return node
+            else:
+                return left or right
+
+        def get_path(node: TreeNode, target: int) -> str:
+
+            def backtrack(node: TreeNode, path: list[str]) -> str:
+                if node is None:
+                    return ""
+                elif node.val == target:
+                    return "".join(path)
+
+                path.append("L")
+                left = backtrack(node.left, path)
+                if left:
+                    return left
+
+                path.pop()
+                path.append("R")
+                right = backtrack(node.right, path)
+                if right:
+                    return right
+
+                path.pop()
+
+            return backtrack(node, [])
+
+        lca = get_lca(root)
+        start_path = get_path(lca, start_val)
+        dest_path = get_path(lca, dest_val)
+        return ("U" * len(start_path)) + dest_path
+
+
+class Solution:
     def getDirections(self, root: TreeNode, start_value: int, dest_value: int) -> str:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
         Tags: binary tree
         """
-        def get_path_to_node2(node, target, path):
+        def get_path(node: TreeNode, target: int, path: list[str]) -> list[str]:
             if node is None:
                 return
             if node.val == target:
                 return path
-            
+
             path.append("L")
-            left = get_path_to_node2(node.left, target, path)
+            left = get_path(node.left, target, path)
             if left:
                 return path
-            
+
             path.pop()
             path.append("R")
-            right = get_path_to_node2(node.right, target, path)
+            right = get_path(node.right, target, path)
             if right:
                 return right
 
             path.pop()
-            return 
+            return
 
-        def get_path_to_node(node, target, path):
-            if node is None:
-                return
-            if node.val == target:
-                return []
-            
-            left = get_path_to_node(node.left, target, path)
-            right = get_path_to_node(node.right, target, path)  
-
-            
-            if left is not None:
-                path.append("L")
-                return path
-            if right is not None:
-                path.append("R")
-                return path
-
-        
-        path_to_start = get_path_to_node2(root, start_value, [])
-        # path_to_start.reverse()
-    
-        path_to_end = get_path_to_node2(root, dest_value, [])
-        # path_to_end.reverse()
+        start_path = get_path(root, start_value, [])
+        dest_path = get_path(root, dest_value, [])
 
         i = 0
         while (
-            i < len(path_to_start) and 
-            i < len(path_to_end) and 
-            path_to_start[i] == path_to_end[i]
+            i < min(len(start_path), len(dest_path)) and
+            start_path[i] == dest_path[i]
         ):
             i += 1
 
-        return "U" * len(path_to_start[i:]) + "".join(path_to_end[i:])
+        return "U" * len(start_path[i:]) + "".join(dest_path[i:])
 
 
 print(Solution().getDirections(build_tree([2, 1, 3]), 1, 3) == "UR")

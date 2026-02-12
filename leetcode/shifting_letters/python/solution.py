@@ -3,21 +3,21 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: prefix sum
+        Tags:
+            DS: array
+            A: prefix sum
         """
-        def shift_letter(letter, shift):
-            letter_index = ord(letter) - ord("a")
-            shifted_index = letter_index + shift
-            return chr(shifted_index % 26 + ord("a"))
-
         letters = list(text)
-        shift = 0  # prefix sum
-        
-        for index in reversed(range(len(text))):
-            letter = text[index]
+        shift = 0
+
+        for index in range(len(text) - 1, -1, -1):
             shift += shifts[index]
-            letters[index] = shift_letter(letter, shift)
-        
+            letter = letters[index]
+            letters[index] = chr(
+                ((ord(letter) - ord("a") + shift) % 26) +
+                ord("a")
+            )
+
         return "".join(letters)
 
 

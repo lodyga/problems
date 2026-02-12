@@ -1,17 +1,20 @@
 # Take Gifts From the Richest Pile
 https://leetcode.com/problems/take-gifts-from-the-richest-pile/
 
+<p>
 You are given an integer array gifts denoting the number of gifts in various piles. Every second, you do the following:
 
-Choose the pile with the maximum number of gifts.
-If there is more than one pile with the maximum number of gifts, choose any.
-Reduce the number of gifts in the pile to the floor of the square root of the original number of gifts in the pile.
+- Choose the pile with the maximum number of gifts.
+- If there is more than one pile with the maximum number of gifts, choose any.
+- Reduce the number of gifts in the pile to the floor of the square root of the original number of gifts in the pile.
+
 Return the number of gifts remaining after k seconds.
+</p>
 
-
-<b>Example 1:</b>\
-Input: gifts = [25,64,9,4,100], k = 4\
-Output: 29\
+<pre>
+<b>Example 1:</b>
+Input: gifts = [25,64,9,4,100], k = 4
+Output: 29
 Explanation: 
 The gifts are taken in the following way:
 - In the first second, the last pile is chosen and 10 gifts are left behind.
@@ -20,11 +23,14 @@ The gifts are taken in the following way:
 - Finally, the last pile is chosen again and 3 gifts are left behind.
 
 The final remaining gifts are [5,8,9,4,3], so the total number of gifts remaining is 29.
+</pre>
 
-<b>Example 2:</b>\
-Input: gifts = [1,1,1,1], k = 4\
-Output: 4\
-Explanation: \
-In this case, regardless which pile you choose, you have to leave behind 1 gift in each pile. \
-That is, you can't take any pile with you. \
+<pre>
+<b>Example 2:</b>
+Input: gifts = [1,1,1,1], k = 4
+Output: 4
+Explanation:
+In this case, regardless which pile you choose, you have to leave behind 1 gift in each pile. 
+That is, you can't take any pile with you. 
 So, the total gifts remaining are 4.
+</pre>

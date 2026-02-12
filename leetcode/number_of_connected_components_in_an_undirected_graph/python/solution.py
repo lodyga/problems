@@ -1,6 +1,3 @@
-from collections import deque
-
-
 class Solution:
     def countComponents(self, N: int, edges: list[list[int]]) -> int:
         """
@@ -38,11 +35,12 @@ class Solution:
 
 class Solution:
     def countComponents(self, N: int, edges: list[list[int]]) -> int:
+        from collections import deque
         """
         Time complexity: O(V + E)
         Auxiliary space complexity: O(V + E)
         Tags:
-            DS: array
+            DS: queue, array
             A: multi-source BFS
             Model: graph
         """

@@ -9,14 +9,13 @@ class Solution:
         Tags:
             DS: heap, array (matrix)
             A: greedy, Dijkstra
-            Model: graph
         """
         ROWS = len(heights)
         COLS = len(heights[0])
         DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
         visited = [[False] * COLS for _ in range(ROWS)]
 
-        def bfs(row: int, col: int) -> int:
+        def dijkstra(row: int, col: int) -> int:
             # heap((min effort in current path, row, col), )
             min_effort_heap = [(0, row, col)]
 
@@ -44,7 +43,7 @@ class Solution:
                     next_min_effort = max(min_effort, height_diff)
                     heapq.heappush(min_effort_heap, (next_min_effort, r, c))
 
-        return bfs(0, 0)
+        return dijkstra(0, 0)
 
 
 print(Solution().minimumEffortPath([[1, 2, 2], [3, 8, 2], [5, 3, 5]]) == 2)

@@ -2,36 +2,38 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(k)
-    * Tags: sliding window
-    * @param {number[]} numbers
+    * Tags:
+    *     DS: hash map
+    *     A: sliding window
+    * @param {number[]} nums
     * @param {number} k
     * @return {number}
     */
-   maximumSubarraySum(numbers, k) {
-      let left = 0
-      const windowMap = new Map();
+   maximumSubarraySum(nums, k) {
+      const windowNumFreq = new Map();
       let windowSum = 0;
-      let maxWindow = 0;
+      let left = 0
+      let res = 0;
 
-      for (let right = 0; right < numbers.length; right++) {
-         const number = numbers[right];
-         windowMap.set(number, (windowMap.get(number) || 0) + 1);
-         windowSum += number;
+      for (let right = 0; right < nums.length; right++) {
+         const num = nums[right];
+         windowNumFreq.set(num, (windowNumFreq.get(num) || 0) + 1);
+         windowSum += num;
 
-         if (right - left + 1 < k)
+         if (right < k - 1)
             continue
 
-         if (windowMap.size === k)
-            maxWindow = Math.max(maxWindow, windowSum);
+         if (windowNumFreq.size === k)
+            res = Math.max(res, windowSum);
 
-         const leftNumber = numbers[left];
-         windowMap.set(leftNumber, windowMap.get(leftNumber) - 1);
-         if (windowMap.get(leftNumber) === 0)
-            windowMap.delete(leftNumber)
-         windowSum -= leftNumber;
+         const leftNum = nums[left];
+         windowSum -= leftNum;
+         windowNumFreq.set(leftNum, windowNumFreq.get(leftNum) - 1);
+         if (windowNumFreq.get(leftNum) === 0)
+            windowNumFreq.delete(leftNum)
          left += 1;
       }
-      return maxWindow
+      return res
    }
 }
 
@@ -40,4 +42,4 @@ const maximumSubarraySum = new Solution().maximumSubarraySum;
 console.log(new Solution().maximumSubarraySum([1, 5, 4, 2, 9, 9, 9], 3) === 15)
 console.log(new Solution().maximumSubarraySum([4, 4, 4], 3) === 0)
 console.log(new Solution().maximumSubarraySum([9, 9, 9, 1, 2, 3], 3) === 12)
-console.lgo(new Solution().maximumSubarraySum([1, 5, 4, 2, 4, 1, 3], 4) === 12)
+console.log(new Solution().maximumSubarraySum([1, 5, 4, 2, 4, 1, 3], 4) === 12)

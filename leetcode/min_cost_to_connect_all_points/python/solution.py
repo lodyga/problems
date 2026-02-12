@@ -1,8 +1,8 @@
-import heapq
 
 
 class Solution:
     def minCostConnectPoints(self, points: list[list[int]]) -> int:
+        import heapq
         """
         Time complexity: O(V2logV)
         Auxiliary space complexity: O(V2)
@@ -77,6 +77,7 @@ class DSU:
 
 class Solution:
     def minCostConnectPoints(self, points: list[list[int]]) -> int:
+        import heapq
         """
         Time complexity: O(V2logV)
         Auxiliary space complexity: O(V2)

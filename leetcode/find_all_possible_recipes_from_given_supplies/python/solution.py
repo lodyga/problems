@@ -1,62 +1,49 @@
 class Solution:
-    def findAllRecipes(self, recipes: list[str], ingredients_per_recipe: list[list[str]], supplies: list[str]) -> list[str]:
+    def findAllRecipes(self, recipes: list[str], ingredients_list: list[list[str]], supplies: list[str]) -> list[str]:
         """
         Time complexity: O(V + E)
             V: supplies count + recipes count
-            E: prequired suppries for a recipe
+            E: prequired supplies for a recipe
         Auxiliary space complexity: O(V + E)
-        Tags: dfs, recursion, graph, topological sort
+        Tags:
+            DS: hash map, hash set, list
+            A: DFS with memoization (DP on DAG), topological sort with cycle detection
+            Model: graph
         """
-        supplies = set(supplies)
-        recipe_set = set(recipes)
+        supplies_set = set(supplies)
+        recipe_ingredients = {
+            recipe: ingredients for recipe, ingredients in zip(recipes, ingredients_list)
+        }
+        bad_recipes = set()
+        path = set()
 
-        preqreqs = {}
-        for recipe, ingredients in zip(recipes, ingredients_per_recipe):
-            ingredients = set(ingredients)
-            # Recepie require itself in ingredients
-            if recipe in ingredients:
-                recipe_set.remove(recipe)
-            else:
-                preqreqs[recipe] = ingredients
-
-        visited = set()
-
-        def dfs(recipe):
-            if (
-                recipe in supplies or
-                recipe in possible_recipes
-            ):
+        def dfs(product: str) -> bool:
+            if product in supplies_set:
                 return True
-            # Recipe cannot be made, ingredient is not avaible.
             elif (
-                recipe not in supplies and
-                recipe not in preqreqs
+                product not in recipe_ingredients or
+                product in path or
+                product in bad_recipes
             ):
                 return False
-            # cycle detection
-            elif recipe in visited:
-                return False
-
-            visited.add(recipe)
-
-            for ingredient in preqreqs[recipe]:
+            
+            path.add(product)
+            
+            for ingredient in recipe_ingredients[product]:
                 if not dfs(ingredient):
+                    path.discard(product)
+                    bad_recipes.add(product)
                     return False
 
-            visited.remove(recipe)
-
+            path.discard(product)
+            supplies_set.add(product)
             return True
 
-        possible_recipes = set()
-        for recipe in recipe_set:
-            if dfs(recipe):
-                possible_recipes.add(recipe)
-
-        return list(possible_recipes)
+        return [recipe for recipe in recipe_ingredients if dfs(recipe)]
 
 
-print(Solution().findAllRecipes(["bread"], [["yeast", "flour"]], ["yeast", "flour", "corn"]), ["bread"])
-print(Solution().findAllRecipes(["bread", "sandwich"], [["yeast", "flour"], ["bread", "meat"]], ["yeast", "flour", "meat"]), ["bread", "sandwich"])
-print(Solution().findAllRecipes(["bread", "sandwich", "burger"], [["yeast", "flour"], ["bread", "meat"], ["sandwich", "meat", "bread"]], ["yeast", "flour", "meat"]), ["bread", "sandwich", "burger"])
-print(Solution().findAllRecipes(["bread"], [["yeast", "flour"]], ["yeast"]), [])
-print(Solution().findAllRecipes(["ju", "fzjnm", "x", "e", "zpmcz", "h", "q"], [["d"], ["hveml", "f", "cpivl"], ["cpivl", "zpmcz", "h", "e", "fzjnm", "ju"], ["cpivl", "hveml", "zpmcz", "ju", "h"], ["h", "fzjnm", "e", "q", "x"], ["d", "hveml", "cpivl", "q", "zpmcz", "ju", "e", "x"], ["f", "hveml", "cpivl"]], ["f", "hveml", "cpivl", "d"]), ['ju', 'q', 'fzjnm'])
+print(sorted(Solution().findAllRecipes(["bread"], [["yeast", "flour"]], ["yeast", "flour", "corn"])) == sorted(["bread"]))
+print(sorted(Solution().findAllRecipes(["bread", "sandwich"], [["yeast", "flour"], ["bread", "meat"]], ["yeast", "flour", "meat"])) == sorted(["bread", "sandwich"]))
+print(sorted(Solution().findAllRecipes(["bread", "sandwich", "burger"], [["yeast", "flour"], ["bread", "meat"], ["sandwich", "meat", "bread"]], ["yeast", "flour", "meat"])) == sorted(["bread", "sandwich", "burger"]))
+print(sorted(Solution().findAllRecipes(["bread"], [["yeast", "flour"]], (["yeast"]))) == sorted([]))
+print(sorted(Solution().findAllRecipes(["ju", "fzjnm", "x", "e", "zpmcz", "h", "q"], [["d"], ["hveml", "f", "cpivl"], ["cpivl", "zpmcz", "h", "e", "fzjnm", "ju"], ["cpivl", "hveml", "zpmcz", "ju", "h"], ["h", "fzjnm", "e", "q", "x"], ["d", "hveml", "cpivl", "q", "zpmcz", "ju", "e", "x"], ["f", "hveml", "cpivl"]], ["f", "hveml", "cpivl", "d"])) == sorted(['ju', 'q', 'fzjnm']))

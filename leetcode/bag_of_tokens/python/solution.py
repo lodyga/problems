@@ -3,27 +3,30 @@ class Solution:
         """
         Time complexity: O(nlogn)
         Auxiliary space complexity: O(n)
-        Tags: greedy, two pointers, sorting
+        Tags:
+            A: greedy, two pointers, sorting
         """
+        score = 0
+        max_score = 0
         tokens.sort()
         left = 0
         right = len(tokens) - 1
-        score = 0
-        max_score = 0
 
         while left <= right:
-            if power >= tokens[left]:
+            if tokens[left] <= power:
                 power -= tokens[left]
                 score += 1
                 max_score = max(max_score, score)
                 left += 1
-            elif score == 0:
-                break
-            else:
-                score -= 1
+
+            elif score:
                 power += tokens[right]
+                score -= 1
                 right -= 1
-        
+
+            else:
+                break
+
         return max_score
 
 

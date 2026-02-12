@@ -3,44 +3,48 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: greedy, stack
+        Tags: 
+            DS: stack, string
+            A: greedy, iteration
         """
-        stack = []
-        rev_stack = []
-        points = 0
-
-        for letter in text:
-            if y > x and stack and stack[-1] == "b" and letter == "a":
-                points += y
-                stack.pop()
-            elif x > y and stack and stack[-1] == "a" and letter == "b":
-                points += x
-                stack.pop()
-            else:
-                stack.append(letter)
+        high_substr, low_substr = ("ab", "ba") if (x >= y) else ("ba", "ab")
+        high_pts, low_pts = (x, y) if (x >= y) else (y, x)
+        score = 0
+        high_stack = []
         
-        index = len(stack) - 1
-        while index > -1:
+        for char in text:
             if (
-                rev_stack and rev_stack[-1] == "a" and 
-                stack[-1] == "b"
+                high_stack and
+                high_stack[-1] == high_substr[0] and
+                char == high_substr[1]
             ):
-                points += y
-                stack.pop()
-                rev_stack.pop()
-            elif (
-                rev_stack and rev_stack[-1] == "b" and 
-                stack[-1] == "a"
-            ):
-                points += x
-                stack.pop()
-                rev_stack.pop()
+                high_stack.pop()
+                score += high_pts
             else:
-                rev_stack.append(stack.pop())
+                high_stack.append(char)
 
-            index -= 1
+        low_stack = []
+        
+        for char in high_stack:
+            if (
+                low_stack and
+                low_stack[-1] == low_substr[0] and
+                char == low_substr[1]
+            ):
+                low_stack.pop()
+                score += low_pts
+            else:
+                low_stack.append(char)
 
-        return points
+        return score
+
+
+print(Solution().maximumGain("aba", 4, 5) == 5)
+print(Solution().maximumGain("bab", 4, 5) == 5)
+print(Solution().maximumGain("cdbcbbaaabab", 4, 5) == 19)
+print(Solution().maximumGain("aabbaaxybbaabb", 5, 4) == 20)
+print(Solution().maximumGain("aabbrtababbabmaaaeaabeawmvaataabnaabbaaaybbbaabbabbbjpjaabbtabbxaaavsmmnblbbabaeuasvababjbbabbabbasxbbtgbrbbajeabbbfbarbagha", 8484, 4096) == 198644)
+print(Solution().maximumGain("babeaaabbafaaabbnaabuaaaaagabbaabbbbbmaaanaasaebbvlaaabbbaibabbbabaaabasbbryqraryobuabguabaabbmabgubabbaaraaaabapbaabsbbbbbbbbahabbbsanaajbabarbntbqagkbababbabbbbaabaybagababaabbzaaaaaaambwabbbaababmxqbbgbabbbabbbbbaakabaabzabbabfabjbobabaaaabbbaaaaaaaajbbbaqrabnarsaabbbaabaabavgbaaabtmcbbababbbubaaababaedbbtabbalkababiaaaabbaafabaabtvbbzayaaaakzbdafbasbaabbsbbarbebaaboyabbabnyamabbbfubaaebabaababbbbbqxajaaaamfabbabbbapbubaabbehbbnaandabmxbqcaaqbyaabbamafbaufaabblbbbbabbaabgbdbbnbaababaiauaybbtnbnaayasgafadbabblabbbaababbtsbabapbdaaasxxafakaaaaabrbbcabaahzbaaajbbbbbhaabbabbtbababbababaxabaaaipabbxbaagbaaabba", 7275, 9407) == 1220161)
 
 
 class Solution:
@@ -131,9 +135,3 @@ class Solution:
         return dfs(0)
 
 
-print(Solution().maximumGain("aba", 4, 5) == 5)
-print(Solution().maximumGain("bab", 4, 5) == 5)
-print(Solution().maximumGain("cdbcbbaaabab", 4, 5) == 19)
-print(Solution().maximumGain("aabbaaxybbaabb", 5, 4) == 20)
-print(Solution().maximumGain("aabbrtababbabmaaaeaabeawmvaataabnaabbaaaybbbaabbabbbjpjaabbtabbxaaavsmmnblbbabaeuasvababjbbabbabbasxbbtgbrbbajeabbbfbarbagha", 8484, 4096) == 198644)
-print(Solution().maximumGain("babeaaabbafaaabbnaabuaaaaagabbaabbbbbmaaanaasaebbvlaaabbbaibabbbabaaabasbbryqraryobuabguabaabbmabgubabbaaraaaabapbaabsbbbbbbbbahabbbsanaajbabarbntbqagkbababbabbbbaabaybagababaabbzaaaaaaambwabbbaababmxqbbgbabbbabbbbbaakabaabzabbabfabjbobabaaaabbbaaaaaaaajbbbaqrabnarsaabbbaabaabavgbaaabtmcbbababbbubaaababaedbbtabbalkababiaaaabbaafabaabtvbbzayaaaakzbdafbasbaabbsbbarbebaaboyabbabnyamabbbfubaaebabaababbbbbqxajaaaamfabbabbbapbubaabbehbbnaandabmxbqcaaqbyaabbamafbaufaabblbbbbabbaabgbdbbnbaababaiauaybbtnbnaayasgafadbabblabbbaababbtsbabapbdaaasxxafakaaaaabrbbcabaahzbaaajbbbbbhaabbabbtbababbababaxabaaaipabbxbaagbaaabba", 7275, 9407) == 1220161)

@@ -1,61 +1,42 @@
 class Solution:
-    def isPalindrome(self, number: int) -> bool:
+    def isPalindrome(self, num: int) -> bool:
+        """
+        Time complexity: O(logn)
+        Auxiliary space complexity: O(1)
+        Tags:
+            iteration
+        """
+        if num < 0:
+            return False
+
+        num_copy = num
+        rev_num = 0
+
+        while num:
+            rev_num = rev_num * 10 + num % 10
+            num //= 10
+
+        return num_copy == rev_num
+
+
+class Solution:
+    def isPalindrome(self, num: int) -> bool:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: two pointers
+        Tags:
+            DS: string
+            A: two pointers
         """
-        str_number = str(number)
-        for left in range(len(str_number) // 2):
-            if str_number[left] != str_number[len(str_number) - 1 - left]:
+        str_num = str(num)
+        N = len(str_num)
+
+        for left in range(N // 2):
+            right = N - 1 - left
+            if str_num[left] != str_num[right]:
                 return False
+
         return True
-
-
-class Solution:
-    def isPalindrome(self, number: int) -> bool:
-        """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(1)
-        Tags: iteration
-        """
-        if number < 0:
-            return False
-        
-        carry = number
-        reversed_number = 0
-        while carry > 0:
-            reversed_number = reversed_number * 10 + carry % 10
-            carry = carry // 10
-        
-        return number == reversed_number
-
-
-class Solution:
-    def isPalindrome(self, number: int) -> bool:
-        """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(1)
-        Tags: iteration
-        """
-        if number < 0:
-            return False
-        
-        carry = number
-        number_length = 1
-        while carry // 10 > 0:
-            carry = carry // 10
-            number_length += 1
-        
-        carry = number
-        reversed_number = 0
-        power = 10 ** (number_length - 1)
-        for _ in range(number_length):
-            reversed_number += (carry % 10) * power
-            carry = carry // 10
-            power //= 10
-        
-        return number == reversed_number
 
 
 print(Solution().isPalindrome(121) == True)

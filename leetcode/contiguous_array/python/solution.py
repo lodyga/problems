@@ -1,31 +1,100 @@
 class Solution:
-    def findMaxLength(self, numbers: list[int]) -> int:
+    def findMaxLength(self, nums: list[int]) -> int:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(n)
+        Tags:
+            DS: hash map
+            A: prefix sum
+        """
+        # Ones over zeros surplus counter.
+        ones_surp = 0
+        res = 0
+        # Ones over zeros surplus: index of first occurence.
+        prefix_index = {}
+
+        for index, num in enumerate(nums):
+            ones_surp += 1 if num else -1
+
+            if ones_surp not in prefix_index:
+                prefix_index[ones_surp] = index
+
+            if ones_surp == 0:
+                res = max(res, index + 1)
+            elif ones_surp in prefix_index:
+                res = max(res, index - prefix_index[ones_surp])
+
+        return res
+
+
+class Solution:
+    def findMaxLength(self, nums: list[int]) -> int:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n)
-        Tags: prefix sum
+        Tags:
+            DS: list, tuple
+            A: prefix sum
         """
-        prefixes = {}  # ones over zeros surplus: numbers index
-        zeros = 0
-        ones = 0
-        max_len = 0
+        prefix = [(0, 0)]
 
-        for index, number in enumerate(numbers):
-            if number:
-                ones += 1
+        for num in nums:
+            prev_zeros, prev_ones = prefix[-1]
+            if num:
+                prefix.append((prev_zeros, prev_ones + 1))
             else:
-                zeros += 1
-            
-            diff = ones - zeros
-            if diff not in prefixes:
-                prefixes[diff] = index
+                prefix.append((prev_zeros + 1, prev_ones))
 
-            if ones == zeros:
-                max_len = ones + zeros
+        res = 0
+
+        for right in range(len(prefix)):
+            for left in range(right):
+                zeros = prefix[right][0] - prefix[left][0]
+                ones = prefix[right][1] - prefix[left][1]
+
+                if zeros == ones:
+                    res = max(res, zeros + ones)
+
+        return res
+
+
+class Solution:
+    def findMaxLength(self, nums: list[int]) -> int:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(n)
+        Tags:
+            DS: hash map, list
+            A: prefix sum, iteration
+        """
+        # One over zero surplus list.
+        prefix = [0]
+        # One over zero surplus counter.
+        ones_counter = 0
+        # One over zero surplus: index of first occurence.
+        counter_index = {}
+
+        for index, num in enumerate(nums):
+            prev_ones = prefix[-1]
+            if num:
+                prefix.append(prev_ones + 1)
+                ones_counter += 1
             else:
-                max_len = max(max_len, index - prefixes[diff])
-        
-        return max_len
+                prefix.append(prev_ones - 1)
+                ones_counter -= 1
+
+            if ones_counter not in counter_index:
+                counter_index[ones_counter] = index
+
+        res = 0
+
+        for index, ones_counter in enumerate(prefix):
+            if ones_counter == 0:
+                res = max(res, index)
+            elif ones_counter in counter_index:
+                res = max(res, index - counter_index[ones_counter] - 1)
+
+        return res
 
 
 class Solution:
@@ -33,10 +102,12 @@ class Solution:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n)
-        Tags: dp, top-down with memoization as hash map
-        failed attempt, desn't work for the large test case and O(n2)
+        Tags:
+            DS: hash map
+            A: top-down
         """
         # memo = {}
+
         def dfs(index, zeros, ones):
             if index == len(numbers):
                 return zeros + ones if zeros == ones else 0

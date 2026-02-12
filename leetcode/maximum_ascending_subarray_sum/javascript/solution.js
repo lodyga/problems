@@ -2,25 +2,25 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: sliding windowd
-    * @param {number[]} numbers
+    * Tags:
+    *     A: iteration
+    * @param {number[]} nums
     * @return {number}
     */
-   maxAscendingSum(numbers) {
-      let prevNumber = 0;
-      let window = 0;
-      let maxWindow = 0;
+   maxAscendingSum(nums) {
+      let prevNum = nums[0] - 1;
+      let currSum = 0;
+      let maxSum = 0;
 
-      for (const number of numbers) {
-         if (number > prevNumber) {
-            window += number;
-            maxWindow = Math.max(maxWindow, window);
-         } else {
-            window = number
-         }
-         prevNumber = number;
+      for (const num of nums) {
+         if (prevNum >= num)
+            currSum = 0;
+
+         currSum += num;
+         maxSum = Math.max(maxSum, currSum);
+         prevNum = num;
       }
-      return maxWindow
+      return maxSum
    };
 }
 

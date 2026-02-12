@@ -16,30 +16,33 @@ class Solution:
         """
         Time complexity: O(2^n)
         Auxiliary space complexity: O(2^n)
-        Tags: binary tree
+        Tags:
+            DS: binray tree, list
+            A: backtracking with memo
         """
-        def dfs(index):
-            if index % 2 == 0:
-                return []
-            elif index == 1:
-                return [TreeNode(0)]
-            
-            tree_list = []
+        memo = {0: [], 1: [TreeNode(0)]}
 
-            for left in range(index):
-                right = index - 1 - left
+        def backtrack(n: int) -> list[list[int]]:
+            if n in memo:
+                return memo[n]
 
-                for left_tree in dfs(left):
-                    for right_tree in dfs(right):
-                        tree_list.append(TreeNode(0, left_tree, right_tree))
+            res = []
 
-            return tree_list
-            
-        return dfs(n)
-        
+            for left in range(n):
+                right = n - 1 - left
+                left_trees = backtrack(left)
+                right_trees = backtrack(right)
 
-print(Solution().allPossibleFBT(0))
-print(Solution().allPossibleFBT(1))
-print(Solution().allPossibleFBT(3))
-print(Solution().allPossibleFBT(5))
-print(Solution().allPossibleFBT(7))
+                for left_tree in left_trees:
+                    for right_tree in right_trees:
+                        res.append(TreeNode(0, left_tree, right_tree))
+
+            memo[n] = res
+            return res
+
+        return backtrack(n)
+
+
+print([get_tree_values(root) for root in Solution().allPossibleFBT(1)] == [[0]])
+print([get_tree_values(root) for root in Solution().allPossibleFBT(3)] == [[0, 0, 0]])
+print([get_tree_values(root) for root in Solution().allPossibleFBT(7)] == [[0, 0, 0, None, None, 0, 0, None, None, 0, 0], [0, 0, 0, None, None, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, None, None, None, None, 0, 0], [0, 0, 0, 0, 0, None, None, 0, 0]])

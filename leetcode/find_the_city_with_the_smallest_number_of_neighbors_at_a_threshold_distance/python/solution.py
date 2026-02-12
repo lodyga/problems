@@ -15,7 +15,7 @@ class Solution:
                 adjs[u].add((distance, v))
                 adjs[v].add((distance, u))
 
-        def bfs(distance, city):
+        def dijkstra(distance, city):
             visited = [False] * n
             city_heap = [(distance, city)]
 
@@ -36,7 +36,7 @@ class Solution:
 
         min_neighbors_counter = n
         for city in range(n):
-            neighbors_counter = bfs(0, city)
+            neighbors_counter = dijkstra(0, city)
             if neighbors_counter <= min_neighbors_counter:
                 min_neighbors_counter = neighbors_counter
                 min_neighbors_city = city

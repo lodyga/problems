@@ -3,19 +3,21 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: matrix
+        Tags:
+            DS: array (matrix)
+            A: iteration
         """
-        if len(original) != ROWS * COLS:
+        if (len(original) != ROWS * COLS):
             return []
 
-        matrix = [[0] * COLS for _ in range(ROWS)]
+        res = [[0]*COLS for _ in range(ROWS)]
 
-        for index in range(len(original)):
+        for index, num in enumerate(original):
             row = index // COLS
-            col = index % COLS            
-            matrix[row][col] = original[index]
+            col = index % COLS
+            res[row][col] = num
 
-        return matrix
+        return res
 
 
 class Solution:
@@ -23,20 +25,22 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: matrix
+        Tags:
+            DS: array (matrix)
+            A: iteration
         """
-        if len(original) != ROWS * COLS:
+        if (len(original) != ROWS * COLS):
             return []
 
-        matrix = [[0] * COLS for _ in range(ROWS)]
+        res = [[0]*COLS for _ in range(ROWS)]
         index = 0
 
         for row in range(ROWS):
             for col in range(COLS):
-                matrix[row][col] = original[index]
+                res[row][col] = original[index]
                 index += 1
 
-        return matrix
+        return res
 
 
 print(Solution().construct2DArray([1, 2, 3, 4], 2, 2) == [[1, 2], [3, 4]])

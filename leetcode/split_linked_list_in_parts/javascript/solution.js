@@ -16,52 +16,48 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: linked list
+    * Tags:
+    *     DS: linked list, list
+    *     A: iteration
     * @param {ListNode} head
     * @param {number} k
     * @return {ListNode[]}
     */
    splitListToParts(head, k) {
-      let node = head;
+      let node = head
       let len = 0;
+
       while (node) {
          len++;
-         node = node.next
+         node = node.next;
       }
-      const div = Math.floor(len / k);
-      let mod = len % k;
+
+      const partLen = Math.floor(len / k);
+      let rest = len % k;
 
       node = head;
-      const heads = [];
-      for (let index = 0; index < k; index++) {
-         heads.push(node);
-         let rng = 0;
-         if (mod) {
-            rng = div + 1;
-            mod -= 1;
-         }
-         else
-            rng = div;
+      const res = [];
 
-         while (rng) {
-            if (rng === 1) {
-               [node.next, node] = [null, node.next]  // right order
-               // [node, node.next] = [node.next, null]  // wrong order
-               // const nodeNext = node.next;
-               // node.next = null;
-               // node = nodeNext;
+      for (let i = 0; i < k; i++) {
+         res.push(node);
 
-            } else
-               node = node.next;
-            rng--;
-         }
+         if (node === null)
+            continue
+
+         for (let i = 0; i < partLen - 1 + (rest ? 1 : 0); i++)
+            node = node.next;
+
+         rest -= rest ? 1 : 0;
+         const nodeNext = node.next;
+         node.next = null;
+         node = nodeNext;
       }
 
-      return heads;
+      return res
    };
 }
 
 
 const splitListToParts = new Solution().splitListToParts;
-console.log(new Solution().splitListToParts(buildLinkedList([1, 2, 3]), 5),)
-console.log(new Solution().splitListToParts(buildLinkedList([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]), 3),)
+console.log(new Solution().splitListToParts(buildLinkedList([1, 2, 3]), 5), )
+console.log(new Solution().splitListToParts(buildLinkedList([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]), 3), )

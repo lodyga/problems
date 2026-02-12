@@ -8,7 +8,6 @@ class Solution {
     * Tags:
     *     DS: heap, array (matrix)
     *     A: greedy, Dijkstra
-    *     Model: graph
     * @param {number[][]} heights
     * @return {number}
     */
@@ -18,7 +17,7 @@ class Solution {
       const DIRECTIONS = [[-1, 0], [1, 0], [0, -1], [0, 1]];
       const visited = Array.from({ length: ROWS }, () => Array(COLS).fill(false));
 
-      const bfs = () => {
+      const dijkstra = () => {
          const minEffortHeap = new MinPriorityQueue(x => x[0]);
          minEffortHeap.enqueue([0, 0, 0]);
 
@@ -47,7 +46,7 @@ class Solution {
             }
          }
       };
-      return bfs()
+      return dijkstra()
    };
 }
 

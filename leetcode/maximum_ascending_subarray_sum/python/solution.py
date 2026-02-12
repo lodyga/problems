@@ -1,23 +1,48 @@
 class Solution:
-    def maxAscendingSum(self, numbers: list[int]) -> int:
+    def maxAscendingSum(self, nums: list[int]) -> int:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: sliding window
+        Tags:
+            A: iteration
         """
-        prev_number = 0
-        window = 0
-        max_window = 0
-        
-        for number in numbers:
-            if number > prev_number:
-                window += number
-                max_window = max(max_window, window)
-            else:
-                window = number
-            prev_number = number
+        prev_num = nums[0] - 1
+        max_sum = 0
+        curr_sum = 0
 
-        return max_window
+        for num in nums:
+            if prev_num < num:
+                curr_sum += num
+                max_sum = max(max_sum, curr_sum)
+            else:
+                curr_sum = num
+
+            prev_num = num
+
+        return max_sum
+
+
+class Solution:
+    def maxAscendingSum(self, nums: list[int]) -> int:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(1)
+        Tags:
+            A: iteration
+        """
+        prev_num = nums[0] - 1
+        max_sum = 0
+        curr_sum = 0
+
+        for num in nums:
+            if prev_num >= num:
+                curr_sum = 0
+
+            curr_sum += num
+            max_sum = max(max_sum, curr_sum)
+            prev_num = num
+
+        return max_sum
 
 
 print(Solution().maxAscendingSum([10, 20, 30, 5, 10, 50]) == 65)

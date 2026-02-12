@@ -2,55 +2,63 @@ class Solution:
     def frequencySort(self, text: str) -> str:
         """
         Time complexity: O(n)
+            O(62): uppercase + lowercase + digits.
         Auxiliary space complexity: O(n)
-        Tags: bucket sort with hash map
+        Tags:
+            DS: hash map
+            A: sorting, counting sort
         """
-        letter_frequency = {}
+        letter_freq = {}
+        bucket = {}
+        res = []
+
         for letter in text:
-            letter_frequency[letter] = letter_frequency.get(letter, 0) + 1
+            letter_freq[letter] = letter_freq.get(letter, 0) + 1
 
-        buckets = {}
-        for key, val in letter_frequency.items():
-            if val not in buckets:
-                buckets[val] = set()
-            buckets[val].add(key)
+        for letter, freq in letter_freq.items():
+            if freq not in bucket:
+                bucket[freq] = []
 
-        sorted_text = []
-        for frequency in reversed(range(1, len(text) + 1)):
-            if frequency in buckets:
-                for letter in buckets[frequency]:
-                    sorted_text.append(letter * frequency)
+            bucket[freq].append(letter)
 
-        return "".join(sorted_text)
+        for freq in sorted(bucket.keys(), reverse=True):
+            for letter in bucket[freq]:
+                res.append(letter * freq)
+
+        return "".join(res)
 
 
 class Solution:
     def frequencySort(self, text: str) -> str:
         """
         Time complexity: O(n)
+            O(62): uppercase + lowercase + digits.
         Auxiliary space complexity: O(n)
-        Tags: bucket sort with array
+        Tags:
+            DS: hash map
+            A: sorting, bucket sort
         """
-        letter_frequency = {}
-        max_frequency = 0
+        letter_freq = {}
+        bucket = {}
+        res = []
+
         for letter in text:
-            letter_frequency[letter] = letter_frequency.get(letter, 0) + 1
-            max_frequency = max(max_frequency, letter_frequency[letter])
+            letter_freq[letter] = letter_freq.get(letter, 0) + 1
 
-        buckets = [set() for _ in range(max_frequency)]
-        
-        for key, val in letter_frequency.items():
-            buckets[val - 1].add(key)
+        for letter, freq in letter_freq.items():
+            if freq not in bucket:
+                bucket[freq] = []
 
-        sorted_text = []
-        for frequency in reversed(range(len(buckets))):
-            if buckets[frequency]:
-                for letter in buckets[frequency]:
-                    sorted_text.append(letter * (frequency + 1))
+            bucket[freq].append(letter)
 
-        return "".join(sorted_text)
+        for freq in range(len(text), 0, -1):
+            if freq in bucket:
+                for letter in bucket[freq]:
+                    res.append(letter * freq)
+
+        return "".join(res)
 
 
-print(Solution().frequencySort("tree") == "eetr")
-print(Solution().frequencySort("cccaaa") == "cccaaa")
-print(Solution().frequencySort("Aabb") == "bbAa")
+print(Solution().frequencySort("tree") in ("eetr", "eert"))
+print(Solution().frequencySort("cccaaa") in ("cccaaa", "aaaccc"))
+print(Solution().frequencySort("Aabb") in ("bbAa", "bbaA"))

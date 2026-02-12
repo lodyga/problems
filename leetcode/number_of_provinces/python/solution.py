@@ -43,7 +43,7 @@ class Solution:
         Time complexity: O(V + E)
         Auxiliary space complexity: O(V + E)
         Tags:
-            DS: array
+            DS: queue, array
             A: multi-source BFS
             Model: graph
         """

@@ -2,7 +2,8 @@ class Solution {
    /**
     * Time complexity: O(nlogn)
     * Auxiliary space complexity: O(n)
-    * Tags: greedy, two pointers, sorting
+    * Tags:
+    *     A: greedy, two pointers, sorting
     * @param {number[]} tokens
     * @param {number} power
     * @return {number}
@@ -18,18 +19,19 @@ class Solution {
          if (power >= tokens[left]) {
             power -= tokens[left];
             score++;
-            maxScore = score > maxScore ? score : maxScore;
+            maxScore = Math.max(maxScore, score);
             left++;
-         } else if (score === 0) {
-            return maxScore
-         } else {
-            score--;
+         } else if (score) {
             power += tokens[right];
+            score--;
             right--;
+         } else {
+            break
          }
-      }
+      };
+
       return maxScore
-   };
+   }
 }
 
 

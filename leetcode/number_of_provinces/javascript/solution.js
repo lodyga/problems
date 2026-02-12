@@ -45,7 +45,7 @@ class Solution {
     *     n: adjacency matrix side
     * Auxiliary space complexity: O(n)
     * Tags:
-    *     DS: array
+    *     DS: queue, array
     *     A: multi-source BFS
     *     Model: graph
     * @param {number[][]} isConnected

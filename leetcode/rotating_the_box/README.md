@@ -1,6 +1,7 @@
 # Rotating the Box
 https://leetcode.com/problems/rotating-the-box/
 
+<p>
 You are given an m x n matrix of characters boxGrid representing a side-view of a box. Each cell of the box is one of the following:
 
 A stone '#'
@@ -11,42 +12,36 @@ The box is rotated 90 degrees clockwise, causing some of the stones to fall due 
 It is guaranteed that each stone in boxGrid rests on an obstacle, another stone, or the bottom of the box.
 
 Return an n x m matrix representing the box after the rotation described above.
+</p>
 
-
-<b>Example 1:</b>\
+<pre>
+<b>Example 1:</b>
 Input:
-<pre>
 boxGrid = [["#",".","#"]]
-</pre>
-<pre>
 Output: [["."],
          ["#"],
          ["#"]]
 </pre>
 
-<b>Example 2:</b>\
+<pre>
+<b>Example 2:</b>
 Input:
-<pre>
-   boxGrid = [["#",".","*","."],
-              ["#","#","*","."]]
-</pre>
+boxGrid = [["#",".","*","."],
+           ["#","#","*","."]]
 Output:
-<pre>
         [["#","."],
          ["#","#"],
          ["*","*"],
          [".","."]]
 </pre>
 
-<b>Example 3:</b>\
+<pre>
+<b>Example 3:</b>
 Input:
-<pre>
-    boxGrid = [["#","#","*",".","*","."],
-              ["#","#","#","*",".","."],
-              ["#","#","#",".","#","."]]
-</pre>
+boxGrid = [["#","#","*",".","*","."],
+          ["#","#","#","*",".","."],
+          ["#","#","#",".","#","."]]
 Output:
-<pre>
         [[".","#","#"],
          [".","#","#"],
          ["#","#","*"],

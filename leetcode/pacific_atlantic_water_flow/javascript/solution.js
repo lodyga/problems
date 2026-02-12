@@ -60,8 +60,8 @@ class Solution {
     *     n: heights length
     * Auxiliary space complexity: O(n2)
     * Tags:
-    *     DS: array (matrix)
-    *     A: multi-source BFS, iteration, queue
+    *     DS: queue, array (matrix)
+    *     A: multi-source BFS
     * @param {number[][]} heights
     * @return {number[][]}
     */

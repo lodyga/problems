@@ -2,32 +2,39 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: sliding window
-    * @param {number[]} cardPoints
+    * Tags:
+    *     A: sliding window
+    * @param {number[]} points
     * @param {number} k
     * @return {number}
     */
-   maxScore(cardPoints, k) {
-      let windowLength = cardPoints.length - k;
+   maxScore(points, k) {
+      const N = points.length;
+      const numSum = points.reduce((sum, num) => sum + num, 0);
+
+      if (N === k)
+         return numSum
+
+      let minWindow = numSum;
       let window = 0;
-      let total = cardPoints.reduce((total, value) => total + value, 0);
-      let minWindow = total;
+      const windowSize = N - k
       let left = 0;
 
-      if (windowLength === 0)
+      if (windowSize === 0)
          return total
 
-      for (let right = 0; right < cardPoints.length; right++) {
-         window += cardPoints[right];
 
-         if (right - left + 1 < windowLength)
+      for (let right = 0; right < N; right++) {
+         window += points[right];
+
+         if (right - left + 1 < windowSize)
             continue
 
          minWindow = Math.min(minWindow, window);
-         window -= cardPoints[left];
+         window -= points[left];
          left++;
       }
-      return total - minWindow
+      return numSum - minWindow
    };
 }
 

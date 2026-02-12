@@ -1,66 +1,110 @@
 class Solution:
     def minHeightShelves(self, books: list[list[int]], shelf_width: int) -> int:
         """
-        Time complexity: O(2^n)
-        Auxiliary space complexity: O(n)
-        Tags: brute-force
+        Time complexity: O(n3)
+        Auxiliary space complexity: O(n3)
+        Tags:
+            DS: hash map
+            A: top-down
         """
         UPPER_BOUND = 10**6
-        def dfs(index, shelf_width_left, shelf_height, bookshelf_height):
-            if index == len(books):
-                return bookshelf_height + shelf_height
-        
-            thickness, height = books[index]
-            # if not a first book on the shelf skip current shelf
-            skip = UPPER_BOUND
-            if shelf_width_left != shelf_width:
-                skip = dfs(index, shelf_width, 0, bookshelf_height + shelf_height)
-            # check shelf width and add a book
-            take = UPPER_BOUND
-            if shelf_width_left >= thickness:
-                take = dfs(index + 1, shelf_width_left - thickness, max(shelf_height, height), bookshelf_height)
-            
-            return min(skip, take)
+        memo = {}
 
-        return dfs(0, shelf_width, 0, 0)
+        def dfs(index, curr_width, bookshelf_height):
+            memo_ind = (index, curr_width, bookshelf_height)
+            if curr_width > shelf_width:
+                return UPPER_BOUND
+            elif index == len(books):
+                return bookshelf_height
+            elif memo_ind in memo:
+                return memo[memo_ind]
+
+            width, height = books[index]
+
+            fill_shelf = dfs(
+                index + 1,
+                width + curr_width,
+                max(bookshelf_height, height)
+            )
+            add_shelf = bookshelf_height + dfs(index + 1, width, height)
+
+            memo[memo_ind] = min(fill_shelf, add_shelf)
+            return memo[memo_ind]
+
+        return dfs(0, 0, 0)
 
 
 class Solution:
     def minHeightShelves(self, books: list[list[int]], shelf_width: int) -> int:
         """
-        Time complexity: O(n2)
-        Auxiliary space complexity: O(n3)
-        Tags: dp, top-down with memoization as hash map
-        Fails 7th leetcode testcase.
+        Time complexity: O(n*w)
+            n: book count
+            w: shelf width
+        Auxiliary space complexity: O(n)
+        Tags:
+            DS: array
+            A: top-down
         """
-        # mimimal hight to fill bookshelf with all the remaining books
-        # on particular shelf with width left
-        memo = {}  # {(shefl index, book index, shelf width left): bookshelf_height, }
         UPPER_BOUND = 10**6
+        memo = [UPPER_BOUND] * len(books)
+        memo.append(0)
+
+        def dfs(index):
+            if memo[index] != UPPER_BOUND:
+                return memo[index]
+
+            curr_width = 0
+            max_height = 0
+
+            for i in range(index, len(books)):
+                width, height = books[i]
+                curr_width += width
+
+                if curr_width > shelf_width:
+                    break
+
+                max_height = max(max_height, height)
+                memo[index] = min(memo[index], max_height + dfs(i + 1))
+
+            return memo[index]
+
+        return dfs(0)
 
 
-        def dfs(index, shelf_width_left, shelf_height, bookshelf_height, shelf_index):
-            if index == len(books):
-                return bookshelf_height + shelf_height
-            elif (index, shelf_index, shelf_width_left) in memo:
-                return memo[(index, shelf_index, shelf_width_left)]
-        
-            thickness, height = books[index]
-            # if not a first book on the shelf skip current shelf
-            skip = UPPER_BOUND
-            if shelf_width_left != shelf_width:
-                skip = dfs(index, shelf_width, 0, bookshelf_height + shelf_height, shelf_index + 1)
-            # check shelf width and add a book
-            take = UPPER_BOUND
-            if shelf_width_left >= thickness:
-                take = dfs(index + 1, shelf_width_left - thickness, max(shelf_height, height), bookshelf_height, shelf_index)
+class Solution:
+    def minHeightShelves(self, books: list[list[int]], shelf_width: int) -> int:
+        """
+        Time complexity: O(n*w)
+            n: book count
+            w: shelf width
+        Auxiliary space complexity: O(n)
+        Tags:
+            DS: array
+            A: bottom-up
+        """
+        UPPER_BOUND = 10**6
+        cache = [UPPER_BOUND] * len(books)
+        cache.append(0)
 
-            memo[(index, shelf_index, shelf_width_left)] = min(skip, take)
-            return memo[(index, shelf_index, shelf_width_left)]
+        for index in range(len(books) - 1, -1, -1):
+            curr_width = 0
+            max_height = 0
 
-        return dfs(0, shelf_width, 0, 0, 0)
+            for i in range(index, len(books)):
+                width, height = books[i]
+                curr_width += width
+
+                if curr_width > shelf_width:
+                    break
+
+                max_height = max(max_height, height)
+                cache[index] = min(cache[index], max_height + cache[i + 1])
+
+        return cache[0]
 
 
-print(Solution().minHeightShelves([[1, 1], [2, 3], [2, 3], [1, 1], [1, 1], [1, 1], [1, 2]], 4), 6)
-print(Solution().minHeightShelves([[1, 3], [2, 4], [3, 2]], 6), 4)
-print(Solution().minHeightShelves([[7, 3], [8, 7], [2, 7], [2, 5]], 10), 15)
+print(Solution().minHeightShelves([[4, 5]], 4) == 5)
+print(Solution().minHeightShelves([[1, 1], [2, 3], [2, 3], [1, 1], [1, 1], [1, 1], [1, 2]], 4) == 6)
+print(Solution().minHeightShelves([[1, 3], [2, 4], [3, 2]], 6) == 4)
+print(Solution().minHeightShelves([[7, 3], [8, 7], [2, 7], [2, 5]], 10) == 15)
+print(Solution().minHeightShelves([[11, 83], [170, 4], [93, 80], [155, 163], [134, 118], [75, 14], [122, 192], [123, 154], [187, 29], [160, 64], [170, 152], [113, 179], [60, 102], [28, 187], [59, 95], [187, 97], [49, 193], [67, 126], [75, 45], [130, 160], [4, 102], [116, 171], [43, 170], [96, 188], [54, 15], [167, 183], [58, 158], [59, 55], [148, 183], [89, 95], [90, 113], [51, 49], [91, 28], [172, 103], [173, 3], [131, 78], [11, 199], [77, 200], [58, 65], [77, 30], [157, 58], [18, 194], [101, 148], [22, 197], [76, 181], [21, 176], [50, 45], [80, 174], [116, 198], [138, 9], [58, 125], [163, 102], [133, 175], [21, 39], [141, 156], [34, 185], [14, 113], [11, 34], [35, 184], [16, 132], [78, 147], [85, 170], [32, 149], [46, 94], [196, 3], [155, 90], [9, 114], [117, 119], [17, 157], [94, 178], [53, 55], [103, 142], [70, 121], [9, 141], [16, 170], [92, 137], [157, 30], [94, 82], [144, 149], [128, 160], [8, 147], [153, 198], [12, 22], [140, 68], [64, 172], [86, 63], [66, 158], [23, 15], [120, 99], [27, 165], [79, 174], [46, 19], [60, 98], [160, 172], [128, 184], [63, 172], [135, 54], [40, 4], [102, 171], [29, 125], [81, 9], [111, 197], [16, 90], [22, 150], [168, 126], [187, 61], [47, 190], [54, 110], [106, 102], [55, 47], [117, 134], [33, 107], [2, 10], [18, 62], [109, 188], [113, 37], [59, 159], [120, 175], [17, 147], [112, 195], [177, 53], [148, 173], [29, 105], [196, 32], [123, 51], [29, 19], [161, 178], [148, 2], [70, 124], [126, 9], [105, 87], [41, 121], [147, 10], [78, 167], [91, 197], [22, 98], [73, 33], [148, 194], [166, 64], [33, 138], [139, 158], [160, 19], [140, 27], [103, 109], [88, 16], [99, 181], [2, 140], [50, 188], [200, 77], [73, 84], [159, 130], [115, 199], [152, 79], [1, 172], [124, 136], [117, 138], [158, 86], [193, 150], [56, 57], [150, 133], [52, 186], [21, 145], [127, 97], [108, 110], [174, 44], [199, 169], [139, 200], [66, 48], [52, 190], [27, 86], [142, 191], [191, 79], [126, 114], [125, 100], [176, 95], [104, 79], [146, 189], [144, 78], [52, 106], [74, 74], [163, 128], [34, 181], [20, 178], [15, 107], [105, 8], [66, 142], [39, 126], [95, 59], [164, 69], [138, 18], [110, 145], [128, 200], [149, 150], [149, 93], [145, 140], [90, 170], [81, 127], [57, 151], [167, 127], [95, 89]], 200) == 15672)

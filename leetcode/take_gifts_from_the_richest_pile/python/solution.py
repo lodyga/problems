@@ -6,13 +6,17 @@ class Solution:
         """
         Time complexity: O(n + klogn)
         Auxiliary space complexity: O(n)
-        Tags: heap
+        Tags:
+            DS: heap
+            A: iteration
         """
         gift_heap = [-gift for gift in gifts]
         heapq.heapify(gift_heap)
+
         for _ in range(k):
-            number = -heapq.heappop(gift_heap)
-            heapq.heappush(gift_heap, -int(number**0.5))
+            gift = -heapq.heappop(gift_heap)
+            heapq.heappush(gift_heap, -int(gift**0.5))
+
         return -sum(gift_heap)
 
 

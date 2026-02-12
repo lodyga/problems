@@ -1,111 +1,97 @@
-from collections import deque
-
-
 class Solution:
     def snakesAndLadders(self, board: list[list[int]]) -> int:
+        from collections import deque
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n2)
-        Tags: bfs, iteration, queue, graph, matrix
+        Tags:
+            DS: deque, array (matrix)
+            A: BFS
         """
+        def get_bord_val(index: int) -> int:
+            index -= 1
+            row = index // COLS
+            col = index % COLS
+            col = COLS - 1 - col if row % 2 else col
+            val = board[row][col]
+            return index + 1 if val == -1 else val
+
         ROWS = len(board)
         COLS = len(board[0])
-        LAST = ROWS * COLS - 1
-        visited = [[False] * COLS for _ in range(ROWS)]
+        N = ROWS * COLS
+        visited = [False] * (N + 1)
+        board.reverse()
 
-        def get_row_cell(cell):
-            rev_row = cell // COLS
-            row = ROWS - 1 - rev_row
+        def dijkstra(moves: int, board_val: int) -> int:
+            roll_queue = deque([(moves, board_val)])
+            visited[board_val] = True
 
-            col = cell % COLS
-            if rev_row % 2:
-                col = COLS - 1 - col
+            while roll_queue:
+                moves, cell_index = roll_queue.popleft()
 
-            return (row, col)
+                for die_roll in range(1, 7):
+                    next_cell = cell_index + die_roll
+                    board_val = get_bord_val(next_cell)
 
-        def bfs(moves, cell):
-            # deque((moves, distance)); min moves, max distance
-            queue = deque([(moves, cell)])
+                    if visited[board_val]:
+                        continue
+                    elif board_val == N:
+                        return moves + 1
 
-            while queue:
-                distance, cell = queue.popleft()
-
-                row, col = get_row_cell(cell)
-                if visited[row][col]:
-                    continue
-                visited[row][col] = True
-
-                for next_cell in range(cell + 1, min(cell + 7, LAST + 1)):
-                    row, col = get_row_cell(next_cell)
-
-                    # if snake or ladder
-                    if board[row][col] != -1:
-                        next_cell = board[row][col] - 1
-                    
-                    if next_cell == LAST:
-                        return distance + 1
-                    
-                    queue.append((distance + 1, next_cell))
+                    roll_queue.append((moves + 1, board_val))
+                    visited[board_val] = True
 
             return -1
 
-        return bfs(0, 0)
-
-
-import heapq
+        return dijkstra(0, 1)
 
 
 class Solution:
     def snakesAndLadders(self, board: list[list[int]]) -> int:
+        import heapq
         """
         Time complexity: O(n2logn)
         Auxiliary space complexity: O(n2)
-        Tags: bfs, iteration, heap, graph, matrix
-        Dijkstra's alg
+        Tags:
+            DS: heap, array (matrix)
+            A: greedy, Dijkstra
         """
+        def get_bord_val(index: int) -> int:
+            index -= 1
+            row = index // COLS
+            col = index % COLS
+            col = COLS - 1 - col if row % 2 else col
+            val = board[row][col]
+            return index + 1 if val == -1 else val
+
         ROWS = len(board)
         COLS = len(board[0])
-        LAST = ROWS * COLS - 1
-        visited = [[False] * COLS for _ in range(ROWS)]
+        N = ROWS * COLS
+        visited = [False] * (N + 1)
+        board.reverse()
 
-        def get_row_cell(cell):
-            rev_row = cell // COLS
-            row = ROWS - 1 - rev_row
+        def dijikstra(moves: int, board_val: int) -> int:
+            roll_heap = [(moves, board_val)]
+            visited[board_val] = True
 
-            col = cell % COLS
-            if rev_row % 2:
-                col = COLS - 1 - col
+            while roll_heap:
+                moves, cell_index = heapq.heappop(roll_heap)
 
-            return (row, col)
+                for die_roll in range(1, 7):
+                    next_cell = cell_index + die_roll
+                    board_val = get_bord_val(next_cell)
 
-        def bfs(moves, cell):
-            # heap((moves, -distance)); min moves, max distance
-            heap = [(moves, -cell)]
+                    if visited[board_val]:
+                        continue
+                    elif board_val == N:
+                        return moves + 1
 
-            while heap:
-                distance, cell = heapq.heappop(heap)
-                cell = -cell
-
-                row, col = get_row_cell(cell)
-                if visited[row][col]:
-                    continue
-                visited[row][col] = True
-
-                for next_cell in range(cell + 1, min(cell + 7, LAST + 1)):
-                    row, col = get_row_cell(next_cell)
-
-                    # if snake or ladder
-                    if board[row][col] != -1:
-                        next_cell = board[row][col] - 1
-
-                    if next_cell == LAST:
-                        return distance + 1
-                    
-                    heapq.heappush(heap, (distance + 1, -next_cell))
+                    heapq.heappush(roll_heap, (moves + 1, board_val))
+                    visited[board_val] = True
 
             return -1
 
-        return bfs(0, 0)
+        return dijikstra(0, 1)
 
 
 print(Solution().snakesAndLadders([[-1, -1], [-1, 3]]) == 1)

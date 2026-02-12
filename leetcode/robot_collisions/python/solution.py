@@ -3,51 +3,59 @@ class Solution:
         """
         Time complexity: O(nlogn)
         Auxiliary space complexity: O(n)
-        Tags: stack
+        Tags:
+            DS: stack
+            A: sorting, iteration
         """
-        zip_data = sorted(zip(positions, healths, directions, range(len(positions))))
-        robots = [(health, direction, position) for _, health, direction, position in zip_data]
-        robot_stack = []
+        data = sorted((p, d, h, i)
+                      for i, (p, h, d) in enumerate(zip(positions, healths, directions)))
+        stack = []
 
-        for robot in robots:
-            health, direction, position = robot
-
+        for _, d, h, i in data:
             if (
-                robot_stack and 
-                robot_stack[-1][1] == "R" and 
-                direction == "L"
+                stack and 
+                stack[-1][0] == "R" and
+                d == "L"
             ):
-                prev_health, _, _ = robot_stack[-1]
+                prev_d, prev_h, prev_i = stack[-1]
 
-                if prev_health == health:
-                    robot_stack.pop()
-                elif prev_health > health:
-                    prev_health, prev_direction, prev_position = robot_stack.pop()
-                    robot_stack.append((prev_health - 1, prev_direction, prev_position))
-                else:
-                    add = False
-                    while robot_stack and robot_stack[-1][1] == "R":
-                        prev_health, prev_direction, prev_position = robot_stack.pop()
-                        
-                        if prev_health < health:
-                            health -= 1
-                            add = True
-                        elif prev_health == health:
-                            add = False
-                            break
-                        else: # robot_stack[-1][0] > health
-                            robot_stack.append((prev_health - 1, prev_direction, prev_position))
-                            add = False
-                            break
-
-                    if add:
-                        robot_stack.append((health, direction, position))
+                if prev_h == h:
+                    stack.pop()
+                elif prev_h > h:
+                    stack.pop()
+                    stack.append((prev_d, prev_h - 1, prev_i))
+                elif prev_h < h:
+                    is_alive = True
                     
-            else:
-                robot_stack.append(robot)
+                    while (
+                        stack and 
+                        stack[-1][0] == "R" and
+                        d == "L" and 
+                        h
+                    ):
+                        prev_h = stack[-1][1]
 
-        robot_stack.sort(key=lambda x: x[2])
-        return [health for health, _, _, in robot_stack]
+                        if prev_h == h:
+                            stack.pop()
+                            is_alive = False
+                            break
+                        elif prev_h < h:
+                            stack.pop()
+                            h -= 1
+                        elif prev_h > h:
+                            prev_d, prev_h, prev_i = stack.pop()
+                            stack.append((prev_d, prev_h - 1, prev_i))
+                            is_alive = False
+                            break
+
+                    if is_alive and h:
+                        stack.append((d, h, i))
+
+            else:
+                stack.append((d, h, i))
+
+        stack.sort(key=lambda x: x[2])
+        return [h for _, h, _ in stack]
 
 
 print(Solution().survivedRobotsHealths([5, 4, 3, 2, 1], [2, 17, 9, 15, 10], "RRRRR") == [2, 17, 9, 15, 10])

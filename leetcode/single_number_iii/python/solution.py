@@ -1,49 +1,52 @@
 class Solution:
-    def singleNumber(self, numbers: list[int]) -> list[int]:
+    def singleNumber(self, nums: list[int]) -> list[int]:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: hash set
+        Tags:
+            DS: hash set
+            A: iteration
         """
-        number_set = set()
+        num_set = set()
 
-        for number in numbers:
-            if number in number_set:
-                number_set.remove(number)
+        for num in nums:
+            if num in num_set:
+                num_set.discard(num)
             else:
-                number_set.add(number)
-        
-        return list(number_set)
+                num_set.add(num)
+
+        return list(num_set)
 
 
 class Solution:
-    def singleNumber(self, numbers: list[int]) -> list[int]:
+    def singleNumber(self, nums: list[int]) -> list[int]:
         """
         Time complexity: O(n)
-        Auxiliary space complexity: O(n)
-        Tags: bit manipulation
+        Auxiliary space complexity: O(1)
+        Tags:
+            A: bit manipulation
         """
-        two_xor = 0
-
-        for number in numbers:
-            two_xor ^= number
+        xor = 0
         
+        for num in nums:
+            xor ^= num
+
         diff_bit = 1
-        while (diff_bit & two_xor) == 0:
+
+        while xor & diff_bit == 0:
             diff_bit <<= 1
 
-        zeros = 0
-        ones = 0
+        res = [0, 0]
 
-        for number in numbers:
-            if diff_bit & number:
-                ones ^= number
+        for num in nums:
+            if num & diff_bit:
+                res[1] ^= num
             else:
-                zeros ^= number
+                res[0] ^= num
+        
+        return res
 
-        return [zeros, ones]
 
-
-print(Solution().singleNumber([1, 2, 1, 3, 2, 5]), [3, 5])
-print(Solution().singleNumber([-1, 0]), [-1, 0])
-print(Solution().singleNumber([0, 1]), [0, 1])
+print(sorted(Solution().singleNumber([1, 2, 1, 3, 2, 5])) == sorted([3, 5]))
+print(sorted(Solution().singleNumber([-1, 0])) == sorted([-1, 0]))
+print(sorted(Solution().singleNumber([0, 1])) == sorted([0, 1]))

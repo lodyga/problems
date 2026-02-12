@@ -1,73 +1,35 @@
 class Solution:
-    def maximumSubarraySum(self, numbers: list[int], k: int) -> int:
+    def maximumSubarraySum(self, nums: list[int], k: int) -> int:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(k)
-        Tags: sliding window
+        Tags:
+            DS: hash map
+            A: sliding window
         """
-        left = 0
-        window_map = {}
+        window_num_freq = {}
         window_sum = 0
-        max_window = 0
+        left = 0
+        res = 0
 
-        for right, number in enumerate(numbers):
-            window_map[number] = window_map.get(number, 0) + 1
-            window_sum += number
+        for right, num in enumerate(nums):
+            window_num_freq[num] = window_num_freq.get(num, 0) + 1
+            window_sum += num
 
-            if right - left + 1 < k:
+            if right < k - 1:
                 continue
 
-            if len(window_map) == k:
-                max_window = max(max_window, window_sum)
-            
-            left_number = numbers[left]
-            window_map[left_number] -= 1
-            if window_map[left_number] == 0:
-                window_map.pop(left_number)
-            window_sum -= left_number
+            if len(window_num_freq) == k:
+                res = max(res, window_sum)
+
+            left_num = nums[left]
+            window_sum -= left_num
+            window_num_freq[left_num] -= 1
+            if window_num_freq[left_num] == 0:
+                window_num_freq.pop(left_num)
             left += 1
 
-        return max_window
-
-
-class Solution:
-    def maximumSubarraySum(self, numbers: list[int], k: int) -> int:
-        """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(k)
-        Tags: sliding window
-        """
-        self.left = 0
-        window_map = {}
-        self.window_sum = 0
-        self.max_window = 0
-
-        def pop_left():
-            left_number = numbers[self.left]
-            window_map[left_number] -= 1
-            if window_map[left_number] == 0:
-                window_map.pop(left_number)
-            self.window_sum -= left_number
-            self.left += 1
-
-
-        for right, number in enumerate(numbers):
-            window_map[number] = window_map.get(number, 0) + 1
-            self.window_sum += number
-
-            if right - self.left + 1 < k:
-                continue
-
-            if len(window_map) == k:
-                self.max_window = max(self.max_window, self.window_sum)
-            
-            pop_left()
-            # pop left repeated values
-            while right - self.left + 1 > len(window_map):
-                pop_left()
-
-        return self.max_window
-
+        return res
 
 
 print(Solution().maximumSubarraySum([1, 5, 4, 2, 9, 9, 9], 3) == 15)

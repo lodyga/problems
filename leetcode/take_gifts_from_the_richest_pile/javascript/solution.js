@@ -5,7 +5,9 @@ class Solution {
    /**
     * Time complexity: O(n + klogn)
     * Auxiliary space complexity: O(n)
-    * Tags: heap
+    * Tags:
+    *     DS: heap
+    *     A: iteration
     * @param {number[]} gifts
     * @param {number} k
     * @return {number}
@@ -13,11 +15,12 @@ class Solution {
    pickGifts(gifts, k) {
       const giftHeap = new MaxPriorityQueue();
       gifts.forEach(gift => giftHeap.enqueue(gift));
+      
       for (let index = 0; index < k; index++) {
-         const number = giftHeap.dequeue();
-         giftHeap.enqueue(Math.floor(number**0.5));
+         const gift = giftHeap.dequeue();
+         giftHeap.enqueue(Math.floor(gift ** 0.5));
       }
-      return giftHeap.toArray().reduce((total, value) => total + value, 0)
+      return giftHeap.toArray().reduce((sum, num) => sum + num, 0)
    };
 }
 
