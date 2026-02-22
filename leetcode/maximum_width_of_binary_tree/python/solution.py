@@ -17,31 +17,34 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: binary tree, bfs, iteration, queue, level order traversal
+        Tags:
+            DS: binary tree, deque
+            A: bfs, iteration, level-order traversal
         """
         max_width = 1
 
         def bfs(node):
             nonlocal max_width
-            queue = deque([(node, 0)])  # deaue([(node, node index), ])
-            level = 0
+            # deaue([(node, node index), ])
+            deq = deque([(node, 0)])
 
-            while queue:
-                queue_len = len(queue)
+            while deq:
+                queue_len = len(deq)
+
                 for index in range(queue_len):
-                    node, node_index = queue.popleft()
+                    node, node_id = deq.popleft()
+
                     if index == 0:
-                        level_start = node_index
+                        left = node_id
                     if index == queue_len - 1:
-                        level_end = node_index
+                        right = node_id
 
                     if node.left:
-                        queue.append((node.left, node_index * 2 + 1))
+                        deq.append((node.left, node_id * 2 + 1))
                     if node.right:
-                        queue.append((node.right, node_index * 2 + 2))
+                        deq.append((node.right, node_id * 2 + 2))
 
-                max_width = max(max_width, level_end - level_start + 1)
-                level += 1
+                max_width = max(max_width, right - left + 1)
 
         bfs(root)
         return max_width

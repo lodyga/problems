@@ -1,65 +1,62 @@
 class Solution:
-    def numOfMinutes(self, n: int, head_id: int, manager_list: list[int], direct_inform_time: list[int]) -> int:
+    def numOfMinutes(self, n: int, head_id: int, managers: list[int], direct_inform_time: list[int]) -> int:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: dfs, recursion, graph
+        Tags:
+            DS: array
+            A: DFS with memoization (DP on DAG)
+            Model: graph
         """
-        adjs = {index: set() for index in range(n)}  # {manager: set(employee, ...), ...}
-        for employee, manager in enumerate(manager_list):
-            if manager == -1:
-                continue
-            adjs[manager].add(employee)
-        
-        def dfs(manager):
-            if manager in indirect_inform_time:
-                return indirect_inform_time[manager]
+        # Total indirect information time.
+        memo = [-1] * n
+        memo[head_id] = direct_inform_time[head_id]
 
-            inform_time = 0
-            for employee in adjs[manager]:
-                inform_time = max(inform_time, 
-                                  dfs(employee) + direct_inform_time[manager])
-            
-            indirect_inform_time[manager] = inform_time
-            return inform_time
+        def dfs(id):
+            if memo[id] != -1:
+                return memo[id]
 
-        indirect_inform_time = {employee: 0 for employee in adjs if not adjs[employee]}
-        for employee in range(n):
-            dfs(employee)
+            memo[id] = direct_inform_time[id] + dfs(managers[id])
+            return memo[id]
 
-        return indirect_inform_time[head_id]
+        for id in range(n):
+            dfs(id)
 
-
-from collections import deque
+        return max(memo)
 
 
 class Solution:
-    def numOfMinutes(self, n: int, head_id: int, manager_list: list[int], direct_inform_time: list[int]) -> int:
+    def numOfMinutes(self, n: int, head_id: int, managers: list[int], direct_inform_time: list[int]) -> int:
+        from collections import deque
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: bfs, iteration, queue, graph
+        Tags:
+            DS: array
+            A: BFS
+            Model: graph
         """
-        adjs = {index: set() for index in range(n)}  # {manager: set(employee, ...), ...}
-        for employee, manager in enumerate(manager_list):
-            if manager == -1:
-                continue
-            adjs[manager].add(employee)
-        
-        def bfs(manager):
-            total_time = 0
-            queue = deque([(manager, 0)])  # queue((employee id, time), ...)
+        manager_to_emp = {}
+        for emp, manager in enumerate(managers):
+            if manager not in manager_to_emp:
+                manager_to_emp[manager] = []
 
-            while queue:
-                manager, time = queue.popleft()
-                total_time = max(total_time, time)
+            manager_to_emp[manager].append(emp)
 
-                for employee in adjs[manager]:
-                    queue.append((employee, time + direct_inform_time[manager]))
-            
-            return total_time
-        
-        return bfs(head_id)
+        # bfs
+        # deque([(employee id, employee inform time)])
+        queue = deque([(head_id, direct_inform_time[head_id])])
+        res = 0
+
+        while queue:
+            manager_id, time = queue.popleft()
+            res = max(res, time)
+
+            if manager_id in manager_to_emp:
+                for emp_id in manager_to_emp[manager_id]:
+                    queue.append((emp_id, time + direct_inform_time[emp_id]))
+
+        return res
 
 
 print(Solution().numOfMinutes(1, 0, [-1], [0]) == 0)

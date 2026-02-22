@@ -1,73 +1,39 @@
 class Solution:
-    def divideArray(self, numbers: list[int], k: int) -> list[list[int]]:
+    def divideArray(self, nums: list[int], k: int) -> list[list[int]]:
         """
         Time complexity: O(nlogn)
         Auxiliary space complexity: O(n)
-        Tags: sorting
+        Tags:
+            A: sorting
         """
-        numbers.sort()
-        matrix = [[0] * 3 for _ in range(len(numbers) // 3)]
+        nums.sort()
 
-        for index, number in enumerate(numbers):
-            row = index // 3
-            col = index % 3
-            matrix[row][col] = number
-            if col and number - matrix[row][0] > k:
+        for index in range(0, len(nums), 3):
+            if nums[index + 2] - nums[index] > k:
                 return []
-        
-        return matrix
+
+        return [nums[index: index + 3]
+                for index in range(0, len(nums), 3)]
 
 
 class Solution:
-    def divideArray(self, numbers: list[int], k: int) -> list[list[int]]:
-        """
-        Time complexity: O(n)
-            O(10**5)
-        Auxiliary space complexity: O(n)
-        Tags: counting sort
-        """
-        matrix = [[0] * 3 for _ in range(len(numbers) // 3)]
-        number_frequency = [0] * (10**5 + 1)
-
-        for number in numbers:
-            number_frequency[number] += 1
-        
-        row = 0
-        col = 0
-        for number, frequency in enumerate(number_frequency):
-            if frequency == 0:
-                continue    
-            
-            while frequency:
-                matrix[row][col] = number
-                col += 1
-                if col == 3:
-                    if matrix[row][col - 1] - matrix[row][0] > k:
-                        return []
-                    col = 0
-                    row += 1
-                frequency -= 1
-        
-        return matrix
-
-
-class Solution:
-    def divideArray(self, numbers: list[int], k: int) -> list[list[int]]:
+    def divideArray(self, nums: list[int], k: int) -> list[list[int]]:
         """
         Time complexity: O(nlogn)
         Auxiliary space complexity: O(n)
-        Tags: sorting
+        Tags:
+            A: sorting
         """
-        numbers.sort()
-        matrix = []
+        nums.sort()
+        res = []
 
-        for index in range(0, len(numbers), 3):
-            if numbers[index + 2] - numbers[index] > k:
+        for index in range(0, len(nums), 3):
+            if nums[index + 2] - nums[index] > k:
                 return []
-            
-            matrix.append(numbers[index: index + 3])
+            else:
+                res.append(nums[index: index + 3])
 
-        return matrix
+        return res
 
 
 print(Solution().divideArray([1, 3, 4, 8, 7, 9, 3, 5, 1], 2) == [[1, 1, 3], [3, 4, 5], [7, 8, 9]])

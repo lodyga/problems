@@ -3,28 +3,22 @@ class Solution:
         """
         Time complexity: O(nlogn)
         Auxiliary space complexity: O(n)
-        Tags: sorting
+        Tags:
+            A: greedy, sorting
         """
         points.sort()
-        arrow_counter = 0
+        res = 1
+        prev_end = points[0][1]
 
-        index = 0
-        while index < len(points):
-            _, earliest_end = points[index]
-            arrow_counter += 1
-            index += 1
-            while (
-                index < len(points) and 
-                points[index][0] <= earliest_end
-            ):
-                _, end = points[index]
-                earliest_end = min(earliest_end, end)
-                index += 1
+        for (start, end) in points:
+            if start <= prev_end:
+                prev_end = min(end, prev_end)
+                continue
 
-        return arrow_counter
+            res += 1
+            prev_end = end
 
-
-import heapq
+        return res
 
 
 class Solution:
@@ -32,20 +26,21 @@ class Solution:
         """
         Time complexity: O(nlogn)
         Auxiliary space complexity: O(n)
-        Tags: heap
+        Tags:
+            A: greedy, sorting
         """
-        heapq.heapify(points)
-        arrow_counter = 0
-        earliest_end = 0
+        points.sort(key=lambda point: point[1])
+        res = 1
+        prev_end = points[0][1]
 
-        while points:
-            _, earliest_end = heapq.heappop(points)
-            arrow_counter += 1
-            while points and points[0][0] <= earliest_end:
-                _, end = heapq.heappop(points)
-                earliest_end = min(earliest_end, end)
+d        for (start, end) in points:
+            if start <= prev_end:
+                continue
 
-        return arrow_counter
+            res += 1
+            prev_end = end
+
+        return res
 
 
 print(Solution().findMinArrowShots([[10, 16], [2, 8], [1, 6], [7, 12]]) == 2)

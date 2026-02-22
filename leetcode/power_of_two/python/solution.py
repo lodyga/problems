@@ -1,6 +1,35 @@
 class Solution:
     def isPowerOfTwo(self, n: int) -> bool:
         """
+        Time complexity: O(1)
+        Auxiliary space complexity: O(1)
+        Tags: bit manipulation
+        """
+        return n > 0 and (n & (n - 1)) == 0
+
+
+class Solution:
+    def isPowerOfTwo(self, n: int) -> bool:
+        """
+        Time complexity: O(1)
+        Auxiliary space complexity: O(1)
+        Tags:
+            A: bit manipulation, iteration
+        """
+        if n <= 0:
+            return False
+
+        while n != 1:
+            if n & 1:
+                return False
+            n >>= 1
+
+        return True
+
+
+class Solution:
+    def isPowerOfTwo(self, n: int) -> bool:
+        """
         Time complexity: O(logn)
         Auxiliary space complexity: O(1)
         Tags: iteration
@@ -9,30 +38,25 @@ class Solution:
             return False
 
         while n % 2 == 0:
-            n >>= 1
+            n //= 2
 
         return n == 1
 
+
+class Solution:
     def isPowerOfTwo(self, n: int) -> bool:
         """
-        Time complexity: O(n)
+        Time complexity: O(logn)
         Auxiliary space complexity: O(1)
-        Tags: recursion
+        Tags:
+            A: recursion
         """
         if n <= 0:
             return False
-        if n % 2 == 0:
-            return self.isPowerOfTwo(n >> 1)
-        else:
+        elif n % 2:
             return n == 1
-
-    def isPowerOfTwo(self, n: int) -> bool:
-        """
-        Time complexity: O(1)
-        Auxiliary space complexity: O(1)
-        Tags: bit manipulation
-        """
-        return n > 0 and (n & (n - 1)) == 0
+        else:
+            return self.isPowerOfTwo(n // 2)
 
 
 print(Solution().isPowerOfTwo(1) == True)

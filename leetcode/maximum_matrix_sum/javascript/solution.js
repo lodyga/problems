@@ -2,25 +2,30 @@ class Solution {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(1)
-    * Tags: greedy
+    * Tags:
+    *     A: greedy
     * @param {number[][]} matrix
     * @return {number}
     */
    maxMatrixSum(matrix) {
-      let negativeMark = false;
-      let minElement = Math.abs(matrix[0][0]);
+      let isPositive = true;
+      let minVal = Math.abs(matrix[0][0]);
       let total = 0;
 
       for (let row = 0; row < matrix.length; row++)
          for (let col = 0; col < matrix[0].length; col++) {
             total += Math.abs(matrix[row][col]);
-            minElement = Math.min(minElement, Math.abs(matrix[row][col]));
-            if (matrix[row][col] < 0)
-               negativeMark = negativeMark ? false : true;
+
+            if (matrix[row][col] < 0) {
+               isPositive = !isPositive;
+            }
+
+            if (Math.abs(matrix[row][col]) < minVal) {
+               minVal = Math.abs(matrix[row][col]);
+            }
          }
 
-      total -= negativeMark ? minElement * 2 : 0;
-      return total
+      return isPositive ? total : total - minVal * 2
    };
 }
 

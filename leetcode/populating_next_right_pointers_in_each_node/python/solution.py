@@ -14,20 +14,27 @@ class Node:
 
 class Solution:
     def connect(self, root: 'Optional[Node]') -> 'Optional[Node]':
-        def bfs(node):
-            queue = deque([node])
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(n)
+        Tags:
+            DS: binary tree, queue
+            A: bfs, iteration, level-order traversal
+        """
+        queue = deque([root])
 
-            while queue:
-                next_node = None
-                
-                for _ in range(len(queue)):
-                    node = queue.popleft()
-                    if node is None:
-                        return root
-                    
-                    node.next = next_node
-                    next_node = node
-                    queue.append(node.right)
-                    queue.append(node.left)
+        # bfs
+        while queue:
+            node_next = None
+            
+            if queue[0] is None:
+                break
+            
+            for _ in range(len(queue)):
+                node = queue.popleft()
+                node.next = node_next
+                node_next = node
+                queue.append(node.right)
+                queue.append(node.left)
 
-        return bfs(root)
+        return root

@@ -4,21 +4,26 @@ class Solution {
     *     n: brick count
     * Auxiliary space complexity: O(m)
     *     m: distinct crack count
-    * Tags: hash map
+    * Tags:
+    *     DS: hash map
+    *     A: prefix sum
     * @param {number[][]} wall
     * @return {number}
     */
    leastBricks(wall) {
       // {crack position: vertical crack count}
-      const cracks = new Map([[0, 0]]);
-      for (const row of wall) {
-         let crack = 0;
-         for (const brick of row.slice(0, row.length - 1)) {
-            crack += brick;
-            cracks.set(crack, (cracks.get(crack) || 0) + 1);
+      const crackFreq = new Map([[0, 0]]);
+      
+      for (const brickRow of wall) {
+         let prefix = 0;
+
+         for (let index = 0; index < brickRow.length - 1; index++) {
+            prefix += brickRow[index];
+            crackFreq.set(prefix, (crackFreq.get(prefix) || 0) + 1);
          }
       }
-      return wall.length - Math.max(...cracks.values())
+      
+      return wall.length - Math.max(...crackFreq.values())
    };
 }
 

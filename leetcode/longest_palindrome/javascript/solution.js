@@ -2,50 +2,52 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: hash map
+    * Tags:
+    *     hash map
     * @param {string} text
     * @return {number}
     */
    longestPalindrome(text) {
-      const letterFrequency = new Map();
+      const letterFreq = new Map();
+      let isOdd = 0;
+      let res = 0;
+
       for (const letter of text)
-         letterFrequency.set(letter, (letterFrequency.get(letter) || 0) + 1);
+         letterFreq.set(letter, (letterFreq.get(letter) || 0) + 1);
 
-      let hasOdd = false;
-      let palindromeLenght = 0;
-
-      for (const frequency of letterFrequency.values()) {
-         if (frequency % 2) {
-            hasOdd = true;
-            palindromeLenght += frequency - 1;
+      for (const freq of letterFreq.values()) {
+         if (freq % 2) {
+            res += freq - 1;
+            isOdd = 1;
          }
          else
-            palindromeLenght += frequency;
+            res += freq;
       }
-      return palindromeLenght + hasOdd
+      return res + isOdd
    };
 
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: hash set
+    * Tags:
+    *     hash set
     * @param {string} text
     * @return {number}
     */
    longestPalindrome(text) {
-      let palindromeLenght = 0;
+      let res = 0;
       const letterSet = new Set();
 
       for (const letter of text) {
          if (letterSet.has(letter)) {
-            palindromeLenght += 2;
+            res += 2;
             letterSet.delete(letter);
-         }
-         else
+         } else {
             letterSet.add(letter);
+         }
       }
 
-      return palindromeLenght + Boolean(letterSet.size)
+      return res + Boolean(letterSet.size)
    };
 }
 

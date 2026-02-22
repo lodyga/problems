@@ -1,26 +1,25 @@
 class Solution:
-    def maxAbsoluteSum(self, numbers: list[int]) -> int:
+    def maxAbsoluteSum(self, nums: list[int]) -> int:
         """
         Time complexity: O(n)
-        Auxiliary space complexity: O(n)
-        Tags: greedy
-        Kadane's Algorithm
+        Auxiliary space complexity: O(1)
+        Tags:
+            A: greedy (Kadane)
         """
-        # search for positive sums
-        element = 0
-        max_element = numbers[0]
-        for number in numbers:
-            element = element + number if element > 0 else number
-            max_element = max(max_element, element)
+        positive_sum = 0
+        max_positive = nums[0]
 
-        # search for negative sums
-        element = 0
-        min_element1 = numbers[0]
-        for number in numbers:
-            element = element + number if element < 0 else number
-            min_element1 = min(min_element1, element)
+        negative_sum = 0
+        min_negative = nums[0]
 
-        return max(max_element, abs(min_element1))
+        for num in nums:
+            positive_sum = max(positive_sum + num, num)
+            max_positive = max(max_positive, positive_sum)
+
+            negative_sum = min(negative_sum + num, num)
+            min_negative = min(min_negative, negative_sum)
+
+        return max(max_positive, -min_negative)
 
 
 print(Solution().maxAbsoluteSum([1, -3, 2, 3, -4]) == 5)

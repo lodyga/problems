@@ -3,18 +3,23 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: iteration
+        Tags:
+            A: iteration
         """
         nums.reverse()
         index = 0
+
         while k:
             if index == len(nums):
                 nums.append(0)
+            
             nums[index] += k % 10
             k //= 10
+
             if nums[index] > 9:
-                k += 1
                 nums[index] -= 10
+                k += 1
+
             index += 1
 
         nums.reverse()

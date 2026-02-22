@@ -5,17 +5,45 @@ class Solution:
             O(n2 * m)
             n: word count
             m: word length
-        Auxiliary space complexity: O(1)
-        Tags: build-in function
+        Auxiliary space complexity: O(n)
+        Tags:
+            A: iteration
         """
-        def isPrefixAndSuffix(word1, word2):
-            return word2.startswith(word1) and word2.endswith(word1)
+        counter = 0
+
+        for right in range(len(words)):
+            word = words[right]
+
+            for left in range(right):
+                fix = words[left]
+                fix_len = len(fix)
+
+                if fix == word[: fix_len] == word[len(word) - fix_len:]:
+                    counter += 1
+
+        return counter
+
+
+class Solution:
+    def countPrefixSuffixPairs(self, words: list[str]) -> int:
+        """
+        Time complexity: O(n3)
+            O(n2 * m)
+            n: word count
+            m: word length
+        Auxiliary space complexity: O(1)
+        Tags:
+            A: build-in function
+        """
+        def isPrefixAndSuffix(fix, word):
+            return word.startswith(fix) and word.endswith(fix)
 
         counter = 0
-        for i in range(len(words)):
-            for j in range(i + 1, len(words)):
-                if isPrefixAndSuffix(words[i], words[j]):
+        for right in range(len(words)):
+            for left in range(right):
+                if isPrefixAndSuffix(words[left], words[right]):
                     counter += 1
+
         return counter
 
 

@@ -1,6 +1,7 @@
 class TrieNode {
    constructor() {
-      this.letters = new Map();  // {(prefix letter, suffix letter): {}}
+      // {(prefix letter, suffix letter): {}}
+      this.letters = new Map();
       // this.isWord = false;
       this.counter = 0;
    };
@@ -16,10 +17,14 @@ class Trie {
 
       for (let index = 0; index < word.length; index++) {
          const pair = `${word[index]}${word[word.length - 1 - index]}`;
-         if (!node.letters.has(pair))
+
+         if (!node.letters.has(pair)) {
             node.letters.set(pair, new TrieNode());
+         }
+
          node = node.letters.get(pair);
          node.counter++;
+
          // node.isWord = true;
       }
    };
@@ -29,8 +34,11 @@ class Trie {
 
       for (let index = 0; index < word.length; index++) {
          const pair = `${word[index]}${word[word.length - 1 - index]}`;
-         if (!node.letters.has(pair))
+
+         if (!node.letters.has(pair)) {
             return 0
+         }
+
          node = node.letters.get(pair);
       }
       return node.counter
@@ -44,17 +52,20 @@ class Solution {
     *     n: word count
     *     m: word length
     * Auxiliary space complexity: O(n * m)
-    * Tags: trie
+    * Tags:
+    *     DS: trie
     * @param {string[]} words
     * @return {number}
     */
    countPrefixSuffixPairs(words) {
       const trie = new Trie();
       let counter = 0;
+
       for (const word of words.reverse()) {
          counter += trie.count(word);
          trie.add(word);
       }
+
       return counter
    };
 }

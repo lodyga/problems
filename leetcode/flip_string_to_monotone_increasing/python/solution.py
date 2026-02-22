@@ -1,31 +1,39 @@
 class Solution:
     def minFlipsMonoIncr(self, text: str) -> int:
         """
-        Time complexity: O(2^n)
+        Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: brute_force
+        Tags: 
+            DS: hash map
+            A: top-down
         """
-        def dfs(index, can_change_to_1):
-            if index == len(text):
-                return 0
+        memo = {(len(text), True): 0,
+                (len(text), False): 0}
 
-            flips = len(text)
+        def dfs(index, can_flip_to_1):
+            if (index, can_flip_to_1) in memo:
+                return memo[(index, can_flip_to_1)]
 
-            if text[index] == "0":
-                # pass current number
-                if can_change_to_1:
-                    flips = min(flips, dfs(index + 1, True))
-                # flip current number
-                flips = min(flips, 1 + dfs(index + 1, False))
+            letter = text[index]
 
-            elif text[index] == "1":
-                # pass current number
-                flips = min(flips, dfs(index + 1, False))
-                if can_change_to_1:
-                    # flip current number
-                    flips = min(flips, 1 + dfs(index + 1, True))
+            if letter == "0":
+                # Keep 0 postpone the pivot.
+                if can_flip_to_1:
+                    res = dfs(index + 1, True)
+                # Flip 0 to 1, strat the pivot.
+                else:
+                    res = 1 + dfs(index + 1, False)
 
-            return flips
+            elif letter == "1":
+                # Strat the pivot.
+                res = dfs(index + 1, False)
+
+                # Flip 1 to 0 and postpone the pivot.
+                if can_flip_to_1:
+                    res = min(res, 1 + dfs(index + 1, True))
+
+            memo[(index, can_flip_to_1)] = res
+            return res
 
         return dfs(0, True)
 
@@ -35,32 +43,33 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: dp, top-down with memoization as hash map
+        Tags: 
+            DS: array
+            A: top-down
         """
-        memo = {(len(text), True): 0, (len(text), False): 0}
+        memo = [[-1] * 2 for _ in range(len(text))]
+        memo.append([0, 0])
 
-        def dfs(index, can_change_to_1):
-            if (index, can_change_to_1) in memo:
-                return memo[(index, can_change_to_1)]
+        def dfs(index, can_flip_to_1):
+            if memo[index][can_flip_to_1] != -1:
+                return memo[index][can_flip_to_1]
 
-            flips = len(text)
+            letter = text[index]
 
-            if text[index] == "0":
-                # pass current number
-                if can_change_to_1:
-                    flips = min(flips, dfs(index + 1, True))
-                # flip current number
-                flips = min(flips, 1 + dfs(index + 1, False))
+            if letter == "0":
+                if can_flip_to_1:
+                    res = dfs(index + 1, True)
+                else:
+                    res = 1 + dfs(index + 1, False)
 
-            elif text[index] == "1":
-                # pass current number
-                flips = min(flips, dfs(index + 1, False))
-                if can_change_to_1:
-                    # flip current number
-                    flips = min(flips, 1 + dfs(index + 1, True))
+            elif letter == "1":
+                res = dfs(index + 1, False)
 
-            memo[(index, can_change_to_1)] = flips
-            return flips
+                if can_flip_to_1:
+                    res = min(res, 1 + dfs(index + 1, True))
+
+            memo[index][can_flip_to_1] = res
+            return res
 
         return dfs(0, True)
 
@@ -70,73 +79,45 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: dp, top-down with memoization as array
-        """
-        memo = [[-1, -1] for _ in range(len(text) + 1)]
-        memo[-1] = [0, 0]
-
-        def dfs(index, can_change_to_1):
-            if memo[index][can_change_to_1] != -1:
-                return memo[index][can_change_to_1]
-
-            flips = len(text)
-
-            if text[index] == "0":
-                # pass current number
-                if can_change_to_1:
-                    flips = min(flips, dfs(index + 1, True))
-                # flip current number
-                flips = min(flips, 1 + dfs(index + 1, False))
-
-            elif text[index] == "1":
-                # pass current number
-                flips = min(flips, dfs(index + 1, False))
-                if can_change_to_1:
-                    # flip current number
-                    flips = min(flips, 1 + dfs(index + 1, True))
-
-            memo[index][can_change_to_1] = flips
-            return flips
-
-        return dfs(0, True)
-
-
-class Solution:
-    def minFlipsMonoIncr(self, text: str) -> int:
-        """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(n)
-        Tags: dp, bottom-up
+        Tags:
+            DS: array
+            A: bottom-up
         """
         cache = [[0, 0] for _ in range(len(text) + 1)]
 
-        for index, char in reversed(list(enumerate(text))):
+        # for index, char in reversed(list(enumerate(text))):
+        for index in range(len(text) - 1, -1, -1):
+            char = text[index]
+
             if char == "0":
                 cache[index][0] = 1 + cache[index + 1][0]
-                cache[index][1] = min(
-                    1 + cache[index + 1][0], cache[index + 1][1])
+                cache[index][1] = cache[index + 1][1]
             else:
                 cache[index][0] = cache[index + 1][0]
                 cache[index][1] = min(
-                    cache[index + 1][0], 1 + cache[index + 1][1])
+                    cache[index + 1][0],
+                    1 + cache[index + 1][1]
+                )
 
         return min(cache[0])
 
 
-class Solution:
+class Solution2:
     def minFlipsMonoIncr(self, text: str) -> int:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: dp, bottom-up
+        Tags:
+            DS: array
+            A: bottom-up
         """
         cache = [0, 0]
 
         for char in reversed(text):
             if char == "0":
-                cache[1] = min(1 + cache[0], cache[1])
+                cache[1] = cache[1]
                 cache[0] = 1 + cache[0]
-            else:
+            else:  # 0
                 cache[1] = min(cache[0], 1 + cache[1])
                 cache[0] = cache[0]
 
@@ -148,17 +129,19 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: greedy
+        Tags:
+            A: greedy
         """
         ones = 0
-        flips = 0
+        res = 0
+
         for char in text:
             if char == "1":
                 ones += 1
-            else:
-                flips = min(ones, flips + 1)
+            else:  # 0
+                res = min(ones, res + 1)
 
-        return flips
+        return res
 
 
 print(Solution().minFlipsMonoIncr("00") == 0)

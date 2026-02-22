@@ -1,6 +1,3 @@
-import heapq
-
-
 class Solution:
     def kthLargestNumber(self, nums: list[str], k: int) -> str:
         """
@@ -8,7 +5,8 @@ class Solution:
             n: nums length
             m: avg string num length
         Auxiliary space complexity: O(n)
-        Tags: sorting
+        Tags:
+            A: sorting
         """
         nums.sort(key=lambda x: (len(x), x), reverse=True)
         return nums[k - 1]
@@ -16,12 +14,14 @@ class Solution:
 
 class Solution:
     def kthLargestNumber(self, nums: list[str], k: int) -> str:
+        import heapq
         """
         Time complexity: O(n * m + klogn)
             n: nums length
             m: avg string num length
         Auxiliary space complexity: O(k)
-        Tags: heap
+        Tags:
+            DS: heap
         """
         max_heap = [-int(num) for num in nums]
         heapq.heapify(max_heap)
@@ -33,12 +33,14 @@ class Solution:
 
 class Solution:
     def kthLargestNumber(self, nums: list[str], k: int) -> str:
+        import heapq
         """
         Time complexity: O(m * nlogn)
             n: nums length
             m: avg string num length
         Auxiliary space complexity: O(k)
-        Tags: heap
+        Tags:
+            DS: heap
         """
         min_heap = []
         for index, num in enumerate(nums):
@@ -51,12 +53,14 @@ class Solution:
 
 class Solution:
     def kthLargestNumber(self, nums: list[str], k: int) -> str:
+        import heapq
         """
         Time complexity: O(m * nlogn)
             n: nums length
             m: avg string num length
         Auxiliary space complexity: O(n)
-        Tags: heap
+        Tags:
+            DS: heap
         """
         numbers = [int(num) for num in nums]
         return str(heapq.nlargest(k, numbers)[k - 1])
@@ -75,12 +79,14 @@ class LexNum:
 
 class Solution:
     def kthLargestNumber(self, nums: list[str], k: int) -> str:
+        import heapq
         """
         Time complexity: O(m * nlogk)
             n: nums length
             m: avg string num length
         Auxiliary space complexity: O(k)
-        Tags: heap
+        Tags:
+            DS: heap
         """
         min_heap = []
         for index, num in enumerate(nums):

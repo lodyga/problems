@@ -1,4 +1,46 @@
-from collections import deque
+class Solution:
+    def isBipartite(self, graph: list[list[int]]) -> bool:
+        from collections import deque
+        """
+        Time complexity: O(V + E)
+        Auxiliary space complexity: O(V)
+        Tags:
+            DS: array, queue
+            A: BFS
+            Model: graph
+        """
+        N = len(graph)
+        # 0: not visited, 1/-1: two colors
+        colored = [0] * N
+
+        def bfs(node):
+            if colored[node]:
+                return True
+            
+            color = 1
+            queue = deque([(node, color)])
+            colored[node] = color
+
+            while queue:
+                node, color = queue.popleft()
+
+                for adj_node in graph[node]:
+                    if colored[adj_node] == color:
+                        return False
+                    elif colored[adj_node]:
+                        continue
+
+                    queue.append((adj_node, -color))
+                    colored[adj_node] = -color
+            
+            return True
+
+        for node in range(N):
+            if colored[node] == 0:
+                if bfs(node) == False:
+                    return False
+
+        return True
 
 
 class Solution:
@@ -6,7 +48,10 @@ class Solution:
         """
         Time complexity: O(V + E)
         Auxiliary space complexity: O(V)
-        Tags: dfs, recursion, graph
+        Tags:
+            DS: array
+            A: DFS
+            Model: graph
         """
         N = len(graph)
         set_a = set()
@@ -27,8 +72,8 @@ class Solution:
 
             current_set.add(node)
 
-            for next_node in graph[node]:
-                if dfs(next_node, not which_set) is False:
+            for adj_node in graph[node]:
+                if dfs(adj_node, not which_set) is False:
                     return False
 
             return True
@@ -40,48 +85,9 @@ class Solution:
         return True
 
 
-class Solution:
-    def isBipartite(self, graph: list[list[int]]) -> bool:
-        """
-        Time complexity: O(V + E)
-        Auxiliary space complexity: O(V)
-        Tags: bfs, iteration, graph
-        """
-        N = len(graph)
-        set_a = set()
-        set_b = set()
-
-        def bfs(node, which_set):
-            if node in set_a or node in set_b:
-                return True
-
-            queue = deque([(node, which_set)])
-            set_b.add(node)
-
-            while queue:
-                node, which_set = queue.popleft()
-                if which_set:
-                    current_set = set_a
-                    opposite_set = set_b
-                else:
-                    current_set = set_b
-                    opposite_set = set_a
-
-                for next_node in graph[node]:
-                    if next_node in current_set:
-                        return False
-                    elif next_node not in opposite_set:
-                        queue.append((next_node, not which_set))
-                        opposite_set.add(next_node)
-
-        for node in range(N):
-            if bfs(node, node in set_a) is False:
-                return False
-
-        return True
-
-
 print(Solution().isBipartite([[1, 2, 3], [0, 2], [0, 1, 3], [0, 2]]) == False)
 print(Solution().isBipartite([[1, 3], [0, 2], [1, 3], [0, 2]]) == True)
-print(Solution().isBipartite([[], [2, 4, 6], [1, 4, 8, 9], [7, 8], [1, 2, 8, 9], [6, 9], [1, 5, 7, 8, 9], [3, 6, 9], [2, 3, 4, 6, 9], [2, 4, 5, 6, 7, 8]]) == False)
 print(Solution().isBipartite([[1], [0, 3], [3], [1, 2]]) == True)
+print(Solution().isBipartite([[4], [], [4], [4], [0, 2, 3]]) == True)
+print(Solution().isBipartite([[1], [0], [4], [4], [2, 3]]) == True)
+print(Solution().isBipartite([[], [2, 4, 6], [1, 4, 8, 9], [7, 8], [1, 2, 8, 9], [6, 9], [1, 5, 7, 8, 9], [3, 6, 9], [2, 3, 4, 6, 9], [2, 4, 5, 6, 7, 8]]) == False)

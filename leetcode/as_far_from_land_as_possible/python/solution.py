@@ -1,8 +1,8 @@
-from collections import deque
 
 
 class Solution:
     def maxDistance(self, grid: list[list[int]]) -> int:
+        from collections import deque
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n2)

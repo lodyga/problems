@@ -2,6 +2,91 @@ class Solution {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(n2)
+    * Tags:
+    *     DS: array
+    *     A: bottom-up
+    * @param {number[][]} matrix
+    * @return {number}
+    */
+   maximalSquare(matrix) {
+      const ROWS = matrix.length;
+      const COLS = matrix[0].length;
+      const cache = Array.from({ length: ROWS }, (_, row) =>
+         Array.from({ length: COLS }, (_, col) => matrix[row][col] == '1' ? 1 : 0));
+
+      for (let row = 0; row < ROWS; row++) {
+         for (let col = 0; col < COLS; col++) {
+            if (cache[row][col] && row > 0 && col > 0) {
+               cache[row][col] = 1 + Math.min(
+                  cache[row - 1][col],
+                  cache[row][col - 1],
+                  cache[row - 1][col - 1]
+               );
+            }
+         }
+      }
+
+      let maxSide = 0;
+
+      for (let row = 0; row < ROWS; row++) {
+         maxSide = Math.max(maxSide, Math.max(...cache[row]));
+      }
+
+      return maxSide ** 2
+
+      // return Math.max(...cache.map(row => Math.max(...row))) ** 2
+   };
+
+   /**
+    * Time complexity: O(n2)
+    * Auxiliary space complexity: O(n)
+    * Tags:
+    *     DS: array
+    *     A: bottom-up
+    * @param {number[][]} matrix
+    * @return {number}
+    */
+   maximalSquare(matrix) {
+      const ROWS = matrix.length;
+      const COLS = matrix[0].length;
+      let prevCache = Array(COLS).fill(0);
+      let maxSide = 0;
+
+      for (let row = 0; row < ROWS; row++) {
+         const cache = Array.from({ length: COLS }, (_, col) => matrix[row][col] == '1' ? 1 : 0);
+
+         for (let col = 0; col < COLS; col++) {
+            if (cache[col] && row > 0 && col > 0) {
+               cache[col] = 1 + Math.min(
+                  prevCache[col],
+                  cache[col - 1],
+                  prevCache[col - 1]
+               );
+            }
+         }
+         
+         prevCache = cache;
+         maxSide = Math.max(maxSide, Math.max(...cache));
+      }
+
+      return maxSide ** 2
+   };
+}
+
+
+const maximalSquare = new Solution().maximalSquare;
+console.log(new Solution().maximalSquare([['1', '1']]) === 1)
+console.log(new Solution().maximalSquare([['1', '1'], ['1', '1']]) === 4)
+console.log(new Solution().maximalSquare([['1', '0', '1', '0', '0'], ['1', '0', '1', '1', '1'], ['1', '1', '1', '1', '1'], ['1', '0', '0', '1', '0']]) === 4)
+console.log(new Solution().maximalSquare([['0', '1'], ['1', '0']]) === 1)
+console.log(new Solution().maximalSquare([['0']]) === 0)
+console.log(new Solution().maximalSquare([['1', '1', '1', '1', '0'], ['1', '1', '1', '1', '0'], ['1', '1', '1', '1', '1'], ['1', '1', '1', '1', '1'], ['0', '0', '1', '1', '1']]) === 16)
+
+
+class Solution {
+   /**
+    * Time complexity: O(n2)
+    * Auxiliary space complexity: O(n2)
     * Tags: dp, top-down with memoization as array
     * @param {number[][]} matrix
     * @return {number}
@@ -106,12 +191,3 @@ class Solution {
       return maxSide ** 2
    };
 }
-
-
-const maximalSquare = new Solution().maximalSquare;
-console.log(new Solution().maximalSquare([['1', '1']]) === 1)
-console.log(new Solution().maximalSquare([['1', '1'], ['1', '1']]) === 4)
-console.log(new Solution().maximalSquare([['1', '0', '1', '0', '0'], ['1', '0', '1', '1', '1'], ['1', '1', '1', '1', '1'], ['1', '0', '0', '1', '0']]) === 4)
-console.log(new Solution().maximalSquare([['0', '1'], ['1', '0']]) === 1)
-console.log(new Solution().maximalSquare([['0']]) === 0)
-console.log(new Solution().maximalSquare([['1', '1', '1', '1', '0'], ['1', '1', '1', '1', '0'], ['1', '1', '1', '1', '1'], ['1', '1', '1', '1', '1'], ['0', '0', '1', '1', '1']]) === 16)

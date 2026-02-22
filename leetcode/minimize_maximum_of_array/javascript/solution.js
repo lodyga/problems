@@ -2,24 +2,23 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: greedy, prefix sum
+    * Tags:
+    *     A: greedy, prefix sum
     * @param {number[]} nums
     * @return {number}
     */
    minimizeArrayValue(nums) {
-      let maxValue = nums[0];
+      let res = nums[0];
       let prefix = 0;
 
       for (let index = 0; index < nums.length; index++) {
          const num = nums[index];
          prefix += num;
-         if (num <= maxValue)
-            continue
-
-         maxValue = Math.max(maxValue, Math.ceil(prefix / (index + 1)))
+         const avg = Math.ceil(prefix / (index + 1));
+         res = Math.max(res, avg);
       }
 
-      return maxValue
+      return res
    };
 }
 

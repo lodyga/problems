@@ -2,34 +2,23 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: iteration
+    * Tags:
+    *     A: iteration
     * @param {string} text
     * @return {number}
     */
    minOperations(text) {
-      let zero = 0  // target 0101...
-      let one = 0  // target 1010...
+      let diffA = 0;
+      let diffB = 0;
 
       for (let index = 0; index < text.length; index++) {
-         const char = text[index];
-         if (index % 2) {
-            // 0101...
-            if (char === '0')
-               zero++;
-            // 1010...
-            else
-               one++;
-         }
-         else {
-            // 0101...
-            if (char === '1')
-               zero++;
-            // 1010...
-            else
-               one++;
-         }
+         const a = index % 2 ? "0" : "1";
+         const b = index % 2 ? "1" : "0";
+         diffA += text[index] != a ? 1 : 0;
+         diffB += text[index] != b ? 1 : 0;
       }
-      return Math.min(zero, one)
+
+      return Math.min(diffA, diffB)
    };
 }
 

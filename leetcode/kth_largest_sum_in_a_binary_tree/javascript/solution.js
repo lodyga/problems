@@ -1,6 +1,6 @@
 import { TreeNode, buildTree, getTreeValues } from '../../../../JS/binary-tree.js';
-import { MinPriorityQueue } from "@datastructures-js/priority-queue"
 import { Queue } from "@datastructures-js/queue";
+import { MinPriorityQueue } from "@datastructures-js/priority-queue"
 
 
 /**
@@ -18,38 +18,40 @@ class Solution {
    /**
     * Time complexity: O(nlogk)
     * Auxiliary space complexity: O(n)
-    * Tags: binary tree, bfs, iteration, queue, level order traversal
+    * Tags:
+    *     DS: binary tree, queue, heap
+    *     A: bfs, iteration, level-order traversal
     * @param {TreeNode} root
     * @param {number} k
     * @return {number}
     */
    kthLargestLevelSum(root, k) {
-      // minHeap.size() === k at most
+      const queue = new Queue([root]);
       const minHeap = new MinPriorityQueue();
 
-      const bfs = (node) => {
-         const queue = new Queue([node]);
+      // bfs
+      while (queue.size()) {
+         let levelSum = 0;
+         const queueSize = queue.size();
 
-         while (!queue.isEmpty()) {
-            let levelSum = 0;
-            const queue_size = queue.size();
+         for (let _ = 0; _ < queueSize; _++) {
+            const node = queue.dequeue();
+            levelSum += node.val;
 
-            for (let index = 0; index < queue_size; index++) {
-               const node = queue.pop();
-               levelSum += node.val;
-
-               if (node.left)
-                  queue.push(node.left);
-               if (node.right)
-                  queue.push(node.right);
+            if (node.left) {
+               queue.push(node.left);
             }
-            minHeap.enqueue(levelSum);
-            if (minHeap.size() > k)
-               minHeap.dequeue();
+            if (node.right) {
+               queue.push(node.right);
+            }
          }
+         
+         minHeap.enqueue(levelSum);
+         
+         if (minHeap.size() > k)
+            minHeap.dequeue();
       }
 
-      bfs(root)
       return minHeap.size() == k ? minHeap.front() : -1
    };
 }
@@ -58,3 +60,4 @@ class Solution {
 const kthLargestLevelSum = new Solution().kthLargestLevelSum;
 console.log(new Solution().kthLargestLevelSum(buildTree([1, 2, null, 3]), 1) === 3)
 console.log(new Solution().kthLargestLevelSum(buildTree([5, 8, 9, 2, 1, 3, 7, 4, 6]), 2) === 13)
+console.log(new Solution().kthLargestLevelSum(buildTree([5, 8, 9, 2, 1, 3, 7]), 4) === -1)

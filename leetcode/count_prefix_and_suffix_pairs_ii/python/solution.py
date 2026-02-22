@@ -1,6 +1,7 @@
 class TrieNode:
     def __init__(self) -> None:
-        self.letters = {}  # {(prefix letter, suffix letter): {}}
+        # {(prefix letter, suffix letter): {}}
+        self.letters = {}
         # self.is_word = False
         self.counter = 0
 
@@ -15,16 +16,19 @@ class Trie:
         for pair in zip(word, reversed(word)):
             if pair not in node.letters:
                 node.letters[pair] = TrieNode()
+
             node = node.letters[pair]
             node.counter += 1
+        
         # node.is_word = True
 
-    def count(self, word):
+    def count(self, word: str) -> int:
         node = self.root
 
         for pair in zip(word, reversed(word)):
             if pair not in node.letters:
                 return 0
+
             node = node.letters[pair]
 
         return node.counter
@@ -38,13 +42,16 @@ class Solution:
             n: word count
             m: word length
         Auxiliary space complexity: O(n * m)
-        Tags: trie
+        Tags:
+            DS: trie
         """
         trie = Trie()
         counter = 0
+
         for word in reversed(words):
             counter += trie.count(word)
             trie.add(word)
+
         return counter
 
 

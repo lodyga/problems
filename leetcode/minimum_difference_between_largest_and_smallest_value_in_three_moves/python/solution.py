@@ -1,118 +1,97 @@
-import heapq
-
-
 class Solution:
-    def minDifference(self, numbers: list[int]) -> int:
+    def minDifference(self, nums: list[int]) -> int:
         """
         Time complexity: O(nlogn)
         Auxiliary space complexity: O(n)
-        Tags: sorting
+        Tags:
+            A: sorting, brute force
         """
-        if len(numbers) <= 4:
+        if len(nums) <= 4:
             return 0
 
-        numbers.sort()
+        nums.sort()
 
         return min(
-            numbers[-4] - numbers[0],
-            numbers[-3] - numbers[1],
-            numbers[-2] - numbers[2],
-            numbers[-1] - numbers[3]
+            nums[-4] - nums[0],
+            nums[-3] - nums[1],
+            nums[-2] - nums[2],
+            nums[-1] - nums[3]
         )
 
 
-class Solution2:
-    def minDifference(self, numbers: list[int]) -> int:
-        """
-        Time complexity: O(1)
-            O(10**5)
-        Auxiliary space complexity: O(1)
-        Tags: bucket sort
-        mle
-        """
-        if len(numbers) <= 4:
-            return 0
-
-        bucket = [0] * (max(numbers) + 1)
-        for number in numbers:
-            bucket[number] += 1
-
-        left = []
-        index = 0
-        counter = 0
-        while True:
-            if bucket[index]:
-                for _ in range(bucket[index]):
-                    left.append(index)
-                counter += bucket[index]
-                if counter >= 4:
-                    break
-            index += 1
-
-        right = []
-        index = len(bucket) - 1
-        counter = 0
-        while True:
-            if bucket[index]:
-                for _ in range(bucket[index]):
-                    right.append(index)
-                counter += bucket[index]
-                if counter >= 4:
-                    break
-            index -= 1
-        right = right[::-1]
-
-        return min(r - l for l, r in zip(left, right))
-
-
 class Solution:
-    def minDifference(self, numbers: list[int]) -> int:
+    def minDifference(self, nums: list[int]) -> int:
         """
         Time complexity: O(n)
-        Auxiliary space complexity: O(1)
-        Tags: heap
+        Auxiliary space complexity: O(n)
+        Tags:
+            DS: heap
         """
-        if len(numbers) <= 4:
+        import heapq
+        if len(nums) <= 4:
             return 0
 
         min_heap = []
         max_heap = []
 
-        for number in numbers:
-            if len(max_heap) < 4:
-                heapq.heappush(max_heap, number)
-            else:
-                heapq.heappushpop(max_heap, number)
-
-            if len(min_heap) < 4:
-                heapq.heappush(min_heap, -number)
-            else:
-                heapq.heappushpop(min_heap, -number)
-
-        max_numbers = []
+        for num in nums:
+            heapq.heappush(min_heap, num)
+            heapq.heappush(max_heap, -num)
+        
+        min_nums = []
+        max_nums = []
+        
         for _ in range(4):
-            max_numbers.append(heapq.heappop(max_heap))
-        min_numbers = []
-        for _ in range(4):
-            min_numbers.append(-heapq.heappop(min_heap))
-        min_numbers.reverse()
+            min_nums.append(heapq.heappop(min_heap))
+            max_nums.append(-heapq.heappop(max_heap))
 
-        return min(r - l for l, r in zip(min_numbers, max_numbers))
+        max_nums.reverse()
+        return min(max_nums[i] - min_nums[i] for i in range(4))
 
 
 class Solution:
-    def minDifference(self, numbers: list[int]) -> int:
+    def minDifference(self, nums: list[int]) -> int:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: heap
+        Tags:
+            DS: heap
         """
-        if len(numbers) <= 4:
+        import heapq
+        if len(nums) <= 4:
             return 0
 
-        min_numbers = sorted(heapq.nsmallest(4, numbers))
-        max_numbers = sorted(heapq.nlargest(4, numbers))
-        return min(r - l for l, r in zip(min_numbers, max_numbers))
+        min_heap = []
+        max_heap = []
+
+        for index, num in enumerate(nums):
+            if index < 4:
+                heapq.heappush(min_heap, -num)
+                heapq.heappush(max_heap, num)
+            else:
+                heapq.heappushpop(min_heap, -num)
+                heapq.heappushpop(max_heap, num)
+        
+        min_nums = sorted(-num for num in min_heap)
+        max_nums = sorted(max_heap)
+        return min(max_nums[i] - min_nums[i] for i in range(4))
+
+
+class Solution:
+    def minDifference(self, nums: list[int]) -> int:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(1)
+        Tags:
+            DS: heap
+        """
+        import heapq
+        if len(nums) <= 4:
+            return 0
+
+        min_nums = sorted(heapq.nsmallest(4, nums))
+        max_nums = sorted(heapq.nlargest(4, nums))
+        return min(max_nums[i] - min_nums[i] for i in range(4))
 
 
 print(Solution().minDifference([5, 3, 2, 4]) == 0)

@@ -80,7 +80,7 @@ class Solution {
     *     O(amount)
     * Tags:
     *     DS: queue
-    *     A: bfs, iteration, queue
+    *     A: BFS, iteration
     * @param {number[]} coins
     * @param {number} amount
     * @return {number}

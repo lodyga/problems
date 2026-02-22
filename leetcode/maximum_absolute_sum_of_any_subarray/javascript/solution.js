@@ -1,29 +1,28 @@
 class Solution {
    /**
     * Time complexity: O(n)
-    * Auxiliary space complexity: O(n)
-    * Tags: greedy
-    * Kadane's Algorithm
-    * @param {number[]} numbers
+    * Auxiliary space complexity: O(1)
+    * Tags:
+    *     A: greedy (Kadane)
+    * @param {number[]} nums
     * @return {number}
     */
-   maxAbsoluteSum(numbers) {
-      // search for positive sums
-      let element = 0;
-      let maxElement = numbers[0];
-      for (const number of numbers) {
-         element > 0 ? element += number : element = number;
-         maxElement = Math.max(maxElement, element);
-      }
-      // search for negative sums
-      element = 0;
-      let minElement = numbers[0];
-      for (const number of numbers) {
-         element < 0 ? element += number : element = number;
-         minElement = Math.min(minElement, element);
+   maxAbsoluteSum(nums) {
+      let positiveSum = 0;
+      let maxPositive = nums[0];
 
+      let negative_sum = 0;
+      let minNegative = nums[0];
+
+      for (const num of nums) {
+         positiveSum = Math.max(positiveSum + num, num)
+         maxPositive = Math.max(maxPositive, positiveSum)
+
+         negative_sum = Math.min(negative_sum + num, num);
+         minNegative = Math.min(minNegative, negative_sum);
       }
-      return Math.max(maxElement, Math.abs(minElement))
+
+      return Math.max(maxPositive, -minNegative);
    };
 }
 

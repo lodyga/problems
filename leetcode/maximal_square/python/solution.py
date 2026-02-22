@@ -1,8 +1,72 @@
-from collections import deque
+class Solution:
+    def maximalSquare(self, matrix: list[list[str]]) -> int:
+        """
+        Time complexity: O(n2)
+        Auxiliary space complexity: O(n2)
+        Tags:
+            DS: array
+            A: bottom-up
+        """
+        ROWS = len(matrix)
+        COLS = len(matrix[0])
+        cache = [[1 if matrix[row][col] == "1" else 0
+                  for col in range(COLS)] for row in range(ROWS)]
+
+        for row in range(ROWS):
+            for col in range(COLS):
+                if cache[row][col] and row > 0 and col > 0:
+                    cache[row][col] = 1 + min(
+                        cache[row - 1][col],
+                        cache[row][col - 1],
+                        cache[row - 1][col - 1]
+                    )
+
+        return max(max(cache[row]) for row in range(ROWS)) ** 2
 
 
 class Solution:
     def maximalSquare(self, matrix: list[list[str]]) -> int:
+        """
+        Time complexity: O(n2)
+        Auxiliary space complexity: O(n)
+        Tags:
+            DS: array
+            A: bottom-up
+        """
+        ROWS = len(matrix)
+        COLS = len(matrix[0])
+        prev_cache = [0] * COLS
+        max_side = 0
+
+        for row in range(ROWS):
+            cache = [1 if matrix[row][col] == "1" else 0
+                     for col in range(COLS)]
+
+            for col in range(COLS):
+                if cache[col] and row > 0 and col > 0:
+                    cache[col] = 1 + min(
+                        prev_cache[col],
+                        cache[col - 1],
+                        prev_cache[col - 1]
+                    )
+
+            prev_cache = cache
+            max_side = max(max_side, max(cache))
+
+        return max_side ** 2
+
+
+print(Solution().maximalSquare([["1", "1"]]) == 1)
+print(Solution().maximalSquare([["1", "1"], ["1", "1"]]) == 4)
+print(Solution().maximalSquare([["1", "0", "1", "0", "0"], ["1", "0", "1", "1", "1"], ["1", "1", "1", "1", "1"], ["1", "0", "0", "1", "0"]]) == 4)
+print(Solution().maximalSquare([["0", "1"], ["1", "0"]]) == 1)
+print(Solution().maximalSquare([["0"]]) == 0)
+print(Solution().maximalSquare([["1", "1", "1", "1", "0"], ["1", "1", "1", "1", "0"], ["1", "1", "1", "1", "1"], ["1", "1", "1", "1", "1"], ["0", "0", "1", "1", "1"]]) == 16)
+
+
+class Solution:
+    def maximalSquare(self, matrix: list[list[str]]) -> int:
+        from collections import deque
         """
         Time complexity: O(n4)
         Auxiliary space complexity: O(n2)
@@ -140,11 +204,3 @@ class Solution:
             next_cache = cache
         
         return max_side**2
-
-
-print(Solution().maximalSquare([["1", "1"]]) == 1)
-print(Solution().maximalSquare([["1", "1"], ["1", "1"]]) == 4)
-print(Solution().maximalSquare([["1", "0", "1", "0", "0"], ["1", "0", "1", "1", "1"], ["1", "1", "1", "1", "1"], ["1", "0", "0", "1", "0"]]) == 4)
-print(Solution().maximalSquare([["0", "1"], ["1", "0"]]) == 1)
-print(Solution().maximalSquare([["0"]]) == 0)
-print(Solution().maximalSquare([["1","1","1","1","0"],["1","1","1","1","0"],["1","1","1","1","1"],["1","1","1","1","1"],["0","0","1","1","1"]]) == 16)

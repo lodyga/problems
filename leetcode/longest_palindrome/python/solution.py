@@ -3,23 +3,24 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: hash map
+        Tags:
+            DS: hash map
         """
-        letter_frequency = {}
+        res = 0
+        letter_freq = {}
+        is_odd = 0
+
         for letter in text:
-            letter_frequency[letter] = letter_frequency.get(letter, 0) + 1
+            letter_freq[letter] = letter_freq.get(letter, 0) + 1
 
-        has_odd = False
-        palindrome_lenght = 0
-
-        for frequency in letter_frequency.values():
-            if frequency % 2:
-                has_odd = True
-                palindrome_lenght += frequency - 1
+        for letter, freq in letter_freq.items():
+            if freq % 2:
+                res += freq - 1
+                is_odd = 1
             else:
-                palindrome_lenght += frequency
+                res += freq 
 
-        return palindrome_lenght + has_odd
+        return res + is_odd
 
 
 class Solution:
@@ -27,19 +28,20 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: hash set
+        Tags:
+            DS: hash set
         """
-        palindrome_lenght = 0
+        res = 0
         letter_set = set()
 
         for letter in text:
             if letter in letter_set:
-                palindrome_lenght += 2
+                res += 2
                 letter_set.discard(letter)
             else:
                 letter_set.add(letter)
 
-        return palindrome_lenght + bool(letter_set)
+        return res + bool(letter_set)
 
 
 print(Solution().longestPalindrome("abccccdd") == 7)

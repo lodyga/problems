@@ -1,71 +1,84 @@
-import heapq
-
-
 class Solution:
-    def maximumBeauty(self, numbers: list[int], k: int) -> int:
-        """
-        Time complexity: O(n*k)
-        Auxiliary space complexity: O(n*k)
-        Tags: greedy
-        """
-        beauty_frequency = {}
-        for number in numbers:
-            for beauty_number in range(number - k, number + k + 1):
-                beauty_frequency[beauty_number] = beauty_frequency.get(
-                    beauty_number, 0) + 1
-        return max(beauty_frequency.values())
-
-
-class Solution:
-    def maximumBeauty(self, numbers: list[int], k: int) -> int:
-        """
-        Time complexity: O(nlogn)
-        Auxiliary space complexity: O(k)
-        Tags: heap
-        """
-        interval_heap = []
-        end_heap = []
-        counter = 0
-        max_counter = 0
-        for number in numbers:
-            heapq.heappush(interval_heap, (number - k, number + k))
-
-        while interval_heap:
-            start, end = heapq.heappop(interval_heap)
-            heapq.heappush(end_heap, end)
-
-            while end_heap and end_heap[0] < start:
-                heapq.heappop(end_heap)
-                counter -= 1
-
-            counter += 1
-            max_counter = max(max_counter, counter)
-
-        return max_counter
-
-
-class Solution:
-    def maximumBeauty(self, numbers: list[int], k: int) -> int:
+    def maximumBeauty(self, nums: list[int], k: int) -> int:
+        import heapq
         """
         Time complexity: O(nlogn)
         Auxiliary space complexity: O(n)
-        Tags: sliding window
+        Tags:
+            DS: heap
+            A: sorting
         """
-        numbers.sort()
-        left = 0
-        max_beauty = 0
+        nums.sort()
+        beauty_heap = []
+        res = 1
 
-        for right in range(len(numbers)):
-            while numbers[right] - numbers[left] > 2 * k:
+        for num in nums:
+            while (beauty_heap and beauty_heap[0] < num - k):
+                heapq.heappop(beauty_heap)
+
+            if num + k >= 0:
+                heapq.heappush(beauty_heap, num + k)
+                res = max(res, len(beauty_heap))
+
+        return res
+
+
+class Solution:
+    def maximumBeauty(self, nums: list[int], k: int) -> int:
+        """
+        Time complexity: O(nlogn)
+        Auxiliary space complexity: O(n)
+        Tags:
+            A: sliding window
+        """
+        nums.sort()
+        res = 0
+        left = 0
+
+        for right in range(len(nums)):
+            while nums[right] - nums[left] > k*2:
                 left += 1
 
-            length = right - left + 1
-            max_beauty = length if length > max_beauty else max_beauty
+            res = max(res, right - left + 1)
 
-        return max_beauty
+        return res
+
+
+class Solution:
+    def maximumBeauty(self, nums: list[int], k: int) -> int:
+        """
+        Time complexity: O(2^n)
+        Auxiliary space complexity: O(n)
+        Tags:
+            A: brute-force
+        """
+        def dfs(index, beauty_num):
+            if index == len(nums):
+                return 0
+
+            num = nums[index]
+            skip = dfs(index + 1, beauty_num)
+
+            if beauty_num == -1:
+                start = 1 + max(
+                    dfs(index + 1, num - k),
+                    dfs(index + 1, num),
+                    dfs(index + 1, num + k),
+                )
+                return max(skip, start)
+
+            elif (
+                beauty_num >= num - k and
+                beauty_num <= num + k
+            ):
+                return 1 + dfs(index + 1, beauty_num)
+
+            return max(0, skip)
+
+        return dfs(0, -1)
 
 
 print(Solution().maximumBeauty([4, 6, 1, 2], 2) == 3)
 print(Solution().maximumBeauty([1, 1, 1, 1], 10) == 4)
-print(Solution().maximumBeauty([48, 93, 96, 19], 24) == 3)
 print(Solution().maximumBeauty([75, 15, 9], 28) == 2)
+print(Solution().maximumBeauty([48, 93, 96, 19], 24) == 3)

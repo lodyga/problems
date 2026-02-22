@@ -5,54 +5,22 @@ class Solution:
             n: brick count
         Auxiliary space complexity: O(m)
             m: distinct crack count
-        Tags: hash map
+        Tags:
+            DS: hash map
+            A: prefix sum
         """
         # {crack position: vertical crack count}
-        cracks = {0: 0}
-        for row in wall:
-            crack = 0
-            for brick in row[:-1]:
-                crack += brick
-                cracks[crack] = cracks.get(crack, 0) + 1
+        crack_freq = {0: 0}
 
-        return len(wall) - max(cracks.values())
+        for brick_row in wall:
+            prefix = 0
+            
+            for index in range(len(brick_row) - 1):
+                brick = brick_row[index]
+                prefix += brick
+                crack_freq[prefix] = crack_freq.get(prefix, 0) + 1
 
-
-import heapq
-
-
-class Solution:
-    def leastBricks(self, wall: list[list[int]]) -> int:
-        """
-        Time complexity: O(nlogn)
-            n: brick count
-        Auxiliary space complexity: O(n)
-        Tags: heap, prefix sum
-        """
-        ROWS = len(wall)
-        COLS = sum(wall[0])
-
-        if ROWS == 1:
-            return 1 if len(wall[0]) == 1 else 0
-
-        for row in range(ROWS):
-            for col in range(1, len(wall[row])):
-                wall[row][col] += wall[row][col - 1]
-
-        brick_heap = []
-        for row in range(ROWS):
-            for col in range(len(wall[row])):
-                heapq.heappush(brick_heap, (wall[row][col], row))
-
-        cracks = {}
-        while brick_heap:
-            brick, _ = heapq.heappop(brick_heap)
-            if brick == COLS:
-                break
-            cracks[brick - 1] = cracks.get(brick - 1, 0) + 1
-
-        max_cracks = max(crack for crack in cracks.values()) if cracks else 0
-        return ROWS - max_cracks
+        return len(wall) - max(crack_freq.values())
 
 
 print(Solution().leastBricks([[1, 2, 2, 1], [3, 1, 2], [1, 3, 2], [2, 4], [3, 1, 2], [1, 3, 1, 1]]) == 2)

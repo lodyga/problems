@@ -113,6 +113,27 @@ class Solution:
 
 
 class Solution:
+    def lengthOfLIS(self, nums: list[int]) -> int:
+        """
+        Time complexity: O(n2)
+        Auxiliary space complexity: O(n)
+        Tags:
+            DS: array
+            A: bottom-up
+        """
+        lis = [1] * len(nums)
+
+        for right, right_num in enumerate(nums):
+            for left in range(right):
+                left_num = nums[left]
+
+                if left_num < right_num:
+                    lis[right] = max(lis[right], lis[left] + 1)
+
+        return max(lis)
+
+
+class Solution:
     def lengthOfLIS(self, numbers: list[int]) -> int:
         """
         Time complexity: O(2^n)

@@ -1,8 +1,44 @@
 class Solution {
    /**
+    * Time complexity: O(1)
+    * Auxiliary space complexity: O(1)
+    * Tags:
+    *     bit manipulation, iteration
+    * @param {number} n
+    * @return {boolean}
+    */
+   isPowerOfTwo(n) {
+      return n > 0 && (n & (n - 1)) === 0
+   };
+
+   /**
+    * Time complexity: O(1)
+    * Auxiliary space complexity: O(1)
+    * Tags:
+    *     bit manipulation, iteration
+    * @param {number} n
+    * @return {boolean}
+    */
+   isPowerOfTwo(n) {
+      if (n <= 0) {
+         return false
+      }
+
+      while (n !== 1) {
+         if (n & 1) {
+            return false
+         }
+         n >>= 1;
+      }
+
+      return true
+   };
+
+   /**
     * Time complexity: O(logn)
     * Auxiliary space complexity: O(1)
-    * Tags: iteration
+    * Tags:
+    *     iteration
     * @param {number} n
     * @return {boolean}
     */
@@ -11,7 +47,7 @@ class Solution {
          return false
 
       while (n % 2 === 0)
-         n >>= 1;
+         n = Math.floor(n / 2);
 
       return n === 1
    };
@@ -19,28 +55,19 @@ class Solution {
    /**
     * Time complexity: O(logn)
     * Auxiliary space complexity: O(1)
-    * Tags: recursion
+    * Tags:
+    *     recursion
     * @param {number} n
     * @return {boolean}
     */
    isPowerOfTwo(n) {
-      if (n <= 0)
+      if (n <= 0) {
          return false
-      if (n % 2 === 0)
-         return isPowerOfTwo(n >> 1)
-      else
+      } else if (n % 2) {
          return n === 1
-   };
-
-   /**
-    * Time complexity: O(1)
-    * Auxiliary space complexity: O(1)
-    * Tags: bit manipulation
-    * @param {number} n
-    * @return {boolean}
-    */
-   isPowerOfTwo(n) {
-      return n > 0 && (n & (n - 1)) === 0
+      } else {
+         return isPowerOfTwo(Math.floor(n / 2))
+      }
    };
 }
 

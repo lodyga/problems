@@ -1,3 +1,81 @@
+class Solution:
+    def suggestedProducts(self, products: list[str], search_word: str) -> list[list[str]]:
+        """
+        Time complexity: O(nlogn + n*s2)
+            n: product list length
+            s: search word length
+        Auxiliary space complexity: O(n)
+        Tags:
+            A: sorting
+        """
+        products.sort()
+        prefix = ""
+        res = []
+        start = 0
+
+        for letter in search_word:
+            prefix = prefix + letter
+            res_part = []
+            is_new_start = False
+
+            for index in range(start, len(products)):
+                word = products[index]
+
+                if word.startswith(prefix):
+                    res_part.append(word)
+
+                    if is_new_start == False:
+                        start = index
+                        is_new_start = True
+
+                    if len(res_part) == 3:
+                        break
+
+            res.append(res_part)
+
+        return res
+
+
+class Solution:
+    def suggestedProducts(self, products: list[str], search_word: str) -> list[list[str]]:
+        """
+        Time complexity: O(nlogn)
+            n: product list length
+            s: search word length
+        Auxiliary space complexity: O(n)
+        Tags:
+            A: two pointers, sorting
+        """
+        products.sort()
+        res = []
+        left = 0
+        right = len(products) - 1
+
+        for index in range(len(search_word)):
+            search_letter = search_word[index]
+
+            while (
+                left <= right and
+                (
+                    len(products[left]) <= index or
+                    search_letter != products[left][index]
+                )
+            ):
+                left += 1
+            while (
+                left <= right and
+                (
+                    len(products[right]) <= index or
+                    search_letter != products[right][index]
+                )
+            ):
+                right -= 1
+
+            res.append(products[left: min(left + 3, right + 1)])
+
+        return res
+
+
 class TrieNode:
     def __init__(self) -> None:
         self.letters = {}
@@ -17,6 +95,7 @@ class Trie:
                 node.letters[letter] = TrieNode()
 
             node = node.letters[letter]
+            
             if len(node.suggested_products) < 3:
                 node.suggested_products.append(word)
 
@@ -24,19 +103,18 @@ class Trie:
 
     def get_suggestions(self, word: str) -> list[list[str]]:
         node = self.root
-        suggested_product_list = []
+        res = []
 
         for letter in word:
             if letter not in node.letters:
-                blank = [[]
-                         for _ in range(len(word) - len(suggested_product_list))]
-                suggested_product_list.extend(blank)
+                blank = [[] for _ in range(len(word) - len(res))]
+                res.extend(blank)
                 break
 
             node = node.letters[letter]
-            suggested_product_list.append(node.suggested_products)
+            res.append(node.suggested_products)
 
-        return suggested_product_list
+        return res
 
 
 class Solution:
@@ -54,39 +132,6 @@ class Solution:
             trie.add(product)
 
         return trie.get_suggestions(search_word)
-
-
-class Solution:
-    def suggestedProducts(self, products: list[str], search_word: str) -> list[list[str]]:
-        """
-        Time complexity: O(nlogn + s)
-            n: product list length
-            s: search word length
-        Auxiliary space complexity: O(n)
-        Tags: two pointers, sorting
-        """
-        products.sort()
-        left = 0
-        right = len(products) - 1
-        suggested_product_list = []
-
-        for index, letter in enumerate(search_word):
-            while left <= right and (
-                len(products[left]) <= index or
-                letter != products[left][index]
-            ):
-                left += 1
-
-            while left <= right and (
-                len(products[right]) <= index or
-                letter != products[right][index]
-            ):
-                right -= 1
-
-            product_list = products[left: min(left + 3, right + 1)]
-            suggested_product_list.append(product_list)
-
-        return suggested_product_list
 
 
 print(Solution().suggestedProducts(["mobile", "mouse", "moneypot", "monitor", "mousepad"], "mouse") == [["mobile", "moneypot", "monitor"], ["mobile", "moneypot", "monitor"], ["mouse", "mousepad"], ["mouse", "mousepad"], ["mouse", "mousepad"]])

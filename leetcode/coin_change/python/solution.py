@@ -166,7 +166,7 @@ class Solution:
             O(amount)
         Tags:
             DS: queue
-            A: bfs, iteration, queue
+            A: bfs, iteration
         """
         if amount == 0:
             return 0

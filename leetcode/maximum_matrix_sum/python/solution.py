@@ -3,21 +3,26 @@ class Solution:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(1)
-        Tags: greedy
+        Tags:
+            A: greedy
         """
-        is_negative = False
-        min_element = abs(matrix[0][0])
+        ROWS = len(matrix)
+        COLS = len(matrix[0])
+        is_positive = True
         total = 0
+        min_val = abs(matrix[0][0])
 
-        for row in range(len(matrix)):
-            for col in range(len(matrix)):
+        for row in range(ROWS):
+            for col in range(COLS):
                 total += abs(matrix[row][col])
-                min_element = min(min_element, abs(matrix[row][col]))
-                if matrix[row][col] < 0:
-                    is_negative = False if is_negative else True
 
-        total -= min_element * 2 if is_negative else 0
-        return total
+                if matrix[row][col] < 0:
+                    is_positive = not is_positive
+
+                if abs(matrix[row][col]) < min_val:
+                    min_val = abs(matrix[row][col])
+
+        return total if is_positive else total - 2*min_val
 
 
 print(Solution().maxMatrixSum([[1, -1], [-1, 1]]) == 4)

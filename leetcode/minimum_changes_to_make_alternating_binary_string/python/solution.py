@@ -3,28 +3,19 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: iteration
+        Tags:
+            A: iteration
         """
-        zero = 0  # target 0101...
-        one = 0  # target 1010...
+        diff_a = 0
+        diff_b = 0
 
-        for index, char in enumerate(text):
-            if index % 2:
-                # 0101...
-                if char == "0":
-                    zero += 1
-                # 1010...
-                else:
-                    one += 1
-            else:
-                # 0101...
-                if char == "1":
-                    zero += 1
-                # 1010...
-                else:
-                    one += 1
+        for index in range(len(text)):
+            a = "0" if index % 2 else "1"
+            b = "1" if index % 2 else "0"
+            diff_a += 1 if text[index] != a else 0
+            diff_b += 1 if text[index] != b else 0
 
-        return min(zero, one)
+        return min(diff_a, diff_b)
 
 
 print(Solution().minOperations("0100") == 1)

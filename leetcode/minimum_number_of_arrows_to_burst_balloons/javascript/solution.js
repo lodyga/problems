@@ -2,30 +2,50 @@ class Solution {
    /**
     * Time complexity: O(nlogn)
     * Auxiliary space complexity: O(n)
-    * Tags: sorting
+    * Tags:
+    *     A: greedy, sorting
     * @param {number[][]} points
     * @return {number}
     */
    findMinArrowShots(points) {
-      // points.sort((a, b) => a[0] === b[0] ? a[1] - b[1] : a[0] - b[0]);
       points.sort((a, b) => a[0] - b[0] || a[1] - b[1]);
-      let arrowCounter = 0;
+      let res = 1;
+      let prevEnd = points[0][1];
 
-      let index = 0;
-      while (index < points.length) {
-         let earliestEnd = points[index][1];
-         arrowCounter++;
-         index++;
-         while (
-            index < points.length &&
-            points[index][0] <= earliestEnd
-         ) {
-            const end = points[index][1];
-            earliestEnd = Math.min(earliestEnd, end);
-            index++;
+      for (const [start, end] of points) {
+         if (start <= prevEnd) {
+            prevEnd = Math.min(end, prevEnd);
+            continue
          }
+
+         res++;
+         prevEnd = end;
       }
-      return arrowCounter
+      return res
+   };
+
+   /**
+    * Time complexity: O(nlogn)
+    * Auxiliary space complexity: O(n)
+    * Tags:
+    *     A: greedy, sorting
+    * @param {number[][]} points
+    * @return {number}
+    */
+   findMinArrowShots(points) {
+      points.sort((a, b) => a[1] - b[1]);
+      let res = 1;
+      let prevEnd = points[0][1];
+
+      for (const [start, end] of points) {
+         if (start <= prevEnd) {
+            continue
+         }
+
+         res++;
+         prevEnd = end;
+      }
+      return res
    };
 }
 

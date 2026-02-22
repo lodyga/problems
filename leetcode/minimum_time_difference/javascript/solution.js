@@ -2,31 +2,56 @@ class Solution {
    /**
     * Time complexity: O(nlogn)
     * Auxiliary space complexity: O(n)
-    * Tags: sorting
+    * Tags:
+    *     DS: list
+    *     A: sorting
     * @param {string[]} timePoints
     * @return {number}
     */
    findMinDifference(timePoints) {
-      const cycle = 24 * 60;
-      const minuteList = Array(timePoints.length).fill(cycle);
+      const times = timePoints.map(([h1, h2, , m1, m2]) =>
+         [Number(h1) * 10 + Number(h2), Number(m1) * 10 + Number(m2)]);
+      times.sort((a, b) => a[0] === b[0] ? a[1] - b[1] : a[0] - b[0]);
+      const [h0, m0] = times[0];
+      times.push([24 + h0, m0]);
+      let res = 24 * 60;
 
-      for (let index = 0; index < timePoints.length; index++) {
-         const timePoint = timePoints[index];
-         const minutes = Math.floor(timePoint.slice(3,));
-         const hours = Math.floor(timePoint.slice(0, 2));
-         minuteList[index] = minutes + hours * 60;
+      for (let index = 0; index < times.length - 1; index++) {
+         const [h1, m1] = times[index];
+         const [h2, m2] = times[index + 1];
+         res = Math.min(res, (h2 - h1) * 60 + (m2 - m1));
+
+         if (res === 0) {
+            return 0
+         }
       }
+      return res
+   };
 
-      minuteList.sort((a, b) => a - b);
-      minuteList.push(minuteList[0] + cycle);
+   /**
+    * Time complexity: O(nlogn)
+    * Auxiliary space complexity: O(n)
+    * Tags:
+    *     DS: list
+    *     A: sorting
+    * @param {string[]} timePoints
+    * @return {number}
+    */
+   findMinDifference(timePoints) {
+      const times = timePoints.map(([h1, h2, , m1, m2]) =>
+         (Number(h1) * 10 + Number(h2)) * 60 + Number(m1) * 10 + Number(m2));
+      times.sort((a, b) => a - b);
+      times.push(times[0] + 24 * 60);
+      let res = 24 * 60;
 
-      let minDiff = cycle;
-      for (let index = 0; index < minuteList.length - 1; index++) {
-         minDiff = Math.min(minDiff, minuteList[index + 1] - minuteList[index])
-         if (minDiff === 0)
-            break
+      for (let index = 0; index < times.length - 1; index++) {
+         res = Math.min(res, times[index + 1] - times[index]);
+
+         if (res === 0) {
+            return 0
+         }
       }
-      return minDiff
+      return res
    };
 }
 

@@ -16,26 +16,30 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: binary tree, dfs, recursion, post-order traversal
+        Tags:
+            DS: binary tree
+            A: dfs, recursion, post-order traversal
         """
-        distribution_count = 0
+        res = 0
 
-        def dfs(node):
-            nonlocal distribution_count
-            if node is None:
+        def dfs(node: TreeNode) -> int:
+            nonlocal res
+            if not node:
                 return 0
 
             left = dfs(node.left)
             right = dfs(node.right)
-            distribution_count += abs(left) + abs(right)
-            coins_surplus = node.val + left + right - 1
-            # distribution_count += abs(coins_surplus)
-            return coins_surplus
+            res += abs(left) + abs(right)
+            return (node.val - 1) + left + right
 
         dfs(root)
-        return distribution_count
+        return res
 
 
+print(Solution().distributeCoins(build_tree([1])) == 0)
+print(Solution().distributeCoins(build_tree([2, 0])) == 1)
+print(Solution().distributeCoins(build_tree([0, 2])) == 1)
 print(Solution().distributeCoins(build_tree([3, 0, 0])) == 2)
 print(Solution().distributeCoins(build_tree([0, 3, 0])) == 3)
 print(Solution().distributeCoins(build_tree([1, 0, 0, None, 3])) == 4)
+print(Solution().distributeCoins(build_tree([4, 0, 0, 0])) == 4)

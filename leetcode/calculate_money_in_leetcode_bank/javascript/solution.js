@@ -1,23 +1,27 @@
 class Solution {
    /**
-    * Time complexity: O(nlogn)
+    * Time complexity: O(1)
     * Auxiliary space complexity: O(1)
-    * Tags: iteration
+    * Tags:
+    *     A: math, iteration
+    *     Arithmetic series
     * @param {number} days
     * @return {number}
     */
    totalMoney(days) {
       const weeks = Math.floor(days / 7);
-      const left = days % 7;
-      let total = 0;
+      const lastWeekDays = days % 7;
+      let wholeWeeksMoneySum = 0;
 
-      for (let week = 0; week < weeks; week++)
-         total += ((1 + 7 + 2 * week) * 7 / 2)
-      
-      const lastWeek = weeks + 1;
-      total += (lastWeek + (lastWeek + left - 1)) * left / 2
+      for (let week = 1; week < weeks + 1; week++)
+         wholeWeeksMoneySum += (week + (week - 1 + 7)) * 7 / 2;
 
-      return total
+      const lastWeekMoneySum = (
+         (weeks + 1) +
+         (weeks + lastWeekDays)
+      ) * lastWeekDays / 2
+
+      return wholeWeeksMoneySum + lastWeekMoneySum
    };
 }
 

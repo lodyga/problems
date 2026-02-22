@@ -1,51 +1,42 @@
 class Solution:
-    def primeSubOperation(self, numbers: list[int]) -> bool:
+    def primeSubOperation(self, nums: list[int]) -> bool:
         """
-        Time complexity: O(nlogm + n*sqrt(m))
+        Time complexity: O(n*sqrt(m))
             n: number count
             m: max number
         Auxiliary space complexity: O(1)
-        Tags: binary search
+        Tags:
+            A: iteration
         """
-        # primes = [2, 3, 5, 7, 11, 13, 17, 23]
-        # Generate primes.
-        is_prime = [True] * (max(numbers) + 1)
-        is_prime[0] = is_prime[1] = False
-        for index in range(2, int(max(numbers)**0.5) + 1):
-            if is_prime[index]:
-                for i2 in range(index*index, max(numbers) + 1, index):
-                    is_prime[i2] = False
-        primes = [index for index, b in enumerate(is_prime) if b]
+        def get_prime(num):
+            num = max(2, num)
 
-        # Make array strictly increasing. 
-        for index in reversed(range(len(numbers) - 1)):
-            if numbers[index] < numbers[index + 1]:
+            while True:
+                is_prime = True
+
+                for divider in range(2, int(num**0.5) + 1):
+                    if num % divider == 0:
+                        is_prime = False
+                        break
+
+                if is_prime:
+                    return num
+
+                num += 1
+
+        for index in range(len(nums) - 2, -1, -1):
+            num = nums[index]
+            if num < nums[index + 1]:
                 continue
-            
-            diff = numbers[index] - numbers[index + 1] + 1
-            left = 0
-            right = len(primes) - 1
-            min_diff = None
-                
-            while left <= right:
-                middle = (left + right) >> 1
-                middle_number = primes[middle]
 
-                # subtract as much as possilbe
-                if diff > middle_number:
-                    left = middle + 1
-                else:
-                    right = middle - 1
-                    min_diff = middle_number
-            
-            if min_diff is None:
+            min_diff = num - nums[index + 1] + 1
+            min_prime = get_prime(min_diff)
+
+            if min_prime >= num:
                 return False
-            numbers[index] -= min_diff
-            if numbers[index] >= numbers[index + 1]:
-                return False            
-            if numbers[index] <= 0:
-                return False
-        
+            else:
+                nums[index] -= min_prime
+
         return True
 
 

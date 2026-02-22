@@ -1,25 +1,26 @@
 # Walking Robot Simulation
 https://leetcode.com/problems/walking-robot-simulation/
 
+<p>
 A robot on an infinite XY-plane starts at point (0, 0) facing north. The robot receives an array of integers commands, which represents a sequence of moves that it needs to execute. There are only three possible types of instructions the robot can receive:
 
-    -2: Turn left 90 degrees.
-    -1: Turn right 90 degrees.
-    1 <= k <= 9: Move forward k units, one unit at a time.
+- -2: Turn left 90 degrees.
+- -1: Turn right 90 degrees.
+- 1 <= k <= 9: Move forward k units, one unit at a time.
 
 Some of the grid squares are obstacles. The ith obstacle is at grid point obstacles[i] = (xi, yi). If the robot runs into an obstacle, it will stay in its current location (on the block adjacent to the obstacle) and move onto the next command.
 
 Return the maximum squared Euclidean distance that the robot reaches at any point in its path (i.e. if the distance is 5, return 25).
 
 Note:
+- There can be an obstacle at (0, 0). If this happens, the robot will ignore the obstacle until it has moved off the origin. However, it will be unable to return to (0, 0) due to the obstacle.
+- North means +Y direction.
+- East means +X direction.
+- South means -Y direction.
+- West means -X direction.
+</i>
 
-    There can be an obstacle at (0, 0). If this happens, the robot will ignore the obstacle until it has moved off the origin. However, it will be unable to return to (0, 0) due to the obstacle.
-    North means +Y direction.
-    East means +X direction.
-    South means -Y direction.
-    West means -X direction.
-
-
+<pre>
 <b>Example 1:</b>
 
 Input: commands = [4,-1,3], obstacles = []
@@ -35,7 +36,9 @@ The robot starts at (0, 0):
     Move east 3 units to (3, 4).
 
 The furthest point the robot ever gets from the origin is (3, 4), which squared is 32 + 42 = 25 units away.
+</pre>
 
+<pre>
 <b>Example 2:</b>
 
 Input: commands = [4,-1,4,-2,4], obstacles = [[2,4]]
@@ -53,7 +56,9 @@ The robot starts at (0, 0):
     Move north 4 units to (1, 8).
 
 The furthest point the robot ever gets from the origin is (1, 8), which squared is 12 + 82 = 65 units away.
+</pre>
 
+<pre>
 <b>Example 3:</b>
 
 Input: commands = [6,-1,-1,6], obstacles = [[0,0]]
@@ -70,3 +75,4 @@ The robot starts at (0, 0):
     Move south 5 units and get blocked by the obstacle at (0,0), robot is at (0, 1).
 
 The furthest point the robot ever gets from the origin is (0, 6), which squared is 62 = 36 units away.
+</pre>
