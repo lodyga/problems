@@ -1,8 +1,33 @@
-from functools import lru_cache
+class Solution:
+    def maxSubarraySum(self, nums: list[int], k: int) -> int:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(n)
+        Tags:
+            DS: array
+            A: prefix sum
+        """
+        prefix = 0
+        sub_sum = sum(nums[: k])
+        # min prefix for every rest: mod = index % k
+        min_prefix = [float("inf")] * k
+        min_prefix[0] = 0
+
+        for index, num in enumerate(nums, 1):
+            prefix += num
+            mod = index % k
+
+            if min_prefix[mod] != float("inf"):
+                sub_sum = max(sub_sum, prefix - min_prefix[mod])
+
+            min_prefix[mod] = min(min_prefix[mod], prefix)
+
+        return int(sub_sum)
 
 
 class Solution:
     def maxSubarraySum(self, nums: list[int], k: int) -> int:
+        from functools import lru_cache
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
@@ -11,7 +36,7 @@ class Solution:
         subarray_sums = [sum(nums[: k])] * len(nums)
         memo = {}
 
-        @lru_cache
+        @lru_cache(None)
         def dfs(index, start, total):
             nonlocal subarray_sums
             if index == len(nums):
@@ -36,31 +61,6 @@ class Solution:
 
         dfs(0, 0, 0)
         return max(subarray_sums)
-
-
-class Solution:
-    def maxSubarraySum(self, nums: list[int], k: int) -> int:
-        """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(n)
-        Tags: prefix sum
-        """
-        prefix = 0
-        subarray_sum = sum(nums[: k])
-        # min prefix for every rest: mod = index % k
-        min_prefix = [float("inf")] * k
-        min_prefix[0] = 0
-
-        for index, num in enumerate(nums, 1):
-            prefix += num
-            mod = index % k
-
-            if min_prefix[mod] != float("inf"):
-                subarray_sum = max(subarray_sum, prefix - min_prefix[mod])
-
-            min_prefix[mod] = min(min_prefix[mod], prefix)
-
-        return subarray_sum
 
 
 print(Solution().maxSubarraySum([1, 2], 1) == 3)

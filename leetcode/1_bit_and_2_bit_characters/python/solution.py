@@ -3,20 +3,22 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: iteration
+        Tags:
+            A: iteration
         """
+        N = len(bits)
         index = 0
-        one_bit = False
-        while index < len(bits):
-            bit = bits[index]
-            if bit:
-                index += 2
-                one_bit = False
-            else:
-                index += 1
-                one_bit = True
+        is_one_bit = True
 
-        return one_bit
+        while index < N:
+            if bits[index]:
+                is_one_bit = False
+                index += 2
+            else:
+                is_one_bit = True
+                index += 1
+
+        return is_one_bit
 
 
 print(Solution().isOneBitCharacter([1, 0, 0]) == True)

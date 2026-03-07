@@ -3,26 +3,27 @@ class Solution {
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
     * Tags:
-    *     DS: array
-    *     A: iteration
+    *     DS: list
+    *     A: bit manipulation
     * @param {number[]} nums
     * @return {boolean[]}
     */
    prefixesDivBy5(nums) {
-      let prefix = 0;
-      const isDivisible = Array(nums.length).fill(false);
-      for (let index = 0; index < nums.length; index++) {
-         const num = nums[index];
-         prefix = (prefix << 1 + num) % 5;
-         isDivisible[index] = prefix === 0;
+      let val = 0
+      const res = [];
+
+      for (const num of nums) {
+         val = (val * 2 + num) % 5
+         res.push(val === 0);
       }
-      return isDivisible
+
+      return res
    };
 }
 
 
 const prefixesDivBy5 = new Solution().prefixesDivBy5;
-console.log(new Solution().prefixesDivBy5([0, 1, 1]), [true, false, false])
-console.log(new Solution().prefixesDivBy5([0, 1, 1, 1, 1, 1]), [true, false, false, false, true, false])
-console.log(new Solution().prefixesDivBy5([1, 1, 1]), [false, false, false])
-console.log(new Solution().prefixesDivBy5([1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1]), [false, false, true, true, true, true, true, true, true, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, false, false, false, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, true, false, false, false])
+console.log(new Solution().prefixesDivBy5([0, 1, 1]).toString() === [true, false, false].toString())
+console.log(new Solution().prefixesDivBy5([0, 1, 1, 1, 1, 1]).toString() === [true, false, false, false, true, false].toString())
+console.log(new Solution().prefixesDivBy5([1, 1, 1]).toString() === [false, false, false].toString())
+console.log(new Solution().prefixesDivBy5([1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1]).toString() === [false, false, true, true, true, true, true, true, true, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, false, false, false, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, true, false, false, false].toString())

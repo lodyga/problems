@@ -2,7 +2,8 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: iteration
+    * Tags:
+    *     A: iteration
     * @param {number} k
     * @return {number}
     */
@@ -14,13 +15,13 @@ class Solution {
          return -1
 
       let num = 0;
+
       for (let index = 1; index <= k; index++) {
          num = (num * 10 + 1) % k;
+
          if (num % k === 0)
             return index
       }
-
-      return -1
    };
 }
 

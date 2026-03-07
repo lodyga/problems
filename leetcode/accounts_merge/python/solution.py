@@ -26,10 +26,13 @@ class Solution:
     def accountsMerge(self, accounts: list[list[str]]) -> list[list[str]]:
         """
         Time complexity: O(m⋅log(m))
-        Auxiliary space complexity: O(n + m)
-        Tags:
             n: accounts size
             m: emial total count
+        Auxiliary space complexity: O(n + m)
+        Tags:
+            DS: hash map, list
+            A: DSU
+            Model: graph
         """
         N = len(accounts)
         # {email: owner id, }

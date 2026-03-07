@@ -1,6 +1,3 @@
-from collections import deque
-
-
 class Solution:
     def numIslands(self, grid: list[list[str]]) -> int:
         """
@@ -17,10 +14,8 @@ class Solution:
 
         def dfs(row: int, col: int) -> int:
             if (
-                row == -1 or
-                col == -1 or
-                row == ROWS or
-                col == COLS or
+                row == -1 or row == ROWS or
+                col == -1 or col == COLS or
                 grid[row][col] == "0" or
                 visited[row][col]
             ):
@@ -33,15 +28,16 @@ class Solution:
 
             return 1
 
-        island_counter = 0
-        for row in range(ROWS):
-            for col in range(COLS):
-                island_counter += dfs(row, col)
-        return island_counter
+        return sum(
+            dfs(row, col)
+            for row in range(ROWS)
+            for col in range(COLS)
+        )
 
 
 class Solution:
     def numIslands(self, grid: list[list[str]]) -> int:
+        from collections import deque
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n2)
@@ -67,27 +63,26 @@ class Solution:
             while queue:
                 (row, col) = queue.popleft()
 
-                for dr, dc in DIRECTIONS:
+                for (dr, dc) in DIRECTIONS:
                     (r, c) = (row + dr, col + dc)
                     if (
-                        r == -1 or
-                        c == -1 or
-                        r == ROWS or
-                        c == COLS or
+                        r == -1 or r == ROWS or
+                        c == -1 or c == COLS or
                         grid[r][c] == "0" or
                         visited[r][c]
                     ):
                         continue
+
                     queue.append((r, c))
                     visited[r][c] = True
 
             return 1
 
-        island_counter = 0
-        for row in range(ROWS):
-            for col in range(COLS):
-                island_counter += bfs(row, col)
-        return island_counter
+        return sum(
+            bfs(row, col)
+            for row in range(ROWS)
+            for col in range(COLS)
+        )
 
 
 print(Solution().numIslands([["0"]]) == 0)
@@ -98,3 +93,5 @@ print(Solution().numIslands([["1", "0", "0"], ["0", "1", "0"], ["0", "0", "1"]])
 print(Solution().numIslands([["1", "1", "0"], ["0", "1", "0"], ["0", "0", "1"]]) == 2)
 print(Solution().numIslands([["1", "1", "1", "1", "0"], ["1", "1", "0", "1", "0"], ["1", "1", "0", "0", "0"], ["0", "0", "0", "0", "0"]]) == 1)
 print(Solution().numIslands([["1", "1", "0", "0", "0"], ["1", "1", "0", "0", "0"], ["0", "0", "1", "0", "0"], ["0", "0", "0", "1", "1"]]) == 3)
+print(Solution().numIslands([["1", "1", "1", "1", "0"], ["1", "1", "0", "1", "0"], ["1", "1", "0", "0", "0"], ["0", "0", "0", "0", "0"]]))
+print(Solution().numIslands([["1", "1", "0", "0", "0"], ["1", "1", "0", "0", "0"], ["0", "0", "1", "0", "0"], ["0", "0", "0", "1", "1"]]))

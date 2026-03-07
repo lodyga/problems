@@ -61,9 +61,10 @@ class Solution:
                 min_opened -= 1
                 max_opened += 1
 
-            min_opened = max(min_opened, 0)
             if max_opened < 0:
                 return False
+
+            min_opened = max(min_opened, 0)
 
         return min_opened == 0
 

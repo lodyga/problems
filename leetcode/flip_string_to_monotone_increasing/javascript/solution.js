@@ -64,6 +64,10 @@ class Solution {
 const minFlipsMonoIncr = new Solution().minFlipsMonoIncr;
 console.log(new Solution().minFlipsMonoIncr('00') === 0)
 console.log(new Solution().minFlipsMonoIncr('11') === 0)
+console.log(new Solution().minFlipsMonoIncr('01') === 0)
+console.log(new Solution().minFlipsMonoIncr('10') === 1)
+console.log(new Solution().minFlipsMonoIncr('010') === 1)
+console.log(new Solution().minFlipsMonoIncr('101') === 1)
 console.log(new Solution().minFlipsMonoIncr('00110') === 1)
 console.log(new Solution().minFlipsMonoIncr('010110') === 2)
 console.log(new Solution().minFlipsMonoIncr('00011000') === 2)

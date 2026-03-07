@@ -3,22 +3,27 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: prefix sum
+        Tags:
+            A: prefix sum
         """
+        N = len(boxes)
+        nums = [1 if box == "1" else 0 for box in boxes]
+        prefix = [0]
+        suffix = [0]
         balls = 0
-        left_prefix = [0] * len(boxes)
-        for index in range(1, len(boxes)):
-            balls += 1 if boxes[index - 1] == "1" else 0
-            left_prefix[index] = left_prefix[index - 1] + balls
+
+        for index in range(1, N):
+            balls += nums[index - 1]
+            prefix.append(prefix[-1] + balls)
 
         balls = 0
-        right_prefix = [0] * len(boxes)
-        for index in reversed(range(len(boxes) - 1)):
-            balls += 1 if boxes[index + 1] == "1" else 0
-            right_prefix[index] = right_prefix[index + 1] + balls
-            left_prefix[index] += right_prefix[index]
 
-        return left_prefix
+        for index in range(N - 2, -1, -1):
+            balls += nums[index + 1]
+            suffix.append(suffix[-1] + balls)
+
+        suffix.reverse()
+        return [prefix[index] + suffix[index] for index in range(N)]
 
 
 class Solution:
@@ -26,22 +31,26 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: prefix sum
+        Tags:
+            A: prefix sum
         """
+        N = len(boxes)
+        prefix = [0]
+        suffix = 0
         balls = 0
-        left_prefix = [0] * len(boxes)
-        for index in range(1, len(boxes)):
+
+        for index in range(1, N):
             balls += 1 if boxes[index - 1] == "1" else 0
-            left_prefix[index] = left_prefix[index - 1] + balls
+            prefix.append(prefix[-1] + balls)
 
-        balls = 1 if boxes[-1] == "1" else 0
-        right_prefix = 1 if boxes[-1] == "1" else 0
-        for index in reversed(range(len(boxes) - 1)):
-            left_prefix[index] += right_prefix
-            balls += 1 if boxes[index] == "1" else 0
-            right_prefix += balls
+        balls = 0
 
-        return left_prefix
+        for index in range(N - 2, -1, -1):
+            balls += 1 if boxes[index + 1] == "1" else 0
+            suffix += balls
+            prefix[index] += suffix
+
+        return prefix
 
 
 print(Solution().minOperations("110") == [1, 1, 3])

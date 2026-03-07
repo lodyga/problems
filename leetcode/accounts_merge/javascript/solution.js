@@ -38,13 +38,17 @@ class DSU {
    };
 }
 
+
 class Solution {
    /**
     * Time complexity: O(m⋅log(m))
     * Auxiliary space complexity: O(n + m)
-    * Tags:
     *     n: accounts size
     *     m: emial total count
+    * Tags:
+    *     DS: hash map, list
+    *     A: DSU
+    *     Model: graph
     * @param {string[][]} accounts
     * @return {string[][]}
     */

@@ -3,17 +3,17 @@ class Solution:
         """
         Time complexity: O(n+q)
         Auxiliary space complexity: O(n)
-        Tags: prefix sum, prefix xor
+        Tags:
+            DS: list
+            A: bit manipulation, prefix sum
         """
-        prefix = [0] * (len(nums) + 1)
-        for index in range(1, len(nums) + 1):
-            prefix[index] = prefix[index - 1] ^ nums[index - 1]
+        prefix = [0]
 
-        response = []
-        for start, end in queries:
-            response.append(prefix[end + 1] ^ prefix[start])
+        for num in nums:
+            prefix.append(prefix[-1] ^ num)
 
-        return response
+        return [prefix[end + 1] ^ prefix[start] 
+                for start, end in queries]
 
 
 print(Solution().xorQueries([1, 3, 4, 8], [[0, 1], [1, 2], [0, 3], [3, 3]]) == [2, 7, 14, 8])

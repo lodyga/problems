@@ -1,38 +1,67 @@
 class Solution:
     def repairCars(self, ranks: list[int], cars: int) -> int:
         """
-        Time complexity: O(nlogn)
-            n: upper time
+        Time complexity: O(nlogt)
+            t: upper time limit
         Auxiliary space complexity: O(n)
-        Tags: binary search
+        Tags:
+            A: binary search
         """
-        def are_cars_repaired(time):
-            """
-            Calculuate is it enougth `time` to reapir all cars.
-            """
-            total = 0
+        # Time to reapiar all cars.
+        left = 1
+        right = min(ranks) * cars**2
+        res = right
+
+        while left <= right:
+            mid = (left + right) // 2
+            repaired_cars = sum(
+                int((mid / rank)**0.5)
+                for rank in ranks)
+
+            if repaired_cars < cars:
+                left = mid + 1
+            else:
+                res = mid
+                right = mid - 1
+
+        return res
+
+
+class Solution:
+    def repairCars(self, ranks: list[int], cars: int) -> int:
+        """
+        Time complexity: O(nlogt)
+            t: upper time limit
+        Auxiliary space complexity: O(n)
+        Tags:
+            A: binary search
+        """
+        def are_cars_repaired(mid):
+            repaired_cars = 0
+
             for rank in ranks:
-                total += int((time / rank)**0.5)
-                # early break
-                if total >= cars:
+                repaired_cars += int((mid / rank)**0.5)
+
+                if repaired_cars >= cars:
                     return True
+
             return False
 
-        # time to repair some cars
-        lower_time = 1
-        upper_time = ranks[0] * cars**2
-        min_time = upper_time
+        # Time to reapiar all cars.
+        left = 1
+        right = min(ranks) * cars**2
+        res = right
 
-        while lower_time <= upper_time:
-            middle_time = (lower_time + upper_time) // 2
+        while left <= right:
+            mid = (left + right) // 2
 
-            if are_cars_repaired(middle_time):
-                min_time = middle_time
-                upper_time = middle_time - 1
+            if are_cars_repaired(mid):
+                res = mid
+                right = mid - 1
             else:
-                lower_time = middle_time + 1
+                left = mid + 1
 
-        return min_time
+        return res
 
 
 print(Solution().repairCars([4, 2, 3, 1], 10) == 16)

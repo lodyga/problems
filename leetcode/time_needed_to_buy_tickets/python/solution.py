@@ -1,27 +1,27 @@
-from collections import deque
-
-
 class Solution:
     def timeRequiredToBuy(self, tickets: list[int], k: int) -> int:
+        from collections import deque
         """
-        Time complexity: O(nm)
-            m: position k tickets
+        Time complexity: O(n*m)
+            m: tickets[k]
         Auxiliary space complexity: O(n)
-        Tags: queue
+        Tags:
+            DS: queue
+            A: iteration
         """
-        queue = deque(
-            [(person, ticket)
-             for person, ticket in enumerate(tickets)]
-        )
-        time = 0
+        res = 0
+        queue = deque([(ticket, index)
+                      for index, ticket in enumerate(tickets)])
+
         while True:
-            person, ticket = queue.popleft()
+            ticket, index = queue.popleft()
             ticket -= 1
-            time += 1
-            if ticket != 0:
-                queue.append((person, ticket))
-            elif person == k:
-                return time
+            res += 1
+
+            if ticket:
+                queue.append((ticket, index))
+            elif index == k:
+                return res
 
 
 class Solution:
@@ -29,18 +29,20 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: greedy
+        Tags:
+            A: greedy
         """
-        time = 0
+        res = 0
         tickets_to_buy = tickets[k]
 
         for index, ticket in enumerate(tickets):
-            if index <= k:
-                time += min(ticket, tickets_to_buy)
+            if ticket < tickets_to_buy:
+                res += ticket
             else:
-                time += min(ticket, tickets_to_buy - 1)
+                res += tickets_to_buy
+                res -= 1 if index > k else 0
 
-        return time
+        return res
 
 
 print(Solution().timeRequiredToBuy([2, 2], 0) == 3)

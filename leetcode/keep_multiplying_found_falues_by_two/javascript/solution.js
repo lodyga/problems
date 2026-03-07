@@ -2,15 +2,20 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: hash set
+    * Tags:
+    *     DS: hash set
+    *     A: iteration
     * @param {number[]} nums
     * @param {number[]} original
     * @return {nums, original}
     */
    findFinalValue(nums, original) {
       const numSet = new Set(nums);
-      while (numSet.has(original))
+      
+      while (numSet.has(original)) {
          original *= 2;
+      }
+      
       return original
    };
 }

@@ -6,10 +6,7 @@ class Solution:
         Tags:
             A: iteration
         """
-        counter = 0
-        for num in nums:
-            counter += 1 if num % 3 else 0
-        return counter
+        return sum(1 for num in nums if num % 3 != 0)
 
 
 print(Solution().minimumOperations([1, 2, 3, 4]) == 3)

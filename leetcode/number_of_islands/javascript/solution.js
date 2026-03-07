@@ -32,13 +32,13 @@ class Solution {
          return 1
       }
 
-      let islandCounter = 0;
+      let res = 0;
       for (let row = 0; row < ROWS; row++) {
          for (let col = 0; col < COLS; col++) {
-            islandCounter += dfs(row, col)
+            res += dfs(row, col)
          }
       }
-      return islandCounter
+      return res
    };
 
    /**
@@ -72,10 +72,8 @@ class Solution {
                const [r, c] = [row + dr, col + dc];
 
                if (
-                  r == -1 ||
-                  c == -1 ||
-                  r === ROWS ||
-                  c === COLS ||
+                  r == -1 || r === ROWS ||
+                  c == -1 || c === COLS ||
                   grid[r][c] === '0' ||
                   visited[r][c]
                ) continue
@@ -87,13 +85,13 @@ class Solution {
          return 1
       };
 
-      let islandCounter = 0;
+      let res = 0;
       for (let row = 0; row < ROWS; row++) {
          for (let col = 0; col < COLS; col++) {
-            islandCounter += bfs(row, col)
+            res += bfs(row, col)
          }
       }
-      return islandCounter
+      return res
    };
 }
 

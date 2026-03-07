@@ -1,30 +1,32 @@
 # Number of Islands
 https://leetcode.com/problems/number-of-islands/description/
 
-
+<p>
 Given an m x n 2D binary grid grid which represents a map of '1's (land) and '0's (water), return the number of islands.
 
 An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges of the grid are all surrounded by water.
+</p>
 
-
-<b>Example 1:</b>
 <pre>
+<b>Example 1:</b>
 Input: grid = [
   ["1","1","1","1","0"],
   ["1","1","0","1","0"],
   ["1","1","0","0","0"],
   ["0","0","0","0","0"]
 ]
-</pre>
-Output: 1
 
-<b>Example 2:</b>
+Output: 1
+</pre>
+
 <pre>
+<b>Example 2:</b>
 Input: grid = [
   ["1","1","0","0","0"],
   ["1","1","0","0","0"],
   ["0","0","1","0","0"],
   ["0","0","0","1","1"]
 ]
-</pre>
+
 Output: 3
+</pre>

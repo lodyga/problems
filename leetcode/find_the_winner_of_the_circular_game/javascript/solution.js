@@ -3,20 +3,26 @@ import { Queue } from "@datastructures-js/queue";
 
 class Solution {
    /**
-    * Time complexity: O(nk)
+    * Time complexity: O(n*k)
     * Auxiliary space complexity: O(n)
-    * Tags: queue
+    * Tags:
+    *     DS: queue
+    *     A: iteration
     * @param {number} n
     * @param {number} k
     * @return {number}
     */
    findTheWinner(n, k) {
-      const queue = new Queue(Array.from({length: n}, (_, index) => index))
+      const queue = new Queue(Array.from({ length: n }, (_, index) => index))
+
       while (queue.size() > 1) {
-         for (let index = 1; index < k; index++) 
+         for (let index = 1; index < k; index++) {
             queue.push(queue.pop());
+         }
+         
          queue.pop();
       }
+      
       return queue.front() + 1
    };
 }

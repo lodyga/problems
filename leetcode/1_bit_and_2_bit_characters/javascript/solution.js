@@ -2,25 +2,27 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: iteration
+    * Tags:
+    *     A: iteration
     * @param {bits}
     * @return {boolean}
     */
    isOneBitCharacter(bits) {
       let index = 0
-      let oneBit = false;
+      let isOneBit = false;
+
       while (index < bits.length) {
-         const bit = bits[index];
-         if (bit) {
+         if (bits[index]) {
+            isOneBit = false;
             index += 2;
-            oneBit = false;
          }
          else {
+            isOneBit = true;
             index++;
-            oneBit = true;
          }
       }
-      return oneBit
+
+      return isOneBit
    };
 }
 

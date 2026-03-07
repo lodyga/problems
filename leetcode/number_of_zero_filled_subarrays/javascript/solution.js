@@ -2,41 +2,48 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: iteration
+    * Tags:
+    *     A: math, iteration
+    *     Arithmetic series.
     * @param {number[]} nums
     * @return {}
     */
    zeroFilledSubarray(nums) {
-      let left = 0;
-      let counter = 0;
       nums.push(-1);
+      let zeros = 0;
+      let res = 0;
 
-      for (let right = 0; right < nums.length; right++) {
-         const num = nums[right];
-         if (num !== 0) {
-            counter += (1 + (right - left)) * (right - left) / 2;
-            left = right + 1;
+      for (const num of nums) {
+         if (num === 0) {
+            zeros++;
+         } else {
+            res += (1 + zeros) * zeros / 2;
+            zeros = 0;
          }
       }
-      return counter
+
+      nums.pop();
+      return res
    };
 
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: iteration
+    * Tags:
+    *     A: math, iteration
     * @param {number[]} nums
     * @return {}
     */
    zeroFilledSubarray(nums) {
       let zeros = 0;
-      let counter = 0;
+      let res = 0;
 
       for (const num of nums) {
          num === 0 ? zeros += 1 : zeros = 0;
-         counter += zeros;
+         res += zeros;
       }
-      return counter
+
+      return res
    };
 }
 

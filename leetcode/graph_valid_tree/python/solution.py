@@ -96,12 +96,12 @@ class DSU:
 
         if pu == pv:
             return False
-        if self.rank[pu] >= self.rank[pv]:
-            self.rank[pu] += self.rank[pv]
+        if self.size[pu] >= self.size[pv]:
+            self.size[pu] += self.size[pv]
             self.parent[pv] = self.parent[pu]
             self.parent[v] = self.parent[pu]
         else:
-            self.rank[pv] += self.rank[pu]
+            self.size[pv] += self.size[pu]
             self.parent[pu] = self.parent[pv]
             self.parent[u] = self.parent[pv]
         

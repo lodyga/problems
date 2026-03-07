@@ -136,16 +136,20 @@ class Solution:
         res = 0
 
         for char in text:
-            if char == "1":
-                ones += 1
-            else:  # 0
+            if char == "0":
                 res = min(ones, res + 1)
+            else:  # char == "1":
+                ones += 1
 
         return res
 
 
 print(Solution().minFlipsMonoIncr("00") == 0)
 print(Solution().minFlipsMonoIncr("11") == 0)
+print(Solution().minFlipsMonoIncr("01") == 0)
+print(Solution().minFlipsMonoIncr("10") == 1)
+print(Solution().minFlipsMonoIncr("010") == 1)
+print(Solution().minFlipsMonoIncr("101") == 1)
 print(Solution().minFlipsMonoIncr("00110") == 1)
 print(Solution().minFlipsMonoIncr("010110") == 2)
 print(Solution().minFlipsMonoIncr("00011000") == 2)

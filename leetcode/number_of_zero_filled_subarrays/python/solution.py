@@ -1,27 +1,25 @@
-"""
-1: 1 = 1
-2: 3 = 2 + 1
-3: 6 = 3 + 2 + 1
-"""
-
-
-class Solution:
+class Solution:    
     def zeroFilledSubarray(self, nums: list[int]) -> int:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: iteration
+        Tags:
+            A: math, iteration
+            Arithmetic series.
         """
-        left = 0
-        counter = 0
         nums.append(-1)
+        zeros = 0
+        res = 0
 
-        for right, num in enumerate(nums):
-            if num != 0:
-                counter += (1 + (right - left)) * (right - left) // 2
-                left = right + 1
+        for num in nums:
+            if num == 0:
+                zeros += 1
+            else:
+                res += (1 + zeros) * zeros // 2
+                zeros = 0
 
-        return counter
+        nums.pop()
+        return res
 
 
 class Solution:
@@ -29,18 +27,21 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: iteration
+        Tags:
+            A: math, iteration
         """
         zeros = 0
-        counter = 0
+        res = 0
 
         for num in nums:
             if num == 0:
                 zeros += 1
             else:
                 zeros = 0
-            counter += zeros
-        return counter
+
+            res += zeros
+
+        return res
 
 
 print(Solution().zeroFilledSubarray([1, 3, 0, 0, 2, 0, 0, 4]) == 6)

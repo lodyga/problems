@@ -3,11 +3,15 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: hash set
+        Tags:
+            DS: hash set
+            A: iteration
         """
         num_set = set(nums)
+
         while original in num_set:
             original *= 2
+
         return original
 
 

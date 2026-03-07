@@ -8,10 +8,10 @@ class Solution {
     * @return {number}
     */
    minimumOperations(nums) {
-      let counter = 0;
-      for (const num of nums) 
-         counter += num % 3 ? 1 : 0;
-      return counter
+      return nums
+         .map(val => val % 3)
+         .filter(val => val)
+         .length
    };
 }
 
