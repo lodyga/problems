@@ -4,8 +4,7 @@ class Solution {
     * Auxiliary space complexity: O(1)
     * Tags:
     *     DS: hash map
-    *     A: iteration
-    * Boyer-Moore Voting Algorithm
+    *     A: iteration, voting
     * @param {number[]} nums
     * @return {number[]}
     */

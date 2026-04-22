@@ -10,24 +10,21 @@ class Solution {
    static isPalindrome(text) {
       let left = 0;
       let right = text.length - 1;
+
       while (left < right) {
-         while (
-            left < right &&
-            !isAlnum(text[left])
-         ) {
+         while (left < right && !isAlnum(text[left])) {
             left++;
          }
-         while (
-            left < right &&
-            !isAlnum(text[right])
-         ) {
+
+         while (left < right && !isAlnum(text[right])) {
             right--;
          }
-         if (text[left].toLowerCase() != text[right].toLowerCase()) {
-            return false
+
+         if (text[left].toLowerCase() === text[right].toLowerCase()) {
+            left++;
+            right--;
          } else {
-            left++;
-            right--;
+            return false
          }
       }
       return true
@@ -44,20 +41,19 @@ class Solution {
       const isNumber = (char >= '0' && char <= '9');
       return (isLower || isUpper || isNumber)
    };
-}
 
-
-class Solution2 {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: two pointers, build-in function
+    * Tags:
+    *     build-in function
     * @param {string} text
     * @return {boolean}
     */
-   isPalindrome(text) {
+   isPalindrome2(text) {
       let left = 0;
       let right = text.length - 1;
+      
       while (left < right) {
          while (
             left < right &&
@@ -85,9 +81,9 @@ class Solution2 {
 
 const isPalindrome = Solution.isPalindrome;
 const isAlnum = Solution.isAlnum;
-console.log(new Solution().isPalindrome('A man, a plan, a canal: Panama') === true)
-console.log(new Solution().isPalindrome('race a car') === false)
-console.log(new Solution().isPalindrome(' ') === true)
-console.log(new Solution().isPalindrome('0P') === false)
-console.log(new Solution().isPalindrome('ab_a') === true)
-console.log(new Solution().isPalindrome('a,,') === true)
+console.log(Solution.isPalindrome('A man, a plan, a canal: Panama') === true)
+console.log(Solution.isPalindrome('race a car') === false)
+console.log(Solution.isPalindrome(' ') === true)
+console.log(Solution.isPalindrome('0P') === false)
+console.log(Solution.isPalindrome('ab_a') === true)
+console.log(Solution.isPalindrome('a,,') === true)

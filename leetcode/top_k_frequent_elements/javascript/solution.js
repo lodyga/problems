@@ -1,4 +1,5 @@
-// import { MinPriorityQueue } from '@datastructures-js/priority-queue';
+import { MinPriorityQueue } from '@datastructures-js/priority-queue';
+
 
 class Solution {
    /**
@@ -12,10 +13,12 @@ class Solution {
     * @return {number[]}
     */
    topKFrequent(nums, k) {
-      const numFrequency = new Map();
+      const numFreq = new Map();
+
       for (const num of nums) {
-         numFrequency.set(num, (numFrequency.get(num) || 0) + 1);
+         numFreq.set(num, (numFreq.get(num) || 0) + 1);
       }
+
       const numHeap = new MinPriorityQueue(x => x[0]);
       for (const [num, frequency] of numFrequency) {
          numHeap.enqueue([frequency, num]);
@@ -108,7 +111,7 @@ class Solution {
 
 
 const topKFrequent = new Solution().topKFrequent;
-console.log(new Solution().topKFrequent([1, 1, 1, 2, 2, 3], 2), [1, 2])
-console.log(new Solution().topKFrequent([1], 1), [1])
-console.log(new Solution().topKFrequent([1, 2, 1, 2, 1, 2, 3, 1, 3, 2], 2), [1, 2])
-console.log(new Solution().topKFrequent([5, 1, -1, -8, -7, 8, -5, 0, 1, 10, 8, 0, -4, 3, -1, -1, 4, -5, 4, -3, 0, 2, 2, 2, 4, -2, -4, 8, -7, -7, 2, -8, 0, -8, 10, 8, -8, -2, -9, 4, -7, 6, 6, -1, 4, 2, 8, -3, 5, -9, -3, 6, -8, -5, 5, 10, 2, -5, -1, -5, 1, -3, 7, 0, 8, -2, -3, -1, -5, 4, 7, -9, 0, 2, 10, 4, 4, -4, -1, -1, 6, -8, -9, -1, 9, -9, 3, 5, 1, 6, -1, -2, 4, 2, 4, -6, 4, 4, 5, -5], 7), [4, -1, 2, -5, 0, 8, -8])
+console.log(new Solution().topKFrequent([1, 1, 1, 2, 2, 3], 2).sort().toString() === [1, 2].toString())
+console.log(new Solution().topKFrequent([1], 1).sort().toString() === [1].toString())
+console.log(new Solution().topKFrequent([1, 2, 1, 2, 1, 2, 3, 1, 3, 2], 2).sort().toString() === [1, 2].toString())
+console.log(new Solution().topKFrequent([5, 1, -1, -8, -7, 8, -5, 0, 1, 10, 8, 0, -4, 3, -1, -1, 4, -5, 4, -3, 0, 2, 2, 2, 4, -2, -4, 8, -7, -7, 2, -8, 0, -8, 10, 8, -8, -2, -9, 4, -7, 6, 6, -1, 4, 2, 8, -3, 5, -9, -3, 6, -8, -5, 5, 10, 2, -5, -1, -5, 1, -3, 7, 0, 8, -2, -3, -1, -5, 4, 7, -9, 0, 2, 10, 4, 4, -4, -1, -1, 6, -8, -9, -1, 9, -9, 3, 5, 1, 6, -1, -2, 4, 2, 4, -6, 4, 4, 5, -5], 7).sort().toString() === [4, -1, 2, -5, 0, 8, -8].sort().toString())

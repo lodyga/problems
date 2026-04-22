@@ -1,18 +1,24 @@
 # Contains Duplicate
 https://leetcode.com/problems/contains-duplicate/
 
-
+<p>
 Given an integer array nums, return true if any value appears at least twice in the array, and return false if every element is distinct.
+</p>
 
-
-<b>Example 1:</b>\
-Input: nums = [1, 2, 3, 1]\
+<pre>
+<b>Example 1:</b>
+Input: nums = [1, 2, 3, 1]
 Output: true
+</pre>
 
-<b>Example 2:</b>\
-Input: nums = [1, 2, 3, 4]\
+<pre>
+<b>Example 2:</b>
+Input: nums = [1, 2, 3, 4]
 Output: false
+</pre>
 
-<b>Example 3:</b>\
-Input: nums = [1, 1, 1, 3, 3, 4, 3, 2, 4, 2]\
+<pre>
+<b>Example 3:</b>
+Input: nums = [1, 1, 1, 3, 3, 4, 3, 2, 4, 2]
 Output: true
+</pre>

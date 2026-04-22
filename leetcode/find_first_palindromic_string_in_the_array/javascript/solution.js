@@ -15,18 +15,23 @@ class Solution {
          let right = word.length - 1;
 
          while (left < right) {
-            if (word[left] !== word[right])
+            if (word[left] !== word[right]) {
                return false
+            }
+
             left++;
             right--;
          }
+
          return true
       };
 
       for (const word of words) {
-         if (isPalindrome(word))
+         if (isPalindrome(word)) {
             return word
+         }
       }
+
       return ''
    };
 
@@ -42,8 +47,9 @@ class Solution {
     */
    firstPalindrome(words) {
       for (const word of words) {
-         if (word === word.split('').reverse().join(''))
+         if (word === word.split('').reverse().join('')) {
             return word
+         }
       }
       return ''
    };

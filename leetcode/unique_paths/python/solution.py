@@ -31,15 +31,36 @@ class Solution:
             DS: array
             A: bottom-up
         """
-        cache = [[0] * (COLS + 1) for _ in range(ROWS)]
-        for col in range(COLS):
-            cache[-1][col] = 1
+        cache = [[0] * (COLS + 1) for _ in range(ROWS + 1)]
+        cache[ROWS][COLS - 1] = 1
 
-        for row in range(ROWS - 2, -1, -1):
+        for row in range(ROWS - 1, -1, -1):
             for col in range(COLS - 1, -1, -1):
                 cache[row][col] = cache[row + 1][col] + cache[row][col + 1]
 
         return cache[0][0]
+
+
+class Solution:
+    def uniquePaths(self, ROWS: int, COLS: int) -> int:
+        """
+        Time complexity: O(n2)
+        Auxiliary space complexity: O(n)
+        Tags:
+            DS: array
+            A: bottom-up
+        """
+        next_cache = [1] * (COLS + 1)
+
+        for _ in range(ROWS - 2, -1, -1):
+            cache = [0] * (COLS + 1)
+
+            for col in range(COLS - 1, -1, -1):
+                cache[col] = next_cache[col] + cache[col + 1]
+
+            next_cache = cache
+
+        return next_cache[0]
 
 
 class Solution:
@@ -67,3 +88,4 @@ print(Solution().uniquePaths(2, 2) == 2)
 print(Solution().uniquePaths(2, 3) == 3)
 print(Solution().uniquePaths(3, 2) == 3)
 print(Solution().uniquePaths(3, 7) == 28)
+print(Solution().uniquePaths(23, 12) == 193536720)

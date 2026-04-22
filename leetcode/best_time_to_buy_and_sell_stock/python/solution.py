@@ -7,33 +7,15 @@ class Solution:
             A: greedy
         """
         min_price = prices[0]
-        max_profit = 0
+        res = 0
 
         for price in prices:
-            min_price = min(min_price, price)
-            profit = price - min_price
-            max_profit = max(max_profit, profit)
+            if price > min_price:
+                res = max(res, price - min_price)
+            else:
+                min_price = price
 
-        return max_profit
-
-    def maxProfit(self, prices):
-        """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(1)
-        Tags:
-            A: two pointers
-        """
-        max_profit = 0
-        left = 0
-
-        for right in range(len(prices)):
-            if prices[left] > prices[right]:  # if price is lower buy
-                left = right
-            else:  # if price is higher calculate revenue
-                profit = prices[right] - prices[left]
-                max_profit = max(max_profit, profit)
-
-        return max_profit
+        return res
 
 
 print(Solution().maxProfit([7, 1, 5, 3, 6, 4]) == 5)

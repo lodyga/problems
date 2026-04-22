@@ -8,13 +8,13 @@ class Solution:
         """
         lower_bound = -10**4 - 1
 
-        def dfs(index, prev_num):
-            if index == len(nums):
+        def dfs(idx, prev_num):
+            if idx == len(nums):
                 return 0
 
-            num = nums[index]
-            skip = dfs(index + 1, prev_num)
-            take = dfs(index + 1, num) + 1 if num > prev_num else 0
+            num = nums[idx]
+            skip = dfs(idx + 1, prev_num)
+            take = dfs(idx + 1, num) + 1 if num > prev_num else 0
             lis = max(skip, take)
             return lis
 
@@ -25,33 +25,33 @@ class Solution:
     def lengthOfLIS(self, nums: list[int]) -> int:
         """
         Time complexity: O(n2)
-        Auxiliary space complexity: O(n)
+        Auxiliary space complexity: O(n2)
         Tags:
             DS: hash map
             A: top-down
         """
-        # {starting index: LIS length}
+        # {current index, previous index: LIS length}
         memo = {}
-
-        def dfs(index, prev_index):
-            if index == len(nums):
+        
+        def dfs(idx: int, prev_idx: int) -> int:
+            memo_idx = (idx, prev_idx)
+            if idx == len(nums):
                 return 0
-            elif prev_index in memo:
-                return memo[prev_index]
+            elif memo_idx in memo:
+                return memo[memo_idx]
 
-            num = nums[index]
-            # skip current num
-            skip = dfs(index + 1, prev_index)
-            # take current num
+            skip = dfs(idx + 1, prev_idx)
             take = 0
+
             if (
-                prev_index == -1 or
-                num > nums[prev_index]
+                prev_idx == -1 or
+                nums[prev_idx] < nums[idx]
             ):
-                take = 1 + dfs(index + 1, index)
-            lis = max(skip, take)
-            memo[prev_index] = lis
-            return lis
+                take = 1 + dfs(idx + 1, idx)
+
+            res = max(skip, take)
+            memo[memo_idx] = res
+            return res
 
         return dfs(0, -1)
 
@@ -60,34 +60,32 @@ class Solution:
     def lengthOfLIS(self, nums: list[int]) -> int:
         """
         Time complexity: O(n2)
-        Auxiliary space complexity: O(n)
+        Auxiliary space complexity: O(n2)
         Tags:
             DS: array
             A: top-down
         """
-        # [starting index + 1: LIS length]
-        memo = [-1] * (len(nums) + 1)
-
-        def dfs(index, prev_index):
-            if index == len(nums):
+        # {current index, previous index: LIS length}
+        memo = [[-1] * len(nums) for _ in range(len(nums))]
+        
+        def dfs(idx: int, prev_idx: int) -> int:
+            if idx == len(nums):
                 return 0
-            elif memo[prev_index + 1] != -1:
-                return memo[prev_index + 1]
+            elif memo[idx][prev_idx + 1] != -1:
+                return memo[idx][prev_idx + 1]
 
-            num = nums[index]
-            # skip current num
-            skip = dfs(index + 1, prev_index)
-            # take current num
+            skip = dfs(idx + 1, prev_idx)
             take = 0
-            if (
-                prev_index == -1 or
-                num > nums[prev_index]
-            ):
-                take = 1 + dfs(index + 1, index)
 
-            lis = max(skip, take)
-            memo[prev_index + 1] = lis
-            return lis
+            if (
+                prev_idx == -1 or
+                nums[prev_idx] < nums[idx]
+            ):
+                take = 1 + dfs(idx + 1, idx)
+
+            res = max(skip, take)
+            memo[idx][prev_idx + 1] = res
+            return res
 
         return dfs(0, -1)
 
@@ -121,16 +119,16 @@ class Solution:
             DS: array
             A: bottom-up
         """
-        lis = [1] * len(nums)
+        cache = [1] * len(nums)
 
         for right, right_num in enumerate(nums):
             for left in range(right):
                 left_num = nums[left]
 
                 if left_num < right_num:
-                    lis[right] = max(lis[right], lis[left] + 1)
+                    cache[right] = max(cache[right], cache[left] + 1)
 
-        return max(lis)
+        return max(cache)
 
 
 class Solution:
@@ -141,12 +139,12 @@ class Solution:
         Tags:
             A: brute-force, side effect
         """
-        lis_length = 1
+        res = 1
 
         def dfs(index, prev_index, length):
-            nonlocal lis_length
+            nonlocal res
             if index == len(numbers):
-                lis_length = max(lis_length, length)
+                res = max(res, length)
                 return
 
             # skip current number
@@ -161,7 +159,7 @@ class Solution:
                 dfs(index + 1, index, length + 1)
 
         dfs(0, -1, 0)
-        return lis_length
+        return res
 
 
 class Solution:
@@ -178,14 +176,14 @@ class Solution:
             right = len(lis) - 1
 
             while left <= right:
-                middle = (left + right) // 2
-                middle_num = lis[middle]
+                mid = (left + right) // 2
+                middle_num = lis[mid]
 
                 # search for the first greater/equal to num
                 if num > middle_num:
-                    left = middle + 1
+                    left = mid + 1
                 else:
-                    right = middle - 1
+                    right = mid - 1
             return left
 
         lis = []

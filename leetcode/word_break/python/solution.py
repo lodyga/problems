@@ -1,6 +1,3 @@
-from collections import deque
-
-
 class Solution:
     def wordBreak(self, text: str, words: list[str]) -> bool:
         """
@@ -14,40 +11,29 @@ class Solution:
             DS: array
             A: top-down
         """
-        def is_word_in_segment(left, word):
-            """
-            Equivalent of:
-            text[left: left + len(word)] == word
-            """
-            if left + len(word) > len(text):
-                return False
-            for index in range(len(word)):
-                if text[left + index] != word[index]:
-                    return False
-            return True
+        memo = [-1] * len(text)
+        memo.append(1)
+        
+        def dfs(idx):
+            if memo[idx] != -1:
+                return memo[idx]
 
-        word_set = set(words)
-        memo = [None] * (len(text) + 1)
-        memo[-1] = True
+            memo[idx] = 0
 
-        def dfs(index):
-            if memo[index] is not None:
-                return memo[index]
-
-            is_segmented = False
-            for word in word_set:
+            for word in words:
                 if (
-                    is_word_in_segment(index, word) and
-                    dfs(index + len(word))
+                    text[idx: idx + len(word)] == word and
+                    dfs(idx + len(word))
                 ):
-                    is_segmented = True
+                    memo[idx] = 1
                     break
 
-            memo[index] = is_segmented
-            return is_segmented
+            return memo[idx]
 
-        return dfs(0)
+        return bool(dfs(0))
 
+
+class Solution:
     def wordBreak(self, text: str, words: list[str]) -> bool:
         """
         Time complexity: O(n3):
@@ -60,29 +46,17 @@ class Solution:
             DS: array
             A: bottom-up
         """
-        def is_word_in_segment(left, word):
-            """
-            Equivalent of:
-            text[left: left + len(word)] == word
-            """
-            if left + len(word) > len(text):
-                return False
-            for index in range(len(word)):
-                if text[left + index] != word[index]:
-                    return False
-            return True
-
-        cache = [False] * (len(text) + 1)
-        cache[-1] = True
-        word_set = set(words)
-
-        for index in range(len(text) - 1, -1, -1):
-            for word in word_set:
+        N = len(text)
+        cache = [False] * N
+        cache.append(True)
+        
+        for idx in range(N - 1, -1, -1):
+            for word in words:
                 if (
-                    is_word_in_segment(index, word) and
-                    cache[index + len(word)]
+                    text[idx: idx + len(word)] == word and
+                    cache[idx + len(word)]
                 ):
-                    cache[index] = True
+                    cache[idx] = True
                     break
 
         return cache[0]
@@ -192,6 +166,7 @@ class Solution:
             DS: queue
             A: bottom-up
         """
+        from collections import deque
         def is_word_in_segment(left, word):
             """
             Equivalent of:

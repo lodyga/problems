@@ -10,6 +10,7 @@ class Solution {
     */
    containsDuplicate(nums) {
       const numSet = new Set();
+      
       for (const num of nums) {
          if (numSet.has(num)) {
             return true
@@ -17,16 +18,15 @@ class Solution {
             numSet.add(num);
          }
       }
+      
       return false
    };
-}
 
-
-class Solution2 {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: One-liner
+    * Tags:
+    *     A: build-in function
     * @param {number[]} nums
     * @return {boolean}
    */

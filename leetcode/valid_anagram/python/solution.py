@@ -1,6 +1,3 @@
-from collections import Counter
-
-
 class Solution:
     def isAnagram(self, text1: str, text2: str) -> bool:
         """
@@ -12,17 +9,20 @@ class Solution:
         """
         if len(text1) != len(text2):
             return False
-        
-        letter_frequency = [0] * 26
+
+        letter_freq = [0] * 26
+
         for letter in text1:
-            index = ord(letter) - ord("a")
-            letter_frequency[index] += 1
+            idx = ord(letter) - ord("a")
+            letter_freq[idx] += 1
+
         for letter in text2:
-            index = ord(letter) - ord("a")
-            if letter_frequency[index] == 0:
+            idx = ord(letter) - ord("a")
+            letter_freq[idx] -= 1
+
+            if letter_freq[idx] == -1:
                 return False
-            else:
-                letter_frequency[index] -= 1
+
         return True
 
 
@@ -37,17 +37,18 @@ class Solution:
         """
         if len(text1) != len(text2):
             return False
-        
-        letter_frequency = {}
+
+        letter_freq = {}
+
         for letter in text1:
-            letter_frequency[letter] = letter_frequency.get(letter, 0) + 1
+            letter_freq[letter] = letter_freq.get(letter, 0) + 1
+
         for letter in text2:
-            if letter in letter_frequency:
-                letter_frequency[letter] -= 1
-                if letter_frequency[letter] == 0:
-                    letter_frequency.pop(letter)
-            else:
+            if letter_freq.get(letter, 0) == 0:
                 return False
+
+            letter_freq[letter] = letter_freq[letter] - 1
+
         return True
 
 
@@ -60,8 +61,11 @@ class Solution:
                 DS: hash map
                 A: build-in function
             """
+            from collections import Counter
+            
             if len(text_1) != len(text_2):
                 return False
+
             return Counter(text_1) == Counter(text_2)
 
 

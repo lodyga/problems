@@ -10,27 +10,26 @@ class Solution {
    trap(heights) {
       let left = 0;
       let right = heights.length - 1;
-      let maxLeftHeight = heights[0];
-      let maxRightHeight = heights[right];
-      let waterVolume = 0;
+      let leftMax = 0;
+      let rightMax = 0;
+      let res = 0;
 
       while (left < right) {
          const leftHeight = heights[left];
          const rightHeight = heights[right];
-         let waterHeight = 0;
 
          if (leftHeight < rightHeight) {
-            maxLeftHeight = Math.max(maxLeftHeight, leftHeight);
-            waterHeight = maxLeftHeight - leftHeight;
+            leftMax = Math.max(leftMax, leftHeight);
+            res += leftMax - leftHeight;
             left++;
          } else {
-            maxRightHeight = Math.max(maxRightHeight, rightHeight);
-            waterHeight = maxRightHeight - rightHeight;
+            rightMax = Math.max(rightMax, rightHeight);
+            res += rightMax - rightHeight;
             right--;
          }
-         waterVolume += waterHeight;
       }
-      return waterVolume
+      
+      return res
    };
 }
 

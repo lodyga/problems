@@ -85,7 +85,7 @@ class DSU:
         self.parent = list(range(N))
 
     def find(self, vertex: int) -> int:
-        while vertex != self.parents[vertex]:
+        while vertex != self.parent[vertex]:
             self.parent[vertex] = self.parent[self.parent[vertex]]
             vertex = self.parent[vertex]
         return vertex

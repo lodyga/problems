@@ -7,18 +7,51 @@ class Solution:
             A: two pointers, sorting
         """
         nums.sort()
-        counter = 0
+        left = 0
+        res = 0
+
+        for right in range(1, len(nums)):
+            num = nums[right]
+
+            # Left pointer sticks to the left side of the right pointer.
+            if num + nums[right - 1] < target:
+                res += right
+                left = right
+                continue
+
+            # Left pointer moves backwards.
+            while left > -1 and nums[left] + num >= target:
+                left -= 1
+
+                if left == -1:
+                    break
+
+            res += left + 1
+
+        return res
+
+
+class Solution:
+    def countPairs(self, nums: list[int], target: int) -> int:
+        """
+        Time complexity: O(nlogn)
+        Auxiliary space complexity: O(n)
+        Tags:
+            A: two pointers, sorting
+        """
+        nums.sort()
+        res = 0
         left = 0
         right = len(nums) - 1
 
         while left < right:
             if nums[left] + nums[right] < target:
-                counter += right - left
+                res += right - left
                 left += 1
             else:
                 right -= 1
 
-        return counter
+        return res
 
 
 class Solution:
@@ -26,17 +59,19 @@ class Solution:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(1)
-        Tags: brute-force
+        Tags:
+            A: brute-force
         """
         nums.sort()
-        counter = 0
+        res = 0
+        
         for i in range(len(nums) - 1):
             for j in range(i + 1, len(nums)):
                 if nums[i] + nums[j] < target:
-                    counter += 1
+                    res += 1
                 else:
                     break
-        return counter
+        return res
 
 
 print(Solution().countPairs([1, 1, 3, 4, 5], 6) == 5)

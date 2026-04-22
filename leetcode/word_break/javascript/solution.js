@@ -1,5 +1,6 @@
 import { Queue } from "@datastructures-js/queue"
 
+
 class Solution {
    /**
     * Time complexity: O(n3):
@@ -16,43 +17,29 @@ class Solution {
     * @return {boolean}
     */
    wordBreak(text, words) {
-      /**
-       * 
-       * @param {number} left 
-       * @param {string} word 
-       * @returns {boolean}
-       * text.slice(index, index + word.length) === word
-       */
-      const isWordInSegment = (left, word) => {
-         if (left + word.length > text.length)
-            return false
-         for (let index = 0; index < word.length; index++)
-            if (text[left + index] !== word[index])
-               return false
-         return true
-      }
-      const memo = Array(text.length + 1).fill(null);
-      memo[memo.length - 1] = true;
+      const memo = Array(text.length).fill(-1);
+      memo.push(1);
 
-      const dfs = (index) => {
-         if (memo[index] !== null) {
-            return memo[index]
+      const dfs = (idx) => {
+         if (memo[idx] !== -1) {
+            return memo[idx]
          }
 
-         let isSegmented = false;
+         memo[idx] = 0;
+
          for (const word of words) {
             if (
-               // text.slice(index, index + word.length) === word &&
-               isWordInSegment(index, word) &&
-               dfs(index + word.length)
+               text.slice(idx, idx + word.length) === word &&
+               dfs(idx + word.length)
             ) {
-               isSegmented = true;
+               memo[idx] = 1
                break
             }
          }
-         memo[index] = isSegmented;
-         return isSegmented
+
+         return memo[idx]
       }
+
       return dfs(0)
    };
 
@@ -71,16 +58,16 @@ class Solution {
     * @return {boolean}
     */
    wordBreak(text, words) {
-      const cache = Array(text.length + 1).fill(false);
-      cache[cache.length - 1] = true;
+      const cache = Array(text.length).fill(false);
+      cache.push(true);
 
-      for (let index = cache.length - 1; index > -1; index--) {
+      for (let idx = cache.length - 1; idx > -1; idx--) {
          for (const word of words) {
             if (
-               text.slice(index, index + word.length) === word &&
-               cache[index + word.length]
+               text.slice(idx, idx + word.length) === word &&
+               cache[idx + word.length]
             ) {
-               cache[index] = true;
+               cache[idx] = true;
                break
             }
          }
@@ -139,23 +126,23 @@ class Solution {
     * @return {boolean}
     */
    wordBreak(text, words) {
-      const bfs = (index) => {
-         const queue = new Queue([index]);
+      const bfs = (idx) => {
+         const queue = new Queue([idx]);
          const visited = Array(text.length + 1).fill(false);
          visited[0] = true;
 
          while (!queue.isEmpty()) {
-            const index = queue.pop();
-            if (index === text.length)
+            const idx = queue.pop();
+            if (idx === text.length)
                return true
 
             for (const word of words) {
                if (
-                  text.slice(index, index + word.length) === word &&
-                  visited[index + word.length] === false
+                  text.slice(idx, idx + word.length) === word &&
+                  visited[idx + word.length] === false
                ) {
-                  queue.push(index + word.length);
-                  visited[index + word.length] = true;
+                  queue.push(idx + word.length);
+                  visited[idx + word.length] = true;
                }
             }
          }
@@ -194,8 +181,8 @@ class Trie {
    has(left, right, text) {
       let node = this.root;
 
-      for (let index = left; index <= right; index++) {
-         const letter = text[index];
+      for (let idx = left; idx <= right; idx++) {
+         const letter = text[idx];
 
          if (!node.letters.has(letter))
             return false

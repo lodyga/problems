@@ -10,41 +10,53 @@ class Solution {
     * @return {string}
     */
    minWindow(text, word) {
-      const pattern = new Map();
-      for (const letter of word)
-         pattern.set(letter, (pattern.get(letter) || 0) + 1);
-
-      let left = 0;
       const window = new Map();
-      let start = -1;
-      let shortest = text.length;
-      let needed = pattern.size;
+      let left = 0;
+      let resLen = text.length + 1;
+      let start = text.length;
+
+      for (const letter of word)
+         window.set(letter, (window.get(letter) || 0) - 1);
+
+      let needed = window.size;
 
       for (let right = 0; right < text.length; right++) {
          const letter = text[right];
-         window.set(letter, (window.get(letter) || 0) + 1);
 
-         if (window.get(letter) === pattern.get(letter))
-            needed--;
-
-         if (needed)
+         if (!window.has(letter)) {
             continue
+         }
+
+         window.set(letter, window.get(letter) + 1);
+
+         if (window.get(letter) === 0) {
+            needed--;
+         }
 
          while (needed === 0) {
-            const windowLength = right - left + 1;
-            if (windowLength <= shortest) {
-               shortest = windowLength;
+            if (right - left + 1 < resLen) {
+               resLen = right - left + 1;
                start = left;
             }
+
             const leftLetter = text[left];
-            if (window.get(leftLetter) === pattern.get(leftLetter)) {
-               needed++;
+
+            if (window.has(leftLetter)) {
+               if (window.get(leftLetter) === 0) {
+                  needed++;
+               }
+               window.set(leftLetter, window.get(leftLetter) - 1);
             }
-            window.set(leftLetter, window.get(leftLetter) - 1);
             left++;
          }
       }
-      return text.slice(start, start + shortest)
+
+      if (start === text.length) {
+         return ''
+      } else {
+         return text.slice(start, start + resLen)
+      }
+
    };
 }
 

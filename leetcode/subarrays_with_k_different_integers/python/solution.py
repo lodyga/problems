@@ -8,25 +8,25 @@ class Solution:
             A: sliding window
         """
         # {number: frequency}
-        window = {}
+        num_freq = {}
         left = 0
-        far_left = 0
+        mid = 0
         counter = 0
 
         for num in nums:
-            window[num] = window.get(num, 0) + 1
+            num_freq[num] = num_freq.get(num, 0) + 1
 
-            if len(window) > k:
-                window.pop(nums[left])
+            if len(num_freq) > k:
+                num_freq.pop(nums[left])
                 left += 1
-                far_left = left
+                mid = left
 
-            while window[nums[left]] > 1:
-                window[nums[left]] -= 1
+            while num_freq[nums[left]] > 1:
+                num_freq[nums[left]] -= 1
                 left += 1
 
-            if len(window) == k:
-                counter += left - far_left + 1
+            if len(num_freq) == k:
+                counter += left - mid + 1
 
         return counter
 

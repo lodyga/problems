@@ -7,43 +7,44 @@ class Solution:
             DS: hash map
             A: sliding window
         """
-        pattern = {}
-        for letter in word:
-            pattern[letter] = pattern.get(letter, 0) + 1
-
-        left = 0
         window = {}
-        start = -1
-        shortest = len(text)
-        needed = len(pattern)
-        
-        for right, letter in enumerate(text):
-            window[letter] = window.get(letter, 0) + 1
-            if (
-                letter in pattern and
-                window[letter] == pattern[letter]
-            ):
-                needed -= 1
+        left = 0
+        res_len = len(text) + 1
+        start = len(text)
 
-            if needed:
+        for letter in word:
+            window[letter] = window.get(letter, 0) - 1
+
+        needed = len(window)
+
+        for right, letter in enumerate(text):
+            if letter not in window:
                 continue
 
+            window[letter] = window.get(letter, 0) + 1
+
+            if window.get(letter) == 0:
+                needed -= 1
+
             while needed == 0:
-                window_length = right - left + 1
-                if window_length <= shortest:
-                    shortest = window_length
+                if right - left + 1 < res_len:
+                    res_len = right - left + 1
                     start = left
 
                 left_letter = text[left]
-                if (
-                    left_letter in pattern and
-                    window[left_letter] == pattern[left_letter]
-                ):
-                    needed += 1
-                window[left_letter] -= 1
+
+                if left_letter in window:
+                    if window[left_letter] == 0:
+                        needed += 1
+
+                    window[left_letter] -= 1
+
                 left += 1
 
-        return text[start: start + shortest]
+        if start == len(text):
+            return ""
+        else:
+            return text[start: start + res_len]
 
 
 print(Solution().minWindow("a", "a") == "a")

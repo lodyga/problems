@@ -1,6 +1,3 @@
-from collections import deque
-
-
 class Solution:
     def coinChange(self, coins: list[int], amount: int) -> int:
         """
@@ -8,8 +5,10 @@ class Solution:
             O(coins^amount)
         Auxiliary space complexity: O(n)
             O(amount)
-        Tags: brute-force
+        Tags:
+            A: brute-force
         """
+        UPPER_BOUND = amount + 1
         coins.sort(reverse=True)
 
         def dfs(total: int) -> int:
@@ -18,48 +17,15 @@ class Solution:
             elif total > amount:
                 return amount + 1
 
-            coin_counter = amount + 1
-            for coin in coins:
-                coin_counter = min(coin_counter, 1 + dfs(total + coin))
+            res = UPPER_BOUND
 
-            return coin_counter
+            for coin in coins:
+                res = min(res, 1 + dfs(total + coin))
+
+            return res
 
         res = dfs(0)
-        return res if res != amount + 1 else -1
-
-
-class Solution:
-    def coinChange(self, coins: list[int], amount: int) -> int:
-        """
-        Time complexity: O(n2)
-            O(c*a)
-            c: coin denominations
-            a: ammonut size
-        Auxiliary space complexity: O(n)
-            O(amount)
-        Tags:
-            DS: hash map
-            A: top-down
-        """
-        coins.sort(reverse=True)
-        # {amount: min coins to get target amount}
-        memo = {amount: 0}
-
-        def dfs(total: int) -> int:
-            if total > amount:
-                return amount + 1
-            elif total in memo:
-                return memo[total]
-
-            coin_counter = amount + 1
-            for coin in coins:
-                coin_counter = min(coin_counter, 1 + dfs(total + coin))
-
-            memo[total] = coin_counter
-            return coin_counter
-
-        res = dfs(0)
-        return res if res != amount + 1 else -1
+        return res if res != UPPER_BOUND else -1
 
 
 class Solution:
@@ -75,26 +41,61 @@ class Solution:
             DS: array
             A: top-down
         """
+        if amount == 0:
+            return 0
+
+        UPPER_BOUND = amount + 1
         coins.sort(reverse=True)
-        # [amount left: min coins to get target amount left]
+        # [current amount: min coins to get current amount]
         memo = [-1] * (amount + 1)
-        memo[-1] = 0
+        memo[amount] = 0
 
         def dfs(total: int) -> int:
-            if total > amount:
-                return amount + 1
-            elif memo[total] != -1:
+            if memo[total] != -1:
                 return memo[total]
 
-            coin_counter = amount + 1
-            for coin in coins:
-                coin_counter = min(coin_counter, 1 + dfs(total + coin))
+            res = UPPER_BOUND
 
-            memo[total] = coin_counter
-            return coin_counter
+            for coin in coins:
+                if total + coin <= amount:
+                    res = min(res, 1 + dfs(total + coin))
+
+            memo[total] = res
+            return res
 
         res = dfs(0)
-        return res if res != amount + 1 else -1
+        return res if res != UPPER_BOUND else -1
+
+
+class Solution:
+    def coinChange(self, coins: list[int], amount: int) -> int:
+        """
+        Time complexity: O(n2)
+            O(c*a)
+            c: coin denominations
+            a: ammonut size
+        Auxiliary space complexity: O(n)
+            O(amount)
+        Tags:
+            DS: array
+            A: bottom-up
+        """
+        if amount == 0:
+            return 0
+
+        UPPER_BOUND = amount + 1
+        coins.sort(reverse=True)
+        # [current amount: min coins to get current amount]
+        cache = [amount + 1] * (amount)
+        cache.append(0)
+
+        for total in range(amount - 1, -1, -1):
+            for coin in coins:
+                if total + coin <= amount:
+                    cache[total] = min(cache[total], 1 + cache[total + coin])
+
+        res = cache[0]
+        return res if res != UPPER_BOUND else -1
 
 
 class Solution:
@@ -168,6 +169,7 @@ class Solution:
             DS: queue
             A: bfs, iteration
         """
+        from collections import deque
         if amount == 0:
             return 0
 
@@ -179,6 +181,7 @@ class Solution:
 
             while queue:
                 level += 1
+                
                 for _ in range(len(queue)):
                     node = queue.popleft()
 

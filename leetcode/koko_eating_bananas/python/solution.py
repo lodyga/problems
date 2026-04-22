@@ -8,29 +8,32 @@ class Solution:
         Tags:
             A: binary search
         """
-        # bnananas per hour
+        def is_enough_time(mid: int) -> bool:
+            res = 0
+            for pile in piles:
+                res += 1 + ((pile - 1) // mid)
+
+                if res > hours:
+                    return False
+            return True
+
         left = 1
         right = max(piles)
-        min_time = right
+        res = right
 
         while left <= right:
-            middle = (left + right) >> 1
-            hours_for_eat = 0
+            mid = (left + right) // 2
 
-            for pile in piles:
-                hours_for_eat += ((pile - 1) // middle) + 1
-                if hours_for_eat > hours:
-                    break
-
-            if hours_for_eat > hours:
-                left = middle + 1
+            if is_enough_time(mid):
+                res = mid
+                right = mid - 1
             else:
-                min_time = middle
-                right = middle - 1
+                left = mid + 1
 
-        return min_time
+        return res
 
 
+print(Solution().minEatingSpeed([3, 6, 7, 11], 8), 4)
 print(Solution().minEatingSpeed([3, 6, 7, 11], 8) == 4)
 print(Solution().minEatingSpeed([30, 11, 23, 4, 20], 5) == 30)
 print(Solution().minEatingSpeed([30, 11, 23, 4, 20], 6) == 23)

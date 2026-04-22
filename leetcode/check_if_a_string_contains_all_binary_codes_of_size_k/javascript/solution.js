@@ -24,7 +24,7 @@ class Solution {
     * Auxiliary space complexity: O(2^k)
     * Tags:
     *     DS: hash set
-    *     A: bit manipulation, Rabin-Karp, rolling hash
+    *     A: bit manipulation, prefix sum, rolling hash
     * @param {string} text
     * @param {number} k
     * @return {boolean}
@@ -61,7 +61,7 @@ class Solution {
     * Auxiliary space complexity: O(2^k)
     * Tags:
     *     DS: array
-    *     A: bit manipulation, Rabin-Karp, rolling hash
+    *     A: bit manipulation, prefix sum, rolling hash
     * @param {string} text
     * @param {number} k
     * @return {boolean}

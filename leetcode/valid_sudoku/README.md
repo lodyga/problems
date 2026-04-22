@@ -1,7 +1,7 @@
 # Valid Sudoku
 https://leetcode.com/problems/valid-sudoku/
 
-
+<p>
 Determine if a 9 x 9 Sudoku board is valid. Only the filled cells need to be validated according to the following rules:
 
 Each row must contain the digits 1-9 without repetition.
@@ -11,11 +11,11 @@ Note:
 
 A Sudoku board (partially filled) could be valid but is not necessarily solvable.
 Only the filled cells need to be validated according to the mentioned rules.
-
+</p>
  
-<b>Example 1:</b>\
+ <pre>
+<b>Example 1:</b>
 Input: board =
-<pre>
 [["5","3",".",".","7",".",".",".","."]
 ,["6",".",".","1","9","5",".",".","."]
 ,[".","9","8",".",".",".",".","6","."]
@@ -25,12 +25,12 @@ Input: board =
 ,[".","6",".",".",".",".","2","8","."]
 ,[".",".",".","4","1","9",".",".","5"]
 ,[".",".",".",".","8",".",".","7","9"]]
-</pre>
 Output: true
+</pre>
 
-<b>Example 2:</b>\
-Input: board = 
 <pre>
+<b>Example 2:</b>
+Input: board = 
 [["8","3",".",".","7",".",".",".","."]
 ,["6",".",".","1","9","5",".",".","."]
 ,[".","9","8",".",".",".",".","6","."]
@@ -40,13 +40,13 @@ Input: board =
 ,[".","6",".",".",".",".","2","8","."]
 ,[".",".",".","4","1","9",".",".","5"]
 ,[".",".",".",".","8",".",".","7","9"]]
-</pre>
-Output: false\
+Output: false
 Explanation: Same as Example 1, except with the 5 in the top left corner being modified to 8. Since there are two 8's in the top left 3x3 sub-box, it is invalid.
+</pre>
 
-<b>Example 3:</b>\
-Input: board = 
 <pre>
+<b>Example 3:</b>
+Input: board = 
 [[".", ".", ".", ".", "5", ".", ".", "1", "."]
 ,[".", "4", ".", "3", ".", ".", ".", ".", "."]
 ,[".", ".", ".", ".", ".", "3", ".", ".", "1"]
@@ -56,5 +56,5 @@ Input: board =
 ,[".", ".", ".", ".", ".", "2", ".", ".", "."]
 ,[".", "2", ".", "9", ".", ".", ".", ".", "."]
 ,[".", ".", "4", ".", ".", ".", ".", ".", "."]]
-</pre>
 Output: false
+</pre>

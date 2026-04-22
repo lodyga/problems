@@ -8,20 +8,21 @@ class Solution:
         Auxiliary space complexity: O(n)
             O(s)
         Tags:
-            DS: bottom-up, hash set
+            DS: hash set
             A: bottom-up
         """
         total = sum(nums)
+        half = total // 2
+        num_set = set([0])
+
         if total % 2:
             return False
-        half = total >> 1
-        num_set = set()
 
         for num in nums:
-            num_set_update = {set_num + num for set_num in num_set}
-            num_set_update.add(num)
+            num_set_update = {ns + num for ns in num_set if ns + num <= half}
             # num_set |= num_set_update
             num_set.update(num_set_update)
+
             if half in num_set:
                 return True
 
@@ -40,7 +41,7 @@ class Solution:
         total = sum(nums)
         if total % 2:
             return False
-        half = total >> 1
+        half = total // 2
 
         def dfs(index: int, subset_sum: int) -> bool:
             if subset_sum >= half:
@@ -75,7 +76,7 @@ class Solution:
         total = sum(nums)
         if total % 2:
             return False
-        half = total >> 1
+        half = total // 2
         # {(index, subset sum): can partition: bool}
         memo = {}
 
@@ -107,12 +108,12 @@ class Solution:
             n: nums length
         Auxiliary space complexity: O(n)
         Tags:
-            A: brute-force, backtracking
+            A: backtracking
         """
         total = sum(nums)
         if total % 2:
             return False
-        half = total >> 1
+        half = total // 2
         subset = []
 
         def dfs(index: int) -> bool:

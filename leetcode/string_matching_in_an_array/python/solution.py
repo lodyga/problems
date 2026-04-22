@@ -33,7 +33,7 @@ class Solution:
         Auxiliary space complexity: O(n)
         Tags:
             DS: list
-            A: Rabin-Karp, rolling hash, sliding window
+            A: prefix sum, rolling hash, sliding window
         """        
         def is_substring(word: str, text: str) -> bool:
             if len(text) <= len(word):

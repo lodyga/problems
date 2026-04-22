@@ -51,7 +51,7 @@ class Solution {
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
     * Tags:
-    *     A: Rabin-Karp, rolling hash
+    *     A: prefix sum, rolling hash
     * @param {string} haystack
     * @param {string} needle
     * @return {int}

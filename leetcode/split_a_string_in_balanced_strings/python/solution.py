@@ -6,16 +6,16 @@ class Solution:
         Tags:
             A: iteration
         """
-        surplus = 0
         counter = 0
-        for letter in text:
-            if letter == "R":
-                surplus += 1
-            else:
-                surplus -= 1
-            if surplus == 0:
-                counter += 1
-        return counter
+        res = 0
+
+        for char in text:
+            counter += 1 if char == "R" else -1
+            
+            if (counter == 0):
+                res += 1
+
+        return res
 
 
 print(Solution().balancedStringSplit("RLRRLLRLRL") == 4)

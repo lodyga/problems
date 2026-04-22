@@ -1,24 +1,30 @@
 class Solution:
-    def rob(self, houses: list[int]) -> int:
+    def rob(self, nums: list[int]) -> int:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
         Tags:
-            A: greedy
+            DS: array
+            A: bottom-up
         """
-        if len(houses) <= 3:
-            return max(houses)
+        if len(nums) <= 3:
+            return max(nums)
 
-        def rob2(houses):
+        def one_rob(nums):
+            N = len(nums)
+            if N <= 2:
+                return max(nums)
+
             cache = [0, 0]
-            for index in range(len(houses) - 1, -1, -1):
-                house = houses[index]
-                skip_house = cache[0]
-                rob_house = house + cache[1]
-                cache[0], cache[1] = max(skip_house, rob_house), cache[0]
+
+            for idx in range(N - 1, -1, -1):
+                num = nums[idx]
+                cache[0], cache[1] = max(cache[0], num + cache[1]), cache[0]
+
             return cache[0]
 
-        return max(rob2(houses[: -1]), rob2(houses[1:]))
+        return max(one_rob(nums[: -1]),
+                   one_rob(nums[1:]))
 
 
 print(Solution().rob([2, 3, 2]) == 3)

@@ -6,33 +6,42 @@ class Solution:
         Tags:
             A: two pointers
         """
-        def check_for_palindrome(left, right):
-            nonlocal start, palindrome_length, longest_palindrome_len
+        res_len = 1
+        res_start = 0
+
+        def get_palindrome_len(idx: int, d: int) -> int:
+            left = idx
+            right = idx + d
+
             while (
-                left > -1 and
-                right < len(text) and
+                left > -1 and right < len(text) and
                 text[left] == text[right]
             ):
-                palindrome_length = right - left + 1
-                if palindrome_length > longest_palindrome_len:
-                    longest_palindrome_len = palindrome_length
-                    start = left
                 left -= 1
                 right += 1
 
-        start = 0
-        palindrome_length = 0
-        longest_palindrome_len = 0
-        for index in range(len(text)):
-            # check for odd length palindrome
-            check_for_palindrome(index, index)
-            # check for even length palindrome
-            check_for_palindrome(index, index + 1)
+            return right - left - 1
 
-        return text[start: start + longest_palindrome_len]
+        # Check for odd length palindrome.
+        for idx in range(1, len(text) - 1):
+            pal_len = get_palindrome_len(idx, 0)
+
+            if pal_len > res_len:
+                res_len = pal_len
+                res_start = idx - res_len // 2
+
+        # Check for even length palindrome.
+        for idx in range(len(text) - 1):
+            pal_len = get_palindrome_len(idx, 1)
+
+            if pal_len > res_len:
+                res_len = pal_len
+                res_start = idx - res_len // 2 + 1
+
+        return text[res_start: res_start + res_len]
 
 
-class Solution2:
+class Solution:
     def is_palindrome(self, word: str) -> bool:
         return word == word[::-1]
 
@@ -40,7 +49,8 @@ class Solution2:
         """
         Time complexity: O(n3)
         Auxiliary space complexity: O(n)
-        Tags: brute-force
+        Tags:
+            A: brute-force
         """
         palindrome = ""
         palindrome_length = 0
@@ -58,7 +68,6 @@ class Solution2:
 print(Solution().longestPalindrome("babad") == "bab")
 print(Solution().longestPalindrome("cbbd") == "bb")
 print(Solution().longestPalindrome("a") == "a")
-print(Solution().longestPalindrome("") == "")
 print(Solution().longestPalindrome("bb") == "bb")
 print(Solution().longestPalindrome("ab") == "a")
 print(Solution().longestPalindrome("aacabdkacaa") == "aca")

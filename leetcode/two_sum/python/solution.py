@@ -7,13 +7,15 @@ class Solution:
             DS: hash map
             A: iteration
         """
-        num_index = {}
-        for index, num in enumerate(nums):
-            complement = target - num
-            if complement in num_index:
-                return [num_index[complement], index]
+        num_idx = {}
+
+        for idx, num in enumerate(nums):
+            diff = target - num
+
+            if diff in num_idx:
+                return [num_idx[diff], idx]
             else:
-                num_index[num] = index
+                num_idx[num] = idx
 
 
 print(Solution().twoSum([2, 7, 11, 15], 9) == [0, 1])

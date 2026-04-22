@@ -35,7 +35,7 @@ class Solution {
     * Auxiliary space complexity: O(n)
     * Tags:
     *     DS: list
-    *     A: Rabin-Karp, rolling hash, sliding window
+    *     A: prefix sum, rolling hash, sliding window
     * @param {string[]} words
     * @return {string[]}
     */

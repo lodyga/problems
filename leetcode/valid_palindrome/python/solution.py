@@ -10,21 +10,18 @@ class Solution:
         right = len(text) - 1
 
         while left < right:
-            while (
-                left < right and
-                text[left].isalnum() is False
-            ):
+            while (left < right and text[left].isalnum() is False):
                 left += 1
-            while (
-                left < right and
-                text[right].isalnum() is False
-            ):
+            
+            while (left < right and text[right].isalnum() is False):
                 right -= 1
-            if text[left].lower() != text[right].lower():
+            
+            if text[left].lower() == text[right].lower():
+                left += 1
+                right -= 1
+            else:
                 return False
-            left += 1
-            right -= 1
-
+            
         return True
 
 
@@ -33,45 +30,52 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: two pointers, build-in function
+        Tags:
+            A: build-in function
         """
         joined = "".join(filter(str.isalnum, text)).lower()
         return joined == joined[::-1]
 
 
-import string
 class Solution:
     def isPalindrome(self, text: str) -> bool:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
-        Tags: two pointers, build-in function
+        Tags:
+            A: two pointers, build-in function
         """
+        import string
         left = 0
         right = len(text) - 1
+        
         while left < right:
             while left < right and text[left] in string.punctuation:
                 left += 1
+        
             while left < right and text[right] in string.punctuation:
                 right -= 1
-            if text[left].lower() != text[right].lower():
-                return False
-            else:
+        
+            if text[left].lower() == text[right].lower():
                 left += 1
                 right -= 1
+            else:
+                return False
+        
         return True
 
 
-import re
 class Solution:
     def isPalindrome(self, text: str) -> bool:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: two pointers, build-in function
+        Tags:
+            A: build-in function
         """
-        cleaned_text = re.sub(r"[\W_]", "", text).lower()
-        return cleaned_text == cleaned_text[::-1]
+        import re
+        clean_text = re.sub(r"[\W_]", "", text).lower()
+        return clean_text == clean_text[::-1]
 
 
 print(Solution().isPalindrome("A man, a plan, a canal: Panama") == True)

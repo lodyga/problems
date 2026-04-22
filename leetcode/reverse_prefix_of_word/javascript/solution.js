@@ -6,15 +6,17 @@ class Solution {
     *     DS: stack
     *     A: iteration
     * @param {string} word
-    * @param {character} pivot
+    * @param {character} targetChar
     * @return {string}
     */
-   reversePrefix(word, pivot) {
+   reversePrefix(word, targetChar) {
       const letterStack = [];
+
       for (let index = 0; index < word.length; index++) {
          const letter = word[index];
          letterStack.push(letter);
-         if (letter === pivot) {
+
+         if (letter === targetChar) {
             const prefix = letterStack.reverse().join('');
             const postfix = word.slice(index + 1);
             return prefix + postfix
@@ -29,13 +31,13 @@ class Solution {
     * Tags:
     *     A: iteration
     * @param {string} word
-    * @param {character} pivot
+    * @param {character} targetChar
     * @return {string}
     */
-   reversePrefix(word, pivot) {
+   reversePrefix(word, targetChar) {
       for (let index = 0; index < word.length; index++) {
          const letter = word[index];
-         if (letter === pivot) {
+         if (letter === targetChar) {
             const prefix = word.slice(0, index + 1).split('').reverse().join('');
             const postfix = word.slice(index + 1);
             return prefix + postfix

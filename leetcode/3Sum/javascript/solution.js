@@ -10,57 +10,49 @@ class Solution {
     */
    threeSum(nums) {
       nums.sort((a, b) => a - b);
-      const triplets = [];
+      const res = [];
 
-      let left = 0;
-      while (left < nums.length - 2) {
+      for (let left = 0; left < nums.length - 2; left++) {
          const leftNum = nums[left];
 
-         // If left number is > 0 then triplet sum is > 0
-         if (leftNum > 0) {
-            break
-         }
-         // Skip duplicate left values.
-         if (left && nums[left - 1] === leftNum) {
-            left++;
-            continue
-         }
+         if (leftNum > 0) break
 
-         let middle = left + 1;
+         // Skip repeating sequences with repeating left number.
+         if (left && nums[left - 1] === leftNum) continue
+
+         let mid = left + 1;
          let right = nums.length - 1;
 
-         while (middle < right) {
-            const triplet = leftNum + nums[middle] + nums[right];
+         while (mid < right) {
+            const triplet = leftNum + nums[mid] + nums[right];
 
             if (triplet === 0) {
-               triplets.push([leftNum, nums[middle], nums[right]]);
-               middle++;
+               res.push([leftNum, nums[mid], nums[right]]);
+               mid++;
                right--;
-               // Skip duplicate middle values.
-               while (
-                  middle < right &&
-                  nums[middle - 1] === nums[middle]
-               ) {
-                  middle++;
+
+               // Skip repeating sequences with repeating middle number.
+               while (mid < right && nums[mid - 1] === nums[mid]) {
+                  mid++;
                }
             } else if (triplet > 0) {
                right--;
             } else {
-               middle++;
+               mid++;
             }
          }
-         left++;
       }
-      return triplets
+
+      return res
    };
 }
 
 
 const threeSum = new Solution().threeSum;
-console.log(new Solution().threeSum([-1, 0, 1, 2, -1, -4]), [[-1, -1, 2], [-1, 0, 1]])
-console.log(new Solution().threeSum([3, 0, -2, -1, 1, 2]), [[-2, -1, 3], [-2, 0, 2], [-1, 0, 1]])
-console.log(new Solution().threeSum([1, 1, -2]), [[-2, 1, 1]])
-console.log(new Solution().threeSum([-1, 1, 1]), [])
-console.log(new Solution().threeSum([-2, 0, 0, 2, 2]), [[-2, 0, 2]])
-console.log(new Solution().threeSum([0, 0, 0]), [[0, 0, 0]])
-console.log(new Solution().threeSum([0, 0, 0, 0]), [[0, 0, 0]])
+console.log(new Solution().threeSum([-1, 0, 1, 2, -1, -4]).toString() === [[-1, -1, 2], [-1, 0, 1]].toString())
+console.log(new Solution().threeSum([3, 0, -2, -1, 1, 2]).toString() === [[-2, -1, 3], [-2, 0, 2], [-1, 0, 1]].toString())
+console.log(new Solution().threeSum([1, 1, -2]).toString() === [[-2, 1, 1]].toString())
+console.log(new Solution().threeSum([-1, 1, 1]).toString() === [].toString())
+console.log(new Solution().threeSum([-2, 0, 0, 2, 2]).toString() === [[-2, 0, 2]].toString())
+console.log(new Solution().threeSum([0, 0, 0]).toString() === [[0, 0, 0]].toString())
+console.log(new Solution().threeSum([0, 0, 0, 0]).toString() === [[0, 0, 0]].toString())

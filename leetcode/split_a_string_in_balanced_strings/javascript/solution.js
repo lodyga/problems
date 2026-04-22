@@ -7,17 +7,16 @@ class Solution {
     * @param {string} text
     * @return {number}
     */
-   balancedStringSplit(sides) {
-      let surplus = 0;
+   balancedStringSplit(text) {
       let counter = 0;
+      let res = 0;
 
-      for (const side of sides) {
-         side === 'R' ? surplus++ : surplus--;
-         if (surplus === 0) {
-            counter++;
-         }
+      for (const side of text) {
+         side === 'R' ? counter++ : counter--;
+         if (counter === 0) res++;
       }
-      return counter
+      
+      return res
    };
 }
 

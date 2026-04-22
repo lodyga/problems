@@ -8,17 +8,20 @@ class Solution:
             A: iteration
         """
         num_set = set(nums)
-        max_length = 0
+        res = 0
+
         for num in num_set:
             if num - 1 in num_set:
                 continue
 
-            index = 0
-            while num + index in num_set:
-                index += 1
-                max_length = max(max_length, index)
-        
-        return max_length
+            curr_num = num
+
+            while curr_num in num_set:
+                curr_num += 1
+
+            res = max(res, curr_num - num)
+
+        return res
 
 
 print(Solution().longestConsecutive([100, 4, 200, 1, 3, 2]) == 4)

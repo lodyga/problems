@@ -1,6 +1,3 @@
-from collections import deque
-
-
 class Solution:
     def orangesRotting(self, grid: list[list[int]]) -> int:
         """
@@ -10,6 +7,7 @@ class Solution:
             DS: array (matrix), queue
             A: bfs, iteration
         """
+        from collections import deque
         ROWS = len(grid)
         COLS = len(grid[0])
         DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
@@ -56,6 +54,7 @@ class Solution:
             DS: array (matrix), queue
             A: bfs, iteration
         """
+        from collections import deque
         ROWS = len(grid)
         COLS = len(grid[0])
         DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))

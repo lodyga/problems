@@ -1,7 +1,7 @@
 class Solution {
    /**
     * Time complexity: O(n)
-    * Auxiliary space compl
+    * Auxiliary space complexity: O(n)
     * Tags:
     *     DS: hash set
     *     A: iteration
@@ -10,19 +10,20 @@ class Solution {
     */
    longestConsecutive(nums) {
       const numSet = new Set(nums);
-      let maxLength = 0;
+      let res = 0;
 
       for (const num of numSet) {
-         if (numSet.has(num - 1)) {
-            continue
+         if (numSet.has(num - 1)) continue
+         let currNum = num;
+         
+         while (numSet.has(currNum)) {
+            currNum++;
          }
-         let index = 0;
-         while (numSet.has(num + index)) {
-            index++;
-            maxLength = Math.max(maxLength, index);
-         }
+         
+         res = Math.max(res, currNum - num);
       }
-      return maxLength
+
+      return res
    };
 }
 

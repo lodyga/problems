@@ -3,28 +3,32 @@ class Solution {
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
     * Tags:
-    *     A: greedy
-    * @param {number[]} houses
+    *     DS: array
+    *     A: bottom-up
+    * @param {number[]} nums
     * @return {number}
     */
-   rob(houses) {
-      if (houses.length <= 3) {
-         return Math.max(...houses)
+   rob(nums) {
+      if (nums.length <= 3) {
+         return Math.max(...nums)
       }
-      const rob2 = (houses) => {
+
+      const oneRob = (nums) => {
          const cache = [0, 0];
-         for (let index = houses.length - 1; index > -1; index--) {
-            const house = houses[index];
+
+         for (let index = nums.length - 1; index > -1; index--) {
+            const num = nums[index];
             const skipHouse = cache[0];
-            const robHouse = house + cache[1];
+            const robHouse = num + cache[1];
             [cache[0], cache[1]] = [Math.max(skipHouse, robHouse), cache[0]];
          }
+
          return cache[0]
       };
 
       return Math.max(
-         rob2(houses.slice(0, -1)),
-         rob2(houses.slice(1,))
+         oneRob(nums.slice(0, -1)),
+         oneRob(nums.slice(1,))
       )
    };
 }

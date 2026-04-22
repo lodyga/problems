@@ -4,44 +4,22 @@ class Solution:
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
         Tags:
-            DS: hash set
+            DS: hash set, string
             A: sliding window
         """
-        window_letters = set()
-        substring_lenght = 0
+        char_set = set()
+        res = 0
         left = 0
-
-        for right, letter in enumerate(text):
-            while letter in window_letters:
-                left_letter = text[left]
-                window_letters.discard(left_letter)
+        
+        for right, char in enumerate(text):
+            while char in char_set:
+                char_set.remove(text[left])
                 left += 1
 
-            window_letters.add(letter)
-            substring_lenght = max(substring_lenght, right - left + 1)
+            char_set.add(char)
+            res = max(res, right - left + 1)
 
-        return substring_lenght
-
-
-class Solution:
-    def lengthOfLongestSubstring(self, word: str) -> int:
-        """
-        Time complexity: O(n3)
-        Auxiliary space complexity: O(1)
-        Tags: brute-force
-        """
-        longest_substring = 1
-
-        for left in range(len(word)):
-            for right in range(left, len(word)):
-                substring = word[left: right + 1]
-
-                if len(substring) == len(set(substring)):
-                    longest_substring = max(
-                        longest_substring,
-                        right - left + 1)
-
-        return longest_substring
+        return res
 
 
 print(Solution().lengthOfLongestSubstring("abcabcbb") == 3)

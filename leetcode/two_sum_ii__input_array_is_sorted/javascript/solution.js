@@ -28,6 +28,6 @@ class Solution {
 
 
 const twoSum = new Solution().twoSum;
-console.log(new Solution().twoSum([2, 7, 11, 15], 9), [1, 2])
-console.log(new Solution().twoSum([2, 3, 4], 6), [1, 3])
-console.log(new Solution().twoSum([-1, 0], -1), [1, 2])
+console.log(new Solution().twoSum([2, 7, 11, 15], 9).toString() === [1, 2].toString())
+console.log(new Solution().twoSum([2, 3, 4], 6).toString() === [1, 3].toString())
+console.log(new Solution().twoSum([-1, 0], -1).toString() === [1, 2].toString())

@@ -1,7 +1,3 @@
-from collections import Counter
-import heapq
-
-
 class Solution:
     def topKFrequent(self, nums: list[int], k: int) -> list[int]:
         """
@@ -11,16 +7,18 @@ class Solution:
             DS: heap, hash map
             A: iteration
         """
-        num_frequency = {}
-        for num in nums:
-            num_frequency[num] = num_frequency.get(num, 0) + 1
-
+        import heapq
+        num_freq = {}
         num_heap = []
-        for num, frequency in num_frequency.items():
+
+        for num in nums:
+            num_freq[num] = num_freq.get(num, 0) + 1
+
+        for num, freq in num_freq.items():
             if len(num_heap) == k:
-                heapq.heappushpop(num_heap, (frequency, num))
+                heapq.heappushpop(num_heap, (freq, num))
             else:
-                heapq.heappush(num_heap, (frequency, num))
+                heapq.heappush(num_heap, (freq, num))
 
         return [num for _, num in num_heap]
 
@@ -31,25 +29,27 @@ class Solution:
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
         Tags:
-            DS: bucket as list, hash map
-            A: iteration
+            DS: hash map, list
+            A: sorting, bucket sort
         """
-        num_frequency = {}
+        num_freq = {}
+        res = []
+        
         for num in nums:
-            num_frequency[num] = num_frequency.get(num, 0) + 1
+            num_freq[num] = num_freq.get(num, 0) + 1
 
-        num_bucekt = [set() for _ in range(max(num_frequency.values()) + 1)]
-        for num, frequency in num_frequency.items():
-            num_bucekt[frequency].add(num)
+        bucekt = [[] for _ in range(max(num_freq.values()))]
+        
+        for num, freq in num_freq.items():
+            bucekt[freq - 1].append(num)
 
-        result = set()
-        for num_set in reversed(num_bucekt):
-            if len(num_set) == 0:
-                continue
-            for num in num_set:
-                result.add(num)
-                if len(result) == k:
-                    return list(result)
+        for nums in reversed(bucekt):
+            if nums:
+                for num in nums:
+                    res.append(num)
+                
+                    if len(res) == k:
+                        return res
 
 
 class Solution:
@@ -58,26 +58,30 @@ class Solution:
         Time complexity: O(nlogn)
         Auxiliary space complexity: O(n)
         Tags:
-            DS: bucket as hash map
-            A: iteration, sorting
+            DS: hash map, list
+            A: sorting, bucket sort
         """
-        num_frequency = {}
-        for number in nums:
-            num_frequency[number] = num_frequency.get(number, 0) + 1
-
+        num_freq = {}
         bucket = {}
-        for num, frequency in num_frequency.items():
-            if frequency not in bucket:
-                bucket[frequency] = set()
-            bucket[frequency].add(num)
+        res = []
+        
+        for num in nums:
+            num_freq[num] = num_freq.get(num, 0) + 1
 
-        keys = sorted(bucket.keys(), reverse=True)
-        result = []
-        for key in keys:
-            for num in bucket[key]:
-                result.append(num)
-                if len(result) == k:
-                    return result
+        for num, freq in num_freq.items():
+            if freq not in bucket:
+                bucket[freq] = []
+            
+            bucket[freq].append(num)
+
+        freqs = sorted(bucket.keys(), reverse=True)
+        
+        for freq in freqs:
+            for num in bucket[freq]:
+                res.append(num)
+                
+                if len(res) == k:
+                    return res
 
 
 class Solution:
@@ -89,6 +93,7 @@ class Solution:
             DS: build-in function
             A: iteration
         """
+        from collections import Counter
         return [key for key, _ in Counter(nums).most_common(k)]
 
 

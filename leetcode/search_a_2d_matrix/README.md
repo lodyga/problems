@@ -1,7 +1,7 @@
 # Search a 2D Matrix
 https://leetcode.com/problems/search-a-2d-matrix/
 
-
+<p>
 You are given an m x n integer matrix matrix with the following two properties:
 
 Each row is sorted in non-decreasing order.
@@ -9,12 +9,16 @@ The first integer of each row is greater than the last integer of the previous r
 Given an integer target, return true if target is in matrix or false otherwise.
 
 You must write a solution in O(log(m * n)) time complexity.
+</p>
 
-
-<b>Example 1:</b>\
-Input: matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 3\
+<pre>
+<b>Example 1:</b>
+Input: matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 3
 Output: true
+</pre>
 
-<b>Example 2:</b>\
-Input: matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 13\
+<pre>
+<b>Example 2:</b>
+Input: matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 13
 Output: false
+</pre>

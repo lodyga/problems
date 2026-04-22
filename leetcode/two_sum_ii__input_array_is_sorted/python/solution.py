@@ -11,13 +11,13 @@ class Solution:
 
         while left < right:
             pair = nums[left] + nums[right]
-
+            
             if pair == target:
                 return [left + 1, right + 1]
-            elif pair < target:
-                left += 1
-            else:
+            elif pair > target:
                 right -= 1
+            else:
+                left += 1
 
 
 print(Solution().twoSum([2, 7, 11, 15], 9) == [1, 2])

@@ -8,4 +8,4 @@ def slugify(text):
             letter_list.append(letter.lower())
     return "".join(letter_list)
 
-print(slugify("Minimum Number of Days to Eat N Oranges"))
+print(slugify(""))

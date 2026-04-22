@@ -8,11 +8,13 @@ class Solution:
             A: iteration
         """
         num_set = set()
+
         for num in nums:
             if num in num_set:
                 return True
             else:
                 num_set.add(num)
+
         return False
 
 
@@ -21,7 +23,8 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: One-liner
+        Tags:
+            A: build-in function
         """
         return len(nums) != len(set(nums))
 

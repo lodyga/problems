@@ -8,16 +8,22 @@ class Solution {
     * @return {number}
     */
    maxArea(heights) {
-      let maxWaterArea = 0;
+      let res = 0;
       let left = 0;
       let right = heights.length - 1;
 
       while (left < right) {
-         let area = (right - left) * Math.min(heights[left], heights[right]);
-         maxWaterArea = Math.max(maxWaterArea, area);
+         const leftHeight = heights[left];
+         const rightHeight = heights[right];
+
+         const height = Math.min(leftHeight, rightHeight)
+         const width = right - left;
+         res = Math.max(res, height * width);
+
          heights[left] < heights[right] ? left++ : right--;
       }
-      return maxWaterArea
+
+      return res
    };
 }
 

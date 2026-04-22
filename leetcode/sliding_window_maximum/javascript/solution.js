@@ -6,31 +6,33 @@ class Solution {
     * Time complexity: O(nlogn)
     * Auxiliary space complexity: O(n)
     * Tags:
-    *     DS: monotonic decreasing queue
-    *     A: sliding window
+    *     DS: monotonic decreasing queue, deque
+    *     A: iteration
     * @param {number[]} nums
     * @param {number} k
     * @return {number[]}
     */
    maxSlidingWindow(nums, k) {
-      // Deque([(right, num), ...])
-      const windowQ = new Deque();
+      // Deque([(idx, num), ...])
+      const deq = new Deque();
       const res = [];
 
-      for (let right = 0; right < nums.length; right++) {
-         const num = nums[right];
-         while (windowQ.size() && windowQ.front()[0] <= right - k)
-            windowQ.popFront();
+      for (let idx = 0; idx < nums.length; idx++) {
+         const num = nums[idx];
 
-         while (windowQ.size() && windowQ.back()[1] <= num)
-            windowQ.popBack();
+         while (deq.size() && deq.back()[0] <= num) {
+            deq.popBack();
+         }
 
-         windowQ.pushBack([right, num]);
+         deq.pushBack([num, idx]);
 
-         if (right < k - 1)
-            continue
+         while (deq.front()[1] <= idx - k) {
+            deq.popFront();
+         }
 
-         res.push(windowQ.front()[1]);
+         if (idx + 1 >= k) {
+            res.push(deq.front()[0]);
+         }
       }
       return res
    };

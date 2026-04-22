@@ -6,35 +6,41 @@ class Solution:
         Tags:
             A: binary search
         """
+        ROWS = len(matrix)
+        COLS = len(matrix[0])
+        left = 0
+        right = COLS - 1
         top = 0
-        bottom = len(matrix) - 1
+        bottom = ROWS - 1
+        is_row_found = False
 
         while top <= bottom:
-            middle_row_index = (top + bottom) >> 1
-            middle_row = matrix[middle_row_index]
+            mid = (top + bottom) // 2
+            mid_row = matrix[mid]
 
-            if middle_row[0] <= target <= middle_row[-1]:
-                left = 0
-                right = len(matrix[0]) - 1
-                
-                while left <= right:
-                    middle = (left + right) >> 1
-                    middle_num = middle_row[middle]
-
-                    if target == middle_num:
-                        return True
-                    elif target < middle_num:
-                        right = middle - 1
-                    else:
-                        left = middle + 1
-                
-                return False
-
-            elif target < middle_row[0]:
-                bottom = middle_row_index - 1
+            if mid_row[0] <= target <= mid_row[-1]:
+                is_row_found = True
+                row_idx = mid
+                break
+            elif target < mid_row[0]:
+                bottom = mid - 1
             else:
-                top = middle_row_index + 1
-        
+                top = mid + 1
+
+        if not is_row_found:
+            return False
+
+        while left <= right:
+            mid = (left + right) // 2
+            mid_num = matrix[row_idx][mid]
+
+            if target == mid_num:
+                return True
+            elif target < mid_num:
+                right = mid - 1
+            else:
+                left = mid + 1
+
         return False
 
 

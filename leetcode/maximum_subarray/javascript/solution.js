@@ -3,20 +3,19 @@ class Solution {
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
     * Tags:
-    *     A: greedy (Kadane)
+    *     A: greedy
     * @param {number[]} nums
     * @return {number}
     */
    maxSubArray(nums) {
       let subSum = 0;
-      let maxSubSum = nums[0];
+      let res = nums[0];
 
       for (const num of nums) {
          subSum > 0 ? subSum += num : subSum = num
-         // subSum = Math.max(subSum + num, num);
-         maxSubSum = Math.max(maxSubSum, subSum);
+         res = Math.max(res, subSum);
       }
-      return maxSubSum
+      return res
    };
 }
 

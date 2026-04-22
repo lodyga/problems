@@ -7,10 +7,12 @@ class Solution:
             DS: list
             A: iteration, build-in function
         """
-        words = []
-        for word in text.split(" "):
-            words.append(word[::-1])
-        return " ".join(words)
+        res = []
+
+        for word in text.split():
+            res.append(word[::-1])
+
+        return " ".join(res)
 
 
 class Solution:
@@ -33,43 +35,17 @@ class Solution:
             DS: stack, list
             A: iteration
         """
-        letter_stack = []
-        words = []
+        res = []
+        stack = []
 
-        for letter in text:
-            if letter == " ":
-                words.append("".join(reversed(letter_stack)))
-                letter_stack = []
+        for char in text + " ":
+            if char == " ":
+                res.append("".join(reversed(stack)))
+                stack.clear()
             else:
-                letter_stack.append(letter)
-        
-        if letter_stack:
-            words.append("".join(reversed(letter_stack)))
-        return " ".join(words)
+                stack.append(char)
 
-
-class Solution:
-    def reverseWords(self, text: str) -> str:
-        """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(n)
-        Tags:
-            DS: array
-            A: two pointers
-        """
-        def reverse_word(left, right):
-            while left < right:
-                letters[left], letters[right] = letters[right], letters[left]
-                left += 1
-                right -= 1
-
-        letters = list(text)
-        left = 0
-        for right, letter in enumerate(letters):
-            if letter == " " or right == len(text) - 1:
-                reverse_word(left, right if right == len(text) - 1 else right - 1)
-                left = right + 1
-        return "".join(letters)
+        return " ".join(res)
 
 
 print(Solution().reverseWords("Let's take LeetCode contest")== "s'teL ekat edoCteeL tsetnoc")

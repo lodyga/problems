@@ -6,6 +6,7 @@ class Solution {
 public:
    std::vector<int> twoSum(const std::vector<int>& numbers, int target) {
       std::unordered_map<int, int> seenNumbers;
+      
       for (int i = 0; i < numbers.size(); ++i) {
          int complement = target - numbers[i];
          if (seenNumbers.count(complement)) {

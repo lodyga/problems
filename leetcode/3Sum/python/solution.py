@@ -8,64 +8,63 @@ class Solution:
             A: two pointers, sorting
         """
         nums.sort()
-        triplets = []
+        res = []
 
-        left = 0
-        while left < len(nums) - 2:
+        for left in range(len(nums) - 2):
             left_num = nums[left]
 
-            # If left number is > 0 then triplet sum is > 0
             if left_num > 0:
                 break
 
-            # Skip duplicate left values.
-            if (
-                left and
-                nums[left - 1] == left_num
-            ):
-                left += 1
+            # Skip repeating sequences with repeating left number.
+            if left and nums[left - 1] == left_num:
                 continue
 
-            middle = left + 1
+            mid = left + 1
             right = len(nums) - 1
 
-            while middle < right:
-                triplet_sum = left_num + nums[middle] + nums[right]
+            while mid < right:
+                mid_num = nums[mid]
+                right_num = nums[right]
+                triplet = left_num + mid_num + right_num
 
-                if triplet_sum == 0:
-                    triplets.append([left_num, nums[middle], nums[right]])
-                    middle += 1
+                if triplet == 0:
+                    res.append([left_num, mid_num, right_num])
+                    mid += 1
                     right -= 1
-                    # Skip duplicate middle values.
-                    while (
-                        middle < right and
-                        nums[middle - 1] == nums[middle]
-                    ):
-                        middle += 1
-                elif triplet_sum > 0:
+
+                    # Skip repeating sequences with repeating middle number.
+                    while mid < right and nums[mid] == mid_num:
+                        mid += 1
+
+                elif triplet > 0:
                     right -= 1
                 else:
-                    middle += 1
+                    mid += 1
 
-            left += 1
-        return triplets
+        return res
 
 
-class Solution2:
+class Solution:
     def threeSum(self, nums: list[int]) -> list[list[int]]:
         """
         Time complexity: O(n3)
         Auxiliary space complexity: O(1)
-        Tags: brute-force
+        Tags:
+            A: brute-force
         """
+        nums.sort()
         triplets = []
+        
         for i in range(len(nums) - 2):
             for j in range(i + 1, len(nums) - 1):
                 for k in range(j + 1, len(nums)):
                     if nums[i] + nums[j] + nums[k] == 0:
-                        triplet = sorted([nums[i], nums[j], nums[k]])
-                        if not triplet in triplets:
+                        triplet = [nums[i], nums[j], nums[k]]
+               
+                        if triplet not in triplets:
                             triplets.append(triplet)
+        
         return triplets
 
 

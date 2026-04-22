@@ -4,7 +4,7 @@ class Solution:
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
         Tags:
-            A: Rabin-Karp, rolling hash
+            A: prefix sum, rolling hash
         """
         BASE = 29
         MOD = 10**9 + 7

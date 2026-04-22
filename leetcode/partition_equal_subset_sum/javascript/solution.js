@@ -7,27 +7,23 @@ class Solution {
     * Auxiliary space complexity: O(n)
     *     O(s)
     * Tags:
-    *     DS: bottom-up, hash set
+    *     DS: hash set
     *     A: bottom-up
     * @param {number[]} nums
     * @return {boolean}
     */
    canPartition(nums) {
-      const total = nums.reduce((total, value) => total + value, 0);
-      if (total % 2) {
-         return false
-      }
-      const half = total >> 1;
-      const numSet = new Set();
+      const total = nums.reduce((sum, num) => sum + num, 0);
+      if (total % 2) return false
+      const half = Math.floor(total / 2);
+      const numSet = new Set([0]);
 
       for (const num of nums) {
-         const numSetUpdate = new Set([...numSet].map(value => value + num));
-         numSetUpdate.add(num);
-         numSetUpdate.forEach(value => numSet.add(value));
-         if (numSet.has(half)) {
-            return true
-         }
+         const numSetUpdate = [...numSet].map(val => val + num, 0);
+         numSetUpdate.forEach(num => numSet.add(num));
+         if (numSet.has(half)) return true
       }
+
       return false
    };
 }

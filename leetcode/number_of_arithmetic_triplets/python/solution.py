@@ -8,14 +8,16 @@ class Solution:
             A: iteration
         """
         num_set = set(nums)
-        counter = 0
+        res = 0
+
         for num in nums:
             if (
-                num + diff in num_set and
-                num + 2*diff in num_set
+                num - diff in num_set and
+                num - diff*2 in num_set
             ):
-                counter += 1
-        return counter
+                res += 1
+
+        return res
 
 
 print(Solution().arithmeticTriplets([0, 1, 4, 6, 7, 10], 3) == 2)

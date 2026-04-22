@@ -5,39 +5,43 @@ class Solution {
     * Tags:
     *     DS: stack
     *     A: iteration
-    * @param {string} bracketList
+    * @param {string} brackets
     * @return {boolean}
    */
-   isValid(bracketList) {
-      if (bracketList.length % 2 != 0) return false
+   static isValid(brackets) {
+      if (brackets.length % 2) return false
 
-      const bracketStack = [];
-      const closingBracket = {
+      const stack = [];
+      const BRACKET_MAP = {
          ')': '(',
          ']': '[',
          '}': '{'
       };
-      for (const bracket of bracketList) {
-         if (bracket in closingBracket) {
-            if (bracketStack[bracketStack.length - 1] === closingBracket[bracket]) {
-               bracketStack.pop();
+
+      for (const bracket of brackets) {
+         if (bracket in BRACKET_MAP) {
+            if (stack[stack.length - 1] === BRACKET_MAP[bracket]) {
+               stack.pop();
             } else {
                return false
             }
          } else {
-            bracketStack.push(bracket);
+            stack.push(bracket);
          }
       }
-      return bracketStack.length === 0
+
+      return stack.length === 0
    }
 }
 
 
-const isValid = new Solution().isValid;
-console.log(new Solution().isValid('()') === true)
-console.log(new Solution().isValid('({})') === true)
-console.log(new Solution().isValid('(})') === false)
-console.log(new Solution().isValid('([)') === false)
-console.log(new Solution().isValid('(]') === false)
-console.log(new Solution().isValid('') === true)
-console.log(new Solution().isValid('[') === false)
+const isValid = Solution.isValid;
+console.log(Solution.isValid('()') === true)
+console.log(Solution.isValid('({})') === true)
+console.log(Solution.isValid('(})') === false)
+console.log(Solution.isValid('([)') === false)
+console.log(Solution.isValid('(]') === false)
+console.log(Solution.isValid('') === true)
+console.log(Solution.isValid('[') === false)
+console.log(Solution.isValid(')') === false)
+console.log(Solution.isValid(')(') === false)

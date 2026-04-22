@@ -9,14 +9,11 @@ class Solution {
     * @return {boolean}
    */
    isValidSudoku(board) {
-      const rows = board.length;
-      const cols = board[0].length;
-
       const areRowsValid = () => {
-         for (let row = 0; row < rows; row++) {
+         for (let row = 0; row < 9; row++) {
             const rowValues = new Set();
 
-            for (let col = 0; col < cols; col++) {
+            for (let col = 0; col < 9; col++) {
                const cell = board[row][col];
                if (cell === '.') {
                   continue
@@ -31,10 +28,10 @@ class Solution {
       };
 
       const areColsValid = () => {
-         for (let col = 0; col < cols; col++) {
+         for (let col = 0; col < 9; col++) {
             const colValues = new Set();
 
-            for (let row = 0; row < rows; row++) {
+            for (let row = 0; row < 9; row++) {
                const cell = board[row][col];
                if (cell === '.') {
                   continue
@@ -49,8 +46,9 @@ class Solution {
       };
 
       const areBoxesValid = () => {
-         const isBoxBalid = (row, col) => {
+         const isBoxValid = (row, col) => {
             const boxValues = new Set();
+
             for (let i = row; i < row + 3; i++) {
                for (let j = col; j < col + 3; j++) {
                   const cell = board[i][j];
@@ -65,12 +63,14 @@ class Solution {
             return true
          };
 
-         for (let row = 0; row < rows; row = row + 3) {
-            for (let col = 0; col < cols; col = col + 3) {
-               if (isBoxBalid(row, col) === false)
+         for (let row = 0; row < 9; row = row + 3) {
+            for (let col = 0; col < 9; col = col + 3) {
+               if (isBoxValid(row, col) === false) {
                   return false
+               }
             }
          }
+         
          return true
       };
 

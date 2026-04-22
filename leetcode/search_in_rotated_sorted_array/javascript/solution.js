@@ -13,35 +13,36 @@ class Solution {
       let right = nums.length - 1;
 
       while (left <= right) {
-         let middle = (left + right) >> 1;
-         const middleNum = nums[middle];
+         let mid = Math.floor((left + right) / 2);
+         const midNum = nums[mid];
 
-         if (target === middleNum) {
-            return middle
+         if (target === midNum) {
+            return mid
          }
-         // right side portion is contiguous
-         else if (middleNum < nums[right]) {
+         // The right side portion is contiguous.
+         else if (midNum < nums[right]) {
             if (
-               middleNum < target &&
+               midNum < target &&
                target <= nums[right]
             ) {
-               left = ++middle;
+               left = mid + 1;
             } else {
-               right = --middle;
+               right = mid - 1;
             }
          }
-         // left side portion is contiguous
+         // The left side portion is contiguous.
          else {
             if (
                nums[left] <= target &&
-               target < middleNum
+               target < midNum
             ) {
-               right = --middle;
+               right = mid - 1;
             } else {
-               left = ++middle;
+               left = mid + 1;
             }
          }
       }
+      
       return -1
    };
 }

@@ -11,21 +11,22 @@ class Solution {
     */
    arithmeticTriplets(nums, diff) {
       const numSet = new Set(nums);
-      let counter = 0;
+      let res = 0;
 
-      for (const number of nums) {
+      for (const num of nums) {
          if (
-            numSet.has(number + diff) &&
-            numSet.has(number + 2 * diff)
+            numSet.has(num - diff) &&
+            numSet.has(num - 2 * diff)
          ) {
-            counter++;
+            res++;
          }
       }
-      return counter
+
+      return res
    };
 }
 
 
 const arithmeticTriplets = new Solution().arithmeticTriplets;
-console.log(new Solution().arithmeticTriplets([0, 1, 4, 6, 7, 10], 3) == 2)
-console.log(new Solution().arithmeticTriplets([4, 5, 6, 7, 8, 9], 2) == 2)
+console.log(new Solution().arithmeticTriplets([0, 1, 4, 6, 7, 10], 3) === 2)
+console.log(new Solution().arithmeticTriplets([4, 5, 6, 7, 8, 9], 2) === 2)

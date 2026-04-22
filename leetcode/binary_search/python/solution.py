@@ -7,18 +7,18 @@ class Solution:
             A: binary search
         """
         left = 0
-        right = len(nums) - 1
+        right = len(nums) -1
 
         while left <= right:
-            middle = (left + right) >> 1
-            middle_num = nums[middle]
+            mid = (left + right) // 2
+            mid_num = nums[mid]
 
-            if target == middle_num:
-                return middle
-            elif target < middle_num:
-                right = middle - 1
+            if target == mid_num:
+                return mid
+            elif target < mid_num:
+               right = mid - 1
             else:
-                left = middle + 1
+                left = mid + 1
 
         return -1
 

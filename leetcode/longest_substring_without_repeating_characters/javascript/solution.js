@@ -3,29 +3,29 @@ class Solution {
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
     * Tags:
-    *     DS: hash set
+    *     DS: hash set, string
     *     A: sliding window
     * @param {string} text
     * @return {number}
     */
    lengthOfLongestSubstring(text) {
       let left = 0;
-      const windowLetters = new Set();
-      let substringLenght = 0;
+      const charSet = new Set();
+      let res = 0;
 
       for (let right = 0; right < text.length; right++) {
-         const letter = text[right];
+         const char = text[right];
 
-         while (windowLetters.has(letter)) {
-            const leftLetter = text[left];
-            windowLetters.delete(leftLetter);
+         while (charSet.has(char)) {
+            charSet.delete(text[left]);
             left++;
          }
-         windowLetters.add(letter);
-         substringLenght = Math.max(substringLenght, right - left + 1);
-         
+
+         charSet.add(char);
+         res = Math.max(res, right - left + 1);
       }
-      return substringLenght
+
+      return res
    };
 }
 

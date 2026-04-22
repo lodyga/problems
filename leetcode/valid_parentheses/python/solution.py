@@ -1,5 +1,5 @@
 class Solution:
-    def isValid(self, bracket_list: str) -> bool:
+    def isValid(self, brackets: str) -> bool:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
@@ -7,26 +7,26 @@ class Solution:
             DS: stack
             A: iteration
         """
-        if len(bracket_list) % 2:
+        if len(brackets) % 2:
             return False
 
-        bracket_stack = []
-        CLOSING_BRACKET = {
+        stack = []
+        BRACKET_MAP = {
             ")": "(",
             "]": "[",
-            "}": "{"
+            "}": "{",
         }
 
-        for bracket in bracket_list:
-            if bracket in CLOSING_BRACKET:
-                if bracket_stack and bracket_stack[-1] == CLOSING_BRACKET[bracket]:
-                    bracket_stack.pop()
+        for bracket in brackets:
+            if bracket in BRACKET_MAP:
+                if (stack and stack[-1] == BRACKET_MAP[bracket]):
+                    stack.pop()
                 else:
                     return False
             else:
-                bracket_stack.append(bracket)
+                stack.append(bracket)
 
-        return len(bracket_stack) == 0
+        return len(stack) == 0
 
 
 print(Solution().isValid("()") == True)
@@ -36,3 +36,5 @@ print(Solution().isValid("(})") == False)
 print(Solution().isValid("([)") == False)
 print(Solution().isValid("") == True)
 print(Solution().isValid("[") == False)
+print(Solution().isValid(")") == False)
+print(Solution().isValid(")(") == False)

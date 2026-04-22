@@ -1,57 +1,45 @@
 class Solution:
-    def climbStairs(self, steps: int) -> int:
+    def climbStairs(self, n: int) -> int:
         """
         Time complexity: O(2^n)
         Auxiliary space complexity: O(n)
         Tags:
             A: brute-force, pure recursion
-        'counter' as a return statement from dfs
-        converts to top-down
         """
-        def dfs(index: int) -> int:
-            if index in (0, 1):
-                return 1
-            return dfs(index - 1) + dfs(index - 2)
-        return dfs(steps)
+        def dfs(idx):
+            if idx >= n:
+                return idx == n
 
-    def climbStairs(self, steps: int) -> int:
+            return dfs(idx + 1) + dfs(idx + 2)
+
+        return dfs(0)
+
+
+class Solution:
+    def climbStairs(self, n: int) -> int:
         """
         Time complexity: O(2^n)
         Auxiliary space complexity: O(n)
         Tags:
             A: brute-force, shared state
-        `counter` as shared variable
         """
-        counter = 0
+        res = 0
 
-        def dfs(index: int) -> int:
-            nonlocal counter
-            if index in (0, 1):
-                counter += 1
+        def dfs(idx):
+            nonlocal res
+            if idx >= n:
+                res += (1 if idx == n else 0)
                 return
-            dfs(index - 1)
-            dfs(index - 2)
-        dfs(steps)
-        return counter
 
-    def climbStairs(self, steps: int) -> int:
-        """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(n)
-        Tags:
-            DS: hash map
-            A: top-down
-        """
-        memo = {0: 1, 1: 1}
+            dfs(idx + 1)
+            dfs(idx + 2)
 
-        def dfs(index: int) -> int:
-            if index in memo:
-                return memo[index]
-            memo[index] = dfs(index - 1) + dfs(index - 2)
-            return memo[index]
-        return dfs(steps)
+        dfs(0)
+        return res
 
-    def climbStairs(self, steps: int) -> int:
+
+class Solution:
+    def climbStairs(self, n: int) -> int:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
@@ -59,18 +47,22 @@ class Solution:
             DS: array
             A: top-down
         """
-        memo = [-1] * (steps + 1)
-        memo[0] = 1
-        memo[1] = 1
+        memo = [-1] * n
+        memo.append(1)
+        memo.append(0)
 
-        def dfs(index: int) -> int:
-            if memo[index] != -1:
-                return memo[index]
-            memo[index] = dfs(index - 1) + dfs(index - 2)
-            return memo[index]
-        return dfs(steps)
+        def dfs(idx):
+            if memo[idx] != -1:
+                return memo[idx]
 
-    def climbStairs(self, steps: int) -> int:
+            memo[idx] = dfs(idx + 1) + dfs(idx + 2)
+            return memo[idx]
+
+        return dfs(0)
+
+
+class Solution:
+    def climbStairs(self, n: int) -> int:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
@@ -78,33 +70,43 @@ class Solution:
             DS: array
             A: bottom-up
         """
-        cache = [1] * (steps + 1)
-        for index in range(2, steps + 1):
-            cache[index] = cache[index - 1] + cache[index - 2]
-        return cache[steps]
+        cache = [0] * n
+        cache.append(1)
+        cache.append(0)
 
-    def climbStairs(self, steps: int) -> int:
+        for idx in range(n - 1, -1, -1):
+            cache[idx] = cache[idx + 1] + cache[idx + 2]
+
+        return cache[0]
+
+
+class Solution:
+    def climbStairs(self, n: int) -> int:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(1)
+        Tags:
+            DS: array
+            A: bottom-up
+        """
+        cache = [1, 0]
+
+        for _ in range(n - 1, -1, -1):
+            cache[0], cache[1] = cache[0] + cache[1], cache[0]
+
+        return cache[0]
+
+    def climbStairs(self, num: int) -> int:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
         Tags:
             A: bottom-up
-        """
-        index = 1
-        cache = [1, 1]
-        for index in range(2, steps + 1):
-            cache[index % 2] = cache[0] + cache[1]
-        return cache[steps % 2]
-
-    def climbStairs(self, number: int) -> int:
-        """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(1)
-        Tags: bottom-up
         """
         a = 0
         b = 1
-        for _ in range(number):
+
+        for _ in range(num):
             (a, b) = (b, a + b)
             # b = a + b
             # a = b - a

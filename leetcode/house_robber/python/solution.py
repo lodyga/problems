@@ -1,51 +1,71 @@
 class Solution:
-    def rob(self, houses: list[int]) -> int:
-        """
-        Time complexity: O(2^n)
-        Auxiliary space complexity: O(n)
-        Tags:
-            A: brute-force
-        """
-        def dfs(index):
-            if index in (len(houses), len(houses) + 1):
-                return 0
-
-            house = houses[index]
-            # skip current house
-            sikp = dfs(index + 1)
-            # rob current house
-            take = house + dfs(index + 2)
-            return max(sikp, take)
-
-        return dfs(0)
-
-    def rob(self, houses: list[int]) -> int:
+    def rob(self, nums: list[int]) -> int:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
         Tags:
-            DS: hash map
-            A: top-down
+            DS: array
+            A: bottom-up
         """
-        memo = {
-            len(houses): 0,
-            len(houses) + 1: 0
-        }
+        N = len(nums)
 
-        def dfs(index):
-            if index in memo:
-                return memo[index]
+        if N <= 2:
+            return max(nums)
 
-            house = houses[index]
-            # skip current house
-            sikp = dfs(index + 1)
-            # rob current house
-            take = house + dfs(index + 2)
-            memo[index] = max(sikp, take)
-            return memo[index]
+        cache = [0] * N
+        cache[0] = nums[0]
+        cache[1] = max(nums[0], nums[1])
 
-        return dfs(0)
+        for idx in range(2, N):
+            num = nums[idx]
+            cache[idx] = max(cache[idx - 1], cache[idx - 2] + num)
 
+        return cache[-1]
+
+
+class Solution:
+    def rob(self, nums: list[int]) -> int:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(1)
+        Tags:
+            DS: array
+            A: bottom-up
+        """
+        N = len(nums)
+
+        if (N <= 2):
+            return max(nums)
+
+        cache = [nums[0], max(nums[0], nums[1])]
+
+        for idx in range(2, N):
+            num = nums[idx]
+            (cache[0], cache[1]) = (cache[1], max(cache[1], cache[0] + num))
+
+        return cache[-1]
+
+
+class Solution:
+    def rob(self, nums: list[int]) -> int:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(n)
+        Tags:
+            DS: array
+            A: bottom-up
+        """
+        N = len(nums)
+        cache = [0] * (N + 2)
+
+        for idx in range(N - 1, -1, -1):
+            num = nums[idx]
+            cache[idx] = max(cache[idx + 1], cache[idx + 2] + num)
+
+        return cache[0]
+
+
+class Solution:
     def rob(self, houses: list[int]) -> int:
         """
         Time complexity: O(n)
@@ -58,57 +78,18 @@ class Solution:
         memo[-1] = 0
         memo[-2] = 0
 
-        def dfs(index):
-            if memo[index] != -1:
-                return memo[index]
+        def dfs(idx):
+            if memo[idx] != -1:
+                return memo[idx]
 
-            house = houses[index]
-            # skip current house
-            sikp = dfs(index + 1)
-            # rob current house
-            take = house + dfs(index + 2)
-            memo[index] = max(sikp, take)
-            return memo[index]
+            house = houses[idx]
+            sikp = dfs(idx + 1)
+            take = house + dfs(idx + 2)
+            
+            memo[idx] = max(sikp, take)
+            return memo[idx]
 
         return dfs(0)
-
-
-    def rob(self, houses: list[int]) -> int:
-        """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(n)
-        Tags:
-            DS: array
-            A: bottom-up
-        """
-        cache = [0] * (len(houses) + 2)
-
-        for index in range(len(houses) - 1, -1, -1):
-            house = houses[index]
-            skip = cache[index + 1]
-            take = house + cache[index + 2]
-            cache[index] = max(skip, take)
-        return cache[0]
-
-    def rob(self, houses: list[int]) -> int:
-        """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(1)
-        Tags:
-            A: bottom-up, rolling cache
-        """
-        cache = [0, 0]
-        N = len(houses)
-
-        for index in range(N - 1, -1, -1):
-            house = houses[index]
-            index1 = (N - index) % 2
-            index2 = (N - 1 - index) % 2
-            skip = cache[index2]
-            take = house + cache[index1]
-            cache[index1] = max(skip, take)
-        
-        return cache[N % 2]
 
 
 print(Solution().rob([2]) == 2)

@@ -8,26 +8,24 @@ class Solution:
         """
         left = 0
         right = len(heights) - 1
-        max_left_height = heights[0]
-        max_right_height = heights[right]
-        water_volume = 0
+        left_max = 0
+        right_max = 0
+        res = 0
 
         while left < right:
             left_height = heights[left]
             right_height = heights[right]
 
             if left_height < right_height:
-                max_left_height = max(max_left_height, left_height)
-                water_height = max_left_height - left_height
+                left_max = max(left_max, left_height)
+                res += left_max - left_height
                 left += 1
             else:
-                max_right_height = max(max_right_height, right_height)
-                water_height = max_right_height - right_height
+                right_max = max(right_max, right_height)
+                res += right_max - right_height
                 right -= 1
 
-            water_volume += water_height
-
-        return water_volume
+        return res
 
 
 print(Solution().trap([3, 1, 2]) == 1)

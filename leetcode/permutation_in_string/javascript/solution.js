@@ -3,42 +3,42 @@ class Solution {
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
     * Tags:
-          DS: hash map
+          DS: array
     *     A: sliding window 
     * @param {string} word
     * @param {string} text
     * @return {boolean}
     */
    checkInclusion(word, text) {
-      const pattern = new Map();
+      const window = Array(26).fill(0);
+      let left = 0;
+      let idx = 0;
+
       for (const letter of word) {
-         pattern.set(letter, (pattern.get(letter) || 0) - 1);
+         idx = letter.charCodeAt(0) - 'a'.charCodeAt(0);
+         window[idx]--;
       }
 
-      let left = 0;
       for (let right = 0; right < text.length; right++) {
          const letter = text[right];
-         pattern.set(letter, (pattern.get(letter) || 0) + 1);
-         if (pattern.get(letter) === 0)
-            pattern.delete(letter);
+         idx = letter.charCodeAt(0) - 'a'.charCodeAt(0);
+         window[idx]++;
 
-         if (right + 1 < word.length)
+         if ((right - left + 1) < word.length) {
             continue
-
-         if (pattern.size == 0)
+         } else if (!window.some(val => val)) {
             return true
+         }
 
-         const left_letter = text[left];
-         pattern.set(left_letter, (pattern.get(left_letter) || 0) - 1);
-         if (pattern.get(left_letter) === 0)
-            pattern.delete(left_letter);
-         left += 1;
+         const leftLetter = text[left];
+         idx = leftLetter.charCodeAt(0) - 'a'.charCodeAt(0);
+         window[idx]--;
+         left++;
       }
+
       return false
    };
-}
 
-class Solution2 {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
@@ -49,40 +49,85 @@ class Solution2 {
     * @param {string} text
     * @return {boolean}
     */
-   checkInclusion(word1, word2) {
+   checkInclusion(word, text) {
+      const pattern = new Map();
+      let left = 0;
+
+      for (const letter of word) {
+         pattern.set(letter, (pattern.get(letter) || 0) - 1);
+      }
+
+      for (let right = 0; right < text.length; right++) {
+         const letter = text[right];
+         pattern.set(letter, (pattern.get(letter) || 0) + 1);
+
+         if (pattern.get(letter) === 0) {
+            pattern.delete(letter);
+         }
+
+         if (right + 1 < word.length) {
+            continue
+         }
+
+         else if (pattern.size === 0) {
+            return true
+         }
+
+         const leftLetter = text[left];
+         pattern.set(leftLetter, (pattern.get(leftLetter) || 0) - 1);
+         if (pattern.get(leftLetter) === 0) {
+            pattern.delete(leftLetter);
+         }
+         left++;
+      }
+
+      return false
+   };
+
+   /**
+    * Time complexity: O(n)
+    * Auxiliary space complexity: O(1)
+    * Tags:
+          DS: hash map
+    *     A: sliding window 
+    * @param {string} word
+    * @param {string} text
+    * @return {boolean}
+    */
+   checkInclusion(word, text) {
       let left = 0;
       // sliding window
-      const letterFrequency = new Map();
+      const letterFreq = new Map();
       const pattern = new Map();
 
-      for (const letter of word1) {
+      for (const letter of word) {
          pattern.set(letter, (pattern.get(letter) || 0) + 1);
       }
       // `need` keeps track of how many characters in `pattern` are still needed to match frequencies in `window`
       let need = pattern.size;
 
-      for (let right = 0; right < word2.length; right++) {
-         const letter = word2[right];
+      for (let right = 0; right < text.length; right++) {
+         const letter = text[right];
          if (pattern.has(letter)) {
-            letterFrequency.set(letter, (letterFrequency.get(letter) || 0) + 1);
-            if (letterFrequency.get(letter) === pattern.get(letter)) {
+            letterFreq.set(letter, (letterFreq.get(letter) || 0) + 1);
+            if (letterFreq.get(letter) === pattern.get(letter)) {
                need--;
             }
 
-            if (right - left + 1 === word1.length) {
+            if (right - left + 1 === word.length) {
                if (need === 0)
                   return true
 
-               const leftLetter = word2[left];
-               if (letterFrequency.get(leftLetter) === pattern.get(leftLetter)) {
+               const leftLetter = text[left];
+               if (letterFreq.get(leftLetter) === pattern.get(leftLetter)) {
                   need++;
                }
-               letterFrequency.set(leftLetter, (letterFrequency.get(leftLetter)) - 1);
+               letterFreq.set(leftLetter, (letterFreq.get(leftLetter)) - 1);
                left++;
             }
          } else {
             need = pattern.size;
-            letterFrequency.clear()
+            letterFreq.clear()
             left = right + 1;
          }
       }

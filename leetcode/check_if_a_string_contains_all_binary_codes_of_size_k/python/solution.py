@@ -5,7 +5,7 @@ class Solution:
         Auxiliary space complexity: O(2^k)
         Tags:
             DS: array
-            A: bit manipulation, Rabin-Karp, rolling hash
+            A: bit manipulation, prefix sum, rolling hash
         """
         codes = [False] * (1 << k)
         code_counter = 0
@@ -39,7 +39,7 @@ class Solution:
         Auxiliary space complexity: O(2^k)
         Tags:
             DS: hash set
-            A: bit manipulation, Rabin-Karp, rolling hash
+            A: bit manipulation, prefix sum, rolling hash
         """
         code_set = set()
         window = 0

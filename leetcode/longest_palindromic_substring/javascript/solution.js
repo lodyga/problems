@@ -8,33 +8,45 @@ class Solution {
     * @return {string[]}
     */
    longestPalindrome(text) {
-      let palindromeLength = 0;
-      let longestPalindromeLength = 0;
-      let start = 0;
+      let resLen = 1;
+      let resStart = 0;
 
-      const checkForPalindrome = (left, right) => {
+      const getPalindromeLen = (idx, d) => {
+         let left = idx;
+         let right = idx + d;
+
          while (
-            left > -1 &&
-            right < text.length &&
+            left > -1 && right < text.length &&
             text[left] === text[right]
          ) {
-            palindromeLength = right - left + 1;
-            if (palindromeLength > longestPalindromeLength) {
-               longestPalindromeLength = palindromeLength;
-               start = left;
-            }
             left--;
             right++;
          }
+
+         return right - left - 1
       }
 
-      for (let index = 0; index < text.length; index++) {
-         // check for odd length palindrome
-         checkForPalindrome(index, index)
-         // check for even length palindrome
-         checkForPalindrome(index, index + 1)
+      // Check for odd length palindrome.
+      for (let idx = 1; idx < text.length - 1; idx++) {
+         const palLen = getPalindromeLen(idx, 0);
+
+         if (palLen > resLen) {
+            resLen = palLen;
+            resStart = idx - Math.floor(resLen / 2);
+         }
       }
-      return text.slice(start, start + longestPalindromeLength)
+
+      // Check for even length palindrome.
+      for (let idx = 0; idx < text.length - 1; idx++) {
+         const palLen = getPalindromeLen(idx, 1);
+
+         if (palLen > resLen) {
+            resLen = palLen;
+            resStart = idx - Math.floor(resLen / 2) + 1;
+         }
+      }
+
+      return text.slice(resStart, resStart + resLen)
    };
 }
 

@@ -1,57 +1,53 @@
 class Solution:
     def maxSlidingWindow(self, nums: list[int], k: int) -> list[int]:
-        from collections import deque
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
         Tags:
-            DS: monotonic decreasing queue
-            A: sliding window
+            DS: monotonic decreasing queue, deque
+            A: iteration
         """
+        from collections import deque
         # deque([(number, index), ...])
-        window_q = deque()
+        deq = deque()
         res = []
 
-        for right, num in enumerate(nums):
-            while window_q and window_q[0][1] <= right - k:
-                window_q.popleft()
+        for idx, num in enumerate(nums):
+            while deq and deq[-1][0] <= num:
+                deq.pop()
 
-            while window_q and window_q[-1][0] <= num:
-                window_q.pop()
+            deq.append((num, idx))
 
-            window_q.append((num, right))
+            while deq[0][1] <= idx - k:
+                deq.popleft()
 
-            if right < k - 1:
-                continue
-
-            res.append(window_q[0][0])
+            if idx + 1 >= k:
+                res.append(deq[0][0])
 
         return res
 
 
 class Solution:
     def maxSlidingWindow(self, nums: list[int], k: int) -> list[int]:
-        import heapq
         """
         Time complexity: O(nlogk)
         Auxiliary space complexity: O(n)
         Tags:
             DS: heap
-            A: sliding window
+            A: iteration
         """
-        window_h = []
+        import heapq
+        heap = []
         res = []
 
-        for right, num in enumerate(nums):
-            heapq.heappush(window_h, (-num, right))
+        for idx, num in enumerate(nums):
+            heapq.heappush(heap, (-num, idx))
 
-            if right < k - 1:
-                continue
+            while heap[0][1] <= idx - k:
+                heapq.heappop(heap)
 
-            while window_h[0][1] <= right - k:
-                heapq.heappop(window_h)
-
-            res.append(-window_h[0][0])
+            if idx + 1 >= k:
+                res.append(-heap[0][0])
 
         return res
 
@@ -62,6 +58,7 @@ class Solution:
         Time complexity: O(n2)
         Auxiliary space complexity: O(1)
         Tags:
+            DS: array
             A: brute-force
         """
         return [

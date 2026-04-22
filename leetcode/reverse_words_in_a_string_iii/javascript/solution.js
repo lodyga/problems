@@ -27,24 +27,19 @@ class Solution {
     * @return {string}
     */
    reverseWords(text) {
-      const reverseWord = (left, right) => {
-         while (left < right) {
-            [letters[left], letters[right]] = [letters[right], letters[left]];
-            left += 1;
-            right -= 1;
-         }
-      };
+      const res = [];
+      const stack = [];
 
-      const letters = Array.from(text);
-      let left = 0;
-      for (let right = 0; right < text.length; right++) {
-         const letter = letters[right];
-         if (letter === ' ' || right === text.length - 1) {
-            reverseWord(left, right == text.length - 1 ? right : right - 1)
-            left = right + 1;
+      for (let char of text + ' ') {
+         if (char === ' ') {
+            res.push(stack.reverse().join(''))
+            stack.length = 0;
+         } else {
+            stack.push(char);
          }
       }
-      return letters.join('')
+      
+      return res.join(' ')
    };
 }
 

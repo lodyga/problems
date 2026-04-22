@@ -1,5 +1,31 @@
 class Solution:
-    def reversePrefix(self, word: str, pivot: str) -> str:
+    def reversePrefix(self, word: str, target_char: str) -> str:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(n)
+        Tags:
+            DS: list
+            A: two pointers
+        """
+        res = []
+        target_idx = -1
+
+        for idx in range(len(word)):
+            if word[idx] == target_char:
+                target_idx = idx
+                break
+
+        for idx in range(target_idx, -1, -1):
+            res.append(word[idx])
+
+        for idx in range(target_idx + 1, len(word)):
+            res.append(word[idx])
+
+        return "".join(res)
+
+
+class Solution:
+    def reversePrefix(self, word: str, target_char: str) -> str:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
@@ -8,24 +34,27 @@ class Solution:
             A: iteration
         """
         letter_stack = []
-        for index, letter in enumerate(word):
+        
+        for idx, letter in enumerate(word):
             letter_stack.append(letter)
-            if letter == pivot:
-                return "".join(reversed(letter_stack)) + word[index + 1:]
+
+            if letter == target_char:
+                return "".join(reversed(letter_stack)) + word[idx + 1:]
+
         return word
 
 
 class Solution:
-    def reversePrefix(self, word: str, pivot: str) -> str:
+    def reversePrefix(self, word: str, target_char: str) -> str:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
         Tags:
             A: iteration
         """
-        for index, letter in enumerate(word):
-            if letter == pivot:
-                return "".join(reversed(word[: index + 1])) + word[index + 1:]
+        for idx, letter in enumerate(word):
+            if letter == target_char:
+                return "".join(reversed(word[: idx + 1])) + word[idx + 1:]
         return word
 
 

@@ -3,12 +3,12 @@ class Solution {
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
     * Tags:
-    *     A: greedy (Kadane)
+    *     A: bottom-up
     * @param {number[]} nums
     * @return {number}
     */
    maxProduct(nums) {
-      let maxProd = nums[0];
+      let res = nums[0];
       let minTotal = 1;
       let maxTotal = 1;
 
@@ -16,9 +16,10 @@ class Solution {
          const triplet = [minTotal * num, maxTotal * num, num];
          minTotal = Math.min(...triplet);
          maxTotal = Math.max(...triplet);
-         maxProd = Math.max(maxProd, maxTotal);
+         res = Math.max(res, maxTotal);
       }
-      return maxProd
+
+      return res
    };
 }
 

@@ -4,14 +4,22 @@ class Solution:
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
         Tags:
-            DS: hash set
+            DS: string
             A: iteration
         """
-        counter = 0
-        for index in range(len(text) - 2):
-            if len(set(text[index: index + 3])) == 3:
-                counter += 1
-        return counter
+        res = 0
+
+        for idx in range(len(text) - 2):
+            substr = text[idx: idx + 3]
+
+            if (
+                substr[0] != substr[1] and
+                substr[0] != substr[2] and
+                substr[1] != substr[2]
+            ):
+                res += 1
+
+        return res
 
 
 class Solution:
@@ -20,28 +28,16 @@ class Solution:
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
         Tags:
-            DS: hash map
+            DS: string
             A: iteration
         """
-        counter = 0
-        letter_frequenty = {}
-        left = 0
-        
-        for right, letter in enumerate(text):
-            letter_frequenty[letter] = letter_frequenty.get(letter, 0) + 1
+        res = 0
 
-            if right - left < 2:
-                continue
+        for index in range(len(text) - 2):
+            if len(set(text[index: index + 3])) == 3:
+                res += 1
 
-            if len(letter_frequenty) == 3:
-                counter += 1
-            left_letter = text[left]
-            letter_frequenty[left_letter] -= 1
-            if letter_frequenty[left_letter] == 0:
-                letter_frequenty.pop(left_letter)
-            left += 1
-            
-        return counter
+        return res
 
 
 print(Solution().countGoodSubstrings("xyzzaz") == 1)

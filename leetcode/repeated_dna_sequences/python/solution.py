@@ -26,7 +26,7 @@ class Solution:
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
         Tags:
-            A: Rabin-Karp, rolling hash
+            A: prefix sum, rolling hash
         """
         val = {"A": 0, "C": 1, "G": 2,  "T": 3}
         rolling_hash = 0

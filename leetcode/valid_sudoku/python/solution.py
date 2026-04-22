@@ -1,70 +1,75 @@
-from collections import defaultdict
-
-
 class Solution:
     def isValidSudoku(self, board: list[list[str]]) -> bool:
         """
         Time complexity: O(1)
         Auxiliary space complexity: O(1)
         Tags:
-            DS: hash set
+            DS: array
             A: iteration
         """
-        ROWS = len(board)
-        COLS = len(board[0])
+        def validate_rows():
+            for row in range(9):
+                cells = [False] * 9
 
-        def are_rows_valid() -> bool:
-            for row in range(ROWS):
-                row_values = set()
-
-                for col in range(COLS):
+                for col in range(9):
                     cell = board[row][col]
                     if cell == ".":
                         continue
-                    elif cell in row_values:
+
+                    val = int(cell)
+                    if cells[val - 1]:
                         return False
                     else:
-                        row_values.add(cell)
+                        cells[val - 1] = True
+
             return True
 
-        def are_cols_valid() -> bool:
-            for col in range(COLS):
-                col_values = set()
+        def validate_cols():
+            for col in range(9):
+                cells = [False] * 9
 
-                for row in range(ROWS):
+                for row in range(9):
                     cell = board[row][col]
                     if cell == ".":
                         continue
-                    elif cell in col_values:
+
+                    val = int(cell)
+                    if cells[val - 1]:
                         return False
                     else:
-                        col_values.add(cell)
+                        cells[val - 1] = True
+
             return True
 
-        def are_boxes_valid() -> bool:
-            def is_box_valid(row, col):
-                box_values = set()
-                for i in range(row, row + 3):
-                    for j in range(col, col + 3):
-                        cell = board[i][j]
+        def validate_subboxes():
+            def validate_subbox(row, col):
+                cells = [False] * 9
+
+                for r in range(row, row + 3):
+                    for c in range(col, col + 3):
+                        cell = board[r][c]
                         if cell == ".":
                             continue
-                        elif cell in box_values:
+
+                        val = int(cell)
+                        if cells[val - 1]:
                             return False
                         else:
-                            box_values.add(cell)
+                            cells[val - 1] = True
+                
                 return True
 
-            for row in range(0, ROWS, 3):
-                for col in range(0, COLS, 3):
-                    if is_box_valid(row, col) is False:
+            for row in range(0, 9, 3):
+                for col in range(0, 9, 3):
+                    if validate_subbox(row, col) is False:
                         return False
+
             return True
 
         return (
-            are_rows_valid() and
-            are_cols_valid() and
-            are_boxes_valid()
+            validate_rows() and
+            validate_cols() and
+            validate_subboxes()
         )
 
 
@@ -77,15 +82,14 @@ class Solution:
             DS: hash set, built-in data structure
             A: iteration
         """
-        ROWS = len(board)
-        COLS = len(board[0])
+        from collections import defaultdict
 
         row_uniq = defaultdict(set)
         col_uniq = defaultdict(set)
         box_uniq = defaultdict(set)
 
-        for row in range(ROWS):
-            for col in range(COLS):
+        for row in range(9):
+            for col in range(9):
                 cell = board[row][col]
 
                 if cell == ".":

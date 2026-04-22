@@ -1,6 +1,6 @@
 r"""
 draft
-if middle < right: right portion is contiguous
+if mid < right: right portion is contiguous
 [1, 2, 3, 4, 5]
 [4, 5, 1, 2, 3]
 [5, 1, 2, 3, 4]
@@ -22,23 +22,23 @@ class Solution:
         right = len(nums) - 1
 
         while left <= right:
-            middle = (left + right) >> 1
-            middle_num = nums[middle]
+            mid = (left + right) // 2
+            mid_num = nums[mid]
 
-            if target == middle_num:
-                return middle
-            # right side portion is contiguous
-            elif middle_num < nums[right]:
-                if middle_num < target <= nums[right]:
-                    left = middle + 1
+            if target == mid_num:
+                return mid
+            # The right side portion is contiguous.
+            elif mid_num < nums[right]:
+                if mid_num < target <= nums[right]:
+                    left = mid + 1
                 else:
-                    right = middle - 1
-            # left side portion is contiguous
+                    right = mid - 1
+            # The left side portion is contiguous.
             else:
-                if nums[left] <= target < middle_num:
-                    right = middle - 1
+                if nums[left] <= target < mid_num:
+                    right = mid - 1
                 else:
-                    left = middle + 1
+                    left = mid + 1
 
         return -1
 

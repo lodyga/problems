@@ -4,7 +4,7 @@ class Solution:
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
         Tags:
-            A: greedy, Boyer-Moore Voting
+            A: greedy, voting
         """
         major = 0
         counter = 0
