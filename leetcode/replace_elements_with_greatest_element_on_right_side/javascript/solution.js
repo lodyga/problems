@@ -10,14 +10,15 @@ class Solution {
     */
    replaceElements(nums) {
       let prev = -1;
-      for (let index = nums.length - 1; index > -1; index--) {
-         const num = nums[index];
-         const next = Math.max(prev, num);
-         nums[index] = prev;
-         prev = next;
+      const res = [];
+
+      for (let idx = nums.length - 1; idx > -1; idx--) {
+         res.push(prev);
+         prev = Math.max(prev, nums[idx]);
       }
-      return nums
-   };
+
+      return res.reverse()
+   }
 }
 
 

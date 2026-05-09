@@ -30,7 +30,7 @@ class Solution {
          oneRob(nums.slice(0, -1)),
          oneRob(nums.slice(1,))
       )
-   };
+   }
 }
 
 

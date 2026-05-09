@@ -1,4 +1,4 @@
-import { TreeNode, buildTree, getTreeValues } from '../../../../JS/binary-tree.js';
+import { TreeNode, buildTree, getTreeValues, isSameTree } from '../../../../JS/binary-tree.js';
 import { Queue } from '@datastructures-js/queue';
 
 
@@ -28,14 +28,20 @@ class Solution {
          if (node === null) {
             return
          }
+
          [node.left, node.right] = [node.right, node.left];
          dfs(node.right);
          dfs(node.left);
       }
+
       dfs(root)
       return root
-   };
+   }
+}
+//const invertTree = new Solution().invertTree;
 
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
@@ -55,16 +61,23 @@ class Solution {
       while (stack.length) {
          const node = stack.pop();
          [node.left, node.right] = [node.right, node.left];
+      
          if (node.left) {
             stack.push(node.left);
          }
+      
          if (node.right) {
             stack.push(node.right);
          }
       }
+      
       return root
-   };
+   }
+}
+//const invertTree = new Solution().invertTree;
 
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
@@ -80,23 +93,27 @@ class Solution {
       }
 
       const queue = new Queue([root]);
+      
       while (!queue.isEmpty()) {
          const node = queue.pop();
          [node.left, node.right] = [node.right, node.left];
+      
          if (node.right) {
             queue.push(node.right);
          }
+      
          if (node.left) {
             queue.push(node.left);
          }
       }
+      
       return root
    };
 }
-
-
 const invertTree = new Solution().invertTree;
-console.log(JSON.stringify(getTreeValues(new Solution().invertTree(buildTree([2, 1, 3])))) === JSON.stringify([2, 3, 1]))
-console.log(JSON.stringify(getTreeValues(new Solution().invertTree(buildTree([4, 2, 7, 1, 3, 6, 9])))) === JSON.stringify([4, 7, 2, 9, 6, 3, 1]))
-console.log(JSON.stringify(getTreeValues(new Solution().invertTree(buildTree([7, 3, 15, null, null, 9, 20])))) === JSON.stringify([7, 15, 3, 20, 9]))
-console.log(JSON.stringify(getTreeValues(new Solution().invertTree(buildTree([])))) === JSON.stringify([]))
+
+
+console.log(isSameTree(new Solution().invertTree(buildTree([2, 1, 3])), buildTree([2, 3, 1])))
+console.log(isSameTree(new Solution().invertTree(buildTree([4, 2, 7, 1, 3, 6, 9])), buildTree([4, 7, 2, 9, 6, 3, 1])))
+console.log(isSameTree(new Solution().invertTree(buildTree([7, 3, 15, null, null, 9, 20])), buildTree([7, 15, 3, 20, 9])))
+console.log(isSameTree(new Solution().invertTree(buildTree([])), buildTree([])))

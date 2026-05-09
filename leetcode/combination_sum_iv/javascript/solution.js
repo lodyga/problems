@@ -12,8 +12,8 @@ class Solution {
     * @return {number}
     */
    combinationSum4(nums, target) {
-      const memo = Array(target + 1).fill(-1);
-      memo[memo.length - 1] = 1;
+      const memo = Array(target).fill(-1);
+      memo.push(1);
 
       const dfs = (current) => {
          if (current > target) {
@@ -33,8 +33,11 @@ class Solution {
          return memo[current]
       }
       return dfs(0)
-   };
+   }
+}
 
+
+class Solution {
    /**
     * Time complexity: O(n*t)
     *     n: numbers length
@@ -48,18 +51,18 @@ class Solution {
     * @return {number}
     */
    combinationSum4(nums, target) {
-      const cache = Array(target + 1).fill(0);
-      cache[0] = 1;
+      const cache = Array(target).fill(0);
+      cache.push(1);
 
-      for (let index = 0; index < target + 1; index++) {
-         for (const number of nums) {
-            if (index - number >= 0) {
-               cache[index] += cache[index - number]
+      for (let idx = target - 1; idx > -1; idx--) {
+         for (const num of nums) {
+            if (idx + num <= target) {
+               cache[idx] += cache[idx + num]
             }
          }
       }
-      return cache[target]
-   };
+      return cache[0]
+   }
 }
 
 

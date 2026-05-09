@@ -96,6 +96,8 @@ class Solution:
 
         return cache[0]
 
+
+class Solution:
     def climbStairs(self, num: int) -> int:
         """
         Time complexity: O(n)

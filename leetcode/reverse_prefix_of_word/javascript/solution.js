@@ -23,7 +23,7 @@ class Solution {
          }
       }
       return word
-   };
+   }
 
    /**
     * Time complexity: O(n)
@@ -44,7 +44,7 @@ class Solution {
          }
       }
       return word
-   };
+   }
 }
 
 

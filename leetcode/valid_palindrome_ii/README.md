@@ -1,19 +1,25 @@
 # Valid Palindrome II
-https://leetcode.com/problems/valid-palindrome-ii/description/
+https://leetcode.com/problems/valid-palindrome-ii/
 
-
+<p>
 Given a string s, return true if the s can be palindrome after deleting at most one character from it.
+</p>
 
-
-<b>Example 1:</b>\
-Input: s = "aba"\
+<pre>
+<b>Example 1:</b>
+Input: s = "aba"
 Output: true
+</pre>
 
-<b>Example 2:</b>\
-Input: s = "abca"\
-Output: true\
+<pre>
+<b>Example 2:</b>
+Input: s = "abca"
+Output: true
 Explanation: You could delete the character 'c'.
+</pre>
 
-<b>Example 3:</b>\
-Input: s = "abc"\
+<pre>
+<b>Example 3:</b>
+Input: s = "abc"
 Output: false
+</pre>

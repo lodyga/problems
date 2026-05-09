@@ -27,7 +27,7 @@ class Solution {
          }
       }
       return numHeap.toArray().map(([_, num]) => num)
-   };
+   }
 
    /**
     * Time complexity: O(n)
@@ -64,7 +64,7 @@ class Solution {
             }
          }
       }
-   };
+   }
 
    /**
     * Time complexity: O(nlogn)
@@ -74,7 +74,7 @@ class Solution {
     * @param {number} k
     * @return {number[]}
     */
-   topKFrequent2(numbers, k) {
+   topKFrequent(numbers, k) {
       const numberFrequency = {};
       const bucket = Array(numbers.length + 1).fill(null);
       const solution = [];
@@ -106,7 +106,7 @@ class Solution {
       }
 
       return -1
-   };
+   }
 }
 
 

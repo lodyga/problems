@@ -8,15 +8,15 @@ class Solution {
     * @return {boolean}
     */
    validPalindrome(text) {
-      const validate = (left, right, joker) => {
+      const isPalindrome = (left, right, joker) => {
          while (left < right) {
             if (text[left] === text[right]) {
                left++;
                right--;
             } else if (joker) {
                return (
-                  validate(left + 1, right) ||
-                  validate(left, right - 1)
+                  isPalindrome(left + 1, right)
+                  || isPalindrome(left, right - 1)
                )
             } else {
                return false
@@ -24,8 +24,9 @@ class Solution {
          }
          return true
       }
-      return validate(0, text.length - 1, true)
-   };
+
+      return isPalindrome(0, text.length - 1, true)
+   }
 }
 
 

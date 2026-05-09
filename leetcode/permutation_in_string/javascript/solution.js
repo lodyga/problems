@@ -37,8 +37,11 @@ class Solution {
       }
 
       return false
-   };
+   }
+}
 
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
@@ -82,8 +85,11 @@ class Solution {
       }
 
       return false
-   };
+   }
+}
 
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
@@ -132,7 +138,7 @@ class Solution {
          }
       }
       return false
-   };
+   }
 }
 
 

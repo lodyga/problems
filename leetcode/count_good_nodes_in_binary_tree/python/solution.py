@@ -1,5 +1,4 @@
 from binary_tree_utils import *
-from collections import deque
 
 
 # class TreeNode:
@@ -22,21 +21,23 @@ class Solution:
             A: dfs, recursion, pre-order traversal
             side effect
         """
-        counter = 0
+        res = 0
 
-        def dfs(node, prev_max):
-            nonlocal counter
+        def dfs(node: TreeNode, max_val: int) -> int:
+            nonlocal res
             if node is None:
-                return
+                return 0
 
-            counter += 1 if node.val >= prev_max else 0
-            prev_max = max(prev_max, node.val)
-            dfs(node.left, prev_max)
-            dfs(node.right, prev_max)
+            max_val = max(max_val, node.val)
+            res += 1 if node.val >= max_val else 0
+            dfs(node.left, max_val)
+            dfs(node.right, max_val)
 
         dfs(root, root.val)
-        return counter
+        return res
 
+
+class Solution:
     def goodNodes(self, root: TreeNode) -> int:
         """
         Time complexity: O(n)
@@ -46,18 +47,21 @@ class Solution:
             A: dfs, recursion, pre-order traversal
             pure function
         """
-        def dfs(node, prev_max):
+        def dfs(node: TreeNode, max_val: int) -> int:
             if node is None:
                 return 0
 
-            prev_max = max(prev_max, node.val)
-            is_good = True if node.val >= prev_max else False
-            left = dfs(node.left, prev_max)
-            right = dfs(node.right, prev_max)
+            max_val = max(max_val, node.val)
+            is_good = node.val >= max_val
+            left = dfs(node.left, max_val)
+            right = dfs(node.right, max_val)
+
             return is_good + left + right
 
         return dfs(root, root.val)
 
+
+class Solution:
     def goodNodes(self, root: TreeNode) -> int:
         """
         Time complexity: O(n)
@@ -67,20 +71,22 @@ class Solution:
             A: dfs, iteration, pre-order traversal
         """
         stack = [(root, root.val)]
-        counter = 0
+        res = 0
 
         while stack:
-            node, prev_max = stack.pop()
-            prev_max = max(prev_max, node.val)
-            counter += 1 if node.val >= prev_max else 0
+            node, max_val = stack.pop()
+            max_val = max(max_val, node.val)
+            res += 1 if node.val >= max_val else 0
 
             if node.left:
-                stack.append((node.left, prev_max))
+                stack.append((node.left, max_val))
             if node.right:
-                stack.append((node.right, prev_max))
+                stack.append((node.right, max_val))
 
-        return counter
+        return res
 
+
+class Solution:
     def goodNodes(self, root: TreeNode) -> int:
         """
         Time complexity: O(n)
@@ -89,20 +95,21 @@ class Solution:
             DS: binary tree, queue
             A: bfs, iteration, level-order traversal
         """
+        from collections import deque
         queue = deque([(root, root.val)])
-        counter = 0
+        res = 0
 
         while queue:
-            node, prev_max = queue.pop()
-            prev_max = max(prev_max, node.val)
-            counter += 1 if node.val >= prev_max else 0
+            node, max_val = queue.pop()
+            max_val = max(max_val, node.val)
+            res += 1 if node.val >= max_val else 0
 
             if node.left:
-                queue.append((node.left, prev_max))
+                queue.append((node.left, max_val))
             if node.right:
-                queue.append((node.right, prev_max))
+                queue.append((node.right, max_val))
 
-        return counter
+        return res
 
 
 print(Solution().goodNodes(build_tree([1])) == 1)

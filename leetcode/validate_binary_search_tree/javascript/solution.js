@@ -33,14 +33,18 @@ class Solution {
          ) {
             return false
          }
+
          const left = dfs(node.left, lowerBound, node.val);
          const right = dfs(node.right, node.val, upperBound);
 
          return left && right
       }
       return dfs(root, -(2 ** 31) - 1, 2 ** 31)
-   };
+   }
+}
 
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
@@ -70,13 +74,5 @@ class Solution {
          }
       }
       return true
-   };
+   }
 }
-
-
-const isValidBST = new Solution().isValidBST;
-console.log(new Solution().isValidBST(buildTree([2, 1, 3])) === true)
-console.log(new Solution().isValidBST(buildTree([5, 1, 4, null, null, 3, 6])) === false)
-console.log(new Solution().isValidBST(buildTree([2, 2, 2])) === false)
-console.log(new Solution().isValidBST(buildTree([0, -1])) === true)
-console.log(new Solution().isValidBST(buildTree([5, 4, 6, null, null, 3, 7])) === false)

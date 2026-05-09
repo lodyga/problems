@@ -62,7 +62,7 @@ class Solution:
         return cache[0]
 
 
-class Solution2:
+class Solution:
     def wordBreak(self, text: str, word_list: list[str]) -> bool:
         """
         Time complexity: O(n2^n)

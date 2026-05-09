@@ -15,8 +15,9 @@ class Solution {
       const ROWS = grid.length;
       const COLS = grid[0].length;
       const DIRECTIONS = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+      const queue = new Queue();
 
-      const dfs = () => {
+      const bfs = () => {
          while (queue.size()) {
             const [row, col, distance] = queue.pop();
 
@@ -36,7 +37,6 @@ class Solution {
          }
       }
 
-      const queue = new Queue();
       for (let row = 0; row < ROWS; row++) {
          for (let col = 0; col < COLS; col++) {
             if (grid[row][col] === 0) {
@@ -44,9 +44,10 @@ class Solution {
             }
          }
       }
-      dfs();
+
+      bfs();
       return grid
-   };
+   }
 }
 
 

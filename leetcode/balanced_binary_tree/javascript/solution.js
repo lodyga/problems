@@ -18,28 +18,31 @@ class Solution {
     * Auxiliary space complexity: O(n)
     * Tags:
     *     DS: binary tree
-    *     A: dfs, recursion
+    *     A: dfs, recursion, post-order traversal
     * @param {TreeNode} root
     * @return {boolean}
     */
    isBalanced(root) {
-      let isTreeBalanced = true;
+      let res = true;
 
       const dfs = (node) => {
          if (node === null) {
             return 0
          }
+
          const left = dfs(node.left);
          const right = dfs(node.right);
 
          if (Math.abs(left - right) > 1) {
-            isTreeBalanced = false;
+            res = false;
          }
+
          return 1 + Math.max(left, right)
       }
+
       dfs(root);
-      return isTreeBalanced
-   };
+      return res
+   }
 }
 
 
@@ -50,3 +53,4 @@ console.log(new Solution().isBalanced(buildTree([3, 9, 20, null, null, 15, 7])) 
 console.log(new Solution().isBalanced(buildTree([1, 2, 2, 3, 3, null, null, 4, 4])) === false)
 console.log(new Solution().isBalanced(buildTree([1, 2, 2, 3, null, null, 3, 4, null, null, 4])) === false)
 console.log(new Solution().isBalanced(buildTree([])) === true)
+console.log(new Solution().isBalanced(buildTree([1, 2, 3, 4, 5, 6, null, 8])) === true)

@@ -7,26 +7,29 @@ class Solution:
             DS: monotonic increasing stack
             A: iteration
         """
-        # stores monotonic increasing height tuples
-        height_stack = []  # [(index, height), ]
-        max_area = heights[0]
+        # stores monotonic increasing (height, index) tuples
+        # [(height, idx), ]
+        stack = []
+        res = heights[0]
 
-        for index, height in enumerate(heights):
-            start = index
-            while height_stack and height_stack[-1][1] > height:
-                start, prev_height = height_stack.pop()
-                max_area = max(
-                    max_area, prev_height * (index - start)
-                )
-            height_stack.append((start, height))
+        for idx, height in enumerate(heights):
+            start_idx = idx
 
-        for index, height in height_stack:
-            max_area = max(max_area, height * (len(heights) - index))
+            while stack and stack[-1][0] >= height:
+                prev_height, start_idx = stack.pop()
+                width = idx - start_idx
+                res = max(res, prev_height * width)
 
-        return max_area
+            stack.append((height, start_idx))
+
+        for height, idx in stack:
+            width = len(heights) - idx
+            res = max(res, height * width)
+
+        return res
 
 
-class Solution2:
+class Solution:
     def largestRectangleArea(self, heights: list[int]) -> int:
         """
         Time complexity: O(n2)
@@ -34,7 +37,7 @@ class Solution2:
         Tags:
             A: brute-force
         """
-        max_area = 0
+        res = 0
 
         for left in range(len(heights)):
             min_height = heights[left]
@@ -42,11 +45,13 @@ class Solution2:
             for right in range(left, len(heights)):
                 min_height = min(min_height, heights[right])
                 area = min_height * (right - left + 1)
-                max_area = max(max_area, area)
+                res = max(res, area)
         
-        return max_area
+        return res
 
 
-print(Solution().largestRectangleArea([2, 1, 5, 6, 2, 3]) == 10)
+print(Solution().largestRectangleArea([5]) == 5)
 print(Solution().largestRectangleArea([2, 4]) == 4)
+print(Solution().largestRectangleArea([4, 2]) == 4)
+print(Solution().largestRectangleArea([2, 1, 5, 6, 2, 3]) == 10)
 print(Solution().largestRectangleArea([2, 1, 2]) == 3)

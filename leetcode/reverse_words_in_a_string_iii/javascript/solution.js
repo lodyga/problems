@@ -15,7 +15,7 @@ class Solution {
          .split('')
          .reverse()
          .join('')
-   };
+   }
 
    /**
     * Time complexity: O(n)
@@ -40,7 +40,7 @@ class Solution {
       }
       
       return res.join(' ')
-   };
+   }
 }
 
 

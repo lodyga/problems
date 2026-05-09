@@ -41,8 +41,11 @@ class Solution {
       }
 
       return dfs(0)
-   };
+   }
+}
 
+
+class Solution {
    /**
     * Time complexity: O(n3):
     *     O(n*m*t)
@@ -73,8 +76,11 @@ class Solution {
          }
       }
       return cache[0]
-   };
+   }
+}
 
+
+class Solution {
    /**
     * Time complexity: O(n3):
     *     O(n*t^2 + m)
@@ -109,8 +115,11 @@ class Solution {
          }
       }
       return cache[0]
-   };
+   }
+}
 
+
+class Solution {
    /**
     * Time complexity: O(n3):
     *     O(n*m*t)

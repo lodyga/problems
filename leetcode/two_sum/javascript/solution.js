@@ -23,15 +23,21 @@ class Solution {
          }
       }
    }
+};
+const twoSum = new Solution().twoSum;
 
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: Plain Object
+    * Tags:
+    *     DS: Plain Object
+    *     A: iteration
     * @param {number[]} nums
     * @param {number} target
     * @return {number[]}
-   */
+    */
    twoSum(nums, target) {
       const numIdx = {};
       
@@ -48,9 +54,9 @@ class Solution {
       return null
    }
 };
-
-
 const twoSum = new Solution().twoSum;
+
+
 console.log(new Solution().twoSum([2, 7, 11, 15], 9).toString() === [0, 1].toString())
 console.log(new Solution().twoSum([3, 2, 4], 6).toString() === [1, 2].toString())
 console.log(new Solution().twoSum([3, 3], 6).toString() === [0, 1].toString())

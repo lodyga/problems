@@ -25,24 +25,24 @@ class Solution {
     */
    kthSmallest(root, k) {
       const values = [];
-      
+
       const dfs = (node, k) => {
-         if (node === null) {
-            return
-         }
+         if (node === null) return
 
          dfs(node.left);
 
          values.push(node.val);
-         if (values.length === k)
-            return
+         if (values.length === k) return
 
          dfs(node.right);
       }
       dfs(root);
       return values[k - 1]
-   };
+   }
+}
 
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
@@ -58,19 +58,22 @@ class Solution {
       const stack = [];
       let node = root;
 
-      while (node || stack) {
+      while (node) {
          if (node) {
             stack.push(node);
             node = node.left;
          } else {
             node = stack.pop();
             values.push(node.val);
-            if (values.length === k)
+            
+            if (values.length === k) {
                return values[values.length - 1]
+            }
+            
             node = node.right;
          }
       }
-   };
+   }
 }
 
 

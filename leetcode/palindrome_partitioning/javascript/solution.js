@@ -12,40 +12,40 @@ class Solution {
    partition(text) {
       const isPalindrome = (left, right) => {
          while (left < right) {
-            if (text[left] !== text[right])
-               return false
+            if (text[left] !== text[right]) return false
             left++;
             right--;
          }
          return true
       }
 
-      const partition = [];
-      const partitionList = [];
+      const partitioned = [];
+      const res = [];
 
-      const backtrack = (index) => {
-         if (index === text.length) {
-            partitionList.push(partition.slice());
+      const backtrack = (start) => {
+         if (start === text.length) {
+            res.push(partitioned.slice());
             return
          }
-         for (let right = index; right < text.length; right++) {
-            if (isPalindrome(index, right)) {
-               partition.push(text.slice(index, right + 1));
-               backtrack(right + 1);
-               partition.pop();
+
+         for (let idx = start; idx < text.length; idx++) {
+            if (isPalindrome(start, idx)) {
+               partitioned.push(text.slice(start, idx + 1));
+               backtrack(idx + 1);
+               partitioned.pop();
             }
          }
       }
       backtrack(0);
-      return partitionList
+      return res
    };
 }
 
 
 const partition = new Solution().partition;
-console.log(new Solution().partition('aa'), [['a', 'a'], ['aa']])
-console.log(new Solution().partition('a'), [['a']])
-console.log(new Solution().partition('ab'), [['a', 'b']])
-console.log(new Solution().partition('aaa'), [['a', 'a', 'a'], ['a', 'aa'], ['aa', 'a'], ['aaa']])
-console.log(new Solution().partition('aab'), [['a', 'a', 'b'], ['aa', 'b']])
-console.log(new Solution().partition('aba'), [['a', 'b', 'a'], ['aba']])
+console.log(new Solution().partition('aa').toString() === [['a', 'a'], ['aa']].toString())
+console.log(new Solution().partition('a').toString() === [['a']].toString())
+console.log(new Solution().partition('ab').toString() === [['a', 'b']].toString())
+console.log(new Solution().partition('aaa').toString() === [['a', 'a', 'a'], ['a', 'aa'], ['aa', 'a'], ['aaa']].toString())
+console.log(new Solution().partition('aab').toString() === [['a', 'a', 'b'], ['aa', 'b']].toString())
+console.log(new Solution().partition('aba').toString() === [['a', 'b', 'a'], ['aba']].toString())

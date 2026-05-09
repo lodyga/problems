@@ -11,35 +11,34 @@ from linked_list_utils import *
 
 
 class Solution:
-    def reverseList(self, head: ListNode) -> ListNode:
+    def reverseList(self, head: ListNode | None) -> ListNode | None:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
         Tags:
             DS: linked list
             A: iteration
-        Reverse a singly-linked list.
         """
         node = head
         prev = None
+
         while node:
             node_next = node.next
             node.next = prev
             prev = node
             node = node_next
+
         return prev
 
 
 class Solution:
-    def reverseList(self, head: ListNode) -> ListNode:
+    def reverseList(self, head: ListNode | None) -> ListNode | None:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
         Tags:
             DS: linked list
             A: iteration
-        Reverse a singly-linked list.
-        One-liner
         """
         node = head
         prev = None
@@ -53,3 +52,5 @@ class Solution:
 print(get_linked_list_values(Solution().reverseList(build_linked_list([]))) == [])
 print(get_linked_list_values(Solution().reverseList(build_linked_list([1, 2]))) == [2, 1])
 print(get_linked_list_values(Solution().reverseList(build_linked_list([1, 2, 3, 4, 5]))) == [5, 4, 3, 2, 1])
+
+print(are_linked_lists_equeal(Solution().reverseList(build_linked_list([1, 2])), build_linked_list([2, 1])))

@@ -33,6 +33,7 @@ class Solution {
          prev = node;
          node = nodeNext;
       }
+      
       return prev
    };
 

@@ -11,12 +11,12 @@ class Solution:
         side effect
         """
         nums.sort()
-        counter = 0
+        res = 0
         
         def dfs(total: int) -> None:
-            nonlocal counter
+            nonlocal res
             if total >= target:
-                counter += total == target
+                res += total == target
                 return
             
             for num in nums:
@@ -25,7 +25,7 @@ class Solution:
                 dfs(total + num)
         
         dfs(0)
-        return counter
+        return res
 
 
 class Solution:
@@ -40,12 +40,14 @@ class Solution:
             A: brute-force
         pure function, converts to top-down
         """
-        def dfs(current: int) -> int:
-            if current >= target:
-                return current == target
+        def dfs(total: int) -> int:
+            if total >= target:
+                return total == target
 
-            return sum(dfs(current + num) 
-                       for num in nums)
+            return sum(
+                dfs(total + num) 
+                for num in nums
+            )
 
         return dfs(0)
 
@@ -61,20 +63,21 @@ class Solution:
             DS: hash map
             A: top-down
         """
-        # current sum: number of ways to make `current sum`
+        # differente from target: number of ways to make `differente from target`
         memo = {target: 1}
-
-        def dfs(current: int) -> int:
-            if current > target:
+        
+        def dfs(total: int) -> int:
+            if total > target:
                 return 0
-            elif current in memo:
-                return memo[current]
-
-            memo[current] = 0 
-            for num in nums:
-                memo[current] += dfs(current + num)
-
-            return memo[current]
+            elif total in memo:
+                return memo[total]
+            
+            res = sum(
+                dfs(total + num)
+                for num in nums
+            )
+            memo[total] = res
+            return res
 
         return dfs(0)
 
@@ -91,26 +94,27 @@ class Solution:
             A: top-down
         """
         # The number of ways to make `current` sum.
-        memo = [-1] * (target + 1)
-        memo[-1] = 1
+        memo = [-1] * target
+        memo.append(1)
 
-        def dfs(current: int) -> int:
-            if current > target:
+        def dfs(total: int) -> int:
+            if total > target:
                 return 0
-            elif memo[current] != -1:
-                return memo[current]
+            elif memo[total] != -1:
+                return memo[total]
             
-            memo[current] = 0
-            for num in nums:
-                memo[current] += dfs(current + num)
-
-            return memo[current]
+            res = sum(
+                dfs(total + num)
+                for num in nums
+            )
+            memo[total] = res
+            return res
 
         return dfs(0)
 
 
 class Solution:
-    def combinationSum4(self, numbers: list[int], target: int) -> int:
+    def combinationSum4(self, nums: list[int], target: int) -> int:
         """
         Time complexity: O(n*t)
             n: numbers length
@@ -120,20 +124,43 @@ class Solution:
             DS: array
             A: bottom-up
         """
-        # The number of ways to make `index` sum.
+        # The number of ways to make `idx` sum.
+        cache = [0] * target
+        cache.append(1)
+
+        for idx in range(target - 1, -1, -1):
+            for num in nums:
+                if idx + num <= target:
+                    cache[idx] += cache[idx + num]
+
+        return cache[0]
+
+
+class Solution:
+    def combinationSum4(self, nums: list[int], target: int) -> int:
+        """
+        Time complexity: O(n*t)
+            n: numbers length
+            t: target
+        Auxiliary space complexity: O(t)
+        Tags:
+            DS: array
+            A: bottom-up
+        """
+        # The number of ways to make `idx` sum.
         cache = [0] * (target + 1)
         cache[0] = 1
 
-        for index in range(1, target + 1):
-            for number in numbers:
-                if index - number >= 0:
-                    cache[index] += cache[index - number]
+        for idx in range(1, target + 1):
+            for num in nums:
+                if idx - num >= 0:
+                    cache[idx] += cache[idx - num]
 
         return cache[-1]
 
 
 class Solution:
-    def combinationSum4(self, numbers: list[int], target: int) -> int:
+    def combinationSum4(self, nums: list[int], target: int) -> int:
         """
         Time complexity: O(n*t)
             n: numbers length
@@ -148,7 +175,7 @@ class Solution:
 
         for index in range(1, target + 1):
             cache[index] = 0
-            for number in numbers:
+            for number in nums:
                 cache[index] += cache.get(index - number, 0)
 
         return cache.get(target, 0)

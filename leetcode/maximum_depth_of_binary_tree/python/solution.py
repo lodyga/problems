@@ -12,7 +12,7 @@ from binary_tree_utils import *
 
 
 class Solution:
-    def maxDepth(self, root: TreeNode) -> int:
+    def maxDepth(self, root: TreeNode | None) -> int:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
@@ -20,7 +20,7 @@ class Solution:
             DS: binary tree
             A: dfs, recursion, post-order traversal
         """
-        def dfs(node):
+        def dfs(node: TreeNode | None) -> int:
             if node is None:
                 return 0
 
@@ -30,7 +30,9 @@ class Solution:
 
         return dfs(root)
 
-    def maxDepth(self, root: TreeNode) -> int:
+
+class Solution:
+    def maxDepth(self, root: TreeNode | None) -> int:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
@@ -41,21 +43,24 @@ class Solution:
         if root is None:
             return 0
 
-        max_depth = 1
-        stack = [(max_depth, root)]
+        stack = [(root, 1)]
+        res = 1
 
         while stack:
-            depth, node = stack.pop()
-            max_depth = max(max_depth, depth)
+            node, depth = stack.pop()
+            res = max(res, depth)
 
             if node.right:
-                stack.append((depth + 1, node.right))
+                stack.append((node.right, depth + 1))
+            
             if node.left:
-                stack.append((depth + 1, node.left))
+                stack.append((node.left, depth + 1))
 
-        return max_depth
+        return res
 
-    def maxDepth(self, root: TreeNode) -> int:
+
+class Solution:
+    def maxDepth(self, root: TreeNode | None) -> int:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
@@ -63,14 +68,15 @@ class Solution:
             DS: binary tree, queue
             A: bfs, iteration, level-order traversal
         """
+        from collections import deque
         if root is None:
             return 0
 
-        max_depth = 0
+        res = 0
         queue = deque([root])
 
         while queue:
-            max_depth += 1
+            res += 1
 
             for _ in range(len(queue)):
                 node = queue.popleft()
@@ -80,7 +86,7 @@ class Solution:
                 if node.right:
                     queue.append(node.right)
 
-        return max_depth
+        return res
 
 
 print(Solution().maxDepth(build_tree([])) == 0)

@@ -4,6 +4,7 @@ class MinStack:
     Auxiliary space complexity: O(n)
     Tags:
         DS: stack
+        A: iteration
     """
 
     def __init__(self) -> None:
@@ -12,8 +13,9 @@ class MinStack:
 
     def push(self, val: int) -> None:
         self.stack.append(val)
+        
         if self.min_stack:
-            self.min_stack.append(min(self.min_stack[-1], val))
+            self.min_stack.append(min(val, self.min_stack[-1]))
         else:
             self.min_stack.append(val)
 
@@ -32,7 +34,7 @@ minStack = MinStack()
 minStack.push(-2)
 minStack.push(0)
 minStack.push(-3)
-print(minStack.getMin())  # return -3
+print(minStack.getMin() == -3)
 minStack.pop()
-print(minStack.top())  # return 0
-print(minStack.getMin())  # return -2
+print(minStack.top() == 0)
+print(minStack.getMin() == -2)

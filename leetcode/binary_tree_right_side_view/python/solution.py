@@ -21,25 +21,27 @@ class Solution:
             DS: binary tree, queue
             A: bfs, iteration, level-order traversal
         """
+        from collections import deque
         if root is None:
             return []
 
-        right_side_vals = []
         queue = deque([root])
+        res = []
 
         while queue:
             for index in range(len(queue)):
                 node = queue.popleft()
                 
                 if index == 0:
-                    right_side_vals.append(node.val)
+                    res.append(node.val)
                 
                 if node.right:
                     queue.append(node.right)
+                
                 if node.left:
                     queue.append(node.left)
 
-        return right_side_vals
+        return res
 
 
 class Solution:
@@ -51,20 +53,20 @@ class Solution:
             DS: binary tree, list
             A: dfs, recursion, pre-order traversal
         """
-        right_side_vals = []
+        res = []
 
-        def dfs(index, node):
+        def dfs(node, lvl):
             if node is None:
-                return 
+                return
             
-            if index == len(right_side_vals):
-                right_side_vals.append(node.val)
+            if lvl == len(res):
+                res.append(node.val)
 
-            dfs(index + 1, node.right)
-            dfs(index + 1, node.left)
-            
-        dfs(0, root)
-        return right_side_vals
+            dfs(node.right, lvl + 1)
+            dfs(node.left, lvl + 1)
+        
+        dfs(root, 0)
+        return res
 
 
 print(Solution().rightSideView(build_tree([1, 2, 3])) == [1, 3])

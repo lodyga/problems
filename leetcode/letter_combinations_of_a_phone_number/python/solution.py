@@ -7,8 +7,9 @@ class Solution:
             DS: list
             A: DFS with backtracking
         """
+        N = len(digits)
         combination = []
-        combination_list = []
+        res = []
         digit_to_letter = {
             "2": "abc",
             "3": "def",
@@ -20,20 +21,19 @@ class Solution:
             "9": "wxyz"
         }
 
-        def backtrack(index):
-            if index == len(digits):
-                combination_list.append("".join(combination))
+        def backtrack(idx: int) -> None:
+            if idx == N:
+                res.append("".join(combination))
                 return
 
-            digit = digits[index]
-            for letter in digit_to_letter[digit]:
+            for letter in digit_to_letter[digits[idx]]:
                 combination.append(letter)
-                backtrack(index + 1)
+                backtrack(idx + 1)
                 combination.pop()
 
         backtrack(0)
-        return combination_list
+        return res
 
 
-print(Solution().letterCombinations("2") == ["a", "b", "c"])
 print(Solution().letterCombinations("23") == ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"])
+print(Solution().letterCombinations("2") == ["a", "b", "c"])

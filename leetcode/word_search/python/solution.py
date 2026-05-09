@@ -1,5 +1,5 @@
 class Solution:
-    def exist(self, board: list[list[str]], word: str) -> bool:
+    def exist(self, boadrd: list[list[str]], word: str) -> bool:
         """
         Time complexity: O(n2*3^k)
             n: board length
@@ -14,31 +14,35 @@ class Solution:
         DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
         visited = [[False] * COLS for _ in range(ROWS)]
 
-        def backtrack(index, row, col):
-            if index == len(word):
+        def dfs(row, col, idx):
+            if idx == len(word):
                 return True
             elif (
-                row == -1 or
-                col == -1 or
-                row == ROWS or
-                col == COLS or
-                board[row][col] != word[index] or
-                visited[row][col] is True
+                row in (-1, ROWS) or
+                col in (-1, COLS) or
+                board[row][col] != word[idx] or
+                visited[row][col]
             ):
                 return False
-
+            
             visited[row][col] = True
+
             for dr, dc in DIRECTIONS:
                 (r, c) = (row + dr, col + dc)
-                if backtrack(index + 1, r, c):
-                    return True
 
+                if dfs(r, c, idx + 1):
+                    return True
+            
             visited[row][col] = False
             return False
+        
 
         for row in range(ROWS):
             for col in range(COLS):
-                if backtrack(0, row, col):
+                if (
+                    board[row][col] == word[0] and
+                    dfs(row, col, 0)
+                ):
                     return True
 
         return False

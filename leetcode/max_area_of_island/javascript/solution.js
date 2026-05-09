@@ -16,13 +16,12 @@ class Solution {
       const COLS = grid[0].length;
       const DIRECTIONS = [[-1, 0], [1, 0], [0, -1], [0, 1]];
       const visited = Array.from({ length: ROWS }, () => Array(COLS).fill(false));
+      let maxArea = 0;
 
       const dfs = (row, col) => {
          if (
-            row === -1 ||
-            col === -1 ||
-            row === ROWS ||
-            col === COLS ||
+            row === -1 || row === ROWS ||
+            col === -1 || col === COLS ||
             grid[row][col] === 0 ||
             visited[row][col]
          ) return 0
@@ -36,15 +35,20 @@ class Solution {
          return area
       }
 
-      let maxArea = 0;
       for (let row = 0; row < ROWS; row++) {
          for (let col = 0; col < COLS; col++) {
-            maxArea = Math.max(maxArea, dfs(row, col));
+            if (grid[row][col] && !visited[row][col]) {
+               maxArea = Math.max(maxArea, dfs(row, col));
+            }
          }
       }
-      return maxArea
-   };
 
+      return maxArea
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(n2)
@@ -59,13 +63,9 @@ class Solution {
       const COLS = grid[0].length;
       const DIRECTIONS = [[-1, 0], [1, 0], [0, -1], [0, 1]];
       const visited = Array.from({ length: ROWS }, () => Array(COLS).fill(false));
+      let maxArea = 0;
 
       const bfs = (row, col) => {
-         if (
-            grid[row][col] == 0 ||
-            visited[row][col]
-         ) return 0
-
          const queue = new Queue([[row, col]]);
          visited[row][col] = true;
          let area = 1;
@@ -76,10 +76,8 @@ class Solution {
             for (const [dr, dc] of DIRECTIONS) {
                const [r, c] = [row + dr, col + dc];
                if (
-                  r === -1 ||
-                  c === -1 ||
-                  r === ROWS ||
-                  c === COLS ||
+                  r === -1 || r === ROWS ||
+                  c === -1 || c === COLS ||
                   grid[r][c] === 0 ||
                   visited[r][c]
                ) continue
@@ -89,15 +87,18 @@ class Solution {
                area++;
             }
          }
+
          return area
       }
 
-      let maxArea = 0;
       for (let row = 0; row < ROWS; row++)
          for (let col = 0; col < COLS; col++)
-            maxArea = Math.max(maxArea, bfs(row, col));
+            if (grid[row][col] && !visited[row][col]) {
+               maxArea = Math.max(maxArea, bfs(row, col));
+            }
+      
       return maxArea
-   };
+   }
 }
 
 

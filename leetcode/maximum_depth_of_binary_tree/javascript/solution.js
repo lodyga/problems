@@ -28,13 +28,18 @@ class Solution {
          if (node === null) {
             return 0
          }
+
          const left = dfs(node.left);
          const right = dfs(node.right);
          return 1 + Math.max(left, right)
       }
-      return dfs(root)
-   };
 
+      return dfs(root)
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
@@ -48,23 +53,29 @@ class Solution {
       if (root === null) {
          return 0
       }
-      let mDepth = 1;
-      const stack = [[mDepth, root]];
+
+      const stack = [[root, 1]];
+      let res = 1;
 
       while (stack.length) {
-         const [depth, node] = stack.pop();
-         mDepth = Math.max(mDepth, depth);
+         const [node, detpth] = stack.pop();
+         res = Math.max(res, depth);
 
          if (node.right) {
-            stack.push([depth + 1, node.right])
+            stack.push([node.right, depth + 1])
          }
+
          if (node.left) {
-            stack.push([depth + 1, node.left])
+            stack.push([node.left, depth + 1])
          }
       }
-      return mDepth
-   };
 
+      return res
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
@@ -78,26 +89,28 @@ class Solution {
       if (root === null) {
          return 0
       }
-      let depth = 0;
+
+      let res = 0;
       const queue = new Queue([root]);
 
       while (queue.size()) {
-         depth++;
+         res++;
          const queueSize = queue.size();
 
          for (let index = 0; index < queueSize; index++) {
             const node = queue.pop();
-            
+
             if (node.left) {
                queue.push(node.left);
             }
+
             if (node.right) {
                queue.push(node.right);
             }
          }
       }
-      return depth
-   };
+      return res
+   }
 }
 
 

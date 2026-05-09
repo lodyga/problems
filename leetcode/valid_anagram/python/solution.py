@@ -53,20 +53,20 @@ class Solution:
 
 
 class Solution:
-        def isAnagram(self, text_1: str, text_2: str) -> bool:
-            """
-            Time complexity: O(n)
-            Auxiliary space complexity: O(1)
-            Tags:
-                DS: hash map
-                A: build-in function
-            """
-            from collections import Counter
-            
-            if len(text_1) != len(text_2):
-                return False
+    def isAnagram(self, text_1: str, text_2: str) -> bool:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(1)
+        Tags:
+            DS: hash map
+            A: build-in function
+        """
+        from collections import Counter
 
-            return Counter(text_1) == Counter(text_2)
+        if len(text_1) != len(text_2):
+            return False
+
+        return Counter(text_1) == Counter(text_2)
 
 
 print(Solution().isAnagram("anagram", "nagaram") == True)

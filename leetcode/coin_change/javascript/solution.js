@@ -38,7 +38,7 @@ class Solution {
       }
       const res = dfs(0);
       return res !== amount + 1 ? res : -1
-   };
+   }
 
    /**
     * Time complexity: O(n2)
@@ -69,7 +69,7 @@ class Solution {
          }
       }
       return cache[amount] !== amount + 1 ? cache[amount] : - 1
-   };
+   }
 
    /**
     * Time complexity: O(n2)
@@ -121,7 +121,7 @@ class Solution {
          return -1
       }
       return bfs(0)
-   };
+   }
 }
 
 

@@ -8,33 +8,36 @@ class Solution:
             DS: list
             A: DFS with backtracking
         """
-        combination = []
-        combination_list = []
         candidates.sort()
+        N = len(candidates)
+        combination = []
+        res = []
 
-        def backtrack(index: int, total: int) -> None:
+        def backtrack(idx: int, total: int) -> None:
             if total == target:
-                combination_list.append(combination.copy())
+                res.append(combination.copy())
                 return
-            elif (
+            if (
                 total > target or
-                index == len(candidates)
+                idx == N
             ):
                 return
 
-            candidate = candidates[index]
+            candidate = candidates[idx]
             combination.append(candidate)
-            backtrack(index + 1, total + candidate)
+            backtrack(idx + 1, total + candidate)
             combination.pop()
+
             while (
-                index + 1 < len(candidates) and
-                candidates[index] == candidates[index + 1]
+                idx + 1 < N and
+                candidates[idx] == candidates[idx + 1]
             ):
-                index += 1
-            backtrack(index + 1, total)
+                idx += 1
+
+            backtrack(idx + 1, total)
 
         backtrack(0, 0)
-        return combination_list
+        return res
 
 
 class Solution:
@@ -49,11 +52,11 @@ class Solution:
         """
         candidates.sort()
         combination = []
-        combination_list = []
+        res = []
 
         def backtrack(start: int, total: int) -> None:
             if total == target:
-                combination_list.append(combination.copy())
+                res.append(combination.copy())
                 return
             elif total > target:
                 return
@@ -64,16 +67,17 @@ class Solution:
                     candidates[index] == candidates[index - 1]
                 ):
                     continue
+
                 candidate = candidates[index]
                 combination.append(candidate)
                 backtrack(index + 1, total + candidate)
                 combination.pop()
 
         backtrack(0, 0)
-        return combination_list
+        return res
 
 
-print(Solution().combinationSum2([10, 1, 2, 7, 6, 1, 5], 8), [[1, 1, 6], [1, 2, 5], [1, 7], [2, 6]])
-print(Solution().combinationSum2([2, 5, 2, 1, 2], 5), [[1, 2, 2], [5]])
-print(Solution().combinationSum2([6], 6), [[6]])
-print(Solution().combinationSum2([2, 2, 2], 2), [[2]])
+print(sorted(Solution().combinationSum2([10, 1, 2, 7, 6, 1, 5], 8)) == sorted([[1, 1, 6], [1, 2, 5], [1, 7], [2, 6]]))
+print(sorted(Solution().combinationSum2([2, 5, 2, 1, 2], 5)) == sorted([[1, 2, 2], [5]]))
+print(sorted(Solution().combinationSum2([6], 6)) == sorted([[6]]))
+print(sorted(Solution().combinationSum2([2, 2, 2], 2)) == sorted([[2]]))

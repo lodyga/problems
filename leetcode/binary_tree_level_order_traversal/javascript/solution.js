@@ -28,7 +28,7 @@ class Solution {
          return []
       }
       const queue = new Queue([root]);
-      const nodes = [];
+      const res = [];
 
       while (queue.size()) {
          const queueLength = queue.size();
@@ -38,16 +38,23 @@ class Solution {
             const node = queue.pop();
             level.push(node.val);
 
-            if (node.left)
+            if (node.left) {
                queue.push(node.left);
-            if (node.right)
-               queue.push(node.right);
-         }
-         nodes.push(level);
-      }
-      return nodes
-   };
+            }
 
+            if (node.right) {
+               queue.push(node.right);
+            }
+         }
+
+         res.push(level);
+      }
+      return res
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
@@ -58,22 +65,23 @@ class Solution {
     * @return {number[][]}
     */
    levelOrder(root) {
-      const nodes = [];
+      const res = [];
 
       const dfs = (index, node) => {
          if (node === null) {
             return
-         } else if (index === nodes.length) {
-            nodes.push([]);
+         } else if (index === res.length) {
+            res.push([]);
          }
 
-         nodes[index].push(node.val);
+         res[index].push(node.val);
          dfs(index + 1, node.left);
          dfs(index + 1, node.right);
       }
+      
       dfs(0, root);
-      return nodes
-   };
+      return res
+   }
 }
 
 

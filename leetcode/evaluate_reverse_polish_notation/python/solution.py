@@ -8,6 +8,7 @@ class Solution:
             A: iteration
         """
         num_stack = []
+
         for token in tokens:
             if token == "+":
                 num_stack.append(num_stack.pop() + num_stack.pop())
@@ -19,6 +20,7 @@ class Solution:
                 num_stack.append(int(1/num_stack.pop() * num_stack.pop()))
             else:
                 num_stack.append(int(token))
+
         return num_stack[0]
 
 

@@ -16,31 +16,37 @@ class Solution {
       const COLS = grid[0].length;
       const DIRECTIONS = [[-1, 0], [1, 0], [0, -1], [0, 1]];
       const visited = Array.from({ length: ROWS }, () => Array(COLS).fill(false));
+      let res = 0;
 
       const dfs = (row, col) => {
          if (
-            row == -1 ||
-            col == -1 ||
-            row === ROWS ||
-            col === COLS ||
+            row == -1 || row === ROWS ||
+            col == -1 || col === COLS ||
             grid[row][col] === '0' ||
             visited[row][col]
-         ) return 0
+         ) return
 
          visited[row][col] = true;
          DIRECTIONS.map(([r, c]) => dfs(row + r, col + c));
-         return 1
-      }
+      };
 
-      let res = 0;
       for (let row = 0; row < ROWS; row++) {
          for (let col = 0; col < COLS; col++) {
-            res += dfs(row, col)
+            if (grid[row][col] === '1' &&
+               !visited[row][col]
+            ) {
+               dfs(row, col);
+               res++;
+            }
          }
       }
-      return res
-   };
 
+      return res
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(n2)
@@ -55,18 +61,15 @@ class Solution {
       const COLS = grid[0].length;
       const DIRECTIONS = [[-1, 0], [1, 0], [0, -1], [0, 1]];
       const visited = Array.from({ length: ROWS }, () => Array(COLS).fill(false));
+      let res = 0;
 
       const bfs = (row, col) => {
-         if (
-            grid[row][col] == "0" ||
-            visited[row][col]
-         ) return 0
-
          const queue = new Queue([[row, col]]);
          visited[row][col] = true;
 
          while (queue.size()) {
             const [row, col] = queue.pop();
+            visited[row][col] = true;
 
             for (const [dr, dc] of DIRECTIONS) {
                const [r, c] = [row + dr, col + dc];
@@ -82,17 +85,22 @@ class Solution {
                visited[r][c] = true;
             }
          }
-         return 1
       };
 
-      let res = 0;
       for (let row = 0; row < ROWS; row++) {
          for (let col = 0; col < COLS; col++) {
-            res += bfs(row, col)
+            if (
+               grid[row][col] == '1' &&
+               !visited[row][col]
+            ) {
+               bfs(row, col);
+               res++;
+            }
          }
       }
+
       return res
-   };
+   }
 }
 
 

@@ -1,5 +1,4 @@
 from binary_tree_utils import *
-import heapq
 
 
 # class TreeNode:
@@ -23,17 +22,19 @@ class Solution:
         """
         vals = []
         
-        def dfs(node):
+        def dfs(node: TreeNode | None) -> None:
             if node is None:
                 return
-
+            
             dfs(node.left)
             vals.append(node.val)
             dfs(node.right)
-
+        
         dfs(root)
         return vals[k - 1]
 
+
+class Solution:
     def kthSmallest(self, root: TreeNode, k: int) -> int:
         """
         Time complexity: O(n)
@@ -60,32 +61,67 @@ class Solution:
         dfs(root)
         return numbers[-1]
 
+
+class Solution:
     def kthSmallest(self, root: TreeNode, k: int) -> int:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags: e
+        Tags:
             DS: binary tree
             A: dfs, recursion, in-order traversal
         """
-        val = root.val
+        def dfs(node: TreeNode | None) -> None:
+            nonlocal k
+            if node is None:
+                return
+
+            if left := dfs(node.left):
+                return left
+
+            k -= 1
+            if k == 0:
+                return node.val
+
+            if right := dfs(node.right):
+                return right
+
+        if res:= dfs(root):
+            return res
+        else:
+            return 0
+
+
+class Solution:
+    def kthSmallest(self, root: TreeNode, k: int) -> int:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(n)
+        Tags:
+            DS: binary tree
+            A: dfs, recursion, in-order traversal
+        """
+        res = -1
         
-        def dfs(node):
-            nonlocal k, val
+        def dfs(node: TreeNode | None) -> None:
+            nonlocal k, res
             if node is None:
                 return
 
             dfs(node.left)
+
             k -= 1
             if k == 0:
-                val = node.val
+                res = node.val
                 return
-                
+
             dfs(node.right)
-
+        
         dfs(root)
-        return val
+        return res
 
+
+class Solution:
     def kthSmallest(self, root: TreeNode, k: int) -> int:
         """
         Time complexity: O(n)
@@ -108,6 +144,8 @@ class Solution:
                     return node.val
                 node = node.right
 
+
+class Solution:
     def kthSmallest(self, root: TreeNode, k: int) -> int:
         """
         Time complexity: O(nlogk)
@@ -116,6 +154,7 @@ class Solution:
             DS: binary tree, heap
             A: dfs, recursion, pre-order traversal
         """
+        import heapq
         nums = []
 
         def dfs(node):
@@ -141,3 +180,4 @@ print(Solution().kthSmallest(build_tree([5, 3, 6, 2, 4, None, None, 1]), 3) == 3
 print(Solution().kthSmallest(build_tree([5, 3, 7, 2, 4, None, 8]), 3) == 4)
 print(Solution().kthSmallest(build_tree([3, 1, 4, None, 2]), 1) == 1)
 print(Solution().kthSmallest(build_tree([41, 37, 44, 24, 39, 42, 48, 1, 35, 38, 40, None, 43, 46, 49, 0, 2, 30, 36, None, None, None, None, None, None, 45, 47, None, None, None, None, None, 4, 29, 32, None, None, None, None, None, None, 3, 9, 26, None, 31, 34, None, None, 7, 11, 25, 27, None, None, 33, None, 6, 8, 10, 16, None, None, None, 28, None, None, 5, None, None, None, None, None, 15, 19, None, None, None, None, 12, None, 18, 20, None, 13, 17, None, None, 22, None, 14, None, None, 21, 23]), 25) == 24)
+# [31,30,48,3,null,38,49,0,16,35,47,null,null,null,2,15,27,33,37,39,null,1,null,5,null,22,28,32,34,36,null,null,43,null,null,4,11,19,23,null,29,null,null,null,null,null,null,40,46,null,null,7,14,17,21,null,26,null,null,null,41,44,null,6,10,13,null,null,18,20,null,25,null,null,42,null,45,null,null,8,null,12,null,null,null,null,null,24,null,null,null,null,null,null,9] 0

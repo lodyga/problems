@@ -18,7 +18,7 @@ class Solution {
       }
       
       return res
-   };
+   }
 }
 
 

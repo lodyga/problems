@@ -8,30 +8,27 @@ class Solution:
             DS: list
             A: DFS with backtracking
         """
+        res = []
         combination = []
-        combination_list = []
 
-        def bracktrack(index, total):
-            if (
-                total == target and
-                len(combination) == k
-            ):
-                return combination_list.append(combination.copy())
-            elif (
-                index == 10 or
-                total >= target or
-                len(combination) == k
-            ):
+        def backtrack(num: int, total: int) -> None:
+            if len(combination) == k:
+                if total == target:
+                    res.append(combination.copy())
+                return
+            elif total >= target or num == 10:
                 return
 
-            combination.append(index)
-            bracktrack(index + 1, total + index)
+            combination.append(num)
+            backtrack(num + 1, total + num)
             combination.pop()
-            bracktrack(index + 1, total)
+            backtrack(num + 1, total)
 
-        bracktrack(1, 0)
-        return combination_list
+        backtrack(1, 0)
+        return res
 
+
+class Solution:
     def combinationSum3(self, k: int, target: int) -> list[list[int]]:
         """
         Time complexity: O(1)
@@ -41,29 +38,24 @@ class Solution:
             DS: list
             A: DFS with backtracking
         """
+        res = []
         combination = []
-        combination_list = []
 
-        def bracktrack(index, total):
-            if (
-                total == target and
-                len(combination) == k
-            ):
-                return combination_list.append(combination.copy())
-            elif (
-                index == 10 or
-                total >= target or
-                len(combination) == k
-            ):
+        def backtrack(num: int, total: int) -> None:
+            if len(combination) == k:
+                if total == target:
+                    res.append(combination.copy())
+                return
+            elif total >= target or num == 10:
                 return
 
-            for i2 in range(index, 10):
-                combination.append(i2)
-                bracktrack(i2 + 1, total + i2)
+            for idx in range(num, 10):
+                combination.append(idx)
+                backtrack(idx + 1, total + idx)
                 combination.pop()
 
-        bracktrack(1, 0)
-        return combination_list
+        backtrack(1, 0)
+        return res
 
 
 print(Solution().combinationSum3(2, 4) == [[1, 3]])

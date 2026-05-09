@@ -23,7 +23,7 @@ class Solution {
       }
 
       return res
-   };
+   }
 }
 
 

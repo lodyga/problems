@@ -1,24 +1,3 @@
-r"""
-draft
-[2, 2, 6, 1]
- 2  2  6  1
- 2    26  1
- 22    6  1
-                  .
-            /           \
-           2            22
-        /     \       /
-       2      26     6
-     /       /     /
-    6       1     1
-   /
-  1
-
-[3, 2, 1, 1, (1)]
-{0: 3, 1: 2, 2: 1, 3: 1, 4: 1}
-"""
-
-
 class Solution:
     def numDecodings(self, text: str) -> int:
         """
@@ -27,28 +6,32 @@ class Solution:
         Tags:
             A: brute-force
         """
-        def dfs(index: int) -> int:
-            if index == len(text):
+        N = len(text)
+
+        def dfs(idx: int) -> int:
+            if idx == N:
                 return 1
 
-            num = text[index]
-            # (1-9)
-            one_digit_num = 0
-            if num != "0":
-                one_digit_num = dfs(index + 1)
-            # (10-26)
-            two_digit_num = 0
-            if (
-                index + 1 < len(text) and
-                (num == "1" or
-                 (num == "2" and "0" <= text[index + 1] <= "6"))
-            ):
-                two_digit_num = dfs(index + 2)
+            char = text[idx]
 
-            return one_digit_num + two_digit_num
+            if char == "0":
+                return 0
+
+            res = dfs(idx + 1)
+
+            if (
+                idx + 1 < N and
+                (char == "1" or
+                 char == "2" and text[idx + 1] <= "6")
+            ):
+                res += dfs(idx + 2)
+
+            return res
 
         return dfs(0)
 
+
+class Solution:
     def numDecodings(self, text: str) -> int:
         """
         Time complexity: O(n)
@@ -57,32 +40,35 @@ class Solution:
             DS: array
             A: top-down
         """
-        memo = [-1] * (len(text) + 1)
-        memo[-1] = 1
+        N = len(text)
+        memo = [-1] * N
+        memo.append(1)
 
-        def dfs(index: int) -> int:
-            if memo[index] != -1:
-                return memo[index]
+        def dfs(idx: int) -> int:
+            if memo[idx] != -1:
+                return memo[idx]
 
-            num = text[index]
-            # (1-9)
-            one_digit_num = 0
-            if num != "0":
-                one_digit_num = dfs(index + 1)
-            # (10-26)
-            two_digit_num = 0
+            char = text[idx]
+
+            if char == "0":
+                return 0
+
+            res = dfs(idx + 1)
+
             if (
-                index + 1 < len(text) and
-                (num == "1" or
-                 (num == "2" and "0" <= text[index + 1] <= "6"))
+                idx + 1 < N and
+                (char == "1" or
+                 char == "2" and text[idx + 1] <= "6")
             ):
-                two_digit_num = dfs(index + 2)
+                res += dfs(idx + 2)
 
-            memo[index] = one_digit_num + two_digit_num
-            return memo[index]
+            memo[idx] = res
+            return res
 
         return dfs(0)
 
+
+class Solution:
     def numDecodings(self, text: str) -> int:
         """
         Time complexity: O(n)
@@ -91,25 +77,29 @@ class Solution:
             DS: array
             A: bottom-up
         """
-        cache = [0] * (len(text) + 1)
-        cache[-1] = 1
+        N = len(text)
+        cache = [0] * N
+        cache.append(1)
 
-        for index in range(len(text) - 1, -1, -1):
-            num = text[index]
-            if num == "0":
+        for idx in range(N - 1, -1, -1):
+            char = text[idx]
+
+            if char == "0":
                 continue
-            # (1-9)
-            cache[index] += cache[index + 1]
-            # (10-26)
+
+            cache[idx] = cache[idx + 1]
+
             if (
-                index + 1 < len(text) and
-                (num == "1" or
-                 (num == "2" and "0" <= text[index + 1] <= "6"))
+                idx + 1 < N and
+                (char == "1" or
+                 char == "2" and text[idx + 1] <= "6")
             ):
-                cache[index] += cache[index + 2]
+                cache[idx] += cache[idx + 2]
 
         return cache[0]
 
+
+class Solution:
     def numDecodings(self, text: str) -> int:
         """
         Time complexity: O(n)
@@ -118,32 +108,33 @@ class Solution:
             DS: array
             A: bottom-up
         """
+        N = len(text)
         cache = [1, 1]
 
-        for index in range(len(text) - 1, -1, -1):
-            num = text[index]
-            if num == "0":
-                cache[1] = cache[0]
-                cache[0] = 0
-                continue
-            # (1-9)
-            cache_at_index = cache[0]
-            # (10-26)
-            if (
-                index + 1 < len(text) and
-                (num == "1" or
-                 (num == "2" and "0" <= text[index + 1] <= "6"))
-            ):
-                cache_at_index += cache[1]
+        for idx in range(N - 1, -1, -1):
+            char = text[idx]
 
-            cache[1] = cache[0]
-            cache[0] = cache_at_index
+            if char == "0":
+                (cache[0], cache[1]) = (0, cache[0])
+                continue
+
+            cache0 = cache[0]
+
+            if (
+                idx + 1 < N and
+                (char == "1" or
+                 char == "2" and text[idx + 1] <= "6")
+            ):
+                cache0 += cache[1]
+
+            cache[0], cache[1] = cache0, cache[0]
 
         return cache[0]
 
 
 print(Solution().numDecodings("5") == 1)
 print(Solution().numDecodings("23") == 2)
+print(Solution().numDecodings("27") == 1)
 print(Solution().numDecodings("226") == 3)
 print(Solution().numDecodings("2261") == 3)
 print(Solution().numDecodings("12") == 2)

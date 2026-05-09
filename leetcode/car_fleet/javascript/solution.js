@@ -11,7 +11,8 @@ class Solution {
     */
    carFleet(target, positions, speeds) {
       let prevTime = 0;
-      let fleetCounter = 0;
+      let res = 0;
+      
       const cars = positions
          .map((value, index) => [value, speeds[index]])
          .sort((a, b) => b[0] - a[0]);
@@ -21,12 +22,12 @@ class Solution {
          const time = distance / speed;
 
          if (time > prevTime) {
-            fleetCounter += 1
-            prevTime = time
+            res++;
+            prevTime = time;
          }
       }
-      return fleetCounter
-   };
+      return res
+   }
 }
 
 

@@ -34,8 +34,11 @@ class Solution {
          return lis
       }
       return dfs(0, -1)
-   };
+   }
+}
 
+
+class Solution {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(n)
@@ -57,8 +60,11 @@ class Solution {
          }
       }
       return Math.max(...cache)
-   };
+   }
+}
 
+
+class Solution {
    /**
     * Time complexity: O(nlogn)
     * Auxiliary space complexity: O(n)
@@ -97,7 +103,7 @@ class Solution {
             lis[index] = num;
       }
       return lis.length
-   };
+   }
 }
 
 

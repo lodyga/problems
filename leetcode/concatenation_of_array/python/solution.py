@@ -8,11 +8,11 @@ class Solution:
             A: iteration
         """
         N = len(nums)
-        concated = [0] * (N * 2)
+        concated = [0] * N * 2
 
-        for index, num in enumerate(nums):
-            concated[index] = num
-            concated[index + N] = num
+        for idx, num in enumerate(nums):
+            concated[idx] = num
+            concated[idx + N] = num
 
         return concated
 

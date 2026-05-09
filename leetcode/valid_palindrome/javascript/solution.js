@@ -6,8 +6,20 @@ class Solution {
     *     A: two pointers
     * @param {string} text
     * @return {boolean}
-    */
+   */
    static isPalindrome(text) {
+      /**
+       * Check if character is a alpha-numeric.
+       * @param {string} char
+       * @return {boolean}
+       */
+      const isAlnum = (char) => {
+         const isLower = (char >= 'a' && char <= 'z');
+         const isUpper = (char >= 'A' && char <= 'Z');
+         const isNumber = (char >= '0' && char <= '9');
+         return (isLower || isUpper || isNumber)
+      };
+
       let left = 0;
       let right = text.length - 1;
 
@@ -28,20 +40,12 @@ class Solution {
          }
       }
       return true
-   };
+   }
+}
+const isPalindrome = Solution.isPalindrome;
 
-   /**
-    * Check if character is a alpha-numeric.
-    * @param {string} char
-    * @return {boolean}
-    */
-   static isAlnum(char) {
-      const isLower = (char >= 'a' && char <= 'z');
-      const isUpper = (char >= 'A' && char <= 'Z');
-      const isNumber = (char >= '0' && char <= '9');
-      return (isLower || isUpper || isNumber)
-   };
 
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
@@ -49,11 +53,23 @@ class Solution {
     *     build-in function
     * @param {string} text
     * @return {boolean}
-    */
-   isPalindrome2(text) {
+   */
+   static isPalindrome(text) {
+      /**
+       * Check if character is a alpha-numeric.
+       * @param {string} char
+       * @return {boolean}
+       */
+      const isAlnum = (char) => {
+         const isLower = (char >= 'a' && char <= 'z');
+         const isUpper = (char >= 'A' && char <= 'Z');
+         const isNumber = (char >= '0' && char <= '9');
+         return (isLower || isUpper || isNumber)
+      };
+
       let left = 0;
       let right = text.length - 1;
-      
+
       while (left < right) {
          while (
             left < right &&
@@ -77,10 +93,9 @@ class Solution {
       return true
    }
 }
-
-
 const isPalindrome = Solution.isPalindrome;
-const isAlnum = Solution.isAlnum;
+
+
 console.log(Solution.isPalindrome('A man, a plan, a canal: Panama') === true)
 console.log(Solution.isPalindrome('race a car') === false)
 console.log(Solution.isPalindrome(' ') === true)

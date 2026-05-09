@@ -7,9 +7,12 @@ class Node:
 class Solution:
     def cloneGraph(self, node: Node) -> Node | None:
         """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(n)
-        Tags: dfs, recursion, graph
+        Time complexity: O(V + E)
+        Auxiliary space complexity: O(V + E)
+        Tags:
+            DS: hash map
+            A: dfs, recursion
+            Model: graph
         """
         copy_map = {}
 
@@ -26,6 +29,41 @@ class Solution:
             return node_copy
 
         return dfs(node) if node else None
+
+
+    def cloneGraph(self, node: Optional['Node']) -> Optional['Node']:
+        """
+        Time complexity: O(V + E)
+        Auxiliary space complexity: O(V + E)
+        Tags:
+            DS: hash map
+            A: bfs, iteration
+            Model: graph
+        """
+        from collections import deque
+        if node is None:
+            return None
+        
+        # Old node to new node map.
+        copy_map = {}
+        
+        def bfs(node):
+            queue = deque([node])
+            copy_map[node] = Node(node.val)
+
+            while queue:
+                node = queue.popleft()
+                node_copy = copy_map[node]
+
+                for neighbor_node in node.neighbors:
+                    if neighbor_node not in copy_map:
+                        copy_map[neighbor_node] = Node(neighbor_node.val)
+                        queue.append(neighbor_node)
+                    
+                    node_copy.neighbors.append(copy_map[neighbor_node])
+        
+        bfs(node)
+        return copy_map[node]
 
     def buildGraph(self, node_list: list[list[int]]) -> Node | None:
         if not node_list:

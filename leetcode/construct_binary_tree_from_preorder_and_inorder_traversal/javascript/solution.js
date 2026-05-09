@@ -1,5 +1,5 @@
-// import { TreeNode, bt.buildTree, getTreeValues, isSameTree } from '../../../../JS/binary-tree.js';
-import * as bt from '../../../../JS/binary-tree.js';
+import { TreeNode, buildTree, getTreeValues, isSameTree } from '../../../../JS/binary-tree.js';
+// import * as bt from '../../../../JS/binary-tree.js';
 
 
 /**
@@ -22,27 +22,29 @@ class Solution {
     *     A: dfs, recursion, in-order traversal, pre-order traversal
     * @param {number[]} preorder
     * @param {number[]} inorder
-    * @return {bt.TreeNode}
+    * @return {TreeNode}
     */
-   static buildTree(preorder, inorder) {
+   buildTreeFromPreIn(preorder, inorder) {
       if (
          preorder.length === 0 ||
          preorder.length === 1 && preorder[0] === null
-      )
-         return null
+      ) return null
 
-      const nodeValue = preorder[0];
-      const nodeIndex = inorder.indexOf(nodeValue);
-      const node = new bt.TreeNode(nodeValue);
-      node.left = buildTree(
-         preorder.slice(1, nodeIndex + 1), 
-         inorder.slice(0, nodeIndex));
-      node.right = buildTree(
-         preorder.slice(nodeIndex + 1,), 
-         inorder.slice(nodeIndex + 1,));
+      const val = preorder[0];
+      const idx = inorder.indexOf(val);
+      const node = new TreeNode(val);
+      node.left = buildTreeFromPreIn(
+         preorder.slice(1, idx + 1),
+         inorder.slice(0, idx));
+      node.right = buildTreeFromPreIn(
+         preorder.slice(idx + 1,),
+         inorder.slice(idx + 1,));
       return node
-   };
+   }
+}
 
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
@@ -51,9 +53,9 @@ class Solution {
     *     A: dfs, recursion, in-order traversal, pre-order traversal
     * @param {number[]} preorder
     * @param {number[]} inorder
-    * @return {bt.TreeNode}
+    * @return {TreeNode}
     */
-   static buildTree(preorder, inorder) {
+   buildTreeFromPreIn(preorder, inorder) {
       const inorderIndex = new Map(inorder.map((value, index) => [value, index]));
 
       const dfs = (preStart, preEnd, inStart, inEnd) => {
@@ -62,29 +64,33 @@ class Solution {
             inStart > inEnd ||
             // Leetcode tests never have None in input.
             preStart === preEnd && preorder[preStart] === null
-         )
-            return null
+         ) return null
 
-         const nodeValue = preorder[preStart];
-         const nodeIndex = inorderIndex.get(nodeValue);
-         const leftSubtreeSize = nodeIndex - inStart;
-         const node = new bt.TreeNode(nodeValue);
+         const val = preorder[preStart];
+         const idx = inorderIndex.get(val);
+         const leftSubtreeSize = idx - inStart;
+         const node = new TreeNode(val);
          node.left = dfs(
-            preStart + 1, preStart + leftSubtreeSize,
-            inStart, nodeIndex - 1)
+            preStart + 1,
+            preStart + leftSubtreeSize,
+            inStart, idx - 1
+         );
          node.right = dfs(
-            preStart + 1 + leftSubtreeSize, preEnd,
-            nodeIndex + 1, inEnd)
+            preStart + 1 + leftSubtreeSize,
+            preEnd,
+            idx + 1,
+            inEnd
+         );
          return node
       };
+
       return dfs(0, preorder.length - 1, 0, inorder.length - 1)
-   };
+   }
 }
 
 
-// static method
-const buildTree = Solution.buildTree;
-console.log(bt.isSameTree(buildTree([3, 9, 20, 15, 7], [9, 3, 15, 20, 7]), bt.buildTree([3, 9, 20, null, null, 15, 7])))
-console.log(bt.isSameTree(buildTree([-1], [-1]), bt.buildTree([-1])))
-console.log(bt.isSameTree(buildTree([], []), bt.buildTree([])))
-console.log(bt.isSameTree(buildTree([1, null, 3], [null, 1, 3]), bt.buildTree([1, null, 3])))
+const buildTreeFromPreIn = new Solution().buildTreeFromPreIn;
+console.log(isSameTree(buildTreeFromPreIn([3, 9, 20, 15, 7], [9, 3, 15, 20, 7]), buildTree([3, 9, 20, null, null, 15, 7])))
+console.log(isSameTree(buildTreeFromPreIn([-1], [-1]), buildTree([-1])))
+console.log(isSameTree(buildTreeFromPreIn([], []), buildTree([])))
+console.log(isSameTree(buildTreeFromPreIn([1, null, 3], [null, 1, 3]), buildTree([1, null, 3])))

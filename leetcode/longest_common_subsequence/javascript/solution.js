@@ -32,8 +32,11 @@ class Solution {
       }
 
       return dfs(0, 0)
-   };
+   }
+}
 
+
+class Solution {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(n2)
@@ -63,8 +66,11 @@ class Solution {
       }
 
       return cache[0][0]
-   };
+   }
+}
 
+
+class Solution {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(n)
@@ -97,7 +103,7 @@ class Solution {
          nextCache = cache;
       }
       return nextCache[0]
-   };
+   }
 }
 
 

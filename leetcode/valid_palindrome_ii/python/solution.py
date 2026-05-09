@@ -6,21 +6,21 @@ class Solution:
         Tags:
             A: two pointers
         """
-        def validate(left: int, right: int, joker: bool) -> bool:
+        def isPalindrome(left: int, right: int, joker: bool) -> bool:
             while left < right:
                 if text[left] == text[right]:
                     left += 1
                     right -= 1
                 elif joker:
                     return (
-                        validate(left + 1, right, False) or
-                        validate(left, right - 1, False)
+                        isPalindrome(left + 1, right, False)
+                        or isPalindrome(left, right - 1, False)
                     )
                 else:
                     return False
             return True
 
-        return validate(0, len(text) - 1, True)
+        return isPalindrome(0, len(text) - 1, True)
 
 
 print(Solution().validPalindrome("aba") == True)

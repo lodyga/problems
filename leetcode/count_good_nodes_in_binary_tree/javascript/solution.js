@@ -25,21 +25,24 @@ class Solution {
     * @return {number[]}
     */
    goodNodes(root) {
-      let counter = 0;
+      let res = 0;
 
-      const dfs = (node, prevMax) => {
-         if (node === null)
-            return
+      const dfs = (node, maxVal) => {
+         if (node === null) return
 
-         prevMax = Math.max(prevMax, node.val);
-         counter += node.val >= prevMax ? 1 : 0;
-         dfs(node.left, prevMax);
-         dfs(node.right, prevMax);
+         maxVal = Math.max(maxVal, node.val);
+         res += node.val >= maxVal ? 1 : 0;
+         dfs(node.left, maxVal);
+         dfs(node.right, maxVal);
       }
-      dfs(root, root.val)
-      return counter
-   };
 
+      dfs(root, root.val)
+      return res
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
@@ -51,19 +54,24 @@ class Solution {
     * @return {number[]}
     */
    goodNodes(root) {
-      const dfs = (node, prevMax) => {
+      const dfs = (node, maxVal) => {
          if (node === null) {
             return 0
          }
-         prevMax = Math.max(prevMax, node.val);
-         const isGood = node.val >= prevMax ? true : false;
-         const left = dfs(node.left, prevMax);
-         const right = dfs(node.right, prevMax);
+
+         maxVal = Math.max(maxVal, node.val);
+         const isGood = node.val >= maxVal;
+         const left = dfs(node.left, maxVal);
+         const right = dfs(node.right, maxVal);
          return isGood + left + right
       }
-      return dfs(root, root.val)
-   };
 
+      return dfs(root, root.val)
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
@@ -75,21 +83,24 @@ class Solution {
     */
    goodNodes(root) {
       const stack = [[root, root.val]];
-      let counter = 0;
+      let res = 0;
 
       while (stack.length) {
-         let [node, prevMax] = stack.pop();
-         prevMax = Math.max(prevMax, node.val);
-         counter += node.val >= prevMax ? 1 : 0;
+         let [node, maxVal] = stack.pop();
+         maxVal = Math.max(maxVal, node.val);
+         res += node.val >= maxVal ? 1 : 0;
 
          if (node.left)
-            stack.push([node.left, prevMax]);
+            stack.push([node.left, maxVal]);
          if (node.right)
-            stack.push([node.right, prevMax]);
+            stack.push([node.right, maxVal]);
       }
-      return counter
-   };
+      return res
+   }
+}
 
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
@@ -101,20 +112,20 @@ class Solution {
     */
    goodNodes(root) {
       const queue = new Queue([[root, root.val]]);
-      let counter = 0;
+      let res = 0;
 
       while (queue.size()) {
-         let [node, prevMax] = queue.pop();
-         prevMax = Math.max(prevMax, node.val);
-         counter += node.val >= prevMax ? 1 : 0;
+         let [node, maxVal] = queue.pop();
+         maxVal = Math.max(maxVal, node.val);
+         res += node.val >= maxVal ? 1 : 0;
 
          if (node.left)
-            queue.push([node.left, prevMax]);
+            queue.push([node.left, maxVal]);
          if (node.right)
-            queue.push([node.right, prevMax]);
+            queue.push([node.right, maxVal]);
       }
-      return counter
-   };
+      return res
+   }
 }
 
 

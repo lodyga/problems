@@ -33,7 +33,7 @@ class Solution {
       }
 
       return ''
-   };
+   }
 
    /**
     * Time complexity: O(n*k)
@@ -52,7 +52,7 @@ class Solution {
          }
       }
       return ''
-   };
+   }
 }
 
 

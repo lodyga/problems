@@ -7,20 +7,19 @@ class Solution:
             A: brute-force, 
         pure recursion, Return-value recursion (pull style), converts to top-down
         """
-        def dfs(index: int) -> int:
-            if index in (len(costs), len(costs) + 1):
+        N = len(costs)
+
+        def dfs(idx: int) -> int:
+            if idx in (N, N + 1):
                 return 0
 
-            cost = costs[index]
-            # one step
-            one_step = cost + dfs(index + 1)
-            # two steps
-            two_steps = cost + dfs(index + 2)
-
-            return min(one_step, two_steps)
+            cost = costs[idx]
+            return cost + min(dfs(idx + 1), dfs(idx + 2))
 
         return min(dfs(0), dfs(1))
 
+
+class Solution:
     def minCostClimbingStairs(self, costs: list[int]) -> int:
         """
         Time complexity: O(2^n)
@@ -28,102 +27,23 @@ class Solution:
         Tags: brute-force
             function argument, Accumulate-argument recursion (push style), converts to top-down
         """
-        def dfs(index: int, total: int) -> int:
-            if index in (len(costs), len(costs) + 1):
+        N = len(costs)
+
+        def dfs(idx: int, total: int) -> int:
+            if idx in (N, N + 1):
                 return total
 
-            cost = costs[index]
-            # one step
-            one_step = dfs(index + 1, total + cost)
-            # two steps
-            two_steps = dfs(index + 2, total + cost)
-            return min(one_step, two_steps)
-        
+            cost = costs[idx]
+
+            return min(
+                dfs(idx + 1, total + cost),
+                dfs(idx + 2, total + cost)
+            )
+
         return min(dfs(0, 0), dfs(1, 0))
 
-    def minCostClimbingStairs(self, costs: list[int]) -> int:
-        """
-        Time complexity: O(2^n)
-        Auxiliary space complexity: O(n)
-        Tags:
-            A: brute-force
-        backtracking
-        """
-        min_cost = sum(costs)
-        cost = 0
-        
-        def backtrack(index: int) -> None:
-            nonlocal cost
-            nonlocal min_cost
-            if index in (len(costs), len(costs) + 1):
-                min_cost = min(min_cost, cost)
-                return
 
-            cst = costs[index]
-            # one step
-            cost += cst
-            backtrack(index + 1)
-            cost -= cst
-            # two steps
-            cost += cst
-            backtrack(index + 2)
-            cost -= cst
-
-        backtrack(0)
-        backtrack(1)
-        return min_cost
-
-    def minCostClimbingStairs(self, costs: list[int]) -> int:
-        """
-        Time complexity: O(2^n)
-        Auxiliary space complexity: O(n)
-        Tags:
-            A: brute-force
-        function argument
-        """
-        min_cost = sum(costs)
-
-        def dfs(index: int, total: int) -> None:
-            nonlocal min_cost
-            if index in (len(costs), len(costs) + 1):
-                min_cost = min(min_cost, total)
-                return
-
-            cost = costs[index]
-            # one step
-            dfs(index + 1, total + cost)
-            # two steps
-            dfs(index + 2, total + cost)
-
-        dfs(0, 0)
-        dfs(1, 0)
-        return min_cost
-
-    def minCostClimbingStairs(self, costs: list[int]) -> int:
-        """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(n)
-        Tags:
-            DS: hash map
-            A: top-down 
-        """
-        memo = {len(costs): 0, len(costs) + 1: 0}
-        
-        def dfs(index: int) -> int:
-            if index in memo:
-                return memo[index]
-
-            cost = costs[index]
-            # one step
-            one_step = cost + dfs(index + 1)
-            # two steps
-            two_steps = cost + dfs(index + 2)
-
-            memo[index] = min(one_step, two_steps)
-            return memo[index]
-
-        return min(dfs(0), dfs(1))
-
+class Solution:
     def minCostClimbingStairs(self, costs: list[int]) -> int:
         """
         Time complexity: O(n)
@@ -132,25 +52,22 @@ class Solution:
             DS: array
             A: top-down 
         """
-        memo = [-1] * (len(costs) + 2)
-        memo[-1] = 0
-        memo[-2] = 0
-        
-        def dfs(index: int) -> int:
-            if memo[index] != -1:
-                return memo[index]
+        N = len(costs)
+        memo = [-1] * N
+        memo.extend([0, 0])
 
-            cost = costs[index]
-            # one step
-            one_step = cost + dfs(index + 1)
-            # two steps
-            two_steps = cost + dfs(index + 2)
+        def dfs(idx: int) -> int:
+            if memo[idx] != -1:
+                return memo[idx]
 
-            memo[index] = min(one_step, two_steps)
-            return memo[index]
+            cost = costs[idx]
+            memo[idx] = cost + min(dfs(idx + 1), dfs(idx + 2))
+            return memo[idx]
 
         return min(dfs(0), dfs(1))
 
+
+class Solution:
     def minCostClimbingStairs(self, costs: list[int]) -> int:
         """
         Time complexity: O(n)
@@ -160,24 +77,25 @@ class Solution:
             A: top-down 
         function argument, Accumulate-argument recursion (push style)
         """
+        N = len(costs)
         memo = {}
 
-        def dfs(index: int, total: int) -> int:
-            if index in (len(costs), len(costs) + 1):
+        def dfs(idx: int, total: int) -> int:
+            if idx in (len(costs), len(costs) + 1):
                 return total
-            elif (index, total) in memo:
-                return memo[(index, total)]
+            elif (idx, total) in memo:
+                return memo[idx, total]
 
-            cost = costs[index]
-            # one step
-            one_step = dfs(index + 1, total + cost)
-            # two steps
-            two_steps = dfs(index + 2, total + cost)
-            memo[(index, total)] = min(one_step, two_steps)
-            return memo[(index, total)]
-        
+            cost = costs[idx]
+            memo[idx, total] = min(
+                dfs(idx + 1, total + cost),
+                dfs(idx + 2, total + cost))
+            return memo[idx, total]
+
         return min(dfs(0, 0), dfs(1, 0))
 
+
+class Solution:
     def minCostClimbingStairs(self, costs: list[int]) -> int:
         """
         Time complexity: O(n)
@@ -186,14 +104,17 @@ class Solution:
             DS: array
             A: bottom-up
         """
-        cache = [0] * (len(costs) + 2)
+        N = len(costs)
+        cache = [0] * (N + 2)
 
-        for index in range(len(costs) - 1, -1, -1):
-            cost = costs[index]
-            cache[index] = cost + min(cache[index + 1], cache[index + 2])
-        
+        for idx in range(N - 1, -1, -1):
+            cost = costs[idx]
+            cache[idx] = cost + min(cache[idx + 1], cache[idx + 2])
+
         return min(cache[0], cache[1])
 
+
+class Solution:
     def minCostClimbingStairs(self, costs: list[int]) -> int:
         """
         Time complexity: O(n)
@@ -202,13 +123,33 @@ class Solution:
             DS: array
             A: bottom-up
         """
+        N = len(costs)
         cache = [0, 0]
 
-        for index in range(len(costs) - 1, -1, -1):
-            cost = costs[index]
-            cache[index % 2] = cost + min(cache[0], cache[1])
-        
-        return min(cache[0], cache[1])
+        for idx in range(N - 1, -1, -1):
+            cost = costs[idx]
+            (cache[0], cache[1]) = (cost + min(cache[0], cache[1]), cache[0])
+
+        return min(cache)
+
+
+class Solution:
+    def minCostClimbingStairs(self, costs: list[int]) -> int:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(1)
+        Tags:
+            DS: array
+            A: bottom-up
+        """
+        N = len(costs)
+        cache = [0, 0]
+
+        for idx in range(N - 1, -1, -1):
+            cost = costs[idx]
+            cache[idx % 2] = cost + min(cache[0], cache[1])
+
+        return min(cache)
 
 
 print(Solution().minCostClimbingStairs([10, 15, 20]) == 15)

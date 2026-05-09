@@ -28,7 +28,7 @@ class Solution {
          countPalindromes(index, index + 1);
       }
       return conuter;
-   };
+   }
 }
 
 

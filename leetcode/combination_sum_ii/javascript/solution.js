@@ -15,30 +15,34 @@ class Solution {
       const combination = [];
       const combinationList = [];
 
-      const backtrack = (index, total) => {
+      const backtrack = (idx, total) => {
          if (total === target) {
             combinationList.push(combination.slice());
             return
          } else if (
             total > target ||
-            index === candidates.length
+            idx === candidates.length
          ) return
 
-         const candidate = candidates[index];
+         const candidate = candidates[idx];
          combination.push(candidate);
-         backtrack(index + 1, total + candidate);
+         backtrack(idx + 1, total + candidate);
          combination.pop();
-         while (
-            index + 1 < candidates.length &&
-            candidate === candidates[index + 1]
-         ) index++;
 
-         backtrack(index + 1, total);
+         while (
+            idx + 1 < candidates.length &&
+            candidate === candidates[idx + 1]
+         ) idx++;
+
+         backtrack(idx + 1, total);
       }
       backtrack(0, 0);
       return combinationList
-   };
+   }
+}
 
+
+class Solution {
    /**
     * Time complexity: O(n2^n)
     *     n: candidates length
@@ -59,30 +63,29 @@ class Solution {
          if (total === target) {
             combinationList.push(combination.slice());
             return
-         } else if (total > target)
-            return
+         } else if (total > target) return
 
-         for (let index = start; index < candidates.length; index++) {
-            const candidate = candidates[index]
+         for (let idx = start; idx < candidates.length; idx++) {
+            const candidate = candidates[idx]
             if (
-               index > start &&
-               candidate === candidates[index - 1]
+               idx > start &&
+               candidate === candidates[idx - 1]
             ) continue
 
             combination.push(candidate);
-            backtrack(index + 1, total + candidate);
+            backtrack(idx + 1, total + candidate);
             combination.pop();
          }
 
       }
       backtrack(0, 0);
       return combinationList
-   };
+   }
 }
 
 
 const combinationSum2 = new Solution().combinationSum2;
-console.log(new Solution().combinationSum2([10, 1, 2, 7, 6, 1, 5], 8), [[1, 1, 6], [1, 2, 5], [1, 7], [2, 6]])
-console.log(new Solution().combinationSum2([2, 5, 2, 1, 2], 5), [[1, 2, 2], [5]])
-console.log(new Solution().combinationSum2([6], 6), [[6]])
-console.log(new Solution().combinationSum2([2, 2, 2], 2), [[2]])
+console.log(new Solution().combinationSum2([10, 1, 2, 7, 6, 1, 5], 8).sort().toString() === [[1, 1, 6], [1, 2, 5], [1, 7], [2, 6]].sort().toString())
+console.log(new Solution().combinationSum2([2, 5, 2, 1, 2], 5).sort().toString() === [[1, 2, 2], [5]].sort().toString())
+console.log(new Solution().combinationSum2([6], 6).sort().toString() === [[6]].sort().toString())
+console.log(new Solution().combinationSum2([2, 2, 2], 2).sort().toString() === [[2]].sort().toString())

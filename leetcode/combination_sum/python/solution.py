@@ -10,27 +10,28 @@ class Solution:
             DS: list
             A: DFS with backtracking
         """
+        N = len(candidates)
         combination = []
-        combination_list = []
+        res = []
 
-        def backtrack(index: int, total: int) -> None:
+        def backtrack(idx: int, total: int) -> None:
             if total == target:
-                combination_list.append(combination.copy())
+                res.append(combination.copy())
                 return
-            elif (
+            if (
                 total > target or
-                index == len(candidates)
+                idx == N
             ):
                 return
-
-            candidate = candidates[index]
+            
+            candidate = candidates[idx]
             combination.append(candidate)
-            backtrack(index, total + candidate)
+            backtrack(idx, total + candidate)
             combination.pop()
-            backtrack(index + 1, total)
-
+            backtrack(idx + 1, total)
+        
         backtrack(0, 0)
-        return combination_list
+        return res
 
 
 class Solution:
@@ -46,25 +47,25 @@ class Solution:
             A: DFS with backtracking
         """
         combination = []
-        combination_list = []
+        res = []
 
-        def backtrack(index: int, total: int) -> None:
+        def backtrack(start: int, total: int) -> None:
             if total == target:
-                combination_list.append(combination.copy())
+                res.append(combination.copy())
                 return
             elif total > target:
                 return
 
-            for i2 in range(index, len(candidates)):
-                candidate = candidates[i2]
+            for idx in range(start, len(candidates)):
+                candidate = candidates[idx]
                 combination.append(candidate)
-                backtrack(i2, total + candidate)
+                backtrack(idx, total + candidate)
                 combination.pop()
 
         backtrack(0, 0)
-        return combination_list
+        return res
 
 
-print(Solution().combinationSum([2, 3, 6, 7], 7), [[2, 2, 3], [7]])
-print(Solution().combinationSum([2, 3, 5], 8), [[2, 2, 2, 2], [2, 3, 3], [3, 5]])
-print(Solution().combinationSum([2], 1), [])
+print(sorted(Solution().combinationSum([2, 3, 6, 7], 7)) == sorted([[2, 2, 3], [7]]))
+print(sorted(Solution().combinationSum([2, 3, 5], 8)) == sorted([[2, 2, 2, 2], [2, 3, 3], [3, 5]]))
+print(sorted(Solution().combinationSum([2], 1)) == sorted([]))

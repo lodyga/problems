@@ -11,8 +11,8 @@ class _Node {
 
 class Solution {
    /**
-    * Time complexity: O(n)
-    * Auxiliary space complexity: O(n)
+    * Time complexity: O(V + E)
+    * Auxiliary space complexity: O(V + E)
     * Tags: dfs, recursion, graph
     * @param {_Node} node
     * @return {_Node}

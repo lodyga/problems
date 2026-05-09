@@ -36,7 +36,7 @@ class Solution {
          index += wordLength;
       }
       return words
-   };
+   }
 }
 
 

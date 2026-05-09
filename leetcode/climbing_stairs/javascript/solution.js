@@ -16,8 +16,11 @@ class Solution {
          return dfs(idx + 1) + dfs(idx + 2);
       }
       return dfs(0)
-   };
+   }
+}
 
+
+class Solution {
    /**
     * Time complexity: O(2^n)
     * Auxiliary space complexity: O(n)
@@ -41,8 +44,11 @@ class Solution {
 
       dfs(0)
       return res
-   };
+   }
+}
 
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
@@ -66,8 +72,11 @@ class Solution {
          return memo[idx]
       }
       return dfs(0)
-   };
+   }
+}
 
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
@@ -86,8 +95,11 @@ class Solution {
          cache[idx] = cache[idx + 1] + cache[idx + 2];
       }
       return cache[0]
-   };
+   }
+}
 
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
@@ -105,8 +117,11 @@ class Solution {
       }
 
       return cache[0]
-   };
+   }
+}
 
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
@@ -126,7 +141,7 @@ class Solution {
       }
    
       return b
-   };
+   }
 }
 
 

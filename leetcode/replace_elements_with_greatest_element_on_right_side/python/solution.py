@@ -7,14 +7,15 @@ class Solution:
             DS: array
             A: iteration
         """
+        res = []
         prev = -1
-        for index in range(len(nums) - 1, -1, -1):
-            num = nums[index]
-            next = max(prev, num)
-            nums[index] = prev
-            prev = next
 
-        return nums
+        for idx in range(len(nums) - 1, -1, -1):
+            res.append(prev)
+            prev = max(prev, nums[idx])
+
+        res.reverse()
+        return res
 
 
 print(Solution().replaceElements([17, 18, 5, 4, 6, 1]) == [18, 6, 6, 6, 1, -1])

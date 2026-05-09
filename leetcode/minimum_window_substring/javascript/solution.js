@@ -57,7 +57,7 @@ class Solution {
          return text.slice(start, start + resLen)
       }
 
-   };
+   }
 }
 
 

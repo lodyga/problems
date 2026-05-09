@@ -1,3 +1,68 @@
+/**
+ * Time complexity: 
+ *    O(1): set
+ *    O(logn): get
+ *    n: key values count
+ * Auxiliary space complexity: O(n*m)
+ *     m: key count
+ * Tags:
+ *     DS: list, hash map
+ *     A: binary search
+ */
+class TimeMap {
+   constructor() {
+      this.store = new Map();
+   };
+
+   /** 
+    * @param {string} key 
+    * @param {string} value 
+    * @param {number} timestamp
+    * @return {void}
+    */
+   set(key, value, timestamp) {
+      const store = this.store;
+      
+      if (!store.has(key))
+         store.set(key, []);
+
+      store.get(key).push([timestamp, value]);
+   };
+
+   /** 
+    * @param {string} key 
+    * @param {number} timestamp
+    * @return {string}
+    */
+   get(key, timestamp) {
+      const store = this.store
+      if (!store.has(key)) {
+         return ""
+      }
+
+      const stream = store.get(key);
+      let left = 0;
+      let right = stream.length - 1;
+      let res = '';
+
+      while (left <= right) {
+         const mid = Math.floor((left + right) / 2);
+         const [midTimestamp, midVal] = stream[mid];
+
+         if (timestamp === midTimestamp) {
+            return midVal;
+         } else if (timestamp < midTimestamp) {
+            right = mid - 1;
+         } else {
+            res = midVal;
+            left = mid + 1;
+         }
+      }
+      return res
+   };
+}
+
+
 class ListNode {
    constructor(val = [null, null], next = null) {
       this.val = val;  // [timestamp, value]
@@ -8,9 +73,9 @@ class ListNode {
 
 /**
  * Time complexity: 
- *    set(): O(1)
- *    get(): O(n)
- *    n: `values assigned to a key` count
+ *    O(1): set
+ *    O(n): get
+ *    n: key values count
  * Auxiliary space complexity: O(n*m)
  *     m: key count
  * Tags:
@@ -54,69 +119,6 @@ class TimeMap2 {
          node = node.next
 
       return node.val[1]
-   };
-}
-
-
-/**
- * Time complexity: 
- *    set(): O(1)
- *    get(): O(logn)
- *    n: `values assigned to a key` count
- * Auxiliary space complexity: O(n*m)
- *     m: key count
- * Tags:
- *     DS: list, hash map
- *     A: binary search
- */
-class TimeMap {
-   constructor() {
-      this.store = new Map();
-   };
-
-   /** 
-    * @param {string} key 
-    * @param {string} value 
-    * @param {number} timestamp
-    * @return {void}
-    */
-   set(key, value, timestamp) {
-      const store = this.store;
-      if (!store.has(key))
-         store.set(key, [[0, ""]]);
-
-      store.get(key).push([timestamp, value]);
-   };
-
-   /** 
-    * @param {string} key 
-    * @param {number} timestamp
-    * @return {string}
-    */
-   get(key, timestamp) {
-      const store = this.store;
-      if (!store.has(key))
-         return ""
-
-      const keyVals = store.get(key);
-      let left = 0;
-      let right = keyVals.length - 1;
-      let res = keyVals[right][1];
-
-      while (left <= right) {
-         const middle = (left + right) >> 1;
-         const middleVal = keyVals[middle]
-
-         if (timestamp === middleVal[0]) {
-            return middleVal[1]
-         } else if (timestamp > middleVal[0]) {
-            res = middleVal[1];
-            left = middle + 1;
-         } else {
-            right = middle - 1;
-         }
-      }
-      return res
    };
 }
 

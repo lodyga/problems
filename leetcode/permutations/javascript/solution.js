@@ -5,30 +5,31 @@ class Solution {
     * Tags:
     *     DS: array
     *     A: backtracking
-    * @param {number[]} numbers
+    * @param {number[]} nums
     * @return {number[][]}
     */
-   permute(numbers) {
-      const permutationList = [];
+   permute(nums) {
+      const res = [];
 
       const backtrack = (start) => {
-         if (start === numbers.length) {
-            permutationList.push(numbers.slice())
+         if (start === nums.length) {
+            res.push(nums.slice());
             return
          }
-         for (let index = start; index < numbers.length; index++) {
-            [numbers[start], numbers[index]] = [numbers[index], numbers[start]];
+         for (let idx = start; idx < nums.length; idx++) {
+            [nums[start], nums[idx]] = [nums[idx], nums[start]];
             backtrack(start + 1);
-            [numbers[start], numbers[index]] = [numbers[index], numbers[start]];
+            [nums[start], nums[idx]] = [nums[idx], nums[start]];
          }
       }
+
       backtrack(0);
-      return permutationList
-   };
+      return res
+   }
 }
 
 
 const permute = new Solution().permute;
-console.log(new Solution().permute([1, 2, 3]), [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]])
-console.log(new Solution().permute([0, 1]), [[0, 1], [1, 0]])
-console.log(new Solution().permute([1]), [[1]])
+console.log(new Solution().permute([1, 2, 3]).sort().toString() === [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]].sort().toString())
+console.log(new Solution().permute([0, 1]).sort().toString() === [[0, 1], [1, 0]].sort().toString())
+console.log(new Solution().permute([1]).sort().toString() === [[1]].sort().toString())

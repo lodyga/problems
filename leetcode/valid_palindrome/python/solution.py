@@ -12,16 +12,16 @@ class Solution:
         while left < right:
             while (left < right and text[left].isalnum() is False):
                 left += 1
-            
+
             while (left < right and text[right].isalnum() is False):
                 right -= 1
-            
+
             if text[left].lower() == text[right].lower():
                 left += 1
                 right -= 1
             else:
                 return False
-            
+
         return True
 
 
@@ -48,20 +48,20 @@ class Solution:
         import string
         left = 0
         right = len(text) - 1
-        
+
         while left < right:
             while left < right and text[left] in string.punctuation:
                 left += 1
-        
+
             while left < right and text[right] in string.punctuation:
                 right -= 1
-        
+
             if text[left].lower() == text[right].lower():
                 left += 1
                 right -= 1
             else:
                 return False
-        
+
         return True
 
 

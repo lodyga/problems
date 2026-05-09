@@ -24,10 +24,14 @@ class Solution {
          letterFreq[idx]--;
          if (letterFreq[idx] === -1) return false
       }
- 
+
       return true
    };
+}
+const isAnagram = new Solution().isAnagram;
 
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
@@ -58,9 +62,9 @@ class Solution {
       return true
    };
 }
-
-
 const isAnagram = new Solution().isAnagram;
+
+
 console.log(new Solution().isAnagram('anagram', 'nagaram') === true)
 console.log(new Solution().isAnagram('rat', 'car') === false)
 console.log(new Solution().isAnagram('', '') === true)

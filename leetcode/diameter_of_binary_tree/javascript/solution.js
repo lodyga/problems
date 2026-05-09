@@ -18,27 +18,28 @@ class Solution {
     * Auxiliary space complexity: O(n)
     * Tags:
     *     DS: binary tree
-    *     A: dfs, recursion
+    *     A: A: dfs, recursion, post-order traversal
     * @param {TreeNode} root
     * @return {number}
     */
    diameterOfBinaryTree(root) {
-      let diameter = 0;
+      let res = 0;
 
       const dfs = (node) => {
          if (node === null) {
             return 0
          }
+
          const left = dfs(node.left);
          const right = dfs(node.right);
-         diameter = Math.max(diameter, left + right);
+         res = Math.max(res, left + right);
 
          return 1 + Math.max(left, right)
       }
 
       dfs(root);
-      return diameter
-   };
+      return res
+   }
 }
 
 

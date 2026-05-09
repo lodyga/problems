@@ -6,18 +6,17 @@ class Solution:
         Tags:
             A: sorting
         """
+        res = 0
         prev_time = 0
-        fleet_counter = 0
 
-        for position, speed in sorted(zip(positions, speeds), reverse=True):
-            distance = target - position
-            time = distance / speed
+        for pos, speed in sorted((zip(positions, speeds)), reverse=True):
+            time = (target - pos) / speed  # t = s / v
 
             if time > prev_time:
-                fleet_counter += 1
+                res += 1
                 prev_time = time
 
-        return fleet_counter
+        return res
 
 
 print(Solution().carFleet(12, [10, 8, 0, 5, 3], [2, 4, 1, 1, 3]) == 3)

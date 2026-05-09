@@ -14,27 +14,31 @@ class Solution {
     */
    combinationSum(candidates, target) {
       const combination = [];
-      const combinationList = [];
+      const res = [];
 
-      backtrack = (index, total) => {
+      const backtrack = (idx, total) => {
          if (total === target) {
-            combinationList.push(combination.slice());
+            res.push(combination.slice());
             return
          } else if (
             total > target ||
-            index === candidates.length
+            idx === candidates.length
          ) return
 
-         const candidate = candidates[index];
+         const candidate = candidates[idx];
          combination.push(candidate);
-         backtrack(index, total + candidate);
+         backtrack(idx, total + candidate);
          combination.pop();
-         backtrack(index + 1, total);
+         backtrack(idx + 1, total);
       }
-      backtrack(0, 0);
-      return combinationList
-   };
 
+      backtrack(0, 0);
+      return res
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n2^(t/m))
     *     n: candidates length
@@ -50,29 +54,29 @@ class Solution {
     */
    combinationSum(candidates, target) {
       const combination = [];
-      const combinationList = [];
+      const res = [];
 
-      const backtrack = (index, total) => {
+      const backtrack = (start, total) => {
          if (total === target) {
-            combinationList.push(combination.slice());
+            res.push(combination.slice());
             return
          } else if (total > target)
             return
 
-         for (let i2 = index; i2 < candidates.length; i2++) {
-            const candidate = candidates[i2];
+         for (let idx = start; idx < candidates.length; idx++) {
+            const candidate = candidates[idx];
             combination.push(candidate);
-            backtrack(i2, total + candidate);
+            backtrack(idx, total + candidate);
             combination.pop();
          }
       }
       backtrack(0, 0);
-      return combinationList
-   };
+      return res
+   }
 }
 
 
 const combinationSum = new Solution().combinationSum;
-console.log(new Solution().combinationSum([2, 3, 6, 7], 7), [[2, 2, 3], [7]])
-console.log(new Solution().combinationSum([2, 3, 5], 8), [[2, 2, 2, 2], [2, 3, 3], [3, 5]])
-console.log(new Solution().combinationSum([2], 1), [])
+console.log(new Solution().combinationSum([2, 3, 6, 7], 7).sort().toString() === [[2, 2, 3], [7]].sort().toString())
+console.log(new Solution().combinationSum([2, 3, 5], 8).sort().toString() === [[2, 2, 2, 2], [2, 3, 3], [3, 5]].sort().toString())
+console.log(new Solution().combinationSum([2], 1).sort().toString() === [].sort().toString())

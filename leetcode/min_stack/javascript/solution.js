@@ -9,7 +9,7 @@ class MinStack {
    constructor() {
       this.stack = [];
       this.minStack = [];
-   };
+   }
 
    /**
     * @param {number} val
@@ -22,7 +22,7 @@ class MinStack {
          minStack.push(Math.min(minStack[minStack.length - 1], val));
       else
          minStack.push(val);
-   };
+   }
 
    /**
     * @return {void}
@@ -30,21 +30,21 @@ class MinStack {
    pop() {
       this.stack.pop();
       this.minStack.pop();
-   };
+   }
 
    /**
     * @returns {number}
     */
    top() {
       return this.stack[this.stack.length - 1]
-   };
+   }
 
    /**
     * @returns {number}
     */
    getMin() {
       return this.minStack[this.minStack.length - 1]
-   };
+   }
 }
 
 
@@ -52,10 +52,10 @@ const minStack = new MinStack();
 minStack.push(-2);
 minStack.push(0);
 minStack.push(-3);
-console.log(minStack.getMin());  // return -3
+console.log(minStack.getMin() === -3);
 minStack.pop();
-console.log(minStack.top());  // return 0
-console.log(minStack.getMin());  // return -2
+console.log(minStack.top() === 0);
+console.log(minStack.getMin() === -2);
 
 
 

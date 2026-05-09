@@ -18,23 +18,23 @@ class Solution:
         Auxiliary space complexity: O(n)
         Tags:
             DS: binary tree
-            A: dfs, recursion
+            A: dfs, recursion, post-order traversal
         """
-        diameter = 0
+        res = 0
 
         def dfs(node):
-            nonlocal diameter
+            nonlocal res
             if node is None:
                 return 0
 
             left = dfs(node.left)
             right = dfs(node.right)
-            diameter = max(diameter, left + right)
+            res = max(res, left + right)
 
             return 1 + max(left, right)
 
         dfs(root)
-        return diameter
+        return res
 
 
 print(Solution().diameterOfBinaryTree(build_tree([5])) == 0)

@@ -25,7 +25,7 @@ class Solution {
          }
       }
       return numStack[0]
-   };
+   }
 }
 
 

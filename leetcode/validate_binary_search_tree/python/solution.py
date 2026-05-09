@@ -1,5 +1,4 @@
 from binary_tree_utils import *
-from collections import deque
 
 
 # class TreeNode:
@@ -21,19 +20,22 @@ class Solution:
             DS: binary tree
             A: dfs, recursion, pre-order traversal
         """
-        def dfs(node, lower_bound, upper_bound):
+        def dfs(node: TreeNode, lower_bound: int, upper_bound: int) -> bool:
             if node is None:
                 return True
-            elif not (lower_bound < node.val < upper_bound):
+
+            elif (not lower_bound < node.val < upper_bound):
                 return False
-        
+
             left = dfs(node.left, lower_bound, node.val)
             right = dfs(node.right, node.val, upper_bound)
 
-            return left and right
+            return left & right
 
-        return dfs(root, -(2**31) - 1, 2**31)
+        return dfs(root, -2**31 - 1, 2**31)
 
+
+class Solution:
     def isValidBST(self, root: TreeNode) -> bool:
         """
         Time complexity: O(n)
@@ -42,6 +44,7 @@ class Solution:
             DS: binary tree, queue
             A: bfs, iteration, level-order traversal
         """
+        from collections import deque
         queue = deque([(root, -(2**31) - 1, 2**31)])
 
         while queue:
@@ -49,17 +52,11 @@ class Solution:
 
             if not (lower_bound < node.val < upper_bound):
                 return False
-            
+
             if node.left:
                 queue.append((node.left, lower_bound, node.val))
+
             if node.right:
                 queue.append((node.right, node.val, upper_bound))
 
         return True
-
-
-print(Solution().isValidBST(build_tree([2, 1, 3])) == True)
-print(Solution().isValidBST(build_tree([5, 1, 4, None, None, 3, 6])) == False)
-print(Solution().isValidBST(build_tree([2, 2, 2])) == False)
-print(Solution().isValidBST(build_tree([0, -1])) == True)
-print(Solution().isValidBST(build_tree([5, 4, 6, None, None, 3, 7])) == False)

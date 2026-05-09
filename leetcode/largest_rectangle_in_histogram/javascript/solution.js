@@ -28,7 +28,7 @@ class Solution {
          maxArea = Math.max(maxArea, height * (heights.length - index));
       }
       return maxArea
-   };
+   }
 }
 
 

@@ -1,5 +1,5 @@
 from binary_tree_utils import *
-from collections import deque
+
 
 # class TreeNode:
 #     """
@@ -20,14 +20,17 @@ class Solution:
             DS: binary tree, queue, list
             A: bfs, iteration, level-order traversal
         """
+        from collections import deque
+        
         if root == None:
             return []
 
         queue = deque([root])
-        nodes = []
+        res = []
 
         while queue:
             level = []
+        
             for _ in range(len(queue)):
                 node = queue.popleft()
                 level.append(node.val)
@@ -37,10 +40,12 @@ class Solution:
                 if node.right:
                     queue.append(node.right)
 
-            nodes.append(level)
+            res.append(level)
 
-        return nodes
+        return res
 
+
+class Solution:
     def levelOrder(self, root: TreeNode) -> list[list[int]]:
         """
         Time complexity: O(n)
@@ -49,20 +54,20 @@ class Solution:
             DS: binary tree, list
             A: dfs, recursion, pre-order traversal
         """
-        nodes = []
+        res = []
 
-        def dfs(index, node):
+        def dfs(node, level):
             if node is None:
                 return
-            elif index == len(nodes):
-                nodes.append([])
+            elif level == len(res):
+                res.append([])
+            
+            res[level].append(node.val)            
+            dfs(node.left, level + 1)
+            dfs(node.right, level + 1)
 
-            nodes[index].append(node.val)
-            dfs(index + 1, node.left)
-            dfs(index + 1, node.right)
-
-        dfs(0, root)
-        return nodes
+        dfs(root, 0)
+        return res
 
 
 print(Solution().levelOrder(build_tree([1, 2, 3])) == [[1], [2, 3]])

@@ -4,31 +4,28 @@ class Solution:
         Time complexity: O(n2^n)
         Auxiliary space complexity: O(n)
         Tags:
-            DS: list
+            DS: list, string
             A: backtracking
         """
+        res = []
         parenthesis = []
-        parenthesis_list = []
 
         def backtrack(opened: int, closed: int) -> None:
-            if opened + closed == 2*n:
-                parenthesis_list.append("".join(parenthesis))
-                return
+            if opened == closed == n:
+                res.append("".join(parenthesis))
 
-            # open parenthesis
             if opened < n:
                 parenthesis.append("(")
                 backtrack(opened + 1, closed)
                 parenthesis.pop()
 
-            # close parenthesis
-            if opened != closed:
+            if closed < opened:
                 parenthesis.append(")")
                 backtrack(opened, closed + 1)
                 parenthesis.pop()
 
         backtrack(0, 0)
-        return parenthesis_list
+        return res
 
 
 print(Solution().generateParenthesis(1) == ["()"])

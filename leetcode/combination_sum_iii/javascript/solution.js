@@ -7,34 +7,33 @@ class Solution {
     *     DS: list
     *     A: DFS with backtracking
     * @param {number} k
-    * @param {number} total
+    * @param {number} target
     * @return {number[][]}
     */
-   combinationSum3(k, total) {
+   combinationSum3(k, target) {
       const combination = [];
-      const combinationList = [];
+      const res = [];
 
-      const dfs = (digit) => {
-         if (
-            combination.length === k &&
-            combination.reduce((total, num) => total + num, 0) === total
-         ) {
-            combinationList.push(combination.slice())
+      const dfs = (digit, total) => {
+         if (combination.length === k) {
+            if (total === target) {
+               res.push(combination.slice());
+            }
             return
          } else if (
             digit === 10 ||
-            combination.length == k ||
-            combination.reduce((total, num) => total + num, 0) >= total
+            total >= target
          ) return
 
          combination.push(digit);
-         dfs(digit + 1);
+         dfs(digit + 1, total + digit);
          combination.pop();
-         dfs(digit + 1);
+         dfs(digit + 1, total);
       }
-      dfs(1);
-      return combinationList
-   };
+      
+      dfs(1, 0);
+      return res
+   }
 }
 
 

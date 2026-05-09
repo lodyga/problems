@@ -24,16 +24,18 @@ class Solution {
     * @return {boolean}
     */
    isSubtree(root, subRoot) {
-      const isSameTree = (node1, node2) => {
+      const _isSameTree = (node1, node2) => {
          if (node1 === null && node2 === null) {
             return true
-         } else if (node1 === null || node2 === null) {
-            return false
-         } else if (node1.val !== node2.val) {
+         } else if (
+            node1 === null || node2 === null ||
+            node1.val !== node2.val
+         ) {
             return false
          }
-         const left = isSameTree(node1.left, node2.left);
-         const right = isSameTree(node1.right, node2.right);
+
+         const left = _isSameTree(node1.left, node2.left);
+         const right = _isSameTree(node1.right, node2.right);
 
          return left && right
       }
@@ -44,25 +46,23 @@ class Solution {
          return false
       }
 
-      const dfs = (node) => {
-         if (node === null) {
-            return false
-         }
-         else if (isSameTree(node, subRoot)) {
-            return true
-         }
-
-         const left = dfs(node.left);
-         const right = dfs(node.right);
-
-         return left || right
+      if (subRoot === null) {
+         return true
+      } else if (root === null) {
+         return false
+      } else if (_isSameTree(root, subRoot)) {
+         return true
       }
-      return dfs(root)
-   };
+
+      const left = this.isSubtree(root.left, subRoot);
+      const right = this.isSubtree(root.right, subRoot);
+
+      return left || right
+   }
 }
 
 
-const isSubtree = new Solution().isSubtree;
+//const isSubtree = new Solution().isSubtree;
 console.log(new Solution().isSubtree(buildTree([3, 4, 5, 1, 2]), buildTree([4, 1, 2])) === true)
 console.log(new Solution().isSubtree(buildTree([3, 4, 5, 1, 2, null, null, null, null, 0]), buildTree([4, 1, 2])) === false)
 console.log(new Solution().isSubtree(buildTree([1, null, 1, null, 1, null, 1, null, 1, null, 1, null, 1, null, 1, null, 1, null, 1, null, 1, 2]), buildTree([1, null, 1, null, 1, null, 1, null, 1, null, 1, 2])) == true)

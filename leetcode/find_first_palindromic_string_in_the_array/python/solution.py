@@ -28,6 +28,7 @@ class Solution:
         return ""
 
 
+class Solution:
     def firstPalindrome(self, words: list[str]) -> str:
         """
         Time complexity: O(n*k)

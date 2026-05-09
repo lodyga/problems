@@ -8,7 +8,7 @@ class Solution:
             DS: list
             A: DFS with backtracking
         """
-        def is_palindromes(left: int, right: int) -> bool:
+        def is_palindrome(left: int, right: int) -> bool:
             while left < right:
                 if text[left] != text[right]:
                     return False
@@ -16,22 +16,23 @@ class Solution:
                 right -= 1
             return True
 
-        palindrome = []
-        palindrome_list = []
+        N = len(text)
+        partitioned = []
+        res = []
 
-        def backtrack(index: int) -> None:
-            if index == len(text):
-                palindrome_list.append(palindrome.copy())
+        def backtrack(start: int) -> None:
+            if start == N:
+                res.append(partitioned.copy())
                 return
 
-            for right in range(index, len(text)):
-                if is_palindromes(index, right):
-                    palindrome.append(text[index: right + 1])
-                    backtrack(right + 1)
-                    palindrome.pop()
-
+            for idx in range(start, N):
+                if is_palindrome(start, idx):
+                    partitioned.append(text[start: idx + 1])
+                    backtrack(idx + 1)
+                    partitioned.pop()
+                
         backtrack(0)
-        return palindrome_list
+        return res
 
 
 print(Solution().partition("a") == [["a"]])

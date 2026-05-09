@@ -12,7 +12,7 @@ from binary_tree_utils import *
 
 
 class Solution:
-    def isSubtree(self, root: TreeNode, sub_root: TreeNode) -> bool:
+    def isSubtree(self, root: TreeNode | None, sub_root: TreeNode) -> bool:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n)
@@ -20,16 +20,17 @@ class Solution:
             DS: binary tree
             A: dfs, recursion, pre-order traversal
         """
-        def is_same_tree(node1, node2):
-            if node1 is None and node2 is None:
+        def _is_same_tree(node1: TreeNode | None, node2: TreeNode | None) -> bool:
+            if (node1 is None and node2 is None):
                 return True
-            elif node1 is None or node2 is None:
-                return False
-            elif node1.val != node2.val:
+            elif (
+                node1 is None or node2 is None or
+                node1.val != node2.val
+            ):
                 return False
             
-            left = is_same_tree(node1.left, node2.left)
-            right = is_same_tree(node1.right, node2.right)
+            left = _is_same_tree(node1.left, node2.left)
+            right = _is_same_tree(node1.right, node2.right)
 
             return left and right
 
@@ -37,19 +38,13 @@ class Solution:
             return True
         elif root is None:
             return False
+        elif _is_same_tree(root, sub_root):
+            return True
 
-        def dfs(node):
-            if node is None:
-                return False
-            elif is_same_tree(node, sub_root):
-                return True
+        left = self.isSubtree(root.left, sub_root)
+        right = self.isSubtree(root.right, sub_root)
 
-            left = dfs(node.left)
-            right = dfs(node.right)
-
-            return left or right
-
-        return dfs(root)
+        return left or right
 
 
 print(Solution().isSubtree(build_tree([3, 4, 5, 1, 2]), build_tree([4, 1, 2])) == True)

@@ -27,8 +27,9 @@ class Solution {
       if (root === null) {
          return []
       }
-      const rightSideVals = [];
+
       const queue = new Queue([root]);
+      const res = [];
 
       while (queue.size()) {
          const queueLength = queue.size();
@@ -37,19 +38,24 @@ class Solution {
             const node = queue.pop();
 
             if (index === 0) {
-               rightSideVals.push(node.val);
+               res.push(node.val);
             }
+
             if (node.right) {
                queue.push(node.right);
             }
+            
             if (node.left) {
                queue.push(node.left);
             }
          }
       }
-      return rightSideVals
-   };
+      return res
+   }
+}
 
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
@@ -60,21 +66,22 @@ class Solution {
     * @return {number[]}
     */
    rightSideView(root) {
-      const rightSideVals = [];
+      const res = [];
 
       const dfs = (index, node) => {
-         if (node === null)
-            return
+         if (node === null) return
          
-         if (index === rightSideVals.length)
-            rightSideVals.push(node.val)
+         if (index === res.length) {
+            res.push(node.val)
+         }
 
          dfs(index + 1, node.right);
          dfs(index + 1, node.left);
       }
+
       dfs(0, root);
-      return rightSideVals
-   };
+      return res
+   }
 }
 
 

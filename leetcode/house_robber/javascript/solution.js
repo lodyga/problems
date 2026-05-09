@@ -21,7 +21,7 @@ class Solution {
          return Math.max(robHouse, skipHouse)
       }
       return dfs(0)
-   };
+   }
 
    /**
     * Time complexity: O(n)
@@ -48,7 +48,7 @@ class Solution {
          return memo.get(index)
       }
       return dfs(0)
-   };
+   }
 
    /**
     * Time complexity: O(n)
@@ -59,7 +59,7 @@ class Solution {
     * @param {number[]} houses
     * @return {number}
     */
-   rob1(houses) {
+   rob(houses) {
       const memo = Array(houses.length + 2).fill(-1);
       memo[houses.length] = 0
       memo[houses.length + 1] = 0
@@ -75,7 +75,7 @@ class Solution {
          return memo[index]
       }
       return dfs(0)
-   };
+   }
 
    /**
     * Time complexity: O(n)
@@ -96,7 +96,7 @@ class Solution {
          cache[index] = Math.max(robHouse, skipHouse);
       }
       return cache[0]
-   };
+   }
 
    /**
     * Time complexity: O(n)
@@ -119,7 +119,7 @@ class Solution {
             cache[index1] = Math.max(robHouse, skipHouse);
       }
       return cache[N % 2]
-   };
+   }
 }
 
 

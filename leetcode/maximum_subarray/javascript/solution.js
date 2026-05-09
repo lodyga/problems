@@ -16,7 +16,7 @@ class Solution {
          res = Math.max(res, subSum);
       }
       return res
-   };
+   }
 }
 
 

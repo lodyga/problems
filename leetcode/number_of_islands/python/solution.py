@@ -11,33 +11,36 @@ class Solution:
         COLS = len(grid[0])
         DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
         visited = [[False] * COLS for _ in range(ROWS)]
+        res = 0
 
-        def dfs(row: int, col: int) -> int:
-            if (
-                row == -1 or row == ROWS or
-                col == -1 or col == COLS or
-                grid[row][col] == "0" or
-                visited[row][col]
+        def dfs(row: int, col: int) -> None:
+            if (row in (-1, ROWS) or
+                col in (-1, COLS) or
+                visited[row][col] or
+                grid[row][col] == "0"
             ):
-                return 0
+                return
 
             visited[row][col] = True
 
-            for dr, dc in DIRECTIONS:
-                dfs(row + dr, col + dc)
+            for (dr, dc) in DIRECTIONS:
+                (r, c) = (row + dr, col + dc)
+                dfs(r, c)
 
-            return 1
+        for row in range(ROWS):
+            for col in range(COLS):
+                if (
+                    grid[row][col] == "1" and 
+                    not visited[row][col]
+                ):
+                    dfs(row, col)
+                    res += 1
 
-        return sum(
-            dfs(row, col)
-            for row in range(ROWS)
-            for col in range(COLS)
-        )
+        return res
 
 
 class Solution:
     def numIslands(self, grid: list[list[str]]) -> int:
-        from collections import deque
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n2)
@@ -45,44 +48,44 @@ class Solution:
             DS: array (matrix), queue
             A: bfs, iteration
         """
+        from collections import deque
         ROWS = len(grid)
         COLS = len(grid[0])
         DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
         visited = [[False] * COLS for _ in range(ROWS)]
+        res = 0
 
-        def bfs(row: int, col: int) -> int:
-            if (
-                grid[row][col] == "0" or
-                visited[row][col]
-            ):
-                return 0
-
+        def bfs(row: int, col: int) -> None:
             queue = deque([(row, col)])
             visited[row][col] = True
 
             while queue:
-                (row, col) = queue.popleft()
+                row, col = queue.popleft()
 
                 for (dr, dc) in DIRECTIONS:
                     (r, c) = (row + dr, col + dc)
+                
                     if (
-                        r == -1 or r == ROWS or
-                        c == -1 or c == COLS or
-                        grid[r][c] == "0" or
-                        visited[r][c]
+                        r in (-1, ROWS) or
+                        c in (-1, COLS) or
+                        visited[r][c] or
+                        grid[r][c] == "0"
                     ):
                         continue
 
                     queue.append((r, c))
                     visited[r][c] = True
 
-            return 1
+        for row in range(ROWS):
+            for col in range(COLS):
+                if (
+                    grid[row][col] == "1" and 
+                    not visited[row][col]
+                ):
+                    bfs(row, col)
+                    res += 1
 
-        return sum(
-            bfs(row, col)
-            for row in range(ROWS)
-            for col in range(COLS)
-        )
+        return res
 
 
 print(Solution().numIslands([["0"]]) == 0)
@@ -93,5 +96,3 @@ print(Solution().numIslands([["1", "0", "0"], ["0", "1", "0"], ["0", "0", "1"]])
 print(Solution().numIslands([["1", "1", "0"], ["0", "1", "0"], ["0", "0", "1"]]) == 2)
 print(Solution().numIslands([["1", "1", "1", "1", "0"], ["1", "1", "0", "1", "0"], ["1", "1", "0", "0", "0"], ["0", "0", "0", "0", "0"]]) == 1)
 print(Solution().numIslands([["1", "1", "0", "0", "0"], ["1", "1", "0", "0", "0"], ["0", "0", "1", "0", "0"], ["0", "0", "0", "1", "1"]]) == 3)
-print(Solution().numIslands([["1", "1", "1", "1", "0"], ["1", "1", "0", "1", "0"], ["1", "1", "0", "0", "0"], ["0", "0", "0", "0", "0"]]))
-print(Solution().numIslands([["1", "1", "0", "0", "0"], ["1", "1", "0", "0", "0"], ["0", "0", "1", "0", "0"], ["0", "0", "0", "1", "1"]]))

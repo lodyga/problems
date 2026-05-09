@@ -21,10 +21,8 @@ class Solution {
          if (index === word.length) {
             return true
          } else if (
-            row < 0 ||
-            col < 0 ||
-            row === ROWS ||
-            col === COLS ||
+            row == -1 || row === ROWS ||
+            col == -1 || col === COLS ||
             board[row][col] !== word[index] ||
             visited[row][col]
          )
@@ -34,18 +32,22 @@ class Solution {
 
          for (const [dr, dc] of DIRECTIONS) {
             const [r, c] = [row + dr, col + dc];
+
             if (backtrack(index + 1, r, c)) {
                return true
             }
          }
+
          visited[row][col] = false;
          return false
       }
 
       for (let row = 0; row < ROWS; row++) {
          for (let col = 0; col < COLS; col++) {
-            if (backtrack(0, row, col))
-               return true
+            if (
+               board[row][col] == word[0] &&
+               backtrack(0, row, col)
+            ) return true
          }
       }
       return false

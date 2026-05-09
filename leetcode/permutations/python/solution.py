@@ -7,22 +7,23 @@ class Solution:
             DS: array
             A: backtracking
         """
-        permetation_list = []
+        N = len(nums)
+        res = []
 
-        def backtrack(index):
-            if index == len(nums):
-                permetation_list.append(nums.copy())
+        def backtrack(start: int) -> None:
+            if start == N:
+                res.append(nums.copy())
                 return
 
-            for i2 in range(index, len(nums)):
-                nums[index], nums[i2] = nums[i2], nums[index]
-                backtrack(index + 1)
-                nums[index], nums[i2] = nums[i2], nums[index]
+            for idx in range(start, N):
+                nums[start], nums[idx] = nums[idx], nums[start]
+                backtrack(start + 1)
+                nums[start], nums[idx] = nums[idx], nums[start]
 
         backtrack(0)
-        return permetation_list
+        return res
 
 
-print(Solution().permute([1, 2, 3]), [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]])
-print(Solution().permute([0, 1]), [[0, 1], [1, 0]])
-print(Solution().permute([1]), [[1]])
+print(sorted(Solution().permute([1, 2, 3])) == sorted([[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]))
+print(sorted(Solution().permute([0, 1])) == sorted([[0, 1], [1, 0]]))
+print(sorted(Solution().permute([1])) == sorted([[1]]))

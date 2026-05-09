@@ -1,5 +1,5 @@
 class Solution:
-    def dailyTemperatures(self, temperatures: list[int]) -> list[int]:
+    def dailyTemperatures(self, temps: list[int]) -> list[int]:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
@@ -7,21 +7,20 @@ class Solution:
             DS: monotonic decreasing stack
             A: iteration
         """
-        # decreasing temperature day stack
-        day_stack = []
-        wait_days = [0] * len(temperatures)
-        
-        for day, temp in enumerate(temperatures):
-            while day_stack and temperatures[day_stack[-1]] < temp:
-                prev_day = day_stack.pop()
-                wait_days[prev_day] = day - prev_day
-            else:
-                day_stack.append(day)
-        
-        return wait_days
+        res = [0] * len(temps)
+        stack = []
+
+        for idx, temp in enumerate(temps):
+            while stack and temps[stack[-1]] < temp:
+                prev_idx = stack.pop()
+                res[prev_idx] = idx - prev_idx
+
+            stack.append(idx)
+
+        return res
 
 
-class Solution2:
+class Solution:
     def dailyTemperatures(self, temps: list[int]) -> list[int]:
         """
         Time complexity: O(n2)
@@ -29,15 +28,15 @@ class Solution2:
         Tags:
             A: brute-force
         """
-        wait_days = [0] * len(temps)
+        res = [0] * len(temps)
 
         for left in range(len(temps)):
             for right in range(left + 1, len(temps)):
                 if temps[left] < temps[right]:
-                    wait_days[left] = right - left
+                    res[left] = right - left
                     break
         
-        return wait_days
+        return res
 
 
 print(Solution().dailyTemperatures([73, 74, 75, 71, 69, 72, 76, 73]) == [1, 1, 4, 2, 1, 1, 0, 0])

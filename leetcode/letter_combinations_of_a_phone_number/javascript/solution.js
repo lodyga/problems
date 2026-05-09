@@ -10,7 +10,7 @@ class Solution {
     */
    letterCombinations(digits) {
       const combination = [];
-      const combinationList = [];
+      const res = [];
       const digitToLetter = new Map([
          ['2', 'abc'],
          ['3', 'def'],
@@ -22,25 +22,25 @@ class Solution {
          ['9', 'wxyz']
       ]);
 
-      const backtrack = (index) => {
-         if (index === digits.length) {
-            combinationList.push(combination.join(''));
+      const backtrack = (idx) => {
+         if (idx === digits.length) {
+            res.push(combination.join(''));
             return
          }
 
-         const digit = digits[index];
-         for (const letter of digitToLetter.get(digit)) {
+         for (const letter of digitToLetter.get(digits[idx])) {
             combination.push(letter);
-            backtrack(index + 1);
+            backtrack(idx + 1);
             combination.pop();
          }
       }
+
       backtrack(0);
-      return combinationList
-   };
+      return res
+   }
 }
 
 
 const letterCombinations = new Solution().letterCombinations;
-print(Solution().letterCombinations('2') == ['a', 'b', 'c'])
-print(Solution().letterCombinations('23') == ['ad', 'ae', 'af', 'bd', 'be', 'bf', 'cd', 'ce', 'cf'])
+console.log(new Solution().letterCombinations('2').toString() === ['a', 'b', 'c'].toString())
+console.log(new Solution().letterCombinations('23').toString() === ['ad', 'ae', 'af', 'bd', 'be', 'bf', 'cd', 'ce', 'cf'].toString())

@@ -1,5 +1,4 @@
 from binary_tree_utils import *
-from collections import deque
 
 
 # class TreeNode:
@@ -22,11 +21,12 @@ class Solution:
             A: dfs, recursion, pre-order traversal
         """
         def dfs(node1, node2):
-            if node1 is None and node2 is None:
+            if (node1 is None and node2 is None):
                 return True
-            elif node1 is None or node2 is None:
-                return False
-            elif node1.val != node2.val:
+            elif (
+                node1 is None or node2 is None or
+                node1.val != node2.val
+            ):
                 return False
 
             left = dfs(node1.left, node2.left)
@@ -36,6 +36,8 @@ class Solution:
 
         return dfs(root1, root2)
 
+
+class Solution:
     def isSameTree(self, root1: TreeNode, root2: TreeNode) -> bool:
         """
         Time complexity: O(n)
@@ -48,20 +50,22 @@ class Solution:
 
         while stack:
             node1, node2 = stack.pop()
-            
-            if node1 is None and node2 is None:
+
+            if (node1 is None and node2 is None):
                 continue
-            elif node1 is None or node2 is None:
-                return False
-            elif node1.val != node2.val:
+            elif (
+                node1 is None or node2 is None or
+                node1.val != node2.val
+            ):
                 return False
 
             stack.append((node1.right, node2.right))
             stack.append((node1.left, node2.left))
-        
+
         return True
 
 
+class Solution:
     def isSameTree(self, root1: TreeNode, root2: TreeNode) -> bool:
         """
         Time complexity: O(n)
@@ -70,21 +74,23 @@ class Solution:
             DS: binary tree, queue
             A: bfs, iteration, level-order traversal
         """
+        from collections import deque
         queue = deque([(root1, root2)])
 
         while queue:
             node1, node2 = queue.popleft()
-            
-            if node1 is None and node2 is None:
+
+            if (node1 is None and node2 is None):
                 continue
-            elif node1 is None or node2 is None:
-                return False
-            elif node1.val != node2.val:
+            elif (
+                node1 is None or node2 is None or
+                node1.val != node2.val
+            ):
                 return False
 
-            queue.append((node1.left, node2.left))
             queue.append((node1.right, node2.right))
-        
+            queue.append((node1.left, node2.left))
+
         return True
 
 
