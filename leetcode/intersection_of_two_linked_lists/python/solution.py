@@ -19,21 +19,18 @@ class Solution:
             DS: linked list
             A: two pointers
         """
-        if head_a and head_b is None:
-            return head_a and head_b
-        
         node_a = head_a
         node_b = head_b
-        
+
         while node_a != node_b:
-            node_a = node_a.next if node_a else head_b
-            node_b = node_b.next if node_b else head_a
-        
+            node_a = node_a.next if node_a.next else head_b
+            node_b = node_b.next if node_b.next else head_a
+
         return node_a
 
 
 class Solution:
-    def getIntersectionNode(self, head_a: ListNode, head_b: ListNode) -> ListNode:
+    def getIntersectionNode(self, head_a: ListNode, head_b: ListNode) -> ListNode | None:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
@@ -42,7 +39,7 @@ class Solution:
             A: iteration
         """
         def get_length(node):
-            list_length = 0            
+            list_length = 0
             while node:
                 list_length += 1
                 node = node.next
@@ -53,7 +50,7 @@ class Solution:
         length_diff = abs(list_a_length - list_b_length)
         node_a = head_a
         node_b = head_b
-        
+
         if list_a_length > list_b_length:
             for _ in range(length_diff):
                 node_a = node_a.next

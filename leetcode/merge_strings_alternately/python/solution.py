@@ -7,22 +7,18 @@ class Solution:
             DS: list
             A: two pointers
         """
-        left = 0
-        right = 0
-        text = []
+        res = []
+        idx = 0
 
-        while (
-            left < len(text1) or
-            right < len(text2)
-        ):
-            letter1 = text1[left] if left < len(text1) else ""
-            letter2 = text2[right] if right < len(text2) else ""
-            text.append(letter1)
-            text.append(letter2)
-            left += 1
-            right += 1
+        while idx < min(len(text1), len(text2)):
+            res.append(text1[idx])
+            res.append(text2[idx])
+            idx += 1
+    
+        res.append(text1[idx: ])
+        res.append(text2[idx: ])
 
-        return "".join(text)
+        return "".join(res)
 
 
 print(Solution().mergeAlternately("abc", "pqr") == "apbqcr")

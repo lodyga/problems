@@ -9,16 +9,18 @@ class Solution {
     * @return {string}
     */
    removeStars(text) {
-      const letterStack = [];
+      const stack = [];
 
       for (const char of text) {
-         if (letterStack.length && char === '*')
-            letterStack.pop();
-         else
-            letterStack.push(char);
+         if (stack.length && char === '*') {
+            stack.pop();
+         } else {
+            stack.push(char);
+         }
       }
-      return letterStack.join('')
-   };
+
+      return stack.join('');
+   }
 }
 
 

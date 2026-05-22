@@ -6,6 +6,29 @@ class Solution:
         Tags:
             A: greedy, voting
         """
+        major_val = 0
+        major_freq = 0
+
+        for num in nums:
+            if major_freq == 0:
+                major_val = num
+                major_freq = 1
+            elif num == major_val:
+                major_freq += 1
+            else:
+                major_freq -= 1
+        
+        return major_val
+
+
+class Solution:
+    def majorityElement(self, nums: list[int]) -> int:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(1)
+        Tags:
+            A: greedy, voting
+        """
         major = 0
         counter = 0
 
@@ -28,17 +51,21 @@ class Solution:
             DS: hash map
             A: iteration
         """
-        num_frequency = {}
-        most_frequent_number = nums[0] + 1
-        most_frequency = 0
-
+        num_freq = {}
+        
         for num in nums:
-            num_frequency[num] = num_frequency.get(num, 0) + 1
-            if num_frequency[num] > most_frequency:
-                most_frequent_number = num
-                most_frequency = num_frequency[num]
+            if num in num_freq:
+                num_freq[num] += 1
+            elif num_freq:
+                major_num = next(iter(num_freq))
+                num_freq[major_num] -= 1
+            
+                if num_freq[major_num] == 0:
+                    num_freq.pop(major_num)
+            else:
+                num_freq[num] = 1
 
-        return most_frequent_number
+        return next(iter(num_freq))
 
 
 print(Solution().majorityElement([3, 2, 3]) == 3)

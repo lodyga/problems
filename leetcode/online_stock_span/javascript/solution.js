@@ -10,7 +10,7 @@ class StockSpanner {
       // monotonic decreasing stack
       // [(price, span), ...]
       this.prices = [];
-   };
+   }
 
    next(price) {
       const prices = this.prices;
@@ -23,9 +23,10 @@ class StockSpanner {
          const [_, prevSpan] = prices.pop();
          span += prevSpan;
       }
+
       prices.push([price, span]);
-      return span
-   };
+      return span;
+   }
 }
 
 

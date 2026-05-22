@@ -62,7 +62,7 @@ class MyHashMap:
             node = node.next
 
 
-def test_input(operations: list[str], arguments: list[list[int]]) -> list[int | None]:
+def test_input(operations: list[str], arguments: list[list]) -> list[str | int | None]:
     """
     Test input provided in two separate lists: operations and arguments
     """

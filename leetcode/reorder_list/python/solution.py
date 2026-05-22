@@ -27,7 +27,7 @@ class Solution:
             slow = slow.next
             fast = fast.next.next
         
-        # Reverse the right portion
+        # Reverse the right portion.
         node = slow.next
         slow.next = None  # Cut the list into two halves
         prev = None

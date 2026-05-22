@@ -45,8 +45,8 @@ class Solution {
       // Merge 
       mergeStart.next = head2;
       node2.next = mergeEnd;
-      return head1
-   };
+      return head1;
+   }
 }
 
 

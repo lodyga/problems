@@ -10,12 +10,9 @@ class Solution {
     * @return {boolean}
     */
    isIsomorphic(text1, text2) {
-      if (text1.length !== text2.length) {
-         return false
-      }
-
       const isIso = (text1, text2) => {
          const letterMap = new Map();
+         
          for (let index = 0; index < text1.length; index++) {
             const letter1 = text1[index];
             const letter2 = text2[index];
@@ -28,10 +25,12 @@ class Solution {
                letterMap.set(letter1, letter2);
             }
          }
-         return true
+
+         return true;
       }
-      return isIso(text1, text2) && isIso(text2, text1)
-   };
+
+      return isIso(text1, text2) && isIso(text2, text1);
+   }
 }
 
 

@@ -35,8 +35,11 @@ class Solution {
       }
       
       return prev
-   };
+   }
+}
 
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
@@ -56,7 +59,7 @@ class Solution {
          [node.next, prev, node] = [prev, node, node.next]
       }
       return prev
-   };
+   }
 }
 
 

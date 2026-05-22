@@ -9,13 +9,15 @@ class Solution:
         if sub_seq == "":
             return True
         
-        index = 0
-        for letter in text:
-            if letter == sub_seq[index]:
-                index += 1
-                if index == len(sub_seq):
-                    return True
+        idx = 0
         
+        for letter in text:
+            if sub_seq[idx] == letter:
+                idx += 1
+                
+                if idx == len(sub_seq):
+                    return True
+
         return False
 
 

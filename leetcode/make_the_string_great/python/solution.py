@@ -1,28 +1,22 @@
 class Solution:
     def makeGood(self, text: str) -> str:
-        """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(n)
-        Tags:
-            DS: stack
-            A: iteration
-        """
-        letter_stack = []
+        stack = []
+
         for letter in text:
             if (
-                letter_stack and
-                letter_stack[-1] != letter and
-                letter_stack[-1].lower() == letter.lower()
+                stack and
+                stack[-1] != letter and
+                stack[-1].upper() == letter.upper()
             ):
-                letter_stack.pop()
+                stack.pop()
             else:
-                letter_stack.append(letter)
+                stack.append(letter)
 
-        return "".join(letter_stack)
+        return "".join(stack)
 
 
+print(Solution().makeGood("leEeetcode") == "leetcode")
+print(Solution().makeGood("abBAcC") == "")
 print(Solution().makeGood("s") == "s")
 print(Solution().makeGood("Mc") == "Mc")
 print(Solution().makeGood("Pp") == "")
-print(Solution().makeGood("abBAcC") == "")
-print(Solution().makeGood("leEeetcode") == "leetcode")

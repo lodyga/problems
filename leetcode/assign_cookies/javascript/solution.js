@@ -3,7 +3,7 @@ class Solution {
     * Time complexity: O(nlogn)
     * Auxiliary space complexity: O(n)
     * Tags:
-    *    A: two pointers
+    *    A: two pointers, sorting
     * @param {number[]} greedList
     * @param {number[]} cookies
     * @return {number}
@@ -11,25 +11,20 @@ class Solution {
    findContentChildren(greedList, cookies) {
       greedList.sort((a, b) => a - b);
       cookies.sort((a, b) => a - b);
-      let greedI = 0;
-      let cookieI = 0;
-      let counter = 0;
+      let res = 0;
 
-      while (
-         greedI < greedList.length &&
-         cookieI < cookies.length
-      ) {
-         const greed = greedList[greedI];
-         const cookie = cookies[cookieI];
-         
-         if (greed <= cookie) {
-            counter++;
-            greedI++;
+      for (const cookie of cookies) {
+         if (res === greedList.length) {
+            break;
          }
-         cookieI++;
+
+         if (greedList[res] <= cookie) {
+            res++;
+         }
       }
-      return counter
-   };
+
+      return res;
+   }
 }
 
 

@@ -12,14 +12,15 @@ class Solution {
 
       for (let right = 0; right < nums.length; right++) {
          if (nums[left] === nums[right]) {
-            continue
+            continue;
          } else {
             left++;
             nums[left] = nums[right];
          }
       }
+
       return left + 1;
-   };
+   }
 }
 
 

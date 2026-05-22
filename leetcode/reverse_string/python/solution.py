@@ -4,17 +4,9 @@ class Solution:
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
         Tags:
-            A: two pointers, iteration
+            A: build-in function
         """
-        left = 0
-        right = len(letters) - 1
-
-        while left < right:
-            letters[left], letters[right] = letters[right], letters[left]
-            left += 1
-            right -= 1
-
-        return letters
+        return list(reversed(letters))
 
 
 class Solution:
@@ -23,10 +15,18 @@ class Solution:
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
         Tags:
-            A: build-in function
+            A: two pointers, iteration
         """
-        letters.reverse()
-        return letters
+        res = letters.copy()
+        left = 0
+        right = len(letters) - 1
+
+        while left < right:
+            res[left], res[right] = res[right], res[left]
+            left += 1
+            right -= 1
+
+        return res
 
 
 class Solution:
@@ -42,9 +42,7 @@ class Solution:
                 return
 
             letters[left], letters[right] = letters[right], letters[left]
-            left += 1
-            right -= 1
-            dfs(left, right)
+            dfs(left + 1, right - 1)
 
         dfs(0, len(letters) - 1)
         return letters

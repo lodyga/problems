@@ -12,18 +12,20 @@ class Solution {
       let right = square;
 
       while (left <= right) {
-         const middle = left + ((right - left) >> 1);
-         const currentSquare = middle ** 2;
+         const mid = left + ((right - left) >> 1);
+         const squared = mid ** 2;
 
-         if (currentSquare === square)
+         if (squared === square) {
             return true
-         else if (currentSquare > square) {
-            right = middle - 1;
-         } else
-            left = middle + 1;
+         } else if (squared > square) {
+            right = mid - 1;
+         } else {
+            left = mid + 1;
+         }
       }
+
       return false;
-   };
+   }
 }
 
 

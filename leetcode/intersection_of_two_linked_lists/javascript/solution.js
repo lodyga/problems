@@ -23,9 +23,6 @@ class Solution {
     * @return {boolean}
     */
    getIntersectionNode(headA, headB) {
-      if (headA && headB === null) {
-         return headA && headB
-      }
       let nodeA = headA;
       let nodeB = headB;
 
@@ -33,11 +30,11 @@ class Solution {
          nodeA = nodeA ? nodeA.next : headB;
          nodeB = nodeB ? nodeB.next : headA;
       }
-      return nodeA
-   };
+
+      return nodeA;
+   }
 }
 
-const getIntersectionNode = new Solution().getIntersectionNode;
 
 class Solution {
    /**
@@ -51,10 +48,12 @@ class Solution {
    getIntersectionNode(headA, headB) {
       const getLenght = (node) => {
          let listLength = 0;
+
          while (node) {
             listLength++;
             node = node.next;
          }
+
          return listLength
       };
 
@@ -80,7 +79,8 @@ class Solution {
          nodeA = nodeA.next;
          nodeB = nodeB.next;
       }
-      return null
-   };
+
+      return null;
+   }
 }
 const getIntersectionNode = new Solution().getIntersectionNode;

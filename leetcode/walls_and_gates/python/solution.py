@@ -1,5 +1,5 @@
 class Solution:
-    def islandsAndTreasure(self, grid: list[list[float]]) -> list[list[float]]:
+    def islandsAndTreasure(self, grid: list[list[float]]) -> list[list[int]]:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n2)

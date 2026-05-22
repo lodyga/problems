@@ -11,19 +11,21 @@ class Solution {
    minSubArrayLen(target, nums) {
       let windowSum = 0;
       let left = 0;
-      let windowLength = nums.length + 1;
+      const N = nums.length;
+      let res = N + 1;
 
-      for (let right = 0; right < nums.length; right++) {
+      for (let right = 0; right < N; right++) {
          windowSum += nums[right];
 
          while (windowSum >= target) {
-            windowLength = Math.min(windowLength, right - left + 1);
+            res = Math.min(res, right - left + 1);
             windowSum -= nums[left];
             left++;
          }
       }
-      return windowLength === nums.length + 1 ? 0 : windowLength
-   };
+
+      return res === N + 1 ? 0 : res;
+   }
 }
 
 

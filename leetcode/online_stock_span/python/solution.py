@@ -19,12 +19,13 @@ class StockSpanner:
         while prices and prices[-1][0] <= price:
             _, prev_span = prices.pop()
             span += prev_span
+
         prices.append((price, span))
 
         return span
 
 
-def test_input(operations: list[str], arguments: list[list[int]]) -> list[int | None]:
+def test_input(operations: list[str], arguments: list[list]) -> list[str | int | None]:
     """
     Test input provided in two separate lists: operations and arguments
     """

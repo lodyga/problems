@@ -30,6 +30,6 @@ class Solution:
         return head
 
 
-print(are_linked_lists_equeal(Solution().deleteDuplicates(build_linked_list([])), build_linked_list([])))
 print(are_linked_lists_equeal(Solution().deleteDuplicates(build_linked_list([1, 1, 2])), build_linked_list([1, 2])))
 print(are_linked_lists_equeal(Solution().deleteDuplicates(build_linked_list([1, 1, 2, 3, 3])), build_linked_list([1, 2, 3])))
+print(are_linked_lists_equeal(Solution().deleteDuplicates(build_linked_list([])), build_linked_list([])))

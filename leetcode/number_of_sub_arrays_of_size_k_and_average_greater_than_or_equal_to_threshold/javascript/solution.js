@@ -10,26 +10,28 @@ class Solution {
     * @return {number}
     */
    numOfSubarrays(nums, k, threshold) {
-      let window = 0;
+      let windowSum = 0;
       let left = 0;
-      let counter = 0;
+      let res = 0;
       const minSum = threshold * k;
 
       for (let right = 0; right < nums.length; right++) {
-         window += nums[right];
+         windowSum += nums[right];
 
-         if (right + 1 < k)
+         if (right + 1 < k) {
             continue
-
-         if (window >= minSum) {
-            counter++;
          }
 
-         window -= nums[left];
+         if (windowSum >= minSum) {
+            res++;
+         }
+
+         windowSum -= nums[left];
          left++;
       }
-      return counter
-   };
+
+      return res
+   }
 }
 
 

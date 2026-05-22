@@ -1,4 +1,5 @@
 from binary_tree_utils import *
+import binarytree
 
 
 # class TreeNode:
@@ -105,6 +106,10 @@ class Solution:
 
         return root
 
+
+print((binarytree.build2([2, 1, 3])).values)
+
+print(get_tree_values(Solution().invertTree(build_tree([2, 1, 3]))) == [2, 3, 1])
 
 print(is_same_tree(Solution().invertTree(build_tree([2, 1, 3])), build_tree([2, 3, 1])))
 print(is_same_tree(Solution().invertTree(build_tree([4, 2, 7, 1, 3, 6, 9])), build_tree([4, 7, 2, 9, 6, 3, 1])))

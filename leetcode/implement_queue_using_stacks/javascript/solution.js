@@ -1,10 +1,7 @@
 class MyQueue {
    /**
     * Time complexity: O(1)
-    *     push: O(1)
-    *     pop: O(1)
-    *     peek: O(1)
-    *     empty: O(1)
+    *     O(1): push, pop, peek, empty
     * Auxiliary space complexity: O(n)
     * Tags:
     *     DS: stack, queue
@@ -27,12 +24,12 @@ class MyQueue {
    };
 
    /**
-    * @param {number} number
+    * @param {number} val
     * @return {void}
     */
-   push(number) {
-      this.stack.push(number)
-   };
+   push(val) {
+      this.stack.push(val)
+   }
 
    /**
     * @return {number}
@@ -40,7 +37,7 @@ class MyQueue {
    pop() {
       this._reverseStack();
       return this.reversedStack.pop()
-   };
+   }
 
    /**
     * @return {number}
@@ -48,7 +45,7 @@ class MyQueue {
    peek() {
       this._reverseStack();
       return this.reversedStack[this.reversedStack.length - 1]
-   };
+   }
 
    /**
     * @return {void}
@@ -58,7 +55,7 @@ class MyQueue {
          this.stack.length === 0 &&
          this.reversedStack.length === 0
       )
-   };
+   }
 }
 
 

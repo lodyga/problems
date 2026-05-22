@@ -26,13 +26,15 @@ class Solution {
       let slow = head;
       let fast = head;
 
+      // Find the left end.
       while (fast && fast.next) {
          slow = slow.next;
          fast = fast.next.next;
       }
 
+      // # Reverse the right portion.
       let node = slow.next;
-      slow.next = null;
+      slow.next = null;  // Cut the list into two halves
       let prev = null;
       while (node) {
          const nodeNext = node.next;
@@ -41,6 +43,7 @@ class Solution {
          node = nodeNext;
       }
 
+      // Merge the left and right portions.
       let left = head;
       let right = prev;
       while (right) {
@@ -51,8 +54,9 @@ class Solution {
          left = leftNext;
          right = rightNext;
       }
+      
       return head
-   };
+   }
 }
 
 

@@ -1,5 +1,6 @@
 class Solution {
    /**
+    * Do not return anything, modify nums1 in-place instead.
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
     * Tags:
@@ -12,28 +13,27 @@ class Solution {
     * @return {number[]}
     */
    merge(nums1, m, nums2, n) {
-      let index1 = m - 1;
-      let index2 = n - 1;
-      let index = m + n - 1;
+      let idx1 = m - 1;
+      let idx2 = n - 1;
+      let idx = m + n - 1;
 
-      while (
-         index1 > -1 ||
-         index2 > -1
-      ) {
-         const num1 = index1 > - 1 ? nums1[index1] : nums2[0] - 1;
-         const num2 = index2 > - 1 ? nums2[index2] : nums1[0] - 1;
+      while (idx1 > -1 || idx2 > -1) {
+         const num1 = idx1 > - 1 ? nums1[idx1] : nums2[0] - 1;
+         const num2 = idx2 > - 1 ? nums2[idx2] : nums1[0] - 1;
 
          if (num1 > num2) {
-            nums1[index] = num1;
-            index1--;
+            nums1[idx] = num1;
+            idx1--;
          } else {
-            nums1[index] = num2;
-            index2 -= 1;
+            nums1[idx] = num2;
+            idx2 -= 1;
          }
-         index -= 1;
-      };
+
+         idx--;
+      }
+      
       return nums1
-   };
+   }
 }
 
 

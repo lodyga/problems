@@ -32,8 +32,9 @@ class Solution {
             node = node.next;
          }
       }
+
       return head;
-   };
+   }
 }
 
 

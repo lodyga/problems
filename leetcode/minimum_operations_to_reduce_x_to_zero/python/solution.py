@@ -7,28 +7,29 @@ class Solution:
             A: sliding window
         """
         total = sum(nums)
-        if total == x:
-            return len(nums)
+        N = len(nums)
+        
+        if total < x:
+            return - 1
+        elif total == x:
+            return N
+        
         target = total - x
-        # find max window length
-        window_length = 0
-        window = 0
         left = 0
+        window_sum = 0
+        window_length = -1
 
         for right, num in enumerate(nums):
-            window += num
+            window_sum += num
 
-            while (
-                left < right and
-                window > target
-            ):
-                window -= nums[left]
+            while window_sum > target:
+                window_sum -= nums[left]
                 left += 1
 
-            if window == target:
+            if window_sum == target:
                 window_length = max(window_length, right - left + 1)
-
-        return len(nums) - window_length if window_length else -1
+        
+        return -1 if window_length == -1 else N - window_length
 
 
 print(Solution().minOperations([1, 1, 4, 2, 3], 5) == 2)

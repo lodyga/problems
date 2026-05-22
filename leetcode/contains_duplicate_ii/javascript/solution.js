@@ -11,24 +11,23 @@ class Solution {
     */
    containsNearbyDuplicate(nums, k) {
       const window = new Set();
-      let left = 0;
 
-      for (let index = 0; index < nums.length; index++) {
-         const num = nums[index];
+      for (let right = 0; right < nums.length; right++) {
+         const num = nums[right];
+         
          if (window.has(num))
             return true
 
          window.add(num);
 
-         if (index < k)
-            continue
+         if (right >= k) {
+            const leftNum = nums[right - k];
+            window.delete(leftNum);
+         }
 
-         const leftNum = nums[left];
-         window.delete(leftNum);
-         left += 1;
       }
       return false
-   };
+   }
 }
 
 

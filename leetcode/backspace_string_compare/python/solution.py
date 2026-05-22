@@ -2,64 +2,66 @@ class Solution:
     def backspaceCompare(self, text1: str, text2: str) -> bool:
         """
         Time complexity: O(n)
-        Auxiliary space complexity: O(1)
+        Auxiliary space complexity: O(n)
         Tags:
-            A: two pointers
+            DS: stack
+            A: iteration
         """
-        index1 = len(text1) - 1
-        index2 = len(text2) - 1
-        back1 = back2 = 0
+        def clean_text(text):
+            stack = []
 
-        while index1 > -1 or index2 > -1:
-            while (
-                index1 > -1 and
-                (text1[index1] == "#" or back1)
-            ):
-                back1 += 1 if text1[index1] == "#" else -1
-                index1 -= 1
+            for char in text:
+                if char == "#":
+                    if stack:
+                        stack.pop()
+                else:
+                    stack.append(char)
 
-            while (
-                index2 > -1 and 
-                (text2[index2] == "#" or back2)
-            ):
-                back2 += 1 if text2[index2] == "#" else -1
-                index2 -= 1
+            return "".join(stack)
+        
+        cleaned_text1 = clean_text(text1)
+        cleaned_text2 = clean_text(text2)
 
-            if index1 == -1 and index2 == -1:
-                return True
-
-            if text1[index1] != text2[index2]:
-                return False
-
-            index1 -= 1
-            index2 -= 1
-
-        return index1 == index2 == -1
+        return cleaned_text1 == cleaned_text2
 
 
 class Solution:
     def backspaceCompare(self, text1: str, text2: str) -> bool:
         """
         Time complexity: O(n)
-        Auxiliary space complexity: O(n)
+        Auxiliary space complexity: O(1)
         Tags:
-            DS: stack
-            A: iteration
+            A: two pointers
         """
-        text1_clean = self.clean_text(text1)
-        text2_clean = self.clean_text(text2)
-        return text1_clean == text2_clean
+        def get_letter_idx(start, text):
+            backspace = 0
 
-    def clean_text(self, text):
-        stack = []
+            while start > - 1 and (text[start] == "#" or backspace):
+                backspace += 1 if text[start] == "#" else - 1
+                start -= 1
 
-        for letter in text:
-            if letter == "#" and stack:
-                stack.pop()
-            else:
-                stack.append(letter)
+            return start
 
-        return "".join(stack)
+        idx1 = len(text1) - 1
+        idx2 = len(text2) - 1
+
+        while True:
+            idx1 = get_letter_idx(idx1, text1)
+            idx2 = get_letter_idx(idx2, text2)
+
+            if idx1 < 0 and idx2 < 0:
+                return True
+            elif idx1 < 0 or idx2 < 0:
+                return False
+
+            char1 = text1[idx1]
+            char2 = text2[idx2]
+
+            if char1 != char2:
+                return False
+
+            idx1 -= 1
+            idx2 -= 1
 
 
 print(Solution().backspaceCompare("ab#c", "ad#c") == True)

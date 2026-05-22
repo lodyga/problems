@@ -1,13 +1,3 @@
-"""
-["foo","bar",1],["foo",1],["foo",3],["foo","bar2",4],["foo",4],["foo",5]
-
-{
-    "foo": [(1, "bar"), (4, "bar2"), ...]
-    ...
-}
-"""
-
-
 class TimeMap:
     """
     Time complexity: 
@@ -136,7 +126,7 @@ class TimeMap:
         return node.val[1]
 
 
-def test_input(operations: list[str], arguments: list[list[int]]) -> list[int | None]:
+def test_input(type, operations: list[str], arguments: list[list]) -> list[str | int | None]:
     """
     Test input provided in two separate lists: operations and arguments
     """

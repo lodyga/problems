@@ -24,13 +24,15 @@ class Solution {
             stack.pop();
             right++;
          }
+         
          left++;
       }
+      
       return (
          left === pushed.length &&
          right === popped.length
-      )
-   };
+      );
+   }
 }
 
 

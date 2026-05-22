@@ -43,7 +43,10 @@ class Solution {
 
       return dfs(root1, root2)
    }
+}
 
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
@@ -74,7 +77,10 @@ class Solution {
 
       return true
    }
+}
 
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)

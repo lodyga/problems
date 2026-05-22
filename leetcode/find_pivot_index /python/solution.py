@@ -6,14 +6,16 @@ class Solution:
         Tags:
             A: prefix sum
         """
-        prefix = 0
-        suffix = sum(nums)
+        suffix_sum = sum(nums)
+        prefix_sum = 0
 
-        for index, num in enumerate(nums):
-            suffix -= num
-            if prefix == suffix:
-                return index
-            prefix += num
+        for idx, num in enumerate(nums):
+            suffix_sum -= num
+
+            if prefix_sum == suffix_sum:
+                return idx
+
+            prefix_sum += num
 
         return -1
 

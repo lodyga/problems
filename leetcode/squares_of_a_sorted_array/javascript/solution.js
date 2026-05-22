@@ -1,6 +1,39 @@
 class Solution {
    /**
     * Time complexity: O(n)
+    * Auxiliary space complexity: O(n)
+    * Tags:
+    *    DS: list
+    *    A: two pointers
+    * @param {number[]} nums
+    * @return {number[]}
+    */
+   sortedSquares(nums) {
+      const squares = [];
+      let left = 0;
+      let right = nums.length - 1;
+
+      while (left <= right) {
+         const leftNum = Math.abs(nums[left]);
+         const rightNum = Math.abs(nums[right]);
+
+         if (leftNum > rightNum) {
+            squares.push(leftNum ** 2);
+            left++;
+         } else {
+            squares.push(rightNum ** 2);
+            right--;
+         }
+      }
+
+      return squares.reverse();
+   }
+}
+
+
+class Solution {
+   /**
+    * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
     * Tags:
     *    DS: array
@@ -26,38 +59,12 @@ class Solution {
             right--;
          }
       }
+
       return squares.reverse();
-   };
-
-   /**
-    * Time complexity: O(n)
-    * Auxiliary space complexity: O(1)
-    * Tags:
-    *    DS: array
-    *    A: two pointers
-    * @param {number[]} nums
-    * @return {number[]}
-    */
-   sortedSquares(nums) {
-      const squares = [];
-      let left = 0;
-      let right = nums.length - 1;
-
-      while (left <= right) {
-         const leftNum = Math.abs(nums[left]);
-         const rightNum = Math.abs(nums[right]);
-
-         if (leftNum > rightNum) {
-            squares.push(leftNum ** 2);
-            left++;
-         } else {
-            squares.push(rightNum ** 2);
-            right--;
-         }
-      }
-      return squares.reverse();
-   };
+   }
 }
+
+
 
 
 const sortedSquares = new Solution().sortedSquares;

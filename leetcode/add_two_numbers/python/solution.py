@@ -29,12 +29,53 @@ class Solution:
             val1 = node1.val if node1 else 0
             val2 = node2.val if node2 else 0
             val = val1 + val2 + carry
-            val, carry = val % 10, val // 10
-            node.next = ListNode(val)
+            carry = val // 10
+            node.next = ListNode(val % 10)
             node1 = node1.next if node1 else None
             node2 = node2.next if node2 else None
             node = node.next
         
+        return anchor.next
+
+
+class Solution:
+    def addTwoNumbers(self, head1: ListNode, head2: ListNode) -> ListNode:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(1)
+        Tags:
+            DS: linked list
+            A: iteration
+        """
+        carry = 0
+        anchor = ListNode()
+        node = anchor
+        
+        while head1 and head2:
+            val = head1.val + head2.val + carry
+            node.next = ListNode(val % 10)
+            carry = val // 10
+            head1 = head1.next
+            head2 = head2.next
+            node = node.next
+        
+        while head1:
+            val = head1.val + carry
+            node.next = ListNode(val % 10)
+            carry = val // 10
+            head1 = head1.next
+            node = node.next
+        
+        while head2:
+            val = head2.val + carry
+            node.next = ListNode(val % 10)
+            carry = val // 10
+            head2 = head2.next
+            node = node.next
+        
+        if carry:
+            node.next = ListNode(carry)
+
         return anchor.next
 
 

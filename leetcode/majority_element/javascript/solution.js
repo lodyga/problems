@@ -8,41 +8,20 @@ class Solution {
     * @return {number}
     */
    majorityElement(nums) {
-      let major = 0;
-      let frequency = 0;
+      let majorVal = 0;
+      let majorFreq = 0;
 
       for (const num of nums) {
-         if (frequency === 0) {
-            major = num;
-            frequency = 1;
+         if (majorFreq === 0) {
+            majorVal = num;
+            majorFreq = 1;
          } else {
-            frequency += num === major ? 1 : -1
+            majorFreq += num === majorVal ? 1 : -1
          }
       }
-      return major
-   };
 
-   /**
-    * Time complexity: O(n)
-    * Auxiliary space complexity: O(n)
-    * Tags: hash map
-    * @param {number[]} nums
-    * @return {number}
-    */
-   majorityElement(nums) {
-      const numberFrequency = new Map();
-      let mostFrequentNumber = null;
-      let mostFrequency = 0;
-
-      for (const number of nums) {
-         numberFrequency.set(number, (numberFrequency.get(number) || 0) + 1);
-         if (numberFrequency.get(number) > mostFrequency) {
-            mostFrequentNumber = number;
-            mostFrequency = numberFrequency.get(number)
-         }
-      }
-      return mostFrequentNumber
-   };
+      return majorVal;
+   }
 }
 
 

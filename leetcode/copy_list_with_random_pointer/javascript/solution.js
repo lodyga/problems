@@ -19,8 +19,9 @@ class Solution {
     */
    copyRandomList(head) {
       const nodeMap = new Map([[null, null]]);
-      
+
       let node = head;
+
       while (node) {
          const nodeCopy = new _Node(node.val);
          nodeMap.set(node, nodeCopy);
@@ -28,14 +29,16 @@ class Solution {
       }
 
       node = head;
+
       while (node) {
          const nodeCopy = nodeMap.get(node);
          nodeCopy.next = nodeMap.get(node.next);
          nodeCopy.random = nodeMap.get(node.random);
          node = node.next;
       }
+
       return nodeMap.get(head);
-   };
+   }
 }
 
 

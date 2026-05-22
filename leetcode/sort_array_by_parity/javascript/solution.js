@@ -18,8 +18,9 @@ class Solution {
             left++;
          }
       }
-      return nums
-   };
+
+      return nums;
+   }
 }
 
 

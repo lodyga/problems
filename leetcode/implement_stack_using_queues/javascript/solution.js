@@ -1,12 +1,9 @@
-import { Queue } from '@datastructures-js/queue';
-
+import { Queue } from "@datastructures-js/queue";
 
 /**
  * Time complexity:
- *     push: O(1)
- *     pop: O(n)
- *     top: O(n)
- *     empty: O(1)
+ *     O(1): push, empty
+ *     O(n): pop, top
  * Auxiliary space complexity: O(n)
  * Tags:
  *     DS: queue, stack
@@ -16,30 +13,32 @@ class MyStack {
    constructor() {
       this.queue = new Queue();
    }
-   push(number) {
-      this.queue.push(number);
-   };
 
-   pop() {
-      const queue = this.queue;
-      for (let index = 0; index < queue.size() - 1; index++) {
-         queue.push(queue.pop());
+   push(val) {
+      this.queue.push(val);
+   }
+
+   _rotate() {
+      for (let idx = 0; idx < this.queue.size() - 1; idx++) {
+         this.queue.push(this.queue.pop());
       }
-      return queue.pop()
-   };
+   }
 
    top() {
-      const queue = this.queue;
-      for (let index = 0; index < queue.size() - 1; index++)
-         queue.push(queue.pop());
-      const num = queue.pop();
-      queue.push(num);
-      return num
-   };
+      this._rotate();
+      const val = this.queue.pop();
+      this.queue.push(val);
+      return val
+   }
+
+   pop() {
+      this._rotate();
+      return this.queue.pop()
+   }
 
    empty() {
-      return this.queue.isEmpty()
-   };
+      return this.queue.size() === 0
+   }
 }
 
 

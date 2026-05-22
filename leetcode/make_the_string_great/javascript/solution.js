@@ -24,7 +24,7 @@ class Solution {
 
       }
       return letterStack.join('');
-   };
+   }
 }
 
 

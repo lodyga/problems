@@ -7,19 +7,19 @@ class Solution:
             DS: stack
             A: two pointers
         """
+        idx2 = 0
         stack = []
-        left = right = 0
 
-        while left < len(pushed):
-            stack.append(pushed[left])
-            while stack and stack[-1] == popped[right]:
+        for num1 in pushed:
+            stack.append(num1)
+
+            while stack and stack[-1] == popped[idx2]:
                 stack.pop()
-                right += 1
-            left += 1
+                idx2 += 1
 
         return (
-            left == len(pushed) and
-            right == len(pushed)
+            len(stack) == 0 and
+            idx2 == len(popped)
         )
 
 

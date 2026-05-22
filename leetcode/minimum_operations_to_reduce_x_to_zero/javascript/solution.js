@@ -10,30 +10,34 @@ class Solution {
     */
    minOperations(nums, x) {
       const total = nums.reduce((total, num) => total + num, 0);
-      if (total === x) {
-         return nums.length
+      const N = nums.length;
+
+      if (total < x) {
+         return -1;
+      } else if (total === x) {
+         return nums.length;
       }
+
       const target = total - x;
-      let windowLength = 0;
-      let window = 0;
       let left = 0;
+      let windowSum = 0;
+      let windowLength = -1;
 
       for (let right = 0; right < nums.length; right++) {
-         window += nums[right];
+         windowSum += nums[right];
 
-         while (
-            left < right &&
-            window > target
-         ) {
-            window -= nums[left];
+         while (windowSum > target) {
+            windowSum -= nums[left];
             left++;
          }
-         if (window === target) {
+
+         if (windowSum === target) {
             windowLength = Math.max(windowLength, right - left + 1);
          }
       }
-      return windowLength ? nums.length - windowLength : -1
-   };
+
+      return windowLength === -1 ? -1 : N - windowLength;
+   }
 }
 
 

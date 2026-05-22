@@ -8,20 +8,22 @@ class Solution {
     * @return {number}
     */
    pivotIndex(nums) {
-      let prefix = 0;
-      let suffix = nums.reduce((total, num) => total + num, 0);
+      let suffixSum = nums.reduce((sum, num) => sum + num, 0);
+      let prefixSum = 0;
 
-      for (let index = 0; index < nums.length; index++) {
-         const num = nums[index];
-         suffix -= num;
+      for (let idx = 0; idx < nums.length; idx++) {
+         const num = nums[idx];
+         suffixSum -= num;
          
-         if (prefix === suffix) {
-            return index
+         if (prefixSum === suffixSum) {
+            return idx
          }
-         prefix += num;
+
+         prefixSum += num;
       }
-      return -1
-   };
+
+      return -1;
+   }
 }
 
 

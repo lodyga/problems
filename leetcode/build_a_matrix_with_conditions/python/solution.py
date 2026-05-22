@@ -73,7 +73,7 @@ class TopologicalSort:
         for u, v in conditions:
             self.prereqs[v].add(u)
 
-    def sort(self) -> list[int | None]:
+    def sort(self) -> list[str | int | None]:
         def dfs(vertex):
             if path[vertex - 1] is not None:
                 return path[vertex - 1]

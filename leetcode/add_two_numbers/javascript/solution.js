@@ -41,9 +41,13 @@ class Solution {
          node2 = node2 ? node2.next : null;
          node = node.next;
       }
-      return anchor.next
-   };
 
+      return anchor.next;
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
@@ -72,10 +76,11 @@ class Solution {
          node1 = node1 ? node1.next : null;
          node2 = node2 ? node2.next : null;
          node.next = add(node1, node2, carry);
-         return node
+         return node;
       }
-      return add(head1, head2, 0)
-   };
+
+      return add(head1, head2, 0);
+   }
 }
 
 

@@ -1,5 +1,5 @@
 class Solution:
-    def maxProfit(self, prices):
+    def maxProfit(self, prices: list[int]) -> int:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)

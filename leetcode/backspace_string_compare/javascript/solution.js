@@ -9,39 +9,40 @@ class Solution {
     * @return {boolean}
     */
    backspaceCompare(text1, text2) {
-      let index1 = text1.length - 1;
-      let index2 = text2.length - 1
+      let idx1 = text1.length - 1;
+      let idx2 = text2.length - 1
       let back1 = 0;
       let back2 = 0;
 
-      while (index1 > -1 || index2 > -1) {
+      while (idx1 > -1 || idx2 > -1) {
          while (
-            index1 > -1 &&
-            (text1[index1] == "#" || back1)
+            idx1 > -1 &&
+            (text1[idx1] == "#" || back1)
          ) {
-            back1 += text1[index1] === "#" ? 1 : -1;
-            index1--;
+            back1 += text1[idx1] === "#" ? 1 : -1;
+            idx1--;
          }
 
          while (
-            index2 > -1 &&
-            (text2[index2] === "#" || back2)
+            idx2 > -1 &&
+            (text2[idx2] === "#" || back2)
          ) {
-            back2 += text2[index2] === "#" ? 1 : -1;
-            index2--;
+            back2 += text2[idx2] === "#" ? 1 : -1;
+            idx2--;
          }
 
-         if (index1 === -1 && index2 === -1)
+         if (idx1 === -1 && idx2 === -1)
             return true
 
-         if (text1[index1] !== text2[index2])
+         if (text1[idx1] !== text2[idx2])
             return false
 
-         index1--;
-         index2--;
+         idx1--;
+         idx2--;
       }
-      return (index1 === -1 && index2 === -1)
-   };
+      
+      return (idx1 === -1 && idx2 === -1);
+   }
 }
 
 

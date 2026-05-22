@@ -39,8 +39,9 @@ class Solution {
       }
 
       left.next = left.next.next;
-      return anchor.next
-   };
+      
+      return anchor.next;
+   }
 }
 
 

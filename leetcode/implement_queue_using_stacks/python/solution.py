@@ -1,46 +1,41 @@
 class MyQueue:
     """
     Time complexity: O(1)
-        push: O(1)
-        pop: O(1)
-        peek: O(1)
-        empty: O(1)
+        push: O(1): push, pop, peek, empty
     Auxiliary space complexity: O(n)
     Tags:
         DS: stack, queue
         A: iteration
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.stack = []
-        self.reversed_stack = []
+        self.rev_stack = []
 
-    def _reverse_stack(self):
-        stack = self.stack
-        reversed_stack = self.reversed_stack
-        if not reversed_stack:
-            while stack:
-                reversed_stack.append(stack.pop())
+    def push(self, val: int) -> None:
+        self.stack.append(val)
 
-    def push(self, num: int) -> None:
-        self.stack.append(num)
-
-    def pop(self) -> int:
-        self._reverse_stack()
-        return self.reversed_stack.pop()
+    def _reverse(self) -> None:
+        if len(self.rev_stack) == 0:
+            while self.stack:
+                self.rev_stack.append(self.stack.pop())
 
     def peek(self) -> int:
-        self._reverse_stack()
-        return self.reversed_stack[-1]
+        self._reverse()
+        return self.rev_stack[-1]
+
+    def pop(self) -> int:
+        self._reverse()
+        return self.rev_stack.pop()
 
     def empty(self) -> bool:
         return (
             len(self.stack) == 0 and
-            len(self.reversed_stack) == 0
+            len(self.rev_stack) == 0
         )
 
 
-def test_input(operations: list[str], arguments: list[list[int]]) -> list[int | None]:
+def test_input(operations: list[str], arguments: list[list]) -> list[str | int | None]:
     """
     Test input provided in two separate lists: operations and arguments
     """

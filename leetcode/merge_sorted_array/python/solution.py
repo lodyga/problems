@@ -1,27 +1,26 @@
 class Solution:
     def merge(self, nums1: list[int], m: int, nums2: list[int], n: int) -> None:
         """
+        Do not return anything, modify nums1 in-place instead.
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
         Tags:
             DS: array
             A: two pointers, in-place method
         """
-        index1 = m - 1
-        index2 = n - 1
-        index = m + n - 1
+        m -= 1
+        n -= 1
 
-        while index1 > -1 or index2 > -1:
-            num1 = nums1[index1] if index1 > -1 else nums2[0] - 1
-            num2 = nums2[index2] if index2 > -1 else nums1[0] - 1
+        for idx in range(m + n + 1, -1, -1):
+            num1 = nums1[m] if m > -1 else nums2[0] - 1
+            num2 = nums2[n] if n > -1 else nums1[0] - 1
 
             if num1 > num2:
-                nums1[index] = num1
-                index1 -= 1
+                nums1[idx] = num1
+                m -= 1
             else:
-                nums1[index] = num2
-                index2 -= 1
-            index -= 1
+                nums1[idx] = num2
+                n -= 1
 
         return nums1
 

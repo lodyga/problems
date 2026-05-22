@@ -23,7 +23,7 @@ class Solution {
          triangle.push(row);
       }
       return triangle
-   };
+   }
 }
 
 

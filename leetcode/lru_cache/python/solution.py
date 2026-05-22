@@ -1,73 +1,87 @@
 class DoublyLinkedNode:
-    def __init__(self, val=None, next=None, prev=None) -> None:
+    def __init__(self, key=None, val=None, next=None, prev=None) -> None:
+        self.key = key
         self.val = val
         self.next = next
         self.prev = prev
 
 
+class DoublyLinkedList:
+    def __init__(self) -> None:
+        self.first = DoublyLinkedNode()
+        self.last = DoublyLinkedNode()
+        self.first.next = self.last
+        self.last.prev = self.first
+
+    def remove(self, node: DoublyLinkedNode) -> None:
+        prev = node.prev
+        next = node.next
+        prev.next = next
+        next.prev = prev
+        del node
+
+    def add(self, node: DoublyLinkedNode) -> None:
+        next = self.last
+        prev = next.prev
+        node.prev = prev
+        node.next = next
+        prev.next = node
+        next.prev = node
+
+
 class LRUCache:
     """
     Time complexity: O(1)
-    Auxiliary space complexity: O(c)
+    Auxiliary space complexity: O(cap)
         O(capacity)
     Tags:
-        DS: doubly linked list, hash map
+        DS: doubly linked list, linked list, hash map
     """
 
-    def __init__(self, capacity: int):
-        self.left = DoublyLinkedNode()
-        self.right = DoublyLinkedNode(None, None, self.left)
-        self.left.next = self.right
-        self.cache = {}  # {key: Node(val, next, prev)}
-        self.vals = {}  # {key: val}
+    def __init__(self, capacity) -> None:
         self.capacity = capacity
+        self.size = 0
+        # key to list node map
+        self.nodes = {}  # {1: list node, 2: list node}
+        self.doubly_linked_list = DoublyLinkedList()
 
-    def get(self, key: int) -> int:
-        vals = self.vals
-        if key not in vals:
-            return -1
+    def _remove_node(self, node: DoublyLinkedNode) -> None:
+        self.doubly_linked_list.remove(node)
+        self.nodes.pop(node.key)
 
-        val = vals[key]
-        self._pop_node(key)
-        self._push(key, val)
-        return val
+    def _add_node(self, key: int, val: int) -> None:
+        node = DoublyLinkedNode(key, val)
+        self.doubly_linked_list.add(node)
+        self.nodes[key] = node
+
+    def _update_node(self, node: DoublyLinkedNode, key: int, val: int) -> None:
+        self._remove_node(node)
+        self._add_node(key, val)
 
     def put(self, key: int, val: int) -> None:
-        cache = self.cache
+        if key in self.nodes:
+            node = self.nodes[key]
+            self._update_node(node, key, val)
 
-        if key in cache:
-            self._pop_node(key)
-        elif len(cache) == self.capacity:
-            self._pop_lru()
+        elif self.size == self.capacity:
+            lru_node = self.doubly_linked_list.first.next
+            self._update_node(lru_node, key, val)
 
-        self._push(key, val)
+        else:
+            self._add_node(key, val)
+            self.size += 1
 
-    def _pop_lru(self) -> None:
-        node = self.left.next
-        key = node.val
-        self._pop_node(key)
+    def get(self, key: int) -> int:
+        if key not in self.nodes:
+            return -1
 
-    def _pop_node(self, key: int) -> None:
-        cache = self.cache
-        node = cache[key]
-        left = node.prev
-        right = node.next
-        left.next, right.prev = right, left
-
-        self.cache.pop(key)
-        self.vals.pop(key)
-
-    def _push(self, key: int, val: int) -> None:
-        right = self.right
-        left = right.prev
-        node = DoublyLinkedNode(key, right, left)
-        left.next, right.prev = node, node
-
-        self.cache[key] = node
-        self.vals[key] = val
+        node = self.nodes[key]
+        val = node.val
+        self._update_node(node, key, val)
+        return val
 
 
-def test_input(operations: list[str], arguments: list[list[int]]) -> list[int | None]:
+def test_input(operations: list[str], arguments: list[list]) -> list[str | int | None]:
     """
     Test input provided in two separate lists: operations and arguments
     """

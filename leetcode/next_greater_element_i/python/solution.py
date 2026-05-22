@@ -7,18 +7,19 @@ class Solution:
             DS: monotonic decreasing stack, hash map
             A: iteration
         """
-        # {num: next greater num, ...}
-        num2_next = {num: -1 for num in nums2}
+        # decreasing stack
+        stack = []
+        # {lower num: next greater num, ...}
+        greater_on_right = {num: -1 for num in nums2}
 
-        # Find the next greater number.
-        stack = []  # decreasing stack
         for num in nums2:
             while stack and stack[-1] < num:
-                num2_next[stack.pop()] = num
+                lower_num = stack.pop()
+                greater_on_right[lower_num] = num
 
             stack.append(num)
 
-        return [num2_next[num] for num in nums1]
+        return [greater_on_right[num] for num in nums1]
 
 
 print(Solution().nextGreaterElement([4, 1, 2], [1, 3, 4, 2]) == [-1, 3, -1])

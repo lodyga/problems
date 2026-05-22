@@ -10,16 +10,20 @@ class Solution {
     * @return {string}
     */
    mergeAlternately(text1, text2) {
-      const text = [];
+      const res = [];
+      let idx = 0;
 
-      for (let index = 0; index < Math.max(text1.length, text2.length); index++) {
-         const letter1 = text1[index] || '';
-         const letter2 = text2[index] ?? '';
-         text.push(letter1);
-         text.push(letter2);
+      while (idx < Math.min(text1.length, text2.length)) {
+         res.push(text1[idx]);
+         res.push(text2[idx]);
+         idx++;
       }
-      return text.join('')
-   };
+
+      res.push(text1.slice(idx, ));
+      res.push(text2.slice(idx, ));
+
+      return res.join('')
+   }
 }
 
 

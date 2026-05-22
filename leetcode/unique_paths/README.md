@@ -16,10 +16,6 @@ Output: 28
 <pre>
 <b>Example 2:</b>
 Input: m = 3, n = 2
-</pre>
-
-<pre>
-<b>Example 3:</b>
 Explanation: From the top-left corner, there are a total of 3 ways to reach the bottom-right corner:
 1. Right -> Down -> Down
 2. Down -> Down -> Right

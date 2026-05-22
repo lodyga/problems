@@ -10,15 +10,15 @@ class Solution:
         right = square
 
         while left <= right:
-            middle = left + (right - left) // 2
-            curr_square = middle**2
+            mid = (left + right) // 2
+            squared = mid**2
 
-            if curr_square == square:
+            if squared == square:
                 return True
-            elif curr_square > square:
-                right = middle - 1
+            elif squared > square:
+                right = mid - 1
             else:
-                left = middle + 1
+                left = mid + 1
 
         return False
 

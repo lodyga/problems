@@ -7,9 +7,9 @@ class Solution:
             DS: hash map
             A: sliding window
         """
-        left = 0
         window = {}
-        total = 1
+        left = 0
+        res = 0
 
         for right, fruit in enumerate(fruits):
             window[fruit] = window.get(fruit, 0) + 1
@@ -17,13 +17,14 @@ class Solution:
             while len(window) > 2:
                 left_fruit = fruits[left]
                 window[left_fruit] -= 1
-                if window[left_fruit] == 0:
-                    window.pop(left_fruit)
                 left += 1
 
-            total = max(total, right - left + 1)
+                if window[left_fruit] == 0:
+                    window.pop(left_fruit)
 
-        return total
+            res = max(res, right - left + 1)
+
+        return res
 
 
 print(Solution().totalFruit([1, 2, 1]) == 3)

@@ -54,3 +54,4 @@ print(get_linked_list_values(Solution().reverseList(build_linked_list([1, 2]))) 
 print(get_linked_list_values(Solution().reverseList(build_linked_list([1, 2, 3, 4, 5]))) == [5, 4, 3, 2, 1])
 
 print(are_linked_lists_equeal(Solution().reverseList(build_linked_list([1, 2])), build_linked_list([2, 1])))
+

@@ -24,17 +24,19 @@ class Solution {
             } else if (stack[stack.length - 1] + asteroid === 0) {
                stack.pop();
                addAsteroid = false;
-               break
+               break;
             } else {
                addAsteroid = false;
-               break
+               break;
             }
          }
+
          if (addAsteroid)
             stack.push(asteroid);
       }
       return stack
-   };
+
+   }
 }
 
 

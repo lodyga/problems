@@ -12,23 +12,20 @@ class Solution {
    maxVowels(text, k) {
       const VOWELS = 'aeiou';
       let vowelWindow = 0;
-      let left = 0;
-      let vowelCounter = 0;
+      let res = 0;
 
       for (let right = 0; right < text.length; right++) {
          const letter = text[right];
          vowelWindow += VOWELS.includes(letter);
 
-         if (right + 1 < k) {
-            continue
+         if (right >= k - 1) {
+            res = Math.max(res, vowelWindow);
+            vowelWindow -= VOWELS.includes(text[right - k + 1])
          }
-         vowelCounter = Math.max(vowelCounter, vowelWindow);
-         const leftLetter = text[left];
-         vowelWindow -= VOWELS.includes(leftLetter)
-         left++;
       }
-      return vowelCounter
-   };
+
+      return res;
+   }
 }
 
 

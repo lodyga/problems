@@ -1,44 +1,41 @@
-from collections import deque
-
-
 class MyStack:
     """
     Time complexity:
-        push: O(1)
-        pop: O(n)
-        top: O(n)
-        empty: O(1)
+        O(1): push, empty
+        O(n): pop, top
     Auxiliary space complexity: O(n)
     Tags:
         DS: queue, stack
         A: iteration
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
+        from collections import deque
         self.queue = deque()
 
-    def push(self, num: int) -> None:
-        self.queue.append(num)
+    def push(self, val: int) -> None:
+        self.queue.append(val)
+
+    def _rotate(self) -> None:
+        for _ in range(len(self.queue) - 1):
+            self.queue.append(self.queue.popleft())
 
     def pop(self) -> int:
-        queue = self.queue
-        for _ in range(len(queue) - 1):
-            queue.append(queue.popleft())
-        return queue.popleft()
+        self._rotate()
+        return self.queue.popleft()
 
     def top(self) -> int:
-        queue = self.queue
-        for _ in range(len(queue) - 1):
-            queue.append(queue.popleft())
-        num = queue.popleft()
-        queue.append(num)
-        return num
+        self._rotate()
+        val = self.queue.popleft()
+        self.queue.append(val)
+        return val
 
     def empty(self) -> bool:
         return len(self.queue) == 0
 
 
-def test_input(operations: list[str], arguments: list[list[int]]) -> list[int | None]:
+
+def test_input(operations: list[str], arguments: list[list]) -> list[str | int | None]:
     """
     Test input provided in two separate lists: operations and arguments
     """

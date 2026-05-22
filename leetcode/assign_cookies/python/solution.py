@@ -4,28 +4,20 @@ class Solution:
         Time complexity: O(nlogn)
         Auxiliary space complexity: O(n)
         Tags:
-            A: two pointers
+            A: two pointers, sorting
         """
         greed_list.sort()
         cookies.sort()
-        g_index = 0
-        c_index = 0
-        counter = 0
+        res = 0
 
-        while (
-            g_index < len(greed_list) and
-            c_index < len(cookies)
-        ):
-            greed = greed_list[g_index]
-            cookie = cookies[c_index]
+        for cookie in cookies:
+            if res == len(greed_list):
+                break
+            
+            if greed_list[res] <= cookie:
+                res += 1
 
-            if greed <= cookie:
-                counter += 1
-                g_index += 1
-
-            c_index += 1
-
-        return counter
+        return res
 
 
 print(Solution().findContentChildren([1, 2, 3], [1, 1]) == 1)

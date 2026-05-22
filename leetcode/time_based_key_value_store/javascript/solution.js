@@ -12,7 +12,7 @@
 class TimeMap {
    constructor() {
       this.store = new Map();
-   };
+   }
 
    /** 
     * @param {string} key 
@@ -27,7 +27,7 @@ class TimeMap {
          store.set(key, []);
 
       store.get(key).push([timestamp, value]);
-   };
+   }
 
    /** 
     * @param {string} key 
@@ -37,7 +37,7 @@ class TimeMap {
    get(key, timestamp) {
       const store = this.store
       if (!store.has(key)) {
-         return ""
+         return "";
       }
 
       const stream = store.get(key);
@@ -58,8 +58,8 @@ class TimeMap {
             left = mid + 1;
          }
       }
-      return res
-   };
+      return res;
+   }
 }
 
 
@@ -82,7 +82,7 @@ class ListNode {
  *     DS: linked list, hash map
  *     A: iteration
  */
-class TimeMap2 {
+class TimeMap {
    constructor() {
       this.store = new Map();
    };
@@ -102,7 +102,7 @@ class TimeMap2 {
       const node = new ListNode([timestamp, value], head);
       store.set(key, node);
 
-   };
+   }
 
    /** 
     * @param {string} key 
@@ -119,7 +119,7 @@ class TimeMap2 {
          node = node.next
 
       return node.val[1]
-   };
+   }
 }
 
 

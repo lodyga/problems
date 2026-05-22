@@ -23,22 +23,19 @@ class Solution {
     * @return {boolean}
     */
    isPalindrome(head) {
-      if (head.next === null)
-         return true
       let slow = head;
       let fast = head.next;
 
       // Find the end of the left potrion.
-      while (fast.next) {
+      while (fast && fast.next) {
          slow = slow.next;
-         fast = fast.next;
-         if (fast.next)
-            fast = fast.next;
+         fast = fast.next.next;
       }
 
       // Reverse the right portion.
-      let node = slow.next;
       let prev = null;
+      let node = slow.next;
+
       while (node) {
          const nodeNext = node.next;
          node.next = prev;
@@ -46,17 +43,20 @@ class Solution {
          node = nodeNext;
       }
 
-      // Compare the left and right portions.
-      let left = head;
+      // Compare left and right portions.
       let right = prev;
+      let left = head;
+
       while (right) {
          if (left.val != right.val) {
-            return false
+            return false;
          }
+
          left = left.next;
          right = right.next;
       }
-      return true
+
+      return true;
    }
 }
 

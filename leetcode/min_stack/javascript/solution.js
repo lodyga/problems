@@ -48,6 +48,75 @@ class MinStack {
 }
 
 
+/** 
+ * @param {string[]} operations
+ * @param {number[][]} args
+ * @return {number[][]}
+ */
+const testInput = (cls, operations, args) => {
+   const res = []
+
+   for (let index = 0; index < operations.length; index++) {
+      const operation = operations[index];
+      const argument = args[index];
+
+      if (operation === cls.name) {
+         const instance = new TimeMap(...argument);
+         res.push(null);
+         continue
+      } 
+
+      const method = getattr(instance, operation);
+        const result = method(...argument);
+        res.push(result);
+
+   return res
+}
+
+
+// Example Input
+const operationsList = [
+   ["MinStack", "push", "push", "push", "getMin", "pop", "top", "getMin"],
+]
+
+const argumentsList = [
+   [[], [-2], [0], [-3], [], [], [], []],
+]
+
+const expectedOutputList = [
+   [None, None, None, None, -3, None, 0, -2]
+]
+
+
+// Run tests
+/**
+ * Run a batch of TimeMap tests and compare outputs with expected results.
+ * If show_output is True, returns [(actual, expected), ...] instead of booleans.
+ * @param {string[][]} operationsList 
+ * @param {number[][][]} argumentsList 
+ * @param {number[][]} expectedOutputList 
+ * @returns {boolean}
+ */
+const runTests = (cls, operationsList, argumentsList, expectedOutputList, showOutput) => {
+   const res = [];
+
+   for (let index = 0; index < operationsList.length; index++) {
+      const operations = operationsList[index];
+      const args = argumentsList[index];
+      const expectedOutput = expectedOutputList[index];
+      
+      if (showOutput) {
+         res.push([testInput(cls, operations, args), expectedOutput])
+      } else {
+         res.push(JSON.stringify(testInput(cls, operations, args)) === JSON.stringify(expectedOutput))
+      }
+   }
+   return res
+}
+console.log(runTests(MinStack, operationsList, argumentsList, expectedOutputList))
+
+
+// Example 1
 const minStack = new MinStack();
 minStack.push(-2);
 minStack.push(0);
@@ -60,7 +129,7 @@ console.log(minStack.getMin() === -2);
 
 
 // class as a function, methods are attached directly
-const MinStack = function () {
+const MinStack2 = function () {
    this.stack = [];
    this.stackMin = [];
 
@@ -86,7 +155,7 @@ const MinStack = function () {
 
 
 // adding methods with prototype
-const MinStack = function () {
+const MinStack3 = function () {
    this.stack = [];
    this.stackMin = [];
 };

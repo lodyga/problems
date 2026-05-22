@@ -1,5 +1,31 @@
 class Solution:
-    def generate(self, ROW_COUNT: int) -> list[list[int]]:
+    def generate(self, num_rows: int) -> list[list[int]]:
+        """
+        Time complexity: O(n2)
+        Auxiliary space complexity: O(n2)
+        Tags:
+            DS: list
+            A: bottom-up
+        """
+        triangle = [[1]]
+
+        if num_rows == 1:
+            return triangle
+
+        for row in range(1, num_rows):
+            line = [0] * (row + 1)
+
+            for col in range(row):
+                line[col] += triangle[row - 1][col]
+                line[col + 1] += triangle[row - 1][col]
+
+            triangle.append(line)
+
+        return triangle
+
+
+class Solution:
+    def generate(self, num_rows: int) -> list[list[int]]:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n2)
@@ -9,7 +35,7 @@ class Solution:
         """
         triangle = []
 
-        for index in range(1, ROW_COUNT + 1):
+        for index in range(1, num_rows + 1):
             row = [1] * index
 
             for col in range(index - 2):

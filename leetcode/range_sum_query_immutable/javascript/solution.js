@@ -9,9 +9,9 @@
  */
 class NumArray {
    constructor(nums) {
-      this.prefix = [0];
+      this.prefixSum = [0];
       for (const num of nums)
-         this.prefix.push(this.prefix[this.prefix.length - 1] + num);
+         this.prefixSum.push(this.prefixSum[this.prefixSum.length - 1] + num);
    }
 
    /**
@@ -20,8 +20,8 @@ class NumArray {
     * @returns {number}
     */
    sumRange(left, right) {
-      return this.prefix[right + 1] - this.prefix[left]
-   };
+      return this.prefixSum[right + 1] - this.prefixSum[left];
+   }
 }
 
 

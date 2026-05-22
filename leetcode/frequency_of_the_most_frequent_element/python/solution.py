@@ -7,22 +7,23 @@ class Solution:
             A: sliding window, sorting
         """
         nums.sort()
-        prev_num = 0
-        frequency = 1
         left = 0
+        res = 1
+        prev_num = 0
 
         for right, num in enumerate(nums):
             diff = num - prev_num
-            k -= diff * (right - left)
+            span = right - left
+            k -= diff * span
 
             while k < 0:
                 k += num - nums[left]
                 left += 1
 
-            frequency = max(frequency, right - left + 1)
+            res = max(res, right - left + 1)
             prev_num = num
 
-        return frequency
+        return res
 
 
 print(Solution().maxFrequency([1, 2, 4], 5) == 3)

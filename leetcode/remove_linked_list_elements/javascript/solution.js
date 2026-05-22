@@ -34,8 +34,9 @@ class Solution {
             node = node.next;
          }
       }
-      return anchor.next
-   };
+
+      return anchor.next;
+   }
 }
 
 

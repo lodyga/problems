@@ -6,25 +6,23 @@ class Solution:
         Tags:
             A: sliding window
         """
-        window = 0
-        left = 0
-        counter = 0
-        min_sum = threshold * k
+        total = 0
+        total_threshold = k * threshold
+        res = 0
 
         for right, num in enumerate(nums):
-            window += num
+            total += num
 
-            if right + 1 < k:
+            if right < k - 1:
                 continue
 
-            if window >= min_sum :
-                counter += 1
+            if total >= total_threshold:
+                res += 1
 
-            left_num = nums[left]
-            window -= left_num
-            left += 1
+            left = right - k + 1
+            total -= nums[left]
 
-        return counter
+        return res
 
 
 print(Solution().numOfSubarrays([2, 2, 2, 2, 5, 5, 5, 8], 3, 4) == 3)

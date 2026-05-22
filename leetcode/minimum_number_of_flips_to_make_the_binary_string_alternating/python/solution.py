@@ -8,56 +8,36 @@ class Solution:
         """
         N = len(text)
         min_flips = N
-        flips_a = 0
-        flips_b = 0
-        left = 0
+        s1_flips = 0
+        s2_flips = 0
 
         for right in range(N*2 - 1):
-            digit = text[right % N]
-            flips_a += 1 if digit == str((right + 1) % 2) else 0
-            flips_b += 1 if digit == str(right % 2) else 0
+            char = text[right % N]
 
-            if right + 1 < N:
+            if char == str((right + 1) % 2):
+                s1_flips += 1
+
+            if char == str(right % 2):
+                s2_flips += 1
+
+            if right < N - 1:
                 continue
 
-            min_flips = min(min_flips, min(flips_a, flips_b))
-            # early exit when there are no flips
+            min_flips = min(min_flips, s1_flips, s2_flips)
+
             if min_flips == 0:
                 return 0
 
-            left_digit = text[left]
-            flips_a -= 1 if left_digit == str((left + 1) % 2) else 0
-            flips_b -= 1 if left_digit == str(left % 2) else 0
-            left += 1
-
+            left = right - N + 1
+            
+            if text[left] == str((left + 1) % 2):
+                s1_flips -= 1
+            
+            if text[left] == str(left % 2):
+                s2_flips -= 1
+            
         return min_flips
 
-
-class Solution:
-    def minFlips(self, text: str) -> int:
-        """
-        Time complexity: O(n2)
-        Auxiliary space complexity: O(n)
-        Tags:
-            DS: string
-            A: brute-force
-        """
-        N = len(text)
-        bin_a = "".join(str(num % 2) for num in range(N))
-        bin_b = "".join(str((num + 1) % 2) for num in range(N))
-        min_flips = N
-
-        for diff in range(N - 1):
-            flips_a = 0
-            flips_b = 0
-
-            for index in range(N):
-                flips_a += 1 if text[(index + diff) % N] != bin_a[index] else 0
-                flips_b += 1 if text[(index + diff) % N] != bin_b[index] else 0
-
-            min_flips = min(min_flips, min(flips_a, flips_b))
-
-        return min_flips
 
 
 print(Solution().minFlips("111000") == 2)

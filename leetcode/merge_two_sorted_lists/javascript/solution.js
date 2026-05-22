@@ -35,11 +35,12 @@ class Solution {
             node.next = node2;
             node2 = node2.next;
          }
+         
          node = node.next;
       }
 
       node.next = node1 || node2;
-      return anchor.next
+      return anchor.next;
    }
 }
 

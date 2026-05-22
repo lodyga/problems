@@ -16,9 +16,13 @@ class Solution {
          left++;
          right--;
       }
-      return letters
-   };
 
+      return letters
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
@@ -27,7 +31,7 @@ class Solution {
     * @param {characters[]} letters
     * @return {characters[]}
     */
-   reverseString(letters) {
+   areverseString(letters) {
       const dfs = (left, right) => {
          if (left >= right) {
             return
@@ -37,8 +41,11 @@ class Solution {
       }
       dfs(0, letters.length - 1)
       return letters
-   };
+   }
+}
 
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
@@ -47,9 +54,9 @@ class Solution {
     * @param {characters[]} letters
     * @return {characters[]}
     */
-   reverseString(letters) {
+   areverseString(letters) {
       return letters.reverse()
-   };
+   }
 }
 
 

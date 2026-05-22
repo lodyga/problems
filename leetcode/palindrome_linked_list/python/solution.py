@@ -19,31 +19,28 @@ class Solution:
             DS: linked list
             A: iteration
         """
-        if head.next is None:
-            return True
-
         slow = head
         fast = head.next
 
         # Find the end of the left potrion.
-        while fast.next:
+        while fast and fast.next:
             slow = slow.next
-            fast = fast.next
-            if fast.next:
-                fast = fast.next
+            fast = fast.next.next
 
         # Reverse the right portion.
-        node = slow.next
         prev = None
+        node = slow.next
+
         while node:
             node_next = node.next
             node.next = prev
             prev = node
             node = node_next
 
-        # Compare the left and right portions.
-        left = head
+        # Compare left and right portions.
         right = prev
+        left = head
+
         while right:
             if left.val != right.val:
                 return False
@@ -54,9 +51,10 @@ class Solution:
         return True
 
 
+print(Solution().isPalindrome(build_linked_list([1, 2, 2, 1])) == True)
+print(Solution().isPalindrome(build_linked_list([1, 2])) == False)
+print(Solution().isPalindrome(build_linked_list([1, 2, 1])) == True)
 print(Solution().isPalindrome(build_linked_list([5, 5])) == True)
 print(Solution().isPalindrome(build_linked_list([4, 5])) == False)
-print(Solution().isPalindrome(build_linked_list([1, 2, 2, 1])) == True)
-print(Solution().isPalindrome(build_linked_list([1, 2, 1])) == True)
 print(Solution().isPalindrome(build_linked_list([1, 2, 3, 3, 2, 1])) == True)
 print(Solution().isPalindrome(build_linked_list([5])) == True)

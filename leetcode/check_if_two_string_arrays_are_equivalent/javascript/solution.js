@@ -1,5 +1,61 @@
 class Solution {
    /**
+    * Time complexity: O(m+n)
+    * Auxiliary space complexity: O(1)
+    * Tags:
+    *     A: generator
+    * @param {string[]} words1
+    * @param {string[]} words2
+    * @return {boolean}
+    */
+   arrayStringsAreEqual(words1, words2) {
+      /**
+       * @param {string[]} words
+       * @returns {IterableIterator<string>}
+       */
+      function* generateLetter(words) {
+         for (const word of words) {
+            for (const letter of word) {
+               yield letter;
+            }
+         }
+      }
+
+      const letter1Generator = generateLetter(words1);
+      const letter2Generator = generateLetter(words2);
+
+      while (true) {
+         const letter1 = letter1Generator.next().value || null;
+         const letter2 = letter2Generator.next().value || null;
+
+         if (letter1 !== letter2) {
+            return false;
+         } else if (letter1 === null && letter2 === null) {
+            return true;
+         }
+      }
+   }
+}
+
+
+class Solution {
+   /**
+    * Time complexity: O(m+n)
+    * Auxiliary space complexity: O(m+n)
+    * Tags:
+    *    A: build-in function
+    * @param {string[]} words1
+    * @param {string[]} words2
+    * @return {boolean}
+    */
+   arrayStringsAreEqual(words1, words2) {
+      return words1.join('') === words2.join('');
+   }
+}
+
+
+class Solution {
+   /**
     * Time complexity: O(n+m)
     * Auxiliary space complexity: O(1)
     * Tags:
@@ -38,21 +94,8 @@ class Solution {
       return (
          (r1 === words1.length && c1 === 0) &&
          (r2 === words2.length && c2 === 0)
-      )
-   };
-
-   /**
-    * Time complexity: O(m+n)
-    * Auxiliary space complexity: O(m+n)
-    * Tags:
-    *    A: build-in function
-    * @param {string[]} words1
-    * @param {string[]} words2
-    * @return {boolean}
-    */
-   arrayStringsAreEqual(words1, words2) {
-      return words1.join('') === words2.join('')
-   };
+      );
+   }
 }
 
 

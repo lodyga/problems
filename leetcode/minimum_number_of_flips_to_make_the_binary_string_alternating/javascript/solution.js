@@ -10,30 +10,28 @@ class Solution {
    minFlips(text) {
       const N = text.length;
       let minFlips = N;
-      let flipsA = 0;
-      let flipsB = 0;
       let left = 0;
+      let s1Flips = 0;
+      let s2Flips = 0;
 
       for (let right = 0; right < N * 2; right++) {
-         const digit = text[right % N];
-         flipsA += digit === String((right + 1) % 2) ? 1 : 0;
-         flipsB += digit === String(right % 2) ? 1 : 0;
+         const char = text[right % N];
+         s1Flips += char === String((right + 1) % 2) ? 1 : 0;
+         s2Flips += char === String(right % 2) ? 1 : 0;
 
-         if (right + 1 < N)
-            continue
+         if (right < N - 1) continue;
 
-         minFlips = Math.min(minFlips, Math.min(flipsA, flipsB));
-         //  early exit when there are no flips
-         if (minFlips === 0)
-            return 0
+         minFlips = Math.min(minFlips, s1Flips, s2Flips);
+         if (minFlips === 0) return 0;
 
-         const leftDigit = text[left];
-         flipsA -= leftDigit === String((left + 1) % 2) ? 1 : 0;
-         flipsB -= leftDigit === String(left % 2) ? 1 : 0;
+         const leftChar = text[left];
+         s1Flips -= leftChar === String((left + 1) % 2) ? 1 : 0;
+         s2Flips -= leftChar === String(left % 2) ? 1 : 0;
          left++;
       }
-      return minFlips
-   };
+
+      return minFlips;
+   }
 }
 
 

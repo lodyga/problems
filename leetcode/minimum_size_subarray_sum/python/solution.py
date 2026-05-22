@@ -6,20 +6,20 @@ class Solution:
         Tags:
             A: sliding window
         """
-        window = 0
         left = 0
-        min_length = len(nums) + 1
+        window_sum = 0
+        N = len(nums)
+        res = N + 1
 
         for right, num in enumerate(nums):
-            window += num
+            window_sum += num
 
-            while window >= target:
-                min_length = min(min_length, right - left + 1)
-                left_num = nums[left]
-                window -= left_num
+            while window_sum >= target:
+                res = min(res, right - left + 1)
+                window_sum -= nums[left]
                 left += 1
 
-        return min_length if min_length != len(nums) + 1 else 0
+        return res if res < N + 1 else 0
 
 
 print(Solution().minSubArrayLen(7, [2, 3, 1, 2, 4, 3]) == 2)

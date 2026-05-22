@@ -4,27 +4,28 @@ class Solution {
     * Auxiliary space complexity: O(1)
     * Tags:
     *     A: binary search
-    * @param {number} coins
+    * @param {number} n
     * @return {number}
     */
-   arrangeCoins(coins) {
+   arrangeCoins(n) {
       let left = 1;
-      let right = coins;
+      let right = n;
 
       while (left <= right) {
-         const middle = left + ((right - left) >> 1)
-         const coinCount = Math.floor((1 + middle) * middle / 2);
+         const mid = Math.floor((left + right) / 2);
+         const coinCount = parseInt((1 + mid) * mid / 2);
 
-         if (coins === coinCount) {
-            return middle
-         } else if (coinCount > coins) {
-            right = middle - 1;
+         if (n === coinCount) {
+            return mid
+         } else if (n < coinCount) {
+            right = mid - 1;
          } else {
-            left = middle + 1;
+            left = mid + 1;
          }
       }
-      return right
-   };
+
+      return right;
+   }
 }
 
 

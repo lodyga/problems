@@ -9,9 +9,9 @@ class Solution {
     * @return {number}
     */
    totalFruit(fruits) {
-      let left = 0;
       const window = new Map();
-      let total = 0;
+      let left = 0;
+      let res = 0;
 
       for (let right = 0; right < fruits.length; right++) {
          const fruit = fruits[right];
@@ -20,15 +20,18 @@ class Solution {
          while (window.size > 2) {
             const leftFruit = fruits[left];
             window.set(leftFruit, window.get(leftFruit) - 1);
+            left++;
+            
             if (window.get(leftFruit) === 0) {
                window.delete(leftFruit);
             }
-            left++;
          }
-         total = Math.max(total, right - left + 1);
+         
+         res = Math.max(res, right - left + 1);
       }
-      return total
-   };
+
+      return res;
+   }
 }
 
 

@@ -7,23 +7,21 @@ class Solution:
             DS: string
             A: sliding window
         """
-        VOWELS = "aeiou"
+        VOWELS = "aeoiu"
         vowel_window = 0
-        left = 0
-        vowel_counter = 0
+        res = 0
 
         for right, letter in enumerate(text):
-            vowel_window += letter in VOWELS
-            
-            if right + 1 < k:
-                continue
+            if letter in VOWELS:
+                vowel_window += 1
 
-            vowel_counter = max(vowel_counter, vowel_window)
-            left_letter = text[left]
-            vowel_window -= left_letter in VOWELS
-            left+= 1
+            if right >= k - 1:
+                res = max(res, vowel_window)
 
-        return vowel_counter
+                if text[right - k + 1] in VOWELS:
+                    vowel_window -= 1
+
+        return res
 
 
 print(Solution().maxVowels("abciiidef", 3) == 3)

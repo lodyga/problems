@@ -11,24 +11,26 @@ class Solution {
    maxFrequency(nums, k) {
       nums.sort((a, b) => a - b);
       let left = 0;
-      let frequency = 1;
+      let res = 1;
       let prevNum = 0;
 
       for (let right = 0; right < nums.length; right++) {
          const num = nums[right];
          const diff = num - prevNum;
-         k -= diff * (right - left);
+         const span = right - left;
+         k -= diff * span;
 
          while (k < 0) {
             k += num - nums[left];
-            left += 1;
+            left++;
          }
 
-         frequency = Math.max(frequency, right - left + 1);
+         res = Math.max(res, right - left + 1);
          prevNum = num;
       }
-      return frequency
-   };
+
+      return res;
+   }
 }
 
 

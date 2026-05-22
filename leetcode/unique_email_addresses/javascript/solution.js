@@ -14,25 +14,29 @@ class Solution {
       const cleanEmails = new Set();
 
       for (const emial of emials) {
-         const [raw_name, domain] = emial.split('@');
-         const name = [];
+         const [localName, domain] = emial.split('@');
+         const localPrefix = [];
 
-         for (const letter of raw_name) {
+         for (const letter of localName) {
 
-            if (letter === '.')
+            if (letter === '.') {
                continue
-            else if (letter === '+')
+            } else if (letter === '+') {
                break
-            else {
-               name.push(letter);
+            } else {
+               localPrefix.push(letter);
             }
          }
 
-         cleanEmails.add(name.join('') + '@' + domain);
+         cleanEmails.add(localPrefix.join('') + '@' + domain);
       }
-      return cleanEmails.size
-   };
 
+      return cleanEmails.size;
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n*m)
     *     n: emails len
@@ -58,8 +62,9 @@ class Solution {
 
          clean_emails.add(name + '@' + domain);
       }
-      return clean_emails.size
-   };
+
+      return clean_emails.size;
+   }
 }
 
 

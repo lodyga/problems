@@ -18,7 +18,7 @@ class Solution {
     * Auxiliary space complexity: O(1)
     * Tags:
     *     DS: linked list
-    *     A: two pointers, Floyd's tortoise and hare
+    *     A: two pointers, tortoise and hare
     * @param {ListNode} head
     * @return {boolean}
     */
@@ -31,10 +31,11 @@ class Solution {
          fast = fast.next.next;
 
          if (slow === fast) {
-            return true
+            return true;
          }
       }
-      return false
+
+      return false;
    }
 }
 

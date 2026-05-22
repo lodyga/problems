@@ -1,7 +1,7 @@
 # Make The String Great
-https://leetcode.com/problems/make-the-string-great/description/
+https://leetcode.com/problems/make-the-string-great/
 
-
+<p>
 Given a string s of lower and upper case English letters.
 
 A good string is a string which doesn't have two adjacent characters s[i] and s[i + 1] where:
@@ -13,20 +13,26 @@ To make the string good, you can choose two adjacent characters that make the st
 Return the string after making it good. The answer is guaranteed to be unique under the given constraints.
 
 Notice that an empty string is also good.
+</p>
 
-
-<b>Example 1:</b>\
-Input: s = "leEeetcode"\
-Output: "leetcode"\
+<pre>
+<b>Example 1:</b>
+Input: s = "leEeetcode"
+Output: "leetcode"
 Explanation: In the first step, either you choose i = 1 or i = 2, both will result "leEeetcode" to be reduced to "leetcode".
+</pre>
 
-<b>Example 2:</b>\
-Input: s = "abBAcC"\
-Output: ""\
-Explanation: We have many possible scenarios, and all lead to the same answer. For example:\
-"abBAcC" --> "aAcC" --> "cC" --> ""\
+<pre>
+<b>Example 2:</b>
+Input: s = "abBAcC"
+Output: ""
+Explanation: We have many possible scenarios, and all lead to the same answer. For example:
+"abBAcC" --> "aAcC" --> "cC" --> ""
 "abBAcC" --> "abBA" --> "aA" --> ""
+</pre>
 
-<b>Example 3:</b>\
-Input: s = "s"\
+<pre>
+<b>Example 3:</b>
+Input: s = "s"
 Output: "s"
+</pre>

@@ -10,18 +10,22 @@ class Solution {
     * @return {number[]}
     */
    nextGreaterElement(nums1, nums2) {
-      // {num: next greater num, ...}
-      const num2Next = new Map(nums2.map(num => [num, -1]));
+      // decreasing stack
+      const stack = [];  
+      // {lower num: next greater num, ...}
+      const greaterOnRight = new Map(nums2.map(num => [num, -1]));
 
-      // Find the next greater number.
-      const stack = [];  // decreasing stack
       for (const num of nums2) {
-         while (stack.length && stack[stack.length - 1] < num)
-            num2Next.set(stack.pop(), num);
+         while (stack.length && stack[stack.length - 1] < num) {
+            const lowerNum = stack.pop();
+            greaterOnRight.set(lowerNum, num);
+         }
+
          stack.push(num);
       }
-      return nums1.map(num => num2Next.get(num))
-   };
+
+      return nums1.map(num => greaterOnRight.get(num));
+   }
 }
 
 

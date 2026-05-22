@@ -2,8 +2,33 @@ class Solution:
     def sortedSquares(self, nums: list[int]) -> list[int]:
         """
         Time complexity: O(n)
-        Auxiliary space complexity: O(1)
+        Auxiliary space complexity: O(n)
         Tags:
+            DS: list
+            A: two pointers
+        """
+        left = 0
+        right = len(nums) - 1
+        res = []
+
+        while left <= right:
+            if abs(nums[left]) > abs(nums[right]):
+                res.append(nums[left]**2)
+                left += 1
+            else:
+                res.append(nums[right]**2)
+                right -= 1
+
+        res.reverse()
+        return res
+
+
+class Solution:
+    def sortedSquares(self, nums: list[int]) -> list[int]:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(1)
+        Tags: 
             DS: array
             A: two pointers
         """
@@ -33,7 +58,7 @@ print(Solution().sortedSquares([1, 2, 3]) == [1, 4, 9])
 print(Solution().sortedSquares([-3, -2, -1]) == [1, 4, 9])
 print(Solution().sortedSquares([0]) == [0])
 print(Solution().sortedSquares([0, 1]) == [0, 1])
-print(Solution().sortedSquares([-10000, -9999, -7, -5, 0, 0, 10000]) == [0, 0, 25, 49, 99980001, 100000000, 100000000])
+print(Solution().sortedSquares([-10000, -9999, -7, -5, 0, 0,10000]) == [0, 0, 25, 49, 99980001, 100000000, 100000000])
 print(Solution().sortedSquares([-1, 1]) == [1, 1])
 print(Solution().sortedSquares([-1, 1, 1]) == [1, 1, 1])
 print(Solution().sortedSquares([-3, -3, -2, 1]) == [1, 4, 9, 9])
