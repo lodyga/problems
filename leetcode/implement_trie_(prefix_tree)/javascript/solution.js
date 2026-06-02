@@ -26,6 +26,20 @@ class Trie {
       this.root = new TrieNode();
    }
 
+   _lookupNode(word) {
+      let node = this.root;
+
+      for (const letter of word) {
+         if (!node.letters.has(letter)) {
+            return null;
+         }
+
+         node = node.letters.get(letter);
+      }
+
+      return node;
+   }
+
    insert(word) {
       let node = this.root;
 
@@ -38,29 +52,16 @@ class Trie {
       }
 
       node.isWord = true;
-   };
-
-   _lookupNode(word) {
-      let node = this.root;
-
-      for (const letter of word) {
-         if (!node.letters.has(letter)) {
-            return null
-         }
-
-         node = node.letters.get(letter);
-      }
-      return node
    }
 
    search(word) {
       const node = this._lookupNode(word);
-      return node ? node.isWord : false
-   };
+      return node ? node.isWord : false;
+   }
 
    startsWith(prefix) {
-      return Boolean(this._lookupNode(prefix))
-   };
+      return Boolean(this._lookupNode(prefix));
+   }
 }
 
 

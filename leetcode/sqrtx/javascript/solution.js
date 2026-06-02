@@ -13,22 +13,21 @@ class Solution {
       let res = X;
 
       while (left <= right) {
-         const middle = left + ((right - left) >> 1);
-         const currentSquare = middle * middle;
+         const mid = left + Math.floor((right - left) / 2);
+         const square = mid**2;
 
-         if (currentSquare === X) {
-            return middle
-         }
-         else if (currentSquare < X) {
-            res = middle;
-            left = middle + 1;
-         }
-         else {
-            right = middle - 1;
+         if (square === X) {
+            return mid
+         } else if (square < X) {
+            res = mid;
+            left = mid + 1;
+         } else {
+            right = mid - 1;
          }
       }
-      return res
-   };
+
+      return res;
+   }
 }
 
 

@@ -5,12 +5,39 @@ class Solution:
         Auxiliary space complexity: O(n)
         Tags:
             DS: array
+            A: sorting, two pointers
+        """
+        nums.sort()
+        left = 0
+        right = len(nums) - 1
+        res = []
+
+        while left <= right:
+            res.append(nums[left])
+            
+            if left != right:
+                res.append(nums[right])
+            
+            left += 1
+            right -= 1
+
+        return res
+
+
+
+class Solution:
+    def rearrangeArray(self, nums: list[int]) -> list[int]:
+        """
+        Time complexity: O(nlogn)
+        Auxiliary space complexity: O(n)
+        Tags:
+            DS: array
             A: two pointers
         """
         nums.sort()
         res = nums.copy()
 
-        mid = len(nums) >> 1
+        mid = len(nums) // 2
         index = 0
 
         if len(nums) % 2:
@@ -44,7 +71,7 @@ class Solution:
         """
         nums.sort()
         res = []
-        mid = len(nums) >> 1
+        mid = len(nums) // 2
 
         if len(nums) % 2:
             res.append(nums[mid])

@@ -10,20 +10,24 @@ class Solution {
     * @return {number[]}
     */
    rotate(nums, k) {
-      const _reverse = (left, right) => {
+      const _reverseInplace = (left, right) => {
          while (left < right) {
             [nums[left], nums[right]] = [nums[right], nums[left]];
             left++;
             right--;
          }
       };
-      k %= nums.length;
-      _reverse(0, nums.length - k - 1);
-      _reverse(nums.length - k, nums.length - 1);
-      _reverse(0, nums.length - 1);
-      return nums
-   };
 
+      k %= nums.length;
+      _reverseInplace(0, nums.length - k - 1);
+      _reverseInplace(nums.length - k, nums.length - 1);
+      _reverseInplace(0, nums.length - 1);
+      return nums;
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
@@ -34,10 +38,10 @@ class Solution {
     * @param {number} k
     * @return {number[]}
     */
-   rotate2(nums, k) {
+   rotate(nums, k) {
       const pivot = nums.length - k % nums.length;
-      return [...nums.slice(pivot,), ...nums.slice(0, pivot)]
-   };
+      return [...nums.slice(pivot,), ...nums.slice(0, pivot)];
+   }
 }
 
 

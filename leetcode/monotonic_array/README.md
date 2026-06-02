@@ -1,22 +1,28 @@
 # Monotonic Array
-https://leetcode.com/problems/monotonic-array/description/
+https://leetcode.com/problems/monotonic-array/
 
-
+<p>
 An array is monotonic if it is either monotone increasing or monotone decreasing.
 
 An array nums is monotone increasing if for all i <= j, nums[i] <= nums[j]. An array nums is monotone decreasing if for all i <= j, nums[i] >= nums[j].
 
 Given an integer array nums, return true if the given array is monotonic, or false otherwise.
+</p>
 
-
-<b>Example 1:</b>\
-Input: nums = [1,2,2,3]\
+<pre>
+<b>Example 1:</b>
+Input: nums = [1,2,2,3]
 Output: true
+</pre>
 
-<b>Example 2:</b>\
-Input: nums = [6,5,4,4]\
+<pre>
+<b>Example 2:</b>
+Input: nums = [6,5,4,4]
 Output: true
+</pre>
 
-<b>Example 3:</b>\
-Input: nums = [1,3,2]\
+<pre>
+<b>Example 3:</b>
+Input: nums = [1,3,2]
 Output: false
+</pre>

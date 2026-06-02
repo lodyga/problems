@@ -7,19 +7,20 @@ class Solution:
             DS: stack
             A: iteration
         """
-        stack = []  # [(letter, frequency), ]
+        # [(letter, frequency), ]
+        stack = []
 
         for letter in text:
             if stack and stack[-1][0] == letter:
-                _, frequency = stack.pop()
-                if frequency + 1 < k:
-                    stack.append((letter, frequency + 1))
+                _, freq = stack.pop()
 
+                if freq + 1 != k:
+                    stack.append((letter, freq + 1))
             else:
                 stack.append((letter, 1))
 
-        return "".join(letter * frequency
-                       for letter, frequency in stack)
+        return "".join(letter * freq 
+                       for letter, freq in stack)
 
 
 print(Solution().removeDuplicates("abcd", 2) == "abcd")

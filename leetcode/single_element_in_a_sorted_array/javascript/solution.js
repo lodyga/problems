@@ -12,30 +12,32 @@ class Solution {
       let right = nums.length - 1
 
       while (left <= right) {
-         const middle = (left + right) >> 1;
+         const mid = Math.floor((left + right) / 2);
+         const midNum = nums[mid];
 
-         if (
-            left === right ||
-            (nums[middle - 1] != nums[middle] && nums[middle] != nums[middle + 1])
-         )
-            return nums[middle]
-
-         if (nums[middle] === nums[middle + 1]) {
-            if ((middle - left) % 2 === 1) {
-               right = middle - 1;
+         if (left === right) {
+            return midNum;
+         } else if (midNum == nums[mid + 1]) {
+            if ((right - mid) % 2 === 0) {
+               left = mid + 2;
             } else {
-               left = middle + 2;
+               right = mid - 1;
             }
-         } else if (nums[middle - 1] === nums[middle]) {
-            if ((middle - left) % 2 === 1) {
-               left = middle + 1;
+         } else if (midNum === nums[mid - 1]) {
+            if ((mid - left) % 2 === 0) {
+               right = mid - 2;
             } else {
-               right = middle - 2;
+               left = mid + 1;
             }
+         } else {
+            return midNum;
          }
       }
-   };
+   }
+}
 
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
@@ -46,10 +48,13 @@ class Solution {
     */
    singleNonDuplicate(nums) {
       let xor = 0;
-      for (const number of nums)
-         xor ^= number
-      return xor
-   };
+   
+      for (const num of nums) {
+         xor ^= num;
+      }
+   
+      return xor;
+   }
 }
 
 

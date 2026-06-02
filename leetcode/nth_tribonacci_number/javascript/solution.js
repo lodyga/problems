@@ -8,20 +8,25 @@ class Solution {
     * @param {number} num
     * @return {number}
     */
-   tribonacci(num) {
+   tribonacci(ind) {
       const memo = new Map([[0, 0], [1, 1], [2, 1]]);
 
-      const dfs = (num) => {
-         if (memo.has(num)) {
-            return memo.get(num)
+      const dfs = (ind) => {
+         if (memo.has(ind)) {
+            return memo.get(ind);
          }
-         const triplet = dfs(num - 1) + dfs(num - 2) + dfs(num - 3);
-         memo.set(num, triplet);
+
+         const triplet = dfs(ind - 1) + dfs(ind - 2) + dfs(ind - 3);
+         memo.set(ind, triplet);
          return triplet
       }
-      return dfs(num)
-   };
 
+      return dfs(ind)
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
@@ -34,33 +39,38 @@ class Solution {
    tribonacci(num) {
       const cache = [0, 1, 1];
 
-      for (let index = 3; index < num + 1; index++) {
+      for (let idx = 3; idx < num + 1; idx++) {
          cache.push(
-            cache[index - 1] +
-            cache[index - 2] +
-            cache[index - 3]
+            cache[idx - 1]
+            + cache[idx - 2]
+            + cache[idx - 3]
          );
       }
-      return cache[num]
-   };
 
+      return cache[num];
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
     * Tags:
     *     DS: array
     *     A: bottom-up
-    * @param {number} number
+    * @param {number} num
     * @return {number}
     */
-   tribonacci(number) {
+   tribonacci(num) {
       const cache = [0, 1, 1];
 
-      for (let index = 3; index < number + 1; index++) {
-         cache[index % 3] = cache[0] + cache[1] + cache[2];
+      for (let idx = 3; idx < num + 1; idx++) {
+         cache[idx % 3] = cache[0] + cache[1] + cache[2];
       }
-      return cache[number % 3]
-   };
+
+      return cache[num % 3];
+   }
 }
 
 

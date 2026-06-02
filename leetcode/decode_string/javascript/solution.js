@@ -10,26 +10,30 @@ class Solution {
     */
    decodeString(text) {
       const stack = [];
-      let word = "";
+      let chuk = '';
       let multiplier = 0;
 
       for (const char of text) {
          if (char >= 0 && char <= 9) {
             multiplier = multiplier * 10 + Number(char);
+         
          } else if (char === '[') {
-            stack.push(word);
-            word = '';
+            stack.push(chuk);
+            chuk = '';
             stack.push(multiplier);
             multiplier = 0;
+         
          } else if (char === ']') {
-            word = word.repeat(stack.pop());
-            word = stack.pop() + word;
+            chuk = chuk.repeat(stack.pop());
+            chuk = stack.pop() + chuk;
+         
          } else {
-            word += char;
+            chuk += char;
          }
       }
-      return word
-   };
+      
+      return chuk;
+   }
 }
 
 

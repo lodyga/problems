@@ -29,19 +29,27 @@ class Solution {
          if (node === null) {
             return 0
          }
-         let total = 0;
-         if (
-            low <= node.val &&
-            node.val <= high
-         ) total += node.val;
-         if (low < node.val)
-            total += dfs(node.left)
-         if (high > node.val)
-            total += dfs(node.right)
-         return total
+
+         let res = 0;
+
+         if (low <= node.val && node.val <= high) {
+            res += node.val;
+         }
+
+         if (low < node.val) {
+            res += dfs(node.left);
+         }
+
+         if (high > node.val) {
+            res += dfs(node.right);
+         }
+
+         return res;
       }
+
       return dfs(root);
-   };
+
+   }
 }
 
 

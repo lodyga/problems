@@ -1,28 +1,34 @@
 # Word Pattern
-https://leetcode.com/problems/word-pattern/description/
+https://leetcode.com/problems/word-pattern/
 
-
+<p>
 Given a pattern and a string s, find if s follows the same pattern.
 
 Here follow means a full match, such that there is a bijection between a letter in pattern and a non-empty word in s. Specifically:
 
-Each letter in pattern maps to exactly one unique word in s.
-Each unique word in s maps to exactly one letter in pattern.
-No two letters map to the same word, and no two words map to the same letter.
+- Each letter in pattern maps to exactly one unique word in s.
+- Each unique word in s maps to exactly one letter in pattern.
+- No two letters map to the same word, and no two words map to the same letter.
+</p>
 
- 
-<b>Example 1:</b>\
-Input: pattern = "abba", s = "dog cat cat dog"\
-Output: true\
-Explanation:\
+<pre>
+<b>Example 1:</b>
+Input: pattern = "abba", s = "dog cat cat dog"
+Output: true
+Explanation:
 The bijection can be established as:k
-'a' maps to "dog".\
+'a' maps to "dog".
 'b' maps to "cat".
+</pre>
 
-<b>Example 2:</b>\
-Input: pattern = "abba", s = "dog cat cat fish"\
+<pre>
+<b>Example 2:</b>
+Input: pattern = "abba", s = "dog cat cat fish"
 Output: false
+</pre>
 
-<b>Example 3:</b>\
-Input: pattern = "aaaa", s = "dog cat cat dog"\
+<pre>
+<b>Example 3:</b>
+Input: pattern = "aaaa", s = "dog cat cat dog"
 Output: false
+</pre>

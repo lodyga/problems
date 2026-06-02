@@ -7,23 +7,25 @@ class Solution:
             DS: hash map
             A: sliding window
         """
-        window = {}  # {number: frequency}
+        num_freq = {}
         left = 0
-        window_len = 0
+        res = 0
 
         for right, num in enumerate(nums):
-            window[num] = window.get(num, 0) + 1
+            num_freq[num] = num_freq.get(num, 0) + 1
 
-            while window[num] > k:
+            while num_freq[num] > k:
                 left_num = nums[left]
-                window[left_num] -= 1
-                if window[left_num] == 0:
-                    window.pop(left_num)
+                num_freq[left_num] -= 1
+
+                if num_freq[num] == 0:
+                    num_freq.pop(num)
+                
                 left += 1
 
-            window_len = max(window_len, right - left + 1)
+            res = max(res, right - left + 1)
 
-        return window_len
+        return res
 
 
 print(Solution().maxSubarrayLength([1, 2, 3, 1, 2, 3, 1, 2], 2) == 6)

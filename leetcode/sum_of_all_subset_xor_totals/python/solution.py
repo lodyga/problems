@@ -4,17 +4,20 @@ class Solution:
         Time complexity: O(2^n)
         Auxiliary space complexity: O(n)
         Tags:
-            A: dfs, recursion
+            A: backtracking
         """
-        def dfs(index, xor):
-            if index == len(nums):
+        N = len(nums)
+
+        def backtrack(idx: int, xor: int) -> int:
+            if idx == N:
                 return xor
 
-            take = dfs(index + 1, xor ^ nums[index])
-            skip = dfs(index + 1, xor)
+            num = nums[idx]
+            take = backtrack(idx + 1, xor ^ num)
+            skip = backtrack(idx + 1, xor)
             return take + skip
 
-        return dfs(0, 0)
+        return backtrack(0, 0)
 
 
 class Solution:
@@ -25,18 +28,21 @@ class Solution:
         Tags:
             A: backtracking
         """
+        N = len(nums)
         res = 0
 
-        def backtrack(index, xor):
+        def backtrack(idx: int, xor: int) -> None:
             nonlocal res
-            if index == len(nums):
+            if idx == N:
                 res += xor
                 return
 
+            num = nums[idx]
+
             # take
-            backtrack(index + 1, xor ^ nums[index])
+            backtrack(idx + 1, xor ^ num)
             # skip
-            backtrack(index + 1, xor)
+            backtrack(idx + 1, xor)
 
         backtrack(0, 0)
         return res

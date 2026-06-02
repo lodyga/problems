@@ -20,19 +20,21 @@ class Solution:
             DS: binary tree
             A: dfs, recursion, pre-order traversal
         """
-        values = []
+        res = []
 
         def dfs(node):
             if node is None:
                 return
 
             dfs(node.left)
-            values.append(node.val)
+            res.append(node.val)
             dfs(node.right)
 
         dfs(root)
-        return values
+        return res
 
+
+class Solution:
     def inorderTraversal(self, root: TreeNode) -> list[int]:
         """
         Time complexity: O(n)
@@ -57,7 +59,8 @@ class Solution:
         return values
 
 
-print(Solution().inorderTraversal(build_tree([])) == [])
-print(Solution().inorderTraversal(build_tree([1])) == [1])
+
 print(Solution().inorderTraversal(build_tree([1, None, 2, 3])) == [1, 3, 2])
 print(Solution().inorderTraversal(build_tree([1, 2, 3, 4, 5, None, 8, None, None, 6, 7, 9])) == [4, 2, 6, 5, 7, 1, 3, 9, 8])
+print(Solution().inorderTraversal(build_tree([])) == [])
+print(Solution().inorderTraversal(build_tree([1])) == [1])

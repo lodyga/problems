@@ -9,26 +9,26 @@ class Solution {
     * @return {number}
     */
    maxNumberOfBalloons(text) {
-      const letterFrequency = new Map();
+      const LETTERS = 'ablno';
+      const letterFreq = new Map(Array.from(LETTERS).map(char => [char, 0]));
+      let res = text.length;
 
       for (const letter of text) {
-         if ('balon'.includes(letter)) {
-            letterFrequency.set(letter, (letterFrequency.get(letter) || 0) + 1);
+         if (letterFreq.has(letter)) {
+            letterFreq.set(letter, letterFreq.get(letter) + 1);
          }
       }
-      if (letterFrequency.size < 5)
-         return 0
 
-      let counter = text.length;
-      for (const [letter, frequency] of letterFrequency.entries()) {
+      for (const [letter, freq] of letterFreq.entries()) {
          if ('ol'.includes(letter)) {
-            counter = Math.min(counter, frequency >> 1);
+            res = Math.min(res, Math.floor(freq / 2));
          } else {
-            counter = Math.min(counter, frequency)
+            res = Math.min(res, freq);
          }
       }
-      return counter
-   };
+
+      return res;
+   }
 }
 
 

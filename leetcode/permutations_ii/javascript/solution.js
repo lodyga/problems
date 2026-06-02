@@ -11,56 +11,26 @@ class Solution {
    permuteUnique(nums) {
       const permutationSet = new Set();
 
-      const dfs = (left) => {
-         if (left === nums.length - 1) {
+      const backtrack = (start) => {
+         if (start === nums.length - 1) {
             permutationSet.add(JSON.stringify(nums));
-            return
+            return;
          }
 
-         for (let right = left; right < nums.length; right++) {
-            [nums[left], nums[right]] = [nums[right], nums[left]];
-            dfs(left + 1);
-            [nums[left], nums[right]] = [nums[right], nums[left]];
-         }
-      }
-      dfs(0)
-      return [...permutationSet].map(JSON.parse)
-   };
-
-   /**
-    * Time complexity: O(n!)
-    * Auxiliary space complexity: O(n)
-    * Tags:
-    *     DS: hash set
-    *     A: backtracking
-    * @param {number[]} nums
-    * @return {number[][]}
-    */
-   permuteUnique(nums) {
-      const permutations = [];
-
-      const dfs = (left) => {
-         if (left === nums.length - 1) {
-            permutations.push(nums.slice());
-            return
-         }
-
-         const uniqueLevelValue = new Set();
-         for (let right = left; right < nums.length; right++) {
-            if (uniqueLevelValue.has(nums[right]))
-               continue
-            else
-               uniqueLevelValue.add(nums[right]);
-
-            [nums[left], nums[right]] = [nums[right], nums[left]];
-            dfs(left + 1);
-            [nums[left], nums[right]] = [nums[right], nums[left]];
+         for (let idx = start; idx < nums.length; idx++) {
+            [nums[start], nums[idx]] = [nums[idx], nums[start]];
+            backtrack(start + 1);
+            [nums[start], nums[idx]] = [nums[idx], nums[start]];
          }
       }
-      dfs(0)
-      return permutations
-   };
 
+      backtrack(0);
+      return [...permutationSet].map(JSON.parse);
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n!)
     * Auxiliary space complexity: O(n)
@@ -72,30 +42,33 @@ class Solution {
     */
    permuteUnique(nums) {
       const permutation = [];
-      const permutations = [];
-      const numFrequency = new Map();
-      for (const number of nums) {
-         numFrequency.set(number, (numFrequency.get(number) || 0) + 1);
+      const res = [];
+      const numFreq = new Map();
+      
+      for (const num of nums) {
+         numFreq.set(num, (numFreq.get(num) || 0) + 1);
       }
 
-      const dfs = (left) => {
+      const backtrack = () => {
          if (permutation.length === nums.length) {
-            permutations.push(permutation.slice());
-            return
+            res.push(permutation.slice());
+            return;
          }
-         for (const number of numFrequency.keys()) {
-            if (numFrequency.get(number)) {
-               permutation.push(number);
-               numFrequency.set(number, numFrequency.get(number) - 1);
-               dfs();
+
+         for (const num of numFreq.keys()) {
+            if (numFreq.get(num)) {
+               permutation.push(num);
+               numFreq.set(num, numFreq.get(num) - 1);
+               backtrack();
+               numFreq.set(num, numFreq.get(num) + 1);
                permutation.pop();
-               numFrequency.set(number, numFrequency.get(number) + 1);
             }
          }
       }
-      dfs()
-      return permutations
-   };
+
+      backtrack();
+      return res;
+   }
 }
 
 

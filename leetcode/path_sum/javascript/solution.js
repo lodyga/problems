@@ -31,13 +31,18 @@ class Solution {
          ) {
             return total + node.val === targetSum
          }
+
          const left = dfs(node.left, total + node.val);
          const right = dfs(node.right, total + node.val);
          return left || right
       }
-      return dfs(root, 0)
-   };
 
+      return dfs(root, 0);
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
@@ -49,8 +54,10 @@ class Solution {
     * @return {boolean}
     */
    hasPathSum(root, targetSum) {
-      if (root === null)
+      if (root === null) {
          return false
+      }
+      
       const stack = [[root, 0]];
 
       while (stack.length) {
@@ -62,14 +69,21 @@ class Solution {
             pathSum + node.val === targetSum
          ) return true
          
-         if (node.right)
+         if (node.right) {
             stack.push([node.right, pathSum + node.val]);
-         if (node.left)
+         }
+      
+         if (node.left) {
             stack.push([node.left, pathSum + node.val]);
+         }
       }
-      return false
-   };
 
+      return false;
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
@@ -82,6 +96,7 @@ class Solution {
       if (root === null) {
          return false
       }
+
       const queue = new Queue([[root, 0]]);
 
       while (queue.size()) {
@@ -93,13 +108,17 @@ class Solution {
             pathSum + node.val === targetSum
          ) return true
          
-         if (node.left)
+         if (node.left) {
             queue.push([node.left, pathSum + node.val]);
-         if (node.right)
+         }
+
+         if (node.right) {
             queue.push([node.right, pathSum + node.val]);
+         }
       }
-      return false
-   };
+
+      return false;
+   }
 }
 
 

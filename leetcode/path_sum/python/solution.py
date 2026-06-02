@@ -22,14 +22,20 @@ class Solution:
             A: dfs, recursion, pre-order traversal
         """
         def dfs(node, path_sum):
+            # If root is empty.
             if node is None:
                 return False
+            # If leaf node.
             elif node.left is None and node.right is None:
                 return path_sum + node.val == target_sum
+            # Check left node if exists.
+            elif node.left and dfs(node.left, path_sum + node.val):
+                return True
+            # Check right node if exists.
+            elif node.right and dfs(node.right, path_sum + node.val):
+                return True
 
-            left = dfs(node.left, path_sum + node.val)
-            right = dfs(node.right, path_sum + node.val)
-            return left or right
+            return False
 
         return dfs(root, 0)
 
@@ -46,20 +52,25 @@ class Solution:
         if root is None:
             return False
 
-        stack = [(root, 0)]  # [(node, path sum)]
+        # stack([(node, path sum)])
+        stack = [(root, 0)]  
 
         while stack:
             node, path_sum = stack.pop()
+            path_sum += node.val
+            
             if (
                 node.left is None and
                 node.right is None and
-                path_sum + node.val == target_sum
+                path_sum == target_sum
             ):
                 return True
+            
             if node.right:
-                stack.append((node.right, path_sum + node.val))
+                stack.append((node.right, path_sum))
+            
             if node.left:
-                stack.append((node.left, path_sum + node.val))
+                stack.append((node.left, path_sum))
 
         return False
 
@@ -73,23 +84,30 @@ class Solution:
             DS: binary tree, queue
             A: bfs, iteration, level-order traversal
         """
+        from collections import deque
+
         if root is None:
             return False
 
-        queue = deque([(root, 0)])  # deque([(node, path sum)])
+        # queue([(node, path sum)])        
+        queue = deque([(root, 0)])
 
         while queue:
             node, path_sum = queue.popleft()
+            path_sum += node.val
+
             if (
-                node.left is None and
-                node.right is None and
-                path_sum + node.val == target_sum
+                node.left is None and 
+                node.right is None and 
+                path_sum == target_sum
             ):
                 return True
+            
             if node.left:
-                queue.append((node.left, path_sum + node.val))
+                queue.append((node.left, path_sum))
+
             if node.right:
-                queue.append((node.right, path_sum + node.val))
+                queue.append((node.right, path_sum))
 
         return False
 

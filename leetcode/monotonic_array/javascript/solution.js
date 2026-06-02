@@ -8,19 +8,39 @@ class Solution {
     * @return {boolean}
     */
    isMonotonic(nums) {
-      let prev = nums[0];
-      let isIncreasing = true;
-      let isDecreasing = true;
+      const isWeaklyIncreasing = (nums) => {
+         let prevNum = nums[0] - 1;
 
-      for (const num of nums) {
-         if (prev > num)
-            isDecreasing = false;
-         if (prev < num)
-            isIncreasing = false;
-         prev = num;
+         for (const num of nums) {
+            if (prevNum > num) {
+               return false;
+            }
+
+            prevNum = num;
+         }
+
+         return true;
       }
-      return isIncreasing || isDecreasing
-   };
+
+      const isWeaklyDecreasing = (nums) => {
+         let prevNum = nums[0] + 1;
+
+         for (const num of nums) {
+            if (prevNum < num) {
+               return false;
+            }
+
+            prevNum = num;
+         }
+
+         return true;
+      }
+
+      return (
+         isWeaklyIncreasing(nums)
+         || isWeaklyDecreasing(nums)
+      );
+   }
 }
 
 

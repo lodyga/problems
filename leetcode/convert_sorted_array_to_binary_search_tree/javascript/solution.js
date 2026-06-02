@@ -24,21 +24,21 @@ class Solution {
     */
    sortedArrayToBST(nums) {
       const dfs = (left, right) => {
-         if (left === right) {
-            return new TreeNode(nums[left])
-         }
-         else if (left > right) {
+         if (left > right) {
             return null
          }
 
-         const middle = (left + right) >> 1;
-         const node = new TreeNode(nums[middle]);
-         node.left = dfs(left, middle - 1);
-         node.right = dfs(middle + 1, right);
-         return node
+         const mid = Math.floor((left + right) / 2);
+         const node = new TreeNode(
+            nums[mid],
+            dfs(left, mid - 1),
+            dfs(mid + 1, right)
+         );
+         return node;
       }
-      return dfs(0, nums.length - 1)
-   };
+
+      return dfs(0, nums.length - 1);
+   }
 }
 
 

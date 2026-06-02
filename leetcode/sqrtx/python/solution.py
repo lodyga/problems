@@ -11,16 +11,16 @@ class Solution:
         res = X
 
         while left <= right:
-            middle = left + (right - left) // 2
-            square = middle*middle
+            mid = (left + right) // 2
+            squared = mid**2
 
-            if square == X:
-                return middle
-            elif square < X:
-                res = middle
-                left = middle + 1
+            if squared == X:
+                return mid
+            elif squared < X:
+                res = mid
+                left = mid + 1
             else:
-                right = middle - 1
+                right = mid - 1
 
         return res
 

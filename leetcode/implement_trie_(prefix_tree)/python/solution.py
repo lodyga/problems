@@ -18,10 +18,10 @@ class Trie:
         A: iteration
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.root = TrieNode()
 
-    def __contains__(self, item: str) -> bool:
+    def __contains__(self, item):
         return self.search(item)
 
     def insert(self, word: str) -> None:
@@ -35,7 +35,7 @@ class Trie:
 
         node.is_word = True
 
-    def lookup_node(self, word) -> TrieNode | None:
+    def _lookup_node(self, word: str) -> TrieNode | None:
         node = self.root
 
         for letter in word:
@@ -47,11 +47,11 @@ class Trie:
         return node
 
     def search(self, word: str) -> bool:
-        node = self.lookup_node(word)
+        node = self._lookup_node(word)
         return node.is_word if node else False
 
     def startsWith(self, prefix: str) -> bool:
-        return bool(self.lookup_node(prefix))
+        return bool(self._lookup_node(prefix))
 
 
 trie = Trie()

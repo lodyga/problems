@@ -3,64 +3,7 @@ class Solution {
     * Time complexity: O(nlogn)
     * Auxiliary space complexity: O(n)
     * Tags:
-    *     A: binary search, sorting
-    * @param {number[]} nums
-    * @param {number} target
-    * @return {number}
-    */
-   numSubseq(nums, target) {
-      const MOD = 10 ** 9 + 7
-      let counter = 0;
-      nums.sort((a, b) => a - b);
-
-      const getPowerOfTwo = [1];
-      for (let index = 1; index < nums.length; index++) {
-         getPowerOfTwo[index] = getPowerOfTwo[index - 1] * 2 % MOD;
-      }
-
-      // const PowerOfTwo = new Map([[0, 1]])
-      // const getPowerOfTwo = (index) => {
-      //    if (PowerOfTwo.has(index)) {
-      //       return PowerOfTwo.get(index)
-      //    }
-      //    const power = 2 * getPowerOfTwo(index - 1) % MOD;
-      //    PowerOfTwo[index] = power;
-      //    return power
-      // }
-
-
-      for (let index = 0; index < nums.length; index++) {
-         const num = nums[index];
-         if (nums[index] * 2 > target)
-            break
-
-         // Default value for maxLeft must be index in case of
-         // maxLeft = middle won't trigger
-         let maxLeft = index;
-         let left = index + 1;
-         let right = nums.length - 1;
-
-         while (left <= right) {
-            const middle = (left + right) >> 1;
-            const middleNum = nums[middle];
-
-            if (num + middleNum > target) {
-               right = middle - 1;
-            } else {
-               maxLeft = middle;
-               left = middle + 1;
-            }
-         }
-         // counter = (counter + getPowerOfTwo(maxLeft - index)) % MOD;
-         counter = (counter + getPowerOfTwo[maxLeft - index]) % MOD;
-      }
-      return counter
-   };
-
-   /**
-    * Time complexity: O(nlogn)
-    * Auxiliary space complexity: O(n)
-    * Tags: two pointers
+    *     A: two pointers, sorting
     * @param {number[]} nums
     * @param {number} target
     * @return {number}
@@ -68,7 +11,7 @@ class Solution {
    numSubseq(nums, target) {
       nums.sort((a, b) => a - b);
       let right = nums.length - 1;
-      let subsequenceCounter = 0;
+      let res = 0;
       const mod = 10 ** 9 + 7;
 
       for (let left = 0; left < nums.length; left++) {
@@ -76,13 +19,77 @@ class Solution {
             left <= right &&
             nums[left] + nums[right] > target
          ) right--;
+         
          if (left <= right) {
-            subsequenceCounter += Math.pow(2, right - left) % mod;
-            subsequenceCounter %= mod;
+            res += Math.pow(2, right - left) % mod;
+            res %= mod;
          }
       }
-      return subsequenceCounter
-   };
+
+      return res;
+   }
+}
+
+
+class Solution {
+   /**
+    * Time complexity: O(nlogn)
+    * Auxiliary space complexity: O(n)
+    * Tags:
+    *     A: binary search, sorting
+    * @param {number[]} nums
+    * @param {number} target
+    * @return {number}
+    */
+   numSubseq(nums, target) {
+      const MOD = 10 ** 9 + 7
+      let res = 0;
+      nums.sort((a, b) => a - b);
+      const getPowerOfTwo = [1];
+
+      for (let idx = 1; idx < nums.length; idx++) {
+         getPowerOfTwo[idx] = getPowerOfTwo[idx - 1] * 2 % MOD;
+      }
+
+      // const powerOfTwo = new Map([[0, 1]])
+      // const getPowerOfTwo = (idx) => {
+      //    if (powerOfTwo.has(idx)) {
+      //       return powerOfTwo.get(idx)
+      //    }
+      //    const power = 2 * getPowerOfTwo(idx - 1) % MOD;
+      //    powerOfTwo[idx] = power;
+      //    return power
+      // }
+
+      for (let left = 0; left < nums.length; left++) {
+         const leftNum = nums[left];
+         
+         if (nums[left] * 2 > target) {
+            break
+         }
+
+         let right = left;
+         let bsLeft = left + 1;
+         let bsRight = nums.length - 1;
+         const adjustedTarget = target - leftNum;
+
+         while (bsLeft <= bsRight) {
+            const mid = Math.floor((bsLeft + bsRight) / 2);
+            const midNum = nums[mid];
+
+            if (midNum > adjustedTarget) {
+               bsRight = mid - 1;
+            } else {
+               right = mid;
+               bsLeft = mid + 1;
+            }
+         }
+         
+         res = (res + getPowerOfTwo[right - left]) % MOD;
+      }
+
+      return res;
+   }
 }
 
 

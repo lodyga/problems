@@ -9,22 +9,23 @@ class Solution {
     * @return {string}
     */
    largestGoodInteger(num) {
-      let triplet = '';
+      let res = '';
 
-      for (let index = 0; index < num.length - 2; index++) {
-         if (
-            num[index] === num[index + 1] &&
-            num[index + 1] === num[index + 2]
+      for (let idx = 0; idx < num.length - 2; idx++) {
+         if ((
+            num[idx] === num[idx + 1]
+            && num[idx + 1] === num[idx + 2]
+         ) && (
+               res === ''
+               || num[idx] > res[0]
+            )
          ) {
-            if (
-               triplet === '' ||
-               (triplet && num[index] > triplet[0])
-            ) 
-               triplet = num[index].repeat(3);
+            res = num[idx].repeat(3);
          }
       }
-      return triplet
-   };
+
+      return res;
+   }
 }
 
 

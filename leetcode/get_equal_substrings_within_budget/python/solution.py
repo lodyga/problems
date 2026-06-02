@@ -7,18 +7,20 @@ class Solution:
             A: sliding window
         """
         left = 0
-        max_lenght = 0
+        res = 0
 
         for right, (letter1, letter2) in enumerate(zip(text1, text2)):
-            max_cost -= abs(ord(letter1) - ord(letter2))
+            cost = abs(ord(letter1) - ord(letter2))
+            max_cost -= cost
 
             while max_cost < 0:
-                max_cost += abs(ord(text1[left]) - ord(text2[left]))
+                cost = abs(ord(letter1) - ord(letter2))
+                max_cost += cost
                 left += 1
 
-            max_lenght = max(max_lenght, right - left + 1)
+            res = max(res, right - left + 1)
 
-        return max_lenght
+        return res
 
 
 print(Solution().equalSubstring("abcd", "bcdf", 3) == 3)

@@ -4,13 +4,34 @@ class Solution:
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
         Tags:
+            DS: array
             A: negative marking, in-place method
         """
         for num in nums:
-            num = abs(num)
-            nums[num - 1] = -abs(nums[num - 1])
+            idx = abs(num) - 1
+            nums[idx] = -abs(nums[idx])
 
-        return [index + 1 for index, num in enumerate(nums) if num > 0]
+        return [idx + 1
+                for idx, num in enumerate(nums)
+                if num > 0
+                ]
+
+
+class Solution:
+    def findDisappearedNumbers(self, nums: list[int]) -> list[int]:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(n)
+        Tags:
+            DS: hash set, list
+            A: negative marking, in-place method
+        """
+        res = set(range(1, len(nums) + 1))
+
+        for num in nums:
+            res.discard(num)
+
+        return list(res)
 
 
 print(Solution().findDisappearedNumbers([1, 1]) == [2])

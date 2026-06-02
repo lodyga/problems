@@ -8,19 +8,20 @@ class Solution:
         Auxiliary space complexity: O(n)
         Tags:
             DS: heap
-            A: heap
+            A: iteration
         """
-        stones = [-stone for stone in stones]
-        heapq.heapify(stones)
+        stone_heap = [-stone for stone in stones]
+        heapq.heapify(stone_heap)
 
-        while len(stones) > 1:
-            diff = heapq.heappop(stones) - heapq.heappop(stones)
-            if diff:
-                heapq.heappush(stones, diff)
+        while len(stone_heap) > 1:
+            stone = heapq.heappop(stone_heap) - heapq.heappop(stone_heap)
+            
+            if stone:
+                heapq.heappush(stone_heap, stone)
 
-        return -stones[0] if stones else 0
+        return -stone_heap[0] if stone_heap else 0
 
 
+print(Solution().lastStoneWeight([2, 7, 4, 1, 8, 1]) == 1)
 print(Solution().lastStoneWeight([1]) == 1)
 print(Solution().lastStoneWeight([1, 1]) == 0)
-print(Solution().lastStoneWeight([2, 7, 4, 1, 8, 1]) == 1)

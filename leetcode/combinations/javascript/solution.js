@@ -1,3 +1,38 @@
+class Solution2 {
+   /**
+    * Time complexity: O(n2^n)
+    * Auxiliary space complexity: O(n)
+    * Tags:
+    *     DS: list
+    *     A: backtracking
+    * @param {number} n
+    * @param {number} k
+    * @return {number[][]}
+    */
+   combine(n, k) {
+      const combination = [];
+      const res = [];
+
+      const backtrack = (idx) => {
+         if (combination.length === k) {
+            res.push(combination.slice());
+            return;
+         } else if (idx === n + 1) {
+            return;
+         }
+
+         combination.push(idx);
+         backtrack(idx + 1);
+         combination.pop();
+         backtrack(idx + 1);
+      }
+
+      backtrack(1);
+      return res;
+   }
+}
+
+
 class Solution {
    /**
     * Time complexity: O(n2^n)
@@ -11,51 +46,24 @@ class Solution {
     */
    combine(n, k) {
       const combination = [];
-      const combinations = [];
+      const res = [];
 
-      const backtrack = (index) => {
-         if (index == n) {
-            if (combination.length === k)
-               combinations.push(combination.slice());
-            return
-         }
-         combination.push(index + 1);
-         backtrack(index + 1);
-         combination.pop();
-         backtrack(index + 1);
-      }
-      backtrack(0)
-      return combinations
-   };
-
-   /**
-    * Time complexity: O(n2^n)
-    * Auxiliary space complexity: O(n)
-    * Tags:
-    *     DS: list
-    *     A: backtracking
-    * @param {number} n
-    * @param {number} k
-    * @return {number[][]}
-    */
-   combine(n, k) {
-      const combination = [];
-      const combinations = [];
-
-      const backtrack = (index) => {
+      const backtrack = (idx) => {
          if (combination.length === k) {
-            combinations.push(combination.slice());
-            return
+            res.push(combination.slice());
+            return;
          }
-         for (let num = index; num < n + 1; num++) {
+
+         for (let num = idx; num < n + 1; num++) {
             combination.push(num);
             backtrack(num + 1);
             combination.pop();
          }
       }
-      backtrack(1)
-      return combinations
-   };
+
+      backtrack(1);
+      return res;
+   }
 }
 
 

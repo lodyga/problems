@@ -1,5 +1,5 @@
 # Kth Largest Element in a Stream
-https://leetcode.com/problems/kth-largest-element-in-a-stream/description/
+https://leetcode.com/problems/kth-largest-element-in-a-stream/
 
 <p>
 You are part of a university admissions office and need to keep track of the kth highest test score from applicants in real-time. This helps to determine cut-off marks for interviews and admissions dynamically as new applicants submit their scores.
@@ -8,8 +8,9 @@ You are tasked to implement a class which, for a given integer k, maintains a st
 
 Implement the KthLargest class:
 
-KthLargest(int k, int[] nums) Initializes the object with the integer k and the stream of test scores nums.
-int add(int val) Adds a new test score val to the stream and returns the element representing the kth largest element in the pool of test scores so far.
+- KthLargest(int k, int[] nums) Initializes the object with the integer k and the stream of test scores nums.
+- int add(int val) Adds a new test score val to the stream and returns the element representing the kth largest element in the pool of test scores so far.
+
 </p>
 
 <pre>
@@ -21,7 +22,6 @@ Input:
 Output: [null, 4, 5, 5, 8, 8]
 
 Explanation:
-
 KthLargest kthLargest = new KthLargest(3, [4, 5, 8, 2]);
 kthLargest.add(3); // return 4
 kthLargest.add(5); // return 5
@@ -39,7 +39,6 @@ Input:
 Output: [null, 7, 7, 7, 8]
 
 Explanation:
-
 KthLargest kthLargest = new KthLargest(4, [7, 7, 7, 7, 8, 3]);
 kthLargest.add(2); // return 7
 kthLargest.add(10); // return 7

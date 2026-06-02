@@ -18,94 +18,55 @@ class Solution:
         Auxiliary space complexity: O(n)
         Tags:
             DS: binary tree
-            A: dfs, recursion, pre-order traversal
+            A: dfs, recursion, pre-order traversal, generator
         """
-        def dfs(node, leaves):
+        def generate_leaf(node: TreeNode) -> TreeNode:
             if node is None:
                 return
-            if node.left is None and node.right is None:
-                leaves.append(node.val)
-                return
+            elif node.left is None and node.right is None:
+                yield node
 
-            dfs(node.left, leaves)
-            dfs(node.right, leaves)
+            yield from generate_leaf(node.left)
+            yield from generate_leaf(node.right)
 
-        leaves1 = []
-        dfs(root1, leaves1)
-        leaves2 = []
-        dfs(root2, leaves2)
-        return leaves1 == leaves2
-
-
-class Solution2:
-    def leafSimilar(self, root1: TreeNode, root2: TreeNode) -> bool:
-        """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(n)
-        Tags:
-            DS: binary tree, stack
-            A: dfs, iteration, pre-order traversal, generator
-        """
-        def get_leaves(node):
-            # values = []
-            stack = []
-
-            while node or stack:
-                if node:
-                    stack.append(node)
-                    node = node.left
-                else:
-                    node = stack.pop()
-                    if node.left is None and node.right is None:
-                        # values.append(node.val)
-                        yield node.val
-                    node = node.right
-            yield True
-
-        leaves1 = get_leaves(root1)
-        leaves2 = get_leaves(root2)
+        leaf1_generator = generate_leaf(root1)
+        leaf2_generator = generate_leaf(root2)
 
         while True:
-            leaf1 = next(leaves1)
-            leaf2 = next(leaves2)
-            if leaf1 != leaf2:
+            leaf1 = next(leaf1_generator, None)
+            leaf2 = next(leaf2_generator, None)
+
+            if leaf1 is None or leaf2 is None:
+                return leaf1 is leaf2
+            elif leaf1.val != leaf2.val:
                 return False
-            elif leaf1 is True and leaf2 is True:
-                return True
 
 
-class Solution2:
+class Solution:
     def leafSimilar(self, root1: TreeNode, root2: TreeNode) -> bool:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
         Tags:
             DS: binary tree
-            A: dfs, recursion, pre-order traversal, generator
+            A: dfs, recursion, pre-order traversal
         """
-        def get_leaves(root):
-            def dfs(node):
-                if node is None:
-                    return
-                if node.left is None and node.right is None:
-                    yield node.val
+        def dfs(node: TreeNode, values :list) -> None:
+            if node is None:
+                return
+            elif node.left is None and node.right is None:
+                values.append(node.val)
 
-                yield from dfs(node.left)
-                yield from dfs(node.right)
+            dfs(node.left, values)
+            dfs(node.right, values)
 
-            yield from dfs(root)
+        values1 = []
+        values2 = []
+        
+        dfs(root1, values1)
+        dfs(root2, values2)
 
-        leaves1 = get_leaves(root1)
-        leaves2 = get_leaves(root2)
-
-        gen_stopped = object()
-        while True:
-            leaf1 = next(leaves1, gen_stopped)
-            leaf2 = next(leaves2, gen_stopped)
-            if leaf1 is gen_stopped or leaf2 is gen_stopped:
-                return leaf1 is leaf2
-            if leaf1 != leaf2:
-                return False
+        return values1 == values2
 
 
 print(Solution().leafSimilar(build_tree([1, 2]), build_tree([2, 2])) == True)

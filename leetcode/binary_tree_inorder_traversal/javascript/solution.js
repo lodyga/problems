@@ -33,11 +33,14 @@ class Solution {
          values.push(node.val);
          dfs(node.right);
       }
+
       dfs(root);
-      return values
-   };
+      return values;
+   }
+}
 
 
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
@@ -62,8 +65,9 @@ class Solution {
             node = node.right;
          }
       }
-      return values
-   };
+
+      return values;
+   }
 }
 
 

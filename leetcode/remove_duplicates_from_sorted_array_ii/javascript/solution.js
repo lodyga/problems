@@ -18,8 +18,9 @@ class Solution {
             [nums[left],  nums[right]] = [nums[right],  nums[left]];
          }
       }
-      return left + 1
-   };
+
+      return left + 1;
+   }
 }
 
 

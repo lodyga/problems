@@ -7,17 +7,19 @@ class Solution:
             DS: strging
             A: iteration
         """
-        triplet = ""
+        res = ""
 
-        for index in range(len(num) - 2):
-            if num[index] == num[index + 1] == num[index + 2]:
-                if (
-                    triplet == "" or
-                    triplet and num[index] > triplet[0]
-                ):
-                    triplet = num[index]*3
+        for idx in range(len(num) - 2):
+            if (
+                num[idx] == num[idx + 1] == num[idx + 2]
+                and (
+                    res == ""
+                    or res[0] < num[idx]
+                )
+            ):
+                res = num[idx]*3
 
-        return triplet
+        return res
 
 
 print(Solution().largestGoodInteger("6777133339") == "777")

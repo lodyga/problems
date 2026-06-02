@@ -10,27 +10,31 @@ class Solution {
     * @return {number}
     */
    maxSubarrayLength(nums, k) {
-      const window = new Map();  // {number: frequency}
+      const numFreq = new Map();
       let left = 0;
-      let subarrayLen = 0;
+      let res = 0;
 
       for (let right = 0; right < nums.length; right++) {
          const num = nums[right];
 
-         window.set(num, (window.get(num) || 0) + 1);
+         numFreq.set(num, (numFreq.get(num) || 0) + 1);
 
-         while (window.get(num) > k) {
+         while (numFreq.get(num) > k) {
             const leftNum = nums[left];
-            window.set(leftNum, window.get(leftNum) - 1);
-            if (window.get(leftNum) === 0)
-               window.delete(leftNum);
+            numFreq.set(leftNum, numFreq.get(leftNum) - 1);
+            
+            if (numFreq.get(leftNum) === 0) {
+               numFreq.delete(leftNum);
+            }
+
             left++;
          }
 
-         subarrayLen = Math.max(subarrayLen, right - left + 1);
+         res = Math.max(res, right - left + 1);
       }
-      return subarrayLen
-   };
+
+      return res;
+   }
 }
 
 

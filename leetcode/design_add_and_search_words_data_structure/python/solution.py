@@ -10,44 +10,48 @@ class WordDictionary:
         constructor: O(1)
         addWord: O(k)
         search: O(min(26^k, 26^w, n*k))
-        n: word count
         k: word length
-        w: windcard count
+        n: word count
+        w: wildcard count
     Auxiliary space complexity: O(n*k)
     Tags:
         DS: trie
         A: iteration, recursion
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.root = TrieNode()
 
     def addWord(self, word: str) -> None:
         node = self.root
+
         for letter in word:
             if letter not in node.letters:
                 node.letters[letter] = TrieNode()
+
             node = node.letters[letter]
+
         node.is_word = True
 
     def search(self, word: str) -> bool:
-        def dfs(start: int, node: TrieNode) -> bool:
-            for index in range(start, len(word)):
-                letter = word[index]
 
-                if letter in node.letters:
-                    node = node.letters[letter]
-                elif letter == ".":
-                    for wild_card in node.letters.keys():
-                        if dfs(index + 1, node.letters[wild_card]):
-                            return True
-                    return False
-                else:
-                    return False
+        def dfs(node: TrieNode, idx: int) -> bool:
+            if idx == len(word):
+                return node.is_word
 
-            return node.is_word
+            letter = word[idx]
 
-        return dfs(0, self.root)
+            if letter == ".":
+                return any(
+                    dfs(node.letters[curr_letter], idx + 1)
+                    for curr_letter in node.letters
+                )
+            elif letter in node.letters:
+                return dfs(node.letters[letter], idx + 1)
+            else:
+                return False
+
+        return dfs(self.root, 0)
 
 
 def test_input(operations: list[str], arguments: list[list]) -> list[str | int | None]:
@@ -119,7 +123,7 @@ print(word_dictionary.search("a"))  # True
 print(word_dictionary.search("b"))  # False
 print(word_dictionary.search("."))  # True
 
-# Example 1
+# Example 2
 word_dictionary = WordDictionary()
 word_dictionary.addWord("bad")
 word_dictionary.addWord("dad")

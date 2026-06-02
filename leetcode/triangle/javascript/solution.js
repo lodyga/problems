@@ -9,7 +9,7 @@ class Solution {
     * @return {number}
     */
    minimumTotal(triangle) {
-      for (let row = triangle.length - 2; row >= 0; row--) {
+      for (let row = triangle.length - 2; row > -1; row--) {
          for (let col = 0; col <= row; col++) {
             triangle[row][col] += Math.min(
                triangle[row + 1][col],
@@ -17,8 +17,9 @@ class Solution {
             )
          }
       }
-      return triangle[0][0]
-   };
+
+      return triangle[0][0];
+   }
 }
 
 

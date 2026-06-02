@@ -24,7 +24,7 @@ class MyHashMap {
    constructor() {
       this.bucketSize = 10 ** 4;
       this.map = Array.from({ length: this.bucketSize }, () => new ListNode());
-   };
+   }
 
    /**
     * @param {number} key 
@@ -46,12 +46,12 @@ class MyHashMap {
       while (node.next) {
          if (node.next.key === key) {
             node.next.val = val;
-            return
+            return;
          }
          node = node.next;
       }
       node.next = new ListNode(key, val);
-   };
+   }
 
    /**
     * @param {number} key 
@@ -67,8 +67,8 @@ class MyHashMap {
          }
          node = node.next;
       }
-      return -1
-   };
+      return -1;
+   }
 
    /**
     * @param {number} key 
@@ -81,11 +81,11 @@ class MyHashMap {
       while (node.next) {
          if (node.next.key === key) {
             node.next = node.next.next;
-            return
+            return;
          }
          node = node.next;
       }
-   };
+   }
 }
 
 

@@ -1,30 +1,35 @@
-import { MinPriorityQueue } from '@datastructures-js/priority-queue';
+// import { MinPriorityQueue } from '@datastructures-js/priority-queue';
 
 
 /**
- * Time complexity: O(n*logk)
- *     n: number of `add` calls
- *     k: the number of highest test scores
+ * Time complexity:
+ *     constructor: O(nlogn)
+ *     add: O(log(k))
+ *     n: stream size
+ *     k: highest test scores size
  * Auxiliary space complexity: O(1)
  * Tags:
  *     DS: heap
- *     A: heap, in-place method
+ *     A: iteration
  */
 class KthLargest {
-    /**
-     * @param {number} k
-     * @param {number[]} nums
-     */
-   constructor(k, nums) {
+   /**
+    * @param {number} k
+    * @param {number[]} stream
+    */
+   constructor(k, stream) {
       this.k = k;
       this.minHeap = new MinPriorityQueue();
 
-      for (const num of nums)
-         this.minHeap.enqueue(num);
+      stream.forEach(element => {
+         this.minHeap.enqueue(element)
+      })
 
-      while (this.minHeap.size() > k)
+      while (this.minHeap.size() > k) {
          this.minHeap.dequeue();
+      }
    }
+
    /**
     * @param {number} val
     * @return {number}
@@ -32,31 +37,34 @@ class KthLargest {
    add(val) {
       this.minHeap.enqueue(val);
 
-      while (this.minHeap.size() > this.k)
+      while (this.minHeap.size() > this.k) {
          this.minHeap.dequeue();
+      }
 
-      return this.minHeap.front()
+      return this.minHeap.front();
    }
 }
 
 
 /**
- * Time complexity: O(m*nlogn)
- *     m: number of `add` calls
- *     n: `numbers` size
- * Auxiliary space complexity: O(n + m)
+ * Time complexity:
+ *     constructor: O(nlogn)
+ *     add: O(klog(k))
+ *     n: stream size
+ *     k: highest test scores size
+ * Auxiliary space complexity: O(n + k)
  * Tags:
  *     DS: list
  *     A: sorting
  */
-class KthLargest2 {
+class KthLargest {
    /**
     * @param {number} k
-    * @param {number[]} nums
+    * @param {number[]} stream
     */
-   constructor(k, nums) {
+   constructor(k, stream) {
       this.k = k;
-      this.nums = nums.sort((a, b) => b - a).slice(0, this.k);
+      this.stream = stream.sort((a, b) => b - a).slice(0, this.k);
    };
 
    /** 
@@ -64,11 +72,15 @@ class KthLargest2 {
     * @return {number}
     */
    add(val) {
-      this.nums.push(val);
-      this.nums.sort((a, b) => b - a);
-      this.nums.pop();
-      return this.nums[this.nums.length - 1]
-   };
+      this.stream.push(val);
+      this.stream.sort((a, b) => b - a);
+      
+      if (this.stream.length > this.k) {
+         this.stream.pop();
+      }
+      
+      return this.stream[this.stream.length - 1];
+   }
 }
 
 

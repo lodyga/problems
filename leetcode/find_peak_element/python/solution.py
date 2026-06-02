@@ -6,25 +6,53 @@ class Solution:
         Tags:
             A: binary search
         """
+        N = len(nums)
+        left = 0
+        right = N - 1
+
+        while left <= right:
+            mid = (left + right) // 2
+            mid_num = nums[mid]
+
+            if (
+                (mid == 0 and (mid + 1 == N or mid_num > nums[mid + 1])) or
+                (mid == N - 1 and nums[mid - 1] < mid_num) or
+                nums[mid - 1] < mid_num > nums[mid + 1]
+            ):
+                return mid
+            elif mid + 1 < N and mid_num < nums[mid + 1]:
+                left = mid + 1
+            else:
+                right = mid - 1
+
+
+class Solution:
+    def findPeakElement(self, nums: list[int]) -> int:
+        """
+        Time complexity: O(logn)
+        Auxiliary space complexity: O(1)
+        Tags:
+            A: binary search
+        """
         left = 0
         right = len(nums) - 1
 
         while left <= right:
-            middle = (left + right) >> 1
-            middle_num = nums[middle]
+            mid = (left + right) // 2
+            mid_num = nums[mid]
 
             if (
-                (middle == left or nums[middle - 1] < middle_num) and
-                (middle == right or middle_num > nums[middle + 1])
+                (mid == left or nums[mid - 1] < mid_num) and
+                (mid == right or mid_num > nums[mid + 1])
             ):
-                return middle
+                return mid
             elif (
-                middle == left or
-                middle_num < nums[middle + 1]
+                mid == left or
+                mid_num < nums[mid + 1]
             ):
-                left = middle + 1
+                left = mid + 1
             else:
-                right = middle - 1
+                right = mid - 1
                 
 
 print(Solution().findPeakElement([1, 2, 3, 1]) == 2)

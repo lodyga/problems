@@ -1,20 +1,26 @@
 # Maximum Number of Balloons
 https://leetcode.com/problems/maximum-number-of-balloons/
 
-
+<p>
 Given a string text, you want to use the characters of text to form as many instances of the word "balloon" as possible.
 
 You can use each character in text at most once. Return the maximum number of instances that can be formed.
+</p>
 
-
-<b>Example 1:</b>\
-Input: text = "nlaebolko"\
+<pre>
+<b>Example 1:</b>
+Input: text = "nlaebolko"
 Output: 1
+</pre>
 
-<b>Example 2:</b>\
-Input: text = "loonbalxballpoon"\
+<pre>
+<b>Example 2:</b>
+Input: text = "loonbalxballpoon"
 Output: 2
+</pre>
 
-<b>Example 3:</b>\
-Input: text = "leetcode"\
+<pre>
+<b>Example 3:</b>
+Input: text = "leetcode"
 Output: 0
+</pre>

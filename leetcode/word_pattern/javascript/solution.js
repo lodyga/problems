@@ -11,28 +11,30 @@ class Solution {
     */
    wordPattern(pattern, text) {
       const words = text.split(' ');
-      if (pattern.length !== words.length)
+      if (pattern.length !== words.length) {
          return false
+      }
 
       const letterMap = new Map();
       const wordSet = new Set();
 
-      for (let index = 0; index < pattern.length; index++) {
-         const letter = pattern[index];
-         const word = words[index];
+      for (let idx = 0; idx < pattern.length; idx++) {
+         const letter = pattern[idx];
+         const word = words[idx];
 
          if (letterMap.has(letter)) {
             if (letterMap.get(letter) !== word)
                return false
+         } else if (wordSet.has(word)) {
+            return false
          } else {
-            if (wordSet.has(word))
-               return false
             letterMap.set(letter, word);
             wordSet.add(word);
          }
       }
-      return true
-   };
+
+      return true;
+   }
 }
 
 

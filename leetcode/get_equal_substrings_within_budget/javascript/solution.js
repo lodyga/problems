@@ -11,25 +11,30 @@ class Solution {
     */
    equalSubstring(text1, text2, maxCost) {
       let left = 0;
-      let windowLength = 0;
+      let res = 0;
 
       for (let right = 0; right < text1.length; right++) {
-         maxCost -= Math.abs(
+         const cost = Math.abs(
             text1.charCodeAt(right) -
             text2.charCodeAt(right)
          );
+         maxCost -= cost;
 
          while (maxCost < 0) {
-            maxCost += Math.abs(
-               text1.charCodeAt(left) -
-               text2.charCodeAt(left)
+            const cost = Math.abs(
+               text1.charCodeAt(right) -
+               text2.charCodeAt(right)
             );
+
+            maxCost += cost;
             left++;
          }
-         windowLength = Math.max(windowLength, right - left + 1);
+         
+         res = Math.max(res, right - left + 1);
       }
-      return windowLength
-   };
+
+      return res;
+   }
 }
 
 

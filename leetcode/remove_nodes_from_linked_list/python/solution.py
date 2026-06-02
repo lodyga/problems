@@ -19,6 +19,36 @@ class Solution:
             DS: linked list
             A: iteration
         """
+        def reverse_linked_list(node: ListNode) -> ListNode:
+            prev = None
+            while node:
+                node_next = node.next
+                node.next = prev
+                prev = node
+                node = node_next
+            return prev
+
+        rev_head = reverse_linked_list(head)
+        node = rev_head
+
+        while node.next:
+            if node.val > node.next.val:
+                node.next = node.next.next
+            else:
+                node = node.next
+
+        return reverse_linked_list(rev_head)
+
+
+class Solution:
+    def removeNodes(self, head: ListNode) -> ListNode:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(1)
+        Tags:
+            DS: linked list
+            A: iteration
+        """
         node = head
         prev = None
         while node:
@@ -39,39 +69,6 @@ class Solution:
             node = node_next
         
         return prev
-
-
-class Solution:
-    def removeNodes(self, head: ListNode) -> ListNode:
-        """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(1)
-        Tags:
-            DS: linked list
-            A: iteration
-        """
-        def reverse_list(node: ListNode) -> ListNode:
-            """
-            Reverse Linked List and return it's new head.
-            """
-            prev = None
-            while node:
-                node_next = node.next
-                node.next = prev
-                prev = node
-                node = node_next
-            return prev
-        
-        node = reverse_list(head)
-        last = node
-
-        while node.next:
-            if node.next.val < node.val:
-                node.next = node.next.next
-            else:
-                node = node.next
-
-        return reverse_list(last)
 
 
 print(are_linked_lists_equeal(Solution().removeNodes(build_linked_list([5, 2, 13, 3, 8])), build_linked_list([13, 8])))

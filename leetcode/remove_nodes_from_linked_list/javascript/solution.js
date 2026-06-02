@@ -23,7 +23,7 @@ class Solution {
     * @return {ListNode}
     */
    removeNodes(head) {
-      const reverseList = (node) => {
+      const reverseLinkedList = (node) => {
          let prev = null;
          while (node) {
             const nodeNext = node.next;
@@ -31,21 +31,22 @@ class Solution {
             prev = node;
             node = nodeNext;
          }
-         return prev
+         return prev;
       }
 
-      const last = reverseList(head);
+      const last = reverseLinkedList(head);
       let node = last;
 
       while (node.next) {
-         if (node.next.val < node.val) {
+         if (node.val > node.next.val) {
             node.next = node.next.next;
          } else {
             node = node.next;
          }
       }
-      return reverseList(last)
-   };
+      
+      return reverseLinkedList(last);
+   }
 }
 
 

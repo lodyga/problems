@@ -13,29 +13,32 @@ class Solution {
     * @return {number}
     */
    countCharacters(words, chars) {
-      let counter = 0;
+      let res = 0;
 
       const charFreq = Array(26).fill(0);
-      for (let index = 0; index < chars.length; index++) {
-         const pos = chars.charCodeAt(index) - 'a'.charCodeAt(0);
+      for (let idx = 0; idx < chars.length; idx++) {
+         const pos = chars.charCodeAt(idx) - 'a'.charCodeAt(0);
          charFreq[pos]++;
       }
 
       for (const word of words) {
          const charFreqCopy = [...charFreq];
-         counter += word.length;
+         res += word.length;
 
-         for (let index = 0; index < word.length; index++) {
-            const pos = word.charCodeAt(index) - 'a'.charCodeAt(0);
+         for (let idx = 0; idx < word.length; idx++) {
+            const pos = word.charCodeAt(idx) - 'a'.charCodeAt(0);
+            
             if (charFreqCopy[pos] === 0) {
-               counter -= word.length;
-               break
+               res -= word.length;
+               break;
             }
+
             charFreqCopy[pos]--;
          }
       }
-      return counter
-   };
+      
+      return res;
+   }
 }
 
 

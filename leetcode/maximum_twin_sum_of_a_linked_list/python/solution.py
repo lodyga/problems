@@ -19,29 +19,28 @@ class Solution:
             DS: linked list
             A: iteration
         """
-        # Find the beginning of the right portion,
-        # while reversing the left portion.
         slow = head
         fast = head
         prev = None
-        while fast and fast.next:
+
+        while fast:
             fast = fast.next.next
-            # The reverse
             slow_next = slow.next
             slow.next = prev
             prev = slow
             slow = slow_next
 
-        # Find max twin.
         left = prev
         right = slow
-        twin = 0
-        while left:  # or right
-            twin = max(twin, left.val + right.val)
+        res = -1
+
+        while left:
+            val = left.val + right.val
+            res = max(res, val)
             left = left.next
             right = right.next
 
-        return twin
+        return res
 
 
 print(Solution().pairSum(build_linked_list([5, 4, 2, 1])) == 6)

@@ -10,24 +10,28 @@ class Solution {
     * @return {string}
     */
    removeDuplicates(text, k) {
-      const stack = [];  // [[letter, frequency], ]
+      // [[letter, frequency], ]
+      const stack = [];
 
       for (const letter of text) {
          if (
             stack.length &&
             stack[stack.length - 1][0] === letter
          ) {
-            const [_, frequency] = stack.pop();
-            if (frequency + 1 < k)
-               stack.push([letter, frequency + 1]);
+            const [_, freq] = stack.pop();
+
+            if (freq + 1 !== k) {
+               stack.push([letter, freq + 1]);
+            }
          } else {
             stack.push([letter, 1]);
          }
       }
+
       return stack
-         .map(([letter, frequency]) => letter.repeat(frequency))
-         .join('')
-   };
+         .map(([letter, freq]) => letter.repeat(freq))
+         .join('');
+   }
 }
 
 

@@ -47,11 +47,12 @@ class Solution {
 
          // three digit number
          if (
-            index + 2 < nums.length &&
-            (
-               nums[index] === '1' ||
-               (nums[index] === '2' && nums[index + 1] < '5') ||
-               (nums[index] === '2' && nums[index + 1] === '5' && nums[index + 2] <= '5')
+            index + 2 < nums.length
+            && (
+               nums[index] === '1'
+               || (nums[index] === '2' && nums[index + 1] < '5')
+               || (nums[index] === '2' && nums[index + 1] === '5'
+                  && nums[index + 2] <= '5')
             )
          ) {
             ip.push(nums.slice(index, index + 3))
@@ -59,9 +60,10 @@ class Solution {
             ip.pop();
          }
       }
+
       backtrack(0);
-      return ips
-   };
+      return ips;
+   }
 }
 
 

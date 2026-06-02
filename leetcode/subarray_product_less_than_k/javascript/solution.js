@@ -10,23 +10,25 @@ class Solution {
     */
    numSubarrayProductLessThanK(nums, k) {
       let left = 0;
-      let windowProduct = 1;
-      let subarrayCounter = 0;
+      let res = 0;
+      let product = 1;
 
       for (let right = 0; right < nums.length; right++) {
-         windowProduct *= nums[right];
+         product *= nums[right];
 
          while (
             left <= right &&
-            windowProduct >= k
+            product >= k
          ) {
-            windowProduct /= nums[left];
+            product /= nums[left];
             left++;
          }
-         subarrayCounter += (right - left + 1);
+         
+         res += (right - left + 1);
       }
-      return subarrayCounter
-   };
+
+      return res;
+   }
 }
 
 

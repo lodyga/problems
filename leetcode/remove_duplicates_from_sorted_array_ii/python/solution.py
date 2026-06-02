@@ -4,7 +4,7 @@ class Solution:
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
         Tags:
-            A: two pointers
+            A: two pointers, in-place method
         """
         left = 1
         
@@ -24,7 +24,7 @@ class Solution:
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
         Tags:
-            A: two pointers
+            A: two pointers, in-place method
         """
         left = 1
 

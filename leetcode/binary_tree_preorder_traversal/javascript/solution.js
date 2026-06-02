@@ -29,14 +29,19 @@ class Solution {
          if (node === null) {
             return
          }
+         
          nodes.push(node.val);
          dfs(node.left);
          dfs(node.right);
       }
-      dfs(root);
-      return nodes
-   };
 
+      dfs(root)
+      return nodes
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
@@ -47,21 +52,28 @@ class Solution {
     * @return {number[]}
     */
    preorderTraversal(root) {
-      const values = [];
+      const res = [];
       const stack = root ? [root] : [];
 
       while (stack.length) {
          const node = stack.pop();
-         values.push(node.val);
+         res.push(node.val);
 
-         if (node.right)
+         if (node.right) {
             stack.push(node.right);
-         if (node.left)
-            stack.push(node.left);
-      }
-      return values
-   };
+         }
 
+         if (node.left) {
+            stack.push(node.left);
+         }
+      }
+
+      return res;
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
@@ -72,13 +84,13 @@ class Solution {
     * @return {number[]}
     */
    preorderTraversal(root) {
-      const values = [];
+      const res = [];
       const stack = [];
       let node = root;
 
       while (stack.length || node) {
          if (node) {
-            values.push(node.val);
+            res.push(node.val);
             stack.push(node.right);
             node = node.left;
          } else {
@@ -86,8 +98,9 @@ class Solution {
             node = stack.pop();
          }
       }
-      return values
-   };
+
+      return res;
+   }
 }
 
 

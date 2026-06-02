@@ -1,7 +1,7 @@
 class Solution {
    /**
     * Time complexity: O(n2)
-    * Auxiliary space complexity: O(n2)
+    * Auxiliary space complexity: O(n)
     * Tags:
     *     DS: list
     *     A: bottom-up
@@ -13,14 +13,17 @@ class Solution {
 
       for (let row = 0; row < rowIndex; row++) {
          const rowVals = [1];
+         
          for (let col = 0; col < row; col++) {
             rowVals.push(prevRowVals[col] + prevRowVals[col + 1]);
          }
+         
          rowVals.push(1);
          prevRowVals = rowVals;
       }
-      return prevRowVals
-   };
+      
+      return prevRowVals;
+   }
 }
 
 

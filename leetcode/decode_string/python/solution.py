@@ -7,30 +7,30 @@ class Solution:
             DS: stack, string
             A: iteration
         """
-        stack = []
-        word = ""
-        multiplier = 0
+        stack = []  
+        chunk = ""
+        multiplier = 0  
 
         for char in text:
             if char.isdigit():
-                multiplier = multiplier * 10 + int(char)
-
+                multiplier = multiplier*10 + int(char)
+            
             elif char == "[":
-                stack.append(word)
-                word = ""
+                stack.append(chunk)
+                chunk = ""
                 stack.append(multiplier)
                 multiplier = 0
 
             elif char == "]":
                 multiplier = stack.pop()
                 prev_word = stack.pop()
-                word = prev_word + multiplier * word
+                chunk = prev_word + multiplier * chunk
                 multiplier = 0
 
             else:
-                word += char
+                chunk += char
 
-        return word
+        return chunk
 
 
 print(Solution().decodeString("3[a]2[bc]") == "aaabcbc")

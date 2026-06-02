@@ -10,17 +10,18 @@ class Solution {
     */
    numIdenticalPairs(nums) {
       const numFreq = new Map();
-      let counter = 0;
+      let res = 0;
 
-      for (const number of nums) {
-         numFreq.set(number, (numFreq.get(number) || 0) + 1);
+      for (const num of nums) {
+         numFreq.set(num, (numFreq.get(num) || 0) + 1);
       }
 
       for (const freq of numFreq.values()) {
-         counter += Math.floor(freq * (freq - 1) / 2);
+         res += Math.floor(freq * (freq - 1) / 2);
       }
-      return counter
-   };
+
+      return res;
+   }
 }
 
 

@@ -1,12 +1,53 @@
 class ListNode:
-    """
-    Definition for singly-linked list.
-    """
-
-    def __init__(self, key=None, val=None, next=None):
+    def __init__(self, key=None, val=None, next=None) -> None:
         self.key = key
         self.val = val
         self.next = next
+
+
+class LinkedList:
+    def __init__(self) -> None:
+        self.head = ListNode()
+
+    def set(self, key: int, val: int) -> None:
+        node = self.head
+
+        while node.next:
+            if node.next.key == key:
+                node.next.val = val
+                return
+            node = node.next
+
+        node.next = ListNode(key, val)
+
+    def has(self, key: int) -> bool:
+        node = self.head
+
+        while node.next:
+            if node.next.key == key:
+                return True
+            node = node.next
+
+        return False
+
+    def get(self, key: int) -> int:
+        node = self.head
+
+        while node.next:
+            if node.next.key == key:
+                return node.next.val
+            node = node.next
+
+        return -1
+
+    def discard(self, key: int) -> None:
+        node = self.head
+
+        while node.next:
+            if node.next.key == key:
+                node.next = node.next.next
+                return
+            node = node.next
 
 
 class MyHashMap:
@@ -22,44 +63,98 @@ class MyHashMap:
         A: iteration
     """
 
-    def __init__(self):
-        self.map = [ListNode() for _ in range(10**4)]
+    CAPACITY = 10**4
 
-    def _get_hash(self, key: int) -> int:
-        return key % len(self.map)
+    def __init__(self) -> None:
+        self.buckets = [LinkedList() for _ in range(self.CAPACITY)]
+
+    def _get_hash_key(self, key: int) -> int:
+        return key % self.CAPACITY
+
+    def _get_linked_list(self, key: int) -> LinkedList:
+        hash_key = self._get_hash_key(key)
+        return self.buckets[hash_key]
 
     def put(self, key: int, val: int) -> None:
-        index = self._get_hash(key)
-        node = self.map[index]
-
-        while node.next:
-            if node.next.key == key:
-                node.next.val = val
-                return
-            node = node.next
-
-        node.next = ListNode(key, val)
+        linked_list = self._get_linked_list(key)
+        linked_list.set(key, val)
 
     def get(self, key: int) -> int:
-        index = self._get_hash(key)
-        node = self.map[index]
-
-        while node.next:
-            if node.next.key == key:
-                return node.next.val
-            node = node.next
-
-        return -1
+        linked_list = self._get_linked_list(key)
+        return linked_list.get(key)
 
     def remove(self, key: int) -> None:
-        index = self._get_hash(key)
-        node = self.map[index]
+        linked_list = self._get_linked_list(key)
+        linked_list.discard(key)
 
-        while node.next:
-            if node.next.key == key:
-                node.next = node.next.next
-                return
-            node = node.next
+    def contains(self, key: int) -> bool:
+        linked_list = self._get_linked_list(key)
+        return linked_list.has(key)
+
+
+class MyHashMap:
+    """
+    Time complexity:
+        constructor: O(n)
+        put: O(1)
+        get: O(1)
+        remove: O(1)
+    Auxiliary space complexity: O(n)
+    Tags:
+        DS: list, hash map
+        A: iteration
+    """
+
+    CAPACITY = 10**4
+
+    def __init__(self) -> None:
+        self.buckets = [[] for _ in range(self.CAPACITY)]
+
+    def _get_hash_key(self, key: int) -> int:
+        return key % self.CAPACITY
+
+    def _get_list(self, key: int) -> list:
+        hash_key = self._get_hash_key(key)
+        return self.buckets[hash_key]
+
+    def _get_index(self, key: int) -> int:
+        bucket = self._get_list(key)
+
+        try:
+            keys = [key for key, _ in bucket]
+            idx = keys.index(key)
+        except ValueError:
+            idx = -1
+
+        return idx
+
+    def put(self, key: int, val: int) -> None:
+        bucket = self._get_list(key)
+        idx = self._get_index(key)
+
+        if idx == -1:
+            bucket.append((key, val))
+        else:
+            bucket[idx] = (key, val)
+
+    def get(self, key: int) -> int:
+        idx = self._get_index(key)
+
+        if idx == -1:
+            return -1
+
+        bucket = self._get_list(key)
+        return bucket[idx][1]
+
+    def remove(self, key: int) -> None:
+        idx = self._get_index(key)
+
+        if idx != -1:
+            bucket = self._get_list(key)
+            bucket.pop(idx)
+
+    def contains(self, key: int) -> bool:
+        return self._get_index(key) != -1
 
 
 def test_input(operations: list[str], arguments: list[list]) -> list[str | int | None]:
@@ -89,15 +184,15 @@ def test_input(operations: list[str], arguments: list[list]) -> list[str | int |
 
 # Example Input
 operations_list = [
-    ["MyHashMap","put","put","get","get","put","get","remove","get"]
+    ["MyHashMap", "put", "put", "get", "get", "put", "get", "remove", "get"]
 ]
 
 arguments_list = [
-    [[],[1,1],[2,2],[1],[3],[2,1],[2],[2],[2]]
+    [[], [1, 1], [2, 2], [1], [3], [2, 1], [2], [2], [2]]
 ]
 
 expected_output_list = [
-    [None,None,None,1,-1,None,1,None,-1]
+    [None, None, None, 1, -1, None, 1, None, -1]
 ]
 
 

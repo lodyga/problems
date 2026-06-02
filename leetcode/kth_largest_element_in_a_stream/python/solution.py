@@ -3,53 +3,59 @@ import heapq
 
 class KthLargest:
     """
-    Time complexity: O(n*logk)
-        n: number of `add` calls
-        k: the number of highest test scores
+    Time complexity:
+        constructor: O(nlogn)
+        add: O(log(k))
+        n: stream size
+        k: highest test scores size
     Auxiliary space complexity: O(1)
     Tags:
         DS: heap
-        A: heap, in-place method
+        A: iteration
     """
 
-    def __init__(self, k: int, nums: list[int]):
+    def __init__(self, k: int, stream: list[int]) -> None:
         self.k = k
-        self.nums = nums
-        heapq.heapify(nums)
-        while len(nums) > k:
-            heapq.heappop(nums)
+        self.stream = stream
+        heapq.heapify(self.stream)
+
+        while len(self.stream) > k:
+            heapq.heappop(self.stream)
 
     def add(self, val: int) -> int:
-        nums = self.nums
-
-        if len(nums) < self.k:
-            heapq.heappush(nums, val)
+        if len(self.stream) < self.k:
+            heapq.heappush(self.stream, val)
         else:
-            heapq.heappushpop(nums, val)
-        return nums[0]
+            heapq.heappushpop(self.stream, val)
+
+        return self.stream[0]
 
 
-class KthLargest:
+class KthLargest2:
     """
-    Time complexity: O(n*mlogm)
-        n: number of `add` calls
-        m: `numbers` size
-    Auxiliary space complexity: O(n + m)
+    Time complexity:
+        constructor: O(nlogn)
+        add: O(klog(k))
+        n: stream size
+        k: highest test scores size
+    Auxiliary space complexity: O(n + k)
     Tags:
         DS: list
         A: sorting
     """
 
-    def __init__(self, k: int, numbers: list[int]):
+    def __init__(self, k: int, stream: list[int]):
         self.k = k
-        self.numbers = sorted(numbers, reverse=True)[:self.k]
+        self.stream = sorted(stream, reverse=True)[: self.k]
 
     def add(self, val: int) -> int:
-        self.numbers.append(val)
-        self.numbers.sort(reverse=True)
-        self.numbers.pop()
-        return self.numbers[-1]
-
+        self.stream.append(val)
+        self.stream.sort(reverse=True)
+        
+        if len(self.stream) > self.k:
+            self.stream.pop()
+        
+        return self.stream[-1]
 
 
 # Example 1

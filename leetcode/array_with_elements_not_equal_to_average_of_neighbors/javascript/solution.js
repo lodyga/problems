@@ -35,9 +35,12 @@ class Solution {
          left -= 1;
          right += 1;
       }
-      return res
-   };
+      return res;
+   }
+}
 
+
+class Solution {
    /**
     * Time complexity: O(nlogn)
     * Auxiliary space complexity: O(n)
@@ -71,8 +74,9 @@ class Solution {
          left -= 1;
          right += 1;
       }
-      return res
-   };
+
+      return res;
+   }
 }
 
 

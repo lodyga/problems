@@ -14,28 +14,32 @@ class Solution {
     */
    successfulPairs(spells, potions, success) {
       potions.sort((a, b) => a - b);
-      const successfulSpells = Array(spells.length).fill(0);
+      const res = []
 
-      for (let index = 0; index < spells.length; index++) {
-         const spell = spells[index];
+      for (let ids = 0; ids < spells.length; ids++) {
+         const spell = spells[ids];
          let left = 0;
          let right = potions.length - 1;
-         let minRight = potions.length;
+         let failCounter = potions.length;
+         const potionThreshold = success / spell;
 
          while (left <= right) {
-            const middle = (left + right) >> 1;
-1
-            if (potions[middle] * spell < success) {
-               left = middle + 1;
+            const mid = Math.floor((left + right) / 2);
+            const midPotion = potions[mid];
+
+            if (midPotion < potionThreshold) {
+               left = mid + 1;
             } else {
-               minRight = middle;
-               right = middle - 1;
+               failCounter = mid;
+               right = mid - 1;
             }
          }
-         successfulSpells[index] = potions.length - minRight;
+
+         res.push(potions.length - failCounter);
       }
-      return successfulSpells
-   };
+
+      return res;
+   }
 }
 
 

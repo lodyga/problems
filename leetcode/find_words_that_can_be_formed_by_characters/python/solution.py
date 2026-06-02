@@ -10,25 +10,26 @@ class Solution:
             DS: array
             A: iteration
         """
-        counter = 0
-
         char_freq = [0] * 26
-        for char in chars:
-            index = ord(char) - ord("a")
-            char_freq[index] += 1
-        
+        res = 0
+
+        for letter in chars:
+            idx = ord(letter) - ord("a")
+            char_freq[idx] += 1
+
         for word in words:
             char_freq_copy = char_freq.copy()
-            counter += len(word)
-            
+            res += len(word)
+
             for letter in word:
-                index = ord(letter) - ord("a")
-                if char_freq_copy[index] == 0:
-                    counter -= len(word)
+                idx = ord(letter) - ord("a")
+                char_freq_copy[idx] -= 1
+                
+                if char_freq_copy[idx] == -1:
+                    res -= len(word)
                     break
-                char_freq_copy[index] -= 1
-        
-        return counter
+
+        return res
 
 
 print(Solution().countCharacters(["cat", "bt", "hat", "tree"], "atach") == 6)

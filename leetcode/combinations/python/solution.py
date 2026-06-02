@@ -8,24 +8,22 @@ class Solution:
             A: backtracking
         """
         combination = []
-        combinations = []
+        res = []
 
-        def backtrack(index):
-            if index == n:
-                if len(combination) == k:
-                    combinations.append(combination.copy())
+        def backtrack(idx):
+            if len(combination) == k:
+                res.append(combination.copy())
+                return
+            elif idx == n + 1:
                 return
 
-            # take
-            combination.append(index + 1)
-            backtrack(index + 1)
+            combination.append(idx)
+            backtrack(idx + 1)
             combination.pop()
+            backtrack(idx + 1)
 
-            # skip
-            backtrack(index + 1)
-
-        backtrack(0)
-        return combinations
+        backtrack(1)
+        return res
 
 
 class Solution:
@@ -38,11 +36,11 @@ class Solution:
             A: backtracking
         """
         combination = []
-        combinations = []
+        res = []
 
         def backtrack(index):
             if len(combination) == k:
-                combinations.append(combination.copy())
+                res.append(combination.copy())
                 return
 
             for num in range(index, n + 1):
@@ -51,7 +49,7 @@ class Solution:
                 combination.pop()
 
         backtrack(1)
-        return combinations
+        return res
 
 
 class Solution:
@@ -89,6 +87,6 @@ class Solution:
         return bfs()
 
 
+print(Solution().combine(4, 2) == [[1, 2], [1, 3], [1, 4], [2, 3], [2, 4], [3, 4]])
 print(Solution().combine(1, 1) == [[1]])
 print(Solution().combine(2, 2) == [[1, 2]])
-print(Solution().combine(4, 2) == [[1, 2], [1, 3], [1, 4], [2, 3], [2, 4], [3, 4]])

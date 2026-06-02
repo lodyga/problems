@@ -1,23 +1,37 @@
 class Solution:
-    def isMonotonic(self, nums) -> bool:
+    def isMonotonic(self, nums: list[int]) -> bool:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
         Tags:
             A: iteration
         """
-        prev = nums[0]
-        is_increasing = True
-        is_decreasing = True
+        def is_weakly_increasing(nums: list[int]) -> bool:
+            prev_num = nums[0] - 1
 
-        for num in nums:
-            if prev > num:
-                is_decreasing = False
-            if prev < num:
-                is_increasing = False
-            prev = num
+            for num in nums:
+                if prev_num > num:
+                    return False
 
-        return is_increasing or is_decreasing
+                prev_num = num
+
+            return True
+
+        def is_weakly_decreasing(nums: list[int]) -> bool:
+            prev_num = nums[0] + 1
+
+            for num in nums:
+                if prev_num < num:
+                    return False
+
+                prev_num = num
+
+            return True
+
+        return (
+            is_weakly_increasing(nums)
+            or is_weakly_decreasing(nums)
+        )
 
 
 print(Solution().isMonotonic([1, 2, 2, 3]) == True)

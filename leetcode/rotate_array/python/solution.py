@@ -7,22 +7,47 @@ class Solution:
             DS: array
             A: two pointers, in-place method
         """
-        def _reverse(left, right):
+        def _rotate_inplace(left: int, right: int) -> None:
             while left < right:
                 nums[left], nums[right] = nums[right], nums[left]
                 left += 1
                 right -= 1
 
-        k %= len(nums)
-        _reverse(0, len(nums) - k - 1)
-        _reverse(len(nums) - k, len(nums) - 1)
-        _reverse(0, len(nums) - 1)
+        N = len(nums)
+        k %= N
+
+        _rotate_inplace(0, N - 1)
+        _rotate_inplace(0, k - 1)
+        _rotate_inplace(k, N - 1)
 
         return nums
 
 
 class Solution:
-    def rotate(self, numbers: list[int], k: int) -> None:
+    def rotate(self, nums: list[int], k: int) -> list[int]:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(1)
+        Tags:
+            DS: list
+            A: two pointers
+        """
+        N = len(nums)
+        k %= N
+        pivot = N - k
+        res = []
+
+        for idx in range(pivot, N):
+            res.append(nums[idx])
+
+        for idx in range(pivot):
+            res.append(nums[idx])
+
+        return res
+
+
+class Solution:
+    def rotate(self, nums: list[int], k: int) -> None:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
@@ -30,8 +55,9 @@ class Solution:
             DS: list
             A: build-in function
         """
-        pivot = len(numbers) - k % len(numbers)
-        return numbers[pivot:] + numbers[: pivot]
+        N = len(nums)
+        pivot = N - k % N
+        return nums[pivot: ] + nums[: pivot]
 
 
 print(Solution().rotate([1, 2, 3, 4, 5], 2) == [4, 5, 1, 2, 3])

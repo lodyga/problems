@@ -9,40 +9,43 @@ class Solution {
     * @return {number}
     */
    shipWithinDays(weights, days) {
-      const canTransport = (capacity) => {
-         const capacityCopy = capacity;
-         let transDays = 1;
+      const canShipInTime = (capacity) => {
+         let currCapacity = 0;
+         let transDays = 0;
 
          for (const weight of weights) {
-            if (transDays > days)
-               return false
-
-            capacity -= weight;
-
-            if (capacity < 0) {
+            if (currCapacity >= weight) {
+               currCapacity -= weight;
+            } else {
                transDays += 1;
-               capacity = capacityCopy - weight;
+               currCapacity = capacity - weight;
+
+               if (transDays > days) {
+                  return false;
+               }
             }
          }
-         return transDays <= days
+
+         return true;
       }
 
-      // capacities
       let left = Math.max(...weights);
-      let right = weights.reduce((total, num) => total + num, 0);
-      let res = weights.length;
+      let right = weights.reduce((sum, val) => sum + val, 0);
+      let res = right;
 
       while (left <= right) {
-         const mid = (left + right) >> 1;
+         const midCapacity = Math.floor((left + right) / 2);
 
-         if (canTransport(mid)) {
-            res = mid;
-            right = mid - 1;
-         } else
-            left = mid + 1;
+         if (canShipInTime(midCapacity)) {
+            res = midCapacity;
+            right = midCapacity - 1;
+         } else {
+            left = midCapacity + 1;
+         }
       }
-      return res
-   };
+
+      return res;
+   }
 }
 
 

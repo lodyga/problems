@@ -1,24 +1,24 @@
 # Binary Tree Preorder Traversal
-https://leetcode.com/problems/binary-tree-preorder-traversal/description/
+https://leetcode.com/problems/binary-tree-preorder-traversal/
 
-
+<p>
 Given the root of a binary tree, return the preorder traversal of its nodes' values.
+</p>
 
-
-<b>Example 1:</b>\
-Input: root = [1,null,2,3]
 <pre>
+<b>Example 1:</b>
+Input: root = [1,null,2,3]
 1__
    \
     2
    /
   3
-</pre>
 Output: [1,2,3]
+</pre>
 
-<b>Example 2:</b>\
-Input: root = [1,2,3,4,5,null,8,null,null,6,7,9]
 <pre>
+<b>Example 2:</b>
+Input: root = [1,2,3,4,5,null,8,null,null,6,7,9]
     ______1
    /       \
   2__       3__
@@ -26,13 +26,17 @@ Input: root = [1,2,3,4,5,null,8,null,null,6,7,9]
 4     5         8
      / \       /
     6   7     9
-</pre>
 Output: [1,2,4,5,6,7,3,8,9]
+</pre>
 
-<b>Example 3:</b>\
-Input: root = []\
+<pre>
+<b>Example 3:</b>
+Input: root = []
 Output: []
+</pre>
 
-<b>Example 4:</b>\
-Input: root = [1]\
+<pre>
+<b>Example 4:</b>
+Input: root = [1]
 Output: [1]
+</pre>

@@ -20,50 +20,60 @@ class ListNode {
  */
 class MyLinkedList {
    constructor() {
-      this.anchor = new ListNode();
+      this.dummy = new ListNode();
+      this.size = 0;
    }
 
-   get(index) {
-      let node = this.anchor.next;
-      while (index && node) {
-         node = node.next;
-         index--;
+   _getNodeBeforeIndex = (idx) => {
+      if (idx > this.size) {
+         return null
       }
-      return (index === 0 && node) ? node.val : -1
-   };
+
+      let node = this.dummy;
+
+      while (idx) {
+         node = node.next;
+         idx--;
+      }
+
+      return node;
+   }
+
+   addAtIndex(idx, val) {
+      let node = this._getNodeBeforeIndex(idx);
+
+      if (node === null) {
+         return null
+      }
+
+      node.next = new ListNode(val, node.next);
+      this.size++;
+   }
 
    addAtHead(val) {
-      this.anchor.next = new ListNode(val, this.anchor.next);
-   };
+      this.addAtIndex(0, val);
+   }
 
    addAtTail(val) {
-      let node = this.anchor;
-      while (node.next) {
-         node = node.next;
-      }
-      node.next = new ListNode(val, null);
-   };
+      this.addAtIndex(this.size, val);
+   }
 
-   addAtIndex(index, val) {
-      let node = this.anchor;
-      while (index && node.next) {
-         node = node.next;
-         index--;
-      }
-      if (index === 0)
-         node.next = new ListNode(val, node.next);
-   };
+   deleteAtIndex(idx) {
+      let node = this._getNodeBeforeIndex(idx);
 
-
-   deleteAtIndex(index) {
-      let node = this.anchor;
-      while (index && node.next) {
-         node = node.next;
-         index--;
+      if (node == null || node.next == null) {
+         return;
       }
-      if (index === 0 && node.next)
-         node.next = node.next.next;
-   };
+
+      node.next = node.next.next;
+      this.size--;
+   }
+
+   get(idx) {
+      let node = this._getNodeBeforeIndex(idx);
+
+      return (node && node.next) ? node.next.val : -1
+   }
 }
 
 
@@ -98,7 +108,7 @@ const testInput = (operations, args) => {
       } else if (operation === 'get') {
          output.push(myLinkedList.get(...argument));
       }
-   };
+   }
    return output
 }
 
@@ -106,26 +116,26 @@ const testInput = (operations, args) => {
 // Example Input
 const operationsList = [
    ["MyLinkedList", "addAtHead", "addAtTail", "addAtIndex", "get", "deleteAtIndex", "get"],
-    ["MyLinkedList","deleteAtIndex"], 
-    ["MyLinkedList","addAtHead","deleteAtIndex","addAtHead","addAtHead","addAtHead","addAtHead","addAtHead","addAtTail","get","deleteAtIndex","deleteAtIndex"], 
-    ["MyLinkedList","addAtHead","addAtTail","addAtIndex","get","deleteAtIndex","get","get","deleteAtIndex","deleteAtIndex","get","deleteAtIndex","get"],
-    ["MyLinkedList","addAtHead","addAtHead","addAtHead","addAtIndex","deleteAtIndex","addAtHead","addAtTail","get","addAtHead","addAtIndex","addAtHead"]
+   ["MyLinkedList", "deleteAtIndex"],
+   ["MyLinkedList", "addAtHead", "deleteAtIndex", "addAtHead", "addAtHead", "addAtHead", "addAtHead", "addAtHead", "addAtTail", "get", "deleteAtIndex", "deleteAtIndex"],
+   ["MyLinkedList", "addAtHead", "addAtTail", "addAtIndex", "get", "deleteAtIndex", "get", "get", "deleteAtIndex", "deleteAtIndex", "get", "deleteAtIndex", "get"],
+   ["MyLinkedList", "addAtHead", "addAtHead", "addAtHead", "addAtIndex", "deleteAtIndex", "addAtHead", "addAtTail", "get", "addAtHead", "addAtIndex", "addAtHead"]
 ]
 
 const argumentsList = [
-   [[], [1], [3], [1, 2], [1], [1], [1]], 
-    [[],[0]], 
-    [[],[2],[1],[2],[7],[3],[2],[5],[5],[5],[6],[4]], 
-    [[],[1],[3],[1,2],[1],[1],[1],[3],[3],[0],[0],[0],[0]], 
-    [[],[7],[2],[1],[3,0],[2],[6],[4],[4],[4],[5,0],[6]]
+   [[], [1], [3], [1, 2], [1], [1], [1]],
+   [[], [0]],
+   [[], [2], [1], [2], [7], [3], [2], [5], [5], [5], [6], [4]],
+   [[], [1], [3], [1, 2], [1], [1], [1], [3], [3], [0], [0], [0], [0]],
+   [[], [7], [2], [1], [3, 0], [2], [6], [4], [4], [4], [5, 0], [6]]
 ]
 
 const expectedOutputList = [
-   [null, null, null, null, 2, null, 3], 
-    [null, null], 
-    [null, null, null, null, null, null, null, null, null, 2, null, null], 
-    [null,null,null,null,2,null,3,-1,null,null,3,null,-1],
-    [null,null,null,null,null,null,null,null,4,null,null,null]
+   [null, null, null, null, 2, null, 3],
+   [null, null],
+   [null, null, null, null, null, null, null, null, null, 2, null, null],
+   [null, null, null, null, 2, null, 3, -1, null, null, 3, null, -1],
+   [null, null, null, null, null, null, null, null, 4, null, null, null]
 ]
 
 

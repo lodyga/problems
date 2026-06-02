@@ -9,21 +9,25 @@ class Solution {
     */
    findDisappearedNumbers(nums) {
       for (let num of nums) {
-         num = Math.abs(num);
-         nums[num - 1] = -Math.abs(nums[num - 1]);
+         const idx = Math.abs(num) - 1;
+         nums[idx] = -Math.abs(nums[idx]);
       }
       // return nums
-      //    .map((value, index) => [value, index])
-      //    .filter(([value, _]) => value > 0)
-      //    .map(([_, index]) => index + 1)
+      //    .map((val, idx) => [val, idx])
+      //    .filter(([val, _]) => val > 0)
+      //    .map(([_, idx]) => idx + 1)
+
       const res = [];
-      for (let index = 0; index < nums.length; index++) {
-         const num = nums[index];
-         if (num > 0)
-            res.push(index + 1);
+      for (let idx = 0; idx < nums.length; idx++) {
+         const num = nums[idx];
+
+         if (num > 0) {
+            res.push(idx + 1);
+         }
       }
-      return res
-   };
+
+      return res;
+   }
 }
 
 

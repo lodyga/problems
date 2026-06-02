@@ -7,37 +7,41 @@ class Solution:
             A: two pointers
         """
         nums.sort()
-        quadruplets = []
+        N = len(nums)
+        res = []
 
-        for i in range(0, len(nums) - 3):
+        for i in range(N - 3):
             # if not the first i loop
             # skip repeating nums
-            if i and nums[i - 1] == nums[i]:
+            if i > 0 and nums[i - 1] == nums[i]:
                 continue
-            for j in range(i + 1, len(nums) - 2):
+            
+            for j in range(i + 1, N - 2):
                 # if not the first j loop
                 # skip repeating nums
-                if j != i + 1 and nums[j - 1] == nums[j]:
+                if j > i + 1 and nums[j - 1] == nums[j]:
                     continue
-
+                
                 left = j + 1
-                right = len(nums) - 1
-
+                right = N - 1
+                
                 while left < right:
-                    quadruplet = nums[i] + nums[j] + nums[left] + nums[right]
+                    quad = nums[i] + nums[j] + nums[left] + nums[right]
 
-                    if quadruplet == target:
-                        quadruplets.append([nums[i], nums[j], nums[left], nums[right]])
+                    if target == quad:
+                        res.append([nums[i], nums[j], nums[left], nums[right]])
                         left += 1
                         right -= 1
-                        while left < right and nums[right] == nums[right + 1]:
-                            right -= 1
-                    elif quadruplet < target:
-                        left += 1
+                        
+                        while left < right and nums[left - 1] == nums[left]:
+                            left += 1
+                        
+                    elif target < quad:
+                        right -= 1
                     else:
-                        right -= 1
+                        left += 1
 
-        return quadruplets
+        return res
 
 
 print(sorted(Solution().fourSum([1, 0, -1, 0, -2, 2], 0)) == sorted([[-2, -1, 1, 2], [-2, 0, 0, 2], [-1, 0, 0, 1]]))

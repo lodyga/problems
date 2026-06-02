@@ -8,48 +8,92 @@ class Solution:
             DS: list, string
             A: backtracking
         """
-        if len(nums) < 4 or len(nums) > 12:
+        N = len(nums)
+
+        if N < 4 or N > 12:
             return []
-        
+
+        ip_address = []
+        res = []
+
+        def backtrack(start, counter):
+            if start == N and counter == 4:
+                res.append(".".join(ip_address))
+                return
+            elif start == N or counter == 4:
+                return
+
+            for idx in range(start, min(start + 3, N)):
+                num = nums[start: idx + 1]
+
+                if (
+                    (len(num) > 1 and num[0] == "0")
+                    or int(num) > 255
+                ):
+                    continue
+
+                ip_address.append(num)
+                backtrack(idx + 1, counter + 1)
+                ip_address.pop()
+
+        backtrack(0, 0)
+        return res
+
+
+class Solution:
+    def restoreIpAddresses(self, nums: str) -> list[str]:
+        """
+        Time complexity: O(1)
+            O(3**4)
+        Auxiliary space complexity: O(1)
+        Tags:
+            DS: list, string
+            A: backtracking
+        """
+        N = len(nums)
+
+        if N < 4 or N > 12:
+            return []
+
         ip = []
-        ips = []
+        res = []
 
-        def backtrack(index):
-            if index == len(nums) and len(ip) == 4:
-                ips.append(".".join(ip))
+        def backtrack(idx):
+            if idx == N and len(ip) == 4:
+                res.append(".".join(ip))
                 return
-            elif index == len(nums) or len(ip) == 4:
+            elif idx == N or len(ip) == 4:
                 return
 
-            digit = nums[index]
+            digit = nums[idx]
 
             # one digit number
             ip.append(digit)
-            backtrack(index + 1)
+            backtrack(idx + 1)
             ip.pop()
 
             # two digit number
-            if index + 1 < len(nums) and digit > "0":
-                ip.append(nums[index: index + 2])
-                backtrack(index + 2)
+            if idx + 1 < N and digit > "0":
+                ip.append(nums[idx: idx + 2])
+                backtrack(idx + 2)
                 ip.pop()
 
             # three digit number
             if (
-                index + 2 < len(nums) and
-                (
-                    digit == "1" or
-                    (digit == "2" and nums[index + 1] <= "4") or
-                    (digit == "2" and nums[index + 1] == "5" 
-                     and nums[index + 2] <= "5")
+                idx + 2 < N
+                and (
+                    digit == "1"
+                    or (digit == "2" and nums[idx + 1] <= "4")
+                    or (digit == "2" and nums[idx + 1] == "5"
+                        and nums[idx + 2] <= "5")
                 )
             ):
-                ip.append(nums[index: index + 3])
-                backtrack(index + 3)
+                ip.append(nums[idx: idx + 3])
+                backtrack(idx + 3)
                 ip.pop()
 
         backtrack(0)
-        return ips
+        return res
 
 
 print(sorted(Solution().restoreIpAddresses("25525511135")) == sorted(["255.255.11.135", "255.255.111.35"]))

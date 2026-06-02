@@ -18,42 +18,50 @@ class MyLinkedList:
         DS: linked list, singly linked list
     """
 
-    def __init__(self):
-        self.anchor = ListNode()
+    def __init__(self) -> None:
+        self.dummy = ListNode()
+        self.size = 0
 
-    def get(self, index: int) -> int:
-        node = self.anchor.next
-        while index and node:
+    def _get_node_before_index(self, idx: int) -> ListNode | None:
+        if idx > self.size:
+            return None
+
+        node = self.dummy
+
+        while idx:
             node = node.next
-            index -= 1
-        return node.val if index == 0 and node else -1
+            idx -= 1
+
+        return node
+
+    def addAtIndex(self, idx: int, val: int) -> None:
+        node = self._get_node_before_index(idx)
+
+        if node is None:
+            return
+
+        node.next = ListNode(val, node.next)
+        self.size += 1
 
     def addAtHead(self, val: int) -> None:
-        self.anchor.next = ListNode(val, self.anchor.next)
+        self.addAtIndex(0, val)
 
     def addAtTail(self, val: int) -> None:
-        node = self.anchor
-        while node.next:
-            node = node.next
-        node.next = ListNode(val)
+        self.addAtIndex(self.size, val)
 
-    def addAtIndex(self, index: int, val: int) -> None:
-        node = self.anchor
-        while index and node.next:
-            node = node.next
-            index -= 1
+    def deleteAtIndex(self, idx: int) -> None:
+        node = self._get_node_before_index(idx)
 
-        if index == 0:
-            node.next = ListNode(val, node.next)
+        if node is None or node.next is None:
+            return
 
-    def deleteAtIndex(self, index: int) -> None:
-        node = self.anchor
-        while index and node.next:
-            node = node.next
-            index -= 1
+        node.next = node.next.next
+        self.size -= 1
 
-        if index == 0 and node.next:
-            node.next = node.next.next
+    def get(self, idx: int) -> int:
+        node = self._get_node_before_index(idx)
+
+        return node.next.val if node and node.next else -1
 
 
 class DoublyLinkedNode:
@@ -63,7 +71,7 @@ class DoublyLinkedNode:
         self.prev = prev
 
 
-class MyLinkedList2:
+class MyLinkedList:
     def __init__(self):
         self.left = DoublyLinkedNode()
         self.right = DoublyLinkedNode()
@@ -157,27 +165,31 @@ def test_input(operations: list[str], arguments: list[list]) -> list[str | int |
 
 # Example Input
 operations_list = [
-    ["MyLinkedList", "addAtHead", "addAtTail", "addAtIndex", "get", "deleteAtIndex", "get"],
-    ["MyLinkedList","deleteAtIndex"], 
-    ["MyLinkedList","addAtHead","deleteAtIndex","addAtHead","addAtHead","addAtHead","addAtHead","addAtHead","addAtTail","get","deleteAtIndex","deleteAtIndex"], 
-    ["MyLinkedList","addAtHead","addAtTail","addAtIndex","get","deleteAtIndex","get","get","deleteAtIndex","deleteAtIndex","get","deleteAtIndex","get"],
-    ["MyLinkedList","addAtHead","addAtHead","addAtHead","addAtIndex","deleteAtIndex","addAtHead","addAtTail","get","addAtHead","addAtIndex","addAtHead"]
+    ["MyLinkedList", "addAtHead", "addAtTail",
+        "addAtIndex", "get", "deleteAtIndex", "get"],
+    ["MyLinkedList", "deleteAtIndex"],
+    ["MyLinkedList", "addAtHead", "deleteAtIndex", "addAtHead", "addAtHead", "addAtHead",
+        "addAtHead", "addAtHead", "addAtTail", "get", "deleteAtIndex", "deleteAtIndex"],
+    ["MyLinkedList", "addAtHead", "addAtTail", "addAtIndex", "get", "deleteAtIndex",
+        "get", "get", "deleteAtIndex", "deleteAtIndex", "get", "deleteAtIndex", "get"],
+    ["MyLinkedList", "addAtHead", "addAtHead", "addAtHead", "addAtIndex", "deleteAtIndex",
+        "addAtHead", "addAtTail", "get", "addAtHead", "addAtIndex", "addAtHead"]
 ]
 
 arguments_list = [
-    [[], [1], [3], [1, 2], [1], [1], [1]], 
-    [[],[0]], 
-    [[],[2],[1],[2],[7],[3],[2],[5],[5],[5],[6],[4]], 
-    [[],[1],[3],[1,2],[1],[1],[1],[3],[3],[0],[0],[0],[0]], 
-    [[],[7],[2],[1],[3,0],[2],[6],[4],[4],[4],[5,0],[6]]
+    [[], [1], [3], [1, 2], [1], [1], [1]],
+    [[], [0]],
+    [[], [2], [1], [2], [7], [3], [2], [5], [5], [5], [6], [4]],
+    [[], [1], [3], [1, 2], [1], [1], [1], [3], [3], [0], [0], [0], [0]],
+    [[], [7], [2], [1], [3, 0], [2], [6], [4], [4], [4], [5, 0], [6]]
 ]
 
 expected_output_list = [
-    [None, None, None, None, 2, None, 3], 
-    [None, None], 
-    [None, None, None, None, None, None, None, None, None, 2, None, None], 
-    [None,None,None,None,2,None,3,-1,None,None,3,None,-1],
-    [None,None,None,None,None,None,None,None,4,None,None,None]
+    [None, None, None, None, 2, None, 3],
+    [None, None],
+    [None, None, None, None, None, None, None, None, None, 2, None, None],
+    [None, None, None, None, 2, None, 3, -1, None, None, 3, None, -1],
+    [None, None, None, None, None, None, None, None, 4, None, None, None]
 ]
 
 
@@ -202,13 +214,3 @@ def run_tests(
 
 
 print(run_tests(operations_list, arguments_list, expected_output_list))
-
-
-# Example 1
-myLinkedList = MyLinkedList()
-myLinkedList.addAtHead(1)
-myLinkedList.addAtTail(3)
-myLinkedList.addAtIndex(1, 2)  # linked list becomes 1 -> 2 -> 3
-print(myLinkedList.get(1))  # return 2
-myLinkedList.deleteAtIndex(1)  # now the linked list is 1 -> 3
-print(myLinkedList.get(1))  # return 3

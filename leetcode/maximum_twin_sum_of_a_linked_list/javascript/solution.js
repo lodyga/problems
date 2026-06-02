@@ -23,31 +23,30 @@ class Solution {
     * @return {ListNode}
     */
    pairSum(head) {
-      // Find the beginning of the right portion,
-      // while reversing the left portion.
       let slow = head;
       let fast = head;
       let prev = null;
+
       while (fast) {
          fast = fast.next.next;
-         // The reverse
          const slowNext = slow.next;
          slow.next = prev;
          prev = slow;
          slow = slowNext;
       }
 
-      // Find max twin.
-      let twinSum = 0;
       let left = prev;
       let right = slow;
+      let res = 0;
+
       while (right) {
-         twinSum = Math.max(twinSum, left.val + right.val);
+         res = Math.max(res, left.val + right.val);
          left = left.next;
          right = right.next;
       }
-      return twinSum
-   };
+
+      return res;
+   }
 }
 
 

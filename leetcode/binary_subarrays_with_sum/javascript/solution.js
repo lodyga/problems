@@ -9,33 +9,34 @@ class Solution {
     * @return {number}
     */
    numSubarraysWithSum(nums, goal) {
-      let farLeft = 0;
       let left = 0;
-      let counter = 0;
+      let mid = 0;
+      let res = 0;
 
       for (let right = 0; right < nums.length; right++) {
          goal -= nums[right];
 
          while (
-            left < right &&
+            mid < right &&
             goal < 0
          ) {
-            goal += nums[left];
-            left++;
-            farLeft = left;
+            goal += nums[mid];
+            mid++;
+            left = mid;
          }
 
          while (
-            left < right &&
-            nums[left] === 0
-         ) left++;
+            mid < right &&
+            nums[mid] === 0
+         ) mid++;
 
          if (goal === 0) {
-            counter += (left - farLeft + 1);
+            res += (mid - left + 1);
          }
       }
-      return counter
-   };
+
+      return res;
+   }
 }
 
 

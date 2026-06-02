@@ -6,31 +6,54 @@ class Solution:
             m: potion count
         Auxiliary space complexity: O(n + m)
         Tags:
-            DS: array
+            DS: list
             A: binary search, sorting
         """
+        N = len(potions)
         potions.sort()
         res = []
 
         for spell in spells:
             left = 0
-            right = len(potions) - 1
-            min_right = len(potions)
-            threshold = success / spell
+            right = N - 1
+            fail_counter = N
+            potion_threshold = success / spell
 
             while left <= right:
-                middle = (left + right) >> 1
-                middle_num = potions[middle]
+                mid = (left + right) // 2
+                mid_potion = potions[mid]
 
-                if middle_num * spell < success:
-                # if middle_num < threshold:
-                    left = middle + 1
+                if mid_potion < potion_threshold:
+                    left = mid + 1
                 else:
-                    min_right = middle
-                    right = middle - 1
+                    fail_counter = mid
+                    right = mid - 1
 
-            res.append(len(potions) - min_right)
-            
+            res.append(N - fail_counter)
+
+        return res
+
+
+class Solution:
+    def successfulPairs(self, spells: list[int], potions: list[int], success: int) -> list[int]:
+        """
+        Time complexity: O(mlogm + nlogm)
+            n: spell count 
+            m: potion count
+        Auxiliary space complexity: O(n + m)
+        Tags:
+            DS: list
+            A: sorting, build-in function
+        """
+        import bisect
+        N = len(potions)
+        potions.sort()
+        res = []
+        
+        for spell in spells:
+            idx = bisect.bisect_left(potions, success / spell)
+            res.append(N - idx)
+
         return res
 
 

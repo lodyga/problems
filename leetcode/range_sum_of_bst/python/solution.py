@@ -20,19 +20,22 @@ class Solution:
             DS: binary tree
             A: dfs, recursion, pre-order traversal
         """
-        def dfs(node):
+        def dfs(node: TreeNode) -> int:
             if node is None:
                 return 0
 
-            total = 0
-            if low <= node.val <= high:
-                total += node.val
-            if low < node.val:
-                total += dfs(node.left)
-            if high > node.val:
-                total += dfs(node.right)
+            res = 0
 
-            return total
+            if low <= node.val <= high:
+                res += node.val
+
+            if low < node.val:
+                res += dfs(node.left)
+
+            if node.val < high:
+                res += dfs(node.right)
+
+            return res
 
         return dfs(root)
 

@@ -23,7 +23,7 @@ class TrieNode {
 class WordDictionary {
    constructor() {
       this.root = new TrieNode();
-   };
+   }
 
    /**
     * @param {string} word
@@ -31,39 +31,46 @@ class WordDictionary {
     */
    addWord(word) {
       let node = this.root;
+
       for (const letter of word) {
-         if (!node.letters.has(letter))
+         if (!node.letters.has(letter)) {
             node.letters.set(letter, new TrieNode());
+         }
+
          node = node.letters.get(letter);
       }
+
       node.isWord = true;
-   };
+   }
 
    /**
    * @param {string} word
    * @return {boolean}
    */
    search(word) {
-      const dfs = (start, node) => {
-         for (let index = start; index < word.length; index++) {
-            const letter = word[index];
-
-            if (node.letters.has(letter)) {
-               node = node.letters.get(letter);
-            } else if (letter === '.') {
-               for (const wildCard of node.letters.keys()) {
-                  if (dfs(index + 1, node.letters.get(wildCard)))
-                     return true
-               }
-               return false
-            } else {
-               return false
-            }
+      const dfs = (idx, node) => {
+         if (idx == word.length) {
+            return node.isWord;
          }
-         return node.isWord
+
+         const letter = word[idx];
+
+         if (letter === '.') {
+            for (const currLetter of node.letters.keys()) {
+               if (dfs(idx + 1, node.letters.get(currLetter))) {
+                  return true;
+               }
+            }
+            return false
+         } else if (node.letters.has(letter)) {
+            return (dfs(idx + 1, node.letters.get(letter)))
+         } else {
+            return false;
+         }
       }
-      return dfs(0, this.root)
-   };
+
+      return dfs(0, this.root);
+   }
 }
 
 
@@ -96,18 +103,18 @@ const testInput = (operations, args) => {
 
 // Example Input
 const operationsList = [
-   ["WordDictionary","addWord","addWord","addWord","search","search","search","search"],
-    ["WordDictionary","addWord","addWord","search","search","search","search","search","search"]
+   ["WordDictionary", "addWord", "addWord", "addWord", "search", "search", "search", "search"],
+   ["WordDictionary", "addWord", "addWord", "search", "search", "search", "search", "search", "search"]
 ]
 
 const argumentsList = [
-   [[],["bad"],["dad"],["mad"],["pad"],["bad"],[".ad"],["b.."]],
-    [[],["a"],["a"],["."],["a"],["aa"],["a"],[".a"],["a."]]
+   [[], ["bad"], ["dad"], ["mad"], ["pad"], ["bad"], [".ad"], ["b.."]],
+   [[], ["a"], ["a"], ["."], ["a"], ["aa"], ["a"], [".a"], ["a."]]
 ]
 
 const expectedOutputList = [
-   [null,null,null,null,false,true,true,true],
-    [null, null, null, true, true, false, true, false, false]
+   [null, null, null, null, false, true, true, true],
+   [null, null, null, true, true, false, true, false, false]
 ]
 
 

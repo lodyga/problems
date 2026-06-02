@@ -6,74 +6,49 @@ class Solution:
         Tags:
             DS: monotonic increasing stack
             A: greedy
-        Fails 35 / 43
         """
-        if len(nums) == k:
-            return "0"
-
         # monotonic increasing stack
         stack = []
-        length = len(nums) - k
+        idxs_to_remove = []
+        res = []
+        start = 0
 
-        for index, num in enumerate(nums):
-            if not stack or stack[-1] <= num:
-                stack.append(num)
+        for idx, num in enumerate(nums):
+            while stack and stack[-1][0] > num:
+                _, idx_to_remove = stack.pop()
+                idxs_to_remove.append(idx_to_remove)
+            else:
+                stack.append((num, idx))
+
+        idxs_to_remove = set(idxs_to_remove[: k])
+
+        for idx, char in enumerate(nums):
+            if k and idx in idxs_to_remove:
+                k -= 1
                 continue
 
-            while stack and stack[-1] >= num:
-                stack.pop()
-                k -= 1
-                if k == 0:
-                    while index < len(nums) and nums[index] == "0":
-                        index += 1
-                    res = "".join(stack) + nums[index:]
-                    return res if res else "0"
-            stack.append(num)
+            res.append(char)
 
-        return "".join(stack[: length])
+        while k and res:
+            res.pop()
+            k -= 1
 
+        while start < len(res) and res[start] == "0":
+            start += 1
 
-class Solution:
-    def removeKdigits(self, numbers: str, k: int) -> str:
-        """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(n)
-        Tags:
-            DS: monotonic increasing stack
-            A: two pointers
-        """
-        if len(numbers) == k:
-            return "0"
+        res = "".join(res[start:])
         
-        # monotonic increasing stack
-        stack = []
-
-        for number in numbers:
-            while (
-                k and stack and
-                stack[-1] > number
-            ):
-                stack.pop()
-                k -= 1
-            stack.append(number)
-
-        right = len(stack) - k
-        
-        left = 0
-        while left < len(stack) and stack[left] == "0":
-            left += 1
-
-        result = "".join(stack[left: right])
-        return result if result else "0"
+        return "0" if res == "" else res
 
 
-print(Solution().removeKdigits("12345", 2) == "123")
-print(Solution().removeKdigits("54321", 2) == "321")
 print(Solution().removeKdigits("1432219", 3) == "1219")
 print(Solution().removeKdigits("10200", 1) == "200")
 print(Solution().removeKdigits("10", 2) == "0")
+print(Solution().removeKdigits("12345", 2) == "123")
+print(Solution().removeKdigits("54321", 2) == "321")
 print(Solution().removeKdigits("9", 1) == "0")
 print(Solution().removeKdigits("112", 1) == "11")
 print(Solution().removeKdigits("1173", 2) == "11")
 print(Solution().removeKdigits("10", 1) == "0")
 print(Solution().removeKdigits("33526221184202197273", 19) == "0")
+print(Solution().removeKdigits("52660469", 2) == "260469")

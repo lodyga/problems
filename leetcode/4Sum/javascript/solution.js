@@ -10,37 +10,44 @@ class Solution {
     */
    fourSum(nums, target) {
       nums.sort((a, b) => a - b);
-      const quadruplets = [];
+      const res = [];
 
       for (let i = 0; i < nums.length - 3; i++) {
-         if (nums[i - 1] === nums[i])
-            continue
+         if (i > 0 && nums[i - 1] === nums[i]) {
+            continue;
+         }
 
          for (let j = i + 1; j < nums.length - 2; j++) {
-            if (j > i + 1 && nums[j - 1] === nums[j])
+            if (j > i + 1 && nums[j - 1] === nums[j]) {
                continue
+            }
 
             let left = j + 1;
             let right = nums.length - 1;
 
             while (left < right) {
-               const quadruplet = nums[i] + nums[j] + nums[left] + nums[right]
-               
-               if (quadruplet === target) {
-                  quadruplets.push([nums[i], nums[j], nums[left], nums[right]])
+               const quad = nums[i] + nums[j] + nums[left] + nums[right]
+
+               if (target === quad) {
+                  res.push([nums[i], nums[j], nums[left], nums[right]])
                   left++;
                   right--;
-                  while (left < right && nums[left - 1] === nums[left])
+
+                  while (left < right && nums[left - 1] === nums[left]) {
                      left++;
-               } else if (quadruplet < target)
-                  left++;
-               else
+                  }
+
+               } else if (target < quad) {
                   right--;
+               } else {
+                  left++;
+               }
             }
          }
       }
-      return quadruplets
-   };
+
+      return res;
+   }
 }
 
 

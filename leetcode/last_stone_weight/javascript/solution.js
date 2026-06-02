@@ -7,7 +7,7 @@ class Solution {
     * Auxiliary space complexity: O(n)
     * Tags:
     *    DS: heap
-    *    A: heap
+    *    A: iteration
     * @param {number[]} stones
     * @return {number}
     */
@@ -16,12 +16,15 @@ class Solution {
       stones.forEach(stone => stoneHeap.enqueue(stone));
 
       while (stoneHeap.size() > 1) {
-         const diff = stoneHeap.dequeue() - stoneHeap.dequeue();
-         if (diff)
-            stoneHeap.enqueue(diff);
+         const stone = stoneHeap.dequeue() - stoneHeap.dequeue();
+
+         if (stone) {
+            stoneHeap.enqueue(stone);
+         }
       }
-      return stoneHeap.size() ? stoneHeap.dequeue() : 0
-   };
+
+      return stoneHeap.size() ? stoneHeap.front() : 0;
+   }
 }
 
 

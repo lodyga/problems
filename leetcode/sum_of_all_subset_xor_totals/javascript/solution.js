@@ -8,39 +8,48 @@ class Solution {
     * @return {number}
     */
    subsetXORSum(nums) {
-      let res = 0;
-
-      const backtrack = (index, xor) => {
-         if (index === nums.length) {
-            res += xor;
-            return
+      const backtrack = (idx, xor) => {
+         if (idx === nums.length) {
+            return xor;
          }
-         backtrack(index + 1, xor ^ nums[index])
-         backtrack(index + 1, xor)
-      }
-      backtrack(0, 0)
-      return res
-   };
 
+         const num = nums[idx];
+         const take = backtrack(idx + 1, xor ^ num);
+         const skip = backtrack(idx + 1, xor);
+         return take + skip;
+      }
+      
+      return backtrack(0, 0);
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(2^n)
     * Auxiliary space complexity: O(n)
     * Tags:
-    *     A: dfs, recursion
+    *     A: backtracking
     * @param {number[]} nums
     * @return {number}
     */
    subsetXORSum(nums) {
-      const dfs = (index, xor) => {
-         if (index === nums.length) {
-            return xor
+      let res = 0;
+
+      const backtrack = (idx, xor) => {
+         if (idx === nums.length) {
+            res += xor;
+            return;
          }
-         const take = dfs(index + 1, xor ^ nums[index])
-         const skip = dfs(index + 1, xor)
-         return take + skip
+
+         const num = nums[idx];
+         backtrack(idx + 1, xor ^ num);
+         backtrack(idx + 1, xor);
       }
-      return dfs(0, 0)
-   };
+      
+      backtrack(0, 0);
+      return res;
+   }
 }
 
 

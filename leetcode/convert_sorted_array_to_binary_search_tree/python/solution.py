@@ -20,16 +20,16 @@ class Solution:
             DS: binary tree
             A: dfs, recursion, pre-order traversal
         """
-        def dfs(left: int, right: int) -> TreeNode:
-            if left == right:
-                return TreeNode(nums[left])
-            elif left > right:
+        def dfs(left: int, right: int) -> TreeNode | None:
+            if left > right:
                 return None
 
-            middle = (left + right) >> 1
-            node = TreeNode(nums[middle])
-            node.left = dfs(left, middle - 1)
-            node.right = dfs(middle + 1, right)
+            idx = (left + right) // 2
+            node = TreeNode(
+                nums[idx],
+                dfs(left, idx - 1),
+                dfs(idx + 1, right)
+            )
             return node
 
         return dfs(0, len(nums) - 1)

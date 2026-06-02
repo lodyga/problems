@@ -8,22 +8,24 @@ class Solution:
             A: iteration
         """
         words = text.split(" ")
+        letter_to_word = {}
+        word_set = set()
+
         if len(pattern) != len(words):
             return False
 
-        letter_map = {}
-        word_set = set()
-        
         for letter, word in zip(pattern, words):
-            if letter in letter_map:
-                if letter_map[letter] != word:
+            if letter in letter_to_word:
+                if letter_to_word[letter] != word:
                     return False
+
+            elif word in word_set:
+                return False
+
             else:
-                if word in word_set:
-                    return False
-                letter_map[letter] = word
+                letter_to_word[letter] = word
                 word_set.add(word)
-        
+
         return True
 
 

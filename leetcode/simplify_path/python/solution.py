@@ -5,21 +5,19 @@ class Solution:
         Auxiliary space complexity: O(n)
         Tags:
             DS: stack, string
-            A: iteration
+            A: built-in function
         """
         stack = []
-        name = []
+        entries = path.split("/")
 
-        for char in path + "/":
-            if char == "/":
-                if "".join(name) == "..":
-                    if stack:
-                        stack.pop()
-                elif name and name != ["."]:
-                    stack.append("".join(name))
-                name = []
+        for entry in entries:
+            if entry in ".":
+                continue
+            elif entry == "..":
+                if stack:
+                    stack.pop()
             else:
-                name.append(char)
+                stack.append(entry)
 
         return "/" + "/".join(stack)
 
@@ -31,20 +29,27 @@ class Solution:
         Auxiliary space complexity: O(n)
         Tags:
             DS: stack, string
-            A: built-in function
+            A: iteration
         """
-        names = []
-        
-        for dir in path.split("/"):
-            if dir == "" or dir == ".":
-                continue
-            elif dir == "..":
-                if names:
-                    names.pop()
+        stack = []
+        entry = []
+
+        for char in path + "/":
+            if char == "/":
+                if "".join(entry) in ".":
+                    pass
+                elif "".join(entry) == "..":
+                    if stack:
+                        stack.pop()
+                else:
+                    stack.append("".join(entry))
+
+                entry = []
+
             else:
-                names.append(dir)
-        
-        return "/" + "/".join(names)
+                entry.append(char)
+
+        return "/" + "/".join(stack)
 
 
 print(Solution().simplifyPath("/home/") == "/home")
@@ -55,3 +60,4 @@ print(Solution().simplifyPath("/.../a/../b/c/../d/./") == "/.../b/d")
 print(Solution().simplifyPath("/a/../../b/../c//.//") == "/c")
 print(Solution().simplifyPath("/.") == "/")
 print(Solution().simplifyPath("/..hidden") == "/..hidden")
+print(Solution().simplifyPath("/a//b////c/d//././/..") == "/a/b/c")

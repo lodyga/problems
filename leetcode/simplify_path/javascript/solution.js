@@ -26,8 +26,9 @@ class Solution {
             name += char;
          }
       }
-      return '/' + stack.join('/')
-   };
+
+      return '/' + stack.join('/');
+   }
 }
 
 

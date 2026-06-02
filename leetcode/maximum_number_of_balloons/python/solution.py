@@ -7,22 +7,21 @@ class Solution:
             DS: hash map
             A: iteration
         """
-        letter_frequency = {}
+        LETTERS = "ablno"
+        letter_freq = {letter: 0 for letter in LETTERS}
+        res = len(text)
+
         for letter in text:
-            if letter in "balon":
-                letter_frequency[letter] = letter_frequency.get(letter, 0) + 1
+            if letter in letter_freq:
+                letter_freq[letter] += 1
 
-        if len(letter_frequency) < 5:
-            return 0
-
-        counter = len(text)
-        for letter, frequency in letter_frequency.items():
-            if letter in "ban":
-                counter = min(counter, frequency)
+        for letter, freq in letter_freq.items():
+            if letter in "lo":
+                res = min(res, freq // 2)
             else:
-                counter = min(counter, frequency >> 1)
+                res = min(res, freq)
 
-        return counter
+        return res
 
 
 print(Solution().maxNumberOfBalloons("nlaebolko") == 1)

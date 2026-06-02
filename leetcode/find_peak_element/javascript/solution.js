@@ -12,24 +12,24 @@ class Solution {
       let right = nums.length - 1;
 
       while (left <= right) {
-         const middle = (left + right) >> 1;
-         const middleNum = nums[middle];
+         const mid = Math.floor((left + right) / 2);
+         const midNum = nums[mid];
 
          if (
-            (middle === left || nums[middle - 1] < middleNum) &&
-            (middle === right || middleNum > nums[middle + 1])
+            (mid === left || nums[mid - 1] < midNum) &&
+            (mid === right || midNum > nums[mid + 1])
          ) {
-            return middle
+            return mid
          } else if (
-            middle === left ||
-            middleNum < nums[middle + 1]
+            mid === left ||
+            midNum < nums[mid + 1]
          ) {
-            left = middle + 1;
+            left = mid + 1;
          } else {
-            right = middle - 1;
+            right = mid - 1;
          }
       }
-   };
+   }
 }
 
 

@@ -1,21 +1,62 @@
-import { ListNode } from '../../../../JS/linked-list-utils.js'
+class ListNode {
+   constructor(val = null, next = null) {
+      this.val = val;
+      this.next = next;
+   }
+}
 
 
-/**
- * Represents a node in a singly-linked list.
- * class ListNode {
- *    constructor(val = null, next = null) {
- *       this.val = val;
- *       this.next = next;
- *    }
- * }
- */
+class LinkedList {
+   constructor() {
+      this.head = new ListNode();
+   }
 
+   add(val) {
+      let node = this.head;
+
+      while (node.next) {
+         if (node.next.val === val) {
+            return;
+         }
+         node = node.next;
+      }
+
+      node.next = new ListNode(val);
+   }
+
+   has(val) {
+      let node = this.head;
+
+      while (node.next) {
+         if (node.next.val === val) {
+            return true;
+         }
+
+         node = node.next;
+      }
+
+      return false;
+   }
+
+   discard(val) {
+      let node = this.head;
+
+      while (node.next) {
+         if (node.next.val === val) {
+            node.next = node.next.next;
+            return;
+         }
+
+         node = node.next;
+      }
+   }
+
+}
 
 class MyHashSet {
    /**
     * Time complexity:
-    *     constructor: O(n)
+    *     constructor: O(CAPACITY)
     *     add: O(1)
     *     contains: O(1)
     *     remove: O(1)
@@ -24,63 +65,54 @@ class MyHashSet {
     *     DS: linked list, hash set
     *     A: iteration
     */
+   CAPACITY = 10 ** 4;
+
    constructor() {
-      this.bucketSize = 10 ** 4;
-      this.set = Array.from({ length: this.bucketSize }, () => new ListNode());
-   };
+      this.buckets = Array.from({ length: this.CAPACITY }, () => new LinkedList());
+   }
 
    /**
-    * @param {number} key 
+    * @param {number} val
     * @returns {number}
     */
-   _getHashCode(key) {
-      return key % this.bucketSize
-   };
+   #getHashCode(val) {
+      return val % this.CAPACITY;
+   }
 
    /**
-    * @param {number} key 
+    * @param {number} val
+    * @returns {LinkedList}
+    */
+   #getLinkedList(val) {
+      return this.buckets[this.#getHashCode(val)];
+   }
+
+   /**
+    * @param {number} val 
     * @returns {void}
     */
-   add(key) {
-      if (!this.contains(key)) {
-         const index = this._getHashCode(key);
-         const node = this.set[index];
-         node.next = new ListNode(key, node.next);
-      }
-   };
+   add(val) {
+      const linkedList = this.#getLinkedList(val);
+      linkedList.add(val);
+   }
 
    /**
-    * @param {number} key 
+    * @param {number} val 
     * @returns {boolean}
     */
-   contains(key) {
-      const index = this._getHashCode(key);
-      let node = this.set[index];
-
-      while (node.next) {
-         if (node.next.val == key)
-            return true
-         node = node.next;
-      }
-      return false
-   };
+   contains(val) {
+      const linkedList = this.#getLinkedList(val);
+      return linkedList.has(val);
+   }
 
    /**
-    * @param {number} key 
+    * @param {number} val 
     * @returns {void}
     */
-   remove(key) {
-      const index = this._getHashCode(key);
-      let node = this.set[index];
-
-      while (node.next) {
-         if (node.next.val == key) {
-            node.next = node.next.next;
-            return
-         }
-         node = node.next;
-      }
-   };
+   remove(val) {
+      const linkedList = this.#getLinkedList(val);
+      linkedList.discard(val);
+   }
 }
 
 
@@ -116,18 +148,18 @@ const testInput = (operations, args) => {
 
 // Example Input
 const operationsList = [
-   ["MyHashSet","add","add","contains","contains","add","contains","remove","contains"],
-   ["MyHashSet","contains","remove","add","add","contains","remove","contains","contains","add","add","add","add","remove","add","add","add","add","add","add","add","add","add","add","contains","add","contains","add","add","contains","add","add","remove","add","add","add","add","add","contains","add","add","add","remove","contains","add","contains","add","add","add","add","add","contains","remove","remove","add","remove","contains","add","remove","add","add","add","add","contains","contains","add","remove","remove","remove","remove","add","add","contains","add","add","remove","add","add","add","add","add","add","add","add","remove","add","remove","remove","add","remove","add","remove","add","add","add","remove","remove","remove","add","contains","add"]
+   ["MyHashSet", "add", "add", "contains", "contains", "add", "contains", "remove", "contains"],
+   ["MyHashSet", "contains", "remove", "add", "add", "contains", "remove", "contains", "contains", "add", "add", "add", "add", "remove", "add", "add", "add", "add", "add", "add", "add", "add", "add", "add", "contains", "add", "contains", "add", "add", "contains", "add", "add", "remove", "add", "add", "add", "add", "add", "contains", "add", "add", "add", "remove", "contains", "add", "contains", "add", "add", "add", "add", "add", "contains", "remove", "remove", "add", "remove", "contains", "add", "remove", "add", "add", "add", "add", "contains", "contains", "add", "remove", "remove", "remove", "remove", "add", "add", "contains", "add", "add", "remove", "add", "add", "add", "add", "add", "add", "add", "add", "remove", "add", "remove", "remove", "add", "remove", "add", "remove", "add", "add", "add", "remove", "remove", "remove", "add", "contains", "add"]
 ]
 
 const argumentsList = [
-   [[],[1],[2],[1],[3],[2],[2],[2],[2]],
-   [[],[72],[91],[48],[41],[96],[87],[48],[49],[84],[82],[24],[7],[56],[87],[81],[55],[19],[40],[68],[23],[80],[53],[76],[93],[95],[95],[67],[31],[80],[62],[73],[97],[33],[28],[62],[81],[57],[40],[11],[89],[28],[97],[86],[20],[5],[77],[52],[57],[88],[20],[48],[42],[86],[49],[62],[53],[43],[98],[32],[15],[42],[50],[19],[32],[67],[84],[60],[8],[85],[43],[59],[65],[40],[81],[55],[56],[54],[59],[78],[53],[0],[24],[7],[53],[33],[69],[86],[7],[1],[16],[58],[61],[34],[53],[84],[21],[58],[25],[45],[3]]
+   [[], [1], [2], [1], [3], [2], [2], [2], [2]],
+   [[], [72], [91], [48], [41], [96], [87], [48], [49], [84], [82], [24], [7], [56], [87], [81], [55], [19], [40], [68], [23], [80], [53], [76], [93], [95], [95], [67], [31], [80], [62], [73], [97], [33], [28], [62], [81], [57], [40], [11], [89], [28], [97], [86], [20], [5], [77], [52], [57], [88], [20], [48], [42], [86], [49], [62], [53], [43], [98], [32], [15], [42], [50], [19], [32], [67], [84], [60], [8], [85], [43], [59], [65], [40], [81], [55], [56], [54], [59], [78], [53], [0], [24], [7], [53], [33], [69], [86], [7], [1], [16], [58], [61], [34], [53], [84], [21], [58], [25], [45], [3]]
 ]
 
 const expectedOutputList = [
    [null, null, null, true, false, null, true, null, false],
-   [null,false,null,null,null,false,null,true,false,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,false,null,true,null,null,true,null,null,null,null,null,null,null,null,true,null,null,null,null,false,null,false,null,null,null,null,null,true,null,null,null,null,true,null,null,null,null,null,null,true,true,null,null,null,null,null,null,null,false,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,false,null]
+   [null, false, null, null, null, false, null, true, false, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, false, null, true, null, null, true, null, null, null, null, null, null, null, null, true, null, null, null, null, false, null, false, null, null, null, null, null, true, null, null, null, null, true, null, null, null, null, null, null, true, true, null, null, null, null, null, null, null, false, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, false, null]
 ]
 
 
@@ -162,9 +194,10 @@ console.log(runTests(operationsList, argumentsList, expectedOutputList))
 const myHashSet = new MyHashSet();
 myHashSet.add(1)  // set = [1]
 myHashSet.add(2)  // set = [1, 2]
-console.log(myHashSet.contains(1))  // return True
+console.log(myHashSet.contains(1))  // return true
 console.log(myHashSet.contains(3))  // return false, (not found)
 myHashSet.add(2)  // set = [1, 2]
-console.log(myHashSet.contains(2))  // return True
+console.log(myHashSet.contains(2))  // return true
 myHashSet.remove(2)  // set = [1]
 console.log(myHashSet.contains(2))  // return false, (already removed)
+console.log(process.version);

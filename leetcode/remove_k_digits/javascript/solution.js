@@ -2,42 +2,47 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
-    * Tags: stack, monotonic stack
-    * monotonic increasing stack
-    * @param {string} numbers
+    * Tags:
+    *     DS: monotonic increasing stack
+    *     A: greedy
+    * @param {string} nums
     * @param {number} k
     * @return {string}
     */
-   removeKdigits(numbers, k) {
-      if (numbers.length === k) return '0'
+   removeKdigits(nums, k) {
+      if (nums.length === k) return '0'
       const stack = [];
+      let left = 0;
 
-      for (const number of numbers) {
+      for (const num of nums) {
          while (
             k &&
             stack.length &&
-            stack[stack.length - 1] > number
+            stack[stack.length - 1] > num
          ) {
             stack.pop();
             k--;
          }
-         stack.push(number);
+
+         stack.push(num);
       }
+
       const right = stack.length - k;
 
-      let left = 0;
       while (
-         left < numbers.length &&
+         left < nums.length &&
          stack[left] === '0'
-      ) left++;
-      
+      ) {
+         left++;
+      }
+
       const result = stack.slice(left, right).join('');
       return result === '' ? '0' : result
-   };
+   }
 }
+
+
 const removeKdigits = new Solution().removeKdigits;
-
-
 console.log(new Solution().removeKdigits('12345', 2) === '123')
 console.log(new Solution().removeKdigits('54321', 2) === '321')
 console.log(new Solution().removeKdigits('1432219', 3) === '1219')
