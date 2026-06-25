@@ -1,5 +1,36 @@
 class Solution {
    /**
+    * Time complexity: O(logn)
+    * Auxiliary space complexity: O(1)
+    * Tags:
+    *     A: binary search
+    * @param {number[]} nums
+    * @param {number} k
+    * @param {number} target
+    * @return {number[]}
+    */
+   findClosestElements(nums, k, target) {
+      let left = 0;
+      let right = nums.length - k;
+
+      while (left < right) {
+         const mid = Math.floor((left + right) / 2);
+
+         if (target - nums[mid] <= nums[mid + k] - target) {
+            right = mid - 1;
+         }
+         else {
+            left = mid + 1;
+         }
+      }
+
+      return nums.slice(left, left + k);
+   }
+}
+
+
+class Solution {
+   /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
     * Tags:
@@ -20,32 +51,9 @@ class Solution {
             left++;
          }
       }
-      return nums.slice(left, right + 1)
-   };
 
-   /**
-    * Time complexity: O(logn)
-    * Auxiliary space complexity: O(1)
-    * Tags:
-    *     A: binary search
-    * @param {number[]} nums
-    * @param {number} k
-    * @param {number} target
-    * @return {number[]}
-    */
-   findClosestElements(nums, k, target) {
-      let left = 0;
-      let right = nums.length - k;
-
-      while (left < right) {
-         const middle = (left + right) >> 1;
-         if (target - nums[middle] <= nums[middle + k] - target)
-            right = middle;
-         else
-            left = middle + 1;
-      }
-      return nums.slice(left, right + k)
-   };
+      return nums.slice(left, right + 1);
+   }
 }
 
 

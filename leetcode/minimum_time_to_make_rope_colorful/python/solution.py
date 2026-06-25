@@ -6,19 +6,19 @@ class Solution:
         Tags:
             A: greedy
         """
-        prev_color = -1
-        max_time = 0
-        cost = 0
+        prev_color = ""
+        prev_time = 0
+        res = 0
 
         for color, time in zip(colors, needed_time):
             if color == prev_color:
-                cost += min(max_time, time)
-                max_time = max(max_time, time)
+                res += min(prev_time, time)
+                prev_time = max(prev_time, time)
             else:
                 prev_color = color
-                max_time = time
+                prev_time = time
 
-        return cost
+        return res
 
 
 print(Solution().minCost("abaac", [1, 2, 3, 4, 5]) == 3)

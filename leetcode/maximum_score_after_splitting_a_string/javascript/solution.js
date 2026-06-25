@@ -10,15 +10,16 @@ class Solution {
     */
    maxScore(text) {
       let score = text.split('').filter(bin => bin === '1').length;
-      let maxScr = 0;
+      let res = 0;
 
-      for (let index = 0; index < text.length - 1; index++) {
-         text[index] === '0' ? score++ : score--;
-         maxScr = Math.max(maxScr, score);
+      for (let idx = 0; idx < text.length - 1; idx++) {
+         const chr = text[idx];
+         text[idx] === '0' ? score++ : score--;
+         res = Math.max(res, score);
       }
 
-      return maxScr
-   };
+      return res;
+   }
 }
 
 

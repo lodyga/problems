@@ -7,7 +7,7 @@ import { TreeNode, buildTree, getTreeValues } from '../../../../JS/binary-tree.j
  *       this.val = val
  *       this.left = left
  *       this.right = right
- *    };
+ *    }
  * }
  */
 
@@ -38,7 +38,9 @@ class BSTIterator {
     */
    *_generateNextNodes() {
       function* dfs(node) {
-         if (node === null) return;
+         if (node === null) {
+            return;
+         }
 
          yield* dfs(node.left);
          yield node;
@@ -81,7 +83,7 @@ class BSTIterator {
    constructor(root) {
       this.stack = [];
       this._pushLeft(root);
-   };
+   }
 
    /**
    * @param {TreeNode}
@@ -91,25 +93,23 @@ class BSTIterator {
          this.stack.push(node);
          node = node.left;
       }
-   };
+   }
 
    /**
    * @return {boolean}
    */
    next() {
       let node = this.stack.pop();
-      const val = node.val;
-      node = node.right;
-      this._pushLeft(node);
-      return val
-   };
+      this._pushLeft(node.right);
+      return node.val;
+   }
 
    /**
     * @return {boolean}
    */
    hasNext() {
-      return this.stack.length > 0
-   };
+      return this.stack.length > 0;
+   }
 }
 
 
@@ -123,23 +123,25 @@ class BSTIterator {
    constructor(root) {
       this.node = root;
       this.stack = [];
-   };
+   }
 
    /**
     * @return {number}
     */
    next() {
-      if (!this.hasNext())
-         return null
-      return this._getNext()
-   };
+      if (!this.hasNext()) {
+         return null;
+      }
+
+      return this._getNext();
+   }
 
    /**
     * @return {boolean}
     */
    hasNext() {
-      return Boolean(this.node || this.stack.length)
-   };
+      return Boolean(this.node || this.stack.length);
+   }
 
    /**
     * @return {number}
@@ -152,10 +154,11 @@ class BSTIterator {
          stack.push(node);
          node = node.left;
       }
+
       node = stack.pop();
       this.node = node.right;
-      return node.val
-   };
+      return node.val;
+   }
 }
 
 

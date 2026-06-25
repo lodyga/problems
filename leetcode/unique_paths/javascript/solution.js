@@ -10,23 +10,26 @@ class Solution {
     * @return {number}
     */
    uniquePaths(ROWS, COLS) {
-      const memo = Array.from({ length: ROWS }, () => Array(COLS).fill(-1));
-      memo[ROWS - 1][COLS - 1] = 1;
-
       const dfs = (row, col) => {
          if (row === ROWS || col === COLS) {
-            return 0
+            return 0;
          } else if (memo[row][col] !== - 1) {
-            return memo[row][col]
+            return memo[row][col];
          }
 
          res = dfs(row + 1, col) + dfs(row, col + 1);
          memo[row][col] = res
-         return res
+         return res;
       }
-      return dfs(0, 0)
-   };
 
+      const memo = Array.from({ length: ROWS }, () => Array(COLS).fill(-1));
+      memo[ROWS - 1][COLS - 1] = 1;
+      return dfs(0, 0);
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(n)
@@ -46,9 +49,9 @@ class Solution {
             cache[col] += cache[col + 1];
          }
       }
-      
-      return cache[0]
-   };
+
+      return cache[0];
+   }
 }
 
 

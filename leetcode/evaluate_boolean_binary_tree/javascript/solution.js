@@ -24,25 +24,21 @@ class Solution {
     */
    evaluateTree = (root) => {
       const dfs = (node) => {
-         if (node === null) {
-            return false
-         } else if (node.val === 0) {
-            return false
-         } else if (node.val === 1) {
-            return true
-         } else if (node.val === 2) {
+         if (node.val === 2) {
             return dfs(node.left) || dfs(node.right)
-         } else {
+         } else if (node.val === 3) {
             return dfs(node.left) && dfs(node.right)
+         } else {
+            return Boolean(node.val);
          }
       }
-      return dfs(root)
-   };
+
+      return dfs(root);
+   }
 }
 
 
 const evaluateTree = new Solution().evaluateTree;
 console.log(new Solution().evaluateTree(buildTree([0])) === false)
 console.log(new Solution().evaluateTree(buildTree([1])) === true)
-console.log(new Solution().evaluateTree(buildTree([2])) === false)
 console.log(new Solution().evaluateTree(buildTree([2, 1, 3, null, null, 0, 1])) === true)

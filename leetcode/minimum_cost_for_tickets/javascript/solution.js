@@ -10,37 +10,83 @@ class Solution {
     * @return {number}
     */
    mincostTickets(days, costs) {
-      // [day_index: min cost] minimum cost to travel from day index pointing day onwards
-      const memo = Array(days.length).fill(-1);
-      const UPPER_COST = days.length * costs[0];
-      const VALIDITIES = [1, 7, 30];
+      const UPPER_BOUND = 365000;
+      const VALIDS = [1, 7, 30];
+      const N = days.length;
+      const memo = Array(N + 1).fill(-1);
+      memo[N] = 0;
 
-      const dfs = (index) => {
-         if (index == days.length) {
-            return 0
-         } else if (memo[index] !== -1) {
-            return memo[index]
+      const dfs = (idx) => {
+         if (memo[idx] !== -1) {
+            return memo[idx];
          }
 
-         const day = days[index];
-         memo[index] = UPPER_COST
-         let nextIndex = index;
+         let res = UPPER_BOUND;
+         let nextIdx = idx;
 
          for (let i = 0; i < 3; i++) {
             const cost = costs[i];
-            const validity = VALIDITIES[i];
+            const valid = VALIDS[i];
 
             while (
-               nextIndex < days.length &&
-               days[nextIndex] < day + validity
-            ) nextIndex++;
+               nextIdx < N
+               && days[nextIdx] < days[idx] + valid
+            ) {
+               nextIdx++;
+            }
 
-            memo[index] = Math.min(memo[index], cost + dfs(nextIndex));
+            res = Math.min(res, cost + dfs(nextIdx));
          }
 
-         return memo[index]
+         memo[idx] = res
+         return res;
+      };
+
+      return dfs(0);
+   };
+}
+
+
+class Solution {
+   /**
+    * Time complexity: O(n)
+    * Auxiliary space complexity: O(n)
+    * Tags:
+    *     DS: array
+    *     A: bottom-up
+    * @param {number[]} days
+    * @param {number[]} costs
+    * @return {number}
+    */
+   mincostTickets(days, costs) {
+      const UPPER_BOUND = 365000;
+      const VALIDS = [1, 7, 30];
+      const N = days.length;
+      const cache = Array(N + 1).fill(UPPER_BOUND);
+      cache[N] = 0;
+
+
+
+      for (let idx = N - 1; idx > - 1; idx--) {
+         let nextIdx = idx;
+
+         for (let i = 0; i < 3; i++) {
+            const cost = costs[i];
+            const valid = VALIDS[i];
+
+            while (
+               nextIdx < N
+               && days[nextIdx] < days[idx] + valid
+            ) {
+               nextIdx++;
+            }
+
+            cache[idx] = Math.min(cache[idx], cost + cache[nextIdx]);
+         }
+
       }
-      return dfs(0)
+
+      return cache[0];
    };
 }
 

@@ -9,24 +9,26 @@ class Solution {
     * @return {number}
     */
    minCost(colors, neededTime) {
-      let prevColor = -1;
-      let maxTime = 0;
-      let cost = 0;
+      let prevColor = '';
+      let prevTime = 0;
+      let res = 0;
 
-      for (let index = 0; index < colors.length; index++) {
-         const color = colors[index];
-         const time = neededTime[index];
+      for (let idx = 0; idx < colors.length; idx++) {
+         const color = colors[idx];
+         const time = neededTime[idx];
 
          if (color === prevColor) {
-            cost += Math.min(maxTime, time);
-            maxTime = Math.max(maxTime, time);
-         } else {
+            res += Math.min(prevTime, time);
+            prevTime = Math.max(prevTime, time);
+         } 
+         else {
             prevColor = color;
-            maxTime = time;
+            prevTime = time;
          }
       }
-      return cost
-   };
+
+      return res;
+   }
 }
 
 

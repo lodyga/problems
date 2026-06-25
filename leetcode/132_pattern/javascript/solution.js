@@ -21,13 +21,14 @@ class Solution {
          if (
             stack.length && 
             stack[stack.length - 1][1] < num
-         ) return true
+         ) return true;
 
          stack.push([num, prevMin]);
          prevMin = Math.min(prevMin, num);
       }
-      return false
-   };
+
+      return false;
+   }
 }
 
 

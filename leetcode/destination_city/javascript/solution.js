@@ -9,19 +9,17 @@ class Solution {
     * @return {string}
     */
    destCity(paths) {
-      const srcs = new Set();
-      const dsts = new Set();
+      const srcCities = new Set();
 
-      for (const [src, dst] of paths) {
-         srcs.add(src);
-         dsts.add(dst);
+      for (const [src, ] of paths) {
+         srcCities.add(src);
       }
-
-      for (const dst of dsts) {
-         if (!srcs.has(dst))
-            return dst
+      
+      for (const [, dst] of paths) {
+         if (!srcCities.has(dst))
+            return dst;
       }
-   };
+   }
 }
 
 

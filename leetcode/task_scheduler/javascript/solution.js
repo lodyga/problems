@@ -18,37 +18,44 @@ class Solution {
     * @return {number}
     */
    leastInterval(tasks, cooldown) {
-      const taskHeap = MaxPriorityQueue.fromArray();
-      const taskFreq = new Map();
+      const taskFreq = Array(26).fill(0);
+      const taskHeap = new MaxPriorityQueue();
+      const idleTasks = new Queue();
+      let timestamp = 0;
+
       for (const task of tasks) {
-         taskFreq.set(task, (taskFreq.get(task) || 0) + 1);
+         const idx = task.charCodeAt(0) - 'A'.charCodeAt(0);
+         taskFreq[idx]++;
       }
 
-      const taskQueue = new Queue([...taskFreq.values()].map(freq => [0, freq]));
-      let time = 0;
-      while (
-         taskQueue.size() ||
-         taskHeap.size()
-      ) {
-         time++;
+      for (const val of taskFreq) {
+         if (val) {
+            taskHeap.push(val);
+         }
+      }
 
-         while (
-            taskQueue.size() &&
-            taskQueue.front()[0] < time
+      while (!taskHeap.isEmpty() || !idleTasks.isEmpty()) {
+         if (
+            !idleTasks.isEmpty()
+            && idleTasks.front()[0] <= timestamp
          ) {
-            const [_, freq] = taskQueue.pop();
-            taskHeap.push(freq);
+            const [, task] = idleTasks.pop();
+            taskHeap.push(task);
          }
-         if (taskHeap.size() === 0)
-            continue
 
-         const freq = taskHeap.pop() - 1;
-         if (freq) {
-            taskQueue.push([time + cooldown, freq])
+         if (!taskHeap.isEmpty()) {
+            const task = taskHeap.pop() - 1;
+
+            if (task) {
+               idleTasks.push([timestamp + cooldown + 1, task])
+            }
          }
+
+         timestamp++;
       }
-      return time
-   };
+
+      return timestamp;
+   }
 }
 
 

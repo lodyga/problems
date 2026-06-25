@@ -9,25 +9,28 @@ class Solution {
     * @return {number}
     */
    countSubarrays(nums, k) {
-      let window = 0;
-      let left = 0;
       let maxNum = Math.max(...nums);
-      let counter = 0;
+      let left = 0;
+      let res = 0;
 
-      for (const number of nums) {
-         if (number === maxNum) {
-            window++;
+      for (const num of nums) {
+         if (num === maxNum) {
+            k--;
          }
-         while (window === k) {
+         
+         while (k === 0) {
             if (nums[left] === maxNum) {
-               window--;
+               k++;
             }
+
             left++;
          }
-         counter += left;
+
+         res += left;
       }
-      return counter
-   };
+
+      return res;
+   }
 }
 
 

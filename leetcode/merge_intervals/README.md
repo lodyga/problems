@@ -18,3 +18,10 @@ Input: intervals = [[1,4],[4,5]]
 Output: [[1,5]]
 Explanation: Intervals [1,4] and [4,5] are considered overlapping.
 </pre>
+
+<pre>
+<b>Example 2:</b>
+Input: intervals = [[4,7],[1,4]]
+Output: [[1,7]]
+Explanation: Intervals [1,4] and [4,7] are considered overlapping.
+</pre>

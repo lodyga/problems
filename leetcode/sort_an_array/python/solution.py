@@ -20,12 +20,14 @@ class Solution:
         Auxiliary space complexity: O(n)
         Tags:
             DS: heap
-            A: heap, sorting
+            A: sorting
         """
         heapq.heapify(nums)
         sorted_nums = []
+        
         while nums:
             sorted_nums.append(heapq.heappop(nums))
+        
         return sorted_nums
 
 
@@ -36,7 +38,7 @@ class Solution:
         Auxiliary space complexity: O(n)
         Tags:
             DS: list
-            A: merge sort, sorting, divide and conquer
+            A: sorting, merge sort, divide and conquer
         """
         def merge_sort(left, right):
 
@@ -86,12 +88,12 @@ class Solution:
 class Solution:
     def sortArray(self, nums: list[int]) -> list[int]:
         """
-        Time complexity: O(n2)
+        Time complexity:
             avg case: O(nlogn)
             worst case: O(n2)
         Auxiliary space complexity: O(n)
         Tags:
-            A: quick sort, sorting, in-place method
+            A: sorting, quick sort, in-place method
         """
         def quick_sort(left: int, right: int) -> None:
             if left >= right:
@@ -120,12 +122,12 @@ class Solution:
 
 
 class Solution:
-    def sortArray(self, nums: list[int]) -> None:
+    def sortArray(self, nums: list[int]) -> list[int]:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(1)
         Tags:
-            A: insertion sort, sorting
+            A: sorting, insertion sort
         """
         def insertionSort():
             for right in range(1, len(nums)):
@@ -150,12 +152,14 @@ class Solution:
         Time complexity: O(n2)
         Auxiliary space complexity: O(1)
         Tags:
-            A: bubble sort, sorting, in-place method
+            A: sorting, bubble sort, in-place method
         """
+        N = len(nums)
+
         def bubble_sort():
-            for left in range(len(nums)):
-                for right in range(left + 1, len(nums)):
-                    if nums[right] < nums[left]:
+            for right in range(N):
+                for left in range(right):
+                    if nums[left] > nums[right]:
                         nums[left], nums[right] = nums[right], nums[left]
 
         bubble_sort()

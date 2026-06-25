@@ -7,17 +7,14 @@ class Solution:
             DS: hash set
             A: iteration
         """
-        srcs = set()
-        dsts = set()
+        src_cities = set()
 
-        for src, dst in paths:
-            srcs.add(src)
-            dsts.add(dst)
-
-        for dst in dsts:
-            if dst not in srcs:
+        for src, _ in paths:
+            src_cities.add(src)
+        
+        for _, dst in paths:
+            if dst not in src_cities:
                 return dst
-        return ""
 
 
 print(Solution().destCity([["London", "New York"], ["New York", "Lima"], ["Lima", "Sao Paulo"]]) == "Sao Paulo")

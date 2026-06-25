@@ -10,15 +10,17 @@ class Solution {
     */
    numSquares(num) {
       const getSquares = (num) => {
-         const squares = [1];
-         let index = 2;
-         while (squares[squares.length - 1] < num) {
-            squares.push(index ** 2);
-            index++;
+         const nums = [];
+         let n = 1;
+         let square = n ** 2;
+
+         while (square <= num) {
+            nums.push(square);
+            n++
+            square = n ** 2;
          }
-         if (squares[squares.length] > num)
-            squares.pop();
-         return squares.reverse()
+
+         return nums.reverse()
       }
 
       const squares = getSquares(num);
@@ -26,20 +28,25 @@ class Solution {
 
       const dfs = (total) => {
          if (total > num)
-            return num + 1
+            return num + 1;
          else if (memo.has(total))
-            return memo.get(total)
+            return memo.get(total);
 
          let res = num + 1;
          for (const square of squares)
             res = Math.min(res, 1 + dfs(total + square));
 
          memo.set(total, res)
-         return res
+         return res;
+      
       }
-      return dfs(0)
-   };
+      
+      return dfs(0);
+   }
+}
 
+
+class Solution {
    /**
     * Time complexity: O(n*sqrtn)
     * Auxiliary space complexity: O(n)
@@ -51,30 +58,36 @@ class Solution {
     */
    numSquares(num) {
       const getSquares = (num) => {
-         const squares = [1];
-         let index = 2;
-         while (squares[squares.length - 1] < num) {
-            squares.push(index ** 2);
-            index++;
+         const nums = [];
+         let n = 1;
+         let square = n ** 2;
+
+         while (square <= num) {
+            nums.push(square);
+            n++
+            square = n ** 2;
          }
-         if (squares[squares.length] > num)
-            squares.pop();
-         return squares.reverse()
+
+         return nums.reverse()
       }
 
       const squares = getSquares(num);
       const cache = Array(num + 1).fill(num + 1);
-      cache[cache.length - 1] = 0;
+      cache[num] = 0;
 
-      for (let index = num - 1; index > -1; index--) {
+      for (let n = num - 1; n > -1; n--) {
          for (const square of squares) {
-            if (index + square > num)
-               continue
-            cache[index] = Math.min(cache[index], 1 + cache[index + square]);
+            if (
+               n + square <= num
+               && cache[n + square] < cache[n]
+            ) {
+               cache[n] = 1 + cache[n + square];
+            }
          }
       }
-      return cache[0]
-   };
+
+      return cache[0];
+   }
 }
 
 

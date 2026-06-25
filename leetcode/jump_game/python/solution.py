@@ -1,29 +1,52 @@
 class Solution:
     def canJump(self, nums: list[int]) -> bool:
         """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(1)
+        Tags:
+            A: greedy
+        """
+        N = len(nums)
+        step = 0
+
+        for idx in range(N - 1):
+            num = nums[idx]
+            step = max(step - 1, num)
+
+            if step == 0:
+                return False
+
+        return True
+
+
+class Solution:
+    def canJump(self, nums: list[int]) -> bool:
+        """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n)
         Tags:
             DS: array
             A: top-down
         """
-        memo = [None] * len(nums)
-        memo[-1] = True
+        N = len(nums)
+        memo = [-1] * N
+        memo[-1] = 1
 
-        def dfs(index: int) -> bool:
-            if memo[index] is not None:
-                return memo[index]
+        def dfs(idx: int) -> int:
+            if memo[idx] != -1:
+                return memo[idx]
 
-            memo[index] = False
-            max_jump = min(index + nums[index], len(nums) - 1)
-            for i2 in range(max_jump, index, -1):
-                if dfs(i2):
-                    memo[index] = True
+            memo[idx] = 0
+            step = min(idx + nums[idx], N - 1)
+            
+            for jdx in range(idx + 1, step + 1):
+                if dfs(jdx):
+                    memo[idx] = 1
                     break
 
-            return memo[index]
+            return memo[idx]
 
-        return dfs(0)
+        return bool(dfs(0))
 
 
 class Solution:
@@ -35,34 +58,19 @@ class Solution:
             DS: array
             A: bottom-up
         """
-        cache = [False] * len(nums)
+        N = len(nums)
+        cache = [False] * N
         cache[-1] = True
 
-        for index in range(len(nums) - 2, -1, -1):
-            max_jump = min(index + nums[index], len(nums) - 1)
-            for i2 in range(max_jump, index, -1):
-                if cache[i2]:
-                    cache[index] = True
+        for idx in range(N - 2, -1, -1):
+            step = min(idx + nums[idx], N - 1)
+            
+            for jdx in range(idx + 1, step + 1):
+                if cache[jdx]:
+                    cache[idx] = True
                     break
         
         return cache[0]
-
-
-class Solution:
-    def canJump(self, nums: list[int]) -> bool:
-        """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(1)
-        Tags:
-            A: greedy
-        """
-        max_jump = 1
-        for index in range(len(nums) - 1):
-            max_jump = max(max_jump - 1, nums[index])
-            if max_jump == 0:
-                return False
-
-        return True
 
 
 print(Solution().canJump([2, 3, 1, 1, 4]) == True)

@@ -1,34 +1,29 @@
+# include <iostream>
 # include <string>
-# include <cassert>
+using namespace std;
+
 
 class Solution {
 public:
-   /**
-    * Time complexity: O(n)
-    * Auxiliary space complexity: O(1)
-    */
-   int balancedStringSplit(const std::string& sides) {
-      int sideCounter = 0;
-      int balancedStringCounter = 0;
+   int balancedStringSplit(const string& text) {
+      int counter = 0;
+      int res = 0;
 
-      for (const char& side : sides) {
-         if (side == 'R') {
-            sideCounter++;
-         } else {
-            sideCounter--;
-         }
-         if (sideCounter == 0) {
-            balancedStringCounter++;
+      for (const char& chr : text) {
+         counter += chr == 'R' ? 1 : -1;
+
+         if (counter == 0) {
+            res++;
          }
       }
-      return balancedStringCounter;
+
+      return res;
    }
 };
 
+
 int main() {
    Solution solution;
-   assert((solution.balancedStringSplit("RLRRLLRLRL"), 4));
-   assert((solution.balancedStringSplit("RLRRRLLRLL"), 2));
-   assert((solution.balancedStringSplit("LLLLRRRR"), 1));
+   cout << solution.balancedStringSplit("RLRRLLRLRL");
    return 0;
 }

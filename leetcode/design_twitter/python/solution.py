@@ -1,4 +1,256 @@
-from collections import deque
+import heapq
+
+
+class Twitter:
+    """
+    Time complexity:
+        O(1): getNewsFeed, follow, unfollow
+        O(n): postTweet
+    Auxiliary space complexity: O(n)
+    Tags:
+        DS: heap, hash map, hash set
+        A: iteration
+    """
+
+    def __init__(self) -> None:
+        self.FEED_SIZE = 10
+        self.user_db = set()
+        # follower to leaders
+        # {follower1: set(leader1, leader2, ...)}
+        self.leaders = {}
+        # leader to followers
+        # {leader1: set(follower1, follower2, ...)}
+        self.followers = {}
+        # {userId: heap([(timestamp, tweetId)]), }
+        self.feeds = {}
+        # {userId: [(timestamp, tweetId), ]}
+        self.tweets = {}
+        self.timestamp = 0
+
+    def _create_user(self, userId: int) -> None:
+        if userId in self.user_db:
+            return
+
+        self.user_db.add(userId)
+        self.followers[userId] = set([userId])
+        self.leaders[userId] = set([userId])
+        self.feeds[userId] = []
+        self.tweets[userId] = []
+
+    def _update_feed(
+            self,
+            feed: list[tuple[int, int]],
+            tweets: list[tuple[int, int]]
+    ) -> None:
+        tweet_len = min(self.FEED_SIZE, len(tweets))
+
+        for idx in range(tweet_len):
+            tweet = tweets[-idx - 1]
+
+            if len(feed) < self.FEED_SIZE:
+                heapq.heappush(feed, tweet)
+            elif tweet[0] > feed[0][0]:
+                heapq.heappushpop(feed, tweet)
+            else:
+                break
+
+    def _update_feeds(self, userId: int) -> None:
+        # Take only the newest tweet.
+        tweets = [self.tweets[userId][-1]]
+
+        for followerId in self.followers[userId]:
+            feed = self.feeds[followerId]
+
+            self._update_feed(feed, tweets)
+
+    def postTweet(self, userId: int, tweetId: int) -> None:
+        self._create_user(userId)
+
+        self.tweets[userId].append((self.timestamp, tweetId))
+        self.timestamp += 1
+
+        self._update_feeds(userId)
+
+    def getNewsFeed(self, userId: int) -> list[int]:
+        self._create_user(userId)
+
+        feed_heap = self.feeds[userId]
+
+        ordered_feed_with_timestamps = heapq.nlargest(
+            self.FEED_SIZE, feed_heap)
+
+        return [tweet for _, tweet in ordered_feed_with_timestamps]
+
+    def follow(self, followerId: int, leaderId: int) -> None:
+        # Already following a leader.
+        if (
+            followerId in self.leaders
+            and leaderId in self.leaders[followerId]
+        ):
+            return
+
+        self._create_user(leaderId)
+        self._create_user(followerId)
+
+        self.followers[leaderId].add(followerId)
+        self.leaders[followerId].add(leaderId)
+
+        feed = self.feeds[followerId]
+        tweets = self.tweets[leaderId]
+        self._update_feed(feed, tweets)
+
+    def _rebuild_feed(self, userId: int) -> None:
+        feed = self.feeds[userId]
+        feed.clear()
+        leaders = self.leaders[userId]
+
+        for leader in leaders:
+            tweets = self.tweets[leader]
+            self._update_feed(feed, tweets)
+
+    def unfollow(self, followerId: int, leaderId: int) -> None:
+        # If user is not following anybody.
+        if followerId not in self.leaders:
+            return
+        
+        if leaderId in self.followers:
+            self.followers[leaderId].discard(followerId)
+
+        if followerId in self.leaders:
+            self.leaders[followerId].discard(leaderId)
+
+        self._rebuild_feed(followerId)
+
+
+def test_input(operations: list[str], arguments: list[list]) -> list[str | int | None]:
+    """
+    Test input provided in two separate lists: operations and arguments
+    """
+    cls = None
+    output = []
+
+    for operation, argument in zip(operations, arguments):
+        if operation == "Twitter":
+            cls = Twitter(*argument)
+            output.append(None)
+        elif operation == "postTweet":
+            cls.postTweet(*argument)
+            output.append(None)
+        elif operation == "getNewsFeed":
+            output.append(cls.getNewsFeed(*argument))
+        elif operation == "follow":
+            cls.follow(*argument)
+            output.append(None)
+        elif operation == "unfollow":
+            cls.unfollow(*argument)
+            output.append(None)
+        else:
+            raise ValueError(f"Unknown operation: {operation}")
+
+    return output
+
+
+# Example Input
+operations_list = [
+    ["Twitter", "getNewsFeed"],
+    ["Twitter","unfollow"],
+    ["Twitter","follow","getNewsFeed"],
+    ["Twitter","postTweet","postTweet","getNewsFeed"],
+    ["Twitter", "postTweet", "getNewsFeed", "follow", "postTweet", "getNewsFeed", "unfollow", "getNewsFeed"],
+    ["Twitter", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "getNewsFeed", "follow", "getNewsFeed", "unfollow", "getNewsFeed"],
+    ["Twitter", "postTweet", "postTweet", "unfollow", "follow", "getNewsFeed"],
+    ["Twitter", "postTweet", "follow", "follow", "getNewsFeed"],
+    ["Twitter", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "follow", "follow", "follow", "follow", "follow", "follow", "follow", "follow", "follow", "follow", "follow", "follow", "getNewsFeed", "getNewsFeed", "getNewsFeed", "getNewsFeed", "getNewsFeed"]
+]
+
+arguments_list = [
+    [[], [1]],
+    [[],[1,2]],
+    [[],[1,5],[1]],
+    [[],[1,5],[1,3],[1]],
+    [[], [1, 5], [1], [1, 2], [2, 6], [1], [1, 2], [1]],
+    [[], [1, 5], [2, 3], [1, 101], [2, 13], [2, 10], [1, 2], [1, 94], [2, 505], [1, 333], [2, 22], [1, 11], [1, 205], [2, 203], [1, 201], [2, 213], [1, 200], [2, 202], [1, 204], [2, 208], [2, 233], [1, 222], [2, 211], [1], [1, 2], [1], [1, 2], [1]],
+    [[], [1, 4], [2, 5], [1, 2], [1, 2], [1]],
+    [[], [2, 5], [1, 2], [1, 2], [1]],
+    [[], [1, 6765], [5, 671], [3, 2868], [4, 8148], [4, 386], [3, 6673], [3, 7946], [3, 1445], [4, 4822], [1, 3781], [4, 9038], [1, 9643], [3, 5917], [2, 8847], [1, 3], [1, 4], [4, 2], [4, 1], [3, 2], [3, 5], [3, 1], [2, 3], [2, 1], [2, 5], [5, 1], [5, 2], [1], [2], [3], [4], [5]]
+]
+
+expected_output_list = [
+    [None, []],
+    [None,None],
+    [None,None,[]],
+    [None,None,None,[3,5]],
+    [None, None, [5], None, None, [6, 5], None, [5]],
+    [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, [222, 204, 200, 201, 205, 11, 333, 94, 2, 101], None, [211, 222, 233, 208, 204, 202, 200, 213, 201, 203], None, [222, 204, 200, 201, 205, 11, 333, 94, 2, 101]],
+    [None, None, None, None, None, [5, 4]],
+    [None, None, None, None, [5]],
+    [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, [5917, 9643, 9038, 3781, 4822, 1445, 7946, 6673, 386, 8148], [8847, 5917, 9643, 3781, 1445, 7946, 6673, 2868, 671, 6765], [8847, 5917, 9643, 3781, 1445, 7946, 6673, 2868, 671, 6765], [8847, 9643, 9038, 3781, 4822, 386, 8148, 6765], [8847, 9643, 3781, 671, 6765]]
+]
+
+
+# Run tests
+def run_tests(
+        operations_list: list[list[str]],
+        arguments_list: list[list[list[int]]],
+        expected_output_list: list[list[int | None]],
+        show_output: bool = False
+) -> list[bool]:
+    """
+    Run a batch of TimeMap tests and compare outputs with expected results.
+    If show_output is True, returns [(actual, expected), ...] instead of booleans.
+    """
+    output = []
+    for operations, arguments, expected_output in zip(operations_list, arguments_list, expected_output_list):
+        if show_output:
+            output.append((test_input(operations, arguments), expected_output))
+        else:
+            output.append(test_input(operations, arguments) == expected_output)
+    return output
+
+
+print(run_tests(operations_list, arguments_list, expected_output_list))
+
+
+# Example 1
+twitter = Twitter()
+twitter.postTweet(1, 5)
+print(twitter.getNewsFeed(1) == [5])
+twitter.follow(1, 2)
+twitter.postTweet(2, 6)
+print(twitter.getNewsFeed(1) == [6, 5])
+twitter.unfollow(1, 2)
+print(twitter.getNewsFeed(1) == [5])
+
+# Example 2
+twitter2 = Twitter()
+twitter2.postTweet(1, 1)
+print(twitter2.getNewsFeed(1) == [1]) 
+twitter2.follow(2, 1)
+print(twitter2.getNewsFeed(2) == [1]) 
+twitter2.unfollow(2, 1)
+print(twitter2.getNewsFeed(2) == [])  
+
+# Example 3
+twitter3 = Twitter()
+print(twitter3.getNewsFeed(1) == [])
+
+# Example 4
+twitter4 = Twitter()
+twitter4.follow(1, 5)
+print(twitter4.getNewsFeed(1) == [])
+
+# Example 5
+twitter5 = Twitter()
+twitter5.postTweet(1, 5)
+twitter5.postTweet(1, 3)
+print(twitter5.getNewsFeed(1) == [3, 5])
+
+# Example 6
+twitter6 = Twitter()
+twitter6.unfollow(1, 2)
+
+
+# from collections import deque
 
 
 class Twitter:
@@ -121,277 +373,3 @@ class Twitter:
         self.feeds[user_id] = deque()
         self.follows[user_id] = set()
         self.followed_by[user_id] = set()
-
-
-def test_input(operations: list[str], arguments: list[list]) -> list[str | int | None]:
-    """
-    Test input provided in two separate lists: operations and arguments
-    """
-    cls = None
-    output = []
-
-    for operation, argument in zip(operations, arguments):
-        if operation == "Twitter":
-            cls = Twitter(*argument)
-            output.append(None)
-        elif operation == "postTweet":
-            cls.postTweet(*argument)
-            output.append(None)
-        elif operation == "getNewsFeed":
-            output.append(cls.getNewsFeed(*argument))
-        elif operation == "follow":
-            cls.follow(*argument)
-            output.append(None)
-        elif operation == "unfollow":
-            cls.unfollow(*argument)
-            output.append(None)
-        else:
-            raise ValueError(f"Unknown operation: {operation}")
-
-    return output
-
-
-# Example Input
-operations_list = [
-    ["Twitter", "getNewsFeed"],
-    ["Twitter", "postTweet", "getNewsFeed", "follow",
-        "postTweet", "getNewsFeed", "unfollow", "getNewsFeed"],
-    ["Twitter", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet",
-        "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "getNewsFeed", "follow", "getNewsFeed", "unfollow", "getNewsFeed"],
-    ["Twitter", "postTweet", "postTweet", "unfollow", "follow", "getNewsFeed"],
-    ["Twitter", "postTweet", "follow", "follow", "getNewsFeed"],
-    ["Twitter", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet", "postTweet",
-        "follow", "follow", "follow", "follow", "follow", "follow", "follow", "follow", "follow", "follow", "follow", "follow", "getNewsFeed", "getNewsFeed", "getNewsFeed", "getNewsFeed", "getNewsFeed"]
-]
-
-arguments_list = [
-    [[], [1]],
-    [[], [1, 5], [1], [1, 2], [2, 6], [1], [1, 2], [1]],
-    [[], [1, 5], [2, 3], [1, 101], [2, 13], [2, 10], [1, 2], [1, 94], [2, 505], [1, 333], [2, 22], [1, 11], [1, 205], [2, 203], [
-        1, 201], [2, 213], [1, 200], [2, 202], [1, 204], [2, 208], [2, 233], [1, 222], [2, 211], [1], [1, 2], [1], [1, 2], [1]],
-    [[], [1, 4], [2, 5], [1, 2], [1, 2], [1]],
-    [[], [2, 5], [1, 2], [1, 2], [1]],
-    [[], [1, 6765], [5, 671], [3, 2868], [4, 8148], [4, 386], [3, 6673], [3, 7946], [3, 1445], [4, 4822], [1, 3781], [4, 9038], [1, 9643], [
-        3, 5917], [2, 8847], [1, 3], [1, 4], [4, 2], [4, 1], [3, 2], [3, 5], [3, 1], [2, 3], [2, 1], [2, 5], [5, 1], [5, 2], [1], [2], [3], [4], [5]]
-]
-
-expected_output_list = [
-    [None, []],
-    [None, None, [5], None, None, [6, 5], None, [5]],
-    [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, [222, 204,
-                                                                                                                                                200, 201, 205, 11, 333, 94, 2, 101], None, [211, 222, 233, 208, 204, 202, 200, 213, 201, 203], None, [222, 204, 200, 201, 205, 11, 333, 94, 2, 101]],
-    [None, None, None, None, None, [5, 4]],
-    [None, None, None, None, [5]],
-    [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, [5917, 9643, 9038, 3781, 4822, 1445, 7946, 6673,
-                                                                                                                                                                        386, 8148], [8847, 5917, 9643, 3781, 1445, 7946, 6673, 2868, 671, 6765], [8847, 5917, 9643, 3781, 1445, 7946, 6673, 2868, 671, 6765], [8847, 9643, 9038, 3781, 4822, 386, 8148, 6765], [8847, 9643, 3781, 671, 6765]]
-]
-
-
-# Run tests
-def run_tests(
-        operations_list: list[list[str]],
-        arguments_list: list[list[list[int]]],
-        expected_output_list: list[list[int | None]],
-        show_output: bool = False
-) -> list[bool]:
-    """
-    Run a batch of TimeMap tests and compare outputs with expected results.
-    If show_output is True, returns [(actual, expected), ...] instead of booleans.
-    """
-    output = []
-    for operations, arguments, expected_output in zip(operations_list, arguments_list, expected_output_list):
-        if show_output:
-            output.append((test_input(operations, arguments), expected_output))
-        else:
-            output.append(test_input(operations, arguments) == expected_output)
-    return output
-
-
-print(run_tests(operations_list, arguments_list, expected_output_list))
-
-
-# Example 1
-twitter = Twitter()
-twitter.postTweet(1, 5)
-print(twitter.getNewsFeed(1) == [5])
-twitter.follow(1, 2)
-twitter.postTweet(2, 6)
-print(twitter.getNewsFeed(1) == [6, 5])
-twitter.unfollow(1, 2)
-print(twitter.getNewsFeed(1) == [5])
-
-# Ecample 2
-twitter2 = Twitter()
-twitter2.postTweet(1, 1)
-print(twitter2.getNewsFeed(1) == [1]) 
-twitter2.follow(2, 1)
-print(twitter2.getNewsFeed(2) == [1]) 
-twitter2.unfollow(2, 1)
-print(twitter2.getNewsFeed(2) == [])  
-
-# Example 3
-twitter3 = Twitter()
-print(twitter3.getNewsFeed(1) == [])
-
-# Example 4
-twitter4 = Twitter()
-twitter4.follow(1, 5)
-print(twitter4.getNewsFeed(1) == [])
-
-# Example 5
-twitter5 = Twitter()
-twitter5.postTweet(1, 5)
-twitter5.postTweet(1, 3)
-print(twitter5.getNewsFeed(1) == [3, 5])
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Legacy
-import heapq
-
-
-class Twitter:
-    """
-    Time complexity: O(n)
-        O(1): postTweet, follow, unfollow, 
-        O(n): getNewsFeed
-    Auxiliary space complexity: O(n)
-    Tags: heap
-    """
-    def __init__(self):
-        self.follows = {}  # {followerId: set(followeeId1, ...), ...}
-        self.tweets = {}  # {useId: [(timestamp, tweetId), ...], ...}
-        self.timestamp = 0
-
-    def postTweet(self, userId: int, tweetId: int) -> None:
-        self._create_user(userId)
-        user_tweets = self.tweets[userId]
-        user_tweets.append((self.timestamp, tweetId))
-        if len(user_tweets) > 10:
-            user_tweets.pop(0)
-        self.timestamp += 1
-
-    def getNewsFeed(self, userId: int) -> list[int]:        
-        def merge_feed(user):
-            if user not in self.tweets:
-                return
-            elif news_heap and news_heap[0][0] > self.tweets[userId][-1][0]:
-                return
-
-            for tweet in self.tweets[user][-10:]:
-                if len(news_heap) < 10:
-                    heapq.heappush(news_heap, tweet)
-                else:
-                    heapq.heappushpop(news_heap, tweet)
-
-        news_heap = []
-        merge_feed(userId)
-
-        if userId in self.follows:
-            for followee in self.follows[userId]:
-                merge_feed(followee)
-
-        return list(reversed([heapq.heappop(news_heap)[1] 
-                              for _ in range(len(news_heap))]))
-    
-    def follow(self, followerId: int, followeeId: int) -> None:
-        if followerId == followeeId:
-            return
-        
-        self._create_user(followeeId)
-        self._create_user(followerId)
-        self.follows[followerId].add(followeeId)
-
-    def unfollow(self, followerId: int, followeeId: int) -> None:
-        if followerId in self.follows:
-            self.follows[followerId].discard(followeeId)
-
-    def _create_user(self, userId):
-        if userId not in self.follows:
-            self.follows[userId] = set()
-        if userId not in self.tweets:
-            self.tweets[userId] = []
-
-
-import heapq
-from collections import deque
-
-
-class Twitter:
-    """
-    Time complexity: O(n)
-        O(1): postTweet, follow, unfollow, 
-        O(n): getNewsFeed
-    Auxiliary space complexity: O(n)
-    Tags: heap, deque
-    """
-    def __init__(self):
-        self.follows = {}  # {followerId: set(followeeId1, ...), ...}
-        self.tweets = {}  # {useId: [tweet counter, deque((timestamp, tweetId), ...), ...}
-        self.timestamp = 0
-
-    def postTweet(self, userId: int, tweetId: int) -> None:
-        self._create_user(userId)
-        user_tweet_count, user_tweets = self.tweets[userId]
-        user_tweets.append((self.timestamp, tweetId))
-
-        if user_tweet_count > 10:
-            user_tweets.popleft()
-        else:
-            self.tweets[userId][0] += 1
-
-        self.timestamp += 1
-
-    def getNewsFeed(self, userId: int) -> list[int]:        
-        def merge_feed(user):
-            if user not in self.tweets:
-                return            
-            elif news_heap and news_heap[0][0] > self.tweets[userId][1][0][1]:  # [1][0][1] => [deque][(timestamp, tweet)][tweet]
-                return
-
-            for tweet in self.tweets[user][1]:
-                if len(news_heap) < 10:
-                    heapq.heappush(news_heap, tweet)
-                else:
-                    heapq.heappushpop(news_heap, tweet)
-
-        news_heap = []
-        merge_feed(userId)
-
-        if userId in self.follows:
-            for followee in self.follows[userId]:
-                merge_feed(followee)
-
-        return list(reversed([heapq.heappop(news_heap)[1] 
-                              for _ in range(len(news_heap))]))
-    
-    def follow(self, followerId: int, followeeId: int) -> None:
-        if followerId == followeeId:
-            return
-        
-        self._create_user(followeeId)
-        self._create_user(followerId)
-        self.follows[followerId].add(followeeId)
-
-    def unfollow(self, followerId: int, followeeId: int) -> None:
-        if followerId in self.follows:
-            self.follows[followerId].discard(followeeId)
-
-    def _create_user(self, userId):
-        if userId not in self.follows:
-            self.follows[userId] = set()
-        if userId not in self.tweets:
-            self.tweets[userId] = [0, deque()]

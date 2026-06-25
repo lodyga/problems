@@ -1,6 +1,6 @@
 class DoublyLinkedNode {
-   constructor(val = null, next = null, prev = null) {
-      this.val = val;
+   constructor(url = null, next = null, prev = null) {
+      this.url = url;
       this.next = next;
       this.prev = prev;
    }
@@ -20,29 +20,34 @@ class BrowserHistory {
     *     A: iteration
     */
    constructor(homepage) {
-      this.active = new DoublyLinkedNode(homepage);
-   };
+      this.activeNode = new DoublyLinkedNode(homepage);
+   }
 
    visit(url) {
-      this.active.next = new DoublyLinkedNode(url, null, this.active);
-      this.active = this.active.next;
-   };
+      const node = this.activeNode;
+      node.next = new DoublyLinkedNode(url, null, node);
+      this.activeNode = node.next;
+   }
+
+   _cycle(steps, direction) {
+      let node = this.activeNode;
+
+      while (steps && node[direction]) {
+         node = node[direction];
+         steps--;
+      }
+
+      this.activeNode = node;
+      return node.url;
+   }
 
    back(steps) {
-      while (steps && this.active.prev) {
-         this.active = this.active.prev;
-         steps--;
-      }
-      return this.active.val
-   };
+      return this._cycle(steps, 'prev');
+   }
 
    forward(steps) {
-      while (steps && this.active.next) {
-         steps--;
-         this.active = this.active.next;
-      }
-      return this.active.val
-   };
+      return this._cycle(steps, 'next');
+   }
 }
 
 

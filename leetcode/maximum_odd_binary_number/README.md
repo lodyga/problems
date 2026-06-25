@@ -1,5 +1,5 @@
 # Maximum Odd Binary Number
-https://leetcode.com/problems/maximum-odd-binary-number/description/
+https://leetcode.com/problems/maximum-odd-binary-number/
 
 <p>
 You are given a binary string s that contains at least one '1'.

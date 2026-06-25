@@ -20,22 +20,41 @@ class Solution:
             DS: binary tree
             A: dfs, recursion, pre-order traversal
         """
-        def dfs(node):
-            if node is None:
-                return False
-            elif node.val == 0:
-                return False
-            elif node.val == 1:
-                return True
-            elif node.val == 2:
+        def dfs(node: TreeNode) -> bool:
+            if node.val == 2:
                 return dfs(node.left) or dfs(node.right)
-            else:
+            elif node.val == 3:
                 return dfs(node.left) and dfs(node.right)
+            else:
+                return node.val
+
 
         return dfs(root)
 
 
+class Solution:
+    def evaluateTree(self, root: TreeNode) -> bool:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(n)
+        Tags:
+            DS: binary tree
+            A: dfs, recursion, pre-order traversal
+        """
+        if root.val == 2:
+            return (
+                self.evaluateTree(root.left)
+                or self.evaluateTree(root.right)
+            )
+        elif root.val == 3:
+            return (
+                self.evaluateTree(root.left)
+                and self.evaluateTree(root.right)
+            )
+        else:
+            return root.val
+
+
+print(Solution().evaluateTree(build_tree([2, 1, 3, None, None, 0, 1])) == True)
 print(Solution().evaluateTree(build_tree([0])) == False)
 print(Solution().evaluateTree(build_tree([1])) == True)
-print(Solution().evaluateTree(build_tree([2])) == False)
-print(Solution().evaluateTree(build_tree([2, 1, 3, None, None, 0, 1])) == True)

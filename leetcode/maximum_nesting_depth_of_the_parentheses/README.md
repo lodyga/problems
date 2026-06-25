@@ -1,5 +1,5 @@
 # Maximum Nesting Depth of the Parentheses
-https://leetcode.com/problems/maximum-nesting-depth-of-the-parentheses/description/
+https://leetcode.com/problems/maximum-nesting-depth-of-the-parentheses/
 
 <p>
 Given a valid parentheses string s, return the nesting depth of s. The nesting depth is the maximum number of nested parentheses.

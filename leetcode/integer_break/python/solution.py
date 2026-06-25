@@ -26,13 +26,17 @@ class Solution:
         memo = [-1] * (num + 1)
         memo[0] = 1
 
-        def dfs(num, is_valid):
+        def dfs(num, is_broken):
             if memo[num] != -1:
                 return memo[num]
 
             res = 0
-            for digit in range(1, num + is_valid):
-                res = max(res, digit * dfs(num - digit, True))
+
+            for digit in range(1, num + is_broken):
+                res = max(
+                    res,
+                    digit * dfs(num - digit, True)
+                )
 
             memo[num] = res
             return res
@@ -46,5 +50,5 @@ print(Solution().integerBreak(4) == 4)
 print(Solution().integerBreak(5) == 6)
 print(Solution().integerBreak(6) == 9)
 print(Solution().integerBreak(7) == 12)
-print(Solution().integerBreak(10) == 36)
+print(Solution().integerBreak(10) == 36)  # 3 + 3 + 4, 3*3*4 = 36
 print(Solution().integerBreak(24) == 6561)

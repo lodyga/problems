@@ -7,29 +7,33 @@ class Solution:
             DS: array
             A: greedy
         """
-        # bill deposit frequency: 5, 10
-        change = [0, 0]
+        # [5s counter, 10s counter, 20s counter]
+        cashbox = [0, 0, 0]  # change
+
         for bill in bills:
             if bill == 5:
-                change[0] += 1
+                cashbox[0] += 1
             elif bill == 10:
-                if change[0] == 0:
-                    return False
-                else:
-                    change[0] -= 1
-                    change[1] += 1
-            else:
-                if change[0] and change[1]:
-                    change[0] -= 1
-                    change[1] -= 1
-                elif change[0] >= 3:
-                    change[0] -= 3
+                if cashbox[0]:
+                    cashbox[0] -= 1
+                    cashbox[1] += 1
                 else:
                     return False
+            else:  # elif bill == 15:
+                if cashbox[1] and cashbox[0]:
+                    cashbox[1] -= 1
+                    cashbox[0] -= 1
+                    cashbox[2] += 1
+                elif cashbox[0] >= 3:
+                    cashbox[0] -= 3
+                    cashbox[2] += 1
+                else:
+                    return False
+
         return True
 
 
 print(Solution().lemonadeChange([5, 5, 5, 10, 20]) == True)
 print(Solution().lemonadeChange([5, 5, 10, 10, 20]) == False)
-print(Solution().lemonadeChange([5, 5, 10, 20, 5, 5, 5, 5, 5, 5, 5, 5, 5, 10, 5, 5, 20, 5, 20, 5]) == True)
 print(Solution().lemonadeChange([5, 5, 5, 10, 5, 5, 10, 20, 20, 20]) == False)
+print(Solution().lemonadeChange([5, 5, 10, 20, 5, 5, 5, 5, 5, 5, 5, 5, 5, 10, 5, 5, 20, 5, 20, 5]) == True)

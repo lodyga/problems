@@ -1,6 +1,7 @@
 class StringIterator:
     """
-    Time complexity: O(1)
+    Time complexity: 
+        O(1): next(), hasNext()
     Auxiliary space complexity: O(n)
     Tags:
         DS: list, string
@@ -9,42 +10,42 @@ class StringIterator:
 
     def __init__(self, text) -> None:
         self.text = text
-        self.index = 0
-        self.letter = ""
-        self.letter_counter = 0
+        self.idx = 0
+        self.counter = 0
+        self._findNext()
 
-    def _get_next_letter(self) -> str:
-        self.letter = self.text[self.index]
-        self.index += 1
+    def _findNext(self) -> None:
+        if self.counter:
+            self.counter -= 1
+            return
 
-        multi = 0
-        while (
-            self.index < len(self.text) and
-            self.text[self.index].isdigit()
-        ):
-            multi = multi*10 + int(self.text[self.index])
-            self.index += 1
-        self.letter_counter = multi - 1
+        while self.idx < len(self.text):
+            self.next_letter = self.text[self.idx]
+            self.idx += 1
+            self.counter = 0
 
-        return self.letter
+            while (
+                self.idx < len(self.text)
+                and self.text[self.idx].isdigit()
+            ):
+                self.counter = self.counter * 10 + int(self.text[self.idx])
+                self.idx += 1
+
+            if self.counter == 0:
+                continue
+
+            self.counter -= 1
+            return
+
+        self.next_letter = " "
 
     def next(self) -> str:
-        if self.letter_counter:
-            next_letter = self.letter
-            self.letter_counter -= 1
-            if self.letter_counter == 0:
-                self.letter = ""
-            return next_letter
-        elif self.index == len(self.text):
-            return " "
-        else:
-            return self._get_next_letter()
+        res = self.next_letter
+        self._findNext()
+        return res
 
     def hasNext(self) -> bool:
-        return bool(
-            self.letter_counter or
-            self.index < len(self.text)
-        )
+        return self.next_letter != " "
 
 
 iterator = StringIterator("L1e2t1C1o1d1e1")

@@ -9,18 +9,20 @@ class Solution {
     */
    maxDepth(text) {
       let depth = 0;
-      let maxDep = 0;
+      let res = 0;
 
       for (const chr of text) {
          if (chr === '(') {
             depth++;
-            maxDep = Math.max(maxDep, depth);
-         } else if (chr === ')') {
+            res = Math.max(res, depth);
+         } 
+         else if (chr === ')') {
             depth--;
          }
       }
-      return maxDep
-   };
+
+      return res;
+   }
 }
 
 

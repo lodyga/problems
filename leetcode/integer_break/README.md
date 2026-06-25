@@ -1,5 +1,5 @@
 # Integer Break
-https://leetcode.com/problems/integer-break/description/
+https://leetcode.com/problems/integer-break/
 
 <p>
 Given an integer n, break it into the sum of k positive integers, where k >= 2, and maximize the product of those integers.

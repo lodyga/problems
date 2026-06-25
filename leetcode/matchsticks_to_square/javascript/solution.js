@@ -9,34 +9,43 @@ class Solution {
     * @return {boolean}
     */
    makesquare(sticks) {
-      const perimeter = sticks.reduce((total, num) => total + num, 0);
-      if (perimeter % 4)
+      const perimeter = sticks.reduce((sum, val) => sum + val, 0);
+
+      if (perimeter % 4) {
          return false
-      const sideLength = perimeter >> 2;
+      }
+
+      const sideLength = perimeter / 4;
       sticks.sort((a, b) => b - a);
       const sides = [0, 0, 0, 0];
 
-      const backtrack = (index) => {
-         if (index === sticks.length) {
+      const backtrack = (idx) => {
+         if (idx === sticks.length) {
             return true
          }
-         const stick = sticks[index];
 
-         for (let sideIndex = 0; sideIndex < 4; sideIndex++) {
-            if (sides[sideIndex] + stick <= sideLength) {
-               sides[sideIndex] += stick;
-               if (backtrack(index + 1))
-                  return true
-               sides[sideIndex] -= stick;
+         const stick = sticks[idx];
+
+         for (let sideIdx = 0; sideIdx < 4; sideIdx++) {
+            if (sides[sideIdx] + stick <= sideLength) {
+               sides[sideIdx] += stick;
+               if (backtrack(idx + 1)) {
+                  return true;
+               }
+               sides[sideIdx] -= stick;
             }
+
             // pruning
-            if (sides[sideIndex] === 0)
-               break
+            if (sides[sideIdx] === 0) {
+               break;
+            }
          }
-         return false
+
+         return false;
       }
-      return backtrack(0)
-   };
+
+      return backtrack(0);
+   }
 }
 
 

@@ -1,5 +1,5 @@
 class Solution:
-    def sortColors(self, nums: list[int]) -> int:
+    def sortColors(self, nums: list[int]) -> None:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
@@ -7,46 +7,22 @@ class Solution:
             A: two pointers, in-place method
             two pass
         """
-        # move zeros left
+        N = len(nums)
         left = 0
-        for right in range(len(nums)):
+
+        # Move zeros left.
+        for right in range(N):
             if nums[right] == 0:
                 nums[left], nums[right] = nums[right], nums[left]
                 left += 1
 
-        # move twos right
-        right = len(nums) - 1
-        for left in range(right, -1, -1):
-            if nums[left] == 2:
-                nums[left], nums[right] = nums[right], nums[left]
-                right -= 1
-
-        return nums
-
-
-class Solution:
-    def sortColors(self, nums: list[int]) -> int:
-        """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(1)
-        Tags:
-            A: two pointers, in-place method
-            two pass
-        """
-        # move zeros left
-        left = 0
-        for right in range(len(nums)):
-            if nums[right] == 0:
-                nums[left], nums[right] = nums[right], nums[left]
-                left += 1
-
-        # move ones left
-        for right in range(len(nums)):
+        # Move ones left after zeros.
+        for right in range(N):
             if nums[right] == 1:
                 nums[left], nums[right] = nums[right], nums[left]
                 left += 1
 
-        return nums
+        #_return nums
 
 
 class Solution:
@@ -60,20 +36,21 @@ class Solution:
             two pass
         """
         bucket = [0] * 3
-        for number in nums:
-            bucket[number] += 1
+        idx = 0
 
-        index = 0
-        for number, frequency in enumerate(bucket):
-            for _ in range(frequency):
-                nums[index] = number
-                index += 1
+        for num in nums:
+            bucket[num] += 1
 
-        return nums
+        for num, freq in enumerate(bucket):
+            for _ in range(freq):
+                nums[idx] = num
+                idx += 1
+
+        # return nums
 
 
 class Solution:
-    def sortColors(self, nums: list[int]) -> int:
+    def sortColors(self, nums: list[int]) -> None:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
@@ -83,22 +60,23 @@ class Solution:
         """
         left = 0
         right = len(nums) - 1
-        index = 0
+        idx = 0
 
-        while index < right:
-            if nums[index] == 0:
-                nums[left], nums[index] = nums[index], nums[left]
+        while idx <= right:
+            if nums[idx] == 1:
+                idx += 1
+
+            elif nums[idx] == 0:
+                nums[left], nums[idx] = nums[idx], nums[left]
                 left += 1
+                idx += 1
 
-            elif nums[index] == 2:
-                nums[right], nums[index] = nums[index], nums[right]
+            elif nums[idx] == 2:
+                nums[right], nums[idx] = nums[idx], nums[right]
                 right -= 1
-                index -= 1
 
-            index += 1
-
-        return nums
+        # return nums
 
 
-print(Solution().sortColors([2, 0, 1]) == [0, 1, 2])
 print(Solution().sortColors([2, 0, 2, 1, 1, 0]) == [0, 0, 1, 1, 2, 2])
+print(Solution().sortColors([2, 0, 1]) == [0, 1, 2])

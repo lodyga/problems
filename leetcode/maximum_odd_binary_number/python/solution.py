@@ -1,5 +1,5 @@
 class Solution:
-    def maximumOddBinaryNumber(self, num: str) -> str:
+    def maximumOddBinaryNumber(self, text: str) -> str:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
@@ -7,21 +7,23 @@ class Solution:
             DS: array, string
             A: iteration
         """
-        odd = 0
-        for digit in num:
-            if digit == "1":
-                odd += 1
+        bin_freq = [0, 0]
 
-        res = ["0"] * len(num)
-        res[-1] = "1"
-        for index in range(odd - 1):
-            res[index] = "1"
+        for chr in text:
+            if chr == "0":
+                bin_freq[0] += 1
+            else:
+                bin_freq[1] += 1
 
-        return "".join(res)
+        return (
+            "1" * (bin_freq[1] - 1)
+            + "0" * bin_freq[0]
+            + "1"
+        )
 
 
 class Solution:
-    def maximumOddBinaryNumber(self, num: str) -> str:
+    def maximumOddBinaryNumber(self, text: str) -> str:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
@@ -30,10 +32,10 @@ class Solution:
             A: iteration
         """
         odd = 0
-        for digit in num:
-            if digit == "1":
+        for chr in text:
+            if chr == "1":
                 odd += 1
-        even = len(num) - odd
+        even = len(text) - odd
 
         return "1"*(odd - 1) + "0"*(even) + "1"
 

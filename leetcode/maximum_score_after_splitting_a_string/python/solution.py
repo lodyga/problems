@@ -8,16 +8,14 @@ class Solution:
             A: iteration
         """
         score = text.count("1")
-        max_score = 0
+        res = 0
 
-        for index in range(len(text) - 1):
-            if text[index] == "0":
-                score += 1
-            else:
-                score -= 1
-            max_score = max(max_score, score)
+        for idx in range(len(text) - 1):
+            chr = text[idx]
+            score += 1 if chr == "0" else -1
+            res = max(res, score)
 
-        return max_score
+        return res
 
 
 print(Solution().maxScore("011101") == 5)

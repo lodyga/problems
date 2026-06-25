@@ -1,6 +1,34 @@
 import { MinPriorityQueue } from '@datastructures-js/priority-queue';
 
 
+class Solution {
+   /**
+    * Time complexity: O(nlogn)
+    * Auxiliary space complexity: O(n)
+    * Tags:
+    *     A: intervals, heap
+    * @param {Interval[]} intervals
+    * @return {number}
+    */
+   minMeetingRooms(intervals) {
+      intervals.sort((a, b) => a.start - b.start);
+      const endHeap = new MinPriorityQueue();
+      let res = 0;
+
+      for (const [start, end] of intervals) {
+         if (endHeap.front() <= start) {
+            endHeap.pop();
+         }
+
+         endHeap.push(end);
+         res = Math.max(res, endHeap.size());
+      }
+      
+      return res;
+   }
+}
+
+
 /**
  * Definition of Interval:
 */
@@ -23,20 +51,23 @@ class Solution {
     */
    minMeetingRooms(intervals) {
       intervals.sort((a, b) => a.start - b.start);
-      const roomHeap = new MinPriorityQueue();
+      const endHeap = new MinPriorityQueue();
       let roomCounter = 0;
 
       for (const interval of intervals) {
          const start = interval.start;
          const end = interval.end;
-         if (roomHeap.front() <= start) {
-            roomHeap.pop();
+         
+         if (endHeap.front() <= start) {
+            endHeap.pop();
          }
-         roomHeap.push(end);
-         roomCounter = Math.max(roomCounter, roomHeap.size())
+
+         endHeap.push(end);
+         roomCounter = Math.max(roomCounter, endHeap.size())
       }
-      return roomCounter
-   };
+      
+      return roomCounter;
+   }
 }
 
 

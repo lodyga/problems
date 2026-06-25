@@ -1,5 +1,5 @@
 # Valid Anagram
-https://leetcode.com/problems/valid-anagram/description/
+https://leetcode.com/problems/valid-anagram/
 
 <p>
 Given two strings s and t, return true if t is an anagraim of s, and false otherwise.

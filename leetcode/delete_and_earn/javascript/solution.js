@@ -12,33 +12,45 @@ class Solution {
     */
    deleteAndEarn(nums) {
       const numFreq = new Map();
+
       for (const num of nums) {
-         numFreq.set(num, (numFreq.get(num) || 0) + num);
+         numFreq.set(num, (numFreq.get(num) || 0) + 1);
       }
-      const sortedNums = [...numFreq.keys()].sort((a, b) => a - b);
-      const memo = Array(sortedNums.length + 2).fill(-1);
+
+      const sortedUniqueNums = [...numFreq.keys()].sort((a, b) => a - b);
+      const memo = Array(sortedUniqueNums.length + 2).fill(-1);
       memo[memo.length - 1] = 0;
       memo[memo.length - 2] = 0;
 
-      const dfs = (index) => {
-         if (memo[index] !== -1)
-            return memo[index]
+      const dfs = (idx) => {
+         if (memo[idx] !== -1) {
+            return memo[idx]
+         }
 
-         const val = numFreq.get(sortedNums[index]);
-         const skip = dfs(index + 1);
-         let take = val + dfs(index + 2);
+         const num = sortedUniqueNums[idx]
+         const val = num * numFreq.get(num);
+
          if (
-            index + 1 < sortedNums.length &&
-            sortedNums[index] + 1 !== sortedNums[index + 1]
-         )
-            take = Math.max(take, val + dfs(index + 1));
+            idx + 1 < sortedUniqueNums.length &&
+            sortedUniqueNums[idx] + 1 < sortedUniqueNums[idx + 1]
+         ) {
+            memo[idx] = val + dfs(idx + 1);
+            return memo[idx];
+         }
 
-         memo[index] = Math.max(skip, take);
-         return memo[index]
+         const skip = dfs(idx + 1);
+         const take = val + dfs(idx + 2);
+
+         memo[idx] = Math.max(skip, take);
+         return memo[idx];
       }
-      return dfs(0)
-   };
 
+      return dfs(0);
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n + mlogm)
     *     n: num count
@@ -55,21 +67,32 @@ class Solution {
       for (const num of nums) {
          numFreq.set(num, (numFreq.get(num) || 0) + num);
       }
-      const sortedNums = [...numFreq.keys()].sort((a, b) => a - b);
-      const cache = Array(sortedNums.length + 2).fill(0);
+      const sortedUniqueNums = [...numFreq.keys()].sort((a, b) => a - b);
+      const cache = Array(sortedUniqueNums.length + 2).fill(0);
 
-      for (let index = sortedNums.length - 1; index > -1; index--) {
-         const val = numFreq.get(sortedNums[index]);
-         cache[index] = Math.max(cache[index + 1], val + cache[index + 2]);
+      for (let idx = sortedUniqueNums.length - 1; idx > -1; idx--) {
+         const num = sortedUniqueNums[idx]
+         const val = numFreq.get(num);
+
          if (
-            index + 1 < sortedNums.length &&
-            sortedNums[index] + 1 !== sortedNums[index + 1]
-         )
-            cache[index] = Math.max(cache[index], val + cache[index + 1]);
+            idx + 1 < sortedUniqueNums.length &&
+            sortedUniqueNums[idx] + 1 < sortedUniqueNums[idx + 1]
+         ) {
+            cache[idx] = Math.max(cache[idx], val + cache[idx + 1]);
+         } else {
+            cache[idx] = Math.max(
+               cache[idx + 1],
+               val + cache[idx + 2]
+            );
+         }
       }
-      return cache[0]
-   };
 
+      return cache[0];
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n + mlogm)
     *     n: num count
@@ -83,25 +106,34 @@ class Solution {
     */
    deleteAndEarn(nums) {
       const numFreq = new Map();
-      for (const num of nums) {
-         numFreq.set(num, (numFreq.get(num) || 0) + num);
-      }
-      const sortedNums = [...numFreq.keys()].sort((a, b) => a - b);
-      const cache = Array(sortedNums.length + 2).fill(0);
 
-      for (let index = sortedNums.length - 1; index > -1; index--) {
-         const val = numFreq.get(sortedNums[index]);
-         let cache0 = Math.max(cache[0], val + cache[1]);
+      for (const num of nums) {
+         numFreq.set(num, (numFreq.get(num) || 0) + 1);
+      }
+
+      const sortedUniqueNums = [...numFreq.keys()].sort((a, b) => a - b);
+      const cache = [0, 0];
+
+      for (let idx = sortedUniqueNums.length - 1; idx > -1; idx--) {
+         const num = sortedUniqueNums[idx];
+         const val = num * numFreq.get(num);
+         let cache0;
+         
          if (
-            index + 1 < sortedNums.length &&
-            sortedNums[index] + 1 !== sortedNums[index + 1]
-         )
-            cache0 = Math.max(cache[index], val + cache[0]);
+            idx + 1 < sortedUniqueNums.length &&
+            sortedUniqueNums[idx] + 1 < sortedUniqueNums[idx + 1]
+         ) {
+            cache0 = Math.max(val + cache[0]);
+         } else {
+            cache0 = Math.max(cache[0], val + cache[1]);
+         }
+
          cache[1] = cache[0];
          cache[0] = cache0;
       }
+
       return cache[0]
-   };
+   }
 }
 
 

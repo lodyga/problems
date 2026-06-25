@@ -1,31 +1,5 @@
 class Solution:
-    def findJudge(self, n: int, trust_list: list[list[int]]) -> int:
-        """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(n)
-        Tags:
-            DS: hash map, hash set
-            A: iteration
-        """
-        if n == 1 and not trust_list:
-            return 1
-        
-        trust_freq = {}
-        trusters = set()
-
-        for a, b in trust_list:
-            trust_freq[b] = trust_freq.get(b, 0) + 1
-            trusters.add(a)
-
-        for key, val in trust_freq.items():
-            if val == n - 1 and key not in trusters:
-                return key
-
-        return -1
-
-
-class Solution:
-    def findJudge(self, n: int, trust_list: list[list[int]]) -> int:
+    def findJudge(self, n: int, trust: list[list[int]]) -> int:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
@@ -36,14 +10,66 @@ class Solution:
         # [person: votes]
         votes = [0] * n
 
-        for a, b in trust_list:
-            votes[a - 1] = -1
-            if votes[b - 1] != -1:
-                votes[b - 1] += 1
+        for trusting, trusted in trust:
+            votes[trusting - 1] = -1
+            votes[trusted - 1] += 1
         
-        for index, vote in enumerate(votes):
+        for idx, vote in enumerate(votes):
             if vote == n - 1:
-                return index + 1
+                return idx + 1
+
+        return -1
+
+
+class Solution:
+    def findJudge(self, n: int, trust: list[list[int]]) -> int:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(n)
+        Tags:
+            DS: array
+            A: iteration
+        """
+        # [person: total votes]
+        votes = [0] * n
+        has_voted = [False] * n
+
+        for trusting, trusted in trust:
+            votes[trusted - 1] += 1
+            has_voted[trusting - 1] = True
+        
+        for idx, vote in enumerate(votes):
+            if (
+                vote == n - 1 
+                and has_voted[idx] is False
+            ):
+                return idx + 1
+
+        return -1
+
+
+class Solution:
+    def findJudge(self, n: int, trust: list[list[int]]) -> int:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(n)
+        Tags:
+            DS: hash map, hash set
+            A: iteration
+        """
+        if n == 1 and not trust:
+            return 1
+        
+        trust_freq = {}
+        trusters = set()
+
+        for trusting, trusted in trust:
+            trust_freq[trusted] = trust_freq.get(trusted, 0) + 1
+            trusters.add(trusting)
+
+        for key, val in trust_freq.items():
+            if val == n - 1 and key not in trusters:
+                return key
 
         return -1
 

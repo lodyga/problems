@@ -15,31 +15,33 @@ class Solution:
             DS: heap, queue
             A: iteration
         """
+        task_freq = [0] * 26
         task_heap = []
-        task_freaq = {}
+        idle_tasks = deque()
+        timestamp = 0
+
         for task in tasks:
-            task_freaq[task] = task_freaq.get(task, 0) + 1
+            idx = ord(task) - ord("A")
+            task_freq[idx] += 1
 
-        task_queue = deque()
-        for freq in task_freaq.values():
-            task_queue.append((0, -freq))
-
-        time = 0
-        while task_queue or task_heap:
-            time += 1
-
-            while task_queue and task_queue[0][0] < time:
-                _, freq = task_queue.popleft()
-                heapq.heappush(task_heap, freq)
-
-            if not task_heap:
-                continue
-
-            freq = heapq.heappop(task_heap) + 1
+        for freq in task_freq:
             if freq:
-                task_queue.append((time + cooldown, freq))
+                heapq.heappush(task_heap, -freq)
 
-        return time
+        while task_heap or idle_tasks:
+            if idle_tasks and idle_tasks[0][0] <= timestamp:
+                _, task = idle_tasks.popleft()
+                heapq.heappush(task_heap, task)
+
+            if task_heap:
+                task = heapq.heappop(task_heap) + 1
+
+                if task:
+                    idle_tasks.append((timestamp + cooldown + 1, task))
+
+            timestamp += 1
+
+        return timestamp
 
 
 print(Solution().leastInterval(["A", "A", "A", "B", "B", "B"], 2) == 8)

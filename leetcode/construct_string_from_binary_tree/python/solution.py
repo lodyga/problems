@@ -20,26 +20,27 @@ class Solution:
             DS: binary tree
             A: dfs, recursion, pre-order traversal
         """
-        parts = []
+        res = []
 
-        def dfs(node):
+        def dfs(node: TreeNode):
+            nonlocal res
             if node is None:
                 return
 
-            parts.append(str(node.val))
+            res.append(str(node.val))
 
             if node.left or node.right:
-                parts.append("(")
+                res.append("(")
                 dfs(node.left)
-                parts.append(")")
+                res.append(")")
 
             if node.right:
-                parts.append("(")
+                res.append("(")
                 dfs(node.right)
-                parts.append(")")
+                res.append(")")
 
         dfs(root)
-        return "".join(parts)
+        return "".join(res)
 
 
 class Solution:

@@ -10,32 +10,34 @@ class Solution {
     * @return {number}
     */
    subarraysWithKDistinct(nums, k) {
-      // {number: frequency}
-      const window = new Map();
+      const numFreq = new Map();
       let left = 0;
-      let farLeft = 0;
-      let counter = 0;
+      let right = 0;
+      let res = 0;
 
       for (const num of nums) {
-         window.set(num, (window.get(num) || 0) + 1);
+         numFreq.set(num, (numFreq.get(num) || 0) + 1);
 
-         if (window.size > k) {
-            window.delete(nums[left]);
-            left++;
-            farLeft = left;
+         if (numFreq.size < k) {
+            continue;
          }
 
-         while (window.get(nums[left]) > 1) {
-            window.set(nums[left], window.get(nums[left]) - 1);
-            left++;
+         if (numFreq.size > k) {
+            numFreq.delete(nums[right]);
+            right++;
+            left = right;
          }
 
-         if (window.size === k) {
-            counter += left - farLeft + 1;
+         while (numFreq.get(nums[right]) > 1) {
+            numFreq.set(nums[right], numFreq.get(nums[right]) - 1);
+            right++;
          }
+
+         res += right - left + 1;
       }
-      return counter
-   };
+
+      return res;
+   }
 }
 
 

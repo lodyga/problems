@@ -3,50 +3,115 @@ class Solution {
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
     * Tags:
+    *     DS: array
+    *     A: top-down
+    * @param {number[]} nums
+    * @return {boolean}
+    */
+   validPartition(nums) {
+      const N = nums.length;
+      const memo = Array(N + 1).fill(-1);
+      memo[N] = 1;
+
+      const dfs = (idx) => {
+         if (memo[idx] !== - 1) {
+            return memo[idx];
+         }
+
+         memo[idx] = false;
+
+         // two digits equals
+         if (
+            idx + 1 < N
+            && nums[idx] === nums[idx + 1]
+            && dfs(idx + 2)
+         ) {
+            memo[idx] = true;
+         }
+         // three digits equals
+         else if (
+            idx + 2 < N
+            && nums[idx] === nums[idx + 1]
+            && nums[idx + 1] === nums[idx + 2]
+            && dfs(idx + 3)
+         ) {
+            memo[idx] = true;
+         }
+         // three digits increasing by one
+         else if (
+            idx + 2 < N
+            && nums[idx] + 2 === nums[idx + 1] + 1
+            && nums[idx + 1] + 1 === nums[idx + 2]
+            && dfs(idx + 3)
+         ) {
+            memo[idx] = true;
+         }
+
+         return memo[idx];
+      }
+
+      return dfs(0);
+   }
+}
+
+
+class Solution {
+   /**
+    * Time complexity: O(n)
+    * Auxiliary space complexity: O(n)
+    * Tags:
     *     DS: hash map
     *     A: top-down
     * @param {number[]} nums
     * @return {boolean}
     */
    validPartition(nums) {
-      const memo = new Map([[nums.length, true]]);
+      const N = nums.length;
+      const memo = new Map([[N, true]]);
 
-      const dfs = (index) => {
-         if (memo.has(index)) {
-            return memo.get(index)
-         } else if (index > nums.length) {
-            return false
+      const dfs = (idx) => {
+         if (memo.has(idx)) {
+            return memo.get(idx);
          }
 
-         memo.set(index, false);
+         memo.set(idx, false);
+
          // two digits equals
-         if (index + 1 < nums.length &&
-            nums[index] === nums[index + 1] &&
-            dfs(index + 2)
+         if (
+            idx + 1 < N
+            && nums[idx] === nums[idx + 1]
+            && dfs(idx + 2)
          ) {
-            memo.set(index, true);
-            // three digits equals
-         } else if (
-            index + 2 < nums.length &&
-            nums[index] === nums[index + 1] &&
-            nums[index + 1] === nums[index + 2] &&
-            dfs(index + 3)
-         ) {
-            memo.set(index, true);
-            // three digits increasing by one
-         } else if (
-            index + 2 < nums.length &&
-            nums[index] + 2 === nums[index + 1] + 1 &&
-            nums[index + 1] + 1 === nums[index + 2] &&
-            dfs(index + 3)
-         ) {
-            memo.set(index, true);
+            memo.set(idx, true);
          }
-         return memo.get(index)
-      }
-      return dfs(0)
-   };
+         // three digits equals
+         else if (
+            idx + 2 < N
+            && nums[idx] === nums[idx + 1]
+            && nums[idx + 1] === nums[idx + 2]
+            && dfs(idx + 3)
+         ) {
+            memo.set(idx, true);
+         }
+         // three digits increasing by one
+         else if (
+            idx + 2 < N
+            && nums[idx] + 2 === nums[idx + 1] + 1
+            && nums[idx + 1] + 1 === nums[idx + 2]
+            && dfs(idx + 3)
+         ) {
+            memo.set(idx, true);
+         }
 
+         return memo.get(idx)
+      }
+
+      return dfs(0);
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
@@ -57,38 +122,45 @@ class Solution {
     * @return {boolean}
     */
    validPartition(nums) {
-      const cache = Array(nums.length + 1).fill(false);
+      const N = nums.length;
+      const cache = Array(N + 1).fill(false);
       cache[cache.length - 1] = true;
 
-      for (let index = nums.length - 1; index > -1; index--) {
+      for (let idx = N - 1; idx > -1; idx--) {
          // two digits equals
          if (
-            index + 1 < nums.length &&
-            nums[index] === nums[index + 1] &&
-            cache[index + 2]
+            idx + 1 < N
+            && nums[idx] === nums[idx + 1]
+            && cache[idx + 2]
          ) {
-            cache[index] = true;
-            // three digits equals
-         } else if (
-            index + 2 < nums.length &&
-            nums[index] === nums[index + 1] &&
-            nums[index + 1] === nums[index + 2] &&
-            cache[index + 3]
+            cache[idx] = true;
+         }
+         // three digits equals
+         else if (
+            idx + 2 < N
+            && nums[idx] === nums[idx + 1]
+            && nums[idx + 1] === nums[idx + 2]
+            && cache[idx + 3]
          ) {
-            cache[index] = true;
-            // three digits increasing by one
-         } else if (
-            index + 2 < nums.length &&
-            nums[index] + 2 === nums[index + 1] + 1 &&
-            nums[index + 1] + 1 === nums[index + 2] &&
-            cache[index + 3]
+            cache[idx] = true;
+         }
+         // three digits increasing by one
+         else if (
+            idx + 2 < N
+            && nums[idx] + 2 === nums[idx + 1] + 1
+            && nums[idx + 1] + 1 === nums[idx + 2]
+            && cache[idx + 3]
          ) {
-            cache[index] = true;
+            cache[idx] = true;
          }
       }
-      return cache[0]
-   };
 
+      return cache[0];
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
@@ -99,40 +171,45 @@ class Solution {
     * @return {boolean}
     */
    validPartition(nums) {
+      const N = nums.length;
       const cache = [true, true, true];
 
-      for (let index = nums.length - 1; index > -1; index--) {
+      for (let idx = N - 1; idx > -1; idx--) {
          let cache0 = false;
          // two digits equals
          if (
-            index + 1 < nums.length &&
-            nums[index] === nums[index + 1] &&
-            cache[1]
-         ) {
-            cache0 = true;
-            // three digits equals
-         } else if (
-            index + 2 < nums.length &&
-            nums[index] === nums[index + 1] &&
-            nums[index + 1] === nums[index + 2] &&
-            cache[2]
-         ) {
-            cache0 = true;
-            // three digits increasing by one
-         } else if (
-            index + 2 < nums.length &&
-            nums[index] + 2 === nums[index + 1] + 1 &&
-            nums[index + 1] + 1 === nums[index + 2] &&
-            cache[2]
+            idx + 1 < N
+            && nums[idx] === nums[idx + 1]
+            && cache[1]
          ) {
             cache0 = true;
          }
+         // three digits equals
+         else if (
+            idx + 2 < N
+            && nums[idx] === nums[idx + 1]
+            && nums[idx + 1] === nums[idx + 2]
+            && cache[2]
+         ) {
+            cache0 = true;
+         }
+         // three digits increasing by one
+         else if (
+            idx + 2 < N
+            && nums[idx] + 2 === nums[idx + 1] + 1
+            && nums[idx + 1] + 1 === nums[idx + 2]
+            && cache[2]
+         ) {
+            cache0 = true;
+         }
+
          cache[2] = cache[1];
          cache[1] = cache[0];
          cache[0] = cache0;
       }
-      return cache[0]
-   };
+
+      return cache[0];
+   }
 }
 
 

@@ -3,45 +3,55 @@
  *     O(1): push, pop
  * Auxiliary space complexity: O(n)
  * Tags:
- *     DS: hash map
+ *     DS: hash map, list
  *     A: iteration
  */
 class FreqStack {
    constructor() {
-      this.valFreq = new Map();  // {value: frequency, ...}
-      this.freqBucket = new Map();  // {frequency1: [value1, value2], ...}
-      this.maxFreq = 0;
-   };
+      // {value: frequency, ...}
+      this.valFreq = new Map();
+      // [frequency1: [value1, value2], ...]
+      this.freqBucket = [];
+   }
 
    /** 
     * @param {number} val
     * @return {void}
     */
    push(val) {
-      this.valFreq.set(val, (this.valFreq.get(val) || 0) + 1);
+      const idx = this.valFreq.get(val) || 0;
+      this.valFreq.set(val, idx + 1);
 
-      const freq = this.valFreq.get(val);
-      if (!this.freqBucket.has(freq)) {
-         this.freqBucket.set(freq, []);
-         this.maxFreq = freq;
+      if (this.freqBucket.length === idx) {
+         this.freqBucket.push([]);
       }
-      this.freqBucket.get(freq).push(val);
-   };
+
+      this.freqBucket[idx].push(val);
+   }
 
    /**
     * @return {number}
     */
    pop() {
-      const freq = this.maxFreq;
-      const val = this.freqBucket.get(freq).pop();
-      this.valFreq.set(val, this.valFreq.get(val) - 1);
-
-      if (this.freqBucket.get(this.maxFreq).length === 0) {
-         this.freqBucket.delete(this.maxFreq);
-         this.maxFreq--;
+      if (this.freqBucket.length === 0) {
+         return -1;
       }
-      return val
-   };
+
+      const lastIdx = this.freqBucket.length - 1;
+      const val = this.freqBucket[lastIdx].pop();
+
+      if (this.freqBucket[lastIdx].length === 0) {
+         this.freqBucket.pop();
+      }
+
+      //this.valFreq.set(val, this.valFreq.get(val) - 1);
+      
+      if (this.valFreq.get(val) === 0) {
+         this.valFreq.delete(val)
+      }
+
+      return val;
+   }
 }
 
 

@@ -1,28 +1,48 @@
+#include <iostream>
 #include <vector>
 #include <unordered_map>
-#include <cassert>
+using namespace std;
+
 
 class Solution {
 public:
-   std::vector<int> twoSum(const std::vector<int>& numbers, int target) {
-      std::unordered_map<int, int> seenNumbers;
-      
-      for (int i = 0; i < numbers.size(); ++i) {
-         int complement = target - numbers[i];
-         if (seenNumbers.count(complement)) {
-            return { seenNumbers[complement], i };
+   std::vector<int> twoSum(const std::vector<int>& nums, int target) {
+      std::unordered_map<int, int> numIdx;
+
+      for (int idx = 0; idx < nums.size(); idx++) {
+         int diff = target - nums[idx];
+
+         if (numIdx.count(diff)) {
+            return { numIdx[diff], idx };
          }
-         seenNumbers[numbers[i]] = i;
+         else {
+            numIdx[nums[idx]] = idx;
+         }
       }
+
       return {};
    }
 };
 
+
+void printVector(const vector<int>& vector) {
+   cout << "[";
+
+   for (int idx = 0; idx < vector.size(); idx++) {
+      cout << vector[idx];
+
+      if (idx < vector.size() - 1) {
+         cout << ", ";
+      }
+   }
+
+   cout << "]\n";
+}
+
 int main() {
    Solution solution;
-   assert((Solution().twoSum({ 2, 7, 11, 15 }, 9) == std::vector<int>{0, 1}));
-   assert((Solution().twoSum({ 3, 2, 4 }, 6) == std::vector<int>{1, 2}));
-   assert((Solution().twoSum({ 3, 3 }, 6) == std::vector<int>{0, 1}));
-   assert((Solution().twoSum({ 3, 3 }, 7) == std::vector<int>{}));
+   printVector(solution.twoSum({ 2, 7, 11, 15 }, 9));
+   printVector(solution.twoSum({ 3, 3 }, 6));
+   printVector(solution.twoSum({ 3, 3 }, 7));
    return 0;
 }

@@ -20,16 +20,19 @@ class Solution:
             DS: binary tree
             A: dfs, recursion, pre-order traversal
         """
-        def dfs(node):
+        def dfs(node: TreeNode, val: int) -> TreeNode:
             if node is None:
                 return TreeNode(val)
+
             elif val < node.val:
-                node.left = dfs(node.left)
+                node.left = dfs(node.left, val)
+
             else:
-                node.right = dfs(node.right)
+                node.right = dfs(node.right, val)
+            
             return node
 
-        return dfs(root)
+        return dfs(root, val)
 
 
 class Solution:
@@ -42,18 +45,20 @@ class Solution:
             A: dfs, iteration, pre-order traversal
         """
         node = root
+        
         while node:
-            if node.val < val:
-                if node.right:
-                    node = node.right
-                else:
-                    node.right = TreeNode(val)
-                    return root
-            else:
+            if val < node.val:
                 if node.left:
                     node = node.left
                 else:
                     node.left = TreeNode(val)
+                    return root
+            
+            else:
+                if node.right:
+                    node = node.right
+                else:
+                    node.right = TreeNode(val)
                     return root
         
         return TreeNode(val)

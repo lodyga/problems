@@ -17,21 +17,11 @@ class Solution:
             if stack and stack[-1][1] < num:
             # if stack and stack[-1][1] < num < stack[-1][0]:
                 return True
-            
+
             stack.append((num, prev_min))
             prev_min = min(prev_min, num)
 
         return False
-
-
-print(Solution().find132pattern([3, 1, 4, 2]) == True)
-print(Solution().find132pattern([1, 2, 3, 4]) == False)
-print(Solution().find132pattern([-1, 3, 2, 0]) == True)
-print(Solution().find132pattern([3, 5, 0, 3, 4]) == True)
-print(Solution().find132pattern([1, 0, 1, -4, -3]) == False)
-print(Solution().find132pattern([-2, 1, 2, -2, 1, 2]) == True)
-print(Solution().find132pattern([1, 2, 3, 4, -4, -3, -5, -1]) == False)
-print(Solution().find132pattern([1, 3, -4, 2]) == True)
 
 
 class Solution:
@@ -68,9 +58,21 @@ class Solution:
         Tags:
             A: brute-force
         """
-        for i in range(len(nums)):
-            for j in range(i + 1, len(nums)):
-                for k in range(j + 1, len(nums)):
+        N = len(nums)
+        
+        for i in range(N):
+            for j in range(i + 1, N):
+                for k in range(j + 1, N):
                     if nums[i] < nums[k] < nums[j]:
                         return True
         return False
+
+
+print(Solution().find132pattern([1, 2, 3, 4]) == False)
+print(Solution().find132pattern([3, 1, 4, 2]) == True)
+print(Solution().find132pattern([-1, 3, 2, 0]) == True)
+print(Solution().find132pattern([3, 5, 0, 3, 4]) == True)
+print(Solution().find132pattern([1, 0, 1, -4, -3]) == False)
+print(Solution().find132pattern([-2, 1, 2, -2, 1, 2]) == True)
+print(Solution().find132pattern([1, 2, 3, 4, -4, -3, -5, -1]) == False)
+print(Solution().find132pattern([1, 3, -4, 2]) == True)

@@ -1,7 +1,7 @@
 class Solution {
    /**
     * Time complexity: O(n)
-    * Auxiliary space complexity: O(1)
+    * Auxiliary space complexity: O(n)
     * Tags:
     *     DS: list
     *     A: intervals, greedy
@@ -10,37 +10,33 @@ class Solution {
     * @return {number[][]}
     */
    insert(intervals, newInterval) {
+      const N = intervals.length;
       let [newStart, newEnd] = newInterval;
-      const newIntervals = [];
+      const res = [];
 
-      for (const [start, end] of intervals) {
-         // New interval already added
-         // or new interval is after current interval.
-         if (
-            newInterval === null ||
-            end < newStart
-         )
-            newIntervals.push([start, end]);
-
-         // New interval is before current interval.
-         else if (newEnd < start) {
-            newIntervals.push(newInterval);
-            newIntervals.push([start, end]);
-            newInterval = null;
+      for (let idx = 0; idx < N; idx++) {
+         const [start, end] = intervals[idx];
+    
+         // New interval is earlier than current interval without overlap.
+         if (newEnd < start) {
+            res.push([newStart, newEnd]);
+            res.push(...intervals.slice(idx,));
+            return res;
          }
-
-         // New and current intervals overlaps.
+         // New interval is later than current interval without overlap.
+         else if (newStart > end) {
+            res.push([start, end]);
+         }
+         // New interval overlap current interterval.
          else {
-            newInterval = [Math.min(start, newStart), Math.max(end, newEnd)];
-            [newStart, newEnd] = newInterval;
+            newStart = Math.min(start, newStart);
+            newEnd = Math.max(end, newEnd);
          }
       }
 
-      if (newInterval)
-         newIntervals.push(newInterval);
-
-      return newIntervals
-   };
+      res.push([newStart, newEnd]);
+      return res;
+   }
 }
 
 

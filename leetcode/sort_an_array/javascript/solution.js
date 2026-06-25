@@ -11,8 +11,11 @@ class Solution {
    */
   sortArray(nums) {
     return nums.sort((a, b) => a - b);
-  };
+  }
+}
 
+
+class Solution {
   /**
    * Time complexity: O(nlogn)
    * Auxiliary space complexity: O(n)
@@ -29,9 +32,13 @@ class Solution {
     while (numberHeap.size()) {
       sortedNums.push(numberHeap.dequeue());
     }
-    return sortedNums
-  };
 
+    return sortedNums
+  }
+}
+
+
+class Solution {
   /**
    * Time complexity: O(nlogn)
    * Auxiliary space complexity: O(n)
@@ -91,10 +98,13 @@ class Solution {
 
     mergeSort(0, nums.length - 1);
     return nums
-  };
+  }
+}
 
+
+class Solution {
   /**
-   * Time complexity: O(n2)
+   * Time complexity:
    *     avg case: O(nlogn)
    *     worst case: O(n2)
    * Auxiliary space complexity: O(n)
@@ -121,18 +131,22 @@ class Solution {
           left++;
         }
       }
+
       swapNums(left, end);
-      return left
-    };
+      return left;
+    }
 
     const swapNums = (left, right) => {
       [nums[left], nums[right]] = [nums[right], nums[left]];
     };
 
     quickSort(0, nums.length - 1);
-    return nums
-  };
+    return nums;
+  }
+}
 
+
+class Solution {
   /**
    * Time complexity: O(n2)
    * Auxiliary space complexity: O(1)
@@ -157,10 +171,14 @@ class Solution {
         nums[left + 1] = key;
       }
     }
+    
     insertionSort();
-    return nums
-  };
+    return nums;
+  }
+}
 
+
+class Solution {
   /**
    * Time complexity: O(n2)
    * Auxiliary space complexity: O(1)
@@ -179,9 +197,10 @@ class Solution {
         }
       }
     }
+
     bubbleSort();
-    return nums
-  };
+    return nums;
+  }
 }
 
 

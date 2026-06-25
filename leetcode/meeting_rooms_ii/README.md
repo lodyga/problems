@@ -1,8 +1,8 @@
 # Meeting Rooms II
-https://neetcode.io/problems/meeting-schedule-ii
+https://neetcode.io/problems/meeting-schedule-ii/
 
 <p>
-Given an array of meeting time intervals consisting of s1tart and end times [[s1,e1],[s2,e2],...] (si < ei), find the minimum number of conference rooms required.
+Given an array of meeting time intervals consisting of start and end times [[s1,e1],[s2,e2],...] (si < ei), find the minimum number of conference rooms required.
 </p>
 
 <pre>

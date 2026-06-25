@@ -1,5 +1,5 @@
 # Verifying an Alien Dictionary
-https://leetcode.com/problems/verifying-an-alien-dictionary/description/
+https://leetcode.com/problems/verifying-an-alien-dictionary/
 
 <p>
 In an alien language, surprisingly, they also use English lowercase letters, but possibly in a different order. The order of the alphabet is some permutation of lowercase letters.

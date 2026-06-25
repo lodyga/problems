@@ -22,12 +22,12 @@ class BSTIterator:
         A: dfs, recursion, pre-order traversal, in-order traversal
     """
 
-    def __init__(self, root: TreeNode):
+    def __init__(self, root: TreeNode) -> None:
         self.root = root
-        self.next_nodes = self._generate_next_nodes()
-        self.next_node = next(self.next_nodes)
+        self.bstInorderGenerator = self._generateBstInorder()
+        self.node = next(self.bstInorderGenerator, None)
 
-    def _generate_next_nodes(self):
+    def _generateBstInorder(self) -> TreeNode:
         def dfs(node):
             if node is None:
                 return
@@ -39,12 +39,12 @@ class BSTIterator:
         yield from dfs(self.root)
 
     def next(self) -> int:
-        val = self.next_node.val
-        self.next_node = next(self.next_nodes, None)
-        return val
+        node = self.node
+        self.node = next(self.bstInorderGenerator, None)
+        return node.val
 
     def hasNext(self) -> bool:
-        return self.next_node is not None
+        return self.node is not None
 
 
 class BSTIterator:
@@ -69,10 +69,8 @@ class BSTIterator:
 
     def next(self) -> int:
         node = self.stack.pop()
-        val = node.val
-        node = node.right
-        self._push_left(node)
-        return val
+        self._push_left(node.right)
+        return node.val
 
     def hasNext(self) -> bool:
         return len(self.stack) > 0
@@ -100,11 +98,11 @@ class BSTIterator:
     def _get_next(self) -> int:
         stack = self.stack
         node_left = self.node_right
-        
+
         while node_left:
             stack.append(node_left)
             node_left = node_left.left
-        
+
         node = stack.pop()
         self.node_right = node.right
 

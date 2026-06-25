@@ -9,15 +9,17 @@ class Solution:
         people.sort()
         left = 0
         right = len(people) - 1
-        boat_counter = 0
+        res = 0
+
+        if people[-1] > limit:
+            return -1
 
         while left <= right:
-            if people[left] <= limit - people[right]:
-                left += 1
+            left += 1 if people[left] + people[right] <= limit else 0
             right -= 1
-            boat_counter += 1
+            res += 1
 
-        return boat_counter
+        return res
 
 
 print(Solution().numRescueBoats([1, 2], 3) == 1)

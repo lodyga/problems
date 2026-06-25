@@ -7,9 +7,6 @@ class Solution:
             DS: array
             A: top-down 
         """
-        memo = [[-1] * COLS for _ in range(ROWS)]
-        memo[ROWS - 1][COLS - 1] = 1
-
         def dfs(row, col):
             if row == ROWS or col == COLS:
                 return 0
@@ -19,6 +16,8 @@ class Solution:
             memo[row][col] = dfs(row + 1, col) + dfs(row, col + 1)
             return memo[row][col]
 
+        memo = [[-1] * COLS for _ in range(ROWS)]
+        memo[ROWS - 1][COLS - 1] = 1
         return dfs(0, 0)
 
 

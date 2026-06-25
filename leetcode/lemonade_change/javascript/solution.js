@@ -9,30 +9,36 @@ class Solution {
     * @return {boolean}
     */
    lemonadeChange(bills) {
-      // bill deposit frequency: 5, 10
-      const change = [0, 0];
+      // [5s counter, 10s counter, 20s counter]
+      const change = [0, 0, 0];
+
       for (const bill of bills) {
          if (bill === 5) {
             change[0]++;
-         } else if (bill === 10) {
-            if (change[0] === 0)
-               return false
-            else {
+         }
+         else if (bill === 10) {
+            if (change[0]) {
                change[0]--;
                change[1]++;
+            } else {
+               return false;
             }
-         } else {
+         }
+         else {
             if (change[0] && change[1]) {
                change[0]--;
                change[1]--;
+               change[2]++;
             } else if (change[0] >= 3) {
                change[0] -= 3;
+               change[2]++;
             } else
-               return false
+               return false;
          }
       }
-      return true
-   };
+
+      return true;
+   }
 }
 
 

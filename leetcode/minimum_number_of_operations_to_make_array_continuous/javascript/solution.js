@@ -9,22 +9,25 @@ class Solution {
     */
    minOperations(nums) {
       const uniqSortNums = [...new Set(nums)].sort((a, b) => a - b);
-      let maxWindow = 0;
+      let windowMaxLen = 0;
       let right = 0;
 
       for (let left = 0; left < uniqSortNums.length; left++) {
          const num = uniqSortNums[left];
+
          while (
-            right < uniqSortNums.length &&
-            num + nums.length - 1 >= uniqSortNums[right]
+            right < uniqSortNums.length
+            && num + nums.length - 1 >= uniqSortNums[right]
          ) {
             right++;
          }
-         const window = right - left;
-         maxWindow = Math.max(maxWindow, window);
+
+         const windowLen = right - left;
+         windowMaxLen = Math.max(windowMaxLen, windowLen);
       }
-      return nums.length - maxWindow
-   };
+
+      return nums.length - windowMaxLen;
+   }
 }
 
 

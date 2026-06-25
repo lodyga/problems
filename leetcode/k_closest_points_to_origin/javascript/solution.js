@@ -7,22 +7,29 @@ class Solution {
     * Auxiliary space complexity: O(k)
     * Tags:
     *     DS: heap
-    *     A: heap
+    *     A: iteration
     * @param {number[][]} points
     * @param {number} k
     * @return {number[][]}
     */
    kClosest(points, k) {
       const pointHeap = new MaxPriorityQueue(x => x[0]);
+
       for (const [x, y] of points) {
          const dist = x ** 2 + y ** 2;
          pointHeap.enqueue([dist, x, y]);
-         if (pointHeap.size() > k)
+         
+         if (pointHeap.size() > k) {
             pointHeap.dequeue();
+         }
       }
-      return pointHeap.toArray().map(([_, x, y]) => [x, y])
-   };
 
+      return pointHeap.toArray().map(([, x, y]) => [x, y]);
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(nlogn)
     * Auxiliary space complexity: O(k)
@@ -34,8 +41,8 @@ class Solution {
     */
    kClosest(points, k) {
       points.sort((a, b) => a[0] ** 2 + a[1] ** 2 - b[0] ** 2 - b[1] ** 2);
-      return points.slice(0, k)
-   };
+      return points.slice(0, k);
+   }
 }
 
 

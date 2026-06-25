@@ -18,26 +18,28 @@ class Solution {
          let lisCounter = cache[left][1];
 
          for (let right = left + 1; right < nums.length; right++) {
-            if (nums[left] >= nums[right])
-               continue
+            if (nums[left] < nums[right]) {
+               const cacheLen = cache[right][0];
+               const cacheCounter = cache[right][1];
 
-            const cacheLen = cache[right][0];
-            const cacheCounter = cache[right][1];
-
-            // longer LIS found
-            if (lisLen < cacheLen + 1) {
-               lisLen = cacheLen + 1
-               lisCounter = cacheCounter;
-               cache[left] = [lisLen, lisCounter];
+               // longer LIS found
+               if (lisLen < cacheLen + 1) {
+                  lisLen = cacheLen + 1
+                  lisCounter = cacheCounter;
+                  cache[left] = [lisLen, lisCounter];
+               }
                // same length LIS found
-            } else if (lisLen === cacheLen + 1) {
-               lisCounter += cacheCounter;
-               cache[left][1] = lisCounter;
+               else if (lisLen === cacheLen + 1) {
+                  lisCounter += cacheCounter;
+                  cache[left][1] = lisCounter;
+               }
             }
          }
       }
+
       let longestLisLen = 1;
       let maxLisCounter = 0;
+
       for (const [lisLen, lisCounter] of cache) {
          if (lisLen > longestLisLen) {
             longestLisLen = lisLen;
@@ -45,8 +47,9 @@ class Solution {
          } else if (lisLen === longestLisLen)
             maxLisCounter += lisCounter;
       }
-      return maxLisCounter
-   };
+
+      return maxLisCounter;
+   }
 }
 
 

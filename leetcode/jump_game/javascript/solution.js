@@ -2,23 +2,29 @@ class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
-    * Tags: greedy
+    * Tags:
+    *     A: greedy
     * @param {number[]} nums
     * @return {boolean}
     */
    canJump(nums) {
-      let step = 1;
+      let step = 0;
 
-      for (let index = 0; index < nums.length - 1; index++) {
-         step = Math.max(step - 1, nums[index]);
+      for (let idx = 0; idx < nums.length - 1; idx++) {
+         const num = nums[idx];
+         step = Math.max(step - 1, nums[idx]);
 
          if (step === 0) {
-            return false
+            return false;
          }
       }
-      return Boolean(step)
-   };
 
+      return true;
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(n)
@@ -29,26 +35,33 @@ class Solution {
     * @return {boolean}
     */
    canJump(nums) {
-      const memo = Array(nums.length);
-      memo[memo.length - 1] = true;
+      const memo = Array(nums.length).fill(-1);
+      memo[memo.length - 1] = 1;
 
-      const dfs = (index) => {
-         if (memo[index] !== undefined)
-            return memo[index]
+      const dfs = (idx) => {
+         if (memo[idx] !== -1) {
+            return memo[idx];
+         }
 
-         memo[index] = false;
-         const maxJump = Math.min(index + nums[index], nums.length - 1)
-         for (let i2 = maxJump; i2 > index; i2--) {
-            if (dfs(i2)) {
-               memo[index] = true;
-               break
+         memo[idx] = 0;
+         const step = Math.min(idx + nums[idx], nums.length - 1)
+
+         for (let jdx = idx + 1; jdx < step + 1; jdx++) {
+            if (dfs(jdx)) {
+               memo[idx] = 1;
+               break;
             }
          }
-         return memo[index]
-      }
-      return dfs(0)
-   };
 
+         return memo[idx];
+      }
+
+      return Boolean(dfs(0));
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(n)
@@ -62,35 +75,19 @@ class Solution {
       const cache = Array(nums.length).fill(false);
       cache[cache.length - 1] = true;
 
-      for (let index = nums.length - 2; index > -1; index--) {
-         const maxJump = Math.min(index + nums[index], nums.length - 1);
-         for (let i2 = maxJump; i2 > index; i2--) {
-            if (cache[i2]) {
-               cache[index] = true
-               break
+      for (let idx = nums.length - 2; idx > -1; idx--) {
+         const step = Math.min(idx + nums[idx], nums.length - 1);
+         
+         for (let jdx = idx + 1; jdx < step + 1; jdx++) {
+            if (cache[jdx]) {
+               cache[idx] = true;
+               break;
             }
          }
       }
-      return cache[0]
-   };
 
-   /**
-    * Time complexity: O(n)
-    * Auxiliary space complexity: O(1)
-    * Tags:
-    *     A: greedy
-    * @param {number[]} nums
-    * @return {boolean}
-    */
-   canJump(nums) {
-      let maxJump = 1;
-      for (let index = 0; index < nums.length - 1; index++) {
-         maxJump = Math.max(maxJump - 1, nums[index]);
-         if (maxJump === 0)
-            return false
-      }
-      return true
-   };
+      return cache[0];
+   }
 }
 
 

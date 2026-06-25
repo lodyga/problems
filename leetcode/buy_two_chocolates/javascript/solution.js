@@ -7,29 +7,6 @@ class Solution {
     * Auxiliary space complexity: O(1)
     * Tags:
     *     DS: heap
-    *     A: iteration
-    * @param {number[]} prices
-    * @param {number} money
-    * @return {number}
-    */
-   buyChoco(prices, money) {
-      const maxHeap = new MaxPriorityQueue();
-      for (const price of prices) {
-         maxHeap.enqueue(price);
-         if (maxHeap.size() > 2) {
-            maxHeap.dequeue()
-         }
-      }
-      const twoChocks = maxHeap.dequeue() + maxHeap.dequeue();
-      const change = money - twoChocks;
-      return change >= 0 ? change : money
-   };
-
-   /**
-    * Time complexity: O(n)
-    * Auxiliary space complexity: O(1)
-    * Tags:
-    *     DS: heap
     *     A: greedy
     * @param {number[]} prices
     * @param {number} money
@@ -37,6 +14,7 @@ class Solution {
     */
    buyChoco(prices, money) {
       const chocks = [101, 101];
+      
       for (const price of prices) {
          if (price < chocks[0]) {
             chocks[1] = chocks[0];
@@ -47,8 +25,37 @@ class Solution {
       }
 
       const change = money - chocks[0] - chocks[1]
-      return change >= 0 ? change : money
-   };
+      return change >= 0 ? change : money;
+   }
+}
+
+
+class Solution {
+   /**
+    * Time complexity: O(n)
+    * Auxiliary space complexity: O(1)
+    * Tags:
+    *     DS: heap
+    *     A: iteration
+    * @param {number[]} prices
+    * @param {number} money
+    * @return {number}
+    */
+   buyChoco(prices, money) {
+      const maxHeap = new MaxPriorityQueue();
+
+      for (const price of prices) {
+         maxHeap.enqueue(price);
+
+         if (maxHeap.size() > 2) {
+            maxHeap.dequeue()
+         }
+      }
+
+      const twoChocks = maxHeap.dequeue() + maxHeap.dequeue();
+      const change = money - twoChocks;
+      return change >= 0 ? change : money;
+   }
 }
 
 

@@ -5,18 +5,19 @@ class Solution {
     * Tags:
     *     DS: string
     *     A: iteration
-    * @param {string} num
+    * @param {string} text
     * @return {string}
     */
-   maximumOddBinaryNumber(num) {
+   maximumOddBinaryNumber(text) {
       let odd = 0;
       let even = 0;
 
-      for (const digit of num) {
-         digit === '1' ? odd++ : even++;
+      for (const chr of text) {
+         chr === '1' ? odd++ : even++;
       }
-      return '1'.repeat(odd - 1) + '0'.repeat(even) + '1'
-   };
+
+      return '1'.repeat(odd - 1) + '0'.repeat(even) + '1';
+   }
 }
 
 

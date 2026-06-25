@@ -5,7 +5,7 @@ class Solution {
     * Tags:
     *     DS: array
     *     A: top-down
-    * @param {number} nume
+    * @param {number} num
     * @return {number}
     */
    integerBreak(num) {
@@ -14,20 +14,26 @@ class Solution {
       const memo = Array(num + 1).fill(-1);
       memo[0] = 1;
 
-      const dfs = (num, isValid) => {
+      const dfs = (num, isBroken) => {
          if (memo[num] !== -1) {
-            return memo[num]
+            return memo[num];
          }
 
          let res = 0;
-         for (let digit = 1; digit < num + Boolean(isValid); digit++) {
-            res = Math.max(res, (digit * dfs(num - digit, true)));
+
+         for (let digit = 1; digit < num + Boolean(isBroken); digit++) {
+            res = Math.max(
+               res,
+               digit * dfs(num - digit, true)
+            );
          }
+
          memo[num] = res;
-         return res
+         return res;
       }
-      return dfs(num, false)
-   };
+
+      return dfs(num, false);
+   }
 }
 
 

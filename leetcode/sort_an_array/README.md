@@ -1,5 +1,5 @@
 # Sort an Array
-https://leetcode.com/problems/sort-an-array/description/
+https://leetcode.com/problems/sort-an-array/
 
 <p>
 Given an array of integers nums, sort the array in ascending order and return it.

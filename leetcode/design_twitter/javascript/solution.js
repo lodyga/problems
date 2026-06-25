@@ -7,36 +7,53 @@ import { MinPriorityQueue } from '@datastructures-js/priority-queue';
  *    O(1): postTweet, follow, unfollow, 
  *    O(n): getNewsFeed
  * Auxiliary space complexity: O(n)
- * Tags: heap
+ * Tags:
+ *     DS: heap, hash map, hash set
+ *     A: iteration
  */
 class Twitter {
    constructor() {
-      this.follows = new Map();  // {followerId: Set(followeeId1, ...), ...}
-      this.tweets = new Map();  // Map(useId: [(timestamp, tweetId), ...], ...)
+      // {followerId: Set(leaderId1, ...), ...}
+      this.leaders = new Map();
+      // Map(useId: [(timestamp, tweetId), ...], ...)
+      this.tweets = new Map();
       this.timestamp = 0;
+   }
+
+   _createUser(userId) {
+      if (!this.tweets.has(userId)) {
+         this.tweets.set(userId, []);
+      }
+
+      if (!this.leaders.has(userId)) {
+         this.leaders.set(userId, new Set());
+      }
    }
 
    postTweet(userId, tweetId) {
       this._createUser(userId);
       this.tweets.get(userId).push([this.timestamp, tweetId]);
       this.timestamp++;
-
-   };
+   }
 
    getNewsFeed(userId) {
       const mergeFeed = (user) => {
          const userTweets = this.tweets.get(user);
-         if (!userTweets || userTweets.length === 0)
+         
+         if (!userTweets || userTweets.length === 0) {
             return;
+         }
          else if (
             newsHeap.length &&
             newsHeap.front()[0] > userTweets[userTweets.length - 1][0]
          ) {
-            return
+            return;
          }
+
          for (let index = userTweets.length - 1; index >= Math.max(0, userTweets.length - 10); index--) {
             const tweet = userTweets[index];
             newsHeap.push(tweet);
+            
             if (newsHeap.size() > 10) {
                newsHeap.pop();
             }
@@ -44,39 +61,30 @@ class Twitter {
       }
 
       const newsHeap = new MinPriorityQueue(x => x[0]);
-      mergeFeed(userId)
+      mergeFeed(userId);
 
-      if (this.follows.has(userId)) {
-         for (const followee of this.follows.get(userId)) {
-            mergeFeed(followee);
+      if (this.leaders.has(userId)) {
+         for (const leader of this.leaders.get(userId)) {
+            mergeFeed(leader);
          }
       }
 
       return newsHeap.toArray().reverse().map(([_, tweetId]) => tweetId)
-   };
+   }
 
-   follow(followerId, followeeId) {
-      if (followerId === followeeId) {
-         return
+   follow(followerId, leaderId) {
+      if (followerId === leaderId) {
+         return;
       }
 
       this._createUser(followerId);
-      this._createUser(followeeId);
-      this.follows.get(followerId).add(followeeId);
-   };
+      this._createUser(leaderId);
+      this.leaders.get(followerId).add(leaderId);
+   }
 
-   unfollow(followerId, followeeId) {
-      if (this.follows.has(followerId)) {
-         this.follows.get(followerId).delete(followeeId);
-      }
-   };
-
-   _createUser(userId) {
-      if (!this.tweets.has(userId)) {
-         this.tweets.set(userId, []);
-      }
-      if (!this.follows.has(userId)) {
-         this.follows.set(userId, new Set());
+   unfollow(followerId, leaderId) {
+      if (this.leaders.has(followerId)) {
+         this.leaders.get(followerId).delete(leaderId);
       }
    }
 }

@@ -10,21 +10,22 @@ class Solution {
     */
    merge(intervals) {
       intervals.sort((a, b) => a[0] - b[0]);
-      const merged = [intervals[0]];
+      const res = [intervals[0]];
 
-      for (let index = 1; index < intervals.length; index++) {
-         const start = intervals[index][0];
-         const end = intervals[index][1];
-         const prevEnd = merged[merged.length - 1][1];
+      for (let idx = 1; idx < intervals.length; idx++) {
+         const end = res[res.length - 1][1];
+         const [nextStart, nextEnd] = intervals[idx];
 
-         if (prevEnd >= start) {
-            merged[merged.length - 1][1] = Math.max(prevEnd, end);
-         } else {
-            merged.push([start, end]);
+         if (end < nextStart) {
+            res.push([nextStart, nextEnd]);
+         }
+         else {
+            res[res.length - 1][1] = Math.max(end, nextEnd);
          }
       }
-      return merged
-   };
+
+      return res;
+   }
 }
 
 

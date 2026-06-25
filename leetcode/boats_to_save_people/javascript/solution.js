@@ -12,15 +12,20 @@ class Solution {
       people.sort((a, b) => a - b);
       let left = 0;
       let right = people.length - 1;
-      let boatCounter = 0;
+      let res = 0;
+
+      if (people[people.length - 1] > limit) {
+         return -1
+      }
 
       while (left <= right) {
          left += people[left] + people[right] <= limit ? 1 : 0;
          right--;
-         boatCounter++;
+         res++;
       }
-      return boatCounter
-   };
+
+      return res;
+   }
 }
 
 

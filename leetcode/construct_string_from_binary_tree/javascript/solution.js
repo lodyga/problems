@@ -23,29 +23,34 @@ class Solution {
     * @return {string}
     */
    tree2str(root) {
-      const parts = [];
+      const res = [];
 
       const dfs = (node) => {
          if (node === null) {
             return
          }
-         parts.push(node.val);
+         
+         res.push(node.val);
 
          if (node.left || node.right) {
-            parts.push('(');
+            res.push('(');
             dfs(node.left);
-            parts.push(')');
+            res.push(')');
          }
          if (node.right) {
-            parts.push('(');
+            res.push('(');
             dfs(node.right);
-            parts.push(')');
+            res.push(')');
          }
       }
+    
       dfs(root);
-      return parts.join('')
-   };
+      return res.join('');
+   }
+}
 
+
+class Solution {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(n)
@@ -60,6 +65,7 @@ class Solution {
          if (node === null) {
             return ''
          }
+         
          let res = String(node.val);
 
          if (node.left || node.right)
@@ -68,9 +74,10 @@ class Solution {
          if (node.right)
             res += '(' + dfs(node.right) + ')'
 
-         return res
+         return res;
       }
-      return dfs(root)
+
+      return dfs(root);
    }
 }
 

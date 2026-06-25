@@ -65,11 +65,12 @@ class Solution:
             DS: array
             A: top-down
         """
+        N = len(nums)
         # {current index, previous index: LIS length}
-        memo = [[-1] * len(nums) for _ in range(len(nums))]
+        memo = [[-1] * N for _ in range(N)]
         
         def dfs(idx: int, prev_idx: int) -> int:
-            if idx == len(nums):
+            if idx == N:
                 return 0
             elif memo[idx][prev_idx + 1] != -1:
                 return memo[idx][prev_idx + 1]
@@ -88,6 +89,30 @@ class Solution:
             return res
 
         return dfs(0, -1)
+
+
+class Solution:
+    def lengthOfLIS(self, nums: list[int]) -> int:
+        """
+        Time complexity: O(n2)
+        Auxiliary space complexity: O(n)
+        Tags:
+            DS: array
+            A: bottom-up
+        """
+        N = len(nums)
+        # [starting index: LIS length]
+        cache = [1] * N
+
+        for left in range(N - 1, -1, -1):
+            for right in range(left + 1, N):
+                if (
+                    nums[left] < nums[right] 
+                    and cache[left] <= cache[right]
+                ):
+                    cache[left] = 1 + cache[right]
+
+        return max(cache)
 
 
 class Solution:
@@ -195,7 +220,7 @@ class Solution:
                 lis.append(num)
             else:
                 lis[index] = num
-        return len(lis)
+        return len(lis) 
 
 
 print(Solution().lengthOfLIS([5]) == 1)

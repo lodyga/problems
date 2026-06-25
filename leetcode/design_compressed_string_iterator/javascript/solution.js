@@ -8,58 +8,63 @@
 class StringIterator {
    constructor(text) {
       this.text = text;
-      this.index = 0;
-      this.letter = '';
-      this.letterCounter = 0;
-   };
+      this.idx = 0;
+      this.counter = 0;
+      this._findNext();
+   }
 
    /**
     * @param {}
-    * @return {}
+    * @return {void}
     */
-   _getNextLetter() {
-      this.letter = this.text[this.index];
-      this.index += 1;
-
-      let multi = 0;
-      while (
-         this.index < this.text.length &&
-         '0' <= this.text[this.index] &&
-         this.text[this.index] <= '9'
-      ) {
-         multi = multi * 10 + Number(this.text[this.index]);
-         this.index += 1;
+   _findNext() {
+      if (this.counter) {
+         this.counter--;
+         return;
       }
-      this.letterCounter = multi - 1;
 
-      return this.letter
-   };
+      while (this.idx < this.text.length) {
+         this.nextLetter = this.text[this.idx];
+         this.idx++;
+         this.counter = 0;
+
+         while (
+            this.idx < this.text.length
+            && '0' <= this.text[this.idx]
+            && this.text[this.idx] <= '9'
+         ) {
+            this.counter = this.counter * 10 + Number(this.text[this.idx]);
+            this.idx++;
+         }
+
+         if (this.counter === 0) {
+            continue;
+         }
+
+         this.counter--;
+         return;
+      }
+
+      this.nextLetter = ' ';
+   }
 
    /**
     * @param {}
     * @return {string}
     */
    next() {
-      if (this.letterCounter) {
-         const nextLetter = this.letter;
-         this.letterCounter -= 1;
-         if (this.letterCounter === 0)
-            this.letter = "";
-         return nextLetter
-      } else if (this.index == this.text.length) {
-         return " "
-      } else {
-         return this._getNextLetter()
-      }
-   };
+      const res = this.nextLetter;
+      this._findNext();
+      return res;
+   }
 
    /**
     * @param {}
     * @return {boolean}
     */
    hasNext() {
-      return this.letterCounter || this.index < this.text.length
-   };
+      return this.nextLetter !== ' ';
+   }
 }
 
 

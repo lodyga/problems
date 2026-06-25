@@ -1,5 +1,5 @@
 # Number of Longest Increasing Subsequence
-https://leetcode.com/problems/number-of-longest-increasing-subsequence/description/
+https://leetcode.com/problems/number-of-longest-increasing-subsequence/
 
 <p>
 Given an integer array nums, return the number of longest increasing subsequences.

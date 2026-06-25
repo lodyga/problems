@@ -4,34 +4,39 @@ class FreqStack:
         O(1): push, pop
     Auxiliary space complexity: O(n)
     Tags:
-        DS: hash map
+        DS: hash map, list
         A: iteration
     """
 
     def __init__(self):
-        self.val_freq = {}  # {value: frequency, ...}
-        self.freq_bucket = {}  # {frequency1: [value1, value2], ...}
-        self.max_freq = 0
+        # {value: frequency, ...}
+        self.val_freq = {}
+        # {frequency1: [value1, value2], ...}
+        self.freq_bucket = []
 
     def push(self, val: int) -> None:
-        self.val_freq[val] = self.val_freq.get(val, 0) + 1
+        idx = self.val_freq.get(val, 0)
+        self.val_freq[val] = idx + 1
 
-        freq = self.val_freq[val]
-        if freq not in self.freq_bucket:
-            self.freq_bucket[freq] = []
-            self.max_freq = freq
+        if len(self.freq_bucket) == idx:
+            self.freq_bucket.append([])
 
-        self.freq_bucket[freq].append(val)
+        self.freq_bucket[idx].append(val)
 
     def pop(self) -> int:
-        freq = self.max_freq
-        val = self.freq_bucket[freq].pop()
+        if len(self.freq_bucket) == 0:
+            return -1
+
+        val = self.freq_bucket[-1].pop()
+        
+        if len(self.freq_bucket[-1]) == 0:
+            self.freq_bucket.pop()
+        
         self.val_freq[val] -= 1
 
-        if len(self.freq_bucket[freq]) == 0:
-            self.freq_bucket.pop(freq)
-            self.max_freq = freq - 1
-
+        if self.val_freq[val] == 0:
+            self.val_freq.pop(val)
+        
         return val
 
 

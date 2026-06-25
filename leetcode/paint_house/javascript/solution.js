@@ -10,8 +10,9 @@ class Solution {
    minCost(houses) {
       const cache = houses[0];
 
-      for (let index = 1; index < houses.length; index++) {
-         const house = houses[index];
+      for (let idx = 1; idx < houses.length; idx++) {
+         const house = houses[idx];
+
          [cache[0], cache[1], cache[2]] =
             [
                house[0] + Math.min(cache[1], cache[2]),
@@ -19,8 +20,9 @@ class Solution {
                house[2] + Math.min(cache[0], cache[1])
             ]
       }
-      return Math.min(...cache)
-   };
+
+      return Math.min(...cache);
+   }
 }
 
 

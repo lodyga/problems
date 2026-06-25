@@ -7,7 +7,7 @@ class Solution {
     * @param {string} text
     * @return {boolean}
    */
-   static isPalindrome(text) {
+   isPalindrome(text) {
       /**
        * Check if character is a alpha-numeric.
        * @param {string} char
@@ -17,7 +17,7 @@ class Solution {
          const isLower = (char >= 'a' && char <= 'z');
          const isUpper = (char >= 'A' && char <= 'Z');
          const isNumber = (char >= '0' && char <= '9');
-         return (isLower || isUpper || isNumber)
+         return (isLower || isUpper || isNumber);
       };
 
       let left = 0;
@@ -36,13 +36,13 @@ class Solution {
             left++;
             right--;
          } else {
-            return false
+            return false;
          }
       }
-      return true
+
+      return true;
    }
 }
-const isPalindrome = Solution.isPalindrome;
 
 
 class Solution {
@@ -54,7 +54,7 @@ class Solution {
     * @param {string} text
     * @return {boolean}
    */
-   static isPalindrome(text) {
+   isPalindrome(text) {
       /**
        * Check if character is a alpha-numeric.
        * @param {string} char
@@ -83,14 +83,15 @@ class Solution {
          ) {
             right--;
          }
-         if (text[left].toLowerCase() != text[right].toLowerCase()) {
-            return false
-         } else {
+         if (text[left].toLowerCase() == text[right].toLowerCase()) {
             left++;
             right--;
+         } else {
+            return false;
          }
       }
-      return true
+
+      return true;
    }
 }
 const isPalindrome = Solution.isPalindrome;

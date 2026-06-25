@@ -11,21 +11,24 @@ class Solution {
    sortColors(nums) {
       let left = 0;
       let right = nums.length - 1;
-      let index = 0;
+      let idx = 0;
 
-      while (index <= right) {
-         if (nums[index] === 0) {
-            [nums[index], nums[left]] = [nums[left], nums[index]];
+      while (idx <= right) {
+         if (nums[idx] == 1) {
+            idx++;
+         } else if (nums[idx] === 0) {
+            [nums[idx], nums[left]] = [nums[left], nums[idx]];
             left++;
-         } else if (nums[index] === 2) {
-            [nums[index], nums[right]] = [nums[right], nums[index]];
+            idx++;
+         } else if (nums[idx] === 2) {
+            [nums[idx], nums[right]] = [nums[right], nums[idx]];
             right--;
-            index--;
          }
-         index++;
+
       }
-      return nums
-   };
+
+      // return nums;
+   }
 }
 
 

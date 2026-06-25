@@ -7,26 +7,30 @@ class Solution {
     * @return {number}
     */
    mostPoints(questions) {
-      const memo = Array(questions.length).fill(-1);
+      const N = questions.length;
+      const memo = Array(N).fill(-1);
 
-      const dfs = (index) => {
-         if (index >= questions.length) {
-            return 0
-         } else if (memo[index] !== -1) {
-            return memo[index]
+      const dfs = (idx) => {
+         if (idx >= N) {
+            return 0;
+         } else if (memo[idx] !== -1) {
+            return memo[idx];
          }
 
-         const points = questions[index][0];
-         const cooldown = questions[index][1];
-         const skip = dfs(index + 1);
-         const solve = points + dfs(index + 1 + cooldown);
-         memo[index] = Math.max(skip, solve);
-         return memo[index]
+         const [points, brainpower] = questions[idx];
+         const skip = dfs(idx + 1);
+         const solve = points + dfs(idx + 1 + brainpower);
+         memo[idx] = Math.max(skip, solve);
+
+         return memo[idx];
       }
-      return dfs(0)
-   };
+
+      return dfs(0);
+   }
+}
 
 
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
@@ -37,18 +41,19 @@ class Solution {
     * @return {number}
     */
    mostPoints(questions) {
-      const cache = Array(questions.length).fill(0);
+      const N = questions.length;
+      const cache = Array(N + 1).fill(0);
 
-      for (let index = questions.length - 1; index > -1; index--) {
-         const points = questions[index][0];
-         const cooldown = questions[index][1];
-         const nextIndex = index + 1 + cooldown;
-         const skip = index + 1 < questions.length ? cache[index + 1] : 0;
-         const solve = points + (nextIndex < questions.length ? cache[nextIndex] : 0);
-         cache[index] = Math.max(skip, solve);
+      for (let idx = N - 1; idx > -1; idx--) {
+         const [points, brainpower] = questions[idx];
+         const nextIdx = idx + 1 + brainpower;
+         const skip = cache[idx + 1];
+         const solve = points + (nextIdx < N ? cache[nextIdx] : 0);
+         cache[idx] = Math.max(skip, solve);
       }
-      return cache[0]
-   };
+
+      return cache[0];
+   }
 }
 
 

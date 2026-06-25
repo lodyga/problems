@@ -1,3 +1,29 @@
+class Solution {
+   /**
+    * Time complexity: O(nlogn)
+    * Auxiliary space complexity: O(n)
+    * Tags:
+    *     A: intervals, sorting
+    * @param {Interval[]} intervals
+    * @returns {boolean}
+    */
+   canAttendMeetings(intervals) {
+      intervals.sort((a, b) => a - b);
+
+      for (let idx = 0; idx < intervals.length - 1; idx++) {
+         const meetingEnd = intervals[idx][1];
+         const nextMeetingStart = intervals[idx + 1][0];
+
+         if (meetingEnd > nextMeetingStart) {
+            return false;
+         }
+      }
+
+      return true;
+   }
+}
+
+
 /**
  * Definition of Interval:
 */
@@ -21,15 +47,16 @@ class Solution {
    canAttendMeetings(intervals) {
       intervals.sort((a, b) => a.start - b.start);
 
-      for (let index = 1; index < intervals.length; index++) {
-         const prevEnd = intervals[index - 1].end;
-         const currentStart = intervals[index].start;
+      for (let idx = 1; idx < intervals.length; idx++) {
+         const prevEnd = intervals[idx - 1].end;
+         const currentStart = intervals[idx].start;
 
          if (prevEnd > currentStart) {
-            return false
+            return false;
          }
       }
-      return true
+
+      return true;
    }
 }
 

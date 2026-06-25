@@ -4,44 +4,94 @@ class Solution:
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
         Tags:
-            DS: hash map
+            DS: array
             A: top-down
         """
-        memo = {len(nums): True}
+        N = len(nums)
+        memo = [-1] * (N + 1)
+        memo[-1] = 1
 
-        def dfs(index: int) -> bool:
-            if index in memo:
-                return memo[index]
-            elif index > len(nums):
-                return False
+        def dfs(idx):
+            if memo[idx] != -1:
+                return memo[idx]
 
-            memo[index] = False
+            num = nums[idx]
+            memo[idx] = False
 
             # two digits equals
             if (
-                index + 1 < len(nums) and
-                nums[index] == nums[index + 1] and
-                dfs(index + 2)
+                idx + 1 < N
+                and num == nums[idx + 1]
+                and dfs(idx + 2)
             ):
-                memo[index] = True
+                memo[idx] = True
 
             # three digits equals
             elif (
-                index + 2 < len(nums) and
-                nums[index] == nums[index + 1] == nums[index + 2] and
-                dfs(index + 3)
+                memo[idx] is False
+                and idx + 2 < N
+                and num == nums[idx + 1] == nums[idx + 2]
+                and dfs(idx + 3)
             ):
-                memo[index] = True
+                memo[idx] = True
+
+            # three increasing by one digits
+            elif (
+                memo[idx] is False
+                and idx + 2 < N
+                and num + 2 == nums[idx + 1] + 1 == nums[idx + 2]
+                and dfs(idx + 3)
+            ):
+                memo[idx] = True
+
+            return memo[idx]
+
+        return dfs(0)
+
+
+class Solution:
+    def validPartition(self, nums: list[int]) -> bool:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(n)
+        Tags:
+            DS: hash map
+            A: top-down
+        """
+        N = len(nums)
+        memo = {N: True}
+
+        def dfs(idx: int) -> bool:
+            if idx in memo:
+                return memo[idx]
+
+            memo[idx] = False
+
+            # two digits equals
+            if (
+                idx + 1 < N
+                and nums[idx] == nums[idx + 1]
+                and dfs(idx + 2)
+            ):
+                memo[idx] = True
+
+            # three digits equals
+            elif (
+                idx + 2 < N
+                and nums[idx] == nums[idx + 1] == nums[idx + 2]
+                and dfs(idx + 3)
+            ):
+                memo[idx] = True
 
             # three digits increasing by one
             elif (
-                index + 2 < len(nums) and
-                nums[index] + 2 == nums[index + 1] + 1 == nums[index + 2] and
-                dfs(index + 3)
+                idx + 2 < N
+                and nums[idx] + 2 == nums[idx + 1] + 1 == nums[idx + 2]
+                and dfs(idx + 3)
             ):
-                memo[index] = True
+                memo[idx] = True
 
-            return memo[index]
+            return memo[idx]
 
         return dfs(0)
 
@@ -55,35 +105,35 @@ class Solution:
             DS: array
             A: bottom-up
         """
-        # cache = {len(nums): True}
-        cache = [False] * (len(nums) + 1)
+        N = len(nums)
+        cache = [False] * (N + 1)
         cache[-1] = True
 
-        for index in range(len(nums) - 1, -1, -1):
+        for idx in range(N - 2, -1, -1):
             # two digits equals
             if (
-                index + 1 < len(nums) and
-                nums[index] == nums[index + 1] and
-                cache[index + 2]
+                idx + 1 < N
+                and nums[idx] == nums[idx + 1]
+                and cache[idx + 2]
             ):
-                cache[index] = True
+                cache[idx] = True
 
             # three digits equals
             elif (
-                index + 2 < len(nums) and
-                nums[index] == nums[index + 1] == nums[index + 2] and
-                cache[index + 3]
+                idx + 2 < N
+                and nums[idx] == nums[idx + 1] == nums[idx + 2]
+                and cache[idx + 3]
             ):
-                cache[index] = True
+                cache[idx] = True
 
             # three digits increasing by one
             elif (
-                index + 2 < len(nums) and
-                nums[index] + 2 == nums[index + 1] + 1 == nums[index + 2] and
-                cache[index + 3]
+                idx + 2 < N
+                and nums[idx] + 2 == nums[idx + 1] + 1 == nums[idx + 2]
+                and cache[idx + 3]
             ):
-                cache[index] = True
-        
+                cache[idx] = True
+
         return cache[0]
 
 
@@ -96,32 +146,32 @@ class Solution:
             DS: array
             A: bottom-up
         """
-        # cache = {len(nums): True}
+        N = len(nums)
         cache = [True, True, True]
 
-        for index in range(len(nums) - 1, -1, -1):
+        for idx in range(N - 1, -1, -1):
             cache0 = False
             # two digits equals
             if (
-                index + 1 < len(nums) and
-                nums[index] == nums[index + 1] and
-                cache[1]
+                idx + 1 < N
+                and nums[idx] == nums[idx + 1]
+                and cache[1]
             ):
                 cache0 = True
 
             # three digits equals
             elif (
-                index + 2 < len(nums) and
-                nums[index] == nums[index + 1] == nums[index + 2] and
-                cache[2]
+                idx + 2 < N
+                and nums[idx] == nums[idx + 1] == nums[idx + 2]
+                and cache[2]
             ):
                 cache0 = True
 
             # three digits increasing by one
             elif (
-                index + 2 < len(nums) and
-                nums[index] + 2 == nums[index + 1] + 1 == nums[index + 2] and
-                cache[2]
+                idx + 2 < N
+                and nums[idx] + 2 == nums[idx + 1] + 1 == nums[idx + 2]
+                and cache[2]
             ):
                 cache0 = True
 

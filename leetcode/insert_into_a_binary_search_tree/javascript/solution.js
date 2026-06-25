@@ -27,16 +27,23 @@ class Solution {
       const dfs = (node) => {
          if (node === null) {
             node = new TreeNode(val)
-         } else if (node.val < val) {
+         } 
+         else if (node.val < val) {
             node.right = dfs(node.right);
-         } else {
+         } 
+         else {
             node.left = dfs(node.left);
          }
-         return node
-      }
-      return dfs(root)
-   };
 
+         return node;
+      }
+
+      return dfs(root);
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
@@ -47,26 +54,32 @@ class Solution {
     * @param {number} val
     * @return {TreeNode}
     */
-   insertIntoBST2(root, val) {
+   insertIntoBST(root, val) {
       let node = root;
+      
       while (node) {
          if (node.val < val) {
             if (node.right) {
                node = node.right;
-            } else {
+            } 
+            else {
                node.right = new TreeNode(val);
-               return root
+               return root;
             }
-         } else {
+         } 
+         
+         else {
             if (node.left) {
                node = node.left;
-            } else {
+            } 
+            else {
                node.left = new TreeNode(val);
-               return root
+               return root;
             }
          }
       }
-      return new TreeNode(val)
+
+      return new TreeNode(val);
    };
 }
 

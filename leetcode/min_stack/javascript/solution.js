@@ -17,11 +17,14 @@ class MinStack {
     */
    push(val) {
       this.stack.push(val);
-      const minStack = this.minStack
-      if (minStack.length)
+      const minStack = this.minStack;
+      
+      if (minStack.length) {
          minStack.push(Math.min(minStack[minStack.length - 1], val));
-      else
+      }
+      else {
          minStack.push(val);
+      }
    }
 
    /**
@@ -36,14 +39,14 @@ class MinStack {
     * @returns {number}
     */
    top() {
-      return this.stack[this.stack.length - 1]
+      return this.stack[this.stack.length - 1];
    }
 
    /**
     * @returns {number}
     */
    getMin() {
-      return this.minStack[this.minStack.length - 1]
+      return this.minStack[this.minStack.length - 1];
    }
 }
 

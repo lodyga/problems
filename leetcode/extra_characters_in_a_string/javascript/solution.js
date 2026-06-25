@@ -13,27 +13,32 @@ class Solution {
    minExtraChar(text, words) {
       const cache = Array(text.length + 1).fill(0);
 
-      for (let index = text.length - 1; index > -1; index--) {
-         cache[index] = cache[index + 1] + 1;
+      for (let idx = text.length - 1; idx > -1; idx--) {
+         cache[idx] = cache[idx + 1] + 1;
 
          for (const word of words) {
             if (
-               index + word.length <= text.length &&
-               text.slice(index, index + word.length) === word
+               idx + word.length <= text.length &&
+               text.slice(idx, idx + word.length) === word
             ) {
-               cache[index] = Math.min(
-                  cache[index],
-                  cache[index + word.length]
-               )
+               cache[idx] = Math.min(
+                  cache[idx],
+                  cache[idx + word.length]
+               );
             }
-            if (cache[index] === 0)
-               break
+
+            if (cache[idx] === 0) {
+               break;
+            }
          }
       }
-      return cache[0]
-   };
+
+      return cache[0];
+   }
+}
 
 
+class Solution {
    /**
     * Time complexity: O(n3)
     *     O(text length * distinct word count * word lenght)
@@ -51,68 +56,28 @@ class Solution {
       const wordLengths = new Set(words.map((word) => word.length));
       const wordSet = new Set(words);
 
-      for (let index = text.length - 1; index >= 0; index--) {
-         cache[index] = cache[index + 1] + 1;
+      for (let idx = text.length - 1; idx > -1; idx--) {
+         cache[idx] = cache[idx + 1] + 1;
 
          for (const wordLength of wordLengths) {
             if (
-               index + wordLength <= text.length &&
-               wordSet.has(text.slice(index, index + wordLength))
+               idx + wordLength <= text.length &&
+               wordSet.has(text.slice(idx, idx + wordLength))
             ) {
-               cache[index] = Math.min(
-                  cache[index],
-                  cache[index + wordLength]
-               )
+               cache[idx] = Math.min(
+                  cache[idx],
+                  cache[idx + wordLength]
+               );
             }
-            if (cache[index] === 0)
-               break
-         }
-      }
-      return cache[0]
-   };
 
-   /**
-    * Time complexity: O(n2)
-    *     O(text length * word lenght)
-    * Auxiliary space complexity: O(n2)
-    *     O(word count * word length) + O(text lenght)
-    * Tags:
-    *     DS: trie
-    *     A: bottom-up
-    * @param {string} text
-    * @param {string[]} words
-    * @return {number}
-    */
-   minExtraChar(text, words) {
-      const trie = new Trie();
-      for (const word of words) {
-         trie.add(word);
-      }
-      const cache = Array(text.length + 1).fill(0);
-      const longestWordLength = Math.max(...words.map((word) => word.length));
-
-      for (let left = text.length - 1; left > -1; left--) {
-         cache[left] = cache[left + 1] + 1;
-         let node = trie.root;
-         
-         for (let right = left; right < Math.min(text.length, left + longestWordLength); right++) {
-            const letter = text[right];
-
-            if (!node.letters.has(letter)) {
-               break
-            }
-            node = node.letters.get(letter);
-
-            if (node.isWord) {
-               cache[left] = Math.min(cache[left], cache[right + 1]);
-            }
-            if (cache[left] === 0) {
-               break
+            if (cache[idx] === 0) {
+               break;
             }
          }
       }
-      return cache[0]
-   };
+
+      return cache[0];
+   }
 }
 
 
@@ -138,6 +103,57 @@ class Trie {
          node = node.letters.get(letter);
       }
       node.isWord = true;
+   }
+}
+
+
+class Solution {
+   /**
+    * Time complexity: O(n2)
+    *     O(text length * word lenght)
+    * Auxiliary space complexity: O(n2)
+    *     O(word count * word length) + O(text lenght)
+    * Tags:
+    *     DS: trie
+    *     A: bottom-up
+    * @param {string} text
+    * @param {string[]} words
+    * @return {number}
+    */
+   minExtraChar(text, words) {
+      const LONGEST_WORD_LENGTH = Math.max(...words.map((word) => word.length));
+      const trie = new Trie();
+      
+      for (const word of words) {
+         trie.add(word);
+      }
+      
+      const cache = Array(text.length + 1).fill(0);
+
+      for (let left = text.length - 1; left > -1; left--) {
+         cache[left] = cache[left + 1] + 1;
+         let node = trie.root;
+
+         for (let right = left; right < Math.min(text.length, left + LONGEST_WORD_LENGTH); right++) {
+            const letter = text[right];
+
+            if (!node.letters.has(letter)) {
+               break;
+            }
+
+            node = node.letters.get(letter);
+
+            if (node.isWord) {
+               cache[left] = Math.min(cache[left], cache[right + 1]);
+            }
+
+            if (cache[left] === 0) {
+               break;
+            }
+         }
+      }
+
+      return cache[0];
    }
 }
 

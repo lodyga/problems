@@ -4,7 +4,7 @@ class Solution:
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
         Tags:
-            A: two pointers, Floyd
+            A: two pointers
         """
         slow = 0
         fast = 0

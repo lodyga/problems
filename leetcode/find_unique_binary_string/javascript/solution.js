@@ -3,32 +3,36 @@ class Solution {
     * Time complexity: O(n2^n)
     * Auxiliary space complexity: O(n)
     * Tags:
-    *     DS: list, hash set
+    *     DS: hash set, list
     *     A: backtracking
     * @param {string[]} nums
     * @return {string}
     */
    findDifferentBinaryString(nums) {
-      const num = [];
-      const numSet = new Set(nums);
+      const N = nums[0].length;
+      const binSet = new Set(nums);
+      const binary = [];
 
-      const backtrack = (index) => {
-         if (num.length === nums[0].length) {
-            const missing = num.join('');
-            return numSet.has(missing) ? '' : missing
+      const backtrack = (idx) => {
+         if (binary.length === N) {
+            const missing = binary.join('');
+            return binSet.has(missing) ? '' : missing
          }
 
-         for (const digit of '01') {
-            num.push(digit);
-            const missing = backtrack(index + 1);
+         for (const chr of '01') {
+            binary.push(chr);
+            const missing = backtrack(idx + 1);
+            
             if (missing) {
-               return missing
+               return missing;
             }
-            num.pop();
+            
+            binary.pop();
          }
       }
-      return backtrack(0)
-   };
+
+      return backtrack(0);
+   }
 }
 
 

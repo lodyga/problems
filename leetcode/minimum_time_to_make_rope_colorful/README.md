@@ -1,5 +1,5 @@
 # Minimum Time to Make Rope Colorful
-https://leetcode.com/problems/minimum-time-to-make-rope-colorful/description/
+https://leetcode.com/problems/minimum-time-to-make-rope-colorful/
 
 <p>
 Alice has n balloons arranged on a rope. You are given a 0-indexed string colors where colors[i] is the color of the ith balloon.

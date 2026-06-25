@@ -11,6 +11,30 @@ draft
 class Solution:
     def kthGrammar(self, n: int, k: int) -> int:
         """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(1)
+        Tags:
+            A: binary search
+        """
+        row = n - 1
+        col = k - 1
+        is_val = True
+        mid = 2**row // 2
+
+        while row:
+            if col >= mid:
+                col -= mid
+                is_val = not is_val
+
+            mid //= 2
+            row -= 1
+
+        return 0 if is_val else 1
+
+
+class Solution:
+    def kthGrammar(self, n: int, k: int) -> int:
+        """
         Time complexity: O(2^n)
         Auxiliary space complexity: O(2^n)
         Tags:

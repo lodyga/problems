@@ -9,41 +9,49 @@ class Solution {
     * @return {number[]}
     */
    searchRange(nums, target) {
-      let left = 0;
-      let right = nums.length - 1;
-      let starting = -1;
+      const bisect = (nums, target, direction) => {
+         let left = 0;
+         let right = nums.length - 1;
+         let res = -1;
 
-      while (left <= right) {
-         const mid = (left + right) >> 1;
-         const midNum = nums[mid];
+         while (left <= right) {
+            const mid = Math.floor((left + right) / 2);
+            const midNum = nums[mid];
 
-         if (target <= midNum) {
-            if (target == midNum)
-               starting = mid;
-            right = mid - 1;
-         } else {
-            left = mid + 1;
+            if (target === midNum) {
+               res = mid;
+
+               if (direction === 'left') {
+                  right = mid - 1;
+               }
+               else {  // else if (direction === 'right'):
+                  left = mid + 1;
+               }
+            }
+            else if (target < midNum) {
+               right = mid - 1;
+            }
+            else {
+               left = mid + 1;
+            }
          }
+
+         return res;
       }
 
-      left = 0;
-      right = nums.length - 1;
-      let ending = -1;
+      const bisectLeft = (nums, target) => {
+         return bisect(nums, target, 'left')
+      };
 
-      while (left <= right) {
-         const mid = (left + right) >> 1;
-         const midNum = nums[mid];
+      const bisectRight = (nums, target) => {
+         return bisect(nums, target, 'right')
+      };
 
-         if (target >= midNum) {
-            if (target == midNum)
-               ending = mid;
-            left = mid + 1;
-         } else {
-            right = mid - 1;
-         }
-      }
-      return [starting, ending]
-   };
+      const leftBisect = bisectLeft(nums, target);
+      const rightBisect = bisectRight(nums, target);
+
+      return [leftBisect, rightBisect];
+   }
 }
 
 

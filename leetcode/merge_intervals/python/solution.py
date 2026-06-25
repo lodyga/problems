@@ -7,22 +7,25 @@ class Solution:
             DS: list
             A: intervals, greedy, sorting
         """
+        N = len(intervals)
         intervals.sort()
-        merged = [intervals[0]]
+        res = [intervals[0]]
 
-        for index in range(1, len(intervals)):
-            start, end = intervals[index]
+        for idx in range(1, N):
+            end = res[-1][-1]
+            next_start, next_end = intervals[idx]
 
-            _, prev_end = merged[-1]
-            if prev_end >= start:
-                merged[-1][1] = max(prev_end, end)
+            if end < next_start:
+                res.append([next_start, next_end])
             else:
-                merged.append([start, end])
+                res[-1][1] = max(end, next_end)
 
-        return merged
+        return res
 
 
 print(Solution().merge([[1, 3], [2, 6], [8, 10], [15, 18]]) == [[1, 6], [8, 10], [15, 18]])
 print(Solution().merge([[1, 4], [4, 5]]) == [[1, 5]])
+print(Solution().merge([[4, 7], [1, 4]]) == [[1, 7]])
 print(Solution().merge([[1, 4], [0, 0]]) == [[0, 0], [1, 4]])
 print(Solution().merge([[1, 4], [2, 3]]) == [[1, 4]])
+

@@ -7,16 +7,16 @@ class Solution:
             A: iteration
         """
         depth = 0
-        max_depth = 0
+        res = 0
 
         for char in text:
             if char == "(":
                 depth += 1
-                max_depth = max(max_depth, depth)
-            if char == ")":
+                res = max(res, depth)
+            elif char == ")":
                 depth -= 1
 
-        return max_depth
+        return res
 
 
 print(Solution().maxDepth("(1+(2*3)+((8)/4))+1") == 3)

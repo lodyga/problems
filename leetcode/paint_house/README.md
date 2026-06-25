@@ -1,5 +1,5 @@
 # Paint House
-# https://neetcode.io/solutions/paint-house
+https://neetcode.io/solutions/paint-house
 
 <p>
 There are a row of n houses, each house can be painted with one of the three colors: red, blue or green. The cost of painting each house with a certain color is different. You have to paint all the houses such that no two adjacent houses have the same color, and you need to cost the least. Return the minimum cost.
@@ -14,13 +14,13 @@ Output: 1
 </pre>
 
 <pre>
-<b>Example 1:</b>
+<b>Example 2:</b>
 Input: costs = [[1, 2, 3], [1, 4, 6]]
 Output: 3
 </pre>
 
 <pre>
-<b>Example 1:</b>
+<b>Example 3:</b>
 Input: costs = [[17, 2, 17], [16, 16, 5], [14, 3, 19]]
 Output: 10
 </pre>

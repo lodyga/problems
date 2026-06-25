@@ -8,17 +8,17 @@ class Solution:
         Auxiliary space complexity: O(k)
         Tags:
             DS: heap
-            A: heap
+            A: iteration
         """
         point_heap = []
 
         for x, y in points:
-            dist = x**2 + y**2
+            distance = abs(x**2) + abs(y**2)
 
             if len(point_heap) < k:
-                heapq.heappush(point_heap, (-dist, x, y))
+                heapq.heappush(point_heap, (-distance, x, y))
             else:
-                heapq.heappushpop(point_heap, (-dist, x, y))
+                heapq.heappushpop(point_heap, (-distance, x, y))
 
         return [[x, y] for _, x, y in point_heap]
 
@@ -27,11 +27,11 @@ class Solution:
     def kClosest(self, points: list[list[int]], k: int) -> list[list[int]]:
         """
         Time complexity: O(nlogn)
-        Auxiliary space complexity: O(k)
+        Auxiliary space complexity: O(n)
         Tags:
             A: sorting, build-in function
         """
-        points.sort(key=lambda x: (x[0]**2 + x[1]**2))
+        points.sort(key=lambda point: point[0]**2 + point[1]**2)
         return points[: k]
 
 

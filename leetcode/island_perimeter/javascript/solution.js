@@ -4,6 +4,47 @@ import { Queue } from "@datastructures-js/queue";
 class Solution {
    /**
     * Time complexity: O(n2)
+    * Auxiliary space complexity: O(1)
+    * Tags:
+    *     DS: array (matrix)
+    *     A: iteration
+    * @param {number[][]} grid
+    * @return {number}
+    */
+   islandPerimeter(grid) {
+      const ROWS = grid.length;
+      const COLS = grid[0].length;
+      const DIRECTIONS = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+      let res = 0
+
+      for (let row = 0; row < ROWS; row++) {
+         for (let col = 0; col < COLS; col++) {
+            if (grid[row][col]) {
+               for (const [dr, dc] of DIRECTIONS) {
+                  const [r, c] = [row + dr, col + dc];
+
+                  if (
+                     r === -1
+                     || c === -1
+                     || r === ROWS
+                     || c === COLS
+                     || grid[r][c] === 0
+                  ) {
+                     res++;
+                  }
+               }
+            }
+         }
+      }
+
+      return res;
+   }
+}
+
+
+class Solution {
+   /**
+    * Time complexity: O(n2)
     * Auxiliary space complexity: O(n2)
     * Tags:
     *     DS: array (matrix)
@@ -19,11 +60,11 @@ class Solution {
 
       const dfs = (row, col) => {
          if (
-            row === -1 ||
-            col === -1 ||
-            row === ROWS ||
-            col === COLS ||
-            grid[row][col] === 0
+            row === -1
+            || row === ROWS
+            || col === -1
+            || col === COLS
+            || grid[row][col] === 0
          ) {
             return 1
          }
@@ -33,13 +74,14 @@ class Solution {
 
          visited[row][col] = true;
 
-         let perimeter = 0;
+         let res = 0;
          for (const [dr, dc] of DIRECTIONS) {
             const [r, c] = [row + dr, col + dc];
-            perimeter += dfs(r, c)
+            res += dfs(r, c)
          }
-         return perimeter
-      };
+
+         return res;
+      }
 
       for (let row = 0; row < ROWS; row++) {
          for (let col = 0; col < COLS; col++) {
@@ -48,9 +90,13 @@ class Solution {
             }
          }
       }
-      return 0
-   };
 
+      return 0;
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(n2)
@@ -67,7 +113,7 @@ class Solution {
       const visited = Array.from({ length: ROWS }, () => Array(COLS).fill(false));
 
       const bfs = (row, col) => {
-         let perimeter = 0;
+         let res = 0;
          const queue = new Queue([[row, col]]);
          visited[row][col] = true;
 
@@ -78,13 +124,13 @@ class Solution {
                const [r, c] = [row + dr, col + dc];
 
                if (
-                  r === -1 ||
-                  c === -1 ||
-                  r === ROWS ||
-                  c === COLS ||
-                  grid[r][c] === 0
+                  r === -1
+                  || c === -1
+                  || r === ROWS
+                  || c === COLS
+                  || grid[r][c] === 0
                )
-                  perimeter++;
+                  res++;
 
                else if (grid[r][c] === 1 && !visited[r][c]) {
                   queue.push([r, c]);
@@ -92,8 +138,9 @@ class Solution {
                }
             }
          }
-         return perimeter
-      };
+
+         return res;
+      }
 
       for (let row = 0; row < ROWS; row++) {
          for (let col = 0; col < COLS; col++) {
@@ -102,8 +149,9 @@ class Solution {
             }
          }
       }
-      return 0
-   };
+
+      return 0;
+   }
 }
 
 

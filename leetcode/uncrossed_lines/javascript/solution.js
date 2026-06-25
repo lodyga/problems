@@ -10,34 +10,43 @@ class Solution {
     * @return {number}
     */
    maxUncrossedLines(nums1, nums2) {
-      // {(index1, index2): connection count}
+      const N1 = nums1.length;
+      const N2 = nums2.length;
+      // {(idx1, idx2): connection count}
       const memo = new Map();
 
-      const dfs = (index1, index2) => {
-         const index = `${index1},${index2}`;
-         if (
-            index1 === nums1.length ||
-            index2 === nums2.length
-         ) {
-            return 0
-         } else if (memo.has(index)) {
-            return memo.get(index)
+      const dfs = (idx1, idx2) => {
+         // const idx = `${idx1},${idx2}`;
+         const idx = (BigInt(idx1) << 32n) | BigInt(idx2);
+         if (idx1 === N1 || idx2 === N2) {
+            return 0;
+         }
+         else if (memo.has(idx)) {
+            return memo.get(idx);
          }
 
          let res = 0;
-         if (nums1[index1] === nums2[index2]) {
-            res = 1 + dfs(index1 + 1, index2 + 1);
-         } else {
-            res = dfs(index1 + 1, index2);
-            res = Math.max(res, dfs(index1, index2 + 1));
+
+         if (nums1[idx1] === nums2[idx2]) {
+            res = 1 + dfs(idx1 + 1, idx2 + 1);
+         }
+         else {
+            res = Math.max(
+               dfs(idx1 + 1, idx2),
+               dfs(idx1, idx2 + 1)
+            );
          }
 
-         memo.set(index, res);
-         return res
+         memo.set(idx, res);
+         return res;
       }
-      return dfs(0, 0);
-   };
 
+      return dfs(0, 0);
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(n2)
@@ -49,33 +58,40 @@ class Solution {
     * @return {number}
     */
    maxUncrossedLines(nums1, nums2) {
-      // {(index1, index2): connection count}
+      const N1 = nums1.length;
+      const N2 = nums2.length;
+      // {(idx1, idx2): connection count}
       const memo = Array.from({ length: nums1.length }, () => Array(nums2.length).fill(-1));
 
-      const dfs = (index1, index2) => {
-         if (
-            index1 === nums1.length ||
-            index2 === nums2.length
-         ) {
-            return 0
-         } else if (memo[index1][index2] !== -1) {
-            return memo[index1][index2]
+      const dfs = (idx1, idx2) => {
+         if (idx1 === N1 || idx2 === N2) {
+            return 0;
+         }
+         else if (memo[idx1][idx2] !== -1) {
+            return memo[idx1][idx2];
          }
 
          let res = 0;
-         if (nums1[index1] === nums2[index2]) {
-            res = 1 + dfs(index1 + 1, index2 + 1);
+
+         if (nums1[idx1] === nums2[idx2]) {
+            res = 1 + dfs(idx1 + 1, idx2 + 1);
          } else {
-            res = dfs(index1 + 1, index2);
-            res = Math.max(res, dfs(index1, index2 + 1));
+            res = Math.max(
+               dfs(idx1 + 1, idx2),
+               dfs(idx1, idx2 + 1)
+            );
          }
 
-         memo[index1][index2] = res;
-         return res
+         memo[idx1][idx2] = res;
+         return res;
       }
+
       return dfs(0, 0);
    };
+}
 
+
+class Solution {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(n2)
@@ -87,23 +103,30 @@ class Solution {
     * @return {number}
     */
    maxUncrossedLines(nums1, nums2) {
-      const cache = Array.from({ length: nums1.length + 1 }, () => Array(nums2.length + 1).fill(0));
+      const N1 = nums1.length;
+      const N2 = nums2.length;
+      const cache = Array.from({ length: N1 + 1 }, () => Array(N2 + 1).fill(0));
 
-      for (let index1 = nums1.length - 1; index1 > -1; index1--) {
-         for (let index2 = nums2.length - 1; index2 > -1; index2--) {
-            if (nums1[index1] === nums2[index2]) {
-               cache[index1][index2] = 1 + cache[index1 + 1][index2 + 1];
-            } else {
-               cache[index1][index2] = Math.max(
-                  cache[index1 + 1][index2],
-                  cache[index1][index2 + 1]
+      for (let idx1 = N1 - 1; idx1 > -1; idx1--) {
+         for (let idx2 = N2 - 1; idx2 > -1; idx2--) {
+            if (nums1[idx1] === nums2[idx2]) {
+               cache[idx1][idx2] = 1 + cache[idx1 + 1][idx2 + 1];
+            }
+            else {
+               cache[idx1][idx2] = Math.max(
+                  cache[idx1 + 1][idx2],
+                  cache[idx1][idx2 + 1]
                );
             }
          }
       }
-      return cache[0][0]
-   };
 
+      return cache[0][0];
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(n)
@@ -115,25 +138,29 @@ class Solution {
     * @return {number}
     */
    maxUncrossedLines(nums1, nums2) {
-      let nextCache =  Array(nums2.length + 1).fill(0);
+      const N1 = nums1.length;
+      const N2 = nums2.length;
+      let nextCache = Array(N2 + 1).fill(0);
 
-      for (let index1 = nums1.length - 1; index1 > -1; index1--) {
-         const cache =  Array(nums2.length + 1).fill(0);
+      for (let idx1 = N1 - 1; idx1 > -1; idx1--) {
+         const cache = Array(N2 + 1).fill(0);
 
-         for (let index2 = nums2.length - 1; index2 > -1; index2--) {
-            if (nums1[index1] === nums2[index2]) {
-               cache[index2] = 1 + nextCache[index2 + 1];
+         for (let idx2 = N2 - 1; idx2 > -1; idx2--) {
+            if (nums1[idx1] === nums2[idx2]) {
+               cache[idx2] = 1 + nextCache[idx2 + 1];
             } else {
-               cache[index2] = Math.max(
-                  nextCache[index2],
-                  cache[index2 + 1]
+               cache[idx2] = Math.max(
+                  nextCache[idx2],
+                  cache[idx2 + 1]
                );
             }
          }
+
          nextCache = cache;
       }
-      return nextCache[0]
-   };
+
+      return nextCache[0];
+   }
 }
 
 

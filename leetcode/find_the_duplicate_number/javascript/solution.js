@@ -3,27 +3,32 @@ class Solution {
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
     * Tags:
-    *    A: two pointers, Floyd        
-    * @param {number[]} numbers
+    *    A: two pointers
+    * @param {number[]} nums
     * @return {number}
     */
-   findDuplicate(numbers) {
+   findDuplicate(nums) {
       let slow = 0;
       let fast = 0;
 
       while (true) {
-         slow = numbers[slow];
-         fast = numbers[numbers[fast]];
-         if (slow === fast)
-            break
+         slow = nums[slow];
+         fast = nums[nums[fast]];
+       
+         if (slow === fast) {
+            break;
+         }
       }
 
       let slow2 = 0;
+      
       while (true) {
-         slow = numbers[slow];
-         slow2 = numbers[slow2];
-         if (slow === slow2)
-            return slow
+         slow = nums[slow];
+         slow2 = nums[slow2];
+      
+         if (slow === slow2) {
+            return slow;
+         }
       }
    };
 }

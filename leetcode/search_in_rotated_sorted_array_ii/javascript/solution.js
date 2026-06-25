@@ -9,38 +9,27 @@ class Solution {
     * @return {boolean}
     */
    search(nums, target) {
-      return nums.includes(target)
-   };
-
-   /**
-    * Time complexity: O(n)
-    * Auxiliary space complexity: O(1)
-    * Tags:
-    *     A: almost binary search but not quite
-    * @param {number[]} nums
-    * @param {number} target
-    * @return {boolean}
-    */
-   search(nums, target) {
       let left = 0;
       let right = nums.length - 1;
 
       while (left <= right) {
-         const mid = (left + right) >> 1;
+         const mid = Math.floor((left + right) / 2);
          const midNum = nums[mid];
 
          if (target === midNum) {
-            return true
-         } else if (
-            nums[left] === midNum && 
-            midNum === nums[right]
+            return true;
+         }
+         else if (
+            nums[left] === midNum
+            && midNum === nums[right]
          ) {
             left++;
             right--;
-         } else if (midNum <= nums[right]) {
+         }
+         else if (midNum <= nums[right]) {
             if (
-               midNum < target &&
-               target <= nums[right]
+               midNum < target
+               && target <= nums[right]
             ) {
                left = mid + 1;
             }
@@ -48,10 +37,11 @@ class Solution {
                right = mid - 1;
             }
 
-         } else {
+         }
+         else {
             if (
-               nums[left] <= target &&
-               target < midNum
+               nums[left] <= target
+               && target < midNum
             ) {
                right = mid - 1;
             }
@@ -60,8 +50,25 @@ class Solution {
             }
          }
       }
-      return false
-   };
+
+      return false;
+   }
+}
+
+
+class Solution {
+   /**
+    * Time complexity: O(n)
+    * Auxiliary space complexity: O(1)
+    * Tags:
+    *     A: build-in function
+    * @param {number[]} nums
+    * @param {number} target
+    * @return {boolean}
+    */
+   search(nums, target) {
+      return nums.includes(target)
+   }
 }
 
 

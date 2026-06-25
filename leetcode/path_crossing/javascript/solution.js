@@ -9,7 +9,12 @@ class Solution {
     * @return {boolean}
     */
    isPathCrossing(path) {
-      const DIRECTIONS = new Map([['E', [1, 0]], ['W', [-1, 0]], ['N', [0, 1]], ['S', [0, -1]]]);
+      const DIRECTIONS = new Map([
+         ['E', [1, 0]],
+         ['W', [-1, 0]],
+         ['N', [0, 1]],
+         ['S', [0, -1]]
+      ]);
       let x = 0;
       let y = 0;
       const visited = new Set([`${x},${y}`]);
@@ -19,13 +24,16 @@ class Solution {
          x += dx;
          y += dy;
 
-         if (visited.has(`${x},${y}`))
-            return true
-         else
+         if (visited.has(`${x},${y}`)) {
+            return true;
+         }
+         else {
             visited.add(`${x},${y}`)
+         }
       }
-      return false
-   };
+
+      return false;
+   }
 }
 
 

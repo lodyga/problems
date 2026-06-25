@@ -5,31 +5,58 @@ class Solution {
     *     k: avg word length
     * Auxiliary space complexity: O(1)
     * Tags:
-    *     DS: hash map, string
+    *     DS: array, string
     *     A: iteration
     * @param {string[]} words
     * @param {string} order
     * @return {boolean}
     */
    isAlienSorted(words, order) {
-      const letterIndex = new Map([...order].map((letter, index) => [letter, index]));
+      const areTwoWordsSorted = (word1, word2) => {
+         for (let idx = 0; idx < Math.max(word1.length, word2.length); idx++) {
+            if (idx === word1.length) {
+               return true;
+            }
+            else if (idx === word2.length) {
+               return false;
+            }
 
-      for (let index = 0; index < words.length - 1; index++) {
-         const word1 = words[index];
-         const word2 = words[index + 1];
+            const letter1 = word1[idx];
+            const letter2 = word2[idx];
 
-         for (let i2 = 0; i2 < word1.length; i2++) {
-            if (
-               i2 === word2.length ||
-               letterIndex.get(word1[i2]) > letterIndex.get(word2[i2])
-            )
-               return false
-            else if (letterIndex.get(word1[i2]) < letterIndex.get(word2[i2]))
-               break
+            if (letter1 === letter2) {
+               continue;
+            }
+            else if (letterIdx[letter1.charCodeAt(0) - 'a'.charCodeAt(0)] < letterIdx[letter2.charCodeAt(0) - 'a'.charCodeAt(0)]) {
+               return true;
+            }
+            else {  // else if letterIdx[letter1] > letterIdx[letter2]{
+               return false;
+            }
+         }
+
+         return true;
+      }
+
+      const letterIdx = Array(26);
+      
+      for (let idx = 0; idx < order.length; idx++) {
+         const letter = [...order][idx];
+         const i = letter.charCodeAt(0) - 'a'.charCodeAt(0);
+         letterIdx[i] = idx;
+      }
+
+      for (let idx = 0; idx < words.length - 1; idx++) {
+         const word1 = words[idx];
+         const word2 = words[idx + 1];
+
+         if (!areTwoWordsSorted(word1, word2)) {
+            return false;
          }
       }
-      return true
-   };
+
+      return true;
+   }
 }
 
 
