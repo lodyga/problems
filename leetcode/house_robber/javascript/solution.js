@@ -1,56 +1,5 @@
 class Solution {
    /**
-    * Time complexity: O(2^n)
-    * Auxiliary space complexity: O(n)
-    * Tags:
-    *     A: brute-force
-    * @param {number[]} houses
-    * @return {number}
-    */
-   rob(houses) {
-      const dfs = (index) => {
-         if (
-            index === houses.length || 
-            index === houses.length + 1
-         )
-            return 0
-         
-         const house = houses[index];
-         const skipHouse = dfs(index + 1);
-         const robHouse = house + dfs(index + 2);
-         return Math.max(robHouse, skipHouse)
-      }
-      return dfs(0)
-   }
-
-   /**
-    * Time complexity: O(n)
-    * Auxiliary space complexity: O(n)
-    * Tags:
-    *     DS: hash map
-    *     A: top-down
-    * @param {number[]} houses
-    * @return {number}
-    */
-   rob(houses) {
-      const memo = new Map(
-         [[houses.length, 0], [houses.length + 1, 0]]
-      );
-
-      const dfs = (index) => {
-         if (memo.has(index))
-            return memo.get(index)
-         
-         const house = houses[index];
-         const skipHouse = dfs(index + 1);
-         const robHouse = house + dfs(index + 2);
-         memo.set(index, Math.max(robHouse, skipHouse));
-         return memo.get(index)
-      }
-      return dfs(0)
-   }
-
-   /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
     * Tags:
@@ -60,23 +9,30 @@ class Solution {
     * @return {number}
     */
    rob(houses) {
-      const memo = Array(houses.length + 2).fill(-1);
-      memo[houses.length] = 0
-      memo[houses.length + 1] = 0
+      const N = houses.length;
+      const memo = Array(N + 2).fill(-1);
+      memo[N + 1] = 0;
+      memo[N] = 0;
 
-      const dfs = (index) => {
-         if (memo[index] !== -1)
-            return memo[index]
+      const dfs = (idx) => {
+         if (memo[idx] !== -1) {
+            return memo[idx];
+         }
+
+         const house = houses[idx];
+         const skip = dfs(idx + 1);
+         const rob = house + dfs(idx + 2);
          
-         const house = houses[index];
-         const skipHouse = dfs(index + 1);
-         const robHouse = house + dfs(index + 2);
-         memo[index] = Math.max(robHouse, skipHouse);
-         return memo[index]
+         memo[idx] = Math.max(rob, skip);
+         return memo[idx];
       }
-      return dfs(0)
-   }
 
+      return dfs(0);
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
@@ -87,17 +43,22 @@ class Solution {
     * @return {number}
     */
    rob(houses) {
-      const cache = Array(houses.length + 2).fill(0);
+      const N = houses.length;
+      const cache = Array(N + 2).fill(0);
 
-      for (let index = houses.length - 1; index > -1; index--) {
-         const house = houses[index];
-         const skipHouse = cache[index + 1]
-         const robHouse = houses[index] + cache[index + 2];
-         cache[index] = Math.max(robHouse, skipHouse);
+      for (let idx = N - 1; idx > -1; idx--) {
+         const house = houses[idx];
+         const skipHouse = cache[idx + 1];
+         const robHouse = house + cache[idx + 2];
+         cache[idx] = Math.max(robHouse, skipHouse);
       }
-      return cache[0]
-   }
 
+      return cache[0];
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
@@ -107,18 +68,19 @@ class Solution {
     * @return {number}
     */
    rob(houses) {
-      const cache = [0, 0];
       const N = houses.length;
+      const cache = [0, 0];
 
-      for (let index = houses.length - 1; index > -1; index--) {
-         const house = houses[index]
-            const index1 = (N - index) % 2
-            const index2 = (N - 1 - index) % 2
-            const skipHouse = cache[index2];
-            const robHouse = house + cache[index1];
-            cache[index1] = Math.max(robHouse, skipHouse);
+      for (let idx = N - 1; idx > -1; idx--) {
+         const house = houses[idx];
+         const idx1 = (N - idx) % 2;
+         const idx2 = (N - 1 - idx) % 2;
+         const skipHouse = cache[idx2];
+         const robHouse = house + cache[idx1];
+         cache[idx1] = Math.max(robHouse, skipHouse);
       }
-      return cache[N % 2]
+
+      return cache[N % 2];
    }
 }
 

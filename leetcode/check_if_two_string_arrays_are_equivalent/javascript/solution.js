@@ -43,7 +43,7 @@ class Solution {
     * Time complexity: O(m+n)
     * Auxiliary space complexity: O(m+n)
     * Tags:
-    *    A: build-in function
+    *    A: built-in function
     * @param {string[]} words1
     * @param {string[]} words2
     * @return {boolean}

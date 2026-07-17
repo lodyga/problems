@@ -16,14 +16,14 @@ class Solution {
          const leftHeight = heights[left];
          const rightHeight = heights[right];
 
-         const height = Math.min(leftHeight, rightHeight)
+         const height = Math.min(leftHeight, rightHeight);
          const width = right - left;
          res = Math.max(res, height * width);
 
          heights[left] < heights[right] ? left++ : right--;
       }
 
-      return res
+      return res;
    }
 }
 

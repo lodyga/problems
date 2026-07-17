@@ -8,12 +8,13 @@ class Solution {
     * @return {number}
     */
    scoreOfString(text) {
-      let score = 0;
-      for (let index = 0; index < text.length - 1; index++) {
-         score += Math.abs(text.charCodeAt(index) - text.charCodeAt(index + 1))
+      let res = 0;
+      for (let idx = 0; idx < text.length - 1; idx++) {
+         res += Math.abs(text.charCodeAt(idx) - text.charCodeAt(idx + 1))
       }
-      return score
-   };
+
+      return res;
+   }
 }
 
 

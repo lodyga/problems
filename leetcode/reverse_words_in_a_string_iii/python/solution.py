@@ -5,7 +5,7 @@ class Solution:
         Auxiliary space complexity: O(n)
         Tags:
             DS: list
-            A: iteration, build-in function
+            A: iteration, built-in function
         """
         res = []
 
@@ -21,7 +21,7 @@ class Solution:
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
         Tags:
-            A: build-in function
+            A: built-in function
         """
         return " ".join(word[::-1] for word in text.split(" "))
 

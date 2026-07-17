@@ -5,7 +5,7 @@ class Solution {
    * Time complexity: O(nlogn)
    * Auxiliary space complexity: O(n)
    * Tags:
-   *     A: sorting, build-in function, in-place method
+   *     A: sorting, built-in function, in-place method
    * @param {number[]} nums
    * @return {number[]}
    */

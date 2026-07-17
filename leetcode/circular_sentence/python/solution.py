@@ -22,7 +22,7 @@ class Solution:
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
         Tags:
-            A: iteration, build-in function
+            A: iteration, built-in function
         """
         words = sentence.split(' ')
         

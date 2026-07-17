@@ -28,9 +28,13 @@ class Solution {
             if (candidate > res) res = candidate;
          }
       }
-      return Number(res % MOD)
-   };
 
+      return Number(res % MOD);
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
@@ -72,7 +76,7 @@ class Solution {
       }
 
       return Number(res % MOD);
-   };
+   }
 }
 
 

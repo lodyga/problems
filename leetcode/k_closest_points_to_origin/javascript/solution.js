@@ -34,7 +34,7 @@ class Solution {
     * Time complexity: O(nlogn)
     * Auxiliary space complexity: O(k)
     * Tags:
-    *     A: sorting, build-in function
+    *     A: sorting, built-in function
     * @param {number[][]} points
     * @param {number} k
     * @return {number[][]}

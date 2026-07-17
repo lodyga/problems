@@ -17,40 +17,42 @@ class Solution {
       const DIRECTIONS = [[-1, 0], [1, 0], [0, -1], [0, 1]];
       const visited = Array.from({ length: ROWS }, () => Array(COLS).fill(false));
 
-      const backtrack = (index, row, col) => {
-         if (index === word.length) {
-            return true
-         } else if (
-            row == -1 || row === ROWS ||
-            col == -1 || col === COLS ||
-            board[row][col] !== word[index] ||
-            visited[row][col]
+      const backtrack = (idx, row, col) => {
+         if (idx === word.length) {
+            return true;
+         }
+         else if (
+            row == -1 || row === ROWS
+            || col == -1 || col === COLS
+            || board[row][col] !== word[idx]
+            || visited[row][col]
          )
-            return false
+            return false;
 
          visited[row][col] = true;
 
          for (const [dr, dc] of DIRECTIONS) {
             const [r, c] = [row + dr, col + dc];
 
-            if (backtrack(index + 1, r, c)) {
-               return true
+            if (backtrack(idx + 1, r, c)) {
+               return true;
             }
          }
 
          visited[row][col] = false;
-         return false
+         return false;
       }
 
       for (let row = 0; row < ROWS; row++) {
          for (let col = 0; col < COLS; col++) {
             if (
-               board[row][col] == word[0] &&
-               backtrack(0, row, col)
-            ) return true
+               board[row][col] === word[0]
+               && backtrack(0, row, col)
+            ) return true;
          }
       }
-      return false
+
+      return false;
    };
 }
 

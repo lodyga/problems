@@ -1,5 +1,5 @@
 # Group Anagrams
-https://leetcode.com/problems/group-anagrams/description/
+https://leetcode.com/problems/group-anagrams/
 
 <p>
 Given an array of strings strs, group the

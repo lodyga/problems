@@ -9,25 +9,31 @@ class Solution {
     */
    countSubstrings(text) {
       const countPalindromes = (left, right) => {
+         let res = 0;
+
          while (
-            left > -1 &&
-            right < text.length &&
-            text[left] === text[right]
+            left > -1
+            && right < text.length
+            && text[left] === text[right]
          ) {
-            conuter++;
+            res++;
             left--;
             right++;
          }
+
+         return res;
       }
 
-      let conuter = 0;
-      for (let index = 0; index < text.length; index++) {
+      let res = 0;
+
+      for (let idx = 0; idx < text.length; idx++) {
          // check for odd length palindromes
-         countPalindromes(index, index);
+         res += countPalindromes(idx, idx);
          // check for even length palindromes
-         countPalindromes(index, index + 1);
+         res += countPalindromes(idx, idx + 1);
       }
-      return conuter;
+
+      return res;
    }
 }
 

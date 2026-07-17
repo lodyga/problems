@@ -1,4 +1,51 @@
 class Solution:
+    def rob(self, houses: list[int]) -> int:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(n)
+        Tags:
+            DS: array
+            A: top-down
+        """
+        N = len(houses)
+        memo = [-1] * (N + 2)
+        memo[-1] = 0
+        memo[-2] = 0
+
+        def dfs(idx):
+            if memo[idx] != -1:
+                return memo[idx]
+
+            house = houses[idx]
+            skip = dfs(idx + 1)
+            take = house + dfs(idx + 2)
+            
+            memo[idx] = max(skip, take)
+            return memo[idx]
+
+        return dfs(0)
+
+
+class Solution:
+    def rob(self, houses: list[int]) -> int:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(n)
+        Tags:
+            DS: array
+            A: bottom-up
+        """
+        N = len(houses)
+        cache = [0] * (N + 2)
+
+        for idx in range(N - 1, -1, -1):
+            house = houses[idx]
+            cache[idx] = max(cache[idx + 1], cache[idx + 2] + house)
+
+        return cache[0]
+
+
+class Solution:
     def rob(self, nums: list[int]) -> int:
         """
         Time complexity: O(n)
@@ -44,52 +91,6 @@ class Solution:
             (cache[0], cache[1]) = (cache[1], max(cache[1], cache[0] + num))
 
         return cache[-1]
-
-
-class Solution:
-    def rob(self, nums: list[int]) -> int:
-        """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(n)
-        Tags:
-            DS: array
-            A: bottom-up
-        """
-        N = len(nums)
-        cache = [0] * (N + 2)
-
-        for idx in range(N - 1, -1, -1):
-            num = nums[idx]
-            cache[idx] = max(cache[idx + 1], cache[idx + 2] + num)
-
-        return cache[0]
-
-
-class Solution:
-    def rob(self, houses: list[int]) -> int:
-        """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(n)
-        Tags:
-            DS: array
-            A: top-down
-        """
-        memo = [-1] * (len(houses) + 2)
-        memo[-1] = 0
-        memo[-2] = 0
-
-        def dfs(idx):
-            if memo[idx] != -1:
-                return memo[idx]
-
-            house = houses[idx]
-            sikp = dfs(idx + 1)
-            take = house + dfs(idx + 2)
-            
-            memo[idx] = max(sikp, take)
-            return memo[idx]
-
-        return dfs(0)
 
 
 print(Solution().rob([2]) == 2)

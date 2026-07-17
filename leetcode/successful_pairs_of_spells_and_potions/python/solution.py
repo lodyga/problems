@@ -43,7 +43,7 @@ class Solution:
         Auxiliary space complexity: O(n + m)
         Tags:
             DS: list
-            A: sorting, build-in function
+            A: sorting, built-in function
         """
         import bisect
         N = len(potions)

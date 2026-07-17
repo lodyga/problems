@@ -59,7 +59,7 @@ class Solution:
         Auxiliary space complexity: O(1)
         Tags:
             DS: hash map
-            A: build-in function
+            A: built-in function
         """
         from collections import Counter
 

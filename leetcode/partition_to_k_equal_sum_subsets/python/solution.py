@@ -1,34 +1,35 @@
 class Solution:
     def canPartitionKSubsets(self, nums: list[int], k: int) -> bool:
         """
-        Time complexity: O(k2^n)
+        Time complexity: O(k^n)
         Auxiliary space complexity: O(n)
         Tags:
             DS: array
             A: backtracking with pruning, sorting
         """
+        N = len(nums)
         TOTAL = sum(nums)
         if TOTAL % k:
             return False
-        SUBSET_SUM = TOTAL // k
+        UPPER_BOUND = TOTAL // k
         nums.sort(reverse=True)
-        subsets = [0] * k
+        subset_sum = [0] * k
 
-        def backtrack(index):
-            if index == len(nums):
+        def backtrack(idx):
+            if idx == N:
                 return True
             
-            num = nums[index]
+            num = nums[idx]
 
-            for part_index in range(k):
-                if subsets[part_index] + num <= SUBSET_SUM:
-                    subsets[part_index] += num
-                    if backtrack(index + 1):
+            for part_idx in range(k):
+                if subset_sum[part_idx] + num <= UPPER_BOUND:
+                    subset_sum[part_idx] += num
+                    if backtrack(idx + 1):
                         return True
-                    subsets[part_index] -= num
+                    subset_sum[part_idx] -= num
 
                 # pruning
-                if subsets[part_index] == 0:
+                if subset_sum[part_idx] == 0:
                     break
             return False
 
@@ -56,15 +57,15 @@ class Solution:
             return False
         target = TOTAL // k
         numbers.sort(reverse=True)
-        used = [False] * len(numbers)  # index is used
+        used = [False] * len(numbers)  # idx is used
 
-        def dfs(index, k, SUBSET_SUM):
+        def dfs(idx, k, SUBSET_SUM):
             if SUBSET_SUM == target:
                 return dfs(0, k - 1, 0)
             elif k == 0:
                 return True
 
-            for i in range(index, len(numbers)):
+            for i in range(idx, len(numbers)):
                 if used[i] or SUBSET_SUM + numbers[i] > target:
                     continue
                 used[i] = True

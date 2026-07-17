@@ -11,9 +11,6 @@ class Solution:
             DS: array
             A: top-down
         """
-        memo = [-1] * len(text)
-        memo.append(1)
-        
         def dfs(idx):
             if memo[idx] != -1:
                 return memo[idx]
@@ -22,13 +19,16 @@ class Solution:
 
             for word in words:
                 if (
-                    text[idx: idx + len(word)] == word and
-                    dfs(idx + len(word))
+                    text[idx: idx + len(word)] == word
+                    and dfs(idx + len(word))
                 ):
                     memo[idx] = 1
                     break
 
             return memo[idx]
+        
+        memo = [-1] * (len(text) + 1)
+        memo[-1] = 1
 
         return bool(dfs(0))
 
@@ -47,14 +47,14 @@ class Solution:
             A: bottom-up
         """
         N = len(text)
-        cache = [False] * N
-        cache.append(True)
+        cache = [False] * (N + 1)
+        cache[-1] = True
         
         for idx in range(N - 1, -1, -1):
             for word in words:
                 if (
-                    text[idx: idx + len(word)] == word and
-                    cache[idx + len(word)]
+                    text[idx: idx + len(word)] == word
+                    and cache[idx + len(word)]
                 ):
                     cache[idx] = True
                     break

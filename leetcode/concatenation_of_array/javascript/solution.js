@@ -24,7 +24,7 @@ class Solution {
     * Auxiliary space complexity: O(1)
     * Tags:
     *     DS: array
-    *     A: build-in function
+    *     A: built-in function
     * @param {number[]} nums
     * @return {number[]}
     */
@@ -37,7 +37,7 @@ class Solution {
     * Auxiliary space complexity: O(1)
     * Tags:
     *     DS: array
-    *     A: build-in function
+    *     A: built-in function
     * @param {number[]} nums
     * @return {number[]}
     */

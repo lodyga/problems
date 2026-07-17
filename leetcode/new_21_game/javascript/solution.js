@@ -19,18 +19,21 @@ class Solution {
             return score <= upper_point_bound ? 1 : 0
          }
          else if (memo[score] !== -1) {
-            return memo[score]
+            return memo[score];
          }
 
          let points = 0;
-         for (let point = 1; point <= maxPts; point++) {
+         
+         for (let point = 1; point < maxPts + 1; point++) {
             points += dfs(score + point);
          }
+         
          memo[score] = points / maxPts;
-         return memo[score]
+         return memo[score];
       }
-      return dfs(0)
-   };
+
+      return dfs(0);
+   }
 }
 
 

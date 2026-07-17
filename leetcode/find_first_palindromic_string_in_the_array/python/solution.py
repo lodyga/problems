@@ -36,7 +36,7 @@ class Solution:
             n: avg word length
         Auxiliary space complexity: O(k)
         Tags:
-            A: two pointers, build-in function
+            A: two pointers, built-in function
         """
         for word in words:
             if word == "".join(reversed(word)):

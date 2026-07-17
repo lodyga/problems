@@ -45,7 +45,7 @@ class Solution:
         Auxiliary space complexity: O(k)
         Tags:
             DS: heap
-            A: build-in function
+            A: built-in function
         """
         return heapq.nlargest(k, nums)[-1]
 

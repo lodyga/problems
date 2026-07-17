@@ -7,7 +7,7 @@ class Solution:
         Time complexity: O(nlogn)
         Auxiliary space complexity: O(n)
         Tags:
-            A: sorting, build-in function, in-place method
+            A: sorting, built-in function, in-place method
         """
         nums.sort()
         return nums

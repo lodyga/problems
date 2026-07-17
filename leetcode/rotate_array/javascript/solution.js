@@ -33,7 +33,7 @@ class Solution {
     * Auxiliary space complexity: O(n)
     * Tags:
     *    DS: list
-    *    A: build-in function
+    *    A: built-in function
     * @param {number[]} nums
     * @param {number} k
     * @return {number[]}

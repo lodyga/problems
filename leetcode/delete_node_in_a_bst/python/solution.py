@@ -42,7 +42,8 @@ class Solution:
                 # when prev is node to remove.
                 if prev.val != key:
                     prev.left = node.right
-                    node.right = right_branch
+                node.right = right_branch
+                
                 node.left = left_branch
 
             elif key < node.val:

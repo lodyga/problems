@@ -35,16 +35,18 @@ class Solution {
                while (mid < right && nums[mid - 1] === nums[mid]) {
                   mid++;
                }
-            } else if (triplet > 0) {
+            } 
+            else if (triplet > 0) {
                right--;
-            } else {
+            } 
+            else {
                mid++;
             }
          }
       }
 
-      return res
-   };
+      return res;
+   }
 }
 
 

@@ -12,6 +12,7 @@ class Solution:
 
         def one_rob(nums):
             N = len(nums)
+        
             if N <= 2:
                 return max(nums)
 
@@ -23,8 +24,10 @@ class Solution:
 
             return cache[0]
 
-        return max(one_rob(nums[: -1]),
-                   one_rob(nums[1:]))
+        return max(
+            one_rob(nums[: -1]),
+            one_rob(nums[1:])
+        )
 
 
 print(Solution().rob([2, 3, 2]) == 3)

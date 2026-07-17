@@ -9,21 +9,19 @@ class Solution:
         """
         ROWS = len(matrix)
         COLS = len(matrix[0])
-        row_mark = [False] * ROWS
-        col_mark = [False] * COLS
+        row_marked = [False] * ROWS
+        col_marked = [False] * COLS
 
         for row in range(ROWS):
             for col in range(COLS):
                 if matrix[row][col] == 0:
-                    row_mark[row] = True
-                    col_mark[col] = True
+                    row_marked[row] = True
+                    col_marked[col] = True
 
         for row in range(ROWS):
             for col in range(COLS):
-                if row_mark[row] or col_mark[col]:
+                if row_marked[row] or col_marked[col]:
                     matrix[row][col] = 0
-
-        return matrix
 
 
 class Solution:

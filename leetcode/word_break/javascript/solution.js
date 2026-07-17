@@ -17,30 +17,30 @@ class Solution {
     * @return {boolean}
     */
    wordBreak(text, words) {
-      const memo = Array(text.length).fill(-1);
-      memo.push(1);
-
       const dfs = (idx) => {
          if (memo[idx] !== -1) {
-            return memo[idx]
+            return memo[idx];
          }
 
          memo[idx] = 0;
 
          for (const word of words) {
             if (
-               text.slice(idx, idx + word.length) === word &&
-               dfs(idx + word.length)
+               text.slice(idx, idx + word.length) === word
+               && dfs(idx + word.length)
             ) {
-               memo[idx] = 1
-               break
+               memo[idx] = 1;
+               break;
             }
          }
 
-         return memo[idx]
-      }
+         return memo[idx];
+      };
 
-      return dfs(0)
+      const memo = Array(text.length + 1).fill(-1);
+      memo[text.length] = 1;
+
+      return dfs(0);
    }
 }
 
@@ -61,21 +61,22 @@ class Solution {
     * @return {boolean}
     */
    wordBreak(text, words) {
-      const cache = Array(text.length).fill(false);
-      cache.push(true);
+      const cache = Array(text.length + 1).fill(false);
+      cache[text.length] = true;
 
       for (let idx = cache.length - 1; idx > -1; idx--) {
          for (const word of words) {
             if (
-               text.slice(idx, idx + word.length) === word &&
-               cache[idx + word.length]
+               text.slice(idx, idx + word.length) === word
+               && cache[idx + word.length]
             ) {
                cache[idx] = true;
-               break
+               break;
             }
          }
       }
-      return cache[0]
+
+      return cache[0];
    }
 }
 

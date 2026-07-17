@@ -7,24 +7,28 @@ class Solution:
             A: two pointers
         """
         def count_palindromes(left, right):
-            nonlocal counter
+            res = 0
+
             while (
-                left > -1 and
-                right < len(text) and
-                text[left] == text[right]
+                left > -1
+                and right < len(text)
+                and text[left] == text[right]
             ):
-                counter += 1
+                res += 1
                 left -= 1
                 right += 1
 
-        counter = 0
-        for index in range(len(text)):
-            # check for odd length palindromes
-            count_palindromes(index, index)
-            # check for even length palindromes
-            count_palindromes(index, index + 1)
+            return res
 
-        return counter
+        res = 0
+
+        for idx in range(len(text)):
+            # check for odd length palindromes
+            res += count_palindromes(idx, idx)
+            # check for even length palindromes
+            res += count_palindromes(idx, idx + 1)
+
+        return res
 
 
 print(Solution().countSubstrings("abc") == 3)

@@ -16,14 +16,15 @@ class NumMatrix {
       const COLS = matrix[0].length;
       this.prefix = Array.from({ length: ROWS + 1 }, () => Array(COLS + 1).fill(0));
 
-      for (let row = 1; row <= ROWS; row++) {
+      for (let row = 1; row < ROWS + 1; row++) {
          let rowPrefix = 0;
-         for (let col = 1; col <= COLS; col++) {
-            rowPrefix += matrix[row - 1][col - 1];
+         
+         for (let col = 1; col < COLS + 1; col++) {
+            rowPrefix += matrix[row - 1][col - 1];   
             this.prefix[row][col] = this.prefix[row - 1][col] + rowPrefix;
          }
       }
-   };
+   }
 
    /** 
     * @param {number} row1 
@@ -38,8 +39,8 @@ class NumMatrix {
          - this.prefix[row2 + 1][col1]
          - this.prefix[row1][col2 + 1]
          + this.prefix[row1][col1]
-      )
-   };
+      );
+   }
 }
 
 

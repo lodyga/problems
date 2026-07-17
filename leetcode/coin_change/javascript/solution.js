@@ -16,17 +16,12 @@ class Solution {
     * @return {number}
     */
    coinChange(coins, amount) {
-      coins.sort((a, b) => b - a);
-      // [amount left: min coins to get target amount left]
-      const memo = Array(amount + 1).fill(-1);
-      memo[amount] = 0;
-
       const dfs = (total) => {
          if (total > amount) {
-            return amount + 1
+            return amount + 1;
          }
          else if (memo[total] !== -1) {
-            return memo[total]
+            return memo[total];
          }
 
          let coinCounter = amount + 1;
@@ -35,11 +30,20 @@ class Solution {
          }
          memo[total] = coinCounter;
          return coinCounter
-      }
-      const res = dfs(0);
-      return res !== amount + 1 ? res : -1
-   }
+      };
 
+      coins.sort((a, b) => b - a);
+      // [amount left: min coins to get target amount left]
+      const memo = Array(amount + 1).fill(-1);
+      memo[amount] = 0;
+
+      const res = dfs(0);
+      return res !== amount + 1 ? res : -1;
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n2)
     *     O(c*a)
@@ -60,17 +64,21 @@ class Solution {
       // No coins needed to get to 0 amount;
       cache[0] = 0;
 
-      for (let index = 1; index <= amount; index++) {
+      for (let idx = 1; idx <= amount; idx++) {
          for (const coin of coins) {
-            if (coin > index) {
+            if (coin > idx) {
                continue
             }
-            cache[index] = Math.min(cache[index], 1 + cache[index - coin]);
+            cache[idx] = Math.min(cache[idx], 1 + cache[idx - coin]);
          }
       }
-      return cache[amount] !== amount + 1 ? cache[amount] : - 1
-   }
 
+      return cache[amount] !== amount + 1 ? cache[amount] : - 1;
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n2)
     *     O(c*a)
@@ -118,9 +126,11 @@ class Solution {
                }
             }
          }
-         return -1
+
+         return -1;
       }
-      return bfs(0)
+
+      return bfs(0);
    }
 }
 

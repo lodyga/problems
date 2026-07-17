@@ -8,18 +8,18 @@ class Solution:
             A: brute-force, prefix sum
         """
         MOD = 10**9 + 7
-        nums_len = len(nums)
+        N = len(nums)
         res = nums[0]
-
         prefix = [0]
+
         for num in nums:
             prefix.append(prefix[-1] + num)
 
-        for left in range(nums_len):
+        for left in range(N):
             min_num = nums[left]
             subarray_sum = 0
 
-            for right in range(left, nums_len):
+            for right in range(left, N):
                 min_num = min(min_num, nums[right])
                 subarray_sum = prefix[right + 1] - prefix[left]
                 res = max(res, min_num * subarray_sum % MOD)
@@ -36,27 +36,28 @@ class Solution:
             DS: monotonic increasing stack
             A: iteration
         """
+        N = len(nums)
         MOD = 10**9 + 7
         res = nums[0]
         stack = []
-
         prefix = [0]
+
         for num in nums:
             prefix.append(prefix[-1] + num)
 
-        for index, num in enumerate(nums):
-            start = index
+        for idx, num in enumerate(nums):
+            start = idx
 
             while stack and stack[-1][1] > num:
                 start, val = stack.pop()
-                subarray_sum = prefix[index] - prefix[start]
+                subarray_sum = prefix[idx] - prefix[start]
                 res = max(res, val * subarray_sum)
 
             stack.append((start, num))
 
         while stack:
-            index, val = stack.pop()
-            subarray_sum = prefix[len(nums)] - prefix[index]
+            idx, val = stack.pop()
+            subarray_sum = prefix[N] - prefix[idx]
             res = max(res, val * subarray_sum)
 
         return res % MOD

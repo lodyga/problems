@@ -30,7 +30,7 @@ class Solution:
         Time complexity: O(m+n)
         Auxiliary space complexity: O(m+n)
         Tags:
-            A: build-in function
+            A: built-in function
         """
         return "".join(words1) == "".join(words2)
 

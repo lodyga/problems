@@ -1,24 +1,25 @@
 class Solution {
    /**
-    * Time complexity: O(n)
-    * Auxiliary space complexity: O(n)
+    * Time complexity: O(1)
+    * Auxiliary space complexity: O(1)
     * Tags:
     *     DS: string
-    *     A: greedy
+    *     A: iteration
     * @param {num} num
     * @return {}
     */
    maximum69Number(num) {
-      const digitNum = Array.from(num.toString());
+      const strNum = Array.from(num.toString());
 
-      for (let index = 0; index < digitNum.length; index++) {
-         if (digitNum[index] === '6') {
-            digitNum[index] = '9';
-            break
+      for (let idx = 0; idx < strNum.length; idx++) {
+         if (strNum[idx] === '6') {
+            strNum[idx] = '9';
+            break;
          }
       }
-      return Number(digitNum.join(''))
-   };
+
+      return Number(strNum.join(''));
+   }
 }
 
 

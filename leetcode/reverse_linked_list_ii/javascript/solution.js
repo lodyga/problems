@@ -49,8 +49,8 @@ class Solution {
       leftNode.next = node;
       // Link the right side.
       prevLeftNode.next = prev;
-      return anchor.next
-   };
+      return anchor.next;
+   }
 }
 
 

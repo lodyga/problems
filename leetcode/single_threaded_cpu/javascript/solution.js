@@ -12,38 +12,35 @@ class Solution {
     * @return {number[]}
     */
    getOrder(tasks) {
-      const data = tasks.map(([enqTime, duration], id) => [enqTime, duration, id]);
-      const sortBy = (a, b) => a[0] === b[0] ? a[1] - b[1] : a[0] - b[0]
+      const N = tasks.length;
+      const data = tasks.map(([enqueueTime, processingTime], id) => [enqueueTime, processingTime, id]);
+      const sortBy = (a, b) => a[0] === b[0] ? (a[1] === b[1] ? a[2] - b[2] : a[1] - b[1]) : a[0] - b[0];
       data.sort(sortBy);
-      let index = 0;
-      let time = data[0][0];
+      let idx = 0;
+      let timestamp = data[0][0];
       const taskHeap = new PriorityQueue(sortBy);
-      const order = [];
+      const res = [];
 
-      while (
-         index < data.length || 
-         taskHeap.size()
-      ) {
-         while (
-            index < data.length && 
-            data[index][0] <= time
+      while (idx < N || !taskHeap.isEmpty()) {
+         while (idx < N && data[idx][0] <= timestamp
          ) {
-            const [, duration, id] = data[index];
-            taskHeap.enqueue([duration, id]);
-            index++;
+            const [, processingTime, id] = data[idx];
+            taskHeap.push([processingTime, id]);
+            idx++;
          }
-         
-         if (taskHeap.size()) {
-            const [duration, id] = taskHeap.dequeue();
-            time += duration;
-            order.push(id);
+
+         if (!taskHeap.isEmpty()) {
+            const [processingTime, id] = taskHeap.pop();
+            timestamp += processingTime;
+            res.push(id);
          } else {
-            // time fast forward
-            time = data[index][0];
+            // timestamp fast forward
+            timestamp = data[idx][0];
          }
       }
-      return order
-   };
+
+      return res;
+   }
 }
 
 

@@ -29,7 +29,7 @@ class Solution:
         Time complexity: O(nlogn)
         Auxiliary space complexity: O(n)
         Tags:
-            A: sorting, build-in function
+            A: sorting, built-in function
         """
         points.sort(key=lambda point: point[0]**2 + point[1]**2)
         return points[: k]

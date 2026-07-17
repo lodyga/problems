@@ -25,7 +25,7 @@ class Solution {
          res = Math.max(res, right - left + 1);
       }
 
-      return res
+      return res;
    }
 }
 

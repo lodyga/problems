@@ -10,13 +10,14 @@ class NumMatrix:
     """
 
     def __init__(self, matrix: list[list[int]]):
-        self.matrix = matrix
         ROWS = len(matrix)
         COLS = len(matrix[0])
+        self.matrix = matrix
         self.prefix = [[0] * (COLS + 1) for _ in range(ROWS + 1)]
 
         for row in range(1, ROWS + 1):
             row_prefix = 0
+            
             for col in range(1, COLS + 1):
                 row_prefix += matrix[row - 1][col - 1]
                 self.prefix[row][col] = self.prefix[row - 1][col] + row_prefix

@@ -1,7 +1,7 @@
 class Solution {
    /**
     * Time complexity: O(n)
-    * Auxiliary space complexity: O(1)
+    * Auxiliary space complexity: O(n)
     * Tags:
     *     DS: list
     *     A: bit manipulation, bottom-up
@@ -12,42 +12,51 @@ class Solution {
       const res = [0];
 
       while (true) {
-         const res_length = res.length;
-         for (let index = 0; index < res_length; index++) {
-            if (res.length == num + 1)
-               return res
-            res.push(res[index] + 1);
+         const resLen = res.length;
+         
+         for (let idx = 0; idx < resLen; idx++) {
+            if (res.length === num + 1) {
+               return res;
+            }
+
+            res.push(res[idx] + 1);
          }
       }
-   };
+   }
+}
 
+
+class Solution {
    /**
     * Time complexity: O(nlogn)
     * Auxiliary space complexity: O(1)
     * Tags:
+    *    DS: array
     *    A: bit manipulation
     * @param {number} num
     * @return {number[]}
     */
    countBits(num) {
-      const bitsArray = Array(num + 1).fill(0);
-
-      for (let index = 1; index <= num; index++) {
-         bitsArray[index] = countSetBits(index);
-      }
-
-      return bitsArray
-
-      function countSetBits(num) {
-         let setBitCounter = 0;
+      const countSetBits = (num) => {
+         let res = 0;
 
          while (num) {
-            setBitCounter += num & 1;
+            res += num & 1;
             num = num >> 1;
          }
-         return setBitCounter
+
+         return res;
       }
-   };
+
+      const bitsArray = Array(num + 1).fill(0);
+
+      for (let idx = 1; idx <= num; idx++) {
+         bitsArray[idx] = countSetBits(idx);
+      }
+
+      return bitsArray;
+
+   }
 }
 
 

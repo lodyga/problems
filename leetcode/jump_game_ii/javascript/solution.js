@@ -8,22 +8,23 @@ class Solution {
     * @return {number}
     */
    jump(nums) {
-      let jumpCounter = 0
+      let res = 0
       let left = 0;
       let nextRight = 0;
 
       while (nextRight < nums.length - 1) {
          let right = nextRight;
 
-         for (let index = left; index <= right; index++) {
-            nextRight = Math.max(nextRight, index + nums[index])
+         for (let idx = left; idx < right + 1; idx++) {
+            nextRight = Math.max(nextRight, idx + nums[idx]);
          }
 
          left = right + 1;
-         jumpCounter++;
+         res++;
       }
-      return jumpCounter
-   };
+
+      return res;
+   }
 }
 
 

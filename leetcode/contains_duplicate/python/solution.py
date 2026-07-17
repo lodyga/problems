@@ -24,7 +24,7 @@ class Solution:
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
         Tags:
-            A: build-in function
+            A: built-in function
         """
         return len(nums) != len(set(nums))
 

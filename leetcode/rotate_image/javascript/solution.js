@@ -6,7 +6,7 @@ class Solution {
     *    DS: array (matrix)
     *    A: iteration
     * @param {number[][]} matrix
-    * @return {void} Do not return anything, modify matrix in-place instead.
+    * @return {void}
     */
    rotate(matrix) {
       let left = 0;
@@ -15,20 +15,20 @@ class Solution {
       let bottom = matrix.length - 1;
 
       while (left < right) {
-         for (let index = 0; index < right - left; index++) {
-            const topLeft = matrix[top][left + index];
-            matrix[top][left + index] = matrix[bottom - index][left];
-            matrix[bottom - index][left] = matrix[bottom][right - index];
-            matrix[bottom][right - index] = matrix[top + index][right];
-            matrix[top + index][right] = topLeft;
+         for (let idx = 0; idx < right - left; idx++) {
+            const topLeft = matrix[top][left + idx];
+            matrix[top][left + idx] = matrix[bottom - idx][left];
+            matrix[bottom - idx][left] = matrix[bottom][right - idx];
+            matrix[bottom][right - idx] = matrix[top + idx][right];
+            matrix[top + idx][right] = topLeft;
          }
+         
          left++;
-         top++
+         top++;
          right--;
          bottom--;
       }
-      return matrix
-   };
+   }
 }
 
 

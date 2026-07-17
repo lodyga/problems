@@ -50,7 +50,7 @@ class Solution:
         Time complexity: O(logn)
         Auxiliary space complexity: O(1)
         Tags:
-            A: binary search, build-in function
+            A: binary search, built-in function
         """
         if nums == []:
             return [-1, -1]

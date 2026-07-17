@@ -6,14 +6,14 @@ class Solution:
         Tags:
             A: sorting
         """
-        diff_counter = 0
         sorted_heights = sorted(heights)
+        res = 0
 
-        for index in range(len(heights)):
-            if heights[index] != sorted_heights[index]:
-                diff_counter += 1
+        for height, s_height in zip(heights, sorted_heights):
+            if height != s_height:
+                res += 1
 
-        return diff_counter
+        return res
 
 
 class Solution:
@@ -24,23 +24,25 @@ class Solution:
         Tags:
             A: counting sort
         """
-        height_bucket = [0] * 100
-        for height in heights:
-            height_bucket[height - 1] += 1
-        
-        sorted_heights = []
-        for height, count in enumerate(height_bucket):
-            for _ in range(count):
-                sorted_heights.append(height + 1)
-        
-        diff_counter = 0
-        for index in range(len(heights)):
-            if heights[index] != sorted_heights[index]:
-                diff_counter += 1
+        height_freq = [0] * 100
+        res = 0
+        idx = 0
 
-        return diff_counter
+        for height in heights:
+            height_freq[height - 1] += 1
+
+        for height, freq in enumerate(height_freq, 1):
+            if freq:
+                for _ in range(freq):
+                    if height != heights[idx]:
+                        res += 1
+
+                    idx += 1
+
+        return res
 
 
 print(Solution().heightChecker([1, 1, 4, 2, 1, 3]) == 3)
 print(Solution().heightChecker([5, 1, 2, 3, 4]) == 5)
 print(Solution().heightChecker([1, 2, 3, 4, 5]) == 0)
+print(Solution().heightChecker([10, 6, 6, 10, 10, 9, 8, 8, 3, 3, 8, 2, 1, 5, 1, 9, 5, 2, 7, 4, 7, 7]) == 22)

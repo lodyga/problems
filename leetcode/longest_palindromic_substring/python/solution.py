@@ -6,24 +6,25 @@ class Solution:
         Tags:
             A: two pointers
         """
-        res_len = 1
-        res_start = 0
-
         def get_palindrome_len(idx: int, d: int) -> int:
             left = idx
             right = idx + d
 
             while (
-                left > -1 and right < len(text) and
-                text[left] == text[right]
+                left > -1 and right < N
+                and text[left] == text[right]
             ):
                 left -= 1
                 right += 1
 
             return right - left - 1
 
+        N = len(text)
+        res_len = 1
+        res_start = 0
+
         # Check for odd length palindrome.
-        for idx in range(1, len(text) - 1):
+        for idx in range(1, N - 1):
             pal_len = get_palindrome_len(idx, 0)
 
             if pal_len > res_len:
@@ -31,7 +32,7 @@ class Solution:
                 res_start = idx - res_len // 2
 
         # Check for even length palindrome.
-        for idx in range(len(text) - 1):
+        for idx in range(N - 1):
             pal_len = get_palindrome_len(idx, 1)
 
             if pal_len > res_len:
@@ -52,17 +53,17 @@ class Solution:
         Tags:
             A: brute-force
         """
-        palindrome = ""
-        palindrome_length = 0
+        res = ""
+        res_length = 0
 
         for left in range(len(word)):
             for right in range(left, len(word)):
                 if self.is_palindrome(word[left: right + 1]):
-                    if right - left + 1 > palindrome_length:
-                        palindrome = word[left: right + 1]
-                        palindrome_length = right - left + 1
+                    if right - left + 1 > res_length:
+                        res = word[left: right + 1]
+                        res_length = right - left + 1
 
-        return palindrome
+        return res
 
 
 print(Solution().longestPalindrome("babad") == "bab")

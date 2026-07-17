@@ -3,7 +3,7 @@ class Solution {
     * Time complexity: O(n2)
     *     O(n*s)
     *     n: nums length
-    *     s: nums sum
+    *     s: distinct reachable sums
     * Auxiliary space complexity: O(n)
     *     O(s)
     * Tags:
@@ -14,17 +14,23 @@ class Solution {
     */
    canPartition(nums) {
       const total = nums.reduce((sum, num) => sum + num, 0);
-      if (total % 2) return false
+      if (total % 2) {
+         return false;
+      };
+
       const half = Math.floor(total / 2);
-      const numSet = new Set([0]);
+      const sums = new Set([0]);
 
       for (const num of nums) {
-         const numSetUpdate = [...numSet].map(val => val + num, 0);
-         numSetUpdate.forEach(num => numSet.add(num));
-         if (numSet.has(half)) return true
+         const prevSums = [...sums].map(val => val + num);
+         prevSums.forEach(num => sums.add(num));
+
+         if (sums.has(half)) {
+            return true;
+         };
       }
 
-      return false
+      return false;
    }
 }
 
@@ -39,4 +45,5 @@ console.log(new Solution().canPartition([3, 3, 3, 4, 5]) === true)
 console.log(new Solution().canPartition([1, 2, 3, 5]) === false)
 console.log(new Solution().canPartition([1]) === false)
 console.log(new Solution().canPartition([2, 2, 1, 1]) === true)
+console.log(new Solution().canPartition([3, 3, 6, 8, 16, 16, 16, 18, 20]) === true)
 console.log(new Solution().canPartition([100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 99, 97]) === false)

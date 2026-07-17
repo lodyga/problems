@@ -7,15 +7,18 @@ class Solution:
             DS: string
             A: iteration
         """
+        N = len(text)
         res = 0
 
-        for idx in range(len(text) - 2):
-            substr = text[idx: idx + 3]
+        for idx in range(N - 2):
+            char1 = text[idx]
+            char2 = text[idx + 1]
+            char3 = text[idx + 2]
 
             if (
-                substr[0] != substr[1] and
-                substr[0] != substr[2] and
-                substr[1] != substr[2]
+                char1 != char2
+                and char1 != char3
+                and char2 != char3
             ):
                 res += 1
 
@@ -31,9 +34,10 @@ class Solution:
             DS: string
             A: iteration
         """
+        N = len(text)
         res = 0
 
-        for index in range(len(text) - 2):
+        for index in range(N - 2):
             if len(set(text[index: index + 3])) == 3:
                 res += 1
 
@@ -42,3 +46,4 @@ class Solution:
 
 print(Solution().countGoodSubstrings("xyzzaz") == 1)
 print(Solution().countGoodSubstrings("aababcabc") == 4)
+print(Solution().countGoodSubstrings("x") == 0)

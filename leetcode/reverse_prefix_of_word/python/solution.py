@@ -7,10 +7,11 @@ class Solution:
             DS: list
             A: two pointers
         """
+        N = len(word)
         res = []
         target_idx = -1
 
-        for idx in range(len(word)):
+        for idx in range(N):
             if word[idx] == target_char:
                 target_idx = idx
                 break
@@ -18,7 +19,7 @@ class Solution:
         for idx in range(target_idx, -1, -1):
             res.append(word[idx])
 
-        for idx in range(target_idx + 1, len(word)):
+        for idx in range(target_idx + 1, N):
             res.append(word[idx])
 
         return "".join(res)
@@ -34,7 +35,7 @@ class Solution:
             A: iteration
         """
         letter_stack = []
-        
+
         for idx, letter in enumerate(word):
             letter_stack.append(letter)
 

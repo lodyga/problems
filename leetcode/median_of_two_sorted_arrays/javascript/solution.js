@@ -16,7 +16,7 @@ class Solution {
       let right = a.length - 1;
 
       while (true) {
-         let midA = (left + right) >> 1;
+         let midA = Math.floor((left + right) / 2);
          let midB = half - midA - 2;
 
          const aLeft = midA >= 0 ? a[midA] : -(10**6) - 1;
@@ -33,10 +33,12 @@ class Solution {
             } else {
                return (Math.max(aLeft, bLeft) + Math.min(aRight, bRight)) / 2
             }
-         } else if (aLeft > bRight) {
+         } 
+         else if (aLeft > bRight) {
             right = midA - 1;
-         } else {
-            left = midA + 1
+         } 
+         else {
+            left = midA + 1;
          }
       }
    };

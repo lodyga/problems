@@ -8,23 +8,25 @@ class Solution {
     * @return {number}
     */
    eraseOverlapIntervals(intervals) {
+      const N = intervals.length;
       intervals.sort((a, b) => a[0] - b[0]);
-      let counter = 0;
-      let prevEnd = intervals[0][1];
+      let end = intervals[0][1];
+      let res = 0;
 
-      for (let index = 1; index < intervals.length; index++) {
-         const start = intervals[index][0];
-         const end = intervals[index][1];
+      for (let idx = 1; idx < N; idx++) {
+         const [nextStart, nextEnd] = intervals[idx];
 
-         if (prevEnd > start) {
-            prevEnd = Math.min(prevEnd, end)
-            counter++;
-         } else {
-            prevEnd = end;
+         if (end > nextStart) {
+            end = Math.min(end, nextEnd);
+            res++;
+         }
+         else {
+            end = nextEnd;
          }
       }
-      return counter
-   };
+
+      return res;
+   }
 }
 
 

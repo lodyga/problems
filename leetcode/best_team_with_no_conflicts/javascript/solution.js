@@ -10,36 +10,37 @@ class Solution {
     * @return {number}
     */
    bestTeamScore(scores, ages) {
-      const data = scores.map((value, index) => [value, ages[index]])
-      data.sort((a, b) => a[0] === b[0] ? a[1] - b[1] : a[0] - b[0])
-      // [starting index + 1: LIS length]
-      const memo = Array(data.length + 1).fill(-1);
+      const N = scores.length;
+      const data = scores.map((val, idx) => [val, ages[idx]]);
+      data.sort((a, b) => a[0] === b[0] ? a[1] - b[1] : a[0] - b[0]);
+      // [starting idx + 1: LIS length]
+      const memo = Array(N + 1).fill(-1);
 
-      const dfs = (index, prevIndex) => {
-         if (index === data.length)
-            return 0
-         else if (memo[prevIndex + 1] !== -1)
-            return memo[prevIndex + 1]
+      const dfs = (idx, prevIdx) => {
+         if (idx === N) {
+            return 0;
+         }
+         else if (memo[prevIdx + 1] !== -1) {
+            return memo[prevIdx + 1];
+         }
 
-         let prevAge = -1
-         if (prevIndex !== -1)
-            [, prevAge] = data[prevIndex];
-         const [score, age] = data[index];
+         const [score, age] = data[idx];
+         const prevAge = prevIdx === -1 ? -1 : data[prevIdx][1];
 
-         // skip current score
-         const skip = dfs(index + 1, prevIndex);
-         // take current score
-         let take = 0;
-         if (age >= prevAge)
-            take = score + dfs(index + 1, index)
+         const skip = dfs(idx + 1, prevIdx);
+         const take = (age >= prevAge) ? score + dfs(idx + 1, idx) : 0;
 
          const lis = Math.max(skip, take);
-         memo[prevIndex + 1] = lis;
-         return lis
+         memo[prevIdx + 1] = lis;
+         return lis;
       }
-      return dfs(0, -1)
-   };
 
+      return dfs(0, -1);
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(n)
@@ -51,23 +52,28 @@ class Solution {
     * @return {number}
     */
    bestTeamScore(scores, ages) {
-      const stats = scores.map((value, index) => [value, ages[index]])
-      stats.sort((a, b) => a[0] === b[0] ? a[1] - b[1] : a[0] - b[0]);
-      const cache = stats.map(value => value[0]);
+      const N = scores.length;
+      const data = scores.map((val, idx) => [val, ages[idx]])
+      data.sort((a, b) => a[0] === b[0] ? a[1] - b[1] : a[0] - b[0]);
+      const cache = data.map(val => val[0]);
 
-      for (let left = stats.length - 1; left > -1; left--) {
-         const [score, age] = stats[left];
+      for (let left = N - 1; left > -1; left--) {
+         const [score, age] = data[left];
 
-         for (let right = left + 1; right < stats.length; right++) {
-            const [, nextAge] = stats[right];
+         for (let right = left + 1; right < N; right++) {
+            const nextAge = data[right][1];
 
             if (age <= nextAge) {
-               cache[left] = Math.max(cache[left], score + cache[right]);
+               cache[left] = Math.max(
+                  cache[left],
+                  score + cache[right]
+               );
             }
          }
       }
-      return Math.max(...cache)
-   };
+
+      return Math.max(...cache);
+   }
 }
 
 

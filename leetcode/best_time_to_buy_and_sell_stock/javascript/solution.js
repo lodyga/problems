@@ -14,12 +14,13 @@ class Solution {
       for (const price of prices) {
          if (price > minPrice) {
             res = Math.max(res, price - minPrice);
-         } else {
+         } 
+         else {
             minPrice = price;
          }
       }
 
-      return res
+      return res;
    }
 }
 

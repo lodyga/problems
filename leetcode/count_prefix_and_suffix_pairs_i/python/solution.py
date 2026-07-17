@@ -33,7 +33,7 @@ class Solution:
             m: word length
         Auxiliary space complexity: O(1)
         Tags:
-            A: build-in function
+            A: built-in function
         """
         def isPrefixAndSuffix(fix, word):
             return word.startswith(fix) and word.endswith(fix)

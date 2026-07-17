@@ -22,14 +22,15 @@ class Solution {
             leftMax = Math.max(leftMax, leftHeight);
             res += leftMax - leftHeight;
             left++;
-         } else {
+         }
+         else {
             rightMax = Math.max(rightMax, rightHeight);
             res += rightMax - rightHeight;
             right--;
          }
       }
-      
-      return res
+
+      return res;
    }
 }
 

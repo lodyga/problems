@@ -29,7 +29,7 @@ class Solution:
         Time complexity: O(logn)
         Auxiliary space complexity: O(1)
         Tags:
-            A: binary search, build-in function
+            A: binary search, built-in function
         """
         import bisect
         return bisect.bisect_left(nums, target)

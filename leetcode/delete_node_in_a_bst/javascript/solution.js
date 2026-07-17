@@ -24,7 +24,7 @@ class Solution {
    static deleteNode(root, key) {
       const dfs = (node) => {
          if (node === null) {
-            return node
+            return node;
          }
          else if (key == node.val) {
             if (!node.right) {
@@ -33,9 +33,11 @@ class Solution {
                node = node.right;
             } else {
                let bottom_node = node.right;
+               
                while (bottom_node.left) {
                   bottom_node = bottom_node.left;
                }
+               
                node.val = bottom_node.val;
                node.right = deleteNode(node.right, node.val)
             }
@@ -46,7 +48,8 @@ class Solution {
          else {
             node.right = dfs(node.right)
          }
-         return node
+
+         return node;
       }
       
       return dfs(root)

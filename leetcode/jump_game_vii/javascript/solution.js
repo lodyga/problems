@@ -14,25 +14,30 @@ class Solution {
     * @return {boolean}
     */
    canReach(text, minJump, maxJump) {
+      const N = text.length;
       const queue = new Queue([0]);
       let minStart = 0;
 
-      while (queue.size()) {
-         const index = queue.pop();
-         const start = Math.max(index + minJump, minStart + 1);
-         const end = Math.min(index + maxJump, text.length - 1);
+      while (!queue.isEmpty()) {
+         const idx = queue.pop();
+         const start = Math.max(idx + minJump, minStart);
+         const end = Math.min(idx + maxJump + 1, N);
 
-         for (let index = start; index <= end; index++) {
-            if (text[index] === '0') {
-               queue.push(index);
-               if (index === text.length - 1)
-                  return true
+         for (let idx = start; idx < end; idx++) {
+            if (text[idx] === '0') {
+               queue.push(idx);
+
+               if (idx === N - 1) {
+                  return true;
+               }
             }
          }
+
          minStart = end;
       }
-      return false
-   };
+
+      return false;
+   }
 }
 
 

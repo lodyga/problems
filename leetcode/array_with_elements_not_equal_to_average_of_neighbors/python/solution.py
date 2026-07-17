@@ -97,7 +97,7 @@ class Solution:
         Auxiliary space complexity: O(n)
         Tags:
             DS: array
-            A: build-in function
+            A: built-in function
         """
         nums.sort()
         length = len(nums)

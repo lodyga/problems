@@ -1,6 +1,6 @@
 class Solution {
    /**
-    * Time complexity: O(k2^n)
+    * Time complexity: O(k^n)
     * Auxiliary space complexity: O(n)
     * Tags:
     *     DS: array
@@ -10,33 +10,40 @@ class Solution {
     * @return {boolean}
     */
    canPartitionKSubsets(nums, k) {
+      const N = nums.length;
       const TOTAL = nums.reduce((sum, num) => sum + num, 0)
-      if (TOTAL % k)
-         return false
-      const PART_SUM = TOTAL / k;
+      if (TOTAL % k) {
+         return false;
+      }
+      const UPPER_BOUND = TOTAL / k;
       nums.sort((a, b) => b - a);
-      const partSize = Array(k).fill(0);
+      const subsetSum = Array(k).fill(0);
 
-      const backtrack = (index) => {
-         if (index === nums.length)
-            return true
+      const backtrack = (idx) => {
+         if (idx === N) {
+            return true;
+         }
 
-         const num = nums[index];
+         const num = nums[idx];
 
-         for (let partIndex = 0; partIndex < k; partIndex++) {
-            if (partSize[partIndex] + num <= PART_SUM) {
-               partSize[partIndex] += num;
-               if (backtrack(index + 1))
-                  return true
-               partSize[partIndex] -= num;
+         for (let partIdx = 0; partIdx < k; partIdx++) {
+            if (subsetSum[partIdx] + num <= UPPER_BOUND) {
+               subsetSum[partIdx] += num;
+               if (backtrack(idx + 1)) {
+                  return true;
+               }
+               subsetSum[partIdx] -= num;
             }
             // pruning
-            if (partSize[partIndex] === 0)
-               break
+            if (subsetSum[partIdx] === 0) {
+               break;
+            }
          }
-         return false
+
+         return false;
       }
-      return backtrack(0)
+
+      return backtrack(0);
    };
 }
 

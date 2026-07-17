@@ -86,8 +86,8 @@ class Solution:
         UPPER_BOUND = amount + 1
         coins.sort(reverse=True)
         # [current amount: min coins to get current amount]
-        cache = [amount + 1] * (amount)
-        cache.append(0)
+        cache = [amount + 1] * (amount + 1)
+        cache[amount] = 0
 
         for total in range(amount - 1, -1, -1):
             for coin in coins:
@@ -181,7 +181,7 @@ class Solution:
 
             while queue:
                 level += 1
-                
+
                 for _ in range(len(queue)):
                     node = queue.popleft()
 
@@ -210,3 +210,4 @@ print(Solution().coinChange([2], 1) == -1)
 print(Solution().coinChange([1], 0) == 0)
 print(Solution().coinChange([2, 5, 10, 1], 27) == 4)
 print(Solution().coinChange([186, 419, 83, 408], 6249) == 20)
+print(Solution().coinChange([1, 2147483647], 2), 2)

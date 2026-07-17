@@ -44,8 +44,8 @@ class Solution:
             take = 0
 
             if (
-                prev_idx == -1 or
-                nums[prev_idx] < nums[idx]
+                prev_idx == -1
+                or nums[prev_idx] < nums[idx]
             ):
                 take = 1 + dfs(idx + 1, idx)
 
@@ -79,8 +79,8 @@ class Solution:
             take = 0
 
             if (
-                prev_idx == -1 or
-                nums[prev_idx] < nums[idx]
+                prev_idx == -1
+                or nums[prev_idx] < nums[idx]
             ):
                 take = 1 + dfs(idx + 1, idx)
 
@@ -214,12 +214,12 @@ class Solution:
         lis = []
 
         for num in nums:
-            index = bisect_left()
+            idx = bisect_left()
 
-            if index == len(lis):
+            if idx == len(lis):
                 lis.append(num)
             else:
-                lis[index] = num
+                lis[idx] = num
         return len(lis) 
 
 

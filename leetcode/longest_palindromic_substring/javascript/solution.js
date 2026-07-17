@@ -4,30 +4,31 @@ class Solution {
     * Auxiliary space complexity: O(1)
     * Tags:
     *     A: two pointers
-    * @param {string[]} text
-    * @return {string[]}
+    * @param {string} text
+    * @return {string}
     */
    longestPalindrome(text) {
-      let resLen = 1;
-      let resStart = 0;
-
       const getPalindromeLen = (idx, d) => {
          let left = idx;
          let right = idx + d;
 
          while (
-            left > -1 && right < text.length &&
-            text[left] === text[right]
+            left > -1 && right < N
+            && text[left] === text[right]
          ) {
             left--;
             right++;
          }
 
-         return right - left - 1
-      }
+         return right - left - 1;
+      };
+
+      const N = text.length;
+      let resLen = 1;
+      let resStart = 0;
 
       // Check for odd length palindrome.
-      for (let idx = 1; idx < text.length - 1; idx++) {
+      for (let idx = 1; idx < N - 1; idx++) {
          const palLen = getPalindromeLen(idx, 0);
 
          if (palLen > resLen) {
@@ -37,7 +38,7 @@ class Solution {
       }
 
       // Check for even length palindrome.
-      for (let idx = 0; idx < text.length - 1; idx++) {
+      for (let idx = 0; idx < N - 1; idx++) {
          const palLen = getPalindromeLen(idx, 1);
 
          if (palLen > resLen) {
@@ -46,7 +47,7 @@ class Solution {
          }
       }
 
-      return text.slice(resStart, resStart + resLen)
+      return text.slice(resStart, resStart + resLen);
    }
 }
 

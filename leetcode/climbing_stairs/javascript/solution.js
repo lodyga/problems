@@ -10,12 +10,13 @@ class Solution {
    climbStairs(n) {
       const dfs = (idx) => {
          if (idx >= n) {
-            return idx === n
+            return idx === n;
          }
 
          return dfs(idx + 1) + dfs(idx + 2);
       }
-      return dfs(0)
+
+      return dfs(0);
    }
 }
 
@@ -35,7 +36,7 @@ class Solution {
       const dfs = (idx) => {
          if (idx >= n) {
             res += idx === n;
-            return
+            return;
          }
 
          dfs(idx + 1);
@@ -65,13 +66,14 @@ class Solution {
 
       const dfs = (idx) => {
          if (memo[idx] !== -1) {
-            return memo[idx]
+            return memo[idx];
          }
 
          memo[idx] = dfs(idx + 1) + dfs(idx + 2);
-         return memo[idx]
+         return memo[idx];
       }
-      return dfs(0)
+
+      return dfs(0);
    }
 }
 
@@ -94,7 +96,8 @@ class Solution {
       for (let idx = n - 1; idx > - 1; idx--) {
          cache[idx] = cache[idx + 1] + cache[idx + 2];
       }
-      return cache[0]
+
+      return cache[0];
    }
 }
 
@@ -116,7 +119,7 @@ class Solution {
          [cache[0], cache[1]] = [cache[0] + cache[1], cache[0]];
       }
 
-      return cache[0]
+      return cache[0];
    }
 }
 
@@ -140,7 +143,7 @@ class Solution {
          // a = b - a;
       }
    
-      return b
+      return b;
    }
 }
 

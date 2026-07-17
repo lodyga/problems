@@ -10,27 +10,30 @@ class Solution {
     */
    findMissingAndRepeatedValues(grid) {
       const N = grid.length;
-      const DIMS = grid.length ** 2;
-      const seen = Array(DIMS).fill(false);
+      const seen = Array(N * N).fill(false);
       const res = [];
 
       for (let row = 0; row < N; row++) {
          for (let col = 0; col < N; col++) {
-            const num = grid[row][col];
-            if (seen[num - 1]) {
-               res.push(num);
+            const val = grid[row][col];
+
+            if (seen[val - 1]) {
+               res.push(val);
             }
-            seen[num - 1] = true;
+            else {
+               seen[val - 1] = true;
+            }
          }
       }
 
-      for (let index = 0; index < DIMS; index++) {
-         if (!seen[index]) {
-            res.push(index + 1);
+      for (let idx = 0; idx < seen.length; idx++) {
+         if (!seen[idx]) {
+            res.push(idx + 1);
          }
       }
-      return res
-   };
+
+      return res;
+   }
 }
 
 

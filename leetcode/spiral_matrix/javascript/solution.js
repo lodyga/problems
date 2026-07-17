@@ -13,43 +13,44 @@ class Solution {
       let top = 0;
       let right = matrix[0].length - 1;
       let bottom = matrix.length - 1;
-      const vals = [];
+      const res = [];
 
       while (true) {
-         for (let index = left; index <= right; index++) {
-            vals.push(matrix[top][index]);
+         for (let idx = left; idx <= right; idx++) {
+            res.push(matrix[top][idx]);
          }
          top++;
          if (top > bottom) {
-            break
+            break;
          }
 
-         for (let index = top; index <= bottom; index++) {
-            vals.push(matrix[index][right]);
+         for (let idx = top; idx <= bottom; idx++) {
+            res.push(matrix[idx][right]);
          }
          right--;
          if (left > right) {
-            break
+            break;
          }
          
-         for (let index = right; index >= left; index--) {
-            vals.push(matrix[bottom][index]);
+         for (let idx = right; idx >= left; idx--) {
+            res.push(matrix[bottom][idx]);
          }
          bottom--;
          if (top > bottom) {
-            break
+            break;
          }
 
-         for (let index = bottom; index >= top; index--) {
-            vals.push(matrix[index][left]);
+         for (let idx = bottom; idx >= top; idx--) {
+            res.push(matrix[idx][left]);
          }
          left++;
          if (left > right) {
-            break
+            break;
          }
       }
-      return vals
-   };
+
+      return res;
+   }
 }
 
 

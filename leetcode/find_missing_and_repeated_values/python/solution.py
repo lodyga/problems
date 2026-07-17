@@ -8,20 +8,22 @@ class Solution:
             A: iteration
         """
         N = len(grid)
-        DIMS = len(grid)**2
-        seen = [False] * DIMS
+        seen = [False] * N * N
         res = []
 
         for row in range(N):
             for col in range(N):
-                num = grid[row][col]
-                if seen[num - 1]:
-                    res.append(num)
-                seen[num - 1] = True
+                val = grid[row][col]
 
-        for index in range(DIMS):
-            if not seen[index]:
-                res.append(index + 1)
+                if seen[val - 1]:
+                    res.append(val)
+                else:
+                    seen[val - 1] = True
+
+        for idx, b in enumerate(seen):
+            if not b:
+                res.append(idx + 1)
+                break
 
         return res
 

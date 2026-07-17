@@ -4,23 +4,25 @@ class Solution {
     * Auxiliary space complexity: O(1)
     * Tags:
     *     A: iteration
-    * @param {number} target
+    * @param {number} num
     * @return {boolean}
     */
-   checkPerfectNumber(target) {
-      if (target === 1) {
-         return false
+   checkPerfectNumber(num) {
+      if (num === 1) {
+         return false;
       }
+      
       let divisorSum = 1;
 
-      for (let number = 2; number < Number(target ** 0.5); number++ ) {
-         if (target % number === 0) {
-            divisorSum += number;
-            divisorSum += Math.floor(target / number);
+      for (let divisor = 2; divisor < Number(num ** 0.5); divisor++ ) {
+         if (num % divisor === 0) {
+            divisorSum += divisor;
+            divisorSum += Math.floor(num / divisor);
          }
       }
-      return divisorSum === target;
-   };
+
+      return divisorSum === num;
+   }
 }
 
 

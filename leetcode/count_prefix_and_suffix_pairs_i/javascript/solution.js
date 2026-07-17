@@ -6,7 +6,7 @@ class Solution {
     *     m: word length
     * Auxiliary space complexity: O(n)
     * Tags:
-    *     build-in function
+    *     built-in function
     * @param {string[]} words
     * @return {number}
     */

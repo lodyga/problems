@@ -15,22 +15,23 @@ class Solution {
       while (left < right) {
          // early exit
          if (nums[left] < nums[right]) {
-            return Math.min(res, nums[left])
+            return Math.min(res, nums[left]);
          }
 
-         const mid = Math.floor((left + right)/2);
+         const mid = Math.floor((left + right) / 2);
          const midNum = nums[mid];
-         
+
          if (midNum < nums[right]) {
             res = Math.min(res, midNum);
             right = mid - 1;
-         } else {
+         }
+         else {
             res = Math.min(res, nums[right]);
             left = mid + 1;
          }
       }
 
-      return res
+      return res;
    }
 }
 

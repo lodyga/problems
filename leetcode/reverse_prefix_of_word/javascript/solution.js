@@ -12,19 +12,23 @@ class Solution {
    reversePrefix(word, targetChar) {
       const letterStack = [];
 
-      for (let index = 0; index < word.length; index++) {
-         const letter = word[index];
+      for (let idx = 0; idx < word.length; idx++) {
+         const letter = word[idx];
          letterStack.push(letter);
 
          if (letter === targetChar) {
             const prefix = letterStack.reverse().join('');
-            const postfix = word.slice(index + 1);
+            const postfix = word.slice(idx + 1);
             return prefix + postfix
          }
       }
-      return word
-   }
 
+      return word;
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
@@ -35,15 +39,17 @@ class Solution {
     * @return {string}
     */
    reversePrefix(word, targetChar) {
-      for (let index = 0; index < word.length; index++) {
-         const letter = word[index];
+      for (let idx = 0; idx < word.length; idx++) {
+         const letter = word[idx];
+         
          if (letter === targetChar) {
-            const prefix = word.slice(0, index + 1).split('').reverse().join('');
-            const postfix = word.slice(index + 1);
-            return prefix + postfix
+            const prefix = word.slice(0, idx + 1).split('').reverse().join('');
+            const postfix = word.slice(idx + 1);
+            return prefix + postfix;
          }
       }
-      return word
+
+      return word;
    }
 }
 

@@ -30,16 +30,16 @@ class Solution:
         Auxiliary space complexity: O(n)
         Tags:
             DS: hash map, list
-            A: sorting, bucket sort
+            A: bucket sort
         """
         num_freq = {}
         res = []
-        
+
         for num in nums:
             num_freq[num] = num_freq.get(num, 0) + 1
 
         bucekt = [[] for _ in range(max(num_freq.values()))]
-        
+
         for num, freq in num_freq.items():
             bucekt[freq - 1].append(num)
 
@@ -47,41 +47,9 @@ class Solution:
             if nums:
                 for num in nums:
                     res.append(num)
-                
+
                     if len(res) == k:
                         return res
-
-
-class Solution:
-    def topKFrequent(self, nums: list[int], k: int) -> list[int]:
-        """
-        Time complexity: O(nlogn)
-        Auxiliary space complexity: O(n)
-        Tags:
-            DS: hash map, list
-            A: sorting, bucket sort
-        """
-        num_freq = {}
-        bucket = {}
-        res = []
-        
-        for num in nums:
-            num_freq[num] = num_freq.get(num, 0) + 1
-
-        for num, freq in num_freq.items():
-            if freq not in bucket:
-                bucket[freq] = []
-            
-            bucket[freq].append(num)
-
-        freqs = sorted(bucket.keys(), reverse=True)
-        
-        for freq in freqs:
-            for num in bucket[freq]:
-                res.append(num)
-                
-                if len(res) == k:
-                    return res
 
 
 class Solution:
@@ -90,7 +58,7 @@ class Solution:
         Time complexity: O(nlogk)
         Auxiliary space complexity: O(n)
         Tags:
-            DS: build-in function
+            DS: built-in function
             A: iteration
         """
         from collections import Counter

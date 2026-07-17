@@ -39,7 +39,7 @@ class Solution:
         Auxiliary space complexity: O(1)
         Tags:
             DS: array
-            A: build-in function
+            A: built-in function
         """
         nums.extend(nums)
         return nums
@@ -52,7 +52,7 @@ class Solution:
         Auxiliary space complexity: O(1)
         Tags:
             DS: array
-            A: build-in function
+            A: built-in function
         """
         return nums + nums
 

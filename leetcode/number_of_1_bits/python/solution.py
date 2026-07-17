@@ -5,57 +5,45 @@ class Solution:
             O(32)
         Auxiliary space complexity: O(1)
         Tags:
-            A: bit manipulation, bit mask
+            A: bit manipulation
         """
-        counter = 0
-        for index in range(0, 32):
-            counter += bool(num & 2**index)
-        return counter
+        res = 0
+
+        while num:
+            res += num & 1
+            num >>= 1
+
+        return res
 
 
 class Solution:
-    def hammingWeight(self, number: int) -> int:
+    def hammingWeight(self, num: int) -> int:
         """
         Time complexity: O(1)
             O(32)
         Auxiliary space complexity: O(1)
-        Tags: bit manipulation
+        Tags:
+            A: bit manipulation
         """
-        set_bit_counter = 0
+        res = 0
 
-        while number:
-            set_bit_counter += number % 2
-            number = number // 2
+        while num:
+            res += num % 2
+            num //= 2
 
-        return set_bit_counter
+        return res
 
 
 class Solution:
-    def hammingWeight(self, number: int) -> int:
-        """
-        Time complexity: O(1)
-            O(32)
-        Auxiliary space complexity: O(1)
-        Tags: bit manipulation, bit mask
-        """
-        set_bit_counter = 0
-
-        while number:
-            set_bit_counter += number & 1
-            number = number >> 1
-
-        return set_bit_counter
-
-
-class Solution:
-    def hammingWeight(self, number: int) -> int:
+    def hammingWeight(self, num: int) -> int:
         """
         Time complexity: O(1)
             O(32)
         Auxiliary space complexity: O(n)
-        Tags: bit manipulation, build-in function
+        Tags:
+            A: bit manipulation, built-in function
         """
-        return bin(number).count("1")
+        return bin(num).count("1")
 
 
 class Solution:
@@ -67,20 +55,23 @@ class Solution:
         Tags:
             A: bit manipulation, bit mask
         """
-        counter = 0
+        res = 0
         mask = 1
-        for _ in range(0, 32):
-            if mask & num:
-                counter += 1
+
+        for _ in range(32):
+            if num & mask:
+                res += 1
+
             mask <<= 1
-        return counter
+
+        return res
 
 
-print(Solution().hammingWeight(0) == 0)
 print(Solution().hammingWeight(1) == 1)
 print(Solution().hammingWeight(2) == 1)
+print(Solution().hammingWeight(2147483645) == 30)
+print(Solution().hammingWeight(0) == 0)
 print(Solution().hammingWeight(3) == 2)
 print(Solution().hammingWeight(4) == 1)
 print(Solution().hammingWeight(11) == 3)
 print(Solution().hammingWeight(128) == 1)
-print(Solution().hammingWeight(2147483645) == 30)

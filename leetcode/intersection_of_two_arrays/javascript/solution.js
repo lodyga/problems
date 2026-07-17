@@ -4,7 +4,7 @@ class Solution {
     * Auxiliary space complexity: O(n)
     * Tags:
     *     DS: hash set, list
-    *     A: build-in function
+    *     A: built-in function
     * @param {number[]} nums1
     * @param {number[]} nums2
     * @return {number[]}

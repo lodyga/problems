@@ -1,6 +1,76 @@
 class Solution {
    /**
     * Time complexity: O(n3)
+    *     O(word count * avg word length**2)
+    * Auxiliary space complexity: O(n)
+    * Tags:
+    *     DS: hash map, hash set
+    *     A: top-down
+    * @param {string[]} words
+    * @return {number}
+    */
+   longestStrChain(words) {
+      const wordSet = new Set(words);
+      const memo = new Map([["", 0]]);
+
+      const dfs = (word) => {
+         if (memo.has(word)) {
+            return memo.get(word)
+         }
+         else if (!wordSet.has(word)) {
+            return 0;
+         }
+
+         let res = 0;
+
+         for (let idx = 0; idx < word.length; idx++) {
+            res = Math.max(res, 1 + dfs(word.slice(0, idx) + word.slice(idx + 1,)));
+         }
+
+         memo.set(word, res);
+         return res;
+      }
+
+      return Math.max(...words.map(word => dfs(word)));
+   }
+}
+
+
+class Solution {
+   /**
+    * Time complexity: O(n3)
+    *     O(word count * avg word length**2)
+    * Auxiliary space complexity: O(n)
+    * Tags:
+    *     DS: hash map
+    *     A: bottom-up
+    * @param {string[]} words
+    * @return {number}
+    */
+   longestStrChain(words) {
+      words.sort((a, b) => a.length - b.length);
+      const cache = new Map();
+
+      for (const word of words) {
+         cache.set(word, 1);
+         
+         for (let idx = 0; idx < word.length; idx++) {
+            const predecessor = word.slice(0, idx) + word.slice(idx + 1,);
+            
+            if (cache.has(predecessor)) {
+               cache.set(word, Math.max(cache.get(word), 1 + cache.get(predecessor)));
+            }
+         }
+      }
+
+      return Math.max(...cache.values());
+   }
+}
+
+
+class Solution {
+   /**
+    * Time complexity: O(n3)
     *     O(word count**2 * avg word length)
     * Auxiliary space complexity: O(n)
     * Tags:
@@ -44,34 +114,9 @@ class Solution {
             }
          }
       }
-      return Math.max(...cache)
-   };
 
-   /**
-    * Time complexity: O(n3)
-    *     O(word count * avg word length**2)
-    * Auxiliary space complexity: O(n)
-    * Tags:
-    *     DS: hash map
-    *     A: bottom-up
-    * @param {string[]} words
-    * @return {number}
-    */
-   longestStrChain(words) {
-      words.sort((a, b) => b.length - a.length);
-      const cache = new Map(words.map(word => [word, 1]));
-
-      for (const word of words) {
-         for (let index = 0; index < word.length; index++) {
-            const predecessor = word.slice(0, index) + word.slice(index + 1,);
-            if (cache.has(predecessor)) {
-               const chain_len = Math.max(cache.get(predecessor), 1 + cache.get(word));
-               cache.set(predecessor, chain_len);
-            }
-         }
-      }
-      return Math.max(...cache.values())
-   };
+      return Math.max(...cache);
+   }
 }
 
 

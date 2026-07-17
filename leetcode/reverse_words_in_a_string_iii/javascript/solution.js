@@ -3,7 +3,7 @@ class Solution {
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
     * Tags:
-    *     A: build-in function
+    *     A: built-in function
     * @param {string} text
     * @return {string}
     */
@@ -14,9 +14,12 @@ class Solution {
          .join(' ')
          .split('')
          .reverse()
-         .join('')
+         .join('');
    }
+}
 
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
@@ -34,12 +37,13 @@ class Solution {
          if (char === ' ') {
             res.push(stack.reverse().join(''))
             stack.length = 0;
-         } else {
+         } 
+         else {
             stack.push(char);
          }
       }
       
-      return res.join(' ')
+      return res.join(' ');
    }
 }
 

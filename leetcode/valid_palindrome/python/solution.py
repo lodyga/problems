@@ -31,7 +31,7 @@ class Solution:
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
         Tags:
-            A: build-in function
+            A: built-in function
         """
         joined = "".join(filter(str.isalnum, text)).lower()
         return joined == joined[::-1]
@@ -43,7 +43,7 @@ class Solution:
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
         Tags:
-            A: two pointers, build-in function
+            A: two pointers, built-in function
         """
         import string
         left = 0
@@ -71,7 +71,7 @@ class Solution:
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
         Tags:
-            A: build-in function
+            A: built-in function
         """
         import re
         clean_text = re.sub(r"[\W_]", "", text).lower()

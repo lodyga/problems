@@ -61,7 +61,7 @@ class Solution {
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
     * Tags:
-    *     A: build-in function
+    *     A: built-in function
     * @param {number[]} nums
     * @param {number} target
     * @return {boolean}

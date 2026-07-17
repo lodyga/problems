@@ -53,7 +53,7 @@ class Solution:
         Auxiliary space complexity: O(n)
         Tags:
             DS: list
-            A: build-in function
+            A: built-in function
         """
         N = len(nums)
         pivot = N - k % N

@@ -11,25 +11,25 @@ class Solution {
    setZeroes(matrix) {
       const ROWS = matrix.length;
       const COLS = matrix[0].length;
-
-      const zeroRows = Array(ROWS).fill(false);
-      const zeroCols = Array(COLS).fill(false);
+      const rowMarked = Array(ROWS).fill(false);
+      const colMarked = Array(COLS).fill(false);
 
       for (let row = 0; row < ROWS; row++)
          for (let col = 0; col < COLS; col++)
             if (matrix[row][col] === 0) {
-               zeroRows[row] = true;
-               zeroCols[col] = true;
+               rowMarked[row] = true;
+               colMarked[col] = true;
             }
 
       for (let row = 0; row < ROWS; row++)
          for (let col = 0; col < COLS; col++)
-            if (zeroRows[row] || zeroCols[col])
+            if (rowMarked[row] || colMarked[col])
                matrix[row][col] = 0;
+   }
+}
 
-      return matrix
-   };
 
+class Solution {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(1)
@@ -88,9 +88,7 @@ class Solution {
             matrix[0][col] = 0;
          }
       }
-
-      return matrix
-   };
+   }
 }
 
 

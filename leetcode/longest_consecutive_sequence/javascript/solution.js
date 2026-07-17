@@ -13,7 +13,10 @@ class Solution {
       let res = 0;
 
       for (const num of numSet) {
-         if (numSet.has(num - 1)) continue
+         if (numSet.has(num - 1)) {
+            continue;
+         }
+
          let currNum = num;
          
          while (numSet.has(currNum)) {
@@ -23,8 +26,8 @@ class Solution {
          res = Math.max(res, currNum - num);
       }
 
-      return res
-   };
+      return res;
+   }
 }
 
 

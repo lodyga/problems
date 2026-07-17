@@ -9,20 +9,20 @@ class Solution {
     * @return {number}
     */
    appendCharacters(text1, text2) {
-      let index1 = 0;
-      let index2 = 0;
+      let idx2 = 0;
+      const text2Len = text2.length;
 
-      while (
-         index1 < text1.length &&
-         index2 < text2.length
-      ) {
-         if (text1[index1] === text2[index2]) {
-            index2++;
+      for (const letter of text1) {
+         if (idx2 === text2Len) {
+            return 0;
          }
-         index1++;
+         else if (letter === text2[idx2]) {
+            idx2 += 1;
+         }
       }
-      return text2.length - index2
-   };
+
+      return text2Len - idx2;
+   }
 }
 
 

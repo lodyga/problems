@@ -4,7 +4,7 @@ class Solution:
         Time complexity: O(n2)
             O(n*s)
             n: nums length
-            s: nums sum
+            s: distinct reachable sums
         Auxiliary space complexity: O(n)
             O(s)
         Tags:
@@ -13,17 +13,17 @@ class Solution:
         """
         total = sum(nums)
         half = total // 2
-        num_set = set([0])
+        sums = set([0])
 
         if total % 2:
             return False
 
         for num in nums:
-            num_set_update = {ns + num for ns in num_set if ns + num <= half}
-            # num_set |= num_set_update
-            num_set.update(num_set_update)
+            prev_sums = {ns + num for ns in sums if ns + num <= half}
+            # sums |= prev_sums
+            sums.update(prev_sums)
 
-            if half in num_set:
+            if half in sums:
                 return True
 
         return False
@@ -67,7 +67,7 @@ class Solution:
         Time complexity: O(n2)
             O(n*s)
             n: nums length
-            s: nums sum
+            s: distinct reachable sums
         Auxiliary space complexity: O(n*s)
         Tags:
             DS: hash map
@@ -146,4 +146,5 @@ print(Solution().canPartition([3, 3, 3, 4, 5]) == True)
 print(Solution().canPartition([1, 2, 3, 5]) == False)
 print(Solution().canPartition([1]) == False)
 print(Solution().canPartition([2, 2, 1, 1]) == True)
+print(Solution().canPartition([3, 3, 6, 8, 16, 16, 16, 18, 20]) == True)
 print(Solution().canPartition([100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 99, 97]) == False)

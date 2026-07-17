@@ -6,20 +6,21 @@ class Solution:
         Tags:
             A: intervals, greedy, sorting
         """
+        N = len(intervals)
         intervals.sort()
-        prev_end = intervals[0][1]
-        counter = 0
+        end = intervals[0][1]
+        res = 0
 
-        for index in range(1, len(intervals)):
-            start, end = intervals[index]
+        for idx in range(1, N):
+            next_start, next_end = intervals[idx]
 
-            if prev_end > start:
-                prev_end = min(end, prev_end)
-                counter += 1
+            if end > next_start:
+                end = min(end, next_end)
+                res += 1
             else:
-                prev_end = end
-            
-        return counter
+                end = next_end
+
+        return res
 
 
 print(Solution().eraseOverlapIntervals([[1, 2], [2, 3], [3, 4], [1, 3]]) == 1)

@@ -182,7 +182,7 @@ class LRUCache:
         O(capacity)
     Tags:
         DS: hash map
-        A: build-in function
+        A: built-in function
     """
 
     def __init__(self, capacity: int):

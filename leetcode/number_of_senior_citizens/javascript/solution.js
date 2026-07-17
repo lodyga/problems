@@ -8,21 +8,22 @@ class Solution {
     * @return {number}
     */
    countSeniors(details) {
-      let seniorCounter = 0;
-      
+      let res = 0;
+
       for (const detail of details) {
-         const digit1 = detail[11];
-         const digit2 = detail[12];
+         const c1 = detail[11];
+         const c2 = detail[12];
 
          if (
-            '789'.includes(digit1) ||
-            (digit1 === '6' && digit2 > '0')
+            (c1 === '6' && c2 > '0') ||
+            c1 > '6'
          ) {
-            seniorCounter++;
+            res++;
          }
       }
-      return seniorCounter
-   };
+
+      return res;
+   }
 }
 
 

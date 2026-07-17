@@ -5,7 +5,7 @@ class Solution:
         Auxiliary space complexity: O(n)
         Tags:
             DS: hash set, list
-            A: build-in function
+            A: built-in function
         """
         return list(set(nums1) & set(nums2))
 

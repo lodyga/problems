@@ -50,7 +50,7 @@ class Solution {
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
     * Tags:
-    *     build-in function
+    *     built-in function
     * @param {string} text
     * @return {boolean}
    */

@@ -15,10 +15,11 @@ class Solution:
         def dfs(score):
             if score >= draw_point_limit:
                 return 1 if score <= upper_point_bound else 0
-            elif memo[score] != -1:
+            elif memo[score] != -1.0:
                 return memo[score]
 
             points = 0
+            
             for point in range(1, max_pts + 1):
                 points += dfs(score + point)
 
@@ -27,16 +28,6 @@ class Solution:
             return memo[score]
 
         return dfs(0)
-
-
-print(round(Solution().new21Game(10, 1, 10), 5) == 1)
-print(round(Solution().new21Game(6, 1, 10), 5) == 0.6)
-print(round(Solution().new21Game(2, 2, 10), 5) == 0.11)
-print(round(Solution().new21Game(3, 2, 3), 5) == 0.88889)
-print(round(Solution().new21Game(21, 17, 10), 5) == 0.73278)
-print(round(Solution().new21Game(0, 0, 1), 5) == 1)
-print(round(Solution().new21Game(421, 400, 47), 5) == 0.71188)
-print(round(Solution().new21Game(9811, 8776, 1096), 5) == 0.99696)
 
 
 class Solution:
@@ -52,10 +43,12 @@ class Solution:
             if score >= draw_point_limit:
                 return score <= upper_point_bound
 
-            occurrence = 0
-            for points in range(1, max_pts + 1):
-                occurrence += dfs(score + points)
-            return occurrence / max_pts
+            points = 0
+            
+            for point in range(1, max_pts + 1):
+                points += dfs(score + point)
+            
+            return points / max_pts
 
         return dfs(0)
 
@@ -69,13 +62,23 @@ class Solution:
             i <= n
             for i in range(k, k + maxPts))
 
-        dp = {}
+        cache = {}
         for i in range(k - 1, -1, -1):
-            dp[i] = windowSum / maxPts
+            cache[i] = windowSum / maxPts
             remove = 0
             if i + maxPts <= n:
-                remove = dp.get(i + maxPts, 1)
+                remove = cache.get(i + maxPts, 1)
 
-            windowSum += dp[i] - remove
+            windowSum += cache[i] - remove
 
-        return dp[0]
+        return cache[0]
+
+
+print(round(Solution().new21Game(10, 1, 10), 5) == 1)
+print(round(Solution().new21Game(6, 1, 10), 5) == 0.6)
+print(round(Solution().new21Game(21, 17, 10), 5) == 0.73278)
+print(round(Solution().new21Game(2, 2, 10), 5) == 0.11)
+print(round(Solution().new21Game(3, 2, 3), 5) == 0.88889)
+print(round(Solution().new21Game(0, 0, 1), 5) == 1)
+print(round(Solution().new21Game(421, 400, 47), 5) == 0.71188)
+print(round(Solution().new21Game(9811, 8776, 1096), 5) == 0.99696)

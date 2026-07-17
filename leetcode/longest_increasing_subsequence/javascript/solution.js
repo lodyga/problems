@@ -12,28 +12,32 @@ class Solution {
       // [starting index + 1: LIS length]
       const memo = Array(nums.length + 1).fill(-1);
 
-      const dfs = (index, prevIndex) => {
-         if (index === nums.length)
-            return 0
-         else if (memo[prevIndex + 1] !== -1)
-            return memo[prevIndex + 1]
+      const dfs = (idx, prevIdx) => {
+         if (idx === nums.length) {
+            return 0;
+         }
+         else if (memo[prevIdx + 1] !== -1) {
+            return memo[prevIdx + 1];
+         }
 
-         const num = nums[index];
+         const num = nums[idx];
          // skip current num
-         const skip = dfs(index + 1, prevIndex);
+         const skip = dfs(idx + 1, prevIdx);
          // take current num
          let take = 0;
+         
          if (
-            prevIndex == -1 ||
-            num > nums[prevIndex]
+            prevIdx == -1
+            || num > nums[prevIdx]
          )
-            take = 1 + dfs(index + 1, index)
+            take = 1 + dfs(idx + 1, idx);
 
          const lis = Math.max(skip, take);
-         memo[prevIndex + 1] = lis;
-         return lis
+         memo[prevIdx + 1] = lis;
+         return lis;
       }
-      return dfs(0, -1)
+
+      return dfs(0, -1);
    }
 }
 
@@ -49,17 +53,19 @@ class Solution {
     * @return {number}
     */
    lengthOfLIS(nums) {
+      const N = nums.length;
       // [starting index: LIS length]
-      const cache = Array(nums.length).fill(1);
+      const cache = Array(N).fill(1);
 
-      for (let left = nums.length - 1; left > -1; left--) {
-         for (let right = left + 1; right < nums.length; right++) {
+      for (let left = N - 1; left > -1; left--) {
+         for (let right = left + 1; right < N; right++) {
             if (nums[left] < nums[right]) {
-               cache[left] = Math.max(cache[left], 1 + cache[right])
+               cache[left] = Math.max(cache[left], 1 + cache[right]);
             }
          }
       }
-      return Math.max(...cache)
+
+      return Math.max(...cache);
    }
 }
 
@@ -75,34 +81,40 @@ class Solution {
     * @return {number}
     */
    lengthOfLIS(nums) {
-      const bisect_left = (num) => {
+      const bisectLeft = (num) => {
          let left = 0;
          let right = lis.length - 1;
 
          while (left <= right) {
-            const middle = Math.floor((left + right) / 2);
-            const middleNum = lis[middle];
+            const mid = Math.floor((left + right) / 2);
+            const midNum = lis[mid];
 
             // search for the first greater/equal to num
-            if (num > middleNum)
-               left = middle + 1;
-            else
-               right = middle - 1;
+            if (num > midNum) {
+               left = mid + 1;
+            }
+            else {
+               right = mid - 1;
+            }
          }
-         return left
-      }
+
+         return left;
+      };
 
       const lis = [];
 
       for (const num of nums) {
-         const index = bisect_left(num);
+         const idx = bisectLeft(num);
 
-         if (index === lis.length)
-            lis.push(num);
-         else
-            lis[index] = num;
+         if (idx === lis.length) {
+            lis.push(num); 
+         }
+         else {
+            lis[idx] = num;
+         }
       }
-      return lis.length
+
+      return lis.length;
    }
 }
 

@@ -20,73 +20,82 @@ class Solution {
       }
 
       const numHeap = new MinPriorityQueue(x => x[0]);
-      for (const [num, frequency] of numFrequency) {
-         numHeap.enqueue([frequency, num]);
+      
+      for (const [num, freq] of numFreq) {
+         numHeap.enqueue([freq, num]);
+
          if (numHeap.size() > k) {
             numHeap.pop();
          }
       }
-      return numHeap.toArray().map(([_, num]) => num)
+      
+      return numHeap.toArray().map(([_, num]) => num);
    }
+}
 
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
     * Tags:
-    *     DS: bucket as list, hash map
-    *     A: iteration
+    *     DS: hash map, list
+    *     A: bucket sort
     * @param {number[]} nums
     * @param {number} k
     * @return {number[]}
     */
    topKFrequent(nums, k) {
-      const numFrequency = new Map();
-      for (const number of nums) {
-         numFrequency.set(number, (numFrequency.get(number) ?? 0) + 1)
+      const numFreq = new Map();
+      const res = [];
+      
+      for (const num of nums) {
+         numFreq.set(num, (numFreq.get(num) || 0) + 1)
       }
       
-      const numBucket = Array(Math.max(...numFrequency.values()) + 1);
-      for (const [num, frequency] of numFrequency) {
-         if (numBucket[frequency] === undefined) {
-            numBucket[frequency] = [];
-         }
-         numBucket[frequency].push(num);
+      const numBucket = Array.from({length: Math.max(...numFreq.values())}, () => []);
+      
+      for (const [num, freq] of numFreq) {
+         numBucket[freq - 1].push(num);
       }
       
-      const result = [];
-      for (const numbers of numBucket.reverse()) {
-         if (numbers) {
-            for (let number of numbers) {
-               result.push(number);
-               if (result.length === k) {
-                  return result
+      for (const nums of numBucket.reverse()) {
+         if (nums) {
+            for (let num of nums) {
+               res.push(num);
+               
+               if (res.length === k) {
+                  return res;
                }
             }
          }
       }
    }
+}
 
+
+class Solution {
    /**
     * Time complexity: O(nlogn)
     * Auxiliary space complexity: O(n)
     * Tags: bucket as Object()
-    * @param {number[]} numbers
+    * @param {number[]} nums
     * @param {number} k
     * @return {number[]}
     */
-   topKFrequent(numbers, k) {
-      const numberFrequency = {};
-      const bucket = Array(numbers.length + 1).fill(null);
+   topKFrequent(nums, k) {
+      const numFreq = {};
+      const bucket = Array(nums.length + 1).fill(null);
       const solution = [];
 
-      for (const number of numbers) {
-         numberFrequency[number] = (numberFrequency[number] ?? 0) + 1
+      for (const num of nums) {
+         numFreq[num] = (numFreq[num] || 0) + 1
       }
 
       // bucket as a list of lists
       // [[], [3], [2], [1], [], [], []]
-      for (const key of Object.keys(numberFrequency)) {
-         let val = numberFrequency[key];
+      for (const key of Object.keys(numFreq)) {
+         let val = numFreq[key];
          if (!bucket[val]) {
             bucket[val] = [];
          }
@@ -94,18 +103,18 @@ class Solution {
       }
 
       // get top k values
-      for (const numbers of bucket.reverse()) {
-         if (numbers) {
-            for (let number of numbers) {
-               solution.push(number);
+      for (const nums of bucket.reverse()) {
+         if (nums) {
+            for (let num of nums) {
+               solution.push(num);
                if (solution.length === k) {
-                  return solution
+                  return solution;
                }
             }
          }
       }
 
-      return -1
+      return -1;
    }
 }
 
