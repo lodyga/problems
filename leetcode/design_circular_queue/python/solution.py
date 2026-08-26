@@ -1,5 +1,5 @@
 class DoublyLinkedNode:
-    def __init__(self, val=None, next=None, prev=None) -> None:
+    def __init__(self, val: int = -1, next=None, prev=None) -> None:
         self.val = val
         self.next = next
         self.prev = prev
@@ -12,45 +12,48 @@ class MyCircularQueue:
     Tags:
         DS: queue, doubly linked list
     """
-    def __init__(self, cap: int):
+
+    def __init__(self, cap: int) -> None:
         self.cap = cap
         self.size = 0
-        self.left = DoublyLinkedNode()
-        self.right = DoublyLinkedNode(None, None, self.left)
-        self.left.next = self.right
+        self.first = DoublyLinkedNode(-1)
+        self.last = DoublyLinkedNode(-1, None, self.first)
+        self.first.next = self.last
 
     def enQueue(self, val: int) -> bool:
         if self.isFull():
             return False
-        
-        right = self.right
-        left = right.prev
+
+        right = self.last
+        left = self.last.prev
         node = DoublyLinkedNode(val, right, left)
         left.next = node
         right.prev = node
+
         self.size += 1
         return True
 
     def deQueue(self) -> bool:
         if self.isEmpty():
             return False
-        
-        left = self.left
-        right = self.left.next.next
+
+        left = self.first
+        right = self.first.next.next
         left.next = right
         right.prev = left
+
         self.size -= 1
         return True
 
     def Front(self) -> int:
         if self.isEmpty():
             return -1
-        return self.left.next.val
+        return self.first.next.val
 
     def Rear(self) -> int:
         if self.isEmpty():
             return -1
-        return self.right.prev.val
+        return self.last.prev.val
 
     def isEmpty(self) -> bool:
         return self.size == 0
@@ -75,7 +78,7 @@ class MyCircularQueue:
     Tags:
         DS: queue, linked list
     """
-    def __init__(self, cap: int):
+    def __init__(self, cap: int) -> None:
         self.cap = cap
         self.size = 0
         self.anchor = ListNode()
@@ -107,6 +110,56 @@ class MyCircularQueue:
         if self.isEmpty():
             return -1
         return self.last_node.val
+
+    def isEmpty(self) -> bool:
+        return self.size == 0
+
+    def isFull(self) -> bool:
+        return self.size == self.cap
+
+
+class MyCircularQueue:
+    """
+    Time complexity: O(1)
+    Auxiliary space complexity: O(n)
+    Tags:
+        DS: queue, array
+    """
+    def __init__(self, cap: int) -> None:
+        self.cap = cap
+        self.size = 0
+        self.queue = [0] * cap
+        self.front = 0
+        self.back = -1
+
+    def enQueue(self, value: int) -> bool:
+        if self.isFull():
+            return False
+
+        self.back = (self.back + 1) % self.cap
+        self.queue[self.back] = value
+        self.size += 1
+
+        return True
+
+    def deQueue(self) -> bool:
+        if self.isEmpty():
+            return False
+
+        self.front = (self.front + 1) % self.cap
+        self.size -= 1
+
+        return True
+
+    def Front(self) -> int:
+        if self.isEmpty():
+            return -1
+        return self.queue[self.front]
+
+    def Rear(self) -> int:
+        if self.isEmpty():
+            return -1
+        return self.queue[self.back]
 
     def isEmpty(self) -> bool:
         return self.size == 0

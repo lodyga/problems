@@ -20,11 +20,6 @@ class Solution:
             A: DFS with backtracking
         Largest → Smallest
         """
-        nums.sort()
-        N = len(nums)
-        subset = []
-        res = []
-
         def backtrack(idx):
             if idx == N:
                 res.append(subset.copy())
@@ -38,6 +33,11 @@ class Solution:
                 idx += 1
 
             backtrack(idx + 1)
+
+        nums.sort()
+        N = len(nums)
+        subset = []
+        res = []
 
         backtrack(0)
         return res
@@ -64,10 +64,6 @@ class Solution:
             A: DFS with backtracking
         Smallest → Largest
         """
-        nums.sort()
-        res = []
-        subset = []
-
         def backtrack(start):
             res.append(subset.copy())
 
@@ -77,6 +73,10 @@ class Solution:
                 subset.append(nums[index])
                 backtrack(index + 1)
                 subset.pop()
+
+        nums.sort()
+        res = []
+        subset = []
 
         backtrack(0)
         return res

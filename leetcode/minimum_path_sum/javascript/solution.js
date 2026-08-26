@@ -9,29 +9,32 @@ class Solution {
     * @return {number}
     */
    minPathSum(grid) {
+      const dfs = (row, col) => {
+         if (row === ROWS || col === COLS) {
+            return INF;
+         }
+         else if (memo[row][col] !== -1) {
+            return memo[row][col];
+         }
+
+         const cell = grid[row][col];
+         const res = cell + Math.min(dfs(row + 1, col), dfs(row, col + 1));
+         memo[row][col] = res;
+
+         return res;
+      };
+
+      const INF = 1e7;
       const ROWS = grid.length;
       const COLS = grid[0].length;
       const memo = Array.from({ length: ROWS }, () => Array(COLS).fill(-1));
       memo[ROWS - 1][COLS - 1] = grid[ROWS - 1][COLS - 1];
-      const UPPER_BOUND = 10 ** 7;
+      return dfs(0, 0);
+   }
+}
 
-      const dfs = (row, col) => {
-         if (row == ROWS || col == COLS) {
-            return UPPER_BOUND
-         } else if (memo[row][col] !== -1) {
-            return memo[row][col]
-         }
 
-         const cell = grid[row][col];
-         const right = dfs(row, col + 1);
-         const down = dfs(row + 1, col);
-         const res = cell + Math.min(right, down);
-         memo[row][col] = res;
-         return res
-      }
-      return dfs(0, 0)
-   };
-
+class Solution {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(n2)
@@ -42,10 +45,10 @@ class Solution {
     * @return {number}
     */
    minPathSum(grid) {
+      const INF = 1e7;
       const ROWS = grid.length;
       const COLS = grid[0].length;
-      const UPPER_BOUND = 10 ** 7
-      const cache = Array.from(({ length: ROWS + 1 }), () => Array(COLS + 1).fill(UPPER_BOUND));
+      const cache = Array.from(({ length: ROWS + 1 }), () => Array(COLS + 1).fill(INF));
       cache[ROWS][COLS - 1] = 0;
 
       for (let row = ROWS - 1; row > -1; row--) {
@@ -56,9 +59,13 @@ class Solution {
             cache[row][col] = cell + Math.min(right, down);
          }
       }
-      return cache[0][0]
-   };
 
+      return cache[0][0];
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(n)
@@ -69,24 +76,28 @@ class Solution {
     * @return {number}
     */
    minPathSum(grid) {
+      const INF = 10e7;
       const ROWS = grid.length;
       const COLS = grid[0].length;
-      const UPPER_BOUND = 10 ** 7
-      let nextCache = Array(COLS + 1).fill(UPPER_BOUND);
+      let nextCache = Array(COLS + 1).fill(INF);
       nextCache[COLS - 1] = 0;
 
       for (let row = ROWS - 1; row > -1; row--) {
-         const cache = Array(COLS + 1).fill(UPPER_BOUND);
+         const cache = Array(COLS + 1).fill(INF);
+
          for (let col = COLS - 1; col > -1; col--) {
-            const cell = grid[row][col];
-            const right = cache[col + 1];
-            const down = nextCache[col];
-            cache[col] = cell + Math.min(right, down);
+            cache[col] = grid[row][col]
+               + Math.min(
+                  nextCache[col],
+                  cache[col + 1]
+               );
          }
+
          nextCache = cache;
       }
-      return nextCache[0]
-   };
+
+      return nextCache[0];
+   }
 }
 
 

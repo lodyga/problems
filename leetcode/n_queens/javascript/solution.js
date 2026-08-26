@@ -9,28 +9,21 @@ class Solution {
     * @return {string[][]}
     */
    solveNQueens(n) {
-      const ROWS = n;
-      const COLS = n;
-      const board = Array.from({ length: ROWS }, () => Array(COLS).fill('.'));
-      const res = [];
-      const visitedCols = Array(COLS).fill(false);
-      const visitedDiags = new Set();
-      const visitedADiags = new Set();
-
       const backtrack = (row) => {
          if (row === ROWS) {
             res.push(board.map(row => row.join('')));
-            return
+            return;
          }
 
          for (let col = 0; col < COLS; col++) {
             if (
-               visitedCols[col] ||
-               visitedDiags.has(row + col) ||
-               visitedADiags.has(row - col)
+               visitedCols[col]
+               || visitedDiags.has(row + col)
+               || visitedADiags.has(row - col)
             ) {
-               continue
+               continue;
             }
+
             visitedCols[col] = true;
             visitedDiags.add(row + col);
             visitedADiags.add(row - col);
@@ -43,10 +36,18 @@ class Solution {
             visitedADiags.delete(row - col);
             board[row][col] = '.';
          }
-      }
+      };
+
+      const ROWS = n;
+      const COLS = n;
+      const board = Array.from({ length: ROWS }, () => Array(COLS).fill('.'));
+      const res = [];
+      const visitedCols = Array(COLS).fill(false);
+      const visitedDiags = new Set();
+      const visitedADiags = new Set();
 
       backtrack(0);
-      return res
+      return res;
    }
 }
 

@@ -26,7 +26,8 @@ class Solution {
 
          dayStack.push(day);
       }
-      return res
+
+      return res;
    }
 }
 
@@ -52,7 +53,7 @@ class Solution {
          }
       }
       
-      return res
+      return res;
    }
 }
 

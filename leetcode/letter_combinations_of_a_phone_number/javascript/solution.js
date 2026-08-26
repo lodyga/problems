@@ -9,6 +9,19 @@ class Solution {
     * @return {string[]}
     */
    letterCombinations(digits) {
+      const backtrack = (idx) => {
+         if (idx === digits.length) {
+            res.push(combination.join(''));
+            return;
+         }
+
+         for (const letter of digitToLetter.get(digits[idx])) {
+            combination.push(letter);
+            backtrack(idx + 1);
+            combination.pop();
+         }
+      };
+
       const combination = [];
       const res = [];
       const digitToLetter = new Map([
@@ -22,21 +35,8 @@ class Solution {
          ['9', 'wxyz']
       ]);
 
-      const backtrack = (idx) => {
-         if (idx === digits.length) {
-            res.push(combination.join(''));
-            return
-         }
-
-         for (const letter of digitToLetter.get(digits[idx])) {
-            combination.push(letter);
-            backtrack(idx + 1);
-            combination.pop();
-         }
-      }
-
       backtrack(0);
-      return res
+      return res;
    }
 }
 

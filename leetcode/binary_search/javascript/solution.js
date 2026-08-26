@@ -13,19 +13,21 @@ class Solution {
       let right = nums.length - 1;
 
       while (left <= right) {
-         const mid = (left + right) >> 1;
+         const mid = Math.floor((left + right) / 2);
          const midNum = nums[mid];
 
          if (target === midNum) {
-            return mid
-         } else if (target < midNum) {
+            return mid;
+         } 
+         else if (target < midNum) {
             right = mid - 1;
-         } else {
+         } 
+         else {
             left = mid + 1;
          }
       }
       
-      return -1
+      return -1;
    }
 }
 

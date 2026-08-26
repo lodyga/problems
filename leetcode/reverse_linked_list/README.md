@@ -26,5 +26,3 @@ Output: [2,1]
 Input: head = []
 Output: []
 </pre>
-
-

@@ -15,7 +15,7 @@ class Solution {
       const backtrack = (idx) => {
          if (idx === nums.length) {
             res.push(subset.slice());
-            return
+            return;
          }
 
          subset.push(nums[idx]);
@@ -25,7 +25,7 @@ class Solution {
       }
 
       backtrack(0);
-      return res
+      return res;
    }
 }
 
@@ -55,7 +55,7 @@ class Solution {
       }
 
       backtrack(0);
-      return res
+      return res;
    }
 }
 

@@ -10,26 +10,26 @@ class Solution:
             DS: list
             A: DFS with backtracking
         """
-        N = len(candidates)
-        combination = []
-        res = []
-
         def backtrack(idx: int, total: int) -> None:
             if total == target:
                 res.append(combination.copy())
                 return
             if (
-                total > target or
-                idx == N
+                total > target
+                or idx == N
             ):
                 return
-            
+
             candidate = candidates[idx]
             combination.append(candidate)
             backtrack(idx, total + candidate)
             combination.pop()
             backtrack(idx + 1, total)
-        
+
+        N = len(candidates)
+        combination = []
+        res = []
+
         backtrack(0, 0)
         return res
 
@@ -46,9 +46,6 @@ class Solution:
             DS: list
             A: DFS with backtracking
         """
-        combination = []
-        res = []
-
         def backtrack(start: int, total: int) -> None:
             if total == target:
                 res.append(combination.copy())
@@ -61,6 +58,9 @@ class Solution:
                 combination.append(candidate)
                 backtrack(idx, total + candidate)
                 combination.pop()
+
+        combination = []
+        res = []
 
         backtrack(0, 0)
         return res

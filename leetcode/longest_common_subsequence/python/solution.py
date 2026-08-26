@@ -10,18 +10,18 @@ class Solution:
         ROWS = len(text1)
         COLS = len(text2)
 
-        def dfs(idx1: int, idx2: int) -> int:
-            if idx1 == ROWS or idx2 == COLS:
+        def dfs(row: int, col: int) -> int:
+            if row == ROWS or col == COLS:
                 return 0
 
-            letter1 = text1[idx1]
-            letter2 = text2[idx2]
+            elif text1[row] == text2[col]:
+                res = 1 + dfs(row + 1, col + 1)
 
-            res = max(
-                dfs(idx1 + 1, idx2),
-                dfs(idx1, idx2 + 1),
-                1 + dfs(idx1 + 1, idx2 + 1) if letter1 == letter2 else 0
-            )
+            else:
+                res = max(
+                    dfs(row + 1, col),
+                    dfs(row, col + 1)
+                )
 
             return res
 
@@ -38,28 +38,26 @@ class Solution:
             DS: array, string
             A: top-down
         """
+        def dfs(row: int, col: int) -> int:
+            if row == ROWS or col == COLS:
+                return 0
+            elif memo[row][col] != -1:
+                return memo[row][col]
+
+            elif text1[row] == text2[col]:
+                memo[row][col] = 1 + dfs(row + 1, col + 1)
+                return memo[row][col]
+
+            memo[row][col] = max(
+                dfs(row + 1, col),
+                dfs(row, col + 1)
+            )
+
+            return memo[row][col]
+
         ROWS = len(text1)
         COLS = len(text2)
         memo = [[-1] * COLS for _ in range(ROWS)]
-
-        def dfs(idx1: int, idx2: int) -> int:
-            if idx1 == ROWS or idx2 == COLS:
-                return 0
-            elif memo[idx1][idx2] != -1:
-                return memo[idx1][idx2]
-
-            letter1 = text1[idx1]
-            letter2 = text2[idx2]
-
-            res = max(
-                dfs(idx1 + 1, idx2),
-                dfs(idx1, idx2 + 1),
-                1 + dfs(idx1 + 1, idx2 + 1) if letter1 == letter2 else 0
-            )
-
-            memo[idx1][idx2] = res
-            return res
-
         return dfs(0, 0)
 
 
@@ -78,10 +76,7 @@ class Solution:
 
         for row in range(ROWS - 1, -1, -1):
             for col in range(COLS - 1, -1, -1):
-                letter1 = text1[row]
-                letter2 = text2[col]
-
-                if letter1 == letter2:
+                if text1[row] == text2[col]:
                     cache[row][col] = 1 + cache[row + 1][col + 1]
                 else:
                     cache[row][col] = max(
@@ -109,17 +104,14 @@ class Solution:
             cache = [0] * (COLS + 1)
 
             for col in range(COLS - 1, -1, -1):
-                letter1 = text1[row]
-                letter2 = text2[col]
-
-                if letter1 == letter2:
+                if text1[row] == text2[col]:
                     cache[col] = 1 + next_cache[col + 1]
                 else:
                     cache[col] = max(
                         next_cache[col],
                         cache[col + 1],
                     )
-            
+
             next_cache = cache
 
         return next_cache[0]

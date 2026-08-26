@@ -1,51 +1,55 @@
-from collections import defaultdict
-
-
 class DoublyLinkedNode:
-    def __init__(self, val=None, next=None, prev=None) -> None:
-        # Val tores a key.
+    def __init__(self, key: int = -1, val: int = -1, next=None, prev=None) -> None:
+        self.key = key
         self.val = val
         self.next = next
         self.prev = prev
 
 
 class DoublyLinkedList:
-    def __init__(self, nodes: list[DoublyLinkedNode]) -> None:
-        self.left = DoublyLinkedNode()
-        self.right = DoublyLinkedNode(None, None, self.left)
-        self.left.next = self.right
-        self.len = 0
+    def __init__(self, nodes: list[DoublyLinkedNode] = None) -> None:
+        self.size = 0
+        self.first = DoublyLinkedNode()
+        self.last = DoublyLinkedNode(-1, -1, None, self.first)
+        self.first.next = self.last
+
         if nodes:
             for node in nodes:
                 self.push(node)
 
     def push(self, node: DoublyLinkedNode) -> None:
-        right = self.right
+        right = self.last
         left = right.prev
+
+        left.next = node
+        right.prev = node
 
         node.next = right
         node.prev = left
 
-        left.next = right.prev = node
-        self.len += 1
+        self.size += 1
 
     def pop(self) -> None:
-        node = self.right.prev
+        if self.size == 0:
+            return
+
+        node = self.last.prev
         self.delete(node)
 
     def pop_left(self) -> None:
-        node = self.left.next
+        if self.size == 0:
+            return
+
+        node = self.first.next
         self.delete(node)
 
     def delete(self, node: DoublyLinkedNode) -> None:
-        node.next.prev, node.prev.next = node.prev, node.next
-        del node
-        self.len -= 1
+        node.next.prev = node.prev
+        node.prev.next = node.next
+        self.size -= 1
 
-    def peak(self) -> DoublyLinkedNode:
-        # The val is actualy a key.
-        # The vals are in self.vals.
-        return self.left.next if self.len > 0 else None
+    def front(self) -> DoublyLinkedNode:
+        return self.first.next if self.size > 0 else None
 
 
 class LFUCache:
@@ -58,65 +62,70 @@ class LFUCache:
     """
 
     def __init__(self, cap: int):
+        # from collections import defaultdict
         self.cap = cap
-        self.nodes = {}  # {key: Node(val, next, prev)}
-        # self.nodes = defaultdict(DoublyLinkedNode)  # {key: DoblyListNode()}
-
-        self.vals = {}  # {key: val}
-        # self.vals = defaultdict(int)  # {key: val}
-
-        self.freqs = {}  # {key: frequency}
-        # self.freqs = defaultdict(int)  # {key: frequency}
-
-        # {frequency: DoublyLinkedList(DoblyListNode(), ), }
-        self.freq_buckets = {}
-        # self.freq_buckets = defaultdict(DoublyLinkedList)  # {frequency: DoublyLinkedList(), }
+        self.size = 0
         self.min_freq = 0
 
-    def _insert(self, key, val):
-        self.vals[key] = val
-        self.freqs[key] = 1
-        node = DoublyLinkedNode(key)
-        self.nodes[key] = node
-        if 1 not in self.freq_buckets:
-            self.freq_buckets[1] = DoublyLinkedList([node])
+        self.nodes = {}  # {key: DoblyListNode(key, val, next, prev), }
+        # self.nodes = defaultdict(DoublyLinkedNode)
+
+        self.freqs = {}  # {key: frequency, }
+        # self.freqs = defaultdict(int)
+
+        self.freq_buckets = {}
+        # {frequency: DoublyLinkedList(DoblyListNode(), ), }
+        # self.freq_buckets = defaultdict(DoublyLinkedList)
+
+
+    def _update_bucket(self, node: DoublyLinkedNode, freq: int) -> None:
+        if freq not in self.freq_buckets:
+            self.freq_buckets[freq] = DoublyLinkedList([node])
         else:
-            self.freq_buckets[1].push(node)
+            self.freq_buckets[freq].push(node)
+
+    def _insert(self, key: int, val: int) -> None:
+        node = DoublyLinkedNode(key, val)
+        self.nodes[key] = node
+        self.freqs[key] = 1
+
+        self._update_bucket(node, 1)
         self.min_freq = 1
 
-    def _update(self, key, val):
-        self.vals[key] = val
+    def _update(self, key: int, val: int) -> None:
         freq = self.freqs[key]
         node = self.nodes[key]
+        node.val = val
         bucket = self.freq_buckets[freq]
         bucket.delete(node)
+
         if (
-            freq == self.min_freq and
-            bucket.len == 0
+            freq == self.min_freq
+            and bucket.size == 0
         ):
             self.min_freq += 1
-        self.freqs[key] += 1
-        if freq + 1 not in self.freq_buckets:
-            self.freq_buckets[freq + 1] = DoublyLinkedList([node])
-        else:
-            self.freq_buckets[freq + 1].push(node)
 
-    def _pop_lru(self):
+        self.freqs[key] += 1
+        self._update_bucket(node, self.freqs[key])
+
+    def _pop_lru(self) -> None:
         lfu_bucket = self.freq_buckets[self.min_freq]
-        lfu_key = lfu_bucket.peak().val
-        self.vals.pop(lfu_key)
+        lfu_key = lfu_bucket.front().key
         self.nodes.pop(lfu_key)
         self.freqs.pop(lfu_key)
         lfu_bucket.pop_left()
 
-        if lfu_bucket.len == 0:
+        if lfu_bucket.size == 0:
             self.freq_buckets.pop(self.min_freq)
 
     def get(self, key: int) -> int:
-        if key not in self.vals:
+        if key not in self.nodes:
             return -1
-        self._update(key, self.vals[key])
-        return self.vals[key]
+
+        val = self.nodes[key].val
+        self._update(key, val)
+
+        return val
 
     def put(self, key: int, val: int) -> None:
         # Update existing key.
@@ -124,14 +133,14 @@ class LFUCache:
             self._update(key, val)
 
         # Capacity reached -> pop LFU key.
-        elif self.cap == 0:
+        elif self.size == self.cap:
             self._pop_lru()
             self._insert(key, val)
 
         # Insert a new key.
         else:
             self._insert(key, val)
-            self.cap -= 1
+            self.size += 1
 
 
 lfu = LFUCache(2)

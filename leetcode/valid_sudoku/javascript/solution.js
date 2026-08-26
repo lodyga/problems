@@ -9,76 +9,97 @@ class Solution {
     * @return {boolean}
    */
    isValidSudoku(board) {
-      const areRowsValid = () => {
+
+      const validateRows = () => {
          for (let row = 0; row < 9; row++) {
-            const rowValues = new Set();
+            const rowValues = Array(9).fill(false);
 
             for (let col = 0; col < 9; col++) {
                const cell = board[row][col];
+
                if (cell === '.') {
-                  continue
-               } else if (rowValues.has(cell)) {
-                  return false
-               } else {
-                  rowValues.add(cell);
+                  continue;
                }
+
+               const val = cell.charCodeAt(0) - '1'.charCodeAt(0);
+
+               if (rowValues[val]) {
+                  return false;
+               }
+
+               rowValues[val] = true;
             }
          }
-         return true
+
+         return true;
       };
 
-      const areColsValid = () => {
+      const validateCols = () => {
          for (let col = 0; col < 9; col++) {
-            const colValues = new Set();
+            const colValues = Array(9).fill(false);
 
             for (let row = 0; row < 9; row++) {
                const cell = board[row][col];
+
                if (cell === '.') {
-                  continue
-               } else if (colValues.has(cell)) {
-                  return false
-               } else {
-                  colValues.add(cell);
+                  continue;
                }
+
+               const val = cell.charCodeAt(0) - '1'.charCodeAt(0);
+
+               if (colValues[val]) {
+                  return false;
+               }
+
+               colValues[val] = true;
             }
          }
-         return true
+
+         return true;
       };
 
-      const areBoxesValid = () => {
-         const isBoxValid = (row, col) => {
-            const boxValues = new Set();
+      const validateSubboxes = () => {
+
+         const validateSubbox = (row, col) => {
+            const boxValues = Array(9).fill(false);
 
             for (let i = row; i < row + 3; i++) {
                for (let j = col; j < col + 3; j++) {
                   const cell = board[i][j];
-                  if (cell === '.')
-                     continue
-                  else if (boxValues.has(cell)) {
-                     return false
-                  } else
-                     boxValues.add(cell);
+
+                  if (cell === '.') {
+                     continue;
+                  }
+
+                  const val = cell.charCodeAt(0) - '1'.charCodeAt(0);
+
+                  if (boxValues[val]) {
+                     return false;
+                  }
+
+                  boxValues[val] = true;
                }
             }
-            return true
+
+            return true;
          };
 
          for (let row = 0; row < 9; row = row + 3) {
             for (let col = 0; col < 9; col = col + 3) {
-               if (isBoxValid(row, col) === false) {
-                  return false
+               if (validateSubbox(row, col) === false) {
+                  return false;
                }
             }
          }
-         
-         return true
-      };
+
+         return true;
+      }
 
       return (
-         areRowsValid() &&
-         areColsValid() &&
-         areBoxesValid()
-      )
+         validateRows()
+         && validateCols()
+         && validateSubboxes()
+      );
    }
 }
 

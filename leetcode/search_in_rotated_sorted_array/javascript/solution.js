@@ -17,33 +17,35 @@ class Solution {
          const midNum = nums[mid];
 
          if (target === midNum) {
-            return mid
+            return mid;
          }
          // The right side portion is contiguous.
          else if (midNum < nums[right]) {
             if (
-               midNum < target &&
-               target <= nums[right]
+               midNum < target
+               && target <= nums[right]
             ) {
                left = mid + 1;
-            } else {
+            } 
+            else {
                right = mid - 1;
             }
          }
          // The left side portion is contiguous.
          else {
             if (
-               nums[left] <= target &&
-               target < midNum
+               nums[left] <= target
+               && target < midNum
             ) {
                right = mid - 1;
-            } else {
+            } 
+            else {
                left = mid + 1;
             }
          }
       }
       
-      return -1
+      return -1;
    }
 }
 

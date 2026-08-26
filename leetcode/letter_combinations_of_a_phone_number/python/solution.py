@@ -7,6 +7,16 @@ class Solution:
             DS: list
             A: DFS with backtracking
         """
+        def backtrack(idx: int) -> None:
+            if idx == N:
+                res.append("".join(combination))
+                return
+
+            for letter in digit_to_letter[digits[idx]]:
+                combination.append(letter)
+                backtrack(idx + 1)
+                combination.pop()
+
         N = len(digits)
         combination = []
         res = []
@@ -20,16 +30,6 @@ class Solution:
             "8": "tuv",
             "9": "wxyz"
         }
-
-        def backtrack(idx: int) -> None:
-            if idx == N:
-                res.append("".join(combination))
-                return
-
-            for letter in digit_to_letter[digits[idx]]:
-                combination.append(letter)
-                backtrack(idx + 1)
-                combination.pop()
 
         backtrack(0)
         return res

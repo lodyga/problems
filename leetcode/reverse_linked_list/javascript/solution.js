@@ -1,15 +1,4 @@
-import { ListNode, buildLinkedList, getLinkedListValues } from '../../../../JS/linked-list-utils.js'
-
-
-/**
- * Represents a node in a singly-linked list.
- * class ListNode {
- *    constructor(val = null, next = null) {
- *       this.val = val;
- *       this.next = next;
- *    }
- * }
- */
+import { ListNode, LinkedList } from '../../../../JS/linked-list-utils.js'
 
 
 class Solution {
@@ -62,8 +51,15 @@ class Solution {
    }
 }
 
-
+const linkedList = new LinkedList();
+const buildLinkedList = linkedList.buildLinkedList;
+const serializeLinkedList = linkedList.serializeLinkedList;
+const areLinkedListsEqueal = linkedList.areLinkedListsEqueal;
+const solution = new Solution();
 const reverseList = new Solution().reverseList;
-console.log(JSON.stringify(getLinkedListValues(new Solution().reverseList(buildLinkedList([])))) === JSON.stringify([]))
-console.log(JSON.stringify(getLinkedListValues(new Solution().reverseList(buildLinkedList([1, 2])))) === JSON.stringify([2, 1]))
-console.log(JSON.stringify(getLinkedListValues(new Solution().reverseList(buildLinkedList([1, 2, 3, 4, 5])))) === JSON.stringify([5, 4, 3, 2, 1]))
+
+console.log(JSON.stringify(new LinkedList().serializeLinkedList(new Solution().reverseList(new LinkedList().buildLinkedList([])))) === JSON.stringify([]))
+console.log(JSON.stringify(new LinkedList().serializeLinkedList(new Solution().reverseList(new LinkedList().buildLinkedList([1, 2, 3, 4, 5])))))
+
+console.log(JSON.stringify(serializeLinkedList(solution.reverseList(buildLinkedList([1, 2])))) === JSON.stringify([2, 1]))
+console.log(JSON.stringify(serializeLinkedList(solution.reverseList(buildLinkedList([1, 2, 3, 4, 5])))) === JSON.stringify([5, 4, 3, 2, 1]))

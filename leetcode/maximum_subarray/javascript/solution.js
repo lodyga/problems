@@ -15,7 +15,8 @@ class Solution {
          subSum > 0 ? subSum += num : subSum = num
          res = Math.max(res, subSum);
       }
-      return res
+
+      return res;
    }
 }
 

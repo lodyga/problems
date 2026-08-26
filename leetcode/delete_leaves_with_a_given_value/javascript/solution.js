@@ -25,22 +25,59 @@ class Solution {
     */
    removeLeafNodes(root, target) {
       if (root === null) {
-         return null
+         return null;
       }
 
       root.left = removeLeafNodes(root.left, target);
       root.right = removeLeafNodes(root.right, target);
 
       if (
-         root.val === target &&
-         root.left === null &&
-         root.right === null
+         root.val === target
+         && root.left === null
+         && root.right === null
       ) {
-         return null
+         return null;
       }
 
-      return root
-   };
+      return root;
+   }
+}
+
+
+class Solution {
+   /**
+    * Time complexity: O(n)
+    * Auxiliary space complexity: O(n)
+    * Tags:
+    *     DS: binary tree
+    *     A: dfs, recursion, post-order traversal
+    * @param {TreeNode} root 
+    * @param {number} target
+    * @returns {TreeNode}
+    */
+   removeLeafNodes(root, target) {
+
+      const dfs = (node) => {
+         if (node === null) {
+            return null;
+         }
+
+         node.left = dfs(node.left, target);
+         node.right = dfs(node.right, target);
+
+         if (
+            node.val === target
+            && node.left === null
+            && node.right === null
+         ) {
+            return null;
+         }
+
+         return node;
+      };
+
+      return dfs(root);
+   }
 }
 
 

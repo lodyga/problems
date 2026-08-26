@@ -18,7 +18,93 @@ class Solution:
         Auxiliary space complexity: O(n)
         Tags:
             DS: binary tree
-            A: dfs, recursion, pre-order traversal
+            A: dfs, recursion, post-order traversal
+        """
+        def dfs(node: TreeNode) -> tuple[int]:
+            if node is None:
+                return (0, 0)
+
+            left = dfs(node.left)
+            right = dfs(node.right)
+            take_node = node.val + left[1] + right[1]
+            skip_node = max(left) + max(right)
+            return (take_node, skip_node)
+
+        return max(dfs(root))
+
+
+from dataclasses import dataclass
+
+@dataclass
+class State:
+    take: int
+    skip: int
+
+
+class Solution:
+    def rob(self, root: TreeNode) -> int:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(n)
+        Tags:
+            DS: binary tree
+            A: dfs, recursion, post-order traversal
+        """
+        def dfs(node: TreeNode) -> State:
+            if node is None:
+                return State(0, 0)
+
+            left = dfs(node.left)
+            right = dfs(node.right)
+
+            take = node.val + left.skip + right.skip
+            skip = max(left.take, left.skip) + max(right.take, right.skip)
+            return State(take, skip)
+
+        res = dfs(root)
+        return max(res.take, res.skip)
+
+
+from typing import NamedTuple
+
+
+class State(NamedTuple):
+    take: int
+    skip: int
+
+
+class Solution2:
+    def rob(self, root: TreeNode) -> int:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(n)
+        Tags:
+            DS: binary tree
+            A: dfs, recursion, post-order traversal
+        """
+        def dfs(node: TreeNode) -> State:
+            if node is None:
+                return State(0, 0)
+
+            left = dfs(node.left)
+            right = dfs(node.right)
+
+            take = node.val + left.skip + right.skip
+            skip = max(left.take, left.skip) + max(right.take, right.skip)
+            return State(take, skip)
+
+        res = dfs(root)
+        return max(res.take, res.skip)
+
+
+class Solution2:
+    def rob(self, root: TreeNode) -> int:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(n)
+        Tags:
+            DS: binary tree
+            A: dfs, recursion, post-order traversal
         """
         memo = {None: 0}
 
@@ -39,29 +125,6 @@ class Solution:
             return memo[node]
 
         return dfs(root)
-
-
-class Solution:
-    def rob(self, root: TreeNode) -> int:
-        """
-        Time complexity: O(n)
-        Auxiliary space complexity: O(n)
-        Tags:
-            DS: binary tree
-            A: dfs, recursion, pre-order traversal
-        """
-        def dfs(node):
-            if node is None:
-                return (0, 0)
-
-            left_node = dfs(node.left)
-            right_node = dfs(node.right)
-            skip_node = max(left_node) + max(right_node)
-            take_node = node.val + left_node[1] + right_node[1]
-
-            return (take_node, skip_node)
-
-        return max(dfs(root))
 
 
 print(Solution().rob(build_tree([3, 2, 3, None, 3, None, 1])) == 7)

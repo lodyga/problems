@@ -9,7 +9,7 @@ class Solution {
     *     k: unique letter count
     * Auxiliary space complexity: O(k)
     * Tags:
-    *     DS: heap
+    *     DS: heap, string
     *     A: iteration
     * @param {string} text
     * @return {string}
@@ -17,29 +17,33 @@ class Solution {
    reorganizeString(text) {
       const letterFreq = new Map();
       const letterHeap = new MaxPriorityQueue(x => x[0]);
-      const newString = [];
+      const res = [];
+      let prevLetter;
+      let prevFreq = 0;
 
       for (const letter of text) {
          letterFreq.set(letter, (letterFreq.get(letter) || 0) + 1);
       }
 
-      for (const [letter, frequency] of letterFreq.entries()) {
-         letterHeap.enqueue([frequency, letter])
+      for (const [letter, freq] of letterFreq.entries()) {
+         letterHeap.enqueue([freq, letter])
       }
 
-      let prevFreq = 0;
-      let prevLetter = '';
-      while (letterHeap.size()) {
-         const [frequency, letter] = letterHeap.dequeue();
+
+      while (!letterHeap.isEmpty()) {
+         const [freq, letter] = letterHeap.pop();
+         res.push(letter);
+
          if (prevFreq) {
-            letterHeap.enqueue([prevFreq, prevLetter])
+            letterHeap.push([prevFreq, prevLetter]);
          }
-         newString.push(letter);
+
          prevLetter = letter;
-         prevFreq = frequency - 1;
+         prevFreq = freq - 1;
       }
-      return prevFreq ? '' : newString.join('')
-   };
+
+      return prevFreq === 0 ? res.join('') : '';
+   }
 }
 
 

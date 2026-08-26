@@ -1,3 +1,80 @@
+class DoublyLinkedNode {
+   constructor(val = -1, next = null, prev = null) {
+      this.val = val;
+      this.next = next;
+      this.prev = prev;
+   }
+}
+
+
+/**
+ * Time complexity: O(1)
+ * Auxiliary space complexity: O(n)
+ * Tags:
+ *     DS: queue, doubly linked list
+ */
+class MyCircularQueue {
+   constructor(cap) {
+      this.cap = cap;
+      this.size = 0;
+      this.first = new DoublyLinkedNode(-1);
+      this.last = new DoublyLinkedNode(-1, null, this.first);
+      this.first.next = this.last;
+   }
+
+   enQueue(val) {
+      if (this.isFull()) {
+         return false;
+      }
+
+      const right = this.last;
+      const left = this.last.prev;
+      const node = new DoublyLinkedNode(val, right, left);
+      left.next = node;
+      right.prev = node;
+
+      this.size++;
+      return true;
+   }
+
+   deQueue() {
+      if (this.isEmpty()) {
+         return false;
+      }
+
+      const left = this.first;
+      const right = this.first.next.next;
+      left.next = right;
+      right.prev = left;
+
+      this.size--;
+      return true;
+   }
+
+   Front() {
+      if (this.isEmpty()) {
+         return -1;
+      }
+      return this.first.next.val;
+   }
+
+   Rear() {
+      if (this.isEmpty()) {
+         return -1;
+      }
+      return this.last.prev.val;
+   }
+
+   isEmpty() {
+      return this.size === 0;
+   }
+
+   isFull() {
+      return this.size === this.cap;
+   }
+}
+
+
 class ListNode {
    constructor(val = null, next = null) {
       this.val = val;
@@ -9,58 +86,129 @@ class ListNode {
 /**
  * Time complexity: O(1)
  * Auxiliary space complexity: O(n)
- * Tags: linked list, queue
+ * Tags:
+ *     DS: queue, linked list
  */
 class MyCircularQueue {
-   constructor(k) {
-      this.size = 0
-      this.sizeLimit = k
-      this.anchor = new ListNode()
-      this.lastNode = this.anchor
+   constructor(cap) {
+      this.size = 0;
+      this.cap = cap;
+      this.anchor = new ListNode();
+      this.lastNode = this.anchor;
    };
 
    enQueue(value) {
       if (this.isFull()) {
-         return false
+         return false;
       }
+
+      this.lastNode.next = new ListNode(value);
+      this.lastNode = this.lastNode.next;
       this.size++;
-      this.lastNode.next = new ListNode(value)
-      this.lastNode = this.lastNode.next
-      return true
+      return true;
    };
 
    deQueue() {
       if (this.isEmpty()) {
-         return false
+         return false;
       }
-      this.size--
-      this.anchor.next = this.anchor.next.next
+
+      this.anchor.next = this.anchor.next.next;
+      this.size--;
+
       if (this.isEmpty()) {
-         this.lastNode = this.anchor
+         this.lastNode = this.anchor;
       }
-      return true
+
+      return true;
    }
 
    Front() {
       if (this.isEmpty()) {
-         return -1
+         return -1;
       }
-      return this.anchor.next.val
+
+      return this.anchor.next.val;
    };
 
    Rear() {
       if (this.isEmpty()) {
-         return -1
+         return -1;
       }
-      return this.lastNode.val
+
+      return this.lastNode.val;
    };
 
    isEmpty() {
-      return this.size === 0
+      return this.size === 0;
    };
 
    isFull() {
-      return this.size === this.sizeLimit
+      return this.size === this.cap;
+   };
+}
+
+
+/**
+ * Time complexity: O(1)
+ * Auxiliary space complexity: O(n)
+ * Tags:
+ *     DS: queue, array
+ */
+class MyCircularQueue {
+   constructor(cap) {
+      this.cap = cap;
+      this.size = 0;
+      this.queue = Array(cap).fill(0);
+      this.front = 0;
+      this.back = -1;
+   };
+
+   enQueue(value) {
+      if (this.isFull()) {
+         return false;
+      }
+
+      this.back = (this.back + 1) % this.cap;
+      this.queue[this.back] = value;
+      this.size++;
+
+      return true;
+   };
+
+   deQueue() {
+      if (this.isEmpty()) {
+         return false;
+      }
+
+      this.front = (this.front + 1) % this.cap;
+      this.size--;
+
+      return true;
+   }
+
+   Front() {
+      if (this.isEmpty()) {
+         return -1;
+      }
+
+      return this.queue[this.front];
+   };
+
+   Rear() {
+      if (this.isEmpty()) {
+         return -1;
+      }
+
+      return this.queue[this.back]
+   };
+
+   isEmpty() {
+      return this.size === 0;
+   };
+
+   isFull() {
+      return this.size === this.cap;
    };
 }
 
@@ -101,15 +249,15 @@ const testInput = (operations, args) => {
 
 // Example Input
 const operationsList = [
-   ["MyCircularQueue","enQueue","enQueue","enQueue","enQueue","Rear","isFull","deQueue","enQueue","Rear"],
-   ["MyCircularQueue","enQueue","Rear","Rear","deQueue","enQueue","Rear","deQueue","Front","deQueue","deQueue","deQueue"],
-   ["MyCircularQueue","enQueue","deQueue","enQueue","enQueue","deQueue","isFull","isFull","Front","deQueue","enQueue","Front","enQueue","enQueue","Rear","Rear","deQueue","enQueue","enQueue","Rear","Rear","Front","Rear","Rear","deQueue","enQueue","Rear","deQueue","Rear","Rear","Front","Front","enQueue","enQueue","Front","enQueue","enQueue","enQueue","Front","isEmpty","enQueue","Rear","enQueue","Front","enQueue","enQueue","Front","enQueue","deQueue","deQueue","enQueue","deQueue","Front","enQueue","Rear","isEmpty","Front","enQueue","Front","deQueue","enQueue","enQueue","deQueue","deQueue","Front","Front","deQueue","isEmpty","enQueue","Rear","Front","enQueue","isEmpty","Front","Front","enQueue","enQueue","enQueue","Rear","Front","Front","enQueue","isEmpty","deQueue","enQueue","enQueue","Rear","deQueue","Rear","Front","enQueue","deQueue","Rear","Front","Rear","deQueue","Rear","Rear","enQueue","enQueue","Rear","enQueue"]
+   ["MyCircularQueue", "enQueue", "enQueue", "enQueue", "enQueue", "Rear", "isFull", "deQueue", "enQueue", "Rear"],
+   ["MyCircularQueue", "enQueue", "Rear", "Rear", "deQueue", "enQueue", "Rear", "deQueue", "Front", "deQueue", "deQueue", "deQueue"],
+   ["MyCircularQueue", "enQueue", "deQueue", "enQueue", "enQueue", "deQueue", "isFull", "isFull", "Front", "deQueue", "enQueue", "Front", "enQueue", "enQueue", "Rear", "Rear", "deQueue", "enQueue", "enQueue", "Rear", "Rear", "Front", "Rear", "Rear", "deQueue", "enQueue", "Rear", "deQueue", "Rear", "Rear", "Front", "Front", "enQueue", "enQueue", "Front", "enQueue", "enQueue", "enQueue", "Front", "isEmpty", "enQueue", "Rear", "enQueue", "Front", "enQueue", "enQueue", "Front", "enQueue", "deQueue", "deQueue", "enQueue", "deQueue", "Front", "enQueue", "Rear", "isEmpty", "Front", "enQueue", "Front", "deQueue", "enQueue", "enQueue", "deQueue", "deQueue", "Front", "Front", "deQueue", "isEmpty", "enQueue", "Rear", "Front", "enQueue", "isEmpty", "Front", "Front", "enQueue", "enQueue", "enQueue", "Rear", "Front", "Front", "enQueue", "isEmpty", "deQueue", "enQueue", "enQueue", "Rear", "deQueue", "Rear", "Front", "enQueue", "deQueue", "Rear", "Front", "Rear", "deQueue", "Rear", "Rear", "enQueue", "enQueue", "Rear", "enQueue"]
 ]
 
 const argumentsList = [
-   [[3],[1],[2],[3],[4],[],[],[],[4],[]],
-   [[6],[6],[],[],[],[5],[],[],[],[],[],[]],
-   [[81],[69],[],[92],[12],[],[],[],[],[],[28],[],[13],[45],[],[],[],[24],[27],[],[],[],[],[],[],[88],[],[],[],[],[],[],[53],[39],[],[28],[66],[17],[],[],[47],[],[87],[],[92],[94],[],[59],[],[],[99],[],[],[84],[],[],[],[52],[],[],[86],[30],[],[],[],[],[],[],[45],[],[],[83],[],[],[],[22],[77],[23],[],[],[],[14],[],[],[90],[57],[],[],[],[],[34],[],[],[],[],[],[],[],[49],[59],[],[71]]
+   [[3], [1], [2], [3], [4], [], [], [], [4], []],
+   [[6], [6], [], [], [], [5], [], [], [], [], [], []],
+   [[81], [69], [], [92], [12], [], [], [], [], [], [28], [], [13], [45], [], [], [], [24], [27], [], [], [], [], [], [], [88], [], [], [], [], [], [], [53], [39], [], [28], [66], [17], [], [], [47], [], [87], [], [92], [94], [], [59], [], [], [99], [], [], [84], [], [], [], [52], [], [], [86], [30], [], [], [], [], [], [], [45], [], [], [83], [], [], [], [22], [77], [23], [], [], [], [14], [], [], [90], [57], [], [], [], [], [34], [], [], [], [], [], [], [], [49], [59], [], [71]]
 ]
 
 const expectedOutputList = [

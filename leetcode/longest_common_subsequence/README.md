@@ -1,4 +1,4 @@
-i# Longest Common Subsequence
+# Longest Common Subsequence
 https://leetcode.com/problems/longest-common-subsequence/
 
 <p>
@@ -6,7 +6,8 @@ Given two strings text1 and text2, return the length of their longest common sub
 
 A subsequence of a string is a new string generated from the original string with some characters (can be none) deleted without changing the relative order of the remaining characters.
 
-For example, "ace" is a subsequence of "abcde".
+- For example, "ace" is a subsequence of "abcde".
+
 A common subsequence of two strings is a subsequence that is common to both strings.
 </p>
 

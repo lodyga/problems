@@ -1,50 +1,69 @@
-class DoublyLinkedNode {
-   constructor(val = null, next = null, prev = null) {
-      // Val stores a key.
-      this.val = val
-      this.next = next
-      this.prev = prev
-   };
+class MyDoublyLinkedNode {
+   constructor(key = -1, val = -1, next = null, prev = null) {
+      this.key = key;
+      this.val = val;
+      this.next = next;
+      this.prev = prev;
+   }
 }
 
-class DoublyLinkedList {
-   constructor() {
-      this.left = new DoublyLinkedNode()
-      this.right = new DoublyLinkedNode(null, null, this.left)
-      this.left.next = this.right
-      this.len = 0
-   };
+
+class MyDoublyLinkedList {
+   constructor(nodes = []) {
+      this.size = 0;
+      this.first = new MyDoublyLinkedNode();
+      this.last = new MyDoublyLinkedNode(-1, -1, null, this.first);
+      this.first.next = this.last;
+
+      if (nodes) {
+         for (const node of nodes) {
+            this.push(node);
+         }
+      }
+   }
 
    push(node) {
-      const right = this.right;
+      const right = this.last;
       const left = right.prev;
 
       node.next = right;
       node.prev = left;
 
-      left.next = right.prev = node;
-      this.len += 1;
-   };
+      left.next = node;
+      right.prev = node;
+
+      this.size++;
+   }
 
    pop() {
-      const node = this.right.prev;
+      if (this.size === 0) {
+         return;
+      }
+
+      const node = this.last.prev;
       this.delete(node);
-   };
+   }
 
    popLeft() {
-      const node = this.left.next;
+      if (this.size === 0) {
+         return;
+      }
+
+      const node = this.first.next;
       this.delete(node);
-   };
+   }
 
    delete(node) {
-      [node.next.prev, node.prev.next] = [node.prev, node.next];
-      this.len--;
-   };
+      node.next.prev = node.prev;
+      node.prev.next = node.next;
+      this.size--;
+   }
 
-   peak() {
-      return this.len > 0 ? this.left.next : null
-   };
+   front() {
+      return this.size > 0 ? this.first.next : null;
+   }
 }
+
 
 class LFUCache {
    /**
@@ -58,85 +77,89 @@ class LFUCache {
     */
    constructor(cap) {
       this.cap = cap;
-      this.nodes = new Map();  // { key: Node(val, next, prev) }
-      this.vals = new Map();  // { key: val }
-      this.freqs = new Map();  // { key: frequency }
-      this.freqBuckets = new Map();  // {frequency: DoublyLinkedList(DoblyListNode(), ), }
+      this.size = 0;
       this.minFreq = 0;
-   };
+
+      this.nodes = new Map();  // { key: MyDoublyLinkedNode(key, val, next, prev), }
+      this.freqs = new Map();  // { key: frequency, }
+      this.freqBuckets = new Map();  // {frequency: MyDoublyLinkedList(MyDoublyLinkedNode(), ), }
+   }
+
+   _updateBucket(node, freq) {
+      if (!this.freqBuckets.has(freq)) {
+         this.freqBuckets.set(freq, new MyDoublyLinkedList([node]));
+      }
+      else {
+         this.freqBuckets.get(freq).push(node);
+      }
+   }
 
    _insert(key, val) {
-      this.vals.set(key, val);
       this.freqs.set(key, 1);
-      const node = new DoublyLinkedNode(key);
+      const node = new MyDoublyLinkedNode(key, val);
       this.nodes.set(key, node);
-      if (!this.freqBuckets.has(1)) {
-         this.freqBuckets.set(1, new DoublyLinkedList())
-      }
-      this.freqBuckets.get(1).push(node);
+
+      this._updateBucket(node, 1)
       this.minFreq = 1;
-   };
+   }
 
    _update(key, val) {
-      this.vals.set(key, val);
-
       const freq = this.freqs.get(key);
       const node = this.nodes.get(key);
+      node.val = val;
       const bucket = this.freqBuckets.get(freq);
-
       bucket.delete(node);
 
       if (
-         freq == this.minFreq &&
-         bucket.len === 0
+         freq === this.minFreq
+         && bucket.size === 0
       ) {
          this.minFreq++;
       }
 
       this.freqs.set(key, freq + 1);
-
-      if (!this.freqBuckets.has(freq + 1)) {
-         this.freqBuckets.set(freq + 1, new DoublyLinkedList());
-      }
-      this.freqBuckets.get(freq + 1).push(node);
-   };
+      this._updateBucket(node, freq + 1)
+   }
 
    _popLru() {
       const lfuBucket = this.freqBuckets.get(this.minFreq);
-      const lfuKey = lfuBucket.peak().val
-      this.vals.delete(lfuKey);
+      const lfuKey = lfuBucket.front().key;
       this.nodes.delete(lfuKey);
       this.freqs.delete(lfuKey);
       lfuBucket.popLeft();
 
-      if (lfuBucket.len === 0) {
+      if (lfuBucket.size === 0) {
          this.freqBuckets.delete(this.minFreq);
       }
-   };
+   }
 
    get(key) {
-      if (!this.vals.has(key))
-         return -1
-      this._update(key, this.vals.get(key));
-      return this.vals.get(key)
-   };
+      if (!this.nodes.has(key)) {
+         return -1;
+      }
+
+      const val = this.nodes.get(key).val;
+      this._update(key, val);
+
+      return val;
+   }
 
    put(key, val) {
       // Update existing key.
-      if (this.nodes.has(key))
+      if (this.nodes.has(key)) {
          this._update(key, val);
-
+      }
       // Capacity reached -> pop LFU key.
-      else if (this.cap === 0) {
+      else if (this.size === this.cap) {
          this._popLru();
          this._insert(key, val);
       }
       // Insert a new key.
       else {
          this._insert(key, val);
-         this.cap--;
+         this.size++;
       }
-   };
+   }
 }
 
 

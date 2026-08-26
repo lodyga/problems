@@ -13,38 +13,41 @@ class Solution {
       let bottom = matrix.length - 1;
 
       while (top <= bottom) {
-         const middleRowIndex = (top + bottom) >> 1;
-         const middleRow = matrix[middleRowIndex];
+         const midRowIndex = Math.floor((top + bottom) / 2);
+         const midRow = matrix[midRowIndex];
 
          if (
-            target >= middleRow[0] &&
-            target <= middleRow[middleRow.length - 1]
+            target >= midRow[0]
+            && target <= midRow[midRow.length - 1]
          ) {
             let left = 0;
             let right = matrix[0].length - 1;
 
             while (left <= right) {
-               const middle = (left + right) >> 1;
-               const middleNum = middleRow[middle];
+               const mid = Math.floor((left + right) / 2);
+               const midNum = midRow[mid];
 
-               if (target === middleNum) {
-                  return true
-               } else if (target < middleNum) {
-                  right = middle - 1;
+               if (target === midNum) {
+                  return true;
+               } else if (target < midNum) {
+                  right = mid - 1;
                } else {
-                  left = middle + 1;
+                  left = mid + 1;
                }
             }
-            return false
 
-         } else if (target < middleRow[0]) {
-            bottom = middleRowIndex - 1;
-         } else {
-            top = middleRowIndex + 1;
+            return false;
+
+         } 
+         else if (target < midRow[0]) {
+            bottom = midRowIndex - 1;
+         } 
+         else {
+            top = midRowIndex + 1;
          }
       }
 
-      return false
+      return false;
    }
 }
 

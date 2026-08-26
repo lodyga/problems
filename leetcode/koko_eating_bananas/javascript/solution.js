@@ -13,26 +13,30 @@ class Solution {
    minEatingSpeed(piles, hours) {
       let left = 1;
       let right = Math.max(...piles);
-      let ret = right;
+      let res = right;
 
       while (left <= right) {
-         const midd = Math.floor((left + right) / 2);
+         const mid = Math.floor((left + right) / 2);
          let hoursToEat = 0;
 
          for (const pile of piles) {
-            hoursToEat += Math.ceil(pile / midd)
-            if (hoursToEat > hours)
-               break
+            hoursToEat += Math.ceil(pile / mid);
+
+            if (hoursToEat > hours) {
+               break;
+            }
          }
 
          if (hoursToEat <= hours) {
-            ret = midd;
-            right = midd - 1;
-         } else {
-            left = midd + 1;
+            res = mid;
+            right = mid - 1;
+         } 
+         else {
+            left = mid + 1;
          }
       }
-      return ret
+
+      return res;
    }
 }
 

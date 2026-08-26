@@ -12,20 +12,21 @@ class Solution {
    partition(text) {
       const isPalindrome = (left, right) => {
          while (left < right) {
-            if (text[left] !== text[right]) return false
+            if (text[left] !== text[right]) {
+               return false;
+            }
+            
             left++;
             right--;
          }
-         return true
-      }
 
-      const partitioned = [];
-      const res = [];
+         return true;
+      };
 
       const backtrack = (start) => {
          if (start === text.length) {
             res.push(partitioned.slice());
-            return
+            return;
          }
 
          for (let idx = start; idx < text.length; idx++) {
@@ -35,10 +36,14 @@ class Solution {
                partitioned.pop();
             }
          }
-      }
+      };
+
+      const partitioned = [];
+      const res = [];
+
       backtrack(0);
-      return res
-   };
+      return res;
+   }
 }
 
 

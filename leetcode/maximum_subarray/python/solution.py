@@ -6,8 +6,8 @@ class Solution:
         Tags:
             A: greedy
         """
-        res = nums[0]
         sub_sum = 0
+        res = nums[0]
 
         for num in nums:
             sub_sum = sub_sum + num if sub_sum > 0 else num

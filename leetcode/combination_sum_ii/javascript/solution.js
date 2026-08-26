@@ -11,18 +11,17 @@ class Solution {
     * @return {number[][]}
     */
    combinationSum2(candidates, target) {
-      candidates.sort((a, b) => a - b);
-      const combination = [];
-      const combinationList = [];
-
       const backtrack = (idx, total) => {
          if (total === target) {
-            combinationList.push(combination.slice());
-            return
-         } else if (
-            total > target ||
-            idx === candidates.length
-         ) return
+            res.push(combination.slice());
+            return;
+         }
+         else if (
+            total > target
+            || idx === candidates.length
+         ) {
+            return;
+         }
 
          const candidate = candidates[idx];
          combination.push(candidate);
@@ -30,14 +29,21 @@ class Solution {
          combination.pop();
 
          while (
-            idx + 1 < candidates.length &&
-            candidate === candidates[idx + 1]
-         ) idx++;
+            idx + 1 < candidates.length
+            && candidate === candidates[idx + 1]
+         ) {
+            idx++;
+         };
 
          backtrack(idx + 1, total);
-      }
+      };
+
+      candidates.sort((a, b) => a - b);
+      const combination = [];
+      const res = [];
+
       backtrack(0, 0);
-      return combinationList
+      return res;
    }
 }
 
@@ -55,31 +61,37 @@ class Solution {
     * @return {number[][]}
     */
    combinationSum2(candidates, target) {
-      candidates.sort((a, b) => a - b);
-      const combination = [];
-      const combinationList = [];
-
       const backtrack = (start, total) => {
          if (total === target) {
-            combinationList.push(combination.slice());
-            return
-         } else if (total > target) return
+            res.push(combination.slice());
+            return;
+         }
+         else if (total > target) {
+            return;
+         }
 
          for (let idx = start; idx < candidates.length; idx++) {
-            const candidate = candidates[idx]
+            const candidate = candidates[idx];
+
             if (
-               idx > start &&
-               candidate === candidates[idx - 1]
-            ) continue
+               idx > start
+               && candidate === candidates[idx - 1]
+            ) {
+               continue;
+            }
 
             combination.push(candidate);
             backtrack(idx + 1, total + candidate);
             combination.pop();
          }
+      };
 
-      }
+      candidates.sort((a, b) => a - b);
+      const combination = [];
+      const res = [];
+
       backtrack(0, 0);
-      return combinationList
+      return res;
    }
 }
 

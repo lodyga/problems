@@ -9,37 +9,40 @@ class Solution:
             n: text length
             k: unique letter count
         Auxiliary space complexity: O(k)
+            O(k) -> (1)
         Tags:
-            DS: heap
+            DS: heap, array, string
             A: iteration
         """
-        letter_freq = {}
+        freqs = [0] * 26
+        freq_heap = []
+        prev_letter = ""
+        prev_freq = 0
+        res = []
+
         for letter in text:
-            letter_freq[letter] = letter_freq.get(letter, 0) + 1
+            idx = ord(letter) - ord('a')
+            freqs[idx] += 1
 
-        letter_heap = []
-        for letter, freq in letter_freq.items():
-            heapq.heappush(letter_heap, (-freq, letter))
+        for idx, freq in enumerate(freqs):
+            if freq:
+                heapq.heappush(freq_heap, (-freq, chr(ord('a') + idx)))
 
-        new_str = []
-        while letter_heap:
-            freq, letter = heapq.heappop(letter_heap)
 
-            if new_str and letter == new_str[-1]:
-                if letter_heap:
-                    freq2, letter2 = heapq.heappop(letter_heap)
-                    new_str.append(letter2)
-                    if freq2 + 1 < 0:
-                        heapq.heappush(letter_heap, (freq2 + 1, letter2))
-                    heapq.heappush(letter_heap, (freq, letter))
-                else:
-                    return ""
-            else:
-                new_str.append(letter)
-                if freq + 1 < 0:
-                    heapq.heappush(letter_heap, (freq + 1, letter))
+        while freq_heap:
+            freq, letter = heapq.heappop(freq_heap)
+            res.append(letter)
 
-        return "".join(new_str)
+            if prev_freq:
+                heapq.heappush(freq_heap, (prev_freq, prev_letter))
+
+            prev_letter = letter
+            prev_freq = freq + 1
+
+        if prev_freq == 0:
+            return "".join(res)
+        else:
+            return ""
 
 
 class Solution:
@@ -51,31 +54,32 @@ class Solution:
             k: unique letter count
         Auxiliary space complexity: O(k)
         Tags:
-            DS: heap
+            DS: heap, hash map, string
             A: iteration
         """
         letter_freq = {}
+        freq_heap = []
+        res = []
+        prev_letter = ""
+        prev_freq = 0
+
         for letter in text:
             letter_freq[letter] = letter_freq.get(letter, 0) + 1
 
-        letter_heap = []
         for letter, freq in letter_freq.items():
-            heapq.heappush(letter_heap, (-freq, letter))
+            heapq.heappush(freq_heap, (-freq, letter))
 
-        new_str = []
-        prev_freq = 0
-        prev_letter = ""
-        while letter_heap:
-            freq, letter = heapq.heappop(letter_heap)
+        while freq_heap:
+            freq, letter = heapq.heappop(freq_heap)
+            res.append(letter)
 
             if prev_freq:
-                heapq.heappush(letter_heap, (prev_freq, prev_letter))
+                heapq.heappush(freq_heap, (prev_freq, prev_letter))
 
-            new_str.append(letter)
             prev_letter = letter
             prev_freq = freq + 1
 
-        return "".join(new_str) if prev_freq == 0 else ""
+        return "".join(res) if prev_freq == 0 else ""
 
 
 print(Solution().reorganizeString("aab") == "aba")

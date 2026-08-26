@@ -1,15 +1,6 @@
 class Solution:
     def solveNQueens(self, n: int) -> list[list[str]]:
-        ROWS = n
-        COLS = n
-        board = [["."] * COLS for _ in range(ROWS)]
-        res = []
-        marked_cols = [False] * COLS
-        # set([row + col, ...])
-        marked_diags = set()
-        # set([row - col, ...])
-        marked_a_diags2 = set()
-        
+
         def backtrack(row):
             nonlocal res
             if row == ROWS:
@@ -19,7 +10,7 @@ class Solution:
             for col in range(COLS):
                 if (
                     marked_cols[col] or
-                    (row + col) in marked_diags or 
+                    (row + col) in marked_diags or
                     (row - col) in marked_a_diags2
                 ):
                     continue
@@ -35,7 +26,16 @@ class Solution:
                 marked_cols[col] = False
                 marked_diags.remove(row + col)
                 marked_a_diags2.remove(row - col)
-        
+
+        ROWS = n
+        COLS = n
+        board = [["."] * COLS for _ in range(ROWS)]
+        res = []
+        marked_cols = [False] * COLS
+        # set([row + col, ...])
+        marked_diags = set()
+        # set([row - col, ...])
+        marked_a_diags2 = set()
 
         backtrack(0)
         return res

@@ -9,30 +9,30 @@ class Solution:
             DS: hash map
             A: top-down
         """
-        stone_sum = sum(stones)
-        half = stone_sum // 2
-        memo = {}
-
-        def dfs(index: int, total: int) -> int:
+        def dfs(idx: int, total: int) -> int:
+            key = (idx, total)
             if (
                 total >= half or 
-                index == len(stones)
+                idx == len(stones)
             ):
                 # Returns the difference between both part sums.
                 return abs(total - (stone_sum - total))
-            elif (index, total) in memo:
-                return memo[(index, total)]
+            elif key in memo:
+                return memo[key]
 
-            stone = stones[index]
-            skip = dfs(index + 1, total)
-            take = dfs(index + 1, stone + total)
+            stone = stones[idx]
+            skip = dfs(idx + 1, total)
+            take = dfs(idx + 1, stone + total)
             res = min(skip, take)
-            memo[(index, total)] = res
+            memo[key] = res
             return res
 
+        stone_sum = sum(stones)
+        half = stone_sum // 2
+        memo = {}
         return dfs(0, 0)
 
 
-print(Solution().lastStoneWeightII([3, 3]) == 0)
 print(Solution().lastStoneWeightII([2, 7, 4, 1, 8, 1]) == 1)
 print(Solution().lastStoneWeightII([31, 26, 33, 21, 40]) == 5)
+print(Solution().lastStoneWeightII([3, 3]) == 0)

@@ -6,14 +6,19 @@ class Solution:
         Tags:
             A: brute-force
         """
-        counter = 0
-        for left in range(len(nums)):
-            sub_sum = 0
-            for right in range(left, len(nums)):
-                sub_sum += nums[right]
-                counter += 1 if sub_sum == target else 0
+        N = len(nums)
+        res = 0
 
-        return counter
+        for left in range(N):
+            sub_sum = 0
+
+            for right in range(left, N):
+                sub_sum += nums[right]
+
+                if sub_sum == target:
+                    res += 1
+
+        return res
 
 
 class Solution:
@@ -25,16 +30,16 @@ class Solution:
             DS: hash map
             A: prefix sum
         """
-        counter = 0
-        prefix = 0
+        res = 0
         prefix_freq = {0: 1}
+        prefix = 0
 
         for num in nums:
             prefix += num
-            counter += prefix_freq.get(prefix - target, 0)
+            res += prefix_freq.get(prefix - target, 0)
             prefix_freq[prefix] = prefix_freq.get(prefix, 0) + 1
 
-        return counter
+        return res
 
 
 print(Solution().subarraySum([1, 1, 1], 2) == 2)

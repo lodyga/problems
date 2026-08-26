@@ -25,9 +25,10 @@ class Solution {
          window[idx]++;
 
          if ((right - left + 1) < word.length) {
-            continue
-         } else if (!window.some(val => val)) {
-            return true
+            continue;
+         } 
+         else if (!window.some(val => val)) {
+            return true;
          }
 
          const leftLetter = text[left];
@@ -36,7 +37,7 @@ class Solution {
          left++;
       }
 
-      return false
+      return false;
    }
 }
 
@@ -53,38 +54,40 @@ class Solution {
     * @return {boolean}
     */
    checkInclusion(word, text) {
-      const pattern = new Map();
+      const window = new Map();
       let left = 0;
 
       for (const letter of word) {
-         pattern.set(letter, (pattern.get(letter) || 0) - 1);
+         window.set(letter, (window.get(letter) || 0) - 1);
       }
 
       for (let right = 0; right < text.length; right++) {
          const letter = text[right];
-         pattern.set(letter, (pattern.get(letter) || 0) + 1);
+         window.set(letter, (window.get(letter) || 0) + 1);
 
-         if (pattern.get(letter) === 0) {
-            pattern.delete(letter);
+         if (window.get(letter) === 0) {
+            window.delete(letter);
          }
 
          if (right + 1 < word.length) {
-            continue
+            continue;
          }
 
-         else if (pattern.size === 0) {
-            return true
+         else if (window.size === 0) {
+            return true;
          }
 
          const leftLetter = text[left];
-         pattern.set(leftLetter, (pattern.get(leftLetter) || 0) - 1);
-         if (pattern.get(leftLetter) === 0) {
-            pattern.delete(leftLetter);
+         window.set(leftLetter, (window.get(leftLetter) || 0) - 1);
+         
+         if (window.get(leftLetter) === 0) {
+            window.delete(leftLetter);
          }
+         
          left++;
       }
 
-      return false
+      return false;
    }
 }
 
@@ -121,23 +124,27 @@ class Solution {
             }
 
             if (right - left + 1 === word.length) {
-               if (need === 0)
-                  return true
+               if (need === 0) {
+                  return true;
+               }
 
                const leftLetter = text[left];
                if (letterFreq.get(leftLetter) === pattern.get(leftLetter)) {
                   need++;
                }
+
                letterFreq.set(leftLetter, (letterFreq.get(leftLetter)) - 1);
                left++;
             }
-         } else {
+         } 
+         else {
             need = pattern.size;
-            letterFreq.clear()
+            letterFreq.clear();
             left = right + 1;
          }
       }
-      return false
+
+      return false;
    }
 }
 

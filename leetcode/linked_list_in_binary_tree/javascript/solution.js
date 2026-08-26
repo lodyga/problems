@@ -1,5 +1,5 @@
 import { TreeNode, buildTree, getTreeValues } from '../../../../JS/binary-tree.js';
-import { ListNode, areLinkedListsEqueal, buildLinkedList, getLinkedListValues } from '../../../../JS/linked-list-utils.js'
+import { ListNode, LinkedList } from '../../../../JS/linked-list-utils.js'
 
 
 /**

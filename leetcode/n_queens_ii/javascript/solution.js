@@ -9,38 +9,44 @@ class Solution {
     * @return {number}
     */
    totalNQueens(n) {
-      const ROWS = n;
-      const COLS = n;
-      let counter = 0;
-      const visitedCols = Array(COLS).fill(false);
-      const visitedDiags = Array(ROWS + COLS - 1).fill(false);
-      const visitedADiags = Array(ROWS + COLS).fill(false);
-
-      const dfs = (row) => {
+      
+      const backtrack = (row) => {
          if (row === ROWS) {
-            counter++
-            return
+            return 1;
          }
+
+         let res = 0;
+
          for (let col = 0; col < COLS; col++) {
             if (
-               visitedCols[col] ||
-               visitedDiags[row + col] ||
-               visitedADiags[row - col + n]
-            ) continue
+               visitedCols[col]
+               || visitedDiags[row + col]
+               || visitedADiags[row - col + n]
+            ) {
+               continue;
+            }
 
             visitedCols[col] = true;
             visitedDiags[row + col] = true;
             visitedADiags[row - col + n] = true;
 
-            dfs(row + 1);
+            res += backtrack(row + 1);
 
             visitedCols[col] = false;
             visitedDiags[row + col] = false;
             visitedADiags[row - col + n] = false;
          }
-      }
-      dfs(0);
-      return counter
+
+         return res;
+      };
+
+      const ROWS = n;
+      const COLS = n;
+      const visitedCols = Array(COLS).fill(false);
+      const visitedDiags = Array(ROWS + COLS).fill(false);
+      const visitedADiags = Array(ROWS + COLS).fill(false);
+
+      return backtrack(0);
    };
 }
 

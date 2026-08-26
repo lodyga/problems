@@ -15,8 +15,9 @@ class Solution {
       let resLen = text.length + 1;
       let start = text.length;
 
-      for (const letter of word)
+      for (const letter of word) {
          window.set(letter, (window.get(letter) || 0) - 1);
+      }
 
       let needed = window.size;
 
@@ -24,7 +25,7 @@ class Solution {
          const letter = text[right];
 
          if (!window.has(letter)) {
-            continue
+            continue;
          }
 
          window.set(letter, window.get(letter) + 1);
@@ -45,18 +46,19 @@ class Solution {
                if (window.get(leftLetter) === 0) {
                   needed++;
                }
+               
                window.set(leftLetter, window.get(leftLetter) - 1);
             }
+
             left++;
          }
       }
 
       if (start === text.length) {
-         return ''
+         return '';
       } else {
-         return text.slice(start, start + resLen)
+         return text.slice(start, start + resLen);
       }
-
    }
 }
 

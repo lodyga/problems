@@ -10,19 +10,18 @@ class Solution {
     * @return {number}
     */
    subarraySum(nums, target) {
-      let counter = 0;
+      let res = 0;
       let prefix = 0;
       const prefixFreq = new Map([[0, 1]]);
 
       for (const num of nums) {
          prefix += num;
-         if (prefixFreq.has(prefix - target)) {
-            counter += prefixFreq.get(prefix - target);
-         }
+         res += prefixFreq.get(prefix - target) || 0;
          prefixFreq.set(prefix, (prefixFreq.get(prefix) || 0) + 1);
       }
-      return counter
-   };
+
+      return res;
+   }
 }
 
 

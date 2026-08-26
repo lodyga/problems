@@ -11,30 +11,31 @@ class Solution {
     * @return {number}
     */
    lastStoneWeightII(stones) {
-      const stoneSum = stones.reduce((sum, value) => sum + value, 0);
-      const half = stoneSum >> 1;
-      const memo = new Map();
-
-      const dfs = (index, total) => {
-         const memoInd = `${index},${total}`;
+      const dfs = (idx, total) => {
+         const key = `${idx},${total}`;
          if (
             total >= half ||
-            index == stones.length
+            idx == stones.length
          ) {
-            return Math.abs(total - (stoneSum - total))
-         } else if (memo.has(memoInd)) {
-            return memo.get(memoInd)
+            return Math.abs(total - (stoneSum - total));
+         } 
+         else if (memo.has(key)) {
+            return memo.get(key);
          }
 
-         const stone = stones[index];
-         const skip = dfs(index + 1, total);
-         const take = dfs(index + 1, stone + total);
+         const stone = stones[idx];
+         const skip = dfs(idx + 1, total);
+         const take = dfs(idx + 1, stone + total);
          const res = Math.min(skip, take);
-         memo.set(memoInd, res);
-         return res
-      }
-      return dfs(0, 0)
-   };
+         memo.set(key, res);
+         return res;
+      };
+
+      const stoneSum = stones.reduce((sum, value) => sum + value, 0);
+      const half = Math.floor(stoneSum / 2);
+      const memo = new Map();
+      return dfs(0, 0);
+   }
 }
 
 

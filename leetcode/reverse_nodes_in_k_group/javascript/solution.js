@@ -1,4 +1,4 @@
-import { ListNode, areLinkedListsEqueal, buildLinkedList, getLinkedListValues } from '../../../../JS/linked-list-utils.js'
+import { ListNode, LinkedList } from '../../../../JS/linked-list-utils.js'
 
 
 /**
@@ -24,14 +24,12 @@ class Solution {
     * @return {ListNode}
     */
    reverseKGroup(head, k) {
-      if (k === 1) return head
-
       const getKthOrNoneFromCurrentNode = (node, k) => {
          while (node && k) {
             node = node.next;
             k--;
          }
-         return node
+         return node;
       };
 
       const reverseKNodesFromCurrenNode = (node, k) => {
@@ -41,10 +39,14 @@ class Solution {
             node.next = prev;
             prev = node;
             node = nodeNext;
-            k -= 1;
+            k--;
          }
-         return node
+         return node;
       };
+
+      if (k === 1) {
+         return head;
+      }
 
       const anchor = new ListNode(null, head);
       let prev = anchor;
@@ -53,8 +55,10 @@ class Solution {
       while (true) {
          const kthNode = getKthOrNoneFromCurrentNode(node, k - 1);
          prev.next = kthNode || node;
-         if (kthNode === null)
-            break
+
+         if (kthNode === null) {
+            break;
+         }
 
          const nextStartNode = reverseKNodesFromCurrenNode(node, k);
          prev = node;
@@ -66,10 +70,10 @@ class Solution {
 }
 
 
-const reverseKGroup = new Solution().reverseKGroup;
-console.log(areLinkedListsEqueal(new Solution().reverseKGroup(buildLinkedList([1, 2, 3, 4, 5]), 2), buildLinkedList([2, 1, 4, 3, 5])))
-console.log(areLinkedListsEqueal(new Solution().reverseKGroup(buildLinkedList([1, 2, 3, 4, 5]), 3), buildLinkedList([3, 2, 1, 4, 5])))
-console.log(areLinkedListsEqueal(new Solution().reverseKGroup(buildLinkedList([1, 2, 3, 4, 5]), 1), buildLinkedList([1, 2, 3, 4, 5])))
-console.log(areLinkedListsEqueal(new Solution().reverseKGroup(buildLinkedList([1, 2, 3, 4, 5]), 5), buildLinkedList([5, 4, 3, 2, 1])))
-console.log(areLinkedListsEqueal(new Solution().reverseKGroup(buildLinkedList([1, 2, 3, 4, 5]), 4), buildLinkedList([4, 3, 2, 1, 5])))
-console.log(areLinkedListsEqueal(new Solution().reverseKGroup(buildLinkedList([1, 2, 3, 4]), 2), buildLinkedList([2, 1, 4, 3])))
+const linkedList = new LinkedList();
+console.log(linkedList.areLinkedListsEqueal(new Solution().reverseKGroup(linkedList.buildLinkedList([1, 2, 3, 4, 5]), 2), linkedList.buildLinkedList([2, 1, 4, 3, 5])))
+// console.log(areLinkedListsEqueal(new Solution().reverseKGroup(buildLinkedList([1, 2, 3, 4, 5]), 3), buildLinkedList([3, 2, 1, 4, 5])))
+// console.log(areLinkedListsEqueal(new Solution().reverseKGroup(buildLinkedList([1, 2, 3, 4, 5]), 1), buildLinkedList([1, 2, 3, 4, 5])))
+// console.log(areLinkedListsEqueal(new Solution().reverseKGroup(buildLinkedList([1, 2, 3, 4, 5]), 5), buildLinkedList([5, 4, 3, 2, 1])))
+// console.log(areLinkedListsEqueal(new Solution().reverseKGroup(buildLinkedList([1, 2, 3, 4, 5]), 4), buildLinkedList([4, 3, 2, 1, 5])))
+// console.log(areLinkedListsEqueal(new Solution().reverseKGroup(buildLinkedList([1, 2, 3, 4]), 2), buildLinkedList([2, 1, 4, 3])))

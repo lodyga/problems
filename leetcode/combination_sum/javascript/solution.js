@@ -13,27 +13,30 @@ class Solution {
     * @return {number[][]}
     */
    combinationSum(candidates, target) {
-      const combination = [];
-      const res = [];
-
       const backtrack = (idx, total) => {
          if (total === target) {
             res.push(combination.slice());
-            return
-         } else if (
-            total > target ||
-            idx === candidates.length
-         ) return
+            return;
+         }
+         else if (
+            total > target
+            || idx === candidates.length
+         ) {
+            return;
+         }
 
          const candidate = candidates[idx];
          combination.push(candidate);
          backtrack(idx, total + candidate);
          combination.pop();
          backtrack(idx + 1, total);
-      }
+      };
+
+      const combination = [];
+      const res = [];
 
       backtrack(0, 0);
-      return res
+      return res;
    }
 }
 
@@ -53,15 +56,14 @@ class Solution {
     * @return {number[][]}
     */
    combinationSum(candidates, target) {
-      const combination = [];
-      const res = [];
-
       const backtrack = (start, total) => {
          if (total === target) {
             res.push(combination.slice());
-            return
-         } else if (total > target)
-            return
+            return;
+         }
+         else if (total > target) {
+            return;
+         }
 
          for (let idx = start; idx < candidates.length; idx++) {
             const candidate = candidates[idx];
@@ -69,9 +71,13 @@ class Solution {
             backtrack(idx, total + candidate);
             combination.pop();
          }
-      }
+      };
+
+      const combination = [];
+      const res = [];
+
       backtrack(0, 0);
-      return res
+      return res;
    }
 }
 

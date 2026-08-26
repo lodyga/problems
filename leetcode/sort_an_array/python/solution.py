@@ -40,13 +40,6 @@ class Solution:
             DS: list
             A: sorting, merge sort, divide and conquer
         """
-        def merge_sort(left, right):
-
-            if left == right:
-                return
-            divide(left, right)
-            merge(left, right)
-
         def divide(left, right):
             mid = (left + right) // 2
             merge_sort(left, mid)
@@ -56,7 +49,7 @@ class Solution:
             mid = (left + right) // 2
             left_chunk = nums[left: mid + 1]
             right_chunk = nums[mid + 1: right + 1]
-            index = left
+            idx = left
             left = right = 0
 
             while (
@@ -64,22 +57,30 @@ class Solution:
                 right < len(right_chunk)
             ):
                 if left_chunk[left] < right_chunk[right]:
-                    nums[index] = left_chunk[left]
+                    nums[idx] = left_chunk[left]
                     left += 1
                 else:
-                    nums[index] = right_chunk[right]
+                    nums[idx] = right_chunk[right]
                     right += 1
-                index += 1
+
+                idx += 1
 
             while left < len(left_chunk):
-                nums[index] = left_chunk[left]
+                nums[idx] = left_chunk[left]
                 left += 1
-                index += 1
+                idx += 1
 
             while right < len(right_chunk):
-                nums[index] = right_chunk[right]
+                nums[idx] = right_chunk[right]
                 right += 1
-                index += 1
+                idx += 1
+
+        def merge_sort(left, right):
+            if left == right:
+                return
+
+            divide(left, right)
+            merge(left, right)
 
         merge_sort(0, len(nums))
         return nums

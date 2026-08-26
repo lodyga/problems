@@ -16,45 +16,47 @@ class Solution {
    openLock(deadends, target) {
       const visited = new Set(deadends);
 
-      if (visited.has('0000'))
-         return -1
-
-      const bfs = () => {
-         const queue = new Queue(['0000'])
-         let turns = 0;
-
-         while (queue.size()) {
-            const queue_size = queue.size();
-
-            for (let qi = 0; qi < queue_size; qi++) {
-               const code = queue.pop();
-               const chars = code.split('')
-
-               if (code === target)
-                  return turns
-
-               for (let index = 0; index < 4; index++) {
-                  const digit = code[index].charCodeAt(0) - 48;
-
-                  for (const d of [-1, 1]) {
-                     const nei_digit = (digit + d + 10) % 10;
-                     chars[index] = String.fromCharCode(48 + nei_digit);
-                     const code = chars.join('');
-
-                     if (!visited.has(code)) {
-                        queue.push(code);
-                        visited.add(code);
-                     }
-                  }
-                  chars[index] = digit;
-               }
-            }
-            turns++;
-         }
-         return -1
+      if (visited.has('0000') || visited.has(target)) {
+         return -1;
       }
-      return bfs()
-   };
+
+      const queue = new Queue(['0000']);
+      let res = 0;
+
+      while (!queue.isEmpty()) {
+         const queueSize = queue.size();
+
+         for (let _ = 0; _ < queueSize; _++) {
+            const code = queue.pop();
+            const chars = code.split('');
+
+            if (code === target) {
+               return res;
+            }
+
+            for (let idx = 0; idx < 4; idx++) {
+               const digit = code[idx].charCodeAt(0) - '0'.charCodeAt(0);
+
+               for (const dx of [-1, 1]) {
+                  const newDigit = ((digit + dx) + 10) % 10;
+                  chars[idx] = String.fromCharCode(newDigit + '0'.charCodeAt(0));
+                  const nextCode = chars.join('');
+
+                  if (!visited.has(nextCode)) {
+                     queue.push(nextCode);
+                     visited.add(nextCode);
+                  }
+               }
+
+               chars[idx] = digit;
+            }
+         }
+
+         res++;
+      }
+
+      return -1;
+   }
 }
 
 

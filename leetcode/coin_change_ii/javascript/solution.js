@@ -12,31 +12,74 @@ class Solution {
     * @return {number}
     */
    change(amount, coins) {
-      const memo = new Map();
-
-      const dfs = (index, total) => {
-         const memoInd = `${index},${total}`;
+      const dfs = (idx, total) => {
+         const key = `${idx},${total}`;
          if (
-            total >= amount ||
-            index === coins.length
+            total >= amount
+            || idx === coins.length
          ) {
-            return total === amount ? 1 : 0
-         } else if (memo.has(memoInd)) {
-            return memo.get(memoInd)
+            return total === amount ? 1 : 0;
+         }
+         else if (memo.has(key)) {
+            return memo.get(key);
          }
 
-         const coin = coins[index];
+         const coin = coins[idx];
          // skip
-         let res = dfs(index + 1, total);
+         let res = dfs(idx + 1, total);
          // take
-         res += dfs(index, coin + total);
-         memo.set(memoInd, res)
-         return res
+         res += dfs(idx, coin + total);
+         memo.set(key, res);
+         return res;
       }
 
-      return dfs(0, 0)
-   };
+      const memo = new Map();
+      return dfs(0, 0);
+   }
+}
 
+
+class Solution {
+   /**
+    * Time complexity: O(n2)
+    *     O(coin count * amount)
+    * Auxiliary space complexity: O(n2)
+    * Tags:
+    *     DS: array
+    *     A: top-down
+    * Binary Decision Approach
+    * @param {number} amount
+    * @param {number[]} coins
+    * @return {number}
+    */
+   change(amount, coins) {
+      const dfs = (idx, total) => {
+         if (
+            total >= amount
+            || idx === coins.length
+         ) {
+            return total === amount ? 1 : 0;
+         }
+         else if (memo[idx][total] !== -1) {
+            return memo[idx][total];
+         }
+
+         const coin = coins[idx];
+         // skip
+         let res = dfs(idx + 1, total);
+         // take
+         res += dfs(idx, coin + total);
+         memo[idx][total] = res;
+         return res;
+      }
+
+      const memo = Array.from({ length: coins.length }, () => Array(amount + 1).fill(-1));
+      return dfs(0, 0);
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n2)
     *     O(coin count * amount)
@@ -50,28 +93,31 @@ class Solution {
     * @return {number}
     */
    change(amount, coins) {
-      const memo = new Map();
-
       const dfs = (start, total) => {
-         const memoInd = `${start},${total}`;
+         const key = `${start},${total}`;
          if (total >= amount) {
-            return total === amount ? 1 : 0
-         } else if (memo.has(memoInd)) {
-            return memo.get(memoInd)
+            return total === amount ? 1 : 0;
+         } else if (memo.has(key)) {
+            return memo.get(key);
          }
 
          let res = 0;
-         for (let index = start; index < coins.length; index++) {
-            const coin = coins[index];
-            res += dfs(index, coin + total);
+         for (let idx = start; idx < coins.length; idx++) {
+            const coin = coins[idx];
+            res += dfs(idx, coin + total);
          }
-         memo.set(memoInd, res);
-         return res
+
+         memo.set(key, res);
+         return res;
       }
 
-      return dfs(0, 0)
-   };
+      const memo = new Map();
+      return dfs(0, 0);
+   }
+}
 
+
+class Solution {
    /**
     * Time complexity: O(n2)
     *     O(coin count * amount)
@@ -84,28 +130,35 @@ class Solution {
     * @return {number}
     */
    change(amount, coins) {
-      coins.sort((a, b) => b - a);
       const N = coins.length;
+      coins.sort((a, b) => b - a);
       // Number of ways to make target sum using coins using coins[0..i] (inclusive).
       const cache = Array.from({ length: N }, () => Array(amount + 1).fill(0));
-      for (let index = 0; index < N; index++)
-         cache[index][0] = 1;
+
+      for (let idx = 0; idx < N; idx++)
+         cache[idx][0] = 1;
 
       for (let total = 1; total <= amount; total++) {
          for (let coinInd = 0; coinInd < N; coinInd++) {
             const coin = coins[coinInd];
+
             if (total >= coin) {
                if (coinInd) {
                   // Take combination count from a previous coins
                   cache[coinInd][total] = cache[coinInd - 1][total];
                }
+
                cache[coinInd][total] += cache[coinInd][total - coin];
             }
          }
       }
-      return cache[N - 1][amount]
-   };
 
+      return cache[N - 1][amount];
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n2)
     *     O(coin count * amount)
@@ -118,8 +171,8 @@ class Solution {
     * @return {number}
     */
    change(amount, coins) {
-      coins.sort((a, b) => b - a);
       const N = coins.length;
+      coins.sort((a, b) => b - a);
       // Number of ways to make target sum using coins using coins[0..i] (inclusive).
       let prevCache = Array(amount + 1).fill(0);
       prevCache[0] = 1;
@@ -128,25 +181,27 @@ class Solution {
          const cache = Array(amount + 1).fill(0);
          cache[0] = 1;
 
-         for (let total = 1; total <= amount; total++) {
+         for (let total = 1; total < amount + 1; total++) {
             const coin = coins[coinInd];
             if (total >= coin) {
                if (coinInd) {
                   // Take combination count from a previous coins
                   cache[total] = prevCache[total];
                }
+
                cache[total] += cache[total - coin];
             }
          }
+
          prevCache = cache;
       }
-      return prevCache[amount]
-   };
+
+      return prevCache[amount];
+   }
 }
 
 
 const change = new Solution().change;
-console.log(new Solution().change(0, [7]) , 1)
 console.log(new Solution().change(2, [1, 2]) === 2)
 console.log(new Solution().change(3, [1, 2, 3]) === 3)
 console.log(new Solution().change(5, [1, 2, 5]) === 4)

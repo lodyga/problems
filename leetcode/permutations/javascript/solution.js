@@ -9,22 +9,22 @@ class Solution {
     * @return {number[][]}
     */
    permute(nums) {
-      const res = [];
-
       const backtrack = (start) => {
          if (start === nums.length) {
             res.push(nums.slice());
-            return
+            return;
          }
+         
          for (let idx = start; idx < nums.length; idx++) {
             [nums[start], nums[idx]] = [nums[idx], nums[start]];
             backtrack(start + 1);
             [nums[start], nums[idx]] = [nums[idx], nums[start]];
          }
-      }
-
+      };
+      
+      const res = [];
       backtrack(0);
-      return res
+      return res;
    }
 }
 

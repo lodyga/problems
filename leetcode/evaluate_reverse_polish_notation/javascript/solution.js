@@ -24,7 +24,8 @@ class Solution {
             numStack.push(Number(token));
          }
       }
-      return numStack[0]
+
+      return numStack[0];
    }
 }
 

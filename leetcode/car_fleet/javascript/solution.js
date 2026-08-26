@@ -14,7 +14,7 @@ class Solution {
       let res = 0;
       
       const cars = positions
-         .map((value, index) => [value, speeds[index]])
+         .map((value, idx) => [value, speeds[idx]])
          .sort((a, b) => b[0] - a[0]);
 
       for (const [position, speed] of cars) {
@@ -26,7 +26,8 @@ class Solution {
             prevTime = time;
          }
       }
-      return res
+
+      return res;
    }
 }
 

@@ -1,60 +1,66 @@
-import { Queue } from "@datastructures-js/queue";
-
-
 class Solution {
    /**
     * Time complexity: O(n2)
     *     n: heights length
     * Auxiliary space complexity: O(n2)
     * Tags:
-    *     DS: array (matrix), hash set
+    *     DS: array (matrix)
     *     A: multi-source DFS
     * @param {number[][]} heights
     * @return {number[][]}
     */
    pacificAtlantic(heights) {
+      const dfs = (row, col, prevHeight, toOcean) => {
+         if (
+            row === -1 || row === ROWS
+            || col === -1 || col === COLS
+            || heights[row][col] < prevHeight
+            || toOcean[row][col]
+         ) {
+            return;
+         }
+
+         toOcean[row][col] = true;
+
+         for (const [dr, dc] of DIRECTIONS) {
+            dfs(row + dr, col + dc, heights[row][col], toOcean);
+         }
+      };
+
       const ROWS = heights.length;
       const COLS = heights[0].length;
       const DIRECTIONS = [[-1, 0], [1, 0], [0, -1], [0, 1]];
-      const toPacific = new Set();
-      const toAtlantic = new Set();
-
-      const dfs = (row, col, ocean, prevHeight) => {
-         if (
-            row == -1 ||
-            col == -1 ||
-            row == ROWS ||
-            col == COLS ||
-            heights[row][col] < prevHeight ||
-            ocean.has(`${row},${col}`)
-         ) return
-
-         ocean.add(`${row},${col}`);
-
-         for (const [dr, dc] of DIRECTIONS) {
-            const [r, c] = [row + dr, col + dc];
-            dfs(r, c, ocean, heights[row][col]);
-         }
-      }
+      const toPacific = Array.from({ length: ROWS }, () => Array(COLS).fill(false));
+      const toAtlantic = Array.from({ length: ROWS }, () => Array(COLS).fill(false));
+      const res = [];
 
       for (let row = 0; row < ROWS; row++) {
-         dfs(row, 0, toPacific, heights[row][0]);
-         dfs(row, COLS - 1, toAtlantic, heights[row][COLS - 1]);
+         dfs(row, 0, 0, toPacific);
+         dfs(row, COLS - 1, 0, toAtlantic);
       }
 
       for (let col = 0; col < COLS; col++) {
-         dfs(0, col, toPacific, heights[0][col]);
-         dfs(ROWS - 1, col, toAtlantic, heights[ROWS - 1][col])
+         dfs(0, col, 0, toPacific);
+         dfs(ROWS - 1, col, 0, toAtlantic)
       }
 
-      const toOceanTiles = [];
-      for (const coordinates of toPacific) {
-         if (toAtlantic.has(coordinates))
-            toOceanTiles.push(coordinates.split(',').map(Number))
+      for (let row = 0; row < ROWS; row++) {
+         for (let col = 0; col < COLS; col++) {
+            if (toPacific[row][col] && toAtlantic[row][col]) {
+               res.push([row, col]);
+            }
+         }
       }
-      return toOceanTiles
-   };
 
+      return res;
+   }
+}
+
+
+import { Queue } from "@datastructures-js/queue";
+
+
+class Solution {
    /**
     * Time complexity: O(n2)
     *     n: heights length
@@ -66,56 +72,67 @@ class Solution {
     * @return {number[][]}
     */
    pacificAtlantic(heights) {
+      
+      const bfs = (queue, toOcean) => {
+         while (!queue.isEmpty()) {
+            const [row, col] = queue.pop();
+
+            for (const [dr, dc] of DIRECTIONS) {
+               const [r, c] = [row + dr, col + dc];
+
+               if (
+                  r === -1 || r === ROWS
+                  || c === -1 || c === COLS
+                  || heights[r][c] < heights[row][col]
+                  || toOcean[r][c]
+               ) continue;
+
+               queue.push([r, c]);
+               toOcean[r][c] = true;
+            }
+         }
+
+         // return toOcean;
+      };
+
       const ROWS = heights.length;
       const COLS = heights[0].length;
       const DIRECTIONS = [[-1, 0], [1, 0], [0, -1], [0, 1]];
       const toPacific = Array.from({ length: ROWS }, () => Array(COLS).fill(false));
       const toAtlantic = Array.from({ length: ROWS }, () => Array(COLS).fill(false));
+      const toPacificCells = new Queue();
+      const toAtlanticCells = new Queue();
+      const res = [];
 
-      const bfs = (oceanQueue, toOcean) => {
-         while (oceanQueue.size()) {
-            const [row, col] = oceanQueue.pop();
-            toOcean[row][col] = true;
-
-            for (const [dr, dc] of DIRECTIONS) {
-               const [r, c] = [row + dr, col + dc];
-               if (
-                  r == -1 ||
-                  c == -1 ||
-                  r == ROWS ||
-                  c == COLS ||
-                  heights[r][c] < heights[row][col] ||
-                  toOcean[r][c] === true
-               ) continue
-
-               oceanQueue.push([r, c]);
-               toOcean[r][c] = true;
-            }
-         }
-      }
-
-      const pacificQueue = new Queue();
-      const atlanticQueue = new Queue();
       for (let row = 0; row < ROWS; row++) {
-         pacificQueue.push([row, 0])
-         atlanticQueue.push([row, COLS - 1])
+         toPacificCells.push([row, 0]);
+         toPacific[row][0] = true;
+         toAtlanticCells.push([row, COLS - 1]);
+         toAtlantic[row][COLS - 1] = true;
       }
-      for (let col = 0; col < COLS; col++) {
-         pacificQueue.push([0, col])
-         atlanticQueue.push([ROWS - 1, col])
-      }
-      bfs(pacificQueue, toPacific);
-      bfs(atlanticQueue, toAtlantic);
 
-      const toOceanTiles = [];
+      for (let col = 1; col < COLS; col++) {
+         toPacificCells.push([0, col]);
+         e
+      }
+
+      for (let col = 0; col < COLS - 1; col++) {
+         toAtlanticCells.push([ROWS - 1, col]);
+         toAtlantic[ROWS - 1][col] = true;
+      }
+
+      bfs(toPacificCells, toPacific);
+      bfs(toAtlanticCells, toAtlantic);
+
       for (let row = 0; row < ROWS; row++) {
          for (let col = 0; col < COLS; col++) {
             if (toPacific[row][col] && toAtlantic[row][col])
-               toOceanTiles.push([row, col]);
+               res.push([row, col]);
          }
       }
-      return toOceanTiles
-   };
+
+      return res;
+   }
 }
 
 

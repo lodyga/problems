@@ -18,8 +18,8 @@ class Solution:
                 res.append(combination.copy())
                 return
             if (
-                total > target or
-                idx == N
+                total > target
+                or idx == N
             ):
                 return
 
@@ -29,8 +29,8 @@ class Solution:
             combination.pop()
 
             while (
-                idx + 1 < N and
-                candidates[idx] == candidates[idx + 1]
+                idx + 1 < N
+                and candidates[idx] == candidates[idx + 1]
             ):
                 idx += 1
 
@@ -61,16 +61,16 @@ class Solution:
             elif total > target:
                 return
 
-            for index in range(start, len(candidates)):
+            for idx in range(start, len(candidates)):
                 if (
-                    index > start and 
-                    candidates[index] == candidates[index - 1]
+                    idx > start
+                    and candidates[idx] == candidates[idx - 1]
                 ):
                     continue
 
-                candidate = candidates[index]
+                candidate = candidates[idx]
                 combination.append(candidate)
-                backtrack(index + 1, total + candidate)
+                backtrack(idx + 1, total + candidate)
                 combination.pop()
 
         backtrack(0, 0)

@@ -3,7 +3,7 @@ import { Deque } from "@datastructures-js/deque";
 
 class Solution {
    /**
-    * Time complexity: O(nlogn)
+    * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
     * Tags:
     *     DS: monotonic decreasing queue, deque
@@ -34,7 +34,8 @@ class Solution {
             res.push(deq.front()[0]);
          }
       }
-      return res
+
+      return res;
    }
 }
 

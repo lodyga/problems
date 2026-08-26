@@ -26,23 +26,24 @@ class Solution:
 
             node.left = dfs(node.left)
             node.right = dfs(node.right)
-            
+
             if (
-                node.val == target and 
-                node.left is None and 
-                node.right is None
+                node.val == target
+                and node.left is None
+                and node.right is None
             ):
                 return None
-            
+
             return node
 
         return dfs(root)
 
 
+print(is_same_tree(Solution().removeLeafNodes(build_tree([1, 2, 3, 2, None, 2, 4]), 2), build_tree([1, None, 3, None, 4])))
+print(is_same_tree(Solution().removeLeafNodes(build_tree([1, 3, 3, 3, 2]), 3), build_tree([1, 3, None, None, 2])))
+print(is_same_tree(Solution().removeLeafNodes(build_tree([1, 2, None, 2, None, 2]), 2), build_tree([1])))
 print(is_same_tree(Solution().removeLeafNodes(build_tree([2]), 2), build_tree([])))
 print(is_same_tree(Solution().removeLeafNodes(build_tree([3]), 2), build_tree([3])))
 print(is_same_tree(Solution().removeLeafNodes(build_tree([3, 1, 2]), 2), build_tree([3, 1])))
 print(is_same_tree(Solution().removeLeafNodes(build_tree([3, 2, 1]), 2), build_tree([3, None, 1])))
 print(is_same_tree(Solution().removeLeafNodes(build_tree([2, 2, 2]), 2), build_tree([])))
-print(is_same_tree(Solution().removeLeafNodes(build_tree([1, 3, 3, 3, 2]), 3), build_tree([1, 3, None, None, 2])))
-print(is_same_tree(Solution().removeLeafNodes(build_tree([1, 2, None, 2, None, 2]), 2), build_tree([1])))

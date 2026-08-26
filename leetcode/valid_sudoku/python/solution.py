@@ -13,14 +13,16 @@ class Solution:
 
                 for col in range(9):
                     cell = board[row][col]
+
                     if cell == ".":
                         continue
 
-                    val = int(cell)
-                    if cells[val - 1]:
+                    val = ord(cell) - ord("1")
+
+                    if cells[val]:
                         return False
-                    else:
-                        cells[val - 1] = True
+
+                    cells[val] = True
 
             return True
 
@@ -30,32 +32,37 @@ class Solution:
 
                 for row in range(9):
                     cell = board[row][col]
+
                     if cell == ".":
                         continue
 
-                    val = int(cell)
-                    if cells[val - 1]:
+                    val = ord(cell) - ord("1")
+
+                    if cells[val]:
                         return False
-                    else:
-                        cells[val - 1] = True
+
+                    cells[val] = True
 
             return True
 
         def validate_subboxes():
+
             def validate_subbox(row, col):
                 cells = [False] * 9
 
                 for r in range(row, row + 3):
                     for c in range(col, col + 3):
                         cell = board[r][c]
+
                         if cell == ".":
                             continue
 
-                        val = int(cell)
-                        if cells[val - 1]:
+                        val = ord(cell) - ord("1")
+
+                        if cells[val]:
                             return False
-                        else:
-                            cells[val - 1] = True
+
+                        cells[val] = True
                 
                 return True
 
@@ -67,9 +74,9 @@ class Solution:
             return True
 
         return (
-            validate_rows() and
-            validate_cols() and
-            validate_subboxes()
+            validate_rows()
+            and validate_cols()
+            and validate_subboxes()
         )
 
 

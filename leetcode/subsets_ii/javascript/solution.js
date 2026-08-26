@@ -10,14 +10,10 @@ class Solution {
     * @return {number[][]}
     */
    subsetsWithDup(nums) {
-      const subset = [];
-      const res = [];
-      nums.sort((a, b) => a - b);
-
       const backtrack = (idx) => {
          if (idx === nums.length) {
             res.push(subset.slice());
-            return
+            return;
          }
 
          subset.push(nums[idx]);
@@ -25,14 +21,21 @@ class Solution {
          subset.pop();
 
          while (
-            idx + 1 < nums.length &&
-            nums[idx] === nums[idx + 1]
-         ) idx++;
+            idx + 1 < nums.length
+            && nums[idx] === nums[idx + 1]
+         ) {
+            idx++;
+         }
 
          backtrack(idx + 1);
-      }
+      };
+
+      const subset = [];
+      const res = [];
+      
+      nums.sort((a, b) => a - b);
       backtrack(0);
-      return res
+      return res;
    }
 }
 
@@ -58,18 +61,20 @@ class Solution {
 
          for (let idx = start; idx < nums.length; idx++) {
             if (
-               idx > start &&
-               nums[idx] === nums[idx - 1]
-            ) continue
-            
+               idx > start
+               && nums[idx] === nums[idx - 1]
+            ) {
+               continue;
+            }
+
             subset.push(nums[idx]);
             backtrack(idx + 1);
             subset.pop();
          }
       }
 
-      backtrack(0)
-      return res
+      backtrack(0);
+      return res;
    }
 }
 

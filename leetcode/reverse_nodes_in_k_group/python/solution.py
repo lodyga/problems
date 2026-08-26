@@ -19,9 +19,6 @@ class Solution:
             DS: linked list
             A: iteration
         """
-        if k == 1:
-            return head
-
         def get_kth_or_none_from_current_node(node: ListNode, k: int) -> ListNode:
             while node and k:
                 node = node.next
@@ -31,12 +28,15 @@ class Solution:
         def reverse_k_nodes_from_curren_node(node: ListNode, k: int) -> ListNode:
             prev = None
             while k:
-                node_next = node.next
+                next_node = node.next
                 node.next = prev
                 prev = node
-                node = node_next
+                node = next_node
                 k -= 1
             return node
+
+        if k == 1:
+            return head
 
         anchor = ListNode(None, head)
         prev = anchor
@@ -45,6 +45,7 @@ class Solution:
         while True:
             kth_node = get_kth_or_none_from_current_node(node, k - 1)
             prev.next = kth_node or node
+
             if kth_node is None:
                 break
 
@@ -55,9 +56,10 @@ class Solution:
         return anchor.next
 
 
-print(are_linked_lists_equeal(Solution().reverseKGroup(build_linked_list([1, 2, 3, 4, 5]), 2), build_linked_list([2, 1, 4, 3, 5])))
-print(are_linked_lists_equeal(Solution().reverseKGroup(build_linked_list([1, 2, 3, 4, 5]), 3), build_linked_list([3, 2, 1, 4, 5])))
-print(are_linked_lists_equeal(Solution().reverseKGroup(build_linked_list([1, 2, 3, 4, 5]), 1), build_linked_list([1, 2, 3, 4, 5])))
-print(are_linked_lists_equeal(Solution().reverseKGroup(build_linked_list([1, 2, 3, 4, 5]), 5), build_linked_list([5, 4, 3, 2, 1])))
-print(are_linked_lists_equeal(Solution().reverseKGroup(build_linked_list([1, 2, 3, 4, 5]), 4), build_linked_list([4, 3, 2, 1, 5])))
-print(are_linked_lists_equeal(Solution().reverseKGroup(build_linked_list([1, 2, 3, 4]), 2), build_linked_list([2, 1, 4, 3])))
+linkedList = LinkedList()
+print(linkedList.are_linked_lists_equeal(Solution().reverseKGroup(linkedList.build_linked_list([1, 2, 3, 4, 5]), 2), linkedList.build_linked_list([2, 1, 4, 3, 5])))
+# print(are_linked_lists_equeal(Solution().reverseKGroup(build_linked_list([1, 2, 3, 4, 5]), 3), build_linked_list([3, 2, 1, 4, 5])))
+# print(are_linked_lists_equeal(Solution().reverseKGroup(build_linked_list([1, 2, 3, 4, 5]), 1), build_linked_list([1, 2, 3, 4, 5])))
+# print(are_linked_lists_equeal(Solution().reverseKGroup(build_linked_list([1, 2, 3, 4, 5]), 5), build_linked_list([5, 4, 3, 2, 1])))
+# print(are_linked_lists_equeal(Solution().reverseKGroup(build_linked_list([1, 2, 3, 4, 5]), 4), build_linked_list([4, 3, 2, 1, 5])))
+# print(are_linked_lists_equeal(Solution().reverseKGroup(build_linked_list([1, 2, 3, 4]), 2), build_linked_list([2, 1, 4, 3])))

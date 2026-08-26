@@ -16,10 +16,6 @@ class Solution:
                 right -= 1
             return True
 
-        N = len(text)
-        partitioned = []
-        res = []
-
         def backtrack(start: int) -> None:
             if start == N:
                 res.append(partitioned.copy())
@@ -30,7 +26,11 @@ class Solution:
                     partitioned.append(text[start: idx + 1])
                     backtrack(idx + 1)
                     partitioned.pop()
-                
+
+        N = len(text)
+        partitioned = []
+        res = []
+
         backtrack(0)
         return res
 

@@ -9,35 +9,44 @@ class Solution {
     * @return {number}
     */
    maxProfit(prices) {
-      const memo = Array.from({ length: prices.length + 2 }, () => Array(2).fill(-1));
-      memo[memo.length - 1] = [0, 0];
-      memo[memo.length - 2] = [0, 0];
-
       /**
-       * canBuy: 0: false, 1: true
-       * @param {number} index 
+       * @param {number} idx 
        * @param {number} canBuy 
        * @returns {number}
        */
-      const dfs = (index, canBuy) => {
-         if (memo[index][canBuy] !== -1) {
-            return memo[index][canBuy]
+      const dfs = (idx, canBuy) => {
+         if (memo[idx][canBuy] !== -1) {
+            return memo[idx][canBuy];
          }
-         const price = prices[index];
-         let [buy, sell] = [0, 0];
-         const skip = dfs(index + 1, canBuy);
-         if (canBuy) {
-            buy = -price + dfs(index + 1, 0);
-         } else {
-            sell = price + dfs(index + 2, 1);
-         }
-         const res = Math.max(skip, buy, sell);
-         memo[index][canBuy] = res;
-         return res
-      }
-      return dfs(0, 1)
-   };
 
+         const price = prices[idx];
+         let buy = 0;
+         let sell = 0;
+         const skip = dfs(idx + 1, canBuy);
+
+         if (canBuy) {
+            buy = -price + dfs(idx + 1, 0);
+         }
+         else {
+            sell = price + dfs(idx + 2, 1);
+         }
+
+         const res = Math.max(skip, buy, sell);
+         memo[idx][canBuy] = res;
+         return res;
+      };
+
+      const N = prices.length;
+      const memo = Array.from({ length: N + 2 }, () => Array(2).fill(-1));
+      memo[N] = [0, 0];
+      memo[N + 1] = [0, 0];
+
+      return dfs(0, 1);
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
@@ -48,26 +57,29 @@ class Solution {
     * @return {number}
     */
    maxProfit(prices) {
-      const cache = Array.from({ length: prices.length + 2 }, () => Array(2).fill(-1));
-      cache[cache.length - 1] = [0, 0];
-      cache[cache.length - 2] = [0, 0];
+      const N = prices.length;
+      const cache = Array.from({ length: N + 2 }, () => Array(2).fill(0));
+      cache[N] = [0, 0];
+      cache[N + 1] = [0, 0];
 
-      for (let index = prices.length - 1; index > -1; index--) {
-         const price = prices[index];
-         // can buy
-         cache[index][1] = Math.max(
-            cache[index + 1][1], // skip
-            -price + cache[index + 1][0] // buy
-         )
-         // can sell
-         cache[index][0] = Math.max(
-            cache[index + 1][0], // skip
-            price + cache[index + 2][1] // sell
-         )
+      for (let idx = N - 1; idx > -1; idx--) {
+         const price = prices[idx];
+         cache[idx][1] = Math.max(  // can buy
+            cache[idx + 1][1],  // skip
+            -price + cache[idx + 1][0]  // buy
+         );
+         cache[idx][0] = Math.max(  // can sell
+            cache[idx + 1][0],  // skip
+            price + cache[idx + 2][1]  // sell
+         );
       }
-      return cache[0][1]
-   };
 
+      return cache[0][1];
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
@@ -80,25 +92,24 @@ class Solution {
    maxProfit(prices) {
       const cache = [[0, 0], [0, 0]]
 
-      for (let index = prices.length - 1; index > -1; index--) {
-         const price = prices[index];
-         // can buy
-         const buyCache = Math.max(
-            cache[0][1], // skip
-            -price + cache[0][0] // buy
+      for (let idx = prices.length - 1; idx > -1; idx--) {
+         const price = prices[idx];
+         const buyCache = Math.max(  // can buy
+            cache[0][1],  // skip
+            -price + cache[0][0]  // buy
          )
-         // can sell
-         const sellCache = Math.max(
-            cache[0][0], // skip
-            price + cache[1][1] // sell
+         const sellCache = Math.max(  // can sell
+            cache[0][0],  // skip
+            price + cache[1][1]  // sell
          )
          cache[1][0] = cache[0][0];
          cache[1][1] = cache[0][1];
          cache[0][0] = sellCache;
          cache[0][1] = buyCache;
       }
-      return cache[0][1]
-   };
+
+      return cache[0][1];
+   }
 }
 
 

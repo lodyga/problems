@@ -7,9 +7,6 @@ class Solution:
             DS: array
             A: backtracking
         """
-        N = len(nums)
-        res = []
-
         def backtrack(start: int) -> None:
             if start == N:
                 res.append(nums.copy())
@@ -20,6 +17,9 @@ class Solution:
                 backtrack(start + 1)
                 nums[start], nums[idx] = nums[idx], nums[start]
 
+        N = len(nums)
+        res = []
+        
         backtrack(0)
         return res
 

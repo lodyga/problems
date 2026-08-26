@@ -1,4 +1,4 @@
-import {ListNode, areLinkedListsEqueal, buildLinkedList, getLinkedListValues} from '../../../../JS/linked-list-utils.js'
+import {ListNode, areLinkedListsEqueal, buildLinkedList, serializeLinkedList} from '../../../../JS/linked-list-utils.js'
 
 
 /**

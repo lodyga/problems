@@ -21,11 +21,10 @@ class Solution {
 
       for (let idx = nums.length - 1; idx > -1; idx--) {
          res[idx] *= suffix;
-         res[idx] += 0;
          suffix *= nums[idx];
       }
 
-      return res
+      return res;
    }
 }
 

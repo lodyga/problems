@@ -31,12 +31,12 @@ class Solution {
          for (let r = row; r < row + n; r++) {
             for (let c = col; c < col + n; c++) {
                if (grid[r][c] !== grid[row][col]) {
-                  return false
+                  return false;
                }
             }
          }
-         return true
-      };
+         return true;
+      }
 
       /**
        * @param {number} row 
@@ -46,18 +46,19 @@ class Solution {
        */
       const dfs = (row, col, n) => {
          if (isLeaf(row, col, n)) {
-            return new _Node(grid[row][col], true)
-         } else {
-            n /= 2;
-            const topLeft = dfs(row, col, n);
-            const topRight = dfs(row, col + n, n);
-            const bottomLeft = dfs(row + n, col, n);
-            const bottomRight = dfs(row + n, col + n, n);
-            return new _Node(null, false, topLeft, topRight, bottomLeft, bottomRight)
+            return new _Node(grid[row][col], true);
          }
-      }
-      return dfs(0, 0, grid.length)
-   };
+
+         n /= 2;
+         const topLeft = dfs(row, col, n);
+         const topRight = dfs(row, col + n, n);
+         const bottomLeft = dfs(row + n, col, n);
+         const bottomRight = dfs(row + n, col + n, n);
+         return new _Node(null, false, topLeft, topRight, bottomLeft, bottomRight)
+      };
+
+      return dfs(0, 0, grid.length);
+   }
 }
 
 

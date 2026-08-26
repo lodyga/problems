@@ -61,8 +61,10 @@ class Solution:
 
             left_letter = text[left]
             window[left_letter] = window.get(left_letter, 0) - 1
+
             if window[left_letter] == 0:
                 window.pop(left_letter)
+
             left += 1
 
         return False
@@ -93,8 +95,10 @@ class Solution:
                         return True
 
                     left_letter = word2[left]
+
                     if letter_frequency[left_letter] == pattern[left_letter]:
                         need += 1
+
                     letter_frequency[left_letter] -= 1
                     left += 1
 

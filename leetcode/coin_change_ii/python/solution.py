@@ -1,6 +1,34 @@
 class Solution:
     def change(self, amount: int, coins: list[int]) -> int:
         """
+        Time complexity: O(2^n)
+            O(coin count ^ amount)
+        Auxiliary space complexity: O(n)
+        Tags:
+            A: brute-force
+        """        
+        N = len(coins)
+        coins.sort()
+
+        def dfs(idx: int, total: int) -> int:
+            if total == amount:
+                return 1
+            elif total > amount:
+                return 0
+            elif idx == N:
+                return 0
+
+            skip = dfs(idx + 1, total)
+            take = dfs(idx, total + coins[idx])
+            res = skip + take
+            return res
+
+        return dfs(0, 0)
+
+
+class Solution:
+    def change(self, amount: int, coins: list[int]) -> int:
+        """
         Time complexity: O(n2)
             O(coin count * amount)
         Auxiliary space complexity: O(n2)
@@ -9,24 +37,61 @@ class Solution:
             A: top-down
         Binary Decision Approach
         """
+        N = len(coins)
+        coins.sort()
         # The number of ways to reach amount with already accumulated coin sum (total), unsing coins strating from coins[index:].
         memo = {}
 
-        def dfs(index, total):
-            if (
-                total >= amount or
-                index == len(coins)
-            ):
-                return 1 if total == amount else 0
-            elif (index, total) in memo:
-                return memo[(index, total)]
+        def dfs(idx: int, total: int) -> int:
+            key = (idx, total)
+            if total == amount:
+                return 1
+            elif total > amount:
+                return 0
+            elif idx == N:
+                return 0
+            elif key in memo:
+                return memo[key]
 
-            coin = coins[index]
-            res = 0
-            skip = dfs(index + 1, total)
-            take = dfs(index, coin + total)
+            skip = dfs(idx + 1, total)
+            take = dfs(idx, total + coins[idx])
             res = skip + take
-            memo[(index, total)] = res
+            memo[key] = res
+            return res
+
+        return dfs(0, 0)
+
+
+class Solution:
+    def change(self, amount: int, coins: list[int]) -> int:
+        """
+        Time complexity: O(n2)
+            O(coin count * amount)
+        Auxiliary space complexity: O(n2)
+        Tags:
+            DS: array (matrix)
+            A: top-down
+        Binary Decision Approach
+        """
+        N = len(coins)
+        coins.sort()
+        # The number of ways to reach amount with already accumulated coin sum (total), unsing coins strating from coins[index:].
+        memo = [[-1] * (amount + 1) for _ in range(N)]
+
+        def dfs(idx: int, total: int) -> int:
+            if total == amount:
+                return 1
+            elif total > amount:
+                return 0
+            elif idx == N:
+                return 0
+            elif memo[idx][total] != -1:
+                return memo[idx][total]
+
+            skip = dfs(idx + 1, total)
+            take = dfs(idx, total + coins[idx])
+            res = skip + take
+            memo[idx][total] = res
             return res
 
         return dfs(0, 0)
@@ -44,22 +109,24 @@ class Solution:
         For Loop Approach 
         """
         # The number of ways to reach amount with already accumulated coin sum (total), unsing coins strating from coins[index:].
+        N = len(coins)
         memo = {}
 
         def dfs(start, total):
+            key = (start, total)
             if total >= amount:
-                return 1 if total == amount else 0
-            elif (start, total) in memo:
-                return memo[(start, total)]
+                return total == amount
+            elif key in memo:
+                return memo[key]
 
             res = 0
-            for index in range(start, len(coins)):
-                coin = coins[index]
-                if total + coin > amount:
+            for idx in range(start, N):
+                if total + coins[idx] > amount:
                     break
-                res += dfs(index, coin + total)
 
-            memo[(start, total)] = res
+                res += dfs(idx, coins[idx] + total)
+
+            memo[key] = res
             return res
 
         return dfs(0, 0)
@@ -79,12 +146,14 @@ class Solution:
         N = len(coins)
         # Number of ways to make target sum using coins using coins[0..i] (inclusive).
         cache = [[0] * (amount + 1) for _ in range(N)]
-        for index in range(N):
-            cache[index][0] = 1
+
+        for idx in range(N):
+            cache[idx][0] = 1
 
         for total in range(1, amount + 1):
             for coin_ind in range(N):
                 coin = coins[coin_ind]
+
                 if total >= coin:
                     if coin_ind:
                         # Take combination count from a previous coins
@@ -127,7 +196,6 @@ class Solution:
         return prev_cache[amount]
 
 
-print(Solution().change(0, [7]) == 1)
 print(Solution().change(2, [1, 2]) == 2)
 print(Solution().change(3, [1, 2, 3]) == 3)
 print(Solution().change(5, [1, 2, 5]) == 4)

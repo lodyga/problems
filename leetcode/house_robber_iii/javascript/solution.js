@@ -18,30 +18,66 @@ class Solution {
     * Auxiliary space complexity: O(n)
     * Tags:
     *     DS: binary tree
-    *     A: dfs, recursion, pre-order traversal
+    *     A: dfs, recursion, post-order traversal
     * @param {TreeNode} root 
     * @returns {number}
     */
    rob(root) {
       const dfs = (node) => {
          if (node === null) {
-            return [0, 0]
+            return [0, 0];
          }
-         const leftNode = dfs(node.left);
-         const rightNode = dfs(node.right);
-         const takeNode = node.val + leftNode[1] + rightNode[1];
-         const skipNode = Math.max(...leftNode) + Math.max(...rightNode);
-         return [takeNode, skipNode]
-      }
-      return Math.max(...dfs(root))
-   };
 
+         const left = dfs(node.left);
+         const right = dfs(node.right);
+         const take = node.val + left[1] + right[1];
+         const skip = Math.max(...left) + Math.max(...right);
+         return [take, skip];
+      };
+
+      return Math.max(...dfs(root));
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
     * Tags:
     *     DS: binary tree
-    *     A: dfs, recursion, pre-order traversal
+    *     A: dfs, recursion, post-order traversal
+    * @param {TreeNode} root 
+    * @returns {number}
+    */
+   rob(root) {
+      const dfs = (node) => {
+         if (node === null) {
+            return { take: 0, skip: 0 };
+         }
+
+         const left = dfs(node.left);
+         const right = dfs(node.right);
+
+         const take = node.val + left.skip + right.skip;
+         const skip = Math.max(left.take, left.skip)
+            + Math.max(right.take, right.skip);
+         return { take: take, skip: skip };
+      };
+
+      const res = dfs(root);
+      return Math.max(res.take, res.skip);
+   }
+}
+
+
+class Solution {
+   /**
+    * Time complexity: O(n)
+    * Auxiliary space complexity: O(n)
+    * Tags:
+    *     DS: binary tree
+    *     A: dfs, recursion, post-order traversal
     * @param {TreeNode} root 
     * @returns {number}
     */
@@ -50,8 +86,9 @@ class Solution {
 
       const dfs = (node) => {
          if (memo.has(node)) {
-            return memo.get(node)
+            return memo.get(node);
          }
+
          // Skip node and `rob` chldren.
          const skip = dfs(node.left) + dfs(node.right);
 
@@ -60,10 +97,11 @@ class Solution {
          const rightGrand = node.right ? dfs(node.right.left) + dfs(node.right.right) : 0;
          const take = node.val + leftGrand + rightGrand;
          memo.set(node, Math.max(take, skip));
-         return memo.get(node)
-      }
-      return dfs(root)
-   };
+         return memo.get(node);
+      };
+
+      return dfs(root);
+   }
 }
 
 
