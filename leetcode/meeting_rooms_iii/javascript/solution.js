@@ -17,10 +17,12 @@ class Solution {
    mostBooked(roomCount, meetings) {
       meetings.sort((a, b) => a[0] === b[0] ? a[1] - b[1] : a[0] - b[0]);
       // PriorityQueue([avaibility date, room number], )
-      const occupiedRooms = new PriorityQueue((a, b) => a[0] - b[0] === 0 ? a[1] - b[1] : a[0] - b[0]);
+      const bookedRooms = new PriorityQueue((a, b) => a[0] - b[0] === 0 ? a[1] - b[1] : a[0] - b[0]);
+
       for (let room = 0; room < roomCount; room++) {
-         occupiedRooms.enqueue([0, room]);
+         bookedRooms.push([0, room]);
       }
+
       // PriorityQueue([room number], )
       const avaibleRooms = new PriorityQueue((a, b) => a - b);
       const roomUseCounter = Array(roomCount).fill(0);
@@ -28,29 +30,35 @@ class Solution {
       for (let [start, end] of meetings) {
          const meetingDuration = end - start;
 
-         while (occupiedRooms.size() && occupiedRooms.front()[0] <= start) {
-            const [_, roomNumber] = occupiedRooms.dequeue();
-            avaibleRooms.enqueue(roomNumber);
+         while (!bookedRooms.isEmpty() && bookedRooms.front()[0] <= start) {
+            const [, roomNum] = bookedRooms.pop();
+            avaibleRooms.push(roomNum);
          }
 
-         let roomNumber = roomCount;
-         if (avaibleRooms.size()) {
-            roomNumber = avaibleRooms.dequeue();
-         } else {
-            const [avaible, rN] = occupiedRooms.dequeue();
-            roomNumber = rN;
-            // Avabile from room overrides start from meeting.
-            start = avaible;
+         let roomNum;
+
+         if (!avaibleRooms.isEmpty()) {
+            roomNum = avaibleRooms.pop();
          }
+         else {
+            const [prevStart, prevRoom] = bookedRooms.pop();
+            roomNum = prevRoom;
+            // Avabile from room overrides start from meeting.
+            start = prevStart;
+         }
+
          const meeingEnd = start + meetingDuration;
-         occupiedRooms.enqueue([meeingEnd, roomNumber]);
-         roomUseCounter[roomNumber] += 1;
+         bookedRooms.push([meeingEnd, roomNum]);
+         roomUseCounter[roomNum] += 1;
       }
+
       const maxUseCounter = Math.max(...roomUseCounter);
-      for (let roomNumber = 0; roomNumber < roomCount; roomNumber++)
-         if (roomUseCounter[roomNumber] === maxUseCounter)
-            return roomNumber
-   };
+
+      for (let roomNum = 0; roomNum < roomCount; roomNum++)
+         if (roomUseCounter[roomNum] === maxUseCounter) {
+            return roomNum;
+         }
+   }
 }
 
 

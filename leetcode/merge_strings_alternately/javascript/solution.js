@@ -22,7 +22,7 @@ class Solution {
       res.push(text1.slice(idx, ));
       res.push(text2.slice(idx, ));
 
-      return res.join('')
+      return res.join('');
    }
 }
 

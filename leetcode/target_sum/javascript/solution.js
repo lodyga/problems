@@ -12,33 +12,38 @@ class Solution {
     * @return {number}
     */
    findTargetSumWays(nums, target) {
-      const memo = new Map();
 
-      const dfs = (index, total) => {
-         const memoInd = `${index},${total}`;
-         if (index === nums.length) {
-            return total === target
-         } else if (memo.has(memoInd)) {
-            return memo.get(memoInd)
+      const dfs = (idx, total) => {
+         const key = `${idx},${total}`;
+         
+         if (idx === nums.length) {
+            return total === target;
+         } 
+         else if (memo.has(key)) {
+            return memo.get(key);
          }
 
-
-         const num = nums[index];
-         const addNum = dfs(index + 1, total + num);
-         const subtractNum = dfs(index + 1, total - num);
-         memo.set(memoInd, addNum + subtractNum);
-         return memo.get(memoInd)
+         const val = nums[idx];
+         let res = dfs(idx + 1, total + val);
+         res += dfs(idx + 1, total - val);
+         memo.set(key, res);
+         return res;
       };
-      return dfs(0, 0)
-   };
 
+      const memo = new Map();
+      return dfs(0, 0);
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n*m)
     *     n: num count
     *     m: num sum
     * Auxiliary space complexity: O(n*m)
     * Tags:
-    *     DS: hash map
+    *     DS: array, hash map
     *     A: bottom-up
     * @param {number[]} nums
     * @param {number} target
@@ -49,18 +54,23 @@ class Solution {
       const cache = Array.from({ length: N + 1 }, () => ({}));
       cache[0][0] = 1;
 
-      for (let index = 0; index < N; index++) {
-         const num = nums[index];
-         for (let total in cache[index]) {
+      for (let idx = 0; idx < N; idx++) {
+         const val = nums[idx];
+         
+         for (let total in cache[idx]) {
             total = Number(total);
-            const counter = cache[index][total];
-            cache[index + 1][total + num] = (cache[index + 1][total + num] || 0) + counter;
-            cache[index + 1][total - num] = (cache[index + 1][total - num] || 0) + counter;
+            const counter = cache[idx][total];
+            cache[idx + 1][total + val] = (cache[idx + 1][total + val] || 0) + counter;
+            cache[idx + 1][total - val] = (cache[idx + 1][total - val] || 0) + counter;
          }
       }
-      return cache[N][target] || 0
-   };
 
+      return cache[N][target];
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n*m)
     *     n: num count
@@ -80,14 +90,17 @@ class Solution {
 
       for (const num of nums) {
          const nextCache = new Map();
+         
          for (const [total, counter] of cache) {
             nextCache.set(total + num, (nextCache.get(total + num) || 0) + counter);
             nextCache.set(total - num, (nextCache.get(total - num) || 0) + counter);
          }
+         
          cache = nextCache;
       }
-      return cache.get(target) || 0
-   };
+
+      return cache.get(target);
+   }
 }
 
 

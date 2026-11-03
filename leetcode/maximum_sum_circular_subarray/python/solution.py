@@ -7,16 +7,16 @@ class Solution:
             A: brute-froce
         """
         N = len(nums)
-        max_sub_sum = nums[0]
+        res = nums[0]
 
-        for left in range(N):
-            total = 0
+        for idx in range(N):
+            curr_sum = 0
 
-            for right in range(left, left + N):
-                total += nums[right % N]
-                max_sub_sum = max(max_sub_sum, total)
+            for jdx in range(idx, N + idx):
+                curr_sum += nums[jdx % N]
+                res = max(res, curr_sum)
 
-        return max_sub_sum
+        return res
 
 
 class Solution:
@@ -25,27 +25,26 @@ class Solution:
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
         Tags:
-            A: greedy, Kadane
+            A: greedy
         """
-        N = len(nums)
         total = sum(nums)
-        low_sub_sum = 0
-        high_sub_sum = 0
-        min_sub_sum = nums[0]
-        max_sub_sum = nums[0]
+        local_max_sum = 0
+        local_min_sum = 0
+        global_max_sum = nums[0]
+        global_min_sum = nums[0]
 
         for num in nums:
-            high_sub_sum = max(high_sub_sum + num, num)
-            max_sub_sum = max(max_sub_sum, high_sub_sum)
+            local_max_sum = max(local_max_sum + num, num)
+            global_max_sum = max(global_max_sum, local_max_sum)
 
-            low_sub_sum = min(low_sub_sum + num, num)
-            min_sub_sum = min(min_sub_sum, low_sub_sum)
+            local_min_sum = min(local_min_sum + num, num)
+            global_min_sum = min(global_min_sum, local_min_sum)
 
-        # If all values are negative: (max_sub_sum < 0) === (total == min_sub_sum)
-        if max_sub_sum < 0:
-            return max_sub_sum
+        # If all values are negative: (global_max_sum < 0) === (total == global_min_sum)
+        if global_max_sum > 0:
+            return max(global_max_sum, total - global_min_sum)
         else:
-            return max(max_sub_sum, total - min_sub_sum)
+            return global_max_sum
 
 
 print(Solution().maxSubarraySumCircular([1, -2, 3, -2]) == 3)

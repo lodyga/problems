@@ -8,24 +8,24 @@ class Solution:
             DS: string
             A: iteration
         """
-        col_name = []
+        res = []
 
-        while col_num > 0:
-            mod = (col_num - 1) % 26
-            char = chr(ord("A") + mod)
-            col_name.append(char)
-            col_num = (col_num - 1) // 26
+        while col_num:
+            col_num -= 1
+            char = chr(col_num % 26 + ord("A"))
+            res.append(char)
+            col_num //= 26
 
-        return "".join(reversed(col_name))
+        return "".join(reversed(res))
 
 
 print(Solution().convertToTitle(1) == "A")
+print(Solution().convertToTitle(28) == "AB")
+print(Solution().convertToTitle(701) == "ZY")
 print(Solution().convertToTitle(26) == "Z")
 print(Solution().convertToTitle(27) == "AA")
-print(Solution().convertToTitle(28) == "AB")
 print(Solution().convertToTitle(51) == "AY")
 print(Solution().convertToTitle(52) == "AZ")
 print(Solution().convertToTitle(53) == "BA")
 print(Solution().convertToTitle(54) == "BB")
-print(Solution().convertToTitle(701) == "ZY")
 print(Solution().convertToTitle(2147483647) == "FXSHRXW")

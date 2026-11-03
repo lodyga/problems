@@ -1,62 +1,40 @@
 class Solution:
     def stoneGameIII(self, stones: list[int]) -> str:
-        UPPER_BOUND = 10**8
-        LOWER_BOUND = -UPPER_BOUND
-        memo_alice = {}
-        
-        def dfs_alice(start: int, is_alice_turn: bool) -> int:
-            memo_index = (start, is_alice_turn)
-            
-            if start == len(stones):
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(n)
+        Tags: 
+            DS: array
+            A: top-down
+        """
+        def dfs(start: int):
+            if start == N:
                 return 0
-            elif memo_index in memo_alice:
-                return memo_alice[memo_index]
+            elif memo[start] != INT_MIN:
+                return memo[start]
 
+            score = INT_MIN
+            end = min(start + 3, N)
             subpile_sum = 0
-            score = LOWER_BOUND if is_alice_turn else UPPER_BOUND
 
-            for index in range(start, min(start + 3, len(stones))):
-                subpile_sum += stones[index]
-                get_rest_piles = dfs_alice(index + 1, not is_alice_turn)
+            for idx in range(start, end):
+                subpile_sum += stones[idx]
+                score = max(score, subpile_sum - dfs(idx + 1))
 
-                if is_alice_turn:
-                    score = max(score, subpile_sum + get_rest_piles)
-                else:
-                    score = min(score, get_rest_piles)
-
-            memo_alice[memo_index] = score
+            memo[start] = score
             return score
 
-        memo_bob = {}
-        def dfs_bob(start: int, is_alice_turn: bool) -> int:
-            memo_index = (start, is_alice_turn)
-            
-            if start == len(stones):
-                return 0
-            elif memo_index in memo_bob:
-                return memo_bob[memo_index]
+        INT_MIN = -10**8
+        N = len(stones)
+        memo = [INT_MIN] * N
+        res = dfs(0)
 
-            subpile_sum = 0
-            score = LOWER_BOUND if not is_alice_turn else UPPER_BOUND
-
-            for index in range(start, min(start + 3, len(stones))):
-                subpile_sum += stones[index]
-                get_rest_piles = dfs_bob(index + 1, not is_alice_turn)
-
-                if is_alice_turn:
-                    score = min(score, get_rest_piles)
-                else:
-                    score = max(score, subpile_sum + get_rest_piles)
-
-            memo_bob[memo_index] = score
-            return score
-
-        # Maximum stones for Alice - maximum stones for Bob.
-        res = dfs_alice(0, True)
-        del memo_alice
-        res -= dfs_bob(0, True)
-        
-        return "Tie" if res == 0 else ("Alice" if res > 0 else "Bob")
+        if res > 0:
+            return "Alice"
+        elif res == 0:
+            return "Tie"
+        else:
+            return "Bob"
 
 
 class Solution:
@@ -64,30 +42,32 @@ class Solution:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
-        Tags:
+        Tags: 
             DS: array
-            A: top-down
+            A: bottem-up
         """
-        LOWER_BOUND = -10**8
-        memo = [-1] * (len(stones) + 1)
-        memo[-1] = 0
+        INT_MIN = -10**8
+        N = len(stones)
+        cache = [0] * (N + 1)
 
-        def dfs(start):
-            if memo[start] != -1:
-                return memo[start]
-
-            score = LOWER_BOUND
+        for idx in range(N - 1, -1, -1):
+            cache[idx] = INT_MIN
+            end = min(idx + 3, N)
             subpile_sum = 0
-            
-            for index in range(start, min(start + 3, len(stones))):
-                subpile_sum += stones[index]
-                points = subpile_sum - dfs(index + 1)
-                score = max(score, points)
 
-            memo[start] = score
-            return score
+            for jdx in range(idx, end):
+                subpile_sum += stones[jdx]
+                cache[idx] = max(
+                    cache[idx],
+                    subpile_sum - cache[jdx + 1]
+                )
 
-        return "Tie" if dfs(0) == 0 else ("Alice" if dfs(0) > 0 else "Bob")
+        if cache[0] > 0:
+            return "Alice"
+        elif cache[0] == 0:
+            return "Tie"
+        else:
+            return "Bob"
 
 
 print(Solution().stoneGameIII([1, 2, 3, 7]) == "Bob")

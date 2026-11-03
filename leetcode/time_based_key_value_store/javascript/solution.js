@@ -23,8 +23,9 @@ class TimeMap {
    set(key, value, timestamp) {
       const store = this.store;
       
-      if (!store.has(key))
+      if (!store.has(key)) {
          store.set(key, []);
+      }
 
       store.get(key).push([timestamp, value]);
    }
@@ -58,6 +59,7 @@ class TimeMap {
             left = mid + 1;
          }
       }
+      
       return res;
    }
 }
@@ -95,8 +97,9 @@ class TimeMap {
     */
    set(key, value, timestamp) {
       const store = this.store;
-      if (!store.has(key))
+      if (!store.has(key)) {
          store.set(key, new ListNode([0, ""]));
+      }
 
       const head = store.get(key);
       const node = new ListNode([timestamp, value], head);
@@ -111,14 +114,15 @@ class TimeMap {
     */
    get(key, timestamp) {
       const store = this.store;
-      if (!this.store.get(key))
-         return ''
+      if (!this.store.get(key)) {
+         return '';
+      }
 
       let node = store.get(key);
       while (timestamp < node.val[0])
          node = node.next
 
-      return node.val[1]
+      return node.val[1];
    }
 }
 

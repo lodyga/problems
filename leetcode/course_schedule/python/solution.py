@@ -4,15 +4,72 @@ class Solution:
         Time complexity: O(V + E)
         Auxiliary space complexity: O(V + E)
         Tags:
+            DS: array, hash map, hash set
+            A: dfs, recursion, graph, topological sort
+            Model: graph
+        Mark visited courses in visited
+        """
+        def dfs(course):
+            if path[course]:
+                return False
+            elif visited[course] or course not in prereqs:
+                return True
+
+            visited[course] = True
+            path[course] = True
+
+            for prev_course in prereqs[course]:
+                if dfs(prev_course) is False:
+                    return False
+
+            path[course] = False
+            return True
+
+        prereqs = {course: set() for course, _ in prerequisites}
+        visited = [False] * course_count
+        path = [False] * course_count
+
+        for course, prev_course in prerequisites:
+            prereqs[course].add(prev_course)
+
+        for course in prereqs:
+            if dfs(course) is False:
+                return False
+
+        return True
+
+
+class Solution:
+    def canFinish(self, course_count: int, prerequisites: list[list[int]]) -> bool:
+        """
+        Time complexity: O(V + E)
+        Auxiliary space complexity: O(V + E)
+        Tags:
             DS: array
             A: post-order dfs on vertices, recursion, graph, topological sort
         Mark visited courses in visited
-        One array for visited / path: None: not visited, False: visited, True: in current path
+        One array for visited / path: -1: not visited, 0: visited, 1: in current path
         """
-        if course_count == 0:
-            return True
+        def dfs(course):
+            # True: cycle detected
+            # False: visited
+            if visited[course] != -1:
+                return visited[course]
+
+            # mark as `in path`
+            visited[course] = 1
+
+            for prereq in prereqs[course]:
+                if dfs(prereq) == 1:
+                    return 1
+
+            # mark as `visited`
+            visited[course] = 0
 
         prereqs = {course: set() for course in range(course_count)}
+        # -1: not visited, 0: visited, 1: on current path
+        visited = [-1] * course_count
+
         for course, prereq in prerequisites:
             # Course requires itself (a, a).
             if course == prereq:
@@ -22,26 +79,6 @@ class Solution:
                 return False
             prereqs[course].add(prereq)
 
-        # -1: not visited, 0: visited, 1: on current path
-        visited = [-1] * course_count
-
-        def dfs(course):
-            # True: cycle detected
-            # False: visited
-            if visited[course] != -1:
-                return visited[course]
-
-            # mark as `in path``
-            visited[course] = 1
-
-            for prereq in prereqs[course]:
-                if dfs(prereq) == 1:
-                    return 1
-
-            # mark as `visited`
-            visited[course] = 0
-            # return 0
-
         for course in prereqs:
             if dfs(course) == 1:
                 return False
@@ -49,7 +86,7 @@ class Solution:
         return True
 
 
-class Solution2:
+class Solution:
     def canFinish(self, course_count: int, prerequisites: list[list[int]]) -> bool:
         """
         Time complexity: O(V + E)
@@ -59,18 +96,6 @@ class Solution2:
             A: dfs, recursion, graph, topological sort
         Mark visited courses in visited
         """
-        if course_count == 0:
-            return True
-
-        prereqs = {course: set() for course in range(course_count)}
-        for course, prereq in prerequisites:
-            if course == prereq:
-                return False
-            prereqs[course].add(prereq)
-
-        visited = [False] * course_count
-        path = [False] * course_count
-
         def dfs(course):
             # detect cycle
             if path[course]:
@@ -89,6 +114,15 @@ class Solution2:
             path[course] = False
             return True
 
+        prereqs = {course: set() for course in range(course_count)}
+        visited = [False] * course_count
+        path = [False] * course_count
+
+        for course, prereq in prerequisites:
+            if course == prereq:
+                return False
+            prereqs[course].add(prereq)
+
         for course in prereqs:
             if dfs(course) is False:
                 return False
@@ -96,7 +130,7 @@ class Solution2:
         return True
 
 
-class Solution2:
+class Solution:
     def canFinish(self, course_count: int, prerequisites: list[list[int]]) -> bool:
         """
         Time complexity: O(V + E)
@@ -106,16 +140,6 @@ class Solution2:
             A: dfs, recursion, graph, topological sort
         Mark visited courses with no prerequisites
         """
-        if course_count == 0:
-            return True
-
-        prereqs = {index: set() for index in range(course_count)}
-        for course, prereq in prerequisites:
-            prereqs[course].add(prereq)
-
-        # check visited path for cycles
-        visited = [False] * course_count
-
         def dfs(course):
             # course with no prerequisities
             if course not in prereqs:
@@ -137,6 +161,13 @@ class Solution2:
             visited[course] = False
             return True
 
+        prereqs = {index: set() for index in range(course_count)}
+        # check visited path for cycles
+        visited = [False] * course_count
+
+        for course, prereq in prerequisites:
+            prereqs[course].add(prereq)
+
         for course in prereqs:
             if dfs(course) is False:
                 return False
@@ -151,7 +182,6 @@ print(Solution().canFinish(3, [[1, 0], [0, 2], [2, 1]]) == False)
 print(Solution().canFinish(5, [[0, 1], [0, 2], [1, 3], [3, 4], [1, 4]]) == True)
 print(Solution().canFinish(4, [[0, 1], [2, 3]]) == True)
 print(Solution().canFinish(0, []) == True)
-print(Solution().canFinish(0, [[]]) == True)
 print(Solution().canFinish(20, [[0, 10], [3, 18], [5, 5], [6, 11], [11, 14], [13, 1], [15, 1], [17, 4]]) == False)
 print(Solution().canFinish(4, [[2, 0], [1, 0], [3, 1], [3, 2], [1, 3]]) == False)
 print(Solution().canFinish(4, [[3, 1], [3, 2], [1, 3]]) == False)

@@ -23,7 +23,7 @@ class Solution {
          node = nodeNext;
       }
       
-      return prev
+      return prev;
    }
 }
 
@@ -45,11 +45,13 @@ class Solution {
       let prev = null;
 
       while (node) {
-         [node.next, prev, node] = [prev, node, node.next]
+         [node.next, prev, node] = [prev, node, node.next];
       }
-      return prev
+
+      return prev;
    }
 }
+
 
 const linkedList = new LinkedList();
 const buildLinkedList = linkedList.buildLinkedList;

@@ -12,36 +12,27 @@ class MedianFinder:
         A: iteration
     """
 
-    def __init__(self):
-        self.left_heap = []
-        self.right_heap = []
+    def __init__(self) -> None:
+        # [x, ., ., ., .]
+        self.high_heap = []
+        # [-x, ., ., ., ,]
+        self.low_heap = []
 
     def addNum(self, num: int) -> None:
-        left = self.left_heap
-        right = self.right_heap
-
-        if len(left) == 0:
-            heapq.heappush(left, -num)
-
-        elif len(left) == len(right):
-            if num <= right[0]:
-                heapq.heappush(left, -num)
-            else:
-                heapq.heappush(left, -heapq.heappop(right))
-                heapq.heappush(right, num)
-
+        if len(self.high_heap) == len(self.low_heap):
+            heapq.heappush(self.low_heap, -num)
+            high_num = -heapq.heappop(self.low_heap)
+            heapq.heappush(self.high_heap, high_num)
         else:
-            if num >= -left[0]:
-                heapq.heappush(right, num)
-            else:
-                heapq.heappush(right, -heapq.heappop(left))
-                heapq.heappush(left, -num)
+            heapq.heappush(self.high_heap, num)
+            low_num = heapq.heappop(self.high_heap)
+            heapq.heappush(self.low_heap, -low_num)
 
     def findMedian(self) -> float:
-        if len(self.left_heap) == len(self.right_heap):
-            return (-self.left_heap[0] + self.right_heap[0]) / 2
+        if len(self.high_heap) == len(self.low_heap):
+            return (self.high_heap[0] - self.low_heap[0]) / 2
         else:
-            return -self.left_heap[0]
+            return self.high_heap[0]
 
 
 def test_input(operations: list[str], arguments: list[list]) -> list[str | int | None]:
@@ -69,20 +60,25 @@ def test_input(operations: list[str], arguments: list[list]) -> list[str | int |
 # Example Input
 operations_list = [
     ["MedianFinder", "addNum", "addNum", "findMedian", "addNum", "findMedian"],
-    ["MedianFinder", "addNum", "findMedian", "addNum", "findMedian", "addNum", "findMedian", "addNum", "findMedian", "addNum", "findMedian", "addNum", "findMedian", "addNum", "findMedian", "addNum", "findMedian", "addNum", "findMedian", "addNum", "findMedian", "addNum", "findMedian"],
-    ["MedianFinder", "addNum", "findMedian", "addNum", "findMedian", "addNum", "findMedian", "addNum", "findMedian", "addNum", "findMedian"]
+    ["MedianFinder", "addNum", "findMedian", "addNum", "findMedian", "addNum", "findMedian", "addNum", "findMedian", "addNum", "findMedian",
+        "addNum", "findMedian", "addNum", "findMedian", "addNum", "findMedian", "addNum", "findMedian", "addNum", "findMedian", "addNum", "findMedian"],
+    ["MedianFinder", "addNum", "findMedian", "addNum", "findMedian", "addNum",
+        "findMedian", "addNum", "findMedian", "addNum", "findMedian"]
 ]
 
 arguments_list = [
     [[], [1], [2], [], [3], []],
-    [[], [6], [], [10], [], [2], [], [6], [], [5], [], [0], [], [6], [], [3], [], [1], [], [0], [], [0], []],
+    [[], [6], [], [10], [], [2], [], [6], [], [5], [], [0],
+        [], [6], [], [3], [], [1], [], [0], [], [0], []],
     [[], [-1], [], [-2], [], [-3], [], [-4], [], [-5], []]
 ]
 
 expected_output_list = [
     [None, None, None, 1.5, None, 2.0],
-    [None, None, 6.00000, None, 8.00000, None, 6.00000, None, 6.00000, None, 6.00000, None, 5.50000, None, 6.00000, None, 5.50000, None, 5.00000, None, 4.00000, None, 3.00000],
-    [None, None, -1.00000, None, -1.50000, None, -2.00000, None, -2.50000, None, -3.00000]
+    [None, None, 6.00000, None, 8.00000, None, 6.00000, None, 6.00000, None, 6.00000, None,
+        5.50000, None, 6.00000, None, 5.50000, None, 5.00000, None, 4.00000, None, 3.00000],
+    [None, None, -1.00000, None, -1.50000, None, -
+        2.00000, None, -2.50000, None, -3.00000]
 ]
 
 
@@ -106,7 +102,8 @@ def run_tests(
     return output
 
 
-print(run_tests(operations_list, arguments_list, expected_output_list, show_output=False))
+print(run_tests(operations_list, arguments_list,
+      expected_output_list, show_output=False))
 
 
 # Example 1
@@ -116,4 +113,3 @@ medianFinder.addNum(2)
 print(medianFinder.findMedian() == 1.5)
 medianFinder.addNum(3)
 print(medianFinder.findMedian() == 2)
-

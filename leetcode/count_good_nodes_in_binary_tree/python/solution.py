@@ -1,4 +1,5 @@
 from binary_tree_utils import *
+from collections import deque
 
 
 # class TreeNode:
@@ -21,18 +22,18 @@ class Solution:
             A: dfs, recursion, pre-order traversal
             side effect
         """
-        res = 0
-
-        def dfs(node: TreeNode, max_val: int) -> int:
+        def dfs(node: TreeNode, max_val: int) -> None:
             nonlocal res
+
             if node is None:
-                return 0
+                return
 
             max_val = max(max_val, node.val)
             res += 1 if node.val >= max_val else 0
             dfs(node.left, max_val)
             dfs(node.right, max_val)
 
+        res = 0
         dfs(root, root.val)
         return res
 
@@ -80,6 +81,7 @@ class Solution:
 
             if node.left:
                 stack.append((node.left, max_val))
+
             if node.right:
                 stack.append((node.right, max_val))
 
@@ -95,7 +97,6 @@ class Solution:
             DS: binary tree, queue
             A: bfs, iteration, level-order traversal
         """
-        from collections import deque
         queue = deque([(root, root.val)])
         res = 0
 
@@ -106,13 +107,14 @@ class Solution:
 
             if node.left:
                 queue.append((node.left, max_val))
+
             if node.right:
                 queue.append((node.right, max_val))
 
         return res
 
 
-print(Solution().goodNodes(build_tree([1])) == 1)
-print(Solution().goodNodes(build_tree([1, 2, 3])) == 3)
 print(Solution().goodNodes(build_tree([3, 1, 4, 3, None, 1, 5])) == 4)
 print(Solution().goodNodes(build_tree([3, 3, None, 4, 2])) == 3)
+print(Solution().goodNodes(build_tree([1])) == 1)
+print(Solution().goodNodes(build_tree([1, 2, 3])) == 3)

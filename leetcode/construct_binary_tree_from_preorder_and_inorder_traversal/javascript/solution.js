@@ -26,20 +26,27 @@ class Solution {
     */
    buildTreeFromPreIn(preorder, inorder) {
       if (
-         preorder.length === 0 ||
-         preorder.length === 1 && preorder[0] === null
-      ) return null
+         preorder.length === 0
+         // || (preorder.length === 1 && preorder[0] === null)
+      ) {
+         return null;
+      }
 
       const val = preorder[0];
       const idx = inorder.indexOf(val);
       const node = new TreeNode(val);
-      node.left = buildTreeFromPreIn(
+
+      node.left = new Solution().buildTreeFromPreIn(
          preorder.slice(1, idx + 1),
-         inorder.slice(0, idx));
-      node.right = buildTreeFromPreIn(
+         inorder.slice(0, idx)
+      );
+
+      node.right = new Solution().buildTreeFromPreIn(
          preorder.slice(idx + 1,),
-         inorder.slice(idx + 1,));
-      return node
+         inorder.slice(idx + 1,)
+      );
+
+      return node;
    }
 }
 
@@ -56,24 +63,26 @@ class Solution {
     * @return {TreeNode}
     */
    buildTreeFromPreIn(preorder, inorder) {
-      const inorderIndex = new Map(inorder.map((value, index) => [value, index]));
 
       const dfs = (preStart, preEnd, inStart, inEnd) => {
          if (
-            preStart > preEnd ||
-            inStart > inEnd ||
+            preStart > preEnd 
+            || inStart > inEnd 
             // Leetcode tests never have None in input.
-            preStart === preEnd && preorder[preStart] === null
-         ) return null
+            || preStart === preEnd && preorder[preStart] === null
+         ) {
+            return null;
+         }
 
          const val = preorder[preStart];
-         const idx = inorderIndex.get(val);
+         const idx = inorderIdx.get(val);
          const leftSubtreeSize = idx - inStart;
          const node = new TreeNode(val);
          node.left = dfs(
             preStart + 1,
             preStart + leftSubtreeSize,
-            inStart, idx - 1
+            inStart, 
+            idx - 1
          );
          node.right = dfs(
             preStart + 1 + leftSubtreeSize,
@@ -81,10 +90,12 @@ class Solution {
             idx + 1,
             inEnd
          );
-         return node
-      };
 
-      return dfs(0, preorder.length - 1, 0, inorder.length - 1)
+         return node;
+      };
+      
+      const inorderIdx = new Map(inorder.map((value, index) => [value, index]));
+      return dfs(0, preorder.length - 1, 0, inorder.length - 1);
    }
 }
 

@@ -23,11 +23,10 @@ class Solution {
     * @return {number}
     */
    diameterOfBinaryTree(root) {
-      let res = 0;
 
       const dfs = (node) => {
          if (node === null) {
-            return 0
+            return 0;
          }
 
          const left = dfs(node.left);
@@ -35,10 +34,11 @@ class Solution {
          res = Math.max(res, left + right);
 
          return 1 + Math.max(left, right)
-      }
+      };
 
+      let res = 0;
       dfs(root);
-      return res
+      return res;
    }
 }
 

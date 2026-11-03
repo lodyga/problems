@@ -25,23 +25,25 @@ class Solution {
     * @return {boolean}
     */
    isSameTree(root1, root2) {
+
       const dfs = (node1, node2) => {
          if (node1 === null && node2 === null) {
-            return true
-         } else if (
-            node1 === null || node2 === null ||
-            node1.val !== node2.val
+            return true;
+         }
+         else if (
+            node1 === null || node2 === null
+            || node1.val !== node2.val
          ) {
-            return false
+            return false;
          }
 
          const left = dfs(node1.left, node2.left);
          const right = dfs(node1.right, node2.right);
 
-         return left && right
+         return left && right;
       }
 
-      return dfs(root1, root2)
+      return dfs(root1, root2);
    }
 }
 
@@ -64,18 +66,20 @@ class Solution {
          const [node1, node2] = stack.pop();
 
          if (node1 === null && node2 === null) {
-            continue
-         } else if (node1 === null || node2 === null ||
-            node1.val !== node2.val
-         ) {
-            return false
+            continue;
+         }
+         else if (node1 === null || node2 === null) {
+            return false;
+         }
+         else if (node1.val !== node2.val) {
+            return false;
          }
 
          stack.push([node1.right, node2.right]);
          stack.push([node1.left, node2.left]);
       }
 
-      return true
+      return true;
    }
 }
 
@@ -98,19 +102,20 @@ class Solution {
          const [node1, node2] = queue.pop();
 
          if (node1 === null && node2 === null) {
-            continue
-         } else if (
-            node1 === null || node2 === null ||
-            node1.val !== node2.val
-         ) {
-            return false
+            continue;
+         }
+         else if (node1 === null || node2 === null) {
+            return false;
+         }
+         else if (node1.val !== node2.val) {
+            return false;
          }
 
          queue.push([node1.right, node2.right]);
          queue.push([node1.left, node2.left]);
       }
 
-      return true
+      return true;
    }
 }
 

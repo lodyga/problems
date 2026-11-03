@@ -21,7 +21,6 @@ class Solution:
             DS: binary tree, queue
             A: bfs, iteration, level-order traversal
         """
-        from collections import deque
         if root is None:
             return []
 
@@ -53,8 +52,6 @@ class Solution:
             DS: binary tree, list
             A: dfs, recursion, pre-order traversal
         """
-        res = []
-
         def dfs(node, lvl):
             if node is None:
                 return
@@ -65,6 +62,7 @@ class Solution:
             dfs(node.right, lvl + 1)
             dfs(node.left, lvl + 1)
         
+        res = []
         dfs(root, 0)
         return res
 

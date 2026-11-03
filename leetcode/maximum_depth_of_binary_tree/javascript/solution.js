@@ -26,15 +26,15 @@ class Solution {
    maxDepth(root) {
       const dfs = (node) => {
          if (node === null) {
-            return 0
+            return 0;
          }
 
          const left = dfs(node.left);
          const right = dfs(node.right);
          return 1 + Math.max(left, right)
-      }
+      };
 
-      return dfs(root)
+      return dfs(root);
    }
 }
 
@@ -51,26 +51,26 @@ class Solution {
     */
    maxDepth(root) {
       if (root === null) {
-         return 0
+         return 0;
       }
 
       const stack = [[root, 1]];
       let res = 1;
 
       while (stack.length) {
-         const [node, detpth] = stack.pop();
+         const [node, depth] = stack.pop();
          res = Math.max(res, depth);
 
          if (node.right) {
-            stack.push([node.right, depth + 1])
+            stack.push([node.right, depth + 1]);
          }
 
          if (node.left) {
-            stack.push([node.left, depth + 1])
+            stack.push([node.left, depth + 1]);
          }
       }
 
-      return res
+      return res;
    }
 }
 
@@ -87,17 +87,17 @@ class Solution {
     */
    maxDepth(root) {
       if (root === null) {
-         return 0
+         return 0;
       }
 
-      let res = 0;
       const queue = new Queue([root]);
+      let res = 0;
 
-      while (queue.size()) {
+      while (!queue.isEmpty()) {
          res++;
          const queueSize = queue.size();
 
-         for (let index = 0; index < queueSize; index++) {
+         for (let idx = 0; idx < queueSize; idx++) {
             const node = queue.pop();
 
             if (node.left) {
@@ -109,7 +109,8 @@ class Solution {
             }
          }
       }
-      return res
+
+      return res;
    }
 }
 

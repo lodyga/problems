@@ -1,6 +1,63 @@
 import { Queue } from "@datastructures-js/queue";
 
 
+class DSU {
+   constructor(n) {
+      this.size = Array(n).fill(1);
+      this.parent = Array.from({ length: n }, (_, node) => node);
+      this.components = n;
+   }
+
+   find(node) {
+      while (node !== this.parent[node]) {
+         this.parent[node] = this.parent[this.parent[node]];
+         node = this.parent[node];
+      }
+      return node;
+   }
+
+   union(u, v) {
+      let pu = this.find(u);
+      let pv = this.find(v);
+
+      if (pu === pv) {
+         return;
+      }
+      else if (this.size[pu] > this.size[pv]) {
+         [pu, pv] = [pv, pu];
+      }
+
+      this.size[pu] += this.size[pv];
+      this.parent[pv] = pu;
+      this.components--;
+   }
+}
+
+
+class Solution {
+   /**
+    * Time complexity: O(V + E)
+    * Auxiliary space complexity: O(V + E)
+    * Tags:
+    *     DS: array
+    *     A: DSU
+    *     Model: graph
+    * @param {number} n
+    * @param {number[][]} edges
+    * @return {}
+    */
+   countComponents(n, edges) {
+      const dsu = new DSU(n);
+
+      for (const [u, v] of edges) {
+         dsu.union(u, v);
+      }
+
+      return dsu.components;
+   }
+}
+
+
 class Solution {
    /**
     * Time complexity: O(V + E)
@@ -9,42 +66,44 @@ class Solution {
     *     DS: array
     *     A: multi-source DFS
     *     Model: graph
-    * @param {number} N
+    * @param {number} n
     * @param {number[][]} edges
     * @return {}
     */
-   countComponents(N, edges) {
-      let components = 0;
-      const visited = Array(N).fill(false);
-      const adjs = new Map();
-
-      for (let node = 0; node < N; node++) {
-         adjs.set(node, []);
-      }
-
-      for (const [u, v] of edges) {
-         adjs.get(u).push(v);
-         adjs.get(v).push(u);
-      }
-
+   countComponents(n, edges) {
       const dfs = (node) => {
-         if (visited[node])
-            return 0
+         if (visited[node]) {
+            return 0;
+         }
 
          visited[node] = true;
 
-         for (const adjNode of adjs.get(node))
+         for (const adjNode of adjNodes[node]) {
             dfs(adjNode);
+         }
 
-         return 1
+         return 1;
       };
 
-      for (let node = 0; node < N; node++) {
+      let components = 0;
+      const visited = Array(n).fill(false);
+      const adjNodes = Array.from({ length: n }, () => []);
+
+      for (const [u, v] of edges) {
+         adjNodes[u].push(v);
+         adjNodes[v].push(u);
+      }
+
+      for (let node = 0; node < n; node++) {
          components += dfs(node);
       }
-      return components
-   };
 
+      return components;
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(V + E)
     * Auxiliary space complexity: O(V + E)
@@ -52,97 +111,50 @@ class Solution {
     *     DS: queue, array
     *     A: multi-source BFS
     *     Model: graph
-    * @param {number} N
+    * @param {number} n
     * @param {number[][]} edges
     * @return {}
     */
-   countComponents(N, edges) {
-      let components = 0;
-      const visited = Array(N).fill(false);
-      const adjs = new Map();
-
-      for (let node = 0; node < N; node++) {
-         adjs.set(node, []);
-      }
-
-      for (const [u, v] of edges) {
-         adjs.get(u).push(v);
-         adjs.get(v).push(u);
-      }
-
+   countComponents(n, edges) {
       const bfs = (node) => {
-         if (visited[node])
-            return 0
+         if (visited[node]) {
+            return 0;
+         }
+
          const queue = new Queue([node]);
+         visited[node] = true;
 
          while (queue.size()) {
-            const node = queue.dequeue();
-            visited[node] = true;
+            const node = queue.pop();
 
-            for (const adjNode of adjs.get(node))
-               if (!visited[adjNode])
-                  queue.enqueue(adjNode);
+            for (const adjNode of adjNodes[node])
+               if (!visited[adjNode]) {
+                  queue.push(adjNode);
+                  visited[adjNode] = true;
+               }
          }
-         return 1
+
+         return 1;
       };
 
-      for (let node = 0; node < N; node++) {
+      const visited = Array(n).fill(false);
+      const adjNodes = Array.from({ length: n }, () => []);
+      let components = 0;
+
+      for (let node = 0; node < n; node++) {
+         adjNodes[node] = [];
+      }
+
+      for (const [u, v] of edges) {
+         adjNodes[u].push(v);
+         adjNodes[v].push(u);
+      }
+
+      for (let node = 0; node < n; node++) {
          components += bfs(node);
       }
-      return components
-   };
 
-   /**
-    * Time complexity: O(V + E)
-    * Auxiliary space complexity: O(V + E)
-    * Tags:
-    *     DS: array
-    *     A: DSU
-    *     Model: graph
-    * @param {number} N
-    * @param {number[][]} edges
-    * @return {}
-    */
-   countComponents(N, edges) {
-      const dsu = new DSU(N);
-      for (const [u, v] of edges) {
-         dsu.union(u, v);
-      }
-      return dsu.components
-   };
-}
-
-
-class DSU {
-   constructor(N) {
-      this.size = Array(N).fill(1);
-      this.parent = Array.from({ length: N }, (_, node) => node);
-      this.components = N;
-   }
-
-   find(node) {
-      while (node !== this.parent[node]) {
-         this.parent[node] = this.parent[this.parent[node]];
-         node = this.parent[node];
-      }
-      return node
-   }
-
-   union(u, v) {
-      const pu = this.find(u);
-      const pv = this.find(v);
-
-      if (pu === pv) {
-         return
-      } else if (this.size[pu] >= this.size[pv]) {
-         this.size[pu] += this.size[pv];
-         this.parent[pv] = pu;
-         this.components -= 1;
-      } else {
-         this.size[pv] += this.size[pu];
-         this.parent[pu] = pv;
-         this.components -= 1;
-      }
+      return components;
    }
 }
 

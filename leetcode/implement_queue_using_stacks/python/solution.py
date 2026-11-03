@@ -30,8 +30,8 @@ class MyQueue:
 
     def empty(self) -> bool:
         return (
-            len(self.stack) == 0 and
-            len(self.rev_stack) == 0
+            len(self.stack) == 0
+            and len(self.rev_stack) == 0
         )
 
 
@@ -63,15 +63,15 @@ def test_input(operations: list[str], arguments: list[list]) -> list[str | int |
 
 # Example Input
 operations_list = [
-    ["MyQueue","push","push","peek","pop","empty"]
+    ["MyQueue", "push", "push", "peek", "pop", "empty"]
 ]
 
 arguments_list = [
-    [[],[1],[2],[],[],[]]
+    [[], [1], [2], [], [], []]
 ]
 
 expected_output_list = [
-    [None,None,None,1,1,False]
+    [None, None, None, 1, 1, False]
 ]
 
 

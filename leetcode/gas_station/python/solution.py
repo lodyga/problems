@@ -6,21 +6,47 @@ class Solution:
         Tags:
             A: brute-force
         """
+        if sum(gas) < sum(cost):
+            return -1
+
         N = len(gas)
-        # return [gas[index] - cost[index] for index in range(N)]
 
         for start in range(N):
-            gas_tank = 0
-            can_complete = True
+            tank = 0
 
-            for index in range(start, start + N):
-                gas_tank += gas[index % N] - cost[index % N]
-                if gas_tank < 0:
-                    can_complete = False
+            for idx in range(start, start + N):
+                tank += gas[idx % N] - cost[idx % N]
+
+                if tank < 0:
                     break
 
-            if can_complete:
+            if tank >= 0:
                 return start
+
+        return -1
+
+
+class Solution:
+    def canCompleteCircuit(self, gas: list[int], cost: list[int]) -> int:
+        """
+        Time complexity: O(n)
+        Auxiliary space complexity: O(1)
+        Tags:
+            A: greedy
+        """
+        N = len(gas)
+        tank = 0
+        start = 0
+
+        for idx in range(2 * N - 1):
+            tank += gas[idx % N] - cost[idx % N]
+
+            if tank < 0:
+                tank = 0
+                start = idx + 1
+                continue
+            elif idx - start == N - 1:
+                return idx + 1 - N
 
         return -1
 
@@ -35,17 +61,18 @@ class Solution:
         """
         if sum(gas) < sum(cost):
             return -1
-        
-        gas_tank = 0
+
+        N = len(gas)
+        tank = 0
         start = 0
 
-        for index in range(len(gas)):
-            gas_tank += gas[index] - cost[index]
+        for idx in range(N):
+            tank += gas[idx] - cost[idx]
 
-            if gas_tank < 0:
-                gas_tank = 0
-                start = index + 1
-            
+            if tank < 0:
+                tank = 0
+                start = idx + 1
+
         return start
 
 

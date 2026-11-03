@@ -23,10 +23,11 @@ class Solution:
         if root is None:
             return
         elif (
-            root.val in (p.val, q.val) or
-            p.val < root.val < q.val or
-            q.val < root.val < p.val
+            root.val in (p.val, q.val)
+            or p.val < root.val < q.val
+            or q.val < root.val < p.val
         ):
+            root.left = root.right = None
             return root
         elif max(p.val, q.val) < root.val:
             return self.lowestCommonAncestor(root.left, p, q)
@@ -53,10 +54,12 @@ class Solution:
             elif node.val < min(p.val, q.val):
                 node = node.right
             else:  # node in (p, q)
+                node.left = node.right = None
                 return node
 
 
-print(Solution().lowestCommonAncestor(build_tree([2, 1]), build_tree([2]), build_tree([1])).val == 2)
 print(Solution().lowestCommonAncestor(build_tree([6, 2, 8, 0, 4, 7, 9, None, None, 3, 5]), build_tree([2]), build_tree([8])).val == 6)
 print(Solution().lowestCommonAncestor(build_tree([6, 2, 8, 0, 4, 7, 9, None, None, 3, 5]), build_tree([2]), build_tree([4])).val == 2)
+print(Solution().lowestCommonAncestor(build_tree([2, 1]), build_tree([2]), build_tree([1])).val == 2)
 print(Solution().lowestCommonAncestor(build_tree([6, 2, 8, 0, 4, 7, 9, None, None, 3, 5]), build_tree([3]), build_tree([5])).val == 4)
+print(Solution().lowestCommonAncestor(build_tree([2, 1]), build_tree([1]), build_tree([2])).val == 2)

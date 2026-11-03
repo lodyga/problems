@@ -1,4 +1,5 @@
 from binary_tree_utils import *
+from collections import deque
 
 
 # class TreeNode:
@@ -44,7 +45,6 @@ class Solution:
             DS: binary tree, queue
             A: bfs, iteration, level-order traversal
         """
-        from collections import deque
         queue = deque([(root, -(2**31) - 1, 2**31)])
 
         while queue:

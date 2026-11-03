@@ -26,19 +26,18 @@ class Solution {
    invertTree(root) {
       const dfs = (node) => {
          if (node === null) {
-            return
+            return;
          }
 
          [node.left, node.right] = [node.right, node.left];
          dfs(node.right);
          dfs(node.left);
+         return node;
       }
 
-      dfs(root)
-      return root
+      return dfs(root);
    }
 }
-//const invertTree = new Solution().invertTree;
 
 
 class Solution {
@@ -53,7 +52,7 @@ class Solution {
     */
    invertTree(root) {
       if (root === null) {
-         return null
+         return null;
       }
 
       const stack = [root];
@@ -71,10 +70,9 @@ class Solution {
          }
       }
       
-      return root
+      return root;
    }
 }
-//const invertTree = new Solution().invertTree;
 
 
 class Solution {
@@ -89,7 +87,7 @@ class Solution {
     */
    invertTree(root) {
       if (root === null) {
-         return null
+         return null;
       }
 
       const queue = new Queue([root]);
@@ -107,12 +105,12 @@ class Solution {
          }
       }
       
-      return root
-   };
+      return root;
+   }
 }
+
+
 const invertTree = new Solution().invertTree;
-
-
 console.log(isSameTree(new Solution().invertTree(buildTree([2, 1, 3])), buildTree([2, 3, 1])))
 console.log(isSameTree(new Solution().invertTree(buildTree([4, 2, 7, 1, 3, 6, 9])), buildTree([4, 7, 2, 9, 6, 3, 1])))
 console.log(isSameTree(new Solution().invertTree(buildTree([7, 3, 15, null, null, 9, 20])), buildTree([7, 15, 3, 20, 9])))

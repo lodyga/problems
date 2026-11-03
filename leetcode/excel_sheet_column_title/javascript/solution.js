@@ -10,16 +10,17 @@ class Solution {
     * @return {string}
     */
    convertToTitle(colNum) {
-      let colName = [];
+      let res = [];
 
-      while (colNum > 0) {
-         const mod = (colNum - 1) % 26;
-         const char = String.fromCharCode('A'.charCodeAt() + mod)
-         colName.push(char);
-         colNum = Math.floor((colNum - 1) / 26);
+      while (colNum) {
+         colNum--;
+         const char = String.fromCharCode('A'.charCodeAt() + colNum % 26);
+         res.push(char);
+         colNum = Math.floor(colNum / 26);
       }
-      return colName.reverse().join('');
-   };
+
+      return res.reverse().join('');
+   }
 }
 
 

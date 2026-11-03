@@ -8,17 +8,21 @@ class Solution {
     * @return {number}
     */
    missingNumber(nums) {
-      let xor = 0;
+      let res = 0;
 
-      for (let number = 0; number <= nums.length; number++) {
-         xor ^= number;
+      for (let num = 0; num < nums.length + 1; num++) {
+         res ^= num;
       }
-      for (const number of nums) {
-         xor ^= number
+      for (const num of nums) {
+         res ^= num;
       }
-      return xor
-   };
 
+      return res;
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
@@ -30,13 +34,17 @@ class Solution {
     */
    missingNumber(nums) {
       const numSet = new Set(nums);
+    
       for (let num = 0; num <= nums.length; num++) {
          if (!numSet.has(num)) {
-            return num
+            return num;
          }
       }
-   };
-   
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
@@ -45,11 +53,11 @@ class Solution {
     * @param {number[]} nums
     * @return {number}
     */
-   amissingNumber(nums) {
-      const total = nums.length * (nums.length + 1) / 2
+   missingNumber(nums) {
+      const rangeSum = nums.length * (nums.length + 1) / 2;
       const numSum = nums.reduce((sum, num) => sum + num);
-      return total - numSum
-   };
+      return rangeSum - numSum;
+   }
 }
 
 

@@ -9,25 +9,28 @@ class Solution {
     * @return {number}
     */
    largestRectangleArea(heights) {
-      const heightStack = [];  // [[index, height], ...]
-      let maxArea = heights[0];
+      const heightStack = [];  // [[height, idx], ...]
+      let res = heights[0];
 
-      for (let index = 0; index < heights.length; index++) {
-         const height = heights[index];
-         let start = index;
+      for (let idx = 0; idx < heights.length; idx++) {
+         const height = heights[idx];
+         let startIdx = idx;
 
-         while (heightStack.length && heightStack[heightStack.length - 1][1] > height) {
-            const [poppedIndex, prevHeight] = heightStack.pop();
-            start = poppedIndex;
-            maxArea = Math.max(maxArea, prevHeight * (index - start));
+         while (heightStack.length && heightStack[heightStack.length - 1][0] > height) {
+            const [prevHeight, prevIdx] = heightStack.pop();
+            startIdx = prevIdx;
+            const width = idx - prevIdx;
+            res = Math.max(res, prevHeight * width);
          }
-         heightStack.push([start, height]);
 
+         heightStack.push([height, startIdx]);
       }
-      for (const [index, height] of heightStack) {
-         maxArea = Math.max(maxArea, height * (heights.length - index));
+
+      for (const [height, idx] of heightStack) {
+         res = Math.max(res, height * (heights.length - idx));
       }
-      return maxArea
+
+      return res;
    }
 }
 

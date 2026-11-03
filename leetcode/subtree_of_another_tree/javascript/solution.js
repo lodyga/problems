@@ -26,12 +26,13 @@ class Solution {
    isSubtree(root, subRoot) {
       const _isSameTree = (node1, node2) => {
          if (node1 === null && node2 === null) {
-            return true
-         } else if (
-            node1 === null || node2 === null ||
-            node1.val !== node2.val
-         ) {
-            return false
+            return true;
+         }
+         else if (node1 === null || node2 === null) {
+            return false;
+         }
+         else if (node1.val !== node2.val) {
+            return false;
          }
 
          const left = _isSameTree(node1.left, node2.left);
@@ -41,28 +42,24 @@ class Solution {
       }
 
       if (subRoot === null) {
-         return true
-      } else if (root === null) {
-         return false
-      }
-
-      if (subRoot === null) {
-         return true
-      } else if (root === null) {
-         return false
-      } else if (_isSameTree(root, subRoot)) {
-         return true
+         return true;
+      } 
+      else if (root === null) {
+         return false;
+      } 
+      else if (_isSameTree(root, subRoot)) {
+         return true;
       }
 
       const left = this.isSubtree(root.left, subRoot);
       const right = this.isSubtree(root.right, subRoot);
 
-      return left || right
+      return left || right;
    }
 }
 
 
-//const isSubtree = new Solution().isSubtree;
+// const isSubtree = new Solution().isSubtree;
 console.log(new Solution().isSubtree(buildTree([3, 4, 5, 1, 2]), buildTree([4, 1, 2])) === true)
 console.log(new Solution().isSubtree(buildTree([3, 4, 5, 1, 2, null, null, null, null, 0]), buildTree([4, 1, 2])) === false)
 console.log(new Solution().isSubtree(buildTree([1, null, 1, null, 1, null, 1, null, 1, null, 1, null, 1, null, 1, null, 1, null, 1, null, 1, 2]), buildTree([1, null, 1, null, 1, null, 1, null, 1, null, 1, 2])) == true)

@@ -8,12 +8,14 @@ class Solution {
     * @return {number}
     */
    singleNumber(nums) {
-      let xor = 0;
+      let res = 0;
+
       for (const num of nums) {
-         xor ^= num;
+         res ^= num;
       }
-      return xor
-   };
+
+      return res;
+   }
 }
 
 

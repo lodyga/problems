@@ -54,27 +54,31 @@ class Codec:
             return None
 
         nodes = data.split(",")
-        val = nodes[0]
-        root = TreeNode(int(val))
+        root = TreeNode(int(nodes[0]))
         queue = deque([root])
-        index = 1
+        idx = 1
 
-        while index < len(nodes):
+        while idx < len(nodes):
             node = queue.popleft()
 
-            val = nodes[index]
-            node.left = None if val == "None" else TreeNode(int(val))
-            if node.left:
+            val = nodes[idx]
+            
+            if val != "None":
+                node.left = TreeNode(int(val))
                 queue.append(node.left)
-            index += 1
+            
+            idx += 1
 
-            if index == len(nodes):
+            if idx == len(nodes):
                 break
-            val = nodes[index]
-            node.right = None if val == "None" else TreeNode(int(val))
-            if node.right:
+            
+            val = nodes[idx]
+            
+            if val != "None": 
+                node.right = TreeNode(int(val))
                 queue.append(node.right)
-            index += 1
+            
+            idx += 1
 
         return root
 
@@ -92,35 +96,36 @@ class Codec:
         """
         Encodes a tree to a single string.
         """
-        values = []
-        
-        def dfs(node):
+        def dfs(node: TreeNode):
             if node is None:
-                values.append("None")
+                vals.append("None")
                 return
             
-            values.append(str(node.val))
+            vals.append(str(node.val))
             dfs(node.left)
             dfs(node.right)
 
+        vals = []
         dfs(root)
-        return ",".join(values)
+        
+        return ",".join(vals)
 
     def deserialize(self, data: str) -> TreeNode:
         """
         Decodes your encoded data to tree.
         """
-        values = data.split(",")
-        index = 0
+        vals = data.split(",")
+        idx = 0
         
         def dfs():
-            nonlocal index
-            if values[index] == "None":
-                index += 1
+            nonlocal idx
+        
+            if vals[idx] == "None":
+                idx += 1
                 return None
 
-            node: TreeNode = TreeNode(int(values[index]))
-            index += 1
+            node = TreeNode(int(vals[idx]))
+            idx += 1
             node.left = dfs()
             node.right = dfs()
             return node
@@ -128,10 +133,10 @@ class Codec:
         return dfs()
 
 
+print(get_tree_values(Codec().deserialize(Codec().serialize(build_tree([1, 2, 3, None, None, 4, 5])))) == [1, 2, 3, None, None, 4, 5])
+print(get_tree_values(Codec().deserialize(Codec().serialize(build_tree([])))) == [])
 print(get_tree_values(Codec().deserialize(Codec().serialize(build_tree([4])))) == [4])
 print(get_tree_values(Codec().deserialize(Codec().serialize(build_tree([4, 5, 6])))) == [4, 5, 6])
 print(get_tree_values(Codec().deserialize(Codec().serialize(build_tree([4, 5])))) == [4, 5])
 print(get_tree_values(Codec().deserialize(Codec().serialize(build_tree([4, None, 6])))) == [4, None, 6])
-print(get_tree_values(Codec().deserialize(Codec().serialize(build_tree([])))) == [])
-print(get_tree_values(Codec().deserialize(Codec().serialize(build_tree([1, 2, 3, None, None, 4, 5])))) == [1, 2, 3, None, None, 4, 5])
 print(get_tree_values(Codec().deserialize(Codec().serialize(build_tree([1, 2, 3, None, None, 4, 5, 6, 7])))) == [1, 2, 3, None, None, 4, 5, 6, 7])

@@ -1,5 +1,8 @@
 {
    "python.envFile": "${workspaceFolder}/.env",
+   "python.defaultInterpreterPath": "/home/ukasz/Documents/IT/Python/.venv/bin/activate",
+   "python.languageServer": "Pylance",
+   "python.analysis.diagnosticsSource": "Pylance",
    "files.associations": {
       "array": "cpp",
       "atomic": "cpp",

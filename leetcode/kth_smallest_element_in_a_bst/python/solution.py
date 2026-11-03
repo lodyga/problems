@@ -20,8 +20,6 @@ class Solution:
             DS: binary tree
             A: dfs, recursion, in-order traversal
         """
-        vals = []
-        
         def dfs(node: TreeNode | None) -> None:
             if node is None:
                 return
@@ -30,6 +28,7 @@ class Solution:
             vals.append(node.val)
             dfs(node.right)
         
+        vals = []
         dfs(root)
         return vals[k - 1]
 
@@ -43,23 +42,23 @@ class Solution:
             DS: binary tree, list
             A: dfs, recursion, in-order traversal
         """
-        numbers = []
-
         def dfs(node):
             if node is None:
                 return
         
             dfs(node.left)
 
-            if len(numbers) < k:
-                numbers.append(node.val)
-            if len(numbers) == k:
+            if len(vals) < k:
+                vals.append(node.val)
+
+            if len(vals) == k:
                 return
 
             dfs(node.right)
 
+        vals = []
         dfs(root)
-        return numbers[-1]
+        return vals[-1]
 
 
 class Solution:
@@ -140,8 +139,10 @@ class Solution:
             else:
                 node = stack.pop()
                 k -= 1
+
                 if k == 0:
                     return node.val
+
                 node = node.right
 
 

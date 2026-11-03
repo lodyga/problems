@@ -10,29 +10,29 @@ class Solution {
     * @return {string}
     */
    addBinary(a, b) {
-      let index1 = a.length - 1;
-      let index2 = b.length - 1;
-      const res = [];
+      let idx1 = a.length - 1;
+      let idx2 = b.length - 1;
       let carry = false;
+      const res = [];
 
-      while (index1 > -1 || index2 > -1 || carry) {
-         const num1 = index1 > -1 ? a[index1] : '0';
-         const num2 = index2 > -1 ? b[index2] : '0';
+      while (idx1 > -1 || idx2 > -1 || carry) {
+         const char1 = idx1 > -1 ? a[idx1] : '0';
+         const char2 = idx2 > -1 ? b[idx2] : '0';
 
-         if (num1 === '0' && num2 === '0') {
-            carry ? res.push('1') : res.push('0');
-            carry = false;
-         } else if (num1 === '1' && num2 === '1') {
-            carry ? res.push('1') : res.push('0');
-            carry = true;
-         } else {
-            carry ? res.push('0') : res.push('1');
+         if (char1 === char2) {
+            res.push(carry ? '1' : '0');
+            carry = char1 === '1';
+         } 
+         else {
+            res.push(carry ? '0': '1');
          }
-         index1--;
-         index2--;
+         
+         idx1--;
+         idx2--;
       }
+
       return res.reverse().join('');
-   };
+   }
 }
 
 

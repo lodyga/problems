@@ -15,9 +15,9 @@ class Solution:
             while len(prefix) > len(word):
                 prefix.pop()
 
-            for index in range(len(prefix)):
-                if prefix[index] != word[index]:
-                    while len(prefix) > index:
+            for idx in range(len(prefix)):
+                if prefix[idx] != word[idx]:
+                    while len(prefix) > idx:
                         prefix.pop()
                     break
 
@@ -107,7 +107,9 @@ class Solution:
         return trie.get_prefix()
 
 
-print(Solution().longestCommonPrefix(["flower", "flow"]) == "flow")
 print(Solution().longestCommonPrefix(["flower", "flow", "flight"]) == "fl")
 print(Solution().longestCommonPrefix(["dog", "racecar", "car"]) == "")
+print(Solution().longestCommonPrefix(["flower", "flow"]) == "flow")
+print(Solution().longestCommonPrefix(["", ""]) == "")
+print(Solution().longestCommonPrefix(["flower", "flower", "flower", "flower"]) == "flower")
 print(Solution().longestCommonPrefix(["aaa", "aa", "aaa"]) == "aa")

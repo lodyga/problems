@@ -1,5 +1,6 @@
 import { Queue } from "@datastructures-js/queue";
 
+
 /**
  * Time complexity:
  *     O(1): push, empty
@@ -28,16 +29,16 @@ class MyStack {
       this._rotate();
       const val = this.queue.pop();
       this.queue.push(val);
-      return val
+      return val;
    }
 
    pop() {
       this._rotate();
-      return this.queue.pop()
+      return this.queue.pop();
    }
 
    empty() {
-      return this.queue.size() === 0
+      return this.queue.isEmpty();
    }
 }
 

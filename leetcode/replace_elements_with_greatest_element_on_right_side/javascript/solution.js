@@ -17,7 +17,7 @@ class Solution {
          prev = Math.max(prev, nums[idx]);
       }
 
-      return res.reverse()
+      return res.reverse();
    }
 }
 

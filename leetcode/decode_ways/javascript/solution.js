@@ -9,35 +9,36 @@ class Solution {
     * @return {number}
     */
    numDecodings(text) {
-      const memo = Array(text.length).fill(-1);
-      memo.push(1);
-
       const dfs = (idx) => {
          if (memo[idx] !== -1) {
-            return memo[idx]
+            return memo[idx];
          }
 
          const char = text[idx];
 
          if (char === '0') {
-            return 0
+            return 0;
          }
 
          let res = dfs(idx + 1);
 
          if (
-            idx + 1 < text.length &&
-            (
-               char === '1' ||
-               (char === '2' && text[idx + 1] <= '6')
+            idx + 1 < text.length
+            && (
+               char === '1'
+               || (char === '2' && text[idx + 1] <= '6')
             )
-         )
+         ) {
             res += dfs(idx + 2);
+         }
 
-         memo[idx] = res
-         return res
-      }
-      return dfs(0)
+         memo[idx] = res;
+         return res;
+      };
+
+      const memo = Array(text.length).fill(-1);
+      memo.push(1);
+      return dfs(0);
    }
 }
 
@@ -58,23 +59,24 @@ class Solution {
 
       for (let idx = text.length - 1; idx > -1; idx--) {
          const char = text[idx];
+         
          if (char === '0') {
-            continue
+            continue;
          }
 
          cache[idx] = cache[idx + 1];
 
          if (
-            idx + 1 < text.length &&
-            (
-               char === '1' ||
-               (char === '2' && text[idx + 1] <= '6'))
+            idx + 1 < text.length
+            && (
+               char === '1'
+               || (char === '2' && text[idx + 1] <= '6'))
          ) {
             cache[idx] += cache[idx + 2];
          }
       }
 
-      return cache[0]
+      return cache[0];
    }
 }
 
@@ -97,16 +99,16 @@ class Solution {
 
          if (char === '0') {
             [cache[0], cache[1]] = [0, cache[0]];
-            continue
+            continue;
          }
 
          let cache0 = cache[0];
 
          if (
-            idx + 1 < text.length &&
-            (
-               char === '1' ||
-               (char === '2' && text[idx + 1] <= '6'))
+            idx + 1 < text.length
+            && (
+               char === '1'
+               || (char === '2' && text[idx + 1] <= '6'))
          ) {
             cache0 += cache[1];
          }
@@ -114,7 +116,7 @@ class Solution {
          [cache[0], cache[1]] = [cache0, cache[0]];
       }
 
-      return cache[0]
+      return cache[0];
    }
 }
 

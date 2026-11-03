@@ -8,24 +8,28 @@ class Solution {
     * @return {boolean}
     */
    validPalindrome(text) {
+      
       const isPalindrome = (left, right, joker) => {
          while (left < right) {
             if (text[left] === text[right]) {
                left++;
                right--;
-            } else if (joker) {
+            }
+            else if (joker) {
                return (
-                  isPalindrome(left + 1, right)
-                  || isPalindrome(left, right - 1)
-               )
-            } else {
-               return false
+                  isPalindrome(left + 1, right, false)
+                  || isPalindrome(left, right - 1, false)
+               );
+            }
+            else {
+               return false;
             }
          }
-         return true
-      }
 
-      return isPalindrome(0, text.length - 1, true)
+         return true;
+      };
+
+      return isPalindrome(0, text.length - 1, true);
    }
 }
 

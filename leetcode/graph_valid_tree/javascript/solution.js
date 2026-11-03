@@ -1,7 +1,7 @@
 import { Queue } from "@datastructures-js/queue";
 
 
-class Solution {
+class Solution2 {
    /**
     * Time complexity: O(V + E)
     * Auxiliary space complexity: O(V + E)
@@ -13,9 +13,29 @@ class Solution {
     * @returns {boolean}
     */
    validTree(vertexCount, edges) {
+      const dfs = (vertex, prevVertex) => {
+         if (visited[vertex]) {
+            return false;
+         }
+
+         visited[vertex] = true;
+
+         for (const adjVertex of adjVertices.get(vertex)) {
+            if (
+               adjVertex !== prevVertex
+               && !dfs(adjVertex, vertex)
+            ) {
+               return false;
+            }
+         }
+
+         return true;
+      };
+
       // Tree property: E == V - 1
-      if (edges.length !== vertexCount - 1)
-         return false
+      if (edges.length !== vertexCount - 1) {
+         return false;
+      }
 
       const adjVertices = new Map();
       for (let vertex = 0; vertex < vertexCount; vertex++) {
@@ -23,31 +43,23 @@ class Solution {
       }
 
       for (const [u, v] of edges) {
-         if (u === v)
-            return false
+         if (u === v) {
+            return false;
+         }
+
          adjVertices.set(u, adjVertices.get(u).add(v));
          adjVertices.set(v, adjVertices.get(v).add(u));
       }
+
       const visited = Array(vertexCount).fill(false);
 
-      const dfs = (vertex, prevVertex) => {
-         if (visited[vertex])
-            return false
-
-         visited[vertex] = true;
-
-         for (const adjVertex of adjVertices.get(vertex)) {
-            if (
-               adjVertex !== prevVertex &&
-               !dfs(adjVertex, vertex)
-            ) return false
-         }
-         return true
-      }
       // No cycles and connected.
-      return dfs(0, -1) && visited.every(v => v == true)
-   };
+      return dfs(0, -1) && visited.every(v => v == true);
+   }
+}
 
+
+class Solution5 {
    /**
     * Time complexity: O(V + E)
     * Auxiliary space complexity: O(V + E)
@@ -60,8 +72,9 @@ class Solution {
     */
    validTree(vertexCount, edges) {
       // Tree property: E == V - 1
-      if (edges.length !== vertexCount - 1)
-         return false
+      if (edges.length !== vertexCount - 1) {
+         return false;
+      }
 
       const adjVertices = new Map();
       for (let vertex = 0; vertex < vertexCount; vertex++) {
@@ -69,34 +82,75 @@ class Solution {
       }
 
       for (const [u, v] of edges) {
-         if (u === v)
-            return false
+         if (u === v) {
+            return false;
+         }
+
          adjVertices.set(u, adjVertices.get(u).add(v));
          adjVertices.set(v, adjVertices.get(v).add(u));
       }
+
       const visited = Array(vertexCount).fill(false);
+      const queue = new Queue([[0, -1]]);
+      visited[0] = true;
 
-      const bfs = () => {
-         const queue = new Queue([[0, -1]]);
+      while (!queue.isEmpty()) {
+         const [vertex, prev] = queue.pop();
 
-         while (queue.size()) {
-            const [vertex, prev] = queue.dequeue();
+         
+         for (const adjVertex of adjVertices.get(vertex)) {
+            if (adjVertex !== prev) {
+               if (visited[adjVertex]) {
+                  return false;
+               }
 
-            if (visited[vertex])
-               return false
-            visited[vertex] = true;
-
-            for (const adjVertex of adjVertices.get(vertex)) {
-               if (adjVertex !== prev)
-                  queue.enqueue([adjVertex, vertex]);
+               queue.push([adjVertex, vertex]);
+               visited[adjVertex] = true;
             }
          }
-         return true
       }
-      // No cycles and connected.
-      return bfs() && visited.every(v => v == true)
+
+      return visited.every(v => v == true);
+   }
+}
+
+
+class DSU {
+   constructor(N) {
+      this.size = Array(N).fill(1);
+      this.parent = Array.from({ length: N }, (_, idx) => idx);
    };
 
+   find(u) {
+      while (u !== this.parent[u]) {
+         this.parent[u] = this.parent[this.parent[u]];
+         u = this.parent[u];
+      }
+      return u;
+   };
+
+   union(u, v) {
+      const pu = this.find(u);
+      const pv = this.find(v);
+
+      if (pu == pv) {
+         return false;
+      } 
+      else if (this.size[pu] >= this.size[pv]) {
+         this.size[pu] += this.size[pv];
+         this.parent[pv] = this.parent[pu];
+      } 
+      else {
+         this.size[pv] += this.size[pu];
+         this.parent[pu] = this.parent[pv];
+      }
+
+      return true;
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(V + E)
     * Auxiliary space complexity: O(V + E)
@@ -109,51 +163,22 @@ class Solution {
     */
    validTree(vertexCount, edges) {
       // Tree property: E == V - 1
-      if (edges.length !== vertexCount - 1)
-         return false
+      if (edges.length !== vertexCount - 1) {
+         return false;
+      }
 
       const dsu = new DSU(vertexCount);
+      
       for (const [u, v] of edges)
-         if (dsu.union(u, v) === false)
+         if (dsu.union(u, v) === false) {
             return false
+         }
 
-      return true
-   };
+      return true;
+   }
 }
 
 
-class DSU {
-   constructor(N) {
-      this.size = Array(N).fill(1);
-      this.parent = Array.from({ length: N }, (_, index) => index);
-   };
-
-   find(u) {
-      while (u !== this.parent[u]) {
-         this.parent[u] = this.parent[this.parent[u]];
-         u = this.parent[u];
-      }
-      return u
-   };
-
-   union(u, v) {
-      const pu = this.find(u);
-      const pv = this.find(v);
-
-      if (pu == pv) {
-         return false
-      } else if (this.size[pu] >= this.size[pv]) {
-         this.size[pu] += this.size[pv];
-         this.parent[pv] = this.parent[pu];
-         this.parent[v] = this.parent[pu];
-      } else {
-         this.size[pv] += this.size[pu];
-         this.parent[pu] = this.parent[pv];
-         this.parent[u] = this.parent[pv];
-      }
-      return true
-   };
-}
 
 
 const validTree = new Solution().validTree;

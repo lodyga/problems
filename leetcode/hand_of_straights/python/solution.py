@@ -10,27 +10,34 @@ class Solution:
             DS: heap, hash map
             A: iteration
         """
-        if len(hand) % group_size:
+        N = len(hand)
+
+        if N % group_size:
             return False
 
         card_freq = {}
-        for num in hand:
-            card_freq[num] = card_freq.get(num, 0) + 1
+
+        for card in hand:
+            card_freq[card] = card_freq.get(card, 0) + 1
 
         card_heap = []
-        for num in card_freq:
-            heapq.heappush(card_heap, num)
 
-        while card_freq:
-            while card_heap[0] not in card_freq:
-                heapq.heappop(card_heap)
+        for card in card_freq:
+            heapq.heappush(card_heap, card)
 
+        while card_heap:
             head_card = card_heap[0]
+
+            if head_card not in card_freq:
+                heapq.heappop(card_heap)
+                continue
+
             for card in range(head_card, head_card + group_size):
                 if card not in card_freq:
                     return False
-                
+
                 card_freq[card] -= 1
+
                 if card_freq[card] == 0:
                     card_freq.pop(card)
 
@@ -50,8 +57,8 @@ class Solution:
             return False
         
         hand.sort()
-        
         card_freq = {}
+        
         for card in hand:
             card_freq[card] = card_freq.get(card, 0) + 1
 
@@ -64,6 +71,7 @@ class Solution:
                     return False
 
                 card_freq[card] -= 1
+        
                 if card_freq[card] == 0:
                     card_freq.pop(card)
 

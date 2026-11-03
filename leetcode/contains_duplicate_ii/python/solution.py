@@ -16,8 +16,7 @@ class Solution:
             window.add(num)
 
             if right >= k:
-                left = right - k
-                window.remove(nums[left])
+                window.remove(nums[right - k])
 
         return False
 

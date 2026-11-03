@@ -10,17 +10,55 @@ class Solution:
             DS: array
             A: Single-source DFS, cycle detection
         """
+        def dfs(vertex: int) -> bool:
+            if visited[vertex]:
+                return False
+
+            visited[vertex] = True
+
+            for adj_vertex in adj_vertices[vertex]:
+                adj_vertices[adj_vertex].remove(vertex)
+
+                if dfs(adj_vertex) is False:
+                    return False
+
+            return True
+
         # Tree property: E == V - 1
         if len(edges) != vertex_count - 1:
             return False
 
-        adj_vertices = {vertex: set() for vertex in range(vertex_count)}
+        if vertex_count == 1:
+            return len(edges) == 0
+
+        adj_vertices = {}
+        visited = [False] * vertex_count
+
         for u, v in edges:
+            if u not in adj_vertices:
+                adj_vertices[u] = set()
+
+            if v not in adj_vertices:
+                adj_vertices[v] = set()
+
             adj_vertices[u].add(v)
             adj_vertices[v].add(u)
 
-        visited = [False] * vertex_count
+        res = dfs(0)
 
+        # No cycles and connected.
+        return res and all(visited)
+
+
+class Solution:
+    def validTree(self, vertex_count: int, edges: list[list[int]]) -> bool:
+        """
+        Time complexity: O(V + E)
+        Auxiliary space complexity: O(V + E)
+        Tags:
+            DS: array
+            A: Single-source DFS, cycle detection
+        """
         def dfs(vertex: int, prev: int) -> bool:
             if visited[vertex]:
                 return False
@@ -29,12 +67,23 @@ class Solution:
 
             for adj_vertex in adj_vertices[vertex]:
                 if (
-                    adj_vertex != prev and
-                    dfs(adj_vertex, vertex) is False
+                    adj_vertex != prev
+                    and dfs(adj_vertex, vertex) is False
                 ):
                     return False
 
             return True
+
+        # Tree property: E == V - 1
+        if len(edges) != vertex_count - 1:
+            return False
+
+        adj_vertices = {vertex: set() for vertex in range(vertex_count)}
+        visited = [False] * vertex_count
+
+        for u, v in edges:
+            adj_vertices[u].add(v)
+            adj_vertices[v].add(u)
 
         # No cycles and connected.
         return dfs(0, -1) and all(visited)
@@ -59,24 +108,21 @@ class Solution:
             adj_vertices[v].add(u)
 
         visited = [False] * vertex_count
+        queue = deque([(0, -1)])
+        visited[0] = True
 
-        def bfs() -> bool:
-            queue = deque([(0, -1)])
-            while queue:
-                vertex, prev = queue.popleft()
+        while queue:
+            vertex, prev = queue.popleft()
 
-                if visited[vertex]:
-                    return False
-                visited[vertex] = True
+            for adj_vertex in adj_vertices[vertex]:
+                if adj_vertex != prev:
+                    if visited[adj_vertex]:
+                        return False
 
-                for adj_vertex in adj_vertices[vertex]:
-                    if adj_vertex != prev:
-                        queue.append((adj_vertex, vertex))
+                    queue.append((adj_vertex, vertex))
+                    visited[adj_vertex] = True
 
-            return True
-
-        # No cycles and connected.
-        return bfs() and all(visited)
+        return all(visited)
 
 
 class DSU:
@@ -96,14 +142,13 @@ class DSU:
 
         if pu == pv:
             return False
+
         if self.size[pu] >= self.size[pv]:
             self.size[pu] += self.size[pv]
             self.parent[pv] = self.parent[pu]
-            self.parent[v] = self.parent[pu]
         else:
             self.size[pv] += self.size[pu]
             self.parent[pu] = self.parent[pv]
-            self.parent[u] = self.parent[pv]
         
         return True
 
@@ -122,6 +167,7 @@ class Solution:
             return False
 
         dsu = DSU(vertex_count)
+
         for u, v in edges:
             if dsu.union(u, v) is False:
                 return False
@@ -130,11 +176,10 @@ class Solution:
 
 
 print(Solution().validTree(3, [[0, 1], [1, 2], [2, 0]]) == False)
-print(Solution().validTree(1, [[0, 0]]) == False)
 print(Solution().validTree(5, [[0, 1], [0, 2], [0, 3], [1, 4]]) == True)
 print(Solution().validTree(5, [[0, 1], [1, 2], [2, 3], [1, 3], [1, 4]]) == False)
+print(Solution().validTree(1, []) == True)
 print(Solution().validTree(4, [[0, 1], [2, 3]]) == False)
 print(Solution().validTree(5, [[0, 1], [2, 0], [3, 0], [1, 4]]) == True)
 print(Solution().validTree(5, [[0, 1], [1, 3], [3, 2], [1, 4]]) == True)
-print(Solution().validTree(1, []) == True)
 print(Solution().validTree(5, [[0, 1], [1, 3], [3, 0], [2, 4]]) == False)

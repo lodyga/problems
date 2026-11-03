@@ -1,5 +1,8 @@
 class Solution:
-    def findOrder(self, course_count: int, prerequisites: list[list[int]]) -> list[int]:
+    def findOrder(
+            self,
+            course_count: int,
+            prerequisites: list[list[int]]) -> list[int]:
         """
         Time complexity: O(V + E)
             V: unique course count
@@ -9,35 +12,35 @@ class Solution:
             A: multi-source DFS, topological sort with cycle detection
             Model: graph
         """
-        prereqs = {course: set() for course in range(course_count)}
-
-        for course, prereq in prerequisites:
-            prereqs[course].add(prereq)
-
-        order = []
-        # -1: not visited, 0: visited, 1: on path (cycle detection)
-        visited = [-1] * course_count
-
-        def dfs(course):
+        def dfs(course: int) -> int:
+            """ If cycle is detected return True. """
             if visited[course] != -1:
                 return visited[course]
 
             visited[course] = 1
 
-            for prereq in prereqs[course]:
-                if dfs(prereq):
-                    return True
+            for prev_course in prev_courses[course]:
+                if dfs(prev_course):
+                    return 1
 
+            res.append(course)
             visited[course] = 0
-            order.append(course)
 
-            return False
+            return 0
 
-        for course in prereqs:
+        prev_courses = [[] for _ in range(course_count)]
+        # -1: not visited, 0: visited, 1: on path (cycle detection)
+        visited = [-1] * course_count
+        res = []
+
+        for course, prev_course in prerequisites:
+            prev_courses[course].append(prev_course)
+
+        for course in range(course_count):
             if dfs(course):
                 return []
 
-        return order
+        return res
 
 
 print(Solution().findOrder(2, [[1, 0]]) == [0, 1])

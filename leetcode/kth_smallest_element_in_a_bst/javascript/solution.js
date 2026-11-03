@@ -12,7 +12,7 @@ import { TreeNode, buildTree, getTreeValues } from '../../../../JS/binary-tree.j
  */
 
 
-class Solution {
+class Solution2 {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(n)
@@ -24,20 +24,25 @@ class Solution {
     * @return {number}
     */
    kthSmallest(root, k) {
-      const values = [];
 
       const dfs = (node, k) => {
-         if (node === null) return
+         if (node === null) {
+            return;
+         }
 
          dfs(node.left);
+         vals.push(node.val);
 
-         values.push(node.val);
-         if (values.length === k) return
+         if (vals.length === k) {
+            return;
+         }
 
          dfs(node.right);
-      }
+      };
+
+      const vals = [];
       dfs(root);
-      return values[k - 1]
+      return vals[k - 1]
    }
 }
 
@@ -54,7 +59,7 @@ class Solution {
     * @return {number}
     */
    kthSmallest(root, k) {
-      const values = [];
+      const vals = [];
       const stack = [];
       let node = root;
 
@@ -62,14 +67,15 @@ class Solution {
          if (node) {
             stack.push(node);
             node = node.left;
-         } else {
+         }
+         else {
             node = stack.pop();
-            values.push(node.val);
-            
-            if (values.length === k) {
-               return values[values.length - 1]
+            vals.push(node.val);
+
+            if (vals.length === k) {
+               return vals[vals.length - 1];
             }
-            
+
             node = node.right;
          }
       }

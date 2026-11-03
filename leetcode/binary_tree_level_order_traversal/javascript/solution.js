@@ -25,16 +25,17 @@ class Solution {
     */
    levelOrder(root) {
       if (root === null) {
-         return []
+         return [];
       }
+
       const queue = new Queue([root]);
       const res = [];
 
-      while (queue.size()) {
+      while (!queue.isEmpty()) {
          const queueLength = queue.size();
          const level = [];
 
-         for (let index = 0; index < queueLength; index++) {
+         for (let idx = 0; idx < queueLength; idx++) {
             const node = queue.pop();
             level.push(node.val);
 
@@ -49,7 +50,8 @@ class Solution {
 
          res.push(level);
       }
-      return res
+
+      return res;
    }
 }
 
@@ -65,22 +67,23 @@ class Solution {
     * @return {number[][]}
     */
    levelOrder(root) {
-      const res = [];
-
-      const dfs = (index, node) => {
+      
+      const dfs = (idx, node) => {
          if (node === null) {
-            return
-         } else if (index === res.length) {
+            return;
+         } 
+         else if (idx === res.length) {
             res.push([]);
          }
 
-         res[index].push(node.val);
-         dfs(index + 1, node.left);
-         dfs(index + 1, node.right);
-      }
+         res[idx].push(node.val);
+         dfs(idx + 1, node.left);
+         dfs(idx + 1, node.right);
+      };
       
+      const res = [];
       dfs(0, root);
-      return res
+      return res;
    }
 }
 

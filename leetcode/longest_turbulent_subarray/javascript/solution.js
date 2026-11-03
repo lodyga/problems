@@ -8,42 +8,37 @@ class Solution {
     * @return {number}
     */
    maxTurbulenceSize(nums) {
-      let prev = nums[0];
-      // 1: increasing, 0: decreating, -1: donno
+      let prevNum = nums[0];
+      let subSize = 1;
+      let res = 1;
+      // increasing: 1, decreasing: 0: donno: -1
       let isIncreasing = -1;
-      let size = 1;
-      let maxSize = 1;
 
       for (const num of nums) {
-         if (
-            prev < num &&
-            isIncreasing !== 1
-         ) {
-            size++
-            isIncreasing = 1;
-         } else if (
-            prev > num &&
-            isIncreasing !== 0
-         ) {
-            size++;
-            isIncreasing = 0;
-         } else {
-            if (prev < num) {
-               size = 2;
-               isIncreasing = 1;
-            } else if (prev > num) {
-               size = 2;
-               isIncreasing = 0;
-            } else {
-               size = 1;
-               isIncreasing = -1;
-            }
+         if (num === prevNum) {
+            isIncreasing = -1;
+            subSize = 1;
          }
-         prev = num;
-         maxSize = Math.max(maxSize, size);
+         else if (prevNum > num && isIncreasing !== 1) {
+            subSize++;
+            isIncreasing = 1;
+            res = Math.max(res, subSize);
+         }
+         else if (prevNum < num && isIncreasing !== 0) {
+            subSize++;
+            isIncreasing = 0;
+            res = Math.max(res, subSize);
+         }
+         // New monotonic pair.
+         else {
+            subSize = 2;
+         }
+
+         prevNum = num;
       }
-      return maxSize
-   };
+
+      return res;
+   }
 }
 
 

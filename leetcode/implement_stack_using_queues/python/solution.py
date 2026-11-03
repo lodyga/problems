@@ -1,3 +1,6 @@
+from collections import deque
+
+
 class MyStack:
     """
     Time complexity:
@@ -10,7 +13,6 @@ class MyStack:
     """
 
     def __init__(self) -> None:
-        from collections import deque
         self.queue = deque()
 
     def push(self, val: int) -> None:

@@ -8,13 +8,13 @@ class Solution:
             A: iteration
         """
         N = len(nums)
-        concated = [0] * N * 2
+        res = [0] * N * 2
 
         for idx, num in enumerate(nums):
-            concated[idx] = num
-            concated[idx + N] = num
+            res[idx] = num
+            res[idx + N] = num
 
-        return concated
+        return res
 
 
 class Solution:

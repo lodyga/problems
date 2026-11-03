@@ -9,13 +9,10 @@ class Solution {
     * @return {string}
     */
    generateParenthesis(n) {
-      const parenthesis = [];
-      const res = [];
-
       const dfs = (opened, closed) => {
          if (opened + closed == 2 * n) {
-            res.push(parenthesis.join(''));
-            return
+            res.push(parenthesis.join(""));
+            return;
          }
 
          if (opened < n) {
@@ -29,14 +26,17 @@ class Solution {
             dfs(opened, closed + 1);
             parenthesis.pop();
          }
-      }
+      };
+
+      const parenthesis = [];
+      const res = [];
       dfs(0, 0);
-      return res
+      return res;
    }
 }
+
+
 const generateParenthesis = new Solution().generateParenthesis;
-
-
 console.log(new Solution().generateParenthesis(1).toString() === ['()'].toString())
 console.log(new Solution().generateParenthesis(2).toString() === ['(())', '()()'].toString())
 console.log(new Solution().generateParenthesis(3).toString() === ['((()))', '(()())', '(())()', '()(())', '()()()'].toString())

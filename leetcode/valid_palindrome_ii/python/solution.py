@@ -18,15 +18,16 @@ class Solution:
                     )
                 else:
                     return False
+
             return True
 
         return isPalindrome(0, len(text) - 1, True)
 
 
-print(Solution().validPalindrome("aba") == True)
-print(Solution().validPalindrome("abca") == True)
-print(Solution().validPalindrome("abc") == False)
-print(Solution().validPalindrome("deeee") == True)
-print(Solution().validPalindrome("eeccccbebaeeabebccceea") == False)
-print(Solution().validPalindrome("abzzbab") == True)
-print(Solution().validPalindrome("aguokepatgbnvfqmgmlcupuufxoohdfpgjdmysgvhmvffcnqxjjxqncffvmhvgsymdjgpfdhooxfuupuculmgmqfvnbgtapekouga") == True)
+print(Solution().validPalindrome("aba") is True)
+print(Solution().validPalindrome("abca") is True)
+print(Solution().validPalindrome("abc") is False)
+print(Solution().validPalindrome("deeee") is True)
+print(Solution().validPalindrome("eeccccbebaeeabebccceea") is False)
+print(Solution().validPalindrome("abzzbab") is True)
+print(Solution().validPalindrome("aguokepatgbnvfqmgmlcupuufxoohdfpgjdmysgvhmvffcnqxjjxqncffvmhvgsymdjgpfdhooxfuupuculmgmqfvnbgtapekouga") is True)

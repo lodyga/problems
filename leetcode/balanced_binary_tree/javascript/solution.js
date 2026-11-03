@@ -23,7 +23,6 @@ class Solution {
     * @return {boolean}
     */
    isBalanced(root) {
-      let res = true;
 
       const dfs = (node) => {
          if (node === null) {
@@ -37,11 +36,12 @@ class Solution {
             res = false;
          }
 
-         return 1 + Math.max(left, right)
+         return 1 + Math.max(left, right);
       }
 
+      let res = true;
       dfs(root);
-      return res
+      return res;
    }
 }
 

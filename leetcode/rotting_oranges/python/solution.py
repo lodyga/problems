@@ -1,3 +1,6 @@
+from collections import deque
+
+
 class Solution:
     def orangesRotting(self, grid: list[list[float]]) -> int:
         """
@@ -7,15 +10,7 @@ class Solution:
             DS: array (matrix), queue
             A: multi-source BFS
         """
-        from collections import deque
-        UPPER_BOUND = 101
-        ROWS = len(grid)
-        COLS = len(grid[0])
-        DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
-        visited = [row.copy() for row in grid]
-        queue = deque()
-
-        def bfs() -> None:
+        def bfs() -> int:
             distance = -1
 
             while queue:
@@ -39,6 +34,13 @@ class Solution:
 
             return distance
 
+        UPPER_BOUND = 101
+        ROWS = len(grid)
+        COLS = len(grid[0])
+        DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
+        visited = [row.copy() for row in grid]
+        queue = deque()
+
         for row in range(ROWS):
             for col in range(COLS):
                 if grid[row][col] == 2:
@@ -48,6 +50,7 @@ class Solution:
                     visited[row][col] = -1
 
         max_distance = bfs()
+        
         is_unreachable = any(
             True for row in visited for cell in row if cell == -1)
 
@@ -68,13 +71,6 @@ class Solution:
             DS: array (matrix), queue
             A: multi-source BFS
         """
-        from collections import deque
-        ROWS = len(grid)
-        COLS = len(grid[0])
-        DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
-        queue = deque()
-        max_distance = 0
-
         def bfs() -> int:
             max_distance = 0
             
@@ -85,13 +81,20 @@ class Solution:
                 for dr, dc in DIRECTIONS:
                     (r, c) = (row + dr, col + dc)
                     if (
-                        -1 < r < ROWS and
-                        -1 < c < COLS and
-                        grid[r][c] == -1
+                        -1 < r < ROWS
+                        and -1 < c < COLS
+                        and grid[r][c] == -1
                     ):
                         queue.append((r, c, distance + 1))
                         grid[r][c] = distance + 1
+
             return max_distance
+
+        ROWS = len(grid)
+        COLS = len(grid[0])
+        DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
+        queue = deque()
+        max_distance = 0
         
         for row in range(ROWS):
             for col in range(COLS):
@@ -115,13 +118,6 @@ class Solution:
             DS: array (matrix), queue
             A: multi-source BFS
         """
-        from collections import deque
-        ROWS = len(grid)
-        COLS = len(grid[0])
-        DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
-        queue = deque()
-        max_distance = 0
-
         def bfs() -> int:
             max_distance = -1
             
@@ -134,15 +130,21 @@ class Solution:
                     for dr, dc in DIRECTIONS:
                         (r, c) = (row + dr, col + dc)
                         if (
-                            -1 < r < ROWS and
-                            -1 < c < COLS and
-                            grid[r][c] == 1
+                            -1 < r < ROWS 
+                            and -1 < c < COLS 
+                            and grid[r][c] == 1
                         ):
                             queue.append((r, c))
                             grid[r][c] = 0
             
             return max(max_distance, 0)
         
+        ROWS = len(grid)
+        COLS = len(grid[0])
+        DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
+        queue = deque()
+        max_distance = 0
+
         for row in range(ROWS):
             for col in range(COLS):
                 if grid[row][col] == 2:

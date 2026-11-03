@@ -27,35 +27,39 @@ class Solution {
    lowestCommonAncestor(root, p, q) {
       const dfs = (node) => {
          if (node === null) {
-            return
+            return;
          }
          else if (
-            (p.val < node.val && node.val < q.val) ||
-            (q.val < node.val && node.val < p.val)
+            p.val == node.val || q.val == node.val
+            || (p.val < node.val && node.val < q.val)
+            || (q.val < node.val && node.val < p.val)
          ) {
-            return node
+            node.left = null;
+            node.right = null;
+            return node;
          }
          else if (
-            node.val > p.val &&
-            node.val > q.val
+            node.val > p.val
+            && node.val > q.val
          ) {
-            return dfs(node.left)
+            return dfs(node.left);
          }
          else if (
-            node.val < p.val &&
-            node.val < q.val
+            node.val < p.val
+            && node.val < q.val
          ) {
-            return dfs(node.right)
+            return dfs(node.right);
          } else {  // node in (p, q)
-            return node
+            return node;
          }
       }
-      return dfs(root)
+
+      return dfs(root);
    }
 }
 
 
-class Solution {
+class Solution2 {
    /**
     * Time complexity: O(logn)
     * Auxiliary space complexity: O(1)
@@ -69,20 +73,18 @@ class Solution {
     */
    lowestCommonAncestor(root, p, q) {
       let node = root;
-      
+
       while (node) {
-         if (
-            node.val > p.val &&
-            node.val > q.val
-         ) {
-            node = node.left
-         } else if (
-            node.val < p.val &&
-            node.val < q.val
-         ) {
-            node = node.right
-         } else {
-            return node
+         if (node.val > p.val && node.val > q.val) {
+            node = node.left;
+         } 
+         else if (node.val < p.val && node.val < q.val) {
+            node = node.right;
+         } 
+         else {
+            node.left = null;
+            node.right = null;
+            return node;
          }
       }
    }
@@ -91,6 +93,7 @@ class Solution {
 
 const lowestCommonAncestor = new Solution().lowestCommonAncestor;
 console.log(new Solution().lowestCommonAncestor(buildTree([2, 1]), buildTree([2]), buildTree([1])).val === 2)
+console.log(new Solution().lowestCommonAncestor(buildTree([2, 1]), buildTree([1]), buildTree([2])).val === 2)
 console.log(new Solution().lowestCommonAncestor(buildTree([6, 2, 8, 0, 4, 7, 9, null, null, 3, 5]), buildTree([2]), buildTree([8])).val === 6)
 console.log(new Solution().lowestCommonAncestor(buildTree([6, 2, 8, 0, 4, 7, 9, null, null, 3, 5]), buildTree([2]), buildTree([4])).val === 2)
 console.log(new Solution().lowestCommonAncestor(buildTree([6, 2, 8, 0, 4, 7, 9, null, null, 3, 5]), buildTree([3]), buildTree([5])).val === 4)

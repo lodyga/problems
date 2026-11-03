@@ -1,3 +1,6 @@
+from collections import deque
+
+
 class Solution:
     def maxAreaOfIsland(self, grid: list[list[int]]) -> int:
         """
@@ -14,10 +17,11 @@ class Solution:
         res = 0
 
         def dfs(row: int, col: int) -> int:
-            if (row in (-1, ROWS) or
-                col in (-1, COLS) or
-                visited[row][col] or
-                grid[row][col] == 0
+            if (
+                row in (-1, ROWS)
+                or col in (-1, COLS)
+                or visited[row][col]
+                or grid[row][col] == 0
             ):
                 return 0
 
@@ -32,17 +36,14 @@ class Solution:
 
         for row in range(ROWS):
             for col in range(COLS):
-                if (
-                    grid[row][col] and 
-                    not visited[row][col]
-                ):
+                if (grid[row][col] and not visited[row][col]):
                     res = max(res, dfs(row, col))
 
         return res
 
 
 class Solution:
-    def maxAreaOfIsland(self, grid: list[list[str]]) -> int:
+    def maxAreaOfIsland(self, grid: list[list[int]]) -> int:
         """
         Time complexity: O(n2)
         Auxiliary space complexity: O(n2)
@@ -50,7 +51,6 @@ class Solution:
             DS: array (matrix), queue
             A: bfs, iteration
         """
-        from collections import deque
         ROWS = len(grid)
         COLS = len(grid[0])
         DIRECTIONS = ((-1, 0), (1, 0), (0, -1), (0, 1))
@@ -60,32 +60,32 @@ class Solution:
         def bfs(row: int, col: int) -> int:
             queue = deque([(row, col)])
             visited[row][col] = True
-            res = 1
+            area = 1
 
             while queue:
                 row, col = queue.popleft()
 
                 for (dr, dc) in DIRECTIONS:
                     (r, c) = (row + dr, col + dc)
-                
+
                     if (
-                        r in (-1, ROWS) or
-                        c in (-1, COLS) or
-                        visited[r][c] or
-                        grid[r][c] == 0
+                        r in (-1, ROWS)
+                        or c in (-1, COLS)
+                        or visited[r][c]
+                        or grid[r][c] == 0
                     ):
                         continue
 
                     queue.append((r, c))
                     visited[r][c] = True
-                    res += 1
-                
-            return res
+                    area += 1
+
+            return area
 
         for row in range(ROWS):
             for col in range(COLS):
                 if (
-                    grid[row][col] and 
+                    grid[row][col] and
                     not visited[row][col]
                 ):
                     res = max(res, bfs(row, col))

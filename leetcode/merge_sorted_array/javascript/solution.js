@@ -24,15 +24,14 @@ class Solution {
          if (num1 > num2) {
             nums1[idx] = num1;
             idx1--;
-         } else {
+         }
+         else {
             nums1[idx] = num2;
-            idx2 -= 1;
+            idx2--;
          }
 
          idx--;
       }
-      
-      return nums1
    }
 }
 

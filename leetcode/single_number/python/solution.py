@@ -6,10 +6,12 @@ class Solution:
         Tags:
             A: bit manipulation
         """
-        xor = 0
+        res = 0
+
         for num in nums:
-            xor ^= num
-        return xor
+            res ^= num
+
+        return res
 
 
 print(Solution().singleNumber([2, 2, 1]) == 1)

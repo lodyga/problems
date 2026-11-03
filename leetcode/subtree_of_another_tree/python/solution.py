@@ -23,12 +23,11 @@ class Solution:
         def _is_same_tree(node1: TreeNode | None, node2: TreeNode | None) -> bool:
             if (node1 is None and node2 is None):
                 return True
-            elif (
-                node1 is None or node2 is None or
-                node1.val != node2.val
-            ):
+            elif (node1 is None or node2 is None):
                 return False
-            
+            elif (node1.val != node2.val):
+                return False
+
             left = _is_same_tree(node1.left, node2.left)
             right = _is_same_tree(node1.right, node2.right)
 

@@ -20,8 +20,6 @@ class Solution:
             DS: binary tree
             A: dfs, recursion, post-order traversal
         """
-        res = 0
-
         def dfs(node):
             nonlocal res
             if node is None:
@@ -33,6 +31,7 @@ class Solution:
 
             return 1 + max(left, right)
 
+        res = 0
         dfs(root)
         return res
 

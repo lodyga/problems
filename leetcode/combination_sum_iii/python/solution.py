@@ -8,9 +8,6 @@ class Solution:
             DS: list
             A: DFS with backtracking
         """
-        res = []
-        combination = []
-
         def backtrack(num: int, total: int) -> None:
             if len(combination) == k:
                 if total == target:
@@ -24,6 +21,8 @@ class Solution:
             combination.pop()
             backtrack(num + 1, total)
 
+        res = []
+        combination = []
         backtrack(1, 0)
         return res
 
@@ -38,9 +37,6 @@ class Solution:
             DS: list
             A: DFS with backtracking
         """
-        res = []
-        combination = []
-
         def backtrack(num: int, total: int) -> None:
             if len(combination) == k:
                 if total == target:
@@ -54,11 +50,13 @@ class Solution:
                 backtrack(idx + 1, total + idx)
                 combination.pop()
 
+        res = []
+        combination = []
         backtrack(1, 0)
         return res
 
 
-print(Solution().combinationSum3(2, 4) == [[1, 3]])
 print(Solution().combinationSum3(3, 7) == [[1, 2, 4]])
 print(Solution().combinationSum3(3, 9) == [[1, 2, 6], [1, 3, 5], [2, 3, 4]])
 print(Solution().combinationSum3(4, 1) == [])
+print(Solution().combinationSum3(2, 4) == [[1, 3]])

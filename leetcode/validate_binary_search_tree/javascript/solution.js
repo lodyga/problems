@@ -21,25 +21,28 @@ class Solution {
     *     DS: binary tree
     *     A: dfs, recursion, pre-order traversal
     * @param {TreeNode} root
-    * @return {number[]}
+    * @return {bool}
     */
    isValidBST(root) {
+
       const dfs = (node, lowerBound, upperBound) => {
          if (node === null) {
-            return true
-         } else if (
-            node.val >= upperBound ||
-            node.val <= lowerBound
+            return true;
+         }
+         else if (
+            node.val >= upperBound
+            || node.val <= lowerBound
          ) {
-            return false
+            return false;
          }
 
          const left = dfs(node.left, lowerBound, node.val);
          const right = dfs(node.right, node.val, upperBound);
 
-         return left && right
-      }
-      return dfs(root, -(2 ** 31) - 1, 2 ** 31)
+         return left && right;
+      };
+
+      return dfs(root, -(2 ** 31) - 1, 2 ** 31);
    }
 }
 
@@ -52,7 +55,7 @@ class Solution {
     *     DS: binary tree, queue
     *     A: bfs, iteration, level-order traversal
     * @param {TreeNode} root
-    * @return {number[]}
+    * @return {bool}
     */
    isValidBST(root) {
       const queue = new Queue([[root, -Infinity, Infinity]]);
@@ -61,18 +64,21 @@ class Solution {
          const [node, lowerBound, upperBound] = queue.pop();
 
          if (
-            node.val <= lowerBound ||
-            node.val >= upperBound
+            node.val <= lowerBound
+            || node.val >= upperBound
          ) {
-            return false
+            return false;
          }
+         
          if (node.left) {
             queue.push([node.left, lowerBound, node.val]);
          }
+         
          if (node.right) {
             queue.push([node.right, node.val, upperBound]);
          }
       }
-      return true
+
+      return true;
    }
 }

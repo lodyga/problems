@@ -12,8 +12,8 @@ import { MaxPriorityQueue, MinPriorityQueue } from '@datastructures-js/priority-
  */
 class MedianFinder {
    constructor() {
-      this.leftHeap = new MaxPriorityQueue();
-      this.rightHeap = new MinPriorityQueue();
+      this.lowHeap = new MaxPriorityQueue();
+      this.highHeap = new MinPriorityQueue();
    };
 
    /**
@@ -21,27 +21,29 @@ class MedianFinder {
     * @return {void}
     */
    addNum(num) {
-      if ((this.leftHeap.size() + this.rightHeap.size()) % 2) {
-         this.rightHeap.enqueue(num);
-         const lownum = this.rightHeap.dequeue();
-         this.leftHeap.enqueue(lownum);
-      } else {
-         this.leftHeap.enqueue(num);
-         const highNumber = this.leftHeap.dequeue();
-         this.rightHeap.enqueue(highNumber)
+      if (this.lowHeap.size() === this.highHeap.size()) {
+         this.lowHeap.push(num);
+         const highNum = this.lowHeap.pop();
+         this.highHeap.push(highNum);
+      } 
+      else {
+         this.highHeap.push(num);
+         const lowNum = this.highHeap.pop();
+         this.lowHeap.push(lowNum);
       }
-   };
+   }
 
    /**
     * @return {number}
     */
    findMedian() {
-      if ((this.leftHeap.size() + this.rightHeap.size()) % 2) {
-         return this.rightHeap.front();
-      } else {
-         return (this.leftHeap.front() + this.rightHeap.front()) / 2
+      if (this.lowHeap.size() === this.highHeap.size()) {
+         return (this.lowHeap.front() + this.highHeap.front()) / 2;
       }
-   };
+      else {
+         return this.highHeap.front();
+      }
+   }
 }
 
 

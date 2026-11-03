@@ -9,19 +9,23 @@ class Solution {
      * @return {boolean}
     */
    isSubsequence(subSeq, text) {
-      if (subSeq === '') return true
+      if (subSeq === "") {
+         return true;
+      }
+      
       let idx = 0;
 
       for (const letter of text) {
          if (letter === subSeq[idx]) {
             idx++;
             
-            if (idx === subSeq.length)
-               return true
+            if (idx === subSeq.length) {
+               return true;
+            }
          }
       }
 
-      return false
+      return false;
    }
 }
 

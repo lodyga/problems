@@ -1,37 +1,61 @@
+class Solution2 {
+   /**
+    * Time complexity: O(n)
+    * Auxiliary space complexity: O(1)
+    * Tags:
+    *     A: brute-froce
+    * @param {number[]} nums
+    * @return {number}
+    */
+   maxSubarraySumCircular(nums) {
+      const N = nums.length;
+      let res = nums[0];
+
+      for (let idx = 0; idx < N; idx++) {
+         let currSum = 0;
+
+         for (let jdx = idx; jdx < N + idx; jdx++) {
+            currSum += nums[jdx % N]
+            res = Math.max(res, currSum);
+         }
+      }
+
+      return res;
+   }
+}
+
+
 class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
     * Tags:
-    *     A: greedy, Kadane
+    *     A: greedy
     * @param {number[]} nums
     * @return {number}
     */
    maxSubarraySumCircular(nums) {
-      let currentMax = 0;
-      let currentMin = 0;
-      let largestSum = nums[0];
-      let smallestSum = nums[0];
-      let total = 0;
+      let localMaxSum = 0;
+      let localMinSum = 0;
+      let globalMaxSum = nums[0];
+      let globlaMinSum = nums[0];
+      let total = nums.reduce((total, val) => total + val, 0);
 
-      for (const number of nums) {
-         if (currentMax < 0)
-            currentMax = 0
-         currentMax += number;
-         largestSum = Math.max(largestSum, currentMax);
+      for (const num of nums) {
+         localMaxSum = Math.max(localMaxSum + num, num);
+         globalMaxSum = Math.max(globalMaxSum, localMaxSum);
 
-         if (currentMin > 0)
-            currentMin = 0
-         currentMin += number;
-         smallestSum = Math.min(smallestSum, currentMin);
-
-         total += number;
+         localMinSum = Math.min(localMinSum + num, num);
+         globlaMinSum = Math.min(globlaMinSum, localMinSum);
       }
-      if (largestSum < 0)
-         return largestSum
-      else
-         return Math.max(largestSum, total - smallestSum)
-   };
+
+      if (globalMaxSum > 0) {
+         return Math.max(globalMaxSum, total - globlaMinSum);
+      }
+      else {
+         return globalMaxSum;
+      }
+   }
 }
 
 

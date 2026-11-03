@@ -8,9 +8,12 @@ class Solution {
     * @return {boolean}
     */
    stoneGame(piles) {
-      return true
-   };
+      return true;
+   }
+}
 
+
+class Solution {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(n2)
@@ -21,23 +24,28 @@ class Solution {
     * @return {boolean}
     */
    stoneGame(piles) {
-      const memo = new Map();
-
       const dfs = (left, right, aliceToMove, aliceSurplus) => {
-         if (left > right)
+         if (left > right) {
             return aliceSurplus > 0
-         else if (memo.has(`${left},${right}`))
+         }
+         else if (memo.has(`${left},${right}`)) {
             return memo.get(`${left},${right}`);
+         }
 
          memo.set(`${left},${right}`, false);
-         if (dfs(left + 1, right, !aliceToMove, aliceSurplus + piles[left] * (aliceToMove ? 1 : -1))) 
+         if (dfs(left + 1, right, !aliceToMove, aliceSurplus + piles[left] * (aliceToMove ? 1 : -1))) {
             memo.set(`${left},${right}`, true);
-         else if (dfs(left, right - 1, !aliceToMove, aliceSurplus + piles[right] * (aliceToMove ? 1 : -1)))
+         }
+         else if (dfs(left, right - 1, !aliceToMove, aliceSurplus + piles[right] * (aliceToMove ? 1 : -1))) {
             memo.set(`${left},${right}`, true);
+         }
+
          return memo.get(`${left},${right}`);
-      }
-      return dfs(0, piles.length - 1, true, 0)
-   };
+      };
+
+      const memo = new Map();
+      return dfs(0, piles.length - 1, true, 0);
+   }
 }
 
 

@@ -24,8 +24,8 @@ class Solution:
             if (node1 is None and node2 is None):
                 return True
             elif (
-                node1 is None or node2 is None or
-                node1.val != node2.val
+                node1 is None or node2 is None
+                or node1.val != node2.val
             ):
                 return False
 
@@ -53,10 +53,9 @@ class Solution:
 
             if (node1 is None and node2 is None):
                 continue
-            elif (
-                node1 is None or node2 is None or
-                node1.val != node2.val
-            ):
+            elif (node1 is None or node2 is None):
+                return False
+            elif (node1.val != node2.val):
                 return False
 
             stack.append((node1.right, node2.right))
@@ -95,9 +94,15 @@ class Solution:
 
 
 print(Solution().isSameTree(build_tree([]), build_tree([5])) == False)
-print(Solution().isSameTree(build_tree([1, 2, 3]), build_tree([1, 2, 3])) == True)
-print(Solution().isSameTree(build_tree([1, 2]), build_tree([1, None, 2])) == False)
-print(Solution().isSameTree(build_tree([1, 2, 1]), build_tree([1, 1, 2])) == False)
-print(Solution().isSameTree(build_tree([10, 5, 15]), build_tree([10, 5, None, None, 15])) == False)
-print(Solution().isSameTree(build_tree([1, None, 2, 3]), build_tree([1, None, 2, None, 3])) == False)
-print(Solution().isSameTree(build_tree([4, 2, 7, 1, 3, 6, 9]), build_tree([4, 2, 7, 1, 3, 6, 9])) == True)
+print(Solution().isSameTree(build_tree(
+    [1, 2, 3]), build_tree([1, 2, 3])) == True)
+print(Solution().isSameTree(build_tree(
+    [1, 2]), build_tree([1, None, 2])) == False)
+print(Solution().isSameTree(build_tree(
+    [1, 2, 1]), build_tree([1, 1, 2])) == False)
+print(Solution().isSameTree(build_tree(
+    [10, 5, 15]), build_tree([10, 5, None, None, 15])) == False)
+print(Solution().isSameTree(build_tree(
+    [1, None, 2, 3]), build_tree([1, None, 2, None, 3])) == False)
+print(Solution().isSameTree(build_tree(
+    [4, 2, 7, 1, 3, 6, 9]), build_tree([4, 2, 7, 1, 3, 6, 9])) == True)

@@ -21,14 +21,14 @@ class MyQueue {
             this.reversedStack.push(this.stack.pop());
          }
       }
-   };
+   }
 
    /**
     * @param {number} val
     * @return {void}
     */
    push(val) {
-      this.stack.push(val)
+      this.stack.push(val);
    }
 
    /**
@@ -36,7 +36,7 @@ class MyQueue {
     */
    pop() {
       this._reverseStack();
-      return this.reversedStack.pop()
+      return this.reversedStack.pop();
    }
 
    /**
@@ -44,7 +44,7 @@ class MyQueue {
     */
    peek() {
       this._reverseStack();
-      return this.reversedStack[this.reversedStack.length - 1]
+      return this.reversedStack[this.reversedStack.length - 1];
    }
 
    /**
@@ -52,9 +52,9 @@ class MyQueue {
     */
    empty() {
       return (
-         this.stack.length === 0 &&
-         this.reversedStack.length === 0
-      )
+         this.stack.length === 0
+         && this.reversedStack.length === 0
+      );
    }
 }
 

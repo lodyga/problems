@@ -25,32 +25,33 @@ class Solution {
     */
    rightSideView(root) {
       if (root === null) {
-         return []
+         return [];
       }
 
       const queue = new Queue([root]);
       const res = [];
 
-      while (queue.size()) {
+      while (!queue.isEmpty()) {
          const queueLength = queue.size();
 
-         for (let index = 0; index < queueLength; index++) {
+         for (let idx = 0; idx < queueLength; idx++) {
             const node = queue.pop();
 
-            if (index === 0) {
+            if (idx === 0) {
                res.push(node.val);
             }
 
             if (node.right) {
                queue.push(node.right);
             }
-            
+
             if (node.left) {
                queue.push(node.left);
             }
          }
       }
-      return res
+
+      return res;
    }
 }
 
@@ -66,21 +67,23 @@ class Solution {
     * @return {number[]}
     */
    rightSideView(root) {
-      const res = [];
-
-      const dfs = (index, node) => {
-         if (node === null) return
-         
-         if (index === res.length) {
-            res.push(node.val)
+      
+      const dfs = (node, idx) => {
+         if (node === null) {
+            return;
          }
 
-         dfs(index + 1, node.right);
-         dfs(index + 1, node.left);
-      }
+         if (idx === res.length) {
+            res.push(node.val);
+         }
 
-      dfs(0, root);
-      return res
+         dfs(node.right, idx + 1);
+         dfs(node.left, idx + 1);
+      };
+      
+      const res = [];
+      dfs(root, 0);
+      return res;
    }
 }
 

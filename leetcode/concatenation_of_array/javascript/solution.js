@@ -9,16 +9,19 @@ class Solution {
     * @return {number[]}
     */
    getConcatenation(nums) {
-      const concated = Array(nums.length * 2).fill(0);
+      const res = Array(nums.length * 2).fill(0);
 
-      for (let index = 0; index < nums.length; index++) {
-         concated[index] = nums[index];
-         concated[index + nums.length] = nums[index];
+      for (let idx = 0; idx < nums.length; idx++) {
+         res[idx] = nums[idx];
+         res[idx + nums.length] = nums[idx];
       }
     
-      return concated
+      return res;
    }
+}
 
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
@@ -29,9 +32,12 @@ class Solution {
     * @return {number[]}
     */
    getConcatenation(nums) {
-      return [...nums, ...nums]
+      return [...nums, ...nums];
    }
+}
 
+
+class Solution {
    /**
     * Time complexity: O(n)
     * Auxiliary space complexity: O(1)
@@ -43,7 +49,7 @@ class Solution {
     */
    getConcatenation(nums) {
       nums.push(...nums.slice())
-      return nums
+      return nums;
    }
 }
 

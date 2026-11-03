@@ -5,31 +5,84 @@ class Solution {
     * Tags:
     *     DS: array
     *     A: top-down
-    * @param {number[]} stoneValue
+    * @param {number[]} stones
     * @return {string}
     */
-   stoneGameIII(stoneValue) {
-      const LOWER_BOUND = -(10 ** 8);
-      const memo = Array(stoneValue.length + 1).fill(-1);
-      memo[stoneValue.length] = 0;
-
+   stoneGameIII(stones) {
       const dfs = (start) => {
-         if (memo[start] !== -1) {
-            return memo[start]
+         if (start == N) {
+            return 0;
+         }
+         else if (memo[start] !== MIN_INT) {
+            return memo[start];
          }
 
+         let score = MIN_INT;
+         const end = Math.min(start + 3, N)
          let subpileSum = 0;
-         let score = LOWER_BOUND;
 
-         for (let index = start; index < Math.min(start + 3, stoneValue.length); index++) {
-            subpileSum += stoneValue[index];
-            const points = subpileSum - dfs(index + 1)
+         for (let idx = start; idx < end; idx++) {
+            subpileSum += stones[idx];
+            const points = subpileSum - dfs(idx + 1)
             score = Math.max(score, points);
          }
+
          memo[start] = score;
-         return score
+         return score;
+      };
+
+      const MIN_INT = -1e8;
+      const N = stones.length;
+      const memo = Array(N).fill(MIN_INT);
+      const res = dfs(0);
+
+      if (res > 0) {
+         return "Alice";
       }
-      return dfs(0) === 0 ? 'Tie' : (dfs(0) > 0 ? 'Alice' : 'Bob')
+      else if (res === 0) {
+         return "Tie";
+      }
+      return "Bob";
+   };
+}
+
+
+class Solution2 {
+   /**
+    * Time complexity: O(n)
+    * Auxiliary space complexity: O(n)
+    * Tags:
+    *     DS: array
+    *     A: bottom-up
+    * @param {number[]} stones
+    * @return {string}
+    */
+   stoneGameIII(stones) {
+      const MIN_INT = -1e8;
+      const N = stones.length;
+      const cache = Array(N + 1).fill(0);
+
+      for (let idx = N - 1; idx >= 0; idx--) {
+         cache[idx] = MIN_INT;
+         const end = Math.min(idx + 3, N)
+         let subpileSum = 0;
+
+         for (let jdx = idx; jdx < end; jdx++) {
+            subpileSum += stones[jdx];
+            cache[idx] = Math.max(
+               cache[idx],
+               subpileSum - cache[jdx + 1]
+            );
+         }
+      }
+
+      if (cache[0] > 0) {
+         return "Alice";
+      }
+      else if (cache[0] === 0) {
+         return "Tie";
+      }
+      return "Bob";
    };
 }
 

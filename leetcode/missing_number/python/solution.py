@@ -26,10 +26,11 @@ class Solution:
             DS: hash set
             A: iteration
         """
-        number_set = set(nums)
-        for number in range(len(nums) + 1):
-            if number not in number_set:
-                return number
+        num_set = set(nums)
+
+        for num in range(len(nums) + 1):
+            if num not in num_set:
+                return num
 
 
 class Solution:

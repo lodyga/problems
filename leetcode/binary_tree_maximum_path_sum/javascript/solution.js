@@ -23,21 +23,25 @@ class Solution {
     * @return {int}
     */
    maxPathSum(root) {
-      let maxPathSumValue = root.val;
-
+      
       const dfs = (node) => {
-         if (node === null)
-            return 0
+         if (node === null) {
+            return 0;
+         }
 
-         const left = dfs(node.left);
-         const right = dfs(node.right);
-         const pathSum = node.val + left + right;
-         maxPathSumValue = Math.max(maxPathSumValue, pathSum);
-         return Math.max(0, node.val + Math.max(left, right))
+         const nodeLeft = dfs(node.left);
+         const nodeRight = dfs(node.right);
+
+         const pathSum = node.val + nodeLeft + nodeRight;
+         res = Math.max(res, pathSum);
+
+         return Math.max(0, node.val + Math.max(nodeLeft, nodeRight))
       }
+      
+      let res = root.val;
       dfs(root);
-      return maxPathSumValue
-   };
+      return res;
+   }
 }
 
 

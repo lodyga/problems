@@ -7,23 +7,22 @@ class Solution:
             DS: list, string
             A: backtracking
         """
-        res = []
-        parenthesis = []
-
         def backtrack(opened: int, closed: int) -> None:
             if opened == closed == n:
                 res.append("".join(parenthesis))
 
             if opened < n:
-                parenthesis.append("(")
+                parenthesis.append('(')
                 backtrack(opened + 1, closed)
                 parenthesis.pop()
 
             if closed < opened:
-                parenthesis.append(")")
+                parenthesis.append(')')
                 backtrack(opened, closed + 1)
                 parenthesis.pop()
 
+        parenthesis = []
+        res = []
         backtrack(0, 0)
         return res
 

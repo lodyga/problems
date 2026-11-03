@@ -6,8 +6,6 @@ class Solution:
         Tags:
             A: brute-force
         """
-        N = len(text)
-
         def dfs(idx: int) -> int:
             if idx == N:
                 return 1
@@ -20,14 +18,15 @@ class Solution:
             res = dfs(idx + 1)
 
             if (
-                idx + 1 < N and
-                (char == "1" or
-                 char == "2" and text[idx + 1] <= "6")
+                idx + 1 < N
+                and (char == "1"
+                     or char == "2" and text[idx + 1] <= "6")
             ):
                 res += dfs(idx + 2)
 
             return res
 
+        N = len(text)
         return dfs(0)
 
 
@@ -40,10 +39,6 @@ class Solution:
             DS: array
             A: top-down
         """
-        N = len(text)
-        memo = [-1] * N
-        memo.append(1)
-
         def dfs(idx: int) -> int:
             if memo[idx] != -1:
                 return memo[idx]
@@ -56,15 +51,18 @@ class Solution:
             res = dfs(idx + 1)
 
             if (
-                idx + 1 < N and
-                (char == "1" or
-                 char == "2" and text[idx + 1] <= "6")
+                idx + 1 < N
+                and (char == "1"
+                     or char == "2" and text[idx + 1] <= "6")
             ):
                 res += dfs(idx + 2)
 
             memo[idx] = res
             return res
 
+        N = len(text)
+        memo = [-1] * N
+        memo.append(1)
         return dfs(0)
 
 
@@ -90,9 +88,9 @@ class Solution:
             cache[idx] = cache[idx + 1]
 
             if (
-                idx + 1 < N and
-                (char == "1" or
-                 char == "2" and text[idx + 1] <= "6")
+                idx + 1 < N
+                and (char == "1"
+                     or char == "2" and text[idx + 1] <= "6")
             ):
                 cache[idx] += cache[idx + 2]
 
@@ -121,9 +119,9 @@ class Solution:
             cache0 = cache[0]
 
             if (
-                idx + 1 < N and
-                (char == "1" or
-                 char == "2" and text[idx + 1] <= "6")
+                idx + 1 < N
+                and (char == "1"
+                     or char == "2" and text[idx + 1] <= "6")
             ):
                 cache0 += cache[1]
 

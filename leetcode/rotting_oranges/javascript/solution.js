@@ -1,4 +1,5 @@
-import { Queue } from "@datastructures-js/queue";
+// import { Queue } from "@datastructures-js/queue";
+const { Queue } = require("@datastructures-js/queue");
 
 
 class Solution {
@@ -12,21 +13,16 @@ class Solution {
     * @return {number}
     */
    orangesRotting(grid) {
-      const ROWS = grid.length;
-      const COLS = grid[0].length;
-      const DIRECTIONS = [[-1, 0], [1, 0], [0, -1], [0, 1]];
-      const queue = new Queue();
-      
       const bfs = () => {
-         let maxDistance = 0;
+         let res = 0;
 
-         while (queue.size()) {
+         while (!queue.isEmpty()) {
             const [row, col, distance] = queue.pop();
-            maxDistance = Math.max(maxDistance, distance);
+            res = Math.max(res, distance);
 
             for (const [dr, dc] of DIRECTIONS) {
                const [r, c] = [row + dr, col + dc];
-               
+
                if (
                   -1 < r && r < ROWS &&
                   -1 < c && c < COLS &&
@@ -38,31 +34,37 @@ class Solution {
             }
          }
 
-         return maxDistance
+         return res;
       };
+
+      const ROWS = grid.length;
+      const COLS = grid[0].length;
+      const DIRECTIONS = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+      const queue = new Queue();
 
       for (let row = 0; row < ROWS; row++) {
          for (let col = 0; col < COLS; col++) {
             if (grid[row][col] === 2) {
                queue.push([row, col, 0]);
                grid[row][col] = 0;
-            } else if (grid[row][col] == 1) {
+            }
+            else if (grid[row][col] == 1) {
                grid[row][col] = -1;
             }
          }
       }
 
-      const maxDistance = bfs();
+      const res = bfs();
 
       for (let row = 0; row < ROWS; row++) {
          for (let col = 0; col < COLS; col++) {
             if (grid[row][col] === -1) {
-               return -1
+               return -1;
             }
          }
       }
 
-      return maxDistance
+      return res;
    }
 }
 

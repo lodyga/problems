@@ -9,10 +9,10 @@ class Solution:
         res = 0
         idx = len(text) - 1
 
-        while text[idx] == " ":
+        while text[idx] == ' ':
             idx -= 1
 
-        while idx > -1 and text[idx] != " ":
+        while idx > -1 and text[idx] != ' ':
             res += 1
             idx -= 1
 

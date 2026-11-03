@@ -11,16 +11,20 @@ class Solution {
    transpose(matrix) {
       const ROWS = matrix.length;
       const COLS = matrix[0].length;
-      const transposed = Array.from({ length: COLS }, () => Array(ROWS).fill(0));
+      const res = Array.from({ length: COLS }, () => Array(ROWS).fill());
 
       for (let row = 0; row < ROWS; row++) {
          for (let col = 0; col < COLS; col++) {
-            transposed[col][row] = matrix[row][col];
+            res[col][row] = matrix[row][col];
          }
       }
-      return transposed
-   };
 
+      return res;
+   }
+}
+
+
+class Solution {
    /**
     * Time complexity: O(n2)
     * Auxiliary space complexity: O(1)
@@ -33,12 +37,13 @@ class Solution {
    transpose(matrix) {
       const ROWS = matrix.length;
       const COLS = matrix[0].length;
+
       return Array.from({ length: COLS }, (_, col) => 
          Array.from({length: ROWS}, (_, row) =>
             matrix[row][col]
          )
       );
-   };
+   }
 }
 
 

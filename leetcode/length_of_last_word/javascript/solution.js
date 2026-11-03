@@ -12,15 +12,15 @@ class Solution {
       let idx = text.length - 1;
 
       while (text[idx] === ' ') {
-         idx -= 1;
+         idx--;
       }
 
       while (idx > -1 && text[idx] !== ' ') {
-         res += 1;
-         idx -= 1;
+         res++;
+         idx--;
       }
 
-      return res
+      return res;
    }
 }
 

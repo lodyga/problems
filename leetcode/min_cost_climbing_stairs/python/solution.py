@@ -7,8 +7,6 @@ class Solution:
             A: brute-force, 
         pure recursion, Return-value recursion (pull style), converts to top-down
         """
-        N = len(costs)
-
         def dfs(idx: int) -> int:
             if idx in (N, N + 1):
                 return 0
@@ -16,6 +14,7 @@ class Solution:
             cost = costs[idx]
             return cost + min(dfs(idx + 1), dfs(idx + 2))
 
+        N = len(costs)
         return min(dfs(0), dfs(1))
 
 
@@ -27,8 +26,6 @@ class Solution:
         Tags: brute-force
             function argument, Accumulate-argument recursion (push style), converts to top-down
         """
-        N = len(costs)
-
         def dfs(idx: int, total: int) -> int:
             if idx in (N, N + 1):
                 return total
@@ -40,6 +37,7 @@ class Solution:
                 dfs(idx + 2, total + cost)
             )
 
+        N = len(costs)
         return min(dfs(0, 0), dfs(1, 0))
 
 
@@ -52,10 +50,6 @@ class Solution:
             DS: array
             A: top-down 
         """
-        N = len(costs)
-        memo = [-1] * N
-        memo.extend([0, 0])
-
         def dfs(idx: int) -> int:
             if memo[idx] != -1:
                 return memo[idx]
@@ -64,6 +58,9 @@ class Solution:
             memo[idx] = cost + min(dfs(idx + 1), dfs(idx + 2))
             return memo[idx]
 
+        N = len(costs)
+        memo = [-1] * N
+        memo.extend([0, 0])
         return min(dfs(0), dfs(1))
 
 
@@ -77,9 +74,6 @@ class Solution:
             A: top-down 
         function argument, Accumulate-argument recursion (push style)
         """
-        N = len(costs)
-        memo = {}
-
         def dfs(idx: int, total: int) -> int:
             if idx in (len(costs), len(costs) + 1):
                 return total
@@ -92,6 +86,8 @@ class Solution:
                 dfs(idx + 2, total + cost))
             return memo[idx, total]
 
+        N = len(costs)
+        memo = {}
         return min(dfs(0, 0), dfs(1, 0))
 
 

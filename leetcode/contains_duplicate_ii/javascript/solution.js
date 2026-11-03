@@ -14,19 +14,19 @@ class Solution {
 
       for (let right = 0; right < nums.length; right++) {
          const num = nums[right];
-         
-         if (window.has(num))
-            return true
+
+         if (window.has(num)) {
+            return true;
+         }
 
          window.add(num);
 
          if (right >= k) {
-            const leftNum = nums[right - k];
-            window.delete(leftNum);
+            window.delete(nums[right - k]);
          }
-
       }
-      return false
+
+      return false;
    }
 }
 

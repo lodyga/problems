@@ -12,41 +12,41 @@ class Solution {
     * @return {number[][]}
     */
    findOrder(courseCount, prerequisites) {
-      const prereqs = new Map();
-      for (let course = 0; course < courseCount; course++) {
-         prereqs.set(course, []);
-      }
-      for (const [course, prereq] of prerequisites) {
-         prereqs.get(course).push(prereq)
-      }
-
-      const schedule = [];
-      // -1: not visited, 0: visited, 1: on path (cycle detection)
-      const visited = Array(courseCount).fill(-1);
-
       const dfs = (course) => {
-         if (visited[course] !== -1)
-            return visited[course]
+         if (visited[course] !== -1) {
+            return visited[course];
+         }
 
          visited[course] = 1;
 
-         for (const prereq of prereqs.get(course))
-            if (dfs(prereq))
-               return true
+         for (const prevCourse of prevCourses[course])
+            if (dfs(prevCourse)) {
+               return true;
+            }
 
          visited[course] = 0;
-         schedule.push(course);
+         res.push(course);
 
-         return false
+         return false;
       };
 
-      for (let course of prereqs.keys()) {
+      const prevCourses = Array.from({ length: courseCount }, () => []);
+      const res = [];
+      // -1: not visited, 0: visited, 1: on path (cycle detection)
+      const visited = Array(courseCount).fill(-1);
+
+      for (const [course, prevCourse] of prerequisites) {
+         prevCourses[course].push(prevCourse);
+      }
+
+      for (let course of prevCourses.keys()) {
          if (dfs(course)) {
-            return []
+            return [];
          }
       }
-      return schedule
-   };
+
+      return res;
+   }
 }
 
 

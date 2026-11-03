@@ -1,3 +1,60 @@
+import { MinPriorityQueue } from "@datastructures-js/priority-queue";
+
+
+class Solution {
+   /**
+    * Time complexity: O(nlogn)
+    * Auxiliary space complexity: O(n)
+    * Tags:
+    *     DS: heap, hash map
+    *     A: iteration
+    * @param {number[]} hand
+    * @param {number} groupSize
+    * @return {boolean}
+    */
+   isNStraightHand(hand, groupSize) {
+      if (hand.length % groupSize) {
+         return false;
+      }
+
+      const cardFreq = new Map();
+
+      for (const card of hand) {
+         cardFreq.set(card, (cardFreq.get(card) || 0) + 1);
+      }
+
+      const cardHeap = new MinPriorityQueue();
+
+      for (const card of cardFreq.keys()) {
+         cardHeap.push(card);
+      }
+
+      while (!cardHeap.isEmpty()) {
+         const headCard = cardHeap.front();
+
+         if (!cardFreq.has(headCard)) {
+            cardHeap.pop();
+            continue;
+         }
+
+         for (let card = headCard; card < headCard + groupSize; card++) {
+            if (!cardFreq.has(card)) {
+               return false;
+            }
+
+            cardFreq.set(card, cardFreq.get(card) - 1);
+            
+            if (cardFreq.get(card) === 0) {
+               cardFreq.delete(card);
+            }
+         }
+      }
+
+      return true;
+   }
+}
+
+
 class Solution {
    /**
     * Time complexity: O(nlogn)
@@ -11,7 +68,7 @@ class Solution {
     */
    isNStraightHand(hand, groupSize) {
       if (hand.length % groupSize) {
-         return false
+         return false;
       }
 
       hand.sort((a, b) => a - b);
@@ -23,21 +80,24 @@ class Solution {
 
       for (const headCard of hand) {
          if (!cardFreq.has(headCard)) {
-            continue
+            continue;
          }
 
          for (let card = headCard; card < headCard + groupSize; card++) {
             if (!cardFreq.has(card)) {
                return false
             }
+
             cardFreq.set(card, cardFreq.get(card) - 1);
+
             if (cardFreq.get(card) === 0) {
                cardFreq.delete(card);
             }
          }
       }
-      return true
-   };
+
+      return true;
+   }
 }
 
 

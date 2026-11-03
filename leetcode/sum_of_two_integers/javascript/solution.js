@@ -14,8 +14,9 @@ class Solution {
          a = a ^ b;
          b = carry;
       }
-      return a
-   };
+
+      return a;
+   }
 }
 
 

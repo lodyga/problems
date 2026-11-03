@@ -22,8 +22,6 @@ class Solution:
                 nums1[idx] = num2
                 n -= 1
 
-        return nums1
-
 
 print(Solution().merge([1], 1, [], 0) == [1])
 print(Solution().merge([0], 0, [1], 1) == [1])

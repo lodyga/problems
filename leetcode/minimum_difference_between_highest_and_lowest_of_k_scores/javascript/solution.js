@@ -18,7 +18,7 @@ class Solution {
          minVal = Math.min(minVal, nums[right] - nums[left]);
       }
 
-      return minVal
+      return minVal;
    }
 }
 

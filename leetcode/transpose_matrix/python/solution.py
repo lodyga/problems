@@ -10,13 +10,13 @@ class Solution:
         ROWS = len(matrix)
         COLS = len(matrix[0])
 
-        transpoted = [[0] * ROWS for _ in range(COLS)]
+        res = [[0] * ROWS for _ in range(COLS)]
 
         for row in range(ROWS):
             for col in range(COLS):
-                transpoted[col][row] = matrix[row][col]
+                res[col][row] = matrix[row][col]
 
-        return transpoted
+        return res
 
 
 class Solution:
@@ -30,9 +30,11 @@ class Solution:
         """
         ROWS = len(matrix)
         COLS = len(matrix[0])
+
         return [[matrix[row][col] 
                 for row in range(ROWS)] 
-                for col in range(COLS)]
+                for col in range(COLS)
+                ]
 
 
 print(Solution().transpose([[1, 2, 3], [4, 5, 6], [7, 8, 9]]) == [[1, 4, 7], [2, 5, 8], [3, 6, 9]])

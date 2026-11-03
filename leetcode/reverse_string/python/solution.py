@@ -1,36 +1,33 @@
 class Solution:
-    def reverseString(self, letters: list[str]) -> list[str]:
+    def reverseString(self, letters: list[str]) -> None:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
         Tags:
             A: built-in function
         """
-        return list(reversed(letters))
+        letters.reverse()
 
 
 class Solution:
-    def reverseString(self, letters: list[str]) -> list[str]:
+    def reverseString(self, letters: list[str]) -> None:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(1)
         Tags:
             A: two pointers, iteration
         """
-        res = letters.copy()
         left = 0
         right = len(letters) - 1
 
         while left < right:
-            res[left], res[right] = res[right], res[left]
+            letters[left], letters[right] = letters[right], letters[left]
             left += 1
             right -= 1
 
-        return res
-
 
 class Solution:
-    def reverseString(self, letters: list[str]) -> list[str]:
+    def reverseString(self, letters: list[str]) -> None:
         """
         Time complexity: O(n)
         Auxiliary space complexity: O(n)
@@ -45,8 +42,7 @@ class Solution:
             dfs(left + 1, right - 1)
 
         dfs(0, len(letters) - 1)
-        return letters
 
 
-print(Solution().reverseString(["h", "e", "l", "l", "o"]) == ["o", "l", "l", "e", "h"])
-print(Solution().reverseString(["H", "a", "n", "n", "a", "h"]) == ["h", "a", "n", "n", "a", "H"])
+# print(Solution().reverseString(['h', 'e', 'l', 'l', 'o']) == ['o', 'l', 'l', 'e', 'h'])
+# print(Solution().reverseString(['H', 'a', 'n', 'n', 'a', 'h']) == ['h', 'a', 'n', 'n', 'a', 'H'])

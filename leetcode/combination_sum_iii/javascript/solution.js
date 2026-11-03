@@ -11,28 +11,28 @@ class Solution {
     * @return {number[][]}
     */
    combinationSum3(k, target) {
-      const combination = [];
-      const res = [];
 
-      const dfs = (digit, total) => {
+      const backtrack = (digit, total) => {
          if (combination.length === k) {
             if (total === target) {
                res.push(combination.slice());
             }
-            return
-         } else if (
-            digit === 10 ||
-            total >= target
-         ) return
+            return;
+         }
+         else if (digit === 10 || total >= target) {
+            return;
+         }
 
          combination.push(digit);
-         dfs(digit + 1, total + digit);
+         backtrack(digit + 1, total + digit);
          combination.pop();
-         dfs(digit + 1, total);
-      }
-      
-      dfs(1, 0);
-      return res
+         backtrack(digit + 1, total);
+      };
+
+      const combination = [];
+      const res = [];
+      backtrack(1, 0);
+      return res;
    }
 }
 

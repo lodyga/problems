@@ -5,7 +5,7 @@ class Solution {
     * Tags:
     *    A: two pointers, iteration
     * @param {characters[]} letters
-    * @return {characters[]}
+    * @return {void}
     */
    reverseString(letters) {
       let left = 0;
@@ -16,31 +16,6 @@ class Solution {
          left++;
          right--;
       }
-
-      return letters
-   }
-}
-
-
-class Solution {
-   /**
-    * Time complexity: O(n)
-    * Auxiliary space complexity: O(n)
-    * Tags:
-    *    A: two pointers, recursion
-    * @param {characters[]} letters
-    * @return {characters[]}
-    */
-   areverseString(letters) {
-      const dfs = (left, right) => {
-         if (left >= right) {
-            return
-         }
-         [letters[left], letters[right]] = [letters[right], letters[left]];
-         dfs(left + 1, right - 1);
-      }
-      dfs(0, letters.length - 1)
-      return letters
    }
 }
 
@@ -52,14 +27,38 @@ class Solution {
     * Tags:
     *    A: built-in function
     * @param {characters[]} letters
-    * @return {characters[]}
+    * @return {void}
     */
-   areverseString(letters) {
-      return letters.reverse()
+   reverseString(letters) {
+      return letters.reverse();
+   }
+}
+
+
+class Solution {
+   /**
+    * Time complexity: O(n)
+    * Auxiliary space complexity: O(n)
+    * Tags:
+    *    A: two pointers, recursion
+    * @param {characters[]} letters
+    * @return {void}
+    */
+   reverseString(letters) {
+      const dfs = (left, right) => {
+         if (left >= right) {
+            return;
+         }
+
+         [letters[left], letters[right]] = [letters[right], letters[left]];
+         dfs(left + 1, right - 1);
+      };
+
+      dfs(0, letters.length - 1);
    }
 }
 
 
 const reverseString = new Solution().reverseString;
-console.log(JSON.stringify(new Solution().reverseString(["h", "e", "l", "l", "o"])) === JSON.stringify(["o", "l", "l", "e", "h"]))
-console.log(JSON.stringify(new Solution().reverseString(["H", "a", "n", "n", "a", "h"])) === JSON.stringify(["h", "a", "n", "n", "a", "H"]))
+console.log(JSON.stringify(new Solution().reverseString(['h', 'e', 'l', 'l', 'o'])) === JSON.stringify(['o', 'l', 'l', 'e', 'h']))
+console.log(JSON.stringify(new Solution().reverseString(['H', 'a', 'n', 'n', 'a', 'h'])) === JSON.stringify(['h', 'a', 'n', 'n', 'a', 'H']))

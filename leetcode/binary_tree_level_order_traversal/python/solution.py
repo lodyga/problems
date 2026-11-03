@@ -1,4 +1,5 @@
 from binary_tree_utils import *
+from collections import deque
 
 
 # class TreeNode:
@@ -19,9 +20,7 @@ class Solution:
         Tags:
             DS: binary tree, queue, list
             A: bfs, iteration, level-order traversal
-        """
-        from collections import deque
-        
+        """        
         if root == None:
             return []
 
@@ -37,6 +36,7 @@ class Solution:
 
                 if node.left:
                     queue.append(node.left)
+
                 if node.right:
                     queue.append(node.right)
 
@@ -54,8 +54,6 @@ class Solution:
             DS: binary tree, list
             A: dfs, recursion, pre-order traversal
         """
-        res = []
-
         def dfs(node, level):
             if node is None:
                 return
@@ -66,12 +64,13 @@ class Solution:
             dfs(node.left, level + 1)
             dfs(node.right, level + 1)
 
+        res = []
         dfs(root, 0)
         return res
 
 
-print(Solution().levelOrder(build_tree([1, 2, 3])) == [[1], [2, 3]])
 print(Solution().levelOrder(build_tree([3, 9, 20, None, None, 15, 7])) == [[3], [9, 20], [15, 7]])
 print(Solution().levelOrder(build_tree([1])) == [[1]])
 print(Solution().levelOrder(build_tree([])) == [])
+print(Solution().levelOrder(build_tree([1, 2, 3])) == [[1], [2, 3]])
 print(Solution().levelOrder(build_tree([4, 2, 7, 1, 3, 6, 9])) == [[4], [2, 7], [1, 3, 6, 9]])

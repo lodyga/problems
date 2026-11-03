@@ -1,6 +1,7 @@
 import { TreeNode, buildTree, getTreeValues } from '../../../../JS/binary-tree.js';
 import { Queue } from '@datastructures-js/queue';
 
+
 /**
  * class TreeNode {
  *    constructor(val = null, left = null, right = null) {
@@ -25,28 +26,31 @@ class Codec {
     * @returns {string}
     */
    serialize(root) {
-      if (root === null)
-         return ''
+      if (root === null) {
+         return '';
+      }
 
       const res = [];
       const queue = new Queue([root]);
 
-      while (queue.size()) {
-         const node = queue.dequeue();
+      while (!queue.isEmpty()) {
+         const node = queue.pop();
 
          if (node) {
             res.push(node.val.toString());
-            queue.enqueue(node.left);
-            queue.enqueue(node.right);
-         } else {
+            queue.push(node.left);
+            queue.push(node.right);
+         }
+         else {
             res.push('null');
          }
       }
 
-      while (res && res[res.length - 1] === 'null')
+      while (res && res[res.length - 1] === 'null') {
          res.pop();
+      }
 
-      return res.join(',')
+      return res.join(',');
    };
 
    /**
@@ -54,37 +58,43 @@ class Codec {
     * @returns {TreeNode}
     */
    deserialize(data) {
-      if (data === '')
-         return null
-
-      const nodes = data.split(',');
-      let val = nodes[0];
-      const root = new TreeNode(Number(val));
-      const queue = new Queue([root]);
-      let index = 1;
-
-      while (index < nodes.length) {
-         const node = queue.dequeue();
-
-         val = nodes[index];
-         node.left = val === 'null' ? null : new TreeNode(Number(val));
-         if (node.left)
-            queue.enqueue(node.left);
-         index += 1;
-
-         if (index === nodes.length)
-            break
-
-         val = nodes[index];
-         node.right = val === 'null' ? null : new TreeNode(Number(val));
-         if (node.right)
-            queue.enqueue(node.right);
-         index += 1;
+      if (data === '') {
+         return null;
       }
 
-      return root
-   };
+      const nodes = data.split(',');
+      const root = new TreeNode(Number(nodes[0]));
+      const queue = new Queue([root]);
+      let idx = 1;
 
+      while (idx < nodes.length) {
+         const node = queue.pop();
+
+         let val = nodes[idx];
+
+         if (val !== "null") {
+            node.left = new TreeNode(Number(val));
+            queue.push(node.left);
+         }
+
+         idx++;
+
+         if (idx === nodes.length) {
+            break;
+         }
+
+         val = nodes[idx];
+
+         if (val !== "null") {
+            node.right = new TreeNode(Number(val));
+            queue.push(node.right);
+         }
+
+         idx++;
+      }
+
+      return root;
+   }
 }
 
 
@@ -99,43 +109,45 @@ class Codec {
     * @returns {string}
     */
    serialize(root) {
-      const values = [];
-
       const dfs = (node) => {
          if (node === null) {
-            values.push('null')
-            return
+            vals.push("null")
+            return;
          }
-         values.push((node.val).toString());
+
+         vals.push((node.val).toString());
          dfs(node.left);
          dfs(node.right);
       };
+
+      const vals = [];
       dfs(root);
-      return values.join('','')
-   };
+      return vals.join(',')
+   }
 
    /**
     * @param {string} data
     * @returns {TreeNode}
     */
    deserialize(data) {
-      let values = data.split(',');
-      let index = 0;
+      let vals = data.split(',');
+      let idx = 0;
 
       const dfs = () => {
-         if (values[index] === 'null') {
-            index++;
-            return null
+         if (vals[idx] === 'null') {
+            idx++;
+            return null;
          }
 
-         const node = new TreeNode(Math.floor(values[index]));
-         index++;
+         const node = new TreeNode(parseInt(vals[idx]));
+         idx++;
          node.left = dfs();
          node.right = dfs();
-         return node
-      }
-      return dfs()
-   };
+         return node;
+      };
+
+      return dfs();
+   }
 }
 
 

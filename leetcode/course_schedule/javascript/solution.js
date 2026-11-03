@@ -5,6 +5,61 @@ class Solution {
     * Tags:
     *     DS: array
     *     A: dfs, recursion, graph, topological sort
+    * @param {number} courseCount
+    * @param {number[][]} prerequisites
+    * @return {bool}
+    */
+   canFinish(courseCount, prerequisites) {
+      const dfs = (course) => {
+         if (path[course]) {
+            return false;
+         }
+         else if (visited[course] || !prereqs.has(course)) {
+            return true;
+         }
+
+         visited[course] = true;
+         path[course] = true;
+
+         for (const prereq of prereqs.get(course))
+            if (dfs(prereq) === false) {
+               return false;
+            }
+
+         path[course] = false;
+         return true;
+      };
+
+      const prereqs = new Map();
+      const visited = Array(courseCount).fill(false);
+      const path = Array(courseCount).fill(false);
+
+      for (const [course, prereq] of prerequisites) {
+         if (!prereqs.has(course)) {
+            prereqs.set(course, new Set());
+         }
+
+         prereqs.set(course, prereqs.get(course).add(prereq));
+      }
+
+      for (const course of prereqs.keys())
+         if (dfs(course) === false) {
+            return false;
+         }
+
+      return true;
+   }
+}
+
+
+class Solution {
+   /**
+    * Time complexity: O(V + E)
+    * Auxiliary space complexity: O(V + E)
+    * Tags:
+    *     DS: array, hash map, hash set
+    *     A: dfs, recursion, graph, topological sort
+    *     Model: graph
     * Mark visited courses in visited
     * One array for visited / path: None: not visited, False: visited, True: in current path
     * @param {number} courseCount
@@ -12,24 +67,6 @@ class Solution {
     * @return {bool}
     */
    canFinish(courseCount, prerequisites) {
-      if (courseCount === 0)
-         return trueee
-
-      const prereqs = new Map();
-      for (let course = 0; course < courseCount; course++) {
-         prereqs.set(course, new Set());
-      };
-      
-      for (const [course, prereq] of prerequisites) {
-         if (course === prereq)
-            return false
-         else if (prereqs.get(prereq).has(course))
-            return false
-         prereqs.set(course, prereqs.get(course).add(prereq))
-      }
-
-      const visited = Array(courseCount).fill(null);
-
       const dfs = (course) => {
          if (visited[course] !== null)
             return visited[course]
@@ -41,15 +78,27 @@ class Solution {
                return true
 
          visited[course] = false;
-         return false
+         return false;
       };
 
-      for (const course of prereqs.keys())
-         if (dfs(course) === true)
-            return false
+      const prereqs = new Map();
+      const visited = Array(courseCount).fill(null);
 
-      return true
-   };
+      for (let course = 0; course < courseCount; course++) {
+         prereqs.set(course, new Set());
+      };
+
+      for (const [course, prereq] of prerequisites) {
+         prereqs.set(course, prereqs.get(course).add(prereq));
+      }
+
+      for (const course of prereqs.keys())
+         if (dfs(course) === true) {
+            return false;
+         }
+
+      return true;
+   }
 }
 
 
@@ -60,7 +109,6 @@ console.log(new Solution().canFinish(3, [[0, 1], [1, 2], [2, 0]]) === false)
 console.log(new Solution().canFinish(3, [[1, 0], [0, 2], [2, 1]]) === false)
 console.log(new Solution().canFinish(4, [[0, 1], [2, 3]]) === true)
 console.log(new Solution().canFinish(0, []) === true)
-console.log(new Solution().canFinish(0, [[]]) === true)
 console.log(new Solution().canFinish(20, [[0, 10], [3, 18], [5, 5], [6, 11], [11, 14], [13, 1], [15, 1], [17, 4]]) === false)
 console.log(new Solution().canFinish(4, [[2, 0], [1, 0], [3, 1], [3, 2], [1, 3]]) === false)
 console.log(new Solution().canFinish(4, [[3, 1], [3, 2], [1, 3]]) === false)

@@ -1,5 +1,6 @@
 from binary_tree_utils import *
 import binarytree
+from collections import deque
 
 
 # class TreeNode:
@@ -21,14 +22,14 @@ class Solution:
             DS: binary tree
             A: dfs, recursion, pre-order traversal
         """
-        def dfs(node):
+        def dfs(node: TreeNode) -> TreeNode:
             if node is None:
-                return 
+                return
 
             node.left, node.right = node.right, node.left
             dfs(node.right)
             dfs(node.left)
-        
+
         dfs(root)
         return root
 
@@ -42,16 +43,16 @@ class Solution:
             DS: binary tree
             A: dfs, recursion, post-order traversal
         """
-        def dfs(node):
+        def dfs(node: TreeNode) -> TreeNode:
             if node is None:
-                return 
+                return
 
             dfs(node.left)
             dfs(node.right)
             node.left, node.right = node.right, node.left
-        
-        dfs(root)
-        return root
+            return node
+
+        return dfs(root)
 
 
 class Solution:
@@ -65,7 +66,7 @@ class Solution:
         """
         if root is None:
             return
-        
+
         stack = [root]
 
         while stack:
@@ -74,6 +75,7 @@ class Solution:
 
             if node.left:
                 stack.append(node.left)
+
             if node.right:
                 stack.append(node.right)
 
@@ -89,10 +91,9 @@ class Solution:
             DS: binary tree, queue
             A: bfs, iteration, level-order traversal
         """
-        from collections import deque
         if root is None:
             return
-        
+
         queue = deque([root])
 
         while queue:
@@ -101,17 +102,16 @@ class Solution:
 
             if node.right:
                 queue.append(node.right)
+
             if node.left:
                 queue.append(node.left)
 
         return root
 
 
-print((binarytree.build2([2, 1, 3])).values)
-
 print(get_tree_values(Solution().invertTree(build_tree([2, 1, 3]))) == [2, 3, 1])
-
 print(is_same_tree(Solution().invertTree(build_tree([2, 1, 3])), build_tree([2, 3, 1])))
 print(is_same_tree(Solution().invertTree(build_tree([4, 2, 7, 1, 3, 6, 9])), build_tree([4, 7, 2, 9, 6, 3, 1])))
 print(is_same_tree(Solution().invertTree(build_tree([7, 3, 15, None, None, 9, 20])), build_tree([7, 15, 3, 20, 9])))
 print(is_same_tree(Solution().invertTree(build_tree([])), build_tree([])))
+# {"data": [[[7, 3, 15, null, null, 9, 20]], [7, 15, 3, 20, 9]], "is_hidden": true, "explanation": ""}
